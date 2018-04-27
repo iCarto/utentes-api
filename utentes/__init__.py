@@ -95,6 +95,7 @@ def add_routes_api(config):
 
     # GET /domains = Return all domains (utentes included)
     config.add_route('api_domains', '/api/domains')
+    config.add_route('api_domains_licencia_estado', '/api/domains/licencia_estado')
 
     # GET /api/base/fountains = Return a GeoJSON
     # POST /api/base/fountains = DELETE the table and insert the features in the zip

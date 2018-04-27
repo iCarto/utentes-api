@@ -37,9 +37,15 @@ def exploracaos_get(request):
             })
 
     else:  # return collection
+        states = request.GET.getall('states[]')
+        if states:
+            features = request.db.query(Exploracao).filter(Exploracao.estado_lic.in_(states)).order_by(Exploracao.exp_id).all()
+        else:
+            features = request.db.query(Exploracao).order_by(Exploracao.exp_id).all()
+
         return {
             'type': 'FeatureCollection',
-            'features': request.db.query(Exploracao).order_by(Exploracao.exp_id).all()
+            'features': features
         }
 
 

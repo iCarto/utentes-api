@@ -56,6 +56,7 @@ class Exploracao(Base):
     area = Column(Numeric(10, 4), doc='')
     the_geom = Column(Geometry('MULTIPOLYGON', '32737'), index=True)
     utente = Column(ForeignKey(u'utentes.utentes.gid', ondelete=u'CASCADE', onupdate=u'CASCADE'), nullable=False)
+    estado_lic = Column(Text, nullable=False, doc='Estado')
 
     licencias = relationship(u'Licencia',
                              cascade="all, delete-orphan",
@@ -92,6 +93,7 @@ class Exploracao(Base):
         self.c_real = to_decimal(json.get('c_real'))
         self.c_estimado = to_decimal(json.get('c_estimado'))
         self.the_geom = update_geom(self.the_geom, json)
+        self.estado_lic = json.get('estado_lic')
         update_area(self, json)
 
         self.update_and_validate_activity(json)
@@ -170,6 +172,7 @@ class Exploracao(Base):
                 'c_licencia': self.c_licencia,
                 'c_real': self.c_real,
                 'c_estimado': self.c_estimado,
+                'estado_lic': self.estado_lic,
                 'actividade': self.actividade,
                 # 'utente':     self.utente,
                 'area': self.area,
