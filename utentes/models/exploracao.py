@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from sqlalchemy import Boolean, Column, Integer, Date, Numeric, Text
+from sqlalchemy import Boolean, Column, Integer, Date, Numeric, Text, DateTime
+from sqlalchemy.dialects.postgresql.json import JSONB
+
 from sqlalchemy import ForeignKey, text
 from sqlalchemy.orm import relationship
 from geoalchemy2 import Geometry
@@ -34,15 +36,24 @@ class Exploracao(Base):
 
     LIC_NRO_SEQUENCE_FIRST = 1
 
+    REQUERIMENTO_FIELDS = [
+        'carta_re', 'ficha_pe', 'ident_pro', 'certi_reg', 'duat', 'licen_am', 'mapa', 'licen_fu',
+        'carta_re_v', 'ficha_pe_v', 'ident_pro_v', 'certi_reg_v', 'duat_v', 'licen_am_v', 'mapa_v',
+        'licen_fu_v', 'anali_doc', 'soli_visit', 'p_unid', 'p_tec', 'doc_legal',
+        'p_juri', 'p_rel', 'req_obs', 'estado_lic', 'created_at', 'exp_name'
+    ]
+
+    READ_ONLY = ['created_at']
+
     gid = Column(Integer, primary_key=True, server_default=text("nextval('utentes.exploracaos_gid_seq'::regclass)"))
     exp_id = Column(Text, nullable=False, unique=True, doc='Número da exploração')
     exp_name = Column(Text, nullable=False, doc='Nome da exploração')
     d_soli = Column(Date, doc='Data da solicitação')
     pagos = Column(Boolean, doc='Utente ao corrente dos pagamaneto')
     observacio = Column(Text, doc='Observações')
-    loc_provin = Column(Text, nullable=False, doc='Província')
-    loc_distri = Column(Text, nullable=False, doc='Distrito')
-    loc_posto = Column(Text, nullable=False, doc='Posto administrativo')
+    loc_provin = Column(Text, doc='Província')  # NOT NULL after some estado_lic
+    loc_distri = Column(Text, doc='Distrito')   # NOT NULL after some estado_lic
+    loc_posto = Column(Text, doc='Posto administrativo')  # NOT NULL after some estado_lic
     loc_nucleo = Column(Text, doc='Bairro')
     loc_endere = Column(Text, doc='Endereço')
     loc_unidad = Column(Text, doc='Unidade')
@@ -57,6 +68,32 @@ class Exploracao(Base):
     the_geom = Column(Geometry('MULTIPOLYGON', '32737'), index=True)
     utente = Column(ForeignKey(u'utentes.utentes.gid', ondelete=u'CASCADE', onupdate=u'CASCADE'), nullable=False)
     estado_lic = Column(Text, nullable=False, doc='Estado')
+    created_at = Column(DateTime, nullable=False, server_default=text('now()'), doc='Data creación requerimento')
+    carta_re = Column(Boolean, nullable=False, server_default=text('false'), doc='Carta de requerimento')
+    ficha_pe = Column(Boolean, nullable=False, server_default=text('false'), doc='Ficha de pedido preenchida')
+    ident_pro = Column(Boolean, nullable=False, server_default=text('false'), doc='Identificação do proprietário')
+    certi_reg = Column(Boolean, nullable=False, server_default=text('false'), doc='Certificado de registro comercial')
+    duat = Column(Boolean, nullable=False, server_default=text('false'), doc='DUAT')
+    licen_am = Column(Boolean, nullable=False, server_default=text('false'), doc='Licença ambiental (se é preciso)')
+    mapa = Column(Boolean, nullable=False, server_default=text('false'), doc='Mapa de localização')
+    licen_fu = Column(Boolean, nullable=False, server_default=text('false'), doc='Licença de apertura de poço/furo  (se é preciso)')
+    carta_re_v = Column(Boolean, nullable=False, server_default=text('false'), doc='Carta de requerimento (validada)')
+    ficha_pe_v = Column(Boolean, nullable=False, server_default=text('false'), doc='Ficha de pedido preenchida (validada)')
+    ident_pro_v = Column(Boolean, nullable=False, server_default=text('false'), doc='Identificação do proprietário (validada)')
+    certi_reg_v = Column(Boolean, nullable=False, server_default=text('false'), doc='Certificado de registro comercial (validada)')
+    duat_v = Column(Boolean, nullable=False, server_default=text('false'), doc='DUAT (validada)')
+    licen_am_v = Column(Boolean, nullable=False, server_default=text('false'), doc='Licença ambiental (se é preciso) (validada)')
+    mapa_v = Column(Boolean, nullable=False, server_default=text('false'), doc='Mapa de localização (validada)')
+    licen_fu_v = Column(Boolean, nullable=False, server_default=text('false'), doc='Licença de apertura de poço/furo  (se é preciso) (validada)')
+    anali_doc = Column(Boolean, nullable=False, server_default=text('false'), doc='Análise da documentação')
+    soli_visit = Column(Boolean, nullable=False, server_default=text('false'), doc='Solicitação da vistoria')
+    p_unid = Column(Boolean, nullable=False, server_default=text('false'), doc='Parecer da Unidade')
+    p_tec = Column(Boolean, nullable=False, server_default=text('false'), doc='Parecer Técnico')
+    doc_legal = Column(Boolean, nullable=False, server_default=text('false'), doc='Documentação legal')
+    p_juri = Column(Boolean, nullable=False, server_default=text('false'), doc='Parecer Técnico')
+    p_rel = Column(Boolean, nullable=False, server_default=text('false'), doc='Parecer de instituições relevantes')
+    req_obs = Column(JSONB, doc='Observações requerimento')
+    ara = Column(Text, nullable=False, doc='ARA')
 
     licencias = relationship(u'Licencia',
                              cascade="all, delete-orphan",
@@ -72,10 +109,14 @@ class Exploracao(Base):
                               uselist=False,
                               passive_deletes=True)
 
+    def update_from_json_requerimento(self, json):
+        for column in (set(self.REQUERIMENTO_FIELDS) - set(self.READ_ONLY)):
+            setattr(self, column, json.get(column))
+
     def update_from_json(self, json, lic_nro_sequence):
         self.gid = json.get('id')
         self.exp_id = json.get('exp_id')
-        self.exp_name = json.get('exp_name')
+        # self.exp_name = json.get('exp_name')
         self.pagos = json.get('pagos')
         self.d_soli = to_date(json.get('d_soli'))
         self.observacio = json.get('observacio')
@@ -93,8 +134,11 @@ class Exploracao(Base):
         self.c_real = to_decimal(json.get('c_real'))
         self.c_estimado = to_decimal(json.get('c_estimado'))
         self.the_geom = update_geom(self.the_geom, json)
-        self.estado_lic = json.get('estado_lic')
+
+        self.update_from_json_requerimento(json)
         update_area(self, json)
+
+
 
         self.update_and_validate_activity(json)
 
@@ -150,12 +194,12 @@ class Exploracao(Base):
         if self.the_geom is not None:
             import json
             the_geom = json.loads(request.db.query(self.the_geom.ST_Transform(4326).ST_AsGeoJSON()).first()[0])
-        return {
+        payload = {
             'type': 'Feature',
             'properties': {
                 'id': self.gid,
                 'exp_id': self.exp_id,
-                'exp_name': self.exp_name,
+                # 'exp_name': self.exp_name,
                 'pagos': self.pagos,
                 'd_soli': self.d_soli,
                 'observacio': self.observacio,
@@ -172,31 +216,36 @@ class Exploracao(Base):
                 'c_licencia': self.c_licencia,
                 'c_real': self.c_real,
                 'c_estimado': self.c_estimado,
-                'estado_lic': self.estado_lic,
                 'actividade': self.actividade,
                 # 'utente':     self.utente,
                 'area': self.area,
                 'fontes': self.fontes,
                 'licencias': self.licencias,
-                'utente': {
-                    'id': self.utente_rel.gid,
-                    'nome': self.utente_rel.nome,
-                    'uten_tipo': self.utente_rel.uten_tipo,
-                    'nuit': self.utente_rel.nuit,
-                    'uten_gere': self.utente_rel.uten_gere,
-                    'uten_memb': self.utente_rel.uten_memb,
-                    'uten_mulh': self.utente_rel.uten_mulh,
-                    'contacto': self.utente_rel.contacto,
-                    'email': self.utente_rel.email,
-                    'telefone': self.utente_rel.telefone,
-                    'loc_provin': self.utente_rel.loc_provin,
-                    'loc_distri': self.utente_rel.loc_distri,
-                    'loc_posto': self.utente_rel.loc_posto,
-                    'loc_nucleo': self.utente_rel.loc_nucleo,
-                    'reg_comerc': self.utente_rel.reg_comerc,
-                    'reg_zona': self.utente_rel.reg_zona,
-                    'observacio': self.utente_rel.observacio,
-                },
+                'utente': {}
             },
             'geometry': the_geom
         }
+        for column in self.REQUERIMENTO_FIELDS:
+            payload['properties'][column] = getattr(self, column)
+
+        if self.utente_rel:
+            payload['properties']['utente'] = {
+                'id': self.utente_rel.gid,
+                'nome': self.utente_rel.nome,
+                'uten_tipo': self.utente_rel.uten_tipo,
+                'nuit': self.utente_rel.nuit,
+                'uten_gere': self.utente_rel.uten_gere,
+                'uten_memb': self.utente_rel.uten_memb,
+                'uten_mulh': self.utente_rel.uten_mulh,
+                'contacto': self.utente_rel.contacto,
+                'email': self.utente_rel.email,
+                'telefone': self.utente_rel.telefone,
+                'loc_provin': self.utente_rel.loc_provin,
+                'loc_distri': self.utente_rel.loc_distri,
+                'loc_posto': self.utente_rel.loc_posto,
+                'loc_nucleo': self.utente_rel.loc_nucleo,
+                'reg_comerc': self.utente_rel.reg_comerc,
+                'reg_zona': self.utente_rel.reg_zona,
+                'observacio': self.utente_rel.observacio
+            }
+        return payload
