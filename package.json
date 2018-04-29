@@ -1,0 +1,26 @@
+{
+  "name": "utentes-api",
+  "version": "1.0.0",
+  "description": "API for utentes project",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "4.18.1",
+    "stylelint": "9.1.1",
+    "stylelint-config-standard": "18.2.0",
+    "htmllint": "0.7.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iCarto/utentes-api.git"
+  },
+  "author": "",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/iCarto/utentes-api/issues"
+  },
+  "homepage": "https://github.com/iCarto/utentes-api#readme"
+}

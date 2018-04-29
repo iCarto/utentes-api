@@ -1,6 +1,15 @@
-*pyc
-utentes/static/utentes-ui
-utentes.egg-info
+# Python
+*.egg
+*.egg-info
+*.pyc
+build/
+dist/
+
+## Unit test / coverage reports
+.coverage
+
+
+# Utentes
 *~
 node_modules
 .idea
