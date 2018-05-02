@@ -34,8 +34,6 @@ class Exploracao(Base):
         'order_by': 'exp_id'
     }
 
-    LIC_NRO_SEQUENCE_FIRST = 1
-
     REQUERIMENTO_FIELDS = [
         'carta_re', 'ficha_pe', 'ident_pro', 'certi_reg', 'duat', 'licen_am', 'mapa', 'licen_fu',
         'carta_re_v', 'ficha_pe_v', 'ident_pro_v', 'certi_reg_v', 'duat_v', 'licen_am_v', 'mapa_v',
@@ -115,7 +113,7 @@ class Exploracao(Base):
         for lic in self.licencias:
             lic.estado = json.get('estado_lic')
 
-    def update_from_json(self, json, lic_nro_sequence):
+    def update_from_json(self, json):
         self.gid = json.get('id')
         self.exp_id = json.get('exp_id')
         # self.exp_name = json.get('exp_name')
@@ -152,11 +150,8 @@ class Exploracao(Base):
         update_array(self.licencias,
                      json.get('licencias'),
                      Licencia.create_from_json)
-        for licencia in self.licencias:
-            # TODO. New format
-            if not licencia.lic_nro:
-                licencia.lic_nro = self.exp_id + '-{:03d}'.format(lic_nro_sequence)
-                lic_nro_sequence += 1
+        for lic in self.licencias:
+            lic.generate_lic_nro(self.exp_id)
 
     def update_and_validate_activity(self, json):
         actividade_json = json.get('actividade')
@@ -189,7 +184,7 @@ class Exploracao(Base):
     @staticmethod
     def create_from_json(body):
         e = Exploracao()
-        e.update_from_json(body, Exploracao.LIC_NRO_SEQUENCE_FIRST)
+        e.update_from_json(body)
         return e
 
     def __json__(self, request):

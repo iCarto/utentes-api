@@ -121,10 +121,7 @@ def exploracaos_update(request):
             request.db.delete(e.actividade)
             del e.actividade
 
-        lic_nro_sequence = Exploracao.LIC_NRO_SEQUENCE_FIRST
-        for lic in e.licencias:
-            lic_nro_sequence = calculate_lic_nro(lic.lic_nro, lic_nro_sequence)
-        e.update_from_json(request.json_body, lic_nro_sequence)
+        e.update_from_json(request.json_body)
 
         state_to_set_after_validation = body.get('state_to_set_after_validation')
         if state_to_set_after_validation:
@@ -147,20 +144,6 @@ def exploracaos_update(request):
         raise badrequest_exception(val_exp.msgs)
 
     return e
-
-
-def calculate_lic_nro(lic_nro, next_sequence):
-    # TODO
-    return 0
-    # format is XXXX-YYY-ZZZ, being the ZZZ the value we are interested in
-    # nro = int(lic_nro.split('-')[2])
-    # if next_sequence > nro:
-    #     pass
-    # elif next_sequence == nro:
-    #     next_sequence = next_sequence + 1
-    # else:
-    #     next_sequence = nro + 1
-    # return next_sequence
 
 
 def _tipo_actividade_changes(e, json):
@@ -224,10 +207,8 @@ def activity_fail(v):
 def validate_entities(request, body):
     import re
     validatorExploracao = Validator(EXPLORACAO_SCHEMA)
-    if request.registry.settings.get('ara') == 'Sul':
-        validatorExploracao.add_rule('EXP_ID_FORMAT', {'fails': lambda v: v and (not re.match('^\d{3}\/ARAS\/\d{4}$', v))})
-    else:
-        validatorExploracao.add_rule('EXP_ID_FORMAT', {'fails': lambda v: v and (not re.match('^\d{4}-\d{3}$', v))})
+    regexpExpIdFormat = '^\d{3}\/' + request.registry.settings.get('ara') + '\/\d{4}$'
+    validatorExploracao.add_rule('EXP_ID_FORMAT', {'fails': lambda v: v and (not re.match(regexpExpIdFormat, v))})
 
     if Licencia.implies_validate_ficha(body.get('estado_lic')):
         validatorExploracao.appendSchema(EXPLORACAO_SCHEMA_CON_FICHA)
@@ -241,10 +222,8 @@ def validate_entities(request, body):
 
     if Licencia.implies_validate_ficha(body.get('estado_lic')):
         validatorLicencia = Validator(LICENCIA_SCHEMA)
-        if request.registry.settings.get('ara') == 'Sul':
-            validatorLicencia.add_rule('LIC_NRO_FORMAT', {'fails': lambda v: v and (not re.match('^\d{3}\/ARAS\/\d{4}\/(Sup|Sub)$', v))})
-        else:
-            validatorLicencia.add_rule('LIC_NRO_FORMAT', {'fails': lambda v: v and (not re.match('^\d{4}-\d{3}-\d{3}$', v))})
+        regexpLicNroFormat = '^\d{3}\/' + request.registry.settings.get('ara') + '\/\d{4}\/(Sup|Sub)$'
+        validatorLicencia.add_rule('LIC_NRO_FORMAT', {'fails': lambda v: v and (not re.match(regexpLicNroFormat, v))})
 
         for lic in body.get('licencias'):
             if Licencia.implies_validate_activity(lic.get('estado')):

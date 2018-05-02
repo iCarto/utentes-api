@@ -64,7 +64,7 @@ def requerimento_create(request):
 
     e = Exploracao()
     e.update_from_json_requerimento(body)
-    ara = request.registry.settings.get('ara_expid')
+    ara = request.registry.settings.get('ara')
     e.exp_id = calculate_new_exp_id(request, ara)
     e.ara = ara
 
