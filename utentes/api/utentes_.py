@@ -29,7 +29,7 @@ def utentes_get(request):
                 'gid': gid
             })
     else:
-        return request.db.query(Utente).order_by(Utente.nome).all()
+        return request.db.query(Utente).all()
 
 
 @view_config(route_name='api_utentes_id', request_method='DELETE', renderer='json')

@@ -34,7 +34,7 @@ def cultivos_get(request):
     else:  # return collection
         return {
             'type': 'FeatureCollection',
-            'features': request.db.query(ActividadesCultivos).order_by(ActividadesCultivos.cult_id).all()
+            'features': request.db.query(ActividadesCultivos).all()
         }
 
 

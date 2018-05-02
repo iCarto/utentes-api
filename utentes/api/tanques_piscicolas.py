@@ -32,7 +32,7 @@ def tanques_piscicolas_get(request):
     else:  # return collection
         return {
             'type': 'FeatureCollection',
-            'features': request.db.query(UsedModel).order_by(UsedModel.tanque_id).all()
+            'features': request.db.query(UsedModel).all()
         }
 
 

@@ -31,9 +31,9 @@ def requerimento_get(request):
     else:  # return collection
         states = request.GET.getall('states[]')
         if states:
-            features = request.db.query(Exploracao).filter(Exploracao.estado_lic.in_(states)).order_by(Exploracao.exp_id).all()
+            features = request.db.query(Exploracao).filter(Exploracao.estado_lic.in_(states)).all()
         else:
-            features = request.db.query(Exploracao).order_by(Exploracao.exp_id).all()
+            features = request.db.query(Exploracao).all()
 
         return {
             'type': 'FeatureCollection',

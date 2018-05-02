@@ -19,6 +19,9 @@ from actividades_schema import ActividadeSchema
 class ActividadesTanquesPiscicolas(Base):
     __tablename__ = 'actividades_tanques_piscicolas'
     __table_args__ = {u'schema': PGSQL_SCHEMA_UTENTES}
+    __mapper_args__ = {
+        'order_by': 'tanque_id'
+    }
 
     gid = Column(
         Integer,

@@ -19,7 +19,7 @@ def domains_get(request):
         'order': 0,
         'parent': ''
     })
-    for u in request.db.query(Utente).order_by(Utente.nome):
+    for u in request.db.query(Utente):
         domains.append({
             'category': 'utente',
             'text': u.nome,

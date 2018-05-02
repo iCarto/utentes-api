@@ -9,6 +9,9 @@ from utentes.models.base import Base, PGSQL_SCHEMA_UTENTES
 class Utente(Base):
     __tablename__ = 'utentes'
     __table_args__ = {u'schema': PGSQL_SCHEMA_UTENTES}
+    __mapper_args__ = {
+        'order_by': 'nome'
+    }
 
     gid = Column(Integer, primary_key=True, server_default=text("nextval('utentes.utentes_gid_seq'::regclass)"))
     nome = Column(Text, nullable=False, unique=True, doc='Nome')
