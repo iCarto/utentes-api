@@ -100,3 +100,6 @@ def add_routes_api(config):
     # GET /api/base/fountains = Return a GeoJSON
     # POST /api/base/fountains = DELETE the table and insert the features in the zip
     config.add_route('api_base_fountains', '/api/base/fountains')
+
+    config.add_route('api_requerimento', '/api/requerimento')
+    config.add_route('api_requerimento_id', '/api/requerimento/{id}')

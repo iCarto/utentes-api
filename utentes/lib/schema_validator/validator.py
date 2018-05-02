@@ -88,6 +88,9 @@ class Validator():
             'INT_LESS_THAN_8': IntLessThan8()
         }
 
+    def appendSchema(self, schema):
+        self.schema.extend(schema)
+
     def validate(self, model):
         self.messages = []
 

@@ -99,13 +99,25 @@ class Licencia(Base):
 
     @staticmethod
     def implies_validate_activity(estado):
-        return estado not in [
-            u'Desconhecido',
+        # En realidad no deberían ser iguales validate_ficha y validate_activity
+        # en validate_ficha sería sólo validar not null loc_provin, ...
+        return estado in [
             u'Irregular',
-            u'Não aprovada',
-            u'Pendente de solicitação do utente',
-            u'Pendente de revisão da solicitação (Direcção)',
-            u'Pendente de revisão da solicitação (Chefe DT)',
-            u'Pendente de revisão da solicitação (D. Jurídico)',
-            u'Pendente de aprovação técnica (R. Cadastro)',
+            u'Licenciada',
+            u'Pendente Parecer Técnico (R. Cad DT)',
+            u'Pendente Emisão Licença (D. Jur)',
+            u'Pendente Firma Licença (Direcção)',
+            u'Utente de facto',
+        ]
+
+    @staticmethod
+    def implies_validate_ficha(estado):
+        return estado in [
+            u'Irregular',
+            u'Licenciada',
+            u'Pendente Visita Campo (R. Cad DT)',  #
+            u'Pendente Parecer Técnico (R. Cad DT)',
+            u'Pendente Emisão Licença (D. Jur)',
+            u'Pendente Firma Licença (Direcção)',
+            u'Utente de facto',
         ]

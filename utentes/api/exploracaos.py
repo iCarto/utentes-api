@@ -11,7 +11,7 @@ from utentes.models.utente import Utente
 from utentes.models.utente_schema import UTENTE_SCHEMA
 from utentes.models.exploracao import Exploracao
 from utentes.models.licencia import Licencia
-from utentes.models.exploracao_schema import EXPLORACAO_SCHEMA
+from utentes.models.exploracao_schema import EXPLORACAO_SCHEMA, EXPLORACAO_SCHEMA_CON_FICHA
 from utentes.models.licencia_schema import LICENCIA_SCHEMA
 from utentes.models.fonte_schema import FONTE_SCHEMA
 from utentes.api.error_msgs import error_msgs
@@ -195,7 +195,10 @@ def validate_entities(body):
     import re
     validatorExploracao = Validator(EXPLORACAO_SCHEMA)
     validatorExploracao.add_rule('EXP_ID_FORMAT', {'fails': lambda v: v and (not re.match('^\d{4}-\d{3}$', v))})
-    validatorExploracao.add_rule('ACTIVITY_NOT_NULL', {'fails': activity_fail})
+
+    if Licencia.implies_validate_ficha(body.get('estado_lic')):
+        validatorExploracao.appendSchema(EXPLORACAO_SCHEMA_CON_FICHA)
+        validatorExploracao.add_rule('ACTIVITY_NOT_NULL', {'fails': activity_fail})
 
     msgs = validatorExploracao.validate(body)
 
@@ -203,10 +206,11 @@ def validate_entities(body):
     for fonte in body.get('fontes'):
         msgs = msgs + validatorFonte.validate(fonte)
 
-    validatorLicencia = Validator(LICENCIA_SCHEMA)
-    validatorLicencia.add_rule('LIC_NRO_FORMAT', {'fails': lambda v: v and (not re.match('^\d{4}-\d{3}-\d{3}$', v))})
-    for lic in body.get('licencias'):
-        if Licencia.implies_validate_activity(lic.get('estado')):
-            msgs = msgs + validatorLicencia.validate(lic)
+    if Licencia.implies_validate_ficha(body.get('estado_lic')):
+        validatorLicencia = Validator(LICENCIA_SCHEMA)
+        validatorLicencia.add_rule('LIC_NRO_FORMAT', {'fails': lambda v: v and (not re.match('^\d{4}-\d{3}-\d{3}$', v))})
+        for lic in body.get('licencias'):
+            if Licencia.implies_validate_activity(lic.get('estado')):
+                msgs = msgs + validatorLicencia.validate(lic)
 
     return msgs
