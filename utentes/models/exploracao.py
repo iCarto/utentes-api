@@ -112,6 +112,8 @@ class Exploracao(Base):
     def update_from_json_requerimento(self, json):
         for column in (set(self.REQUERIMENTO_FIELDS) - set(self.READ_ONLY)):
             setattr(self, column, json.get(column))
+        for lic in self.licencias:
+            lic.estado = json.get('estado_lic')
 
     def update_from_json(self, json, lic_nro_sequence):
         self.gid = json.get('id')
@@ -151,6 +153,7 @@ class Exploracao(Base):
                      json.get('licencias'),
                      Licencia.create_from_json)
         for licencia in self.licencias:
+            # TODO. New format
             if not licencia.lic_nro:
                 licencia.lic_nro = self.exp_id + '-{:03d}'.format(lic_nro_sequence)
                 lic_nro_sequence += 1
