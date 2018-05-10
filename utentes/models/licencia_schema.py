@@ -72,5 +72,9 @@ LICENCIA_SCHEMA = [{
     'fieldname': 'pago_iva',
     'message': 'Valor com IVA da licença não tem o formato correto',
     'rules': ['IS_NUMERIC', 'INT_LESS_THAN_8']
+}, {
+    'fieldname': 'consumo_tipo',
+    'message':   'O tipo de consumo é obligatorio',
+    'rules':     ['NOT_NULL']
 }
 ]

@@ -41,6 +41,8 @@ class Exploracao(Base):
         'p_juri', 'p_rel', 'req_obs', 'estado_lic', 'created_at', 'exp_name'
     ]
 
+    FACTURACAO_FIELDS = ['fact_estado', 'fact_tipo', 'pago_lic', 'pagos']
+
     READ_ONLY = ['created_at']
 
     gid = Column(Integer, primary_key=True, server_default=text("nextval('utentes.exploracaos_gid_seq'::regclass)"))
@@ -93,25 +95,67 @@ class Exploracao(Base):
     req_obs = Column(JSONB, doc='Observações requerimento')
     ara = Column(Text, nullable=False, doc='ARA')
 
+    fact_estado = Column(Text, nullable=False, doc='Estado de pago del ciclo de facturación')
+    fact_tipo = Column(Text, nullable=False, server_default=text("'Mensal'::text"), doc='Mensal/Trimestral/Anual')
+    pago_lic = Column(Boolean, nullable=False, server_default=text('false'), doc='Factura emisión licencia pagada')
+
     licencias = relationship(u'Licencia',
-                             cascade="all, delete-orphan",
+                             cascade='all, delete-orphan',
                              # backref='exploracao_rel',
                              passive_deletes=True)
     fontes = relationship(u'Fonte',
-                          cascade="all, delete-orphan",
+                          cascade='all, delete-orphan',
                           # backref='exploracao_rel',
                           passive_deletes=True)
     actividade = relationship(u'Actividade',
-                              cascade="all, delete-orphan",
+                              cascade='all, delete-orphan',
                               # backref='exploracao_rel',
-                              uselist=False,
+                              uselist=False)
+
+    facturacao = relationship(u'Facturacao',
+                              cascade='all, delete-orphan',
+                              # backref='exploracao_rel',
                               passive_deletes=True)
+
+    def get_licencia(self, tipo):
+        lic = [l for l in self.licencias if l.lic_tipo.upper().startswith(tipo.upper())]
+        if lic:
+            return lic[0]
+        return Licencia()
 
     def update_from_json_requerimento(self, json):
         for column in (set(self.REQUERIMENTO_FIELDS) - set(self.READ_ONLY)):
             setattr(self, column, json.get(column))
         for lic in self.licencias:
             lic.estado = json.get('estado_lic')
+        self.fact_estado = 'Não facturable'
+        self.fact_tipo = 'Mensal'
+        self.pago_lic = False
+
+    def update_from_json_facturacao(self, json):
+        self.fact_estado = json['fact_estado']
+        self.fact_tipo = json['fact_tipo']
+        self.pagos = json['pagos']
+        self.pago_lic = json['pago_lic']
+        json_fact = json['facturacao'][-1]
+
+        lic_sup = self.get_licencia('sup')
+        lic_sup.consumo_tipo = json_fact['consumo_tipo_sup']
+        lic_sup.taxa_fixa = json_fact['taxa_fixa_sup']
+        lic_sup.taxa_uso = json_fact['taxa_uso_sup']
+        lic_sup.consumo_fact = json_fact['consumo_fact_sup']
+        lic_sup.iva = json_fact['iva']
+
+        lic_sub = self.get_licencia('sub')
+        lic_sub.consumo_tipo = json_fact['consumo_tipo_sub']
+        lic_sub.taxa_fixa = json_fact['taxa_fixa_sub']
+        lic_sub.taxa_uso = json_fact['taxa_uso_sub']
+        lic_sub.consumo_fact = json_fact['consumo_fact_sub']
+        lic_sub.iva = json_fact['iva']
+
+        fact = self.facturacao[-1]
+        for c in json_fact.keys():
+            setattr(fact, c, json_fact.get(c))
 
     def update_from_json(self, json):
         self.gid = json.get('id')
@@ -134,11 +178,12 @@ class Exploracao(Base):
         self.c_real = to_decimal(json.get('c_real'))
         self.c_estimado = to_decimal(json.get('c_estimado'))
         self.the_geom = update_geom(self.the_geom, json)
+        self.fact_estado = json.get('fact_estado') or 'Não facturable'
+        self.fact_tipo = json.get('fact_tipo') or 'Mensal'
+        self.pago_lic = json.get('pago_lic') or False
 
         self.update_from_json_requerimento(json)
         update_area(self, json)
-
-
 
         self.update_and_validate_activity(json)
 
@@ -225,7 +270,9 @@ class Exploracao(Base):
         }
         for column in self.REQUERIMENTO_FIELDS:
             payload['properties'][column] = getattr(self, column)
-
+        for column in self.FACTURACAO_FIELDS:
+            payload['properties'][column] = getattr(self, column)
+        payload['properties']['facturacao'] = self.facturacao
         if self.utente_rel:
             payload['properties']['utente'] = {
                 'id': self.utente_rel.gid,

@@ -37,12 +37,17 @@ def exploracaos_get(request):
             })
 
     else:  # return collection
+        query = request.db.query(Exploracao)
         states = request.GET.getall('states[]')
-        if states:
-            features = request.db.query(Exploracao).filter(Exploracao.estado_lic.in_(states)).all()
-        else:
-            features = request.db.query(Exploracao).all()
 
+        if states:
+            query = query.filter(Exploracao.estado_lic.in_(states))
+
+        fact_estado = request.GET.getall('fact_estado[]')
+        if fact_estado:
+            query = query.filter(Exploracao.fact_estado.in_(fact_estado))
+
+        features = query.all()
         return {
             'type': 'FeatureCollection',
             'features': features

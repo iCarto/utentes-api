@@ -102,6 +102,7 @@ def add_routes_api(config):
     # GET /domains = Return all domains (utentes included)
     config.add_route('api_domains', '/api/domains')
     config.add_route('api_domains_licencia_estado', '/api/domains/licencia_estado')
+    config.add_route('api_domains_facturacao_fact_estado', '/api/domains/facturacao_fact_estado')
 
     # GET /api/base/fountains = Return a GeoJSON
     # POST /api/base/fountains = DELETE the table and insert the features in the zip
@@ -109,3 +110,8 @@ def add_routes_api(config):
 
     config.add_route('api_requerimento', '/api/requerimento')
     config.add_route('api_requerimento_id', '/api/requerimento/{id}')
+
+    config.add_route('api_facturacao', '/api/facturacao')
+    config.add_route('api_facturacao_id', '/api/facturacao/{id}')
+
+    config.add_route('nuevo_ciclo_facturacion', '/api/nuevo_ciclo_facturacion')
