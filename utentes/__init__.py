@@ -33,6 +33,10 @@ def decimal_adapter(obj, request):
     return float(obj) if obj or (obj == 0) else None
 
 
+def get_user_role(username, request):
+    return username
+
+
 def main(global_config, **settings):
     engine = engine_from_config(settings, 'sqlalchemy.')
     session_factory = sessionmaker(bind=engine)
@@ -48,6 +52,8 @@ def main(global_config, **settings):
     json_renderer.add_adapter(decimal.Decimal, decimal_adapter)
     config.add_renderer('json', json_renderer)
 
+    config.include('pyramid_jinja2')
+
     config.add_static_view('static', 'static', cache_max_age=0)
 
     add_routes_views(config)
@@ -58,7 +64,7 @@ def main(global_config, **settings):
 
 
 def add_routes_views(config):
-    pass
+    config.add_route('login', '/login')
 
 
 def add_routes_api(config):
