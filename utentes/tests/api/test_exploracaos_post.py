@@ -52,7 +52,7 @@ class ExploracaoCreateTests(DBIntegrationTest):
         }
         expected_json['licencias'] = [{
             'lic_nro': None,
-            'lic_tipo': 'Subterrânea',
+            'tipo_agua': 'Subterrânea',
             'cadastro': 'cadastro',
             'estado': 'Irregular',
             'd_emissao': '2020-2-2',
@@ -117,7 +117,7 @@ class ExploracaoCreateTests(DBIntegrationTest):
         self.assertEquals(None, actual.actividade.c_estimado)
         self.assertEquals(120000, actual.actividade.habitantes)
         self.assertEquals(actual.exp_id + '-001', licencia.lic_nro)
-        self.assertEquals(u'Subterrânea', licencia.lic_tipo)
+        self.assertEquals(u'Subterrânea', licencia.tipo_agua)
         self.assertEquals('cadastro', licencia.cadastro)
         self.assertEquals('Irregular', licencia.estado)
         self.assertEquals('2020-02-02', licencia.d_emissao.isoformat())

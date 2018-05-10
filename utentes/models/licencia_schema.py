@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 LICENCIA_SCHEMA = [{
-    'fieldname': 'lic_tipo',
-    'message': 'Tipo de licença não pode estar vazio',
+    'fieldname': 'tipo_agua',
+    'message': 'Tipo de agua não pode estar vazio',
     'rules': ['NOT_NULL']
 }, {
     'fieldname': 'tipo_lic',

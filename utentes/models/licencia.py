@@ -12,7 +12,7 @@ class Licencia(Base):
 
     gid = Column(Integer, primary_key=True, server_default=text("nextval('utentes.licencias_gid_seq'::regclass)"))
     lic_nro = Column(Text, nullable=False, unique=True, doc='Nro de Licença')
-    lic_tipo = Column(Text, nullable=False, doc='Tipo de água')
+    tipo_agua = Column(Text, nullable=False, doc='Tipo de água')
     tipo_lic = Column(Text, nullable=False, doc='Tipo de Licença')
     cadastro = Column(Text, doc='Nro de Cadastro')
     n_licen_a = Column(Text, doc='Nro de licença histórico')
@@ -47,7 +47,7 @@ class Licencia(Base):
     def update_from_json(self, json):
         self.gid = json.get('id')
         self.lic_nro = json.get('lic_nro')
-        self.lic_tipo = json.get('lic_tipo')
+        self.tipo_agua = json.get('tipo_agua')
         self.tipo_lic = json.get('tipo_lic')
         self.finalidade = json.get('finalidade')
         self.cadastro = json.get('cadastro')
@@ -72,7 +72,7 @@ class Licencia(Base):
         return {
             'id': self.gid,
             'lic_nro': self.lic_nro,
-            'lic_tipo': self.lic_tipo,
+            'tipo_agua': self.tipo_agua,
             'tipo_lic': self.tipo_lic,
             'cadastro': self.cadastro,
             'n_licen_a': self.n_licen_a,

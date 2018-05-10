@@ -246,7 +246,7 @@ class ExploracaoUpdateLicenciaTests(DBIntegrationTest):
         lic_nro_second = expected.exp_id + '-{:03d}'.format(len(expected.licencias) + 1)
         expected_json['licencias'].append({
             'lic_nro': None,
-            'lic_tipo': 'Subterrânea',
+            'tipo_agua': 'Subterrânea',
             'cadastro': 'cadastro',
             'estado': 'Irregular',
             'd_emissao': '2020-2-2',
@@ -272,7 +272,7 @@ class ExploracaoUpdateLicenciaTests(DBIntegrationTest):
         self.request.matchdict.update(dict(id=gid))
         expected_json = build_json(self.request, expected)
         expected_json['licencias'].append({
-            'lic_tipo': None,
+            'tipo_agua': None,
         })
         self.request.json_body = expected_json
         self.assertRaises(HTTPBadRequest, exploracaos_update, self.request)
@@ -291,7 +291,7 @@ class ExploracaoUpdateLicenciaTests(DBIntegrationTest):
         lic_nro_third = expected.exp_id + '-003'
         expected_json['licencias'].append({
             'lic_nro': None,
-            'lic_tipo': 'Subterrânea',
+            'tipo_agua': 'Subterrânea',
             'cadastro': 'cadastro',
             'estado': 'Irregular',
             'c_soli_tot': 4.3,
@@ -320,7 +320,7 @@ class ExploracaoUpdateLicenciaTests(DBIntegrationTest):
         # add new one
         expected_json['licencias'].append({
             'lic_nro': None,
-            'lic_tipo': 'Superficial',
+            'tipo_agua': 'Superficial',
             'estado': 'Irregular',
         })
         self.request.json_body = expected_json
@@ -373,10 +373,10 @@ class ExploracaoUpdateLicenciaTests(DBIntegrationTest):
         expected = self.request.db.query(Exploracao).filter(Exploracao.exp_id == '2010-002').first()
         gid = expected.gid
         lic_gid = expected.licencias[0].gid
-        lic_tipo = expected.licencias[0].lic_tipo
+        tipo_agua = expected.licencias[0].tipo_agua
         self.request.matchdict.update(dict(id=gid))
         expected_json = build_json(self.request, expected)
-        expected_json['licencias'][0]['lic_tipo'] = None
+        expected_json['licencias'][0]['tipo_agua'] = None
         expected_json['licencias'][0]['estado'] = 'Licenciada'
         self.request.json_body = expected_json
         self.assertRaises(HTTPBadRequest, exploracaos_update, self.request)
@@ -384,7 +384,7 @@ class ExploracaoUpdateLicenciaTests(DBIntegrationTest):
         actual = s.query(Exploracao).filter(Exploracao.gid == gid).first()
         self.assertEquals(1, len(actual.licencias))
         self.assertEquals(lic_gid, actual.licencias[0].gid)
-        self.assertEquals(lic_tipo, actual.licencias[0].lic_tipo)
+        self.assertEquals(tipo_agua, actual.licencias[0].tipo_agua)
 
     def test_update_exploracao_delete_licencia(self):
         expected = self.request.db.query(Exploracao).filter(Exploracao.exp_id == '2010-002').first()
