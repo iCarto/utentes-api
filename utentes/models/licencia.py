@@ -104,7 +104,7 @@ class Licencia(Base):
         return []
 
     def generate_lic_nro(self, exp_id):
-        self.lic_nro = '{}/{}'.format(exp_id, self.lic_tipo[0:3])
+        self.lic_nro = '{}/{}'.format(exp_id, self.tipo_agua[0:3])
         return self.lic_nro
 
     @staticmethod

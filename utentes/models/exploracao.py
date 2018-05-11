@@ -118,7 +118,7 @@ class Exploracao(Base):
                               passive_deletes=True)
 
     def get_licencia(self, tipo):
-        lic = [l for l in self.licencias if l.lic_tipo.upper().startswith(tipo.upper())]
+        lic = [l for l in self.licencias if l.tipo_agua.upper().startswith(tipo.upper())]
         if lic:
             return lic[0]
         return Licencia()
