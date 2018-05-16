@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+  <title>Administração de utilizadores</title>
+  <link rel="stylesheet" type="text/css" href="/static/utentes-ui/lib/bootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="/static/utentes-ui/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="/static/utentes-ui/base.css">
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+</head>
+
+<body class="container-fluid">
+
+  <menu class="row">
+  </menu>
+
+  <div id="section-users" class="row">
+    <div class="col-xs-offset-3 col-xs-6">
+
+        <div class="row">
+          <div class="col-xs-12">
+            <h3 style="margin: 30px 0;">Administração de utilizadores</h3>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="form-group">
+              <button class="btn btn-default pull-right uilib-enability uilib-show-role-administrador" id="newRow">Novo utilizador</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-12">
+            <table class="table table-bordered" id="table-users" style="margin-top: 15px">
+              <thead>
+                <tr>
+                  <th width="46%">Utilizador</th>
+                  <th width="46%">Departamento</th>
+                  <th width="4%" class="uilib-enability uilib-show-role-administrador"></th>
+                  <th width="4%" class="uilib-enability uilib-show-role-administrador"></th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+     </div>
+  </div>
+
+  <!-- tmpl block user modal -->
+  <script type="text/template" id="user-edit">
+    <div class="modal fade" id="user-edit-modal" tabindex="-1" role="dialog" aria-labelledby="user-edit-modal-label">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Pechar"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="user-edit-modal-label">Utilizador</h4>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-xs-offset-1 col-xs-10">
+
+
+                      <div class="row">
+                        <div class="form-group">
+                          <label for="username">Utilizador</label>
+                          <input type="text" class="form-control widget" id="username" required>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="form-group">
+                          <label for="password">Seña</label>
+                          <input type="text" class="form-control widget" id="password" required>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="form-group">
+                          <label for="usergroup">Departamento</label>
+                          <select class="form-control widget" id="usergroup" required></select>
+                        </div>
+                      </div>
+                    </div>
+
+            </div>
+          </div>
+          <div class="modal-footer">
+            <div class="row">
+              <div class="col-xs-offset-1 col-xs-10">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="okbutton">Gravar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </script>
+
+<script src="/static/utentes-ui/node-interaction.js"></script>
+<script src="/static/utentes-ui/lib/jquery/jquery-1.12.0.min.js"></script>
+<script src="/static/utentes-ui/lib/underscore/underscore-min.js"></script>
+<script src="/static/utentes-ui/lib/backbone/backbone-min.js"></script>
+<script src="/static/utentes-ui/lib/bootstrap/js/bootstrap.min.js"></script>
+<script src="/static/utentes-ui/lib/bootbox.min.js"></script>
+
+<script src="/static/utentes-ui/lib/schema-validator/validator.js"></script>
+<script src="/static/utentes-ui/lib/formatter/formatter.js"></script>
+<script src="/static/utentes-ui/lib/backbone-uilib/models/Domain.js"></script>
+<script src="/static/utentes-ui/lib/backbone-uilib/models/DomainCollection.js"></script>
+<script src="/static/utentes-ui/lib/backbone-uilib/views/OptionView.js"></script>
+<script src="/static/utentes-ui/lib/backbone-uilib/views/SelectView.js"></script>
+<script src="/static/utentes-ui/lib/backbone-uilib/views/WidgetsView.js"></script>
+<script src="/static/utentes-ui/views/common/NavBarView.js"></script>
+<script src="/static/utentes-ui/views/common/ConfigModalView.js"></script>
+<script src="/static/utentes-ui/views/show/ModalView.js"></script>
+<script src="/static/utentes-ui/views/users/UserModalView.js"></script>
+
+<script src="/static/utentes-ui/Config.js"></script>
+<script src="/static/utentes-ui/views/common/RowDeleteButtonView.js"></script>
+<script src="/static/utentes-ui/views/show/TableRowShowView.js"></script>
+<script src="/static/utentes-ui/views/common/TableView.js"></script>
+<script src="/static/utentes-ui/views/show/EditableTableView.js"></script>
+<script src="/static/utentes-ui/models/User.js"></script>
+<script src="/static/utentes-ui/models/UserCollection.js"></script>
+<script src="/static/utentes-ui/lib/backbone-uilib/views/ModalView.js"></script>
+<script src="/static/utentes-ui/models/Setting.js"></script>
+<script src="/static/utentes-ui/users.js"></script>
+<script src="/static/utentes-ui/MyWorkflow.js"></script>
+
+</body>
+</html>

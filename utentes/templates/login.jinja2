@@ -5,9 +5,9 @@
     <title>{{title}}</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="/static/utentes-ui/lib/bootstrap/css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="/static/utentes-ui/login.css" />
-    <link rel="stylesheet" type="text/css" href="/static/utentes-ui/base.css" />
+    <link rel="stylesheet" type="text/css" href="/static/utentes-ui/lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/utentes-ui/login.css">
+    <link rel="stylesheet" type="text/css" href="/static/utentes-ui/base.css">
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
   </head>
 
@@ -15,11 +15,12 @@
 
     <div class="container">
 
-      <form class="form-signin" method="post" action="/login">
+      <form class="form-signin" method="post" action="{{request.route_url('login')}}">
         <h2 class="form-signin-heading">{{title}}</h2>
         <small>'admin', 'administrativo', 'financieiro', 'secretaria', 'tecnico', 'juridico'</small>
-        <input name="user" type="text" class="form-control" placeholder="Nombre">
-        <input name="passwd" type="password" class="form-control" placeholder="Contrase&ntilde;a">
+        <input name="user" type="text" class="form-control" placeholder="Utilizador">
+        <input name="passwd" type="password" class="form-control" placeholder="Senha">
+        <input type="hidden" name="next" value="{{next}}">
         <input type="submit" name="submit" value="Entrar" class="btn btn-large btn-primary">
       </form>
 

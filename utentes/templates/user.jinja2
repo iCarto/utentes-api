@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+  <title>Gestão de Utentes</title>
+  <link rel="stylesheet" type="text/css" href="/static/utentes-ui/lib/bootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="/static/utentes-ui/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="/static/utentes-ui/base.css">
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+</head>
+
+<body class="container-fluid">
+
+  <menu class="row">
+  </menu>
+
+  <span id="userid" style="display: none;">{{request.user.id}}</span>
+
+  <div id="perfil_usuario" class="row">
+
+    <div class="col-xs-offset-4 col-xs-3">
+
+      <div class="col-xs-12">
+        <p class="lead">Perfil de utilizador: {{request.user.username}}</p>
+      </div>
+
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-xs-offset-1 col-xs-10">
+
+
+                  <div class="row">
+                    <div class="form-group">
+                      <label for="username">Utilizador</label>
+                      <input type="text" class="form-control widget" id="username" required disabled>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="form-group">
+                      <label for="password">Seña</label>
+                      <input type="text" class="form-control widget" id="password">
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="form-group">
+                      <label for="usergroup">Departamento</label>
+                      <select class="form-control widget" id="usergroup" disabled></select>
+                    </div>
+                  </div>
+                </div>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="row">
+          <div class="col-xs-offset-1 col-xs-10">
+            <button type="button" class="btn btn-primary" id="okbutton">Gravar</button>
+          </div>
+        </div>
+
+  </div>
+
+<script src="/static/utentes-ui/node-interaction.js"></script>
+<script src="/static/utentes-ui/lib/jquery/jquery-1.12.0.min.js"></script>
+<script src="/static/utentes-ui/lib/underscore/underscore-min.js"></script>
+<script src="/static/utentes-ui/lib/backbone/backbone-min.js"></script>
+<script src="/static/utentes-ui/lib/bootstrap/js/bootstrap.min.js"></script>
+<script src="/static/utentes-ui/lib/bootbox.min.js"></script>
+
+
+<script src="/static/utentes-ui/lib/schema-validator/validator.js"></script>
+
+<script src="/static/utentes-ui/lib/formatter/formatter.js"></script>
+
+
+<script src="/static/utentes-ui/lib/backbone-uilib/models/Domain.js"></script>
+<script src="/static/utentes-ui/lib/backbone-uilib/models/DomainCollection.js"></script>
+<script src="/static/utentes-ui/lib/backbone-uilib/views/OptionView.js"></script>
+<script src="/static/utentes-ui/lib/backbone-uilib/views/SelectView.js"></script>
+<script src="/static/utentes-ui/lib/backbone-uilib/views/WidgetsView.js"></script>
+
+<script src="/static/utentes-ui/views/common/NavBarView.js"></script>
+<script src="/static/utentes-ui/views/common/ConfigModalView.js"></script>
+<script src="/static/utentes-ui/Config.js"></script>
+
+<script src="/static/utentes-ui/models/User.js"></script>
+
+
+<script src="/static/utentes-ui/models/Setting.js"></script>
+
+<script src="/static/utentes-ui/user.js"></script>
+
+<script src="/static/utentes-ui/MyWorkflow.js"></script>
+</body>
+</html>

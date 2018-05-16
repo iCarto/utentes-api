@@ -9,13 +9,18 @@ from pyramid.renderers import JSON
 from sqlalchemy import engine_from_config
 from sqlalchemy.orm import sessionmaker
 
+from pyramid.authentication import AuthTktAuthenticationPolicy
+from pyramid.authorization import ACLAuthorizationPolicy
+
+from .user_utils import get_user_role, get_user_from_request
+
 
 class RequestWithDB(Request):
 
     @reify
     def db(self):
-        """Return a session. Only called once per request,
-        thanks to @reify decorator"""
+        '''Return a session. Only called once per request,
+        thanks to @reify decorator'''
         session_factory = self.registry.settings['db.session_factory']
         self.add_finished_callback(self.close_db_connection)
         return session_factory()
@@ -33,10 +38,6 @@ def decimal_adapter(obj, request):
     return float(obj) if obj or (obj == 0) else None
 
 
-def get_user_role(username, request):
-    return username
-
-
 def main(global_config, **settings):
     engine = engine_from_config(settings, 'sqlalchemy.')
     session_factory = sessionmaker(bind=engine)
@@ -44,27 +45,47 @@ def main(global_config, **settings):
 
     config = Configurator(
         settings=settings,
-        request_factory=RequestWithDB
+        request_factory=RequestWithDB,
+        root_factory='utentes.user_utils.RootFactory'
     )
+    config.set_request_property(get_user_from_request, 'user', reify=True)
 
     json_renderer = JSON()
     json_renderer.add_adapter(datetime.date, date_adapter)
     json_renderer.add_adapter(decimal.Decimal, decimal_adapter)
     config.add_renderer('json', json_renderer)
 
+    # auth
+    authn_policy = AuthTktAuthenticationPolicy(
+        'utentes',
+        callback=get_user_role,
+        cookie_name='utentes',
+        hashalg='sha512'
+    )
+    authz_policy = ACLAuthorizationPolicy()
+    config.set_authentication_policy(authn_policy)
+    config.set_authorization_policy(authz_policy)
+
+    config.include('pyramid_webassets')
     config.include('pyramid_jinja2')
 
-    config.add_static_view('static', 'static', cache_max_age=0)
+    config.add_static_view('static', 'static', cache_max_age=3600)
 
     add_routes_views(config)
     add_routes_api(config)
 
-    config.scan()
+    config.scan(ignore='utentes.test')
     return config.make_wsgi_app()
 
 
 def add_routes_views(config):
+    config.add_route('index', '/')
     config.add_route('login', '/login')
+    config.add_route('logout', '/logout')
+    config.add_route('pending', '/pending')
+    config.add_route('user', '/utilizador')
+    config.add_route('user_id', '/utilizador/{id}')
+    config.add_route('users', '/utilizadores')
 
 
 def add_routes_api(config):
@@ -117,3 +138,6 @@ def add_routes_api(config):
     config.add_route('nuevo_ciclo_facturacion', '/api/nuevo_ciclo_facturacion')
 
     config.add_route('api_expedientes', '/api/expedientes')
+
+    config.add_route('api_users', '/api/users')
+    config.add_route('api_users_id', '/api/users/{id}')
