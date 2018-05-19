@@ -9,12 +9,15 @@ from utentes.models.utente_schema import UTENTE_SCHEMA
 from utentes.models.utente import Utente
 from error_msgs import error_msgs
 
+from utentes.user_utils import PERM_ADMIN, PERM_UTENTES, PERM_GET
+
+
 import logging
 log = logging.getLogger(__name__)
 
 
-@view_config(route_name='api_utentes', request_method='GET', renderer='json')
-@view_config(route_name='api_utentes_id', request_method='GET', renderer='json')
+@view_config(route_name='api_utentes', permission=PERM_GET, request_method='GET', renderer='json')
+@view_config(route_name='api_utentes_id', permission=PERM_GET, request_method='GET', renderer='json')
 def utentes_get(request):
     gid = None
     if request.matchdict:
@@ -32,7 +35,7 @@ def utentes_get(request):
         return request.db.query(Utente).all()
 
 
-@view_config(route_name='api_utentes_id', request_method='DELETE', renderer='json')
+@view_config(route_name='api_utentes_id', permission=PERM_ADMIN, request_method='DELETE', renderer='json')
 def utentes_delete(request):
     gid = request.matchdict['id']
     if not gid:
@@ -51,7 +54,7 @@ def utentes_delete(request):
     return {'gid': gid}
 
 
-@view_config(route_name='api_utentes_id', request_method='PUT', renderer='json')
+@view_config(route_name='api_utentes_id', permission=PERM_UTENTES, request_method='PUT', renderer='json')
 def utentes_update(request):
     gid = request.matchdict['id']
     if not gid:
@@ -78,7 +81,7 @@ def utentes_update(request):
     return e
 
 
-@view_config(route_name='api_utentes', request_method='POST', renderer='json')
+@view_config(route_name='api_utentes', permission=PERM_UTENTES, request_method='POST', renderer='json')
 def utentes_create(request):
     try:
         body = request.json_body

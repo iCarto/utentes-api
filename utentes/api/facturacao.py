@@ -5,13 +5,14 @@ from utentes.models.base import badrequest_exception
 from utentes.models.exploracao import Exploracao
 from utentes.api.error_msgs import error_msgs
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
+from utentes.user_utils import PERM_GET, PERM_FACTURACAO
 
 import logging
 log = logging.getLogger(__name__)
 
 
-@view_config(route_name='api_facturacao', request_method='GET', renderer='json')
-@view_config(route_name='api_facturacao_id', request_method='GET', renderer='json')
+@view_config(route_name='api_facturacao', permission=PERM_GET, request_method='GET', renderer='json')
+@view_config(route_name='api_facturacao_id', permission=PERM_GET, request_method='GET', renderer='json')
 def facturacao_get(request):
     gid = None
     if request.matchdict:
@@ -44,8 +45,8 @@ def facturacao_get(request):
         }
 
 
-@view_config(route_name='api_facturacao_id', request_method='PATCH', renderer='json')
-@view_config(route_name='api_facturacao_id', request_method='PUT', renderer='json')
+@view_config(route_name='api_facturacao_id', permission=PERM_FACTURACAO, request_method='PATCH', renderer='json')
+@view_config(route_name='api_facturacao_id', permission=PERM_FACTURACAO, request_method='PUT', renderer='json')
 def facturacao_update(request):
     id = request.matchdict['id']
     body = request.json_body
@@ -56,21 +57,21 @@ def facturacao_update(request):
     return e
 
 
-@view_config(route_name='api_facturacao', request_method='POST', renderer='json')
-# admin || administrativo
-def facturacao_create(request):
-    try:
-        body = request.json_body
-    except ValueError as ve:
-        log.error(ve)
-        raise badrequest_exception({'error': error_msgs['body_not_valid']})
-
-    e = Exploracao()
-    e.update_from_json_facturacao(body)
-    ara = request.registry.settings.get('ara')
-    # e.exp_id = calculate_new_exp_id(request, ara)
-    e.ara = ara
-
-    request.db.add(e)
-    request.db.commit()
-    return e
+# @view_config(route_name='api_facturacao', request_method='POST', renderer='json')
+# # admin || administrativo
+# def facturacao_create(request):
+#     try:
+#         body = request.json_body
+#     except ValueError as ve:
+#         log.error(ve)
+#         raise badrequest_exception({'error': error_msgs['body_not_valid']})
+#
+#     e = Exploracao()
+#     e.update_from_json_facturacao(body)
+#     ara = request.registry.settings.get('ara')
+#     # e.exp_id = calculate_new_exp_id(request, ara)
+#     e.ara = ara
+#
+#     request.db.add(e)
+#     request.db.commit()
+#     return e

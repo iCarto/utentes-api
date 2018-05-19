@@ -16,12 +16,14 @@ from utentes.models.licencia_schema import LICENCIA_SCHEMA
 from utentes.models.fonte_schema import FONTE_SCHEMA
 from utentes.api.error_msgs import error_msgs
 
+from utentes.user_utils import PERM_GET, PERM_ADMIN, PERM_EXPLORACAO
+
 import logging
 log = logging.getLogger(__name__)
 
 
-@view_config(route_name='api_exploracaos', request_method='GET', renderer='json')
-@view_config(route_name='api_exploracaos_id', request_method='GET', renderer='json')
+@view_config(route_name='api_exploracaos', permission=PERM_GET, request_method='GET', renderer='json')
+@view_config(route_name='api_exploracaos_id', permission=PERM_GET, request_method='GET', renderer='json')
 def exploracaos_get(request):
     gid = None
     if request.matchdict:
@@ -54,7 +56,7 @@ def exploracaos_get(request):
         }
 
 
-@view_config(route_name='api_exploracaos_id', request_method='DELETE', renderer='json')
+@view_config(route_name='api_exploracaos_id', permission=PERM_ADMIN, request_method='DELETE', renderer='json')
 def exploracaos_delete(request):
     gid = request.matchdict['id']
     if not gid:
@@ -86,7 +88,7 @@ def upsert_utente(request, body):
     return u
 
 
-@view_config(route_name='api_exploracaos_id', request_method='PUT', renderer='json')
+@view_config(route_name='api_exploracaos_id', permission=PERM_EXPLORACAO, request_method='PUT', renderer='json')
 def exploracaos_update(request):
     gid = request.matchdict['id']
     if not gid:
@@ -155,7 +157,7 @@ def _tipo_actividade_changes(e, json):
     return e.actividade and json.get('actividade') and (e.actividade.tipo != json.get('actividade').get('tipo'))
 
 
-@view_config(route_name='api_exploracaos', request_method='POST', renderer='json')
+@view_config(route_name='api_exploracaos', permission=PERM_EXPLORACAO, request_method='POST', renderer='json')
 def exploracaos_create(request):
     try:
         body = request.json_body

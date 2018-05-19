@@ -6,14 +6,16 @@ from utentes.models.exploracao import Exploracao
 from utentes.api.error_msgs import error_msgs
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
+from utentes.user_utils import PERM_GET, PERM_UPDATE_REQUERIMENTO, PERM_CREATE_REQUERIMENTO
+
 import datetime
 
 import logging
 log = logging.getLogger(__name__)
 
 
-@view_config(route_name='api_requerimento', request_method='GET', renderer='json')
-@view_config(route_name='api_requerimento_id', request_method='GET', renderer='json')
+@view_config(route_name='api_requerimento', permission=PERM_GET, request_method='GET', renderer='json')
+@view_config(route_name='api_requerimento_id', permission=PERM_GET, request_method='GET', renderer='json')
 def requerimento_get(request):
     gid = None
     if request.matchdict:
@@ -41,8 +43,8 @@ def requerimento_get(request):
         }
 
 
-@view_config(route_name='api_requerimento_id', request_method='PATCH', renderer='json')
-@view_config(route_name='api_requerimento_id', request_method='PUT', renderer='json')
+@view_config(route_name='api_requerimento_id', permission=PERM_UPDATE_REQUERIMENTO, request_method='PATCH', renderer='json')
+@view_config(route_name='api_requerimento_id', permission=PERM_UPDATE_REQUERIMENTO, request_method='PUT', renderer='json')
 def requerimento_update(request):
     gid = request.matchdict['id']
     body = request.json_body
@@ -53,7 +55,7 @@ def requerimento_update(request):
     return e
 
 
-@view_config(route_name='api_requerimento', request_method='POST', renderer='json')
+@view_config(route_name='api_requerimento', permission=PERM_CREATE_REQUERIMENTO, request_method='POST', renderer='json')
 # admin || administrativo
 def requerimento_create(request):
     try:

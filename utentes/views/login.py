@@ -3,7 +3,7 @@ from pyramid.httpexceptions import HTTPFound
 from pyramid.view import view_config
 from pyramid.security import remember
 
-from utentes.user_utils import get_user_from_db
+from utentes.user_utils import get_user_from_db, get_unique_user
 
 
 @view_config(route_name='index', renderer='utentes:templates/login.jinja2')
@@ -11,11 +11,16 @@ from utentes.user_utils import get_user_from_db
 def login(request):
 
     if request.registry.settings.get('ara') == 'ARAN':
+        user = get_unique_user()
+        headers = remember(request, user.username)
         response = HTTPFound(
             location='/static/utentes-ui/exploracao-search.html',
+            headers=headers
         )
-        response.set_cookie('utentes_stub_user', value='UNIQUE_USER')
-        response.set_cookie('utentes_stub_role', value='Administrador')
+        response.set_cookie('utentes_stub_user', value=user.username)
+        import urllib
+        usergroup = urllib.quote(user.usergroup.encode('utf-8'))
+        response.set_cookie('utentes_stub_role', value=usergroup)
         return response
 
     login_url = request.route_url('login')
@@ -31,7 +36,6 @@ def login(request):
         referrer = request.route_url(request.registry.settings.get('users.after_login_url'))
     next = request.params.get('next', referrer)
 
-
     if request.authenticated_userid and request.url in [root_url, root_url_without_trailing_slash]:
         return HTTPFound(location=next)
 
@@ -45,9 +49,7 @@ def login(request):
             )
             response.set_cookie('utentes_stub_user', value=user.username)
             import urllib
-            print(user.usergroup)
             usergroup = urllib.quote(user.usergroup.encode('utf-8'))
-            print 'hereee'
             response.set_cookie('utentes_stub_role', value=usergroup)
             return response
 

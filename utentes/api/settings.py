@@ -1,20 +1,23 @@
 # -*- coding: utf-8 -*-
 
 from pyramid.view import view_config
+
 from utentes.models.setting import Setting
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 from utentes.models.base import badrequest_exception
+from utentes.user_utils import PERM_ADMIN, PERM_GET
+
 import error_msgs
 import logging
 logger = logging.getLogger(__name__)
 
 
-@view_config(route_name='api_settings', request_method='GET', renderer='json')
+@view_config(route_name='api_settings', permission=PERM_GET, request_method='GET', renderer='json')
 def settings_get(request):
     return {s.property: s.value for s in request.db.query(Setting)}
 
 
-@view_config(route_name='api_settings_property', request_method='PUT', renderer='json')
+@view_config(route_name='api_settings_property', permission=PERM_ADMIN, request_method='PUT', renderer='json')
 def settings_update(request):
     property = request.matchdict['property']
     if not property:

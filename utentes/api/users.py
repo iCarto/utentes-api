@@ -2,25 +2,24 @@
 
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 from pyramid.view import view_config
-from pyramid.security import Authenticated
 from utentes.models.user import User
 from utentes.lib.schema_validator.validation_exception import ValidationException
 
 from utentes.models.base import badrequest_exception, unauthorized_exception
 from utentes.api.error_msgs import error_msgs
-from utentes.user_utils import ROL_ADMIN
+from utentes.user_utils import PERM_ADMIN, PERM_GET
 
 import logging
 
 log = logging.getLogger(__name__)
 
 
-@view_config(route_name='api_users', permission=ROL_ADMIN, renderer='json')
+@view_config(route_name='api_users', permission=PERM_ADMIN, renderer='json')
 def users_read(request):
     return request.db.query(User).all()
 
 
-@view_config(route_name='api_users', request_method='POST', permission=ROL_ADMIN, renderer='json')
+@view_config(route_name='api_users', request_method='POST', permission=PERM_ADMIN, renderer='json')
 def user_create(request):
     try:
         body = request.json_body
@@ -47,7 +46,7 @@ def user_create(request):
     return user
 
 
-@view_config(route_name='api_users_id', request_method='DELETE', permission=ROL_ADMIN, renderer='json')
+@view_config(route_name='api_users_id', request_method='DELETE', permission=PERM_ADMIN, renderer='json')
 def user_delete(request):
     id = request.matchdict['id']
     if not id:
@@ -69,14 +68,14 @@ def user_delete(request):
         raise badrequest_exception({'error': error_msgs['unknown_error']})
 
 
-@view_config(route_name='api_users_id', request_method='GET', effective_principals=Authenticated, renderer='json')
+@view_config(route_name='api_users_id', permission=PERM_GET, request_method='GET', renderer='json')
 def user_read(request):
     id = request.matchdict['id']
     if not id:
         raise badrequest_exception({'error': error_msgs['username_obligatory']})
 
     user = request.db.query(User).filter(User.id == id).one()
-    granted = (str(request.user.id) == str(user.id)) or request.has_permission(ROL_ADMIN)
+    granted = (str(request.user.id) == str(user.id)) or request.has_permission(PERM_ADMIN)
 
     if granted:
         try:
@@ -90,7 +89,7 @@ def user_read(request):
         raise unauthorized_exception()
 
 
-@view_config(route_name='api_users_id', request_method='PUT', effective_principals=Authenticated, renderer='json')
+@view_config(route_name='api_users_id', permission=PERM_GET, request_method='PUT', renderer='json')
 def user_update(request):
     json = request.json_body
     id = request.matchdict['id']
@@ -107,7 +106,7 @@ def user_update(request):
     if str(user.id) != str(json['id']):
         raise badrequest_exception({'error': error_msgs['username_obligatory']})
 
-    granted = (request.user.id == user.id) or (request.has_permission(ROL_ADMIN))
+    granted = (request.user.id == user.id) or (request.has_permission(PERM_ADMIN))
 
     if not granted:
         raise unauthorized_exception()

@@ -5,6 +5,8 @@ from utentes.models.exploracao import Exploracao
 from utentes.models.facturacao_fact_estado import FacturacaoFactEstado
 from utentes.models.facturacao import Facturacao
 import datetime
+from utentes.user_utils import PERM_ADMIN
+
 
 import logging
 log = logging.getLogger(__name__)
@@ -14,7 +16,7 @@ def diff_month(d1, d2):
     return (d1.year - d2.year) * 12 + d1.month - d2.month
 
 
-@view_config(route_name='nuevo_ciclo_facturacion', request_method='GET', renderer='json')
+@view_config(route_name='nuevo_ciclo_facturacion', permission=PERM_ADMIN, request_method='GET', renderer='json')
 # admin || financieiro
 def nuevo_ciclo_facturacion(request):
     states = FacturacaoFactEstado.ESTADOS_FACTURABLES

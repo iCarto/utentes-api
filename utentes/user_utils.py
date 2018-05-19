@@ -4,6 +4,7 @@ from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 from pyramid.security import authenticated_userid
 
 from pyramid.security import Allow
+from pyramid.security import Authenticated
 
 from utentes.models.user import User
 
@@ -14,22 +15,43 @@ ROL_DIRECCION = u'Direcção'
 ROL_TECNICO = u'D. Técnico'
 ROL_JURIDICO = u'D. Jurídico'
 
-ROL_ADMIN_SAFE = 'administrador'
-ROL_ADMINISTRATIVO_SAFE = 'administrativo'
-ROL_FINANCIERO_SAFE = 'financieiro'
-ROL_DIRECCION_SAFE = 'direccao'
-ROL_TECNICO_SAFE = 'tecnico'
-ROL_JURIDICO_SAFE = 'juridico'
+PERM_ADMIN = 'admin'
+PERM_UTENTES = 'create_update_utente'
+PERM_CULTIVO_TANQUE = 'update_cultivo_tanque'
+PERM_GET = 'get'
+PERM_EXPLORACAO = 'create_update_exploracao'
+PERM_FACTURACAO = 'update_facturacao'
+PERM_CREATE_REQUERIMENTO = 'create_requerimento'
+PERM_UPDATE_REQUERIMENTO = 'update_requerimento'
 
 
+# GESTIONAR UNIQUE USER
 class RootFactory(object):
     __acl__ = [
-               (Allow, ROL_ADMIN, ROL_ADMIN),
-               (Allow, ROL_ADMINISTRATIVO, ROL_ADMINISTRATIVO),
-               (Allow, ROL_FINANCIERO, ROL_FINANCIERO),
-               (Allow, ROL_DIRECCION, ROL_DIRECCION),
-               (Allow, ROL_TECNICO, ROL_TECNICO),
+               (Allow, Authenticated, PERM_GET),
+
+               (Allow, ROL_ADMIN, PERM_ADMIN),
+               (Allow, ROL_ADMIN, PERM_UTENTES),
+               (Allow, ROL_ADMIN, PERM_EXPLORACAO),
+               (Allow, ROL_ADMIN, PERM_FACTURACAO),
+               (Allow, ROL_ADMIN, PERM_CREATE_REQUERIMENTO),
+               (Allow, ROL_ADMIN, PERM_UPDATE_REQUERIMENTO),
+
+               (Allow, ROL_ADMINISTRATIVO, PERM_CREATE_REQUERIMENTO),
+               (Allow, ROL_ADMINISTRATIVO, PERM_UPDATE_REQUERIMENTO),
+
+               (Allow, ROL_FINANCIERO, PERM_FACTURACAO),
+               (Allow, ROL_FINANCIERO, PERM_UPDATE_REQUERIMENTO),
+
+               (Allow, ROL_DIRECCION, PERM_UPDATE_REQUERIMENTO),
+
+               (Allow, ROL_TECNICO, PERM_UTENTES),
+               (Allow, ROL_TECNICO, PERM_EXPLORACAO),
+               (Allow, ROL_TECNICO, PERM_FACTURACAO),
+               (Allow, ROL_TECNICO, PERM_UPDATE_REQUERIMENTO),
+
                (Allow, ROL_JURIDICO, ROL_JURIDICO),
+               (Allow, ROL_JURIDICO, PERM_UPDATE_REQUERIMENTO),
                ]
 
     def __init__(self, request):
@@ -37,6 +59,8 @@ class RootFactory(object):
 
 
 def get_user_role(username, request):
+    if request.registry.settings.get('ara') == 'ARAN':
+        return [get_unique_user().usergroup]
     try:
         user = request.db.query(User).filter(User.username == username).one()
         return [user.usergroup]
@@ -45,6 +69,9 @@ def get_user_role(username, request):
 
 
 def get_user_from_request(request):
+    if request.registry.settings.get('ara') == 'ARAN':
+        return get_unique_user()
+
     username = authenticated_userid(request)
     if username is not None:
         try:
@@ -56,6 +83,8 @@ def get_user_from_request(request):
 
 
 def get_user_from_db(request):
+    if request.registry.settings.get('ara') == 'ARAN':
+        return get_unique_user()
     from pyramid.settings import asbool
     if asbool(request.registry.settings.get('users.debug')):
         get_user_from_db_stub(request)
@@ -80,6 +109,14 @@ VALID_LOGINS = {
     'tecnico': u'D. Técnico',
     'juridico': u'D. Jurídico',
 }
+
+
+def get_unique_user():
+    return User.create_from_json({
+        'username': 'UNIQUE_USER',
+        'usergroup': 'Administrador',
+        'password': 'UNIQUE_USER'
+        })
 
 
 def get_user_from_db_stub(request):

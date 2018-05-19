@@ -4,13 +4,15 @@ from pyramid.view import view_config
 from utentes.models.inventario_fonte import InventarioFonte
 from error_msgs import error_msgs
 from utentes.models.base import badrequest_exception
+from utentes.user_utils import PERM_ADMIN, PERM_GET
+
 import json
 
 import logging
 log = logging.getLogger(__name__)
 
 
-@view_config(route_name='api_base_fountains', request_method='POST', renderer='json')
+@view_config(route_name='api_base_fountains', permission=PERM_ADMIN, request_method='POST', renderer='json')
 def base_fountains_post(request):
     body = request.json_body
     # try:
@@ -37,7 +39,7 @@ def base_fountains_post(request):
         raise badrequest_exception({'error': error_msgs['bad_import_file']})
 
 
-@view_config(route_name='api_base_fountains', request_method='GET', renderer='json')
+@view_config(route_name='api_base_fountains', permission=PERM_GET, request_method='GET', renderer='json')
 def base_fountains_get(request):
     return {
         'type': 'FeatureCollection',
