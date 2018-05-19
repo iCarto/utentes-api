@@ -68,6 +68,7 @@ def main(global_config, **settings):
 
     config.include('pyramid_webassets')
     config.include('pyramid_jinja2')
+    config.add_jinja2_renderer('.html')
 
     config.add_static_view('static', 'static', cache_max_age=3600)
 
@@ -86,6 +87,14 @@ def add_routes_views(config):
     config.add_route('user', '/utilizador')
     config.add_route('user_id', '/utilizador/{id}')
     config.add_route('users', '/utilizadores')
+    config.add_route('exploracao-gps', 'exploracao-gps.html')
+    config.add_route('exploracao-new', 'exploracao-new.html')
+    config.add_route('exploracao-search', 'exploracao-search.html')
+    config.add_route('exploracao-show', 'exploracao-show.html')
+    config.add_route('facturacao', 'facturacao.html')
+    config.add_route('requerimento-new', 'requerimento-new.html')
+    config.add_route('requerimento-pendente', 'requerimento-pendente.html')
+    config.add_route('utentes', 'utentes.html')
 
 
 def add_routes_api(config):

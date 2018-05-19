@@ -1,0 +1,1907 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+  <title>Gestão de Utentes</title>
+  <link rel="stylesheet" type="text/css" href="/static/lib/bootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="/static/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="/static/lib/leaflet/leaflet.css" />
+  <link rel="stylesheet" type="text/css" href="/static/lib/leaflet/leaflet.label.css"/>
+  <link rel="stylesheet" type="text/css" href="/static/offline/sixhiara-labels.css" />
+  <link rel="stylesheet" type="text/css" href="/static/lib/leaflet-draw/dist/leaflet.draw.css" />
+  <link rel="stylesheet" type="text/css" href="/static/css/exploracao-show.css" />
+  <link rel="stylesheet" type="text/css" href="/static/css/base.css" />
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+</head>
+<body class="container-fluid">
+  <main>
+
+    <menu class="row">
+    </menu>
+
+    <section class="row">
+      <section id="block-title" class="col-xs-12">
+        <h3>
+          <button id="delete-button" type="button" class="btn btn-default btn-sm uilib-enability uilib-show-role-administrador">Eliminar</button>
+          <button id="documentos" type="button" class="btn btn-default btn-sm">Documentos</button>
+          <button id="refresh-button" type="button" class="btn btn-default btn-sm">Refrescar</button>
+          <button id="save-button" type="button" class="btn btn-primary btn-sm uilib-enability uilib-show-role-administrador uilib-show-role-tecnico">Gravar</button>
+        </h3>
+      </section>
+    </section>
+
+    <section id="intro-section" class="row">
+
+      <section id="map-section" class="col-xs-6">
+        <div class="row">
+          <div id="map" class="col-xs-12"></div>
+        </div>
+      </section>
+
+      <section id="info-section" class="col-xs-6">
+
+        <section id="block-info">
+          <div class="row">
+            <h3 class="col-xs-1"><i class="fa fa-info"></i></h3>
+            <h3 class="col-xs-11"> <span class="widget" id="exp_id"></span> <span class="widget" id="exp_name"></span>
+              <button type="button" class="btn btn-default btn-xs pull-right uilib-enability uilib-show-role-administrador uilib-show-role-tecnico" id="editBlockInfo">Editar</button>
+            </h3>
+          </div>
+          <div class="row">
+            <span class="col-xs-offset-1 col-xs-11">
+              <span class="label widget" id="summary_licencia_msg"></span>
+              <span class="label widget" id="summary_consumo_msg"></span>
+              <span class="label widget" id="summary_pagos_msg"></span>
+            </span>
+          </div>
+          <br>
+          <div class="row">
+            <span class="col-xs-offset-1 col-xs-11">
+              <span class="title">Data de solicitação:</span> <span class="widget-date" id="d_soli">-</span>
+            </span>
+          </div>
+          <div class="row">
+            <span class="col-xs-offset-1 col-xs-11">
+              <span class="title">Observações:</span> <span class="widget" id="observacio">-</span>
+            </span>
+          </div>
+          <br>
+        </section>
+
+        <section id="block-location">
+          <div class="row">
+            <h3 class="col-xs-1"><i class="fa fa-map-marker"></i></h3>
+            <h3 class="col-xs-11"><span class="widget" id="loc_provin"></span> / <span class="widget" id="loc_distri"></span>
+              <button type="button" class="btn btn-default btn-xs pull-right uilib-enability uilib-show-role-administrador uilib-show-role-tecnico" id="editBlockLocation">Editar</button>
+            </h3>
+          </div>
+          <div class="row">
+            <span class="col-xs-offset-1 col-xs-11">
+              <span class="title">Posto:</span> <span class="widget" id="loc_posto">-</span> <span class="title">Bairro:</span> <span class="widget" id="loc_nucleo">-</span> <span class="title"> Endereço:</span> <span class="widget" id="loc_endere">-</span>
+            </span>
+          </div>
+          <div class="row">
+            <span class="col-xs-offset-1 col-xs-11">
+              <span class="title">Unidade:</span> <span class="widget" id="loc_unidad">-</span> <span class="title">Bacia:</span> <span class="widget" id="loc_bacia">-</span> <span class="title">Sub-bacia:</span> <span class="widget" id="loc_subaci">-</span> <span class="title">Río:</span> <span class="widget" id="loc_rio">-</span>
+            </span>
+          </div>
+          <br>
+        </section>
+
+        <section id="block-utente">
+          <div class="row">
+            <h3 class="col-xs-1"><i class="fa fa-user"></i></h3>
+            <h3 class="col-xs-11">
+              <span class="widget" id="nome"></span>
+              <button type="button" class="btn btn-default btn-xs pull-right uilib-enability uilib-show-role-administrador uilib-show-role-tecnico" id="editBlockUtente">Editar</button>
+            </h3>
+          </div>
+          <div class="row">
+            <span class="col-xs-offset-1 col-xs-11">
+              <span class="title">Tipo de utente:</span> <span class="widget" id="uten_tipo">-</span><span class="title"> NUIT:</span> <span class="widget" id="nuit">-</span>
+            </span>
+          </div>
+          <div class="row">
+            <span class="col-xs-offset-1 col-xs-11">
+              <span class="title">Nome do gerente/presidente:</span> <span class="widget" id="uten_gere">-</span><span class="title"> Nro membros:</span> <span class="widget" id="uten_memb">-</span>
+            </span>
+          </div>
+          <div class="row">
+            <span class="col-xs-offset-1 col-xs-11">
+              <span class="title">Nro mulheres:</span> <span class="widget" id="uten_mulh">-</span><span class="title"> Pessoa de Contacto:</span> <span class="widget" id="contacto">-</span>
+            </span>
+          </div>
+          <div class="row">
+            <span class="col-xs-offset-1 col-xs-11">
+              <span class="title">Email:</span> <span class="widget" id="email">-</span><span class="title"> Telefone:</span> <span class="widget" id="telefone">-</span>
+            </span>
+          </div>
+          <div class="row">
+            <span class="col-xs-offset-1 col-xs-11">
+              <span class="title">Nro registro comercial:</span> <span class="widget" id="reg_comerc">-</span> <span class="title">Registrado em:</span> <span class="widget" id="reg_zona">-</span>
+            </span>
+          </div>
+          <div class="row">
+            <span class="col-xs-offset-1 col-xs-11">
+              <span class="title">Localização:</span> <span class="widget" id="loc_provin">-</span> <span class="title">/</span> <span class="widget" id="loc_distri">-</span> <span class="title">/</span> <span class="widget" id="loc_posto">-</span> <span class="title">/</span> <span class="widget" id="loc_nucleo">-</span>
+            </span>
+          </div>
+          <div class="row">
+            <span class="col-xs-offset-1 col-xs-11">
+              <span class="title">Observações:</span> <span class="widget" id="observacio">-</span>
+            </span>
+          </div>
+        </section>
+      </section>
+
+    </section>
+
+    <section id="block-consumos" class="row volume-summary text-center">
+      <div class="col-xs-3">
+        <div class="" style="display:inline-block; padding-right: 5px;">
+          <h3>
+            <span class="widget-number" id="c_licencia">-</span>
+          </h3>
+          <span>LICENCIADOS</span>
+        </div>
+        <div class="" style="display:inline-block; padding-left: 5px; color:grey; margin-left: -1px; border-left: 1px solid grey">
+          <h3>
+            <span class="widget-number" id="summary_pago_iva">-</span>
+          </h3>
+          <span>MZN/mês com IVA</span>
+        </div>
+
+      </div>
+      <div class="col-xs-3">
+        <h3><span class="widget-number" id="c_soli">-</span> </h3>
+        <span>SOLICITADOS</span>
+      </div>
+      <div class="col-xs-3">
+        <h3><span class="widget-number" id="c_real">-</span> </h3>
+        <span>REAIS</span>
+      </div>
+      <div class="col-xs-3">
+        <h3><span class="widget-number" id="c_estimado">-</span> </h3>
+        <span>ESTIMADOS</span>
+      </div>
+    </section>
+
+    <section id="block-activity">
+      <div class="row">
+        <div class="col-xs-6">
+          <div class="row">
+            <h3 class="col-xs-1"><i class="fa fa-wrench"></i></h3>
+            <h3 class="col-xs-11">
+              Actividade: <span class="widget" id="actividade">Actividade non declarada</span>
+              <button type="button" class="btn btn-default btn-xs uilib-enability uilib-show-role-administrador uilib-show-role-tecnico" id="editActividade">Editar</button>
+            </h3>
+          </div>
+        </div>
+      </div>
+      <div id="actividade-render">
+        <!-- each activity needs to render itself here, so it needs to declare as many divs.row component as it needs -->
+      </div>
+    </section>
+
+    <section class="row">
+      <div class="col-xs-6">
+        <div class="row">
+          <h3 class="col-xs-1"><i class="fa fa-tint"></i></h3>
+          <h3 class="col-xs-11">Licenças e fontes</h3>
+        </div>
+      </div>
+    </section>
+
+    <section class="row">
+      <div class="col-xs-6" id="block-superficial">-</div>
+      <div class="col-xs-6" id="block-subterranea">-</div>
+    </section>
+
+    <br>
+
+    <section class="row">
+      <div class="col-xs-12">
+        <table class="table table-bordered" id="block-fontes">
+          <thead>
+            <tr>
+              <th width="8%">Tipo de água</th>
+              <th width="8%">Tipo de fonte</th>
+              <th width="12%">Consumo solicitado <i class="units">(m<sup>3</sup>/mês)</i></th>
+              <th width="11%">Consumo real <i class="units">(m<sup>3</sup>/mês)</i></th>
+              <th width="11%">Máximo caudal <i class="units">(m<sup>3</sup>/mês)</i></th>
+              <th width="9%">Sistema de medição</th>
+              <th width="9%">Método estimação</th>
+              <th width="8%">Toma de dados</th>
+              <th width="9%">Lat / Lon</th>
+              <th>Observações</th>
+              <th width="2%" class="uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"></th>
+              <th width="2%" class="uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- TEMPLATES -->
+
+  <!-- tmpl block info modal -->
+  <script type="text/template" id="block-info-modal-tmpl">
+    <div class="modal fade" id="editInfoModal" tabindex="-1" role="dialog" aria-labelledby="editInfoModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Pechar"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="editInfoModalLabel">Exploração</h4>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-xs-offset-1 col-xs-10">
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Informação</strong></h3>
+                  </div>
+                  <div class="panel-body">
+                    <div class="col-xs-5">
+                      <div class="row">
+                        <div class="form-group">
+                          <label for="exp_id">Nro de exploração</label>
+                          <input type="text" class="form-control widget" id="exp_id" required>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="form-group">
+                          <label for="exp_name">Nome da exploração</label>
+                          <input type="text" class="form-control widget" id="exp_name" required>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="form-group">
+                          <label for="d_soli">Data de solicitação</label>
+                          <input type="text" class="form-control widget-date" id="d_soli" placeholder="dd/mm/yyyy" pattern="^\d{1,2}[./-]\d{1,2}[./-]\d{4}$">
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="form-group">
+                          <label for="pagos">Pagamentos</label>
+                          <select class="form-control widget-boolean uilib-enability uilib-enable-role-administrador" id="pagos"></select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xs-offset-1 col-xs-6">
+                      <div class="row">
+                        <div class="form-group">
+                          <label for="observacio">Observaçoes sobre linha de água e localizaçao</label>
+                          <textarea class="form-control widget" id="observacio" rows="12"></textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <div class="row">
+              <div class="col-xs-offset-1 col-xs-10">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="okButton">Aceitar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </script>
+
+  <!-- tmpl block location modal -->
+  <script type="text/template" id="block-location-modal-tmpl">
+    <div class="modal fade" id="editLocModal" tabindex="-1" role="dialog" aria-labelledby="editLocModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Pechar"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="editLocModalLabel">Exploração</h4>
+          </div>
+          <div class="modal-body">
+            <div class="row panel-equal-height">
+              <div class="col-xs-offset-1 col-xs-5">
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Localização</strong></h3>
+                  </div>
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <div class="form-group">
+                          <label for="loc_provin">Província</label>
+                          <select class="form-control widget" id="loc_provin"></select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <div class="form-group">
+                            <label for="loc_distri">Distrito</label>
+                            <select class="form-control widget" id="loc_distri"></select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <div class="form-group">
+                            <label for="loc_posto">Posto administrativo</label>
+                            <select class="form-control widget" id="loc_posto"></select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <div class="form-group">
+                            <label for="loc_nucleo">Bairro</label>
+                            <input type="text" class="form-control widget" id="loc_nucleo">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <div class="form-group">
+                            <label for="loc_endere">Endereço</label>
+                            <textarea class="form-control widget" id="loc_endere" rows="4"></textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xs-5">
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Localização hidrologica</strong></h3>
+                  </div>
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <div class="form-group">
+                            <label for="loc_unidad">Unidade</label>
+                            <select class="form-control widget" id="loc_unidad"></select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <div class="form-group">
+                            <label for="loc_bacia">Bacia</label>
+                            <select class="form-control widget" id="loc_bacia"></select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <div class="form-group">
+                            <label for="loc_subaci">Sub-bacia</label>
+                            <select class="form-control widget" id="loc_subaci"></select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <div class="form-group">
+                            <label for="loc_rio">Rio</label>
+                            <input type="text" class="form-control widget" id="loc_rio">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <div class="modal-footer">
+            <div class="row">
+              <div class="col-xs-offset-1 col-xs-10">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="okButton">Aceitar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </script>
+
+  <!-- tmpl block utente modal -->
+  <script type="text/template" id="block-utente-modal-tmpl">
+    <div class="modal fade" id="editUtenteModal" tabindex="-1" role="dialog" aria-labelledby="editUtenteModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Pechar"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="editUtenteModalLabel">Utente</h4>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="form-group col-xs-offset-1 col-xs-10">
+                <select id="select-utente" class="form-control">
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-offset-1 col-xs-10">
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Dados gerais</strong></h3>
+                  </div>
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="form-group col-xs-4">
+                        <label for="nome">Nome do utente</label>
+                        <input type="text" class="form-control widget widget-utente" id="nome" required>
+                      </div>
+                      <div class="form-group col-xs-4">
+                        <label for="uten_tipo">Tipo de utente</label>
+                        <input type="text" class="form-control widget widget-utente" id="uten_tipo">
+                      </div>
+                      <div class="form-group col-xs-4">
+                        <label for="nuit">NUIT</label>
+                        <input type="text" class="form-control widget widget-utente" id="nuit">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-xs-4">
+                        <label for="uten_tipo">Nome do Gerente/Presidente</label>
+                        <input type="text" class="form-control widget widget-utente" id="uten_gere">
+                      </div>
+                      <div class="form-group col-xs-4">
+                        <label for="uten_tipo">Nro Membros</label>
+                        <input type="text" class="form-control widget widget-number widget-utente" id="uten_memb" pattern="[0-9]{1,8}">
+                      </div>
+                      <div class="form-group col-xs-4">
+                        <label for="uten_tipo">Nro Mulheres</label>
+                        <input type="text" class="form-control widget widget-number widget-utente" id="uten_mulh" pattern="[0-9]{1,8}">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-offset-1 col-xs-10">
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Dados de contacto</strong></h3>
+                  </div>
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="form-group col-xs-4">
+                          <label for="uten_tipo">Pessoa de contacto</label>
+                          <input type="text" class="form-control widget widget-utente" id="contacto">
+                      </div>
+                      <div class="form-group col-xs-4">
+                          <label for="uten_tipo">Email</label>
+                          <input type="text" class="form-control widget widget-utente" id="email">
+                      </div>
+                      <div class="form-group col-xs-4">
+                          <label for="uten_tipo">Telefone</label>
+                          <input type="text" class="form-control widget widget-utente" id="telefone">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-offset-1 col-xs-5">
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Localização</strong></h3>
+                  </div>
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <div class="form-group">
+                          <label for="loc_provin">Província</label>
+                          <input type="text" class="form-control widget widget-utente" id="loc_provin">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <div class="form-group">
+                          <label for="loc_distri">Distrito</label>
+                          <input type="text" class="form-control widget widget-utente" id="loc_distri">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <div class="form-group">
+                          <label for="loc_posto">Posto administrativo</label>
+                          <input type="text" class="form-control widget widget-utente" id="loc_posto">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <div class="form-group">
+                          <label for="loc_nucleo">Bairro</label>
+                          <input type="text" class="form-control widget widget-utente" id="loc_nucleo">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xs-5">
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Outros</strong></h3>
+                  </div>
+                  <div class="panel-body" id="panel-body-utente-outros">
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <div class="form-group">
+                          <label for="reg_comerc">Nro registro comercial</label>
+                          <input type="text" class="form-control widget widget-utente" id="reg_comerc">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <div class="form-group">
+                          <label for="reg_zona">Registrado em</label>
+                          <input type="text" class="form-control widget widget-utente" id="reg_zona">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <div class="form-group">
+                          <label for="observacio">Observaçôes</label>
+                          <textarea class="form-control widget widget-utente" id="observacio" rows="4"></textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <div class="row">
+              <div class="col-xs-offset-1 col-xs-10">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="okButton">Aceitar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </script>
+
+  <!-- modal for actividades -->
+  <script type="text/template" id="modal-actividades">
+    <div class="modal fade" id="editActividadeModal" tabindex="-1" role="dialog" aria-labelledby="editActividadeModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Pechar"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="editActividadeModalLabel">Actividade</h4>
+          </div>
+          <div class="modal-body">
+            <div id="actividade-explotacion" class="row">
+              <div class="form-group col-xs-offset-1 col-xs-10">
+                <label for="actividade">Tipo de actividade</label>
+                <select id="tipo" class="form-control widget"></select>
+              </div>
+            </div>
+            <div id="actividade-render-modal"></div>
+          </div>
+          <div class="modal-footer">
+            <div class="row">
+              <div class="col-xs-offset-1 col-xs-10">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="okButton">Aceitar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </script>
+
+  <!-- tmpl no activity -->
+  <script type="text/template" id="Actividade non declarada">
+  </script>
+
+  <!-- template no activity (inside modal) -->
+  <script type="text/template" id="Actividade non declarada_edit">
+    <input type="hidden" id="id">
+  </script>
+
+  <!-- tmpl actividade abastecimento -->
+  <script type="text/template" id="Abastecimento">
+    <div class="row">
+      <span class="col-xs-6">
+        <div class="row">
+          <span class="col-xs-offset-1 col-xs-11">
+            <span class="title">Consumo estimado <i class="units">(m<sup>3</sup>/mês)</i>:</span> <span><%- formatter().formatNumber(c_estimado) || '-' %></span>
+            <span class="title">Nro de habitantes:</span> <span><%- formatter().formatNumber(habitantes) || '-' %></span>
+            <span class="title">Dotaçâo <i class="units">(l/pessoa/dia)</i>:</span> <span><%- formatter().formatNumber(dotacao) || '-' %></span>
+          </span>
+        </div>
+      </span>
+    </div>
+    <div class="row">
+      <span class="col-xs-offset-1 col-xs-11"></span>
+    </div>
+  </script>
+
+  <!-- tmpl actividade abastecimento (inside modal) -->
+  <script type="text/template" id="Abastecimento_edit">
+    <input type="hidden" id="id">
+    <div class="row">
+      <div class="col-xs-offset-1 col-xs-10">
+        <div class="panel panel-info">
+          <div class="panel-heading">
+            <h3 class="panel-title"><strong>Dados de cálculo do consumo estimado</strong></h3>
+          </div>
+          <div class="panel-body">
+            <div class="row">
+              <div class="form-group col-xs-6">
+                <label for="habitantes">Nro de habitantes</label>
+                <input type="text" class="form-control widget-number" id="habitantes" pattern="[0-9]{1,8}([,][0-9]{1,2})?" required>
+              </div>
+              <div class="form-group col-xs-6">
+                <label for="dotacao">Dotaçâo <i class="units">(l/pessoa/dia)</i></label>
+                <input type="text" class="form-control widget-number" id="dotacao" value="20" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </script>
+
+  <!-- tmpl actividade agricultura -->
+  <script type="text/template" id="Agricultura de Regadio">
+    <div id="block-regadia">
+
+      <div class="row">
+        <span class="col-xs-offset-1 col-xs-11">
+          <div class="col-xs-3">
+            <div class="row">
+              <span class="title">Área potencial:</span> <span><%- formatter().formatNumber(area_pot) || '-' %></span>
+            </div>
+            <div class="row">
+              <span class="title">Consumo estimado <i class="units">(m<sup>3</sup>/mês)</i>:</span> <span><%- formatter().formatNumber(c_estimado) || '-' %></span>
+            </div>
+          </div>
+          <div class="col-xs-3">
+            <div class="row">
+              <span class="title">Área Irrigada:</span> <span><%- formatter().formatNumber(area_irri) || '-' %></span>
+            </div>
+            <div class="row">
+              <span class="title">Número de cultivos:</span> <span><%- formatter().formatNumber(n_cul_tot) || '-' %></span>
+            </div>
+          </div>
+          <div class="col-xs-3">
+            <div class="row">
+              <span class="title">Área medida:</span> <span><%- formatter().formatNumber(area_medi) || '-' %></span>
+            </div>
+          </div>
+          <div class="col-xs-3">
+          </div>
+        </span>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="form-group">
+            <button class="btn btn-default pull-right uilib-enability uilib-show-role-administrador uilib-show-role-tecnico" id="newRow">Novo cultivo</button>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <table class="table table-bordered" id="cultivos">
+            <thead>
+              <tr>
+                <th width="14%">Id</th>
+                <th width="14%">Consumo Estimado <i class="units">(m<sup>3</sup>/mês)</i></th>
+                <th width="14%">Tipo de cultivo / rega</th>
+                <th width="14%">Eficiencia del riego</th>
+                <th width="14%">Área <i class="units">(ha)</i></th>
+                <th>Observações</th>
+                <th width="2%" class="uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"></th>
+                <th width="2%" class="uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"></th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </script>
+
+  <!-- tmpl actividade agricultura (inside modal)-->
+  <script type="text/template" id="Agricultura de Regadio_edit">
+    <input type="hidden" id="id">
+
+    <div class="row">
+      <div class="col-xs-offset-1 col-xs-8">
+        <div class="panel panel-info">
+          <div class="panel-heading">
+            <h3 class="panel-title"><strong>Datos gerais</strong></h3>
+          </div>
+          <div class="panel-body">
+            <div class="row">
+              <div class="form-group col-xs-4">
+                <label for="area_pot">Área potencial</label>
+                <input type="text" class="form-control widget-number" id="area_pot">
+              </div>
+              <div class="form-group col-xs-4">
+                <label for="area_irri">Área Irrigada</label>
+                <input type="text" class="form-control widget-number" id="area_irri">
+              </div>
+              <div class="form-group col-xs-4">
+                <label for="area_medi">Área medida</label>
+                <input type="text" class="form-control widget-number" id="area_medi">
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-xs-4">
+                <label for="n_cul_tot">Número de cultivos</label>
+                <input type="text" class="form-control widget-number" id="n_cul_tot" disabled>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xs-2">
+        <div class="panel panel-info">
+          <div class="panel-heading">
+            <h3 class="panel-title"><strong>Consumos</strong></h3>
+          </div>
+          <div class="panel-body" id="panel-body-regadio-consumos">
+            <div class="form-group">
+              <label for="c_estimado">C. estimado <i class="units">(m<sup>3</sup>/mês)</i></label>
+              <input type="text" class="form-control widget-number" id="c_estimado" disabled>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </script>
+
+  <!-- modal engadir cultivo -->
+  <script type="text/template" id="cultivoModalTpl">
+    <div class="modal fade" id="cultivoModal" tabindex="-1" role="dialog" aria-labelledby="cultivoModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Pechar"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="cultivoModalLabel">Cultivo</h4>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-xs-offset-1 col-xs-10">
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Dados de cálculo do consumo estimado</strong></h3>
+                  </div>
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="form-group col-xs-6">
+                        <label for="cultivo">Tipo de cultivo</label>
+                        <select class="form-control widget" id="cultivo"></select>
+                      </div>
+                      <div class="form-group col-xs-6">
+                        <label for="rega">Tipo de rega</label>
+                        <select class="form-control widget" id="rega"></select>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-xs-6">
+                        <label for="eficiencia">Eficiencia da rega</label>
+                        <input type="text" class="form-control widget-number" id="eficiencia" pattern="[0-9]{1,8}([,][0-9]{1,2})?" />
+                      </div>
+                      <div class="form-group col-xs-6">
+                        <label for="area">Área <i class="units">(ha)</i></label>
+                        <input type="text" class="form-control widget-number" id="area" pattern="[0-9]{1,8}([,][0-9]{1,4})?" required />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-xs-12">
+                    <label for="observacio">Observaçôes</label>
+                    <textarea class="form-control widget" id="observacio" rows="4"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <div class="row">
+              <div class="col-xs-offset-1 col-xs-10">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="okbutton">Aceitar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </script>
+
+  <!-- tmpl actividade industria -->
+  <script type="text/template" id="Indústria">
+    <div class="row">
+      <div class="col-xs-6">
+        <div class="row">
+          <span class="col-xs-offset-1 col-xs-11">
+            <span class="title">Consumo estimado <i class="units">(m<sup>3</sup>/mês)</i>:</span> <span><%- formatter().formatNumber(c_estimado) || '-' %></span>
+            <span class="title">Tipo de indústria:</span> <span><%- tipo_indus || '-' %></span>
+          </span>
+        </div>
+        <div class="row">
+          <span class="col-xs-offset-1 col-xs-11">
+            <span class="title">Evaluação Impacto:</span> <span><%- eval_impac === true ? 'Sim' : ( eval_impac === false ? 'Não' : '-') %></span>
+          </span>
+        </div>
+        <div class="row">
+          <span class="col-xs-offset-1 col-xs-11">
+            <span class="title">Instalaçôes:</span> <span><%- instalacio || '-' %></span>
+          </span>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="row">
+          <span class="col-xs-offset-1 col-xs-11">
+            <span class="title">Efluente:</span> <span><%- efluente || '-' %></span>
+          </span>
+        </div>
+        <div class="row">
+          <span class="col-xs-offset-1 col-xs-11">
+            <span class="title">Medios tratamento água:</span> <span><%- tratamento || '-' %></span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </script>
+
+  <!-- tmpl actividade industria (inside modal) -->
+  <script type="text/template" id="Indústria_edit">
+    <div class="row">
+      <div class="col-xs-offset-1 col-xs-10">
+        <div class="panel panel-info">
+          <div class="panel-heading">
+            <h3 class="panel-title"><strong>Dados Gerais</strong></h3>
+          </div>
+          <div class="panel-body">
+            <input type="hidden" id="id">
+            <div class="col-xs-5">
+              <div class="row">
+                <div class="form-group">
+                  <label for="tipo_indus">Tipo de indústria</label>
+                  <select class="form-control widget" id="tipo_indus"></select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group">
+                  <label for="tratamento">Medios tratamento água</label>
+                  <textarea class="form-control widget" id="tratamento" rows="4"></textarea>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group">
+                  <label for="instalacio">Instalaçôes</label>
+                  <textarea class="form-control widget" id="instalacio" rows="4"></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-offset-1 col-xs-6">
+              <div class="row">
+                <div class="form-group">
+                  <label for="eval_impac">Evaluação Impacto</label>
+                  <select class="form-control widget-boolean" id="eval_impac"></select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group">
+                  <label for="efluente">Efluente producido</label>
+                  <textarea class="form-control widget" id="efluente" rows="4"></textarea>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-offset-1 col-xs-10">
+        <div class="panel panel-info">
+          <div class="panel-heading">
+            <h3 class="panel-title"><strong>Consumos</strong></h3>
+          </div>
+          <div class="panel-body">
+            <div class="row">
+              <div class="form-group col-xs-6">
+                <label for="c_estimado">Consumo estimado <i class="units">(m<sup>3</sup>/mês)</i></label>
+                <input type="text" class="form-control widget-number" id="c_estimado" pattern="[0-9]{1,8}([,][0-9]{1,2})?" required>
+              </div>
+              <div class="form-group col-xs-6">
+                <label for="c_estimado_computed">Consumo autocalculado</label>
+                <input type="text" class="form-control" id="c_estimado_computed" disabled>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </script>
+
+  <!-- tmpl actividade pecuaria -->
+  <script type="text/template" id="Pecuária">
+    <div id="block-pecuaria">
+
+      <div class="row">
+          <span class="col-xs-offset-1 col-xs-11">
+            <div class="col-xs-3">
+              <div class="row">
+                <span class="title">Consumo estimado <i class="units">(m<sup>3</sup>/mês)</i>:</span> <span><%- formatter().formatNumber(c_estimado) || '-' %></span>
+              </div>
+              <div class="row">
+                <span class="title">Nro de reses total:</span> <span><%- formatter().formatNumber(n_res_tot) || '-' %></span>
+              </div>
+            </div>
+            <div class="col-xs-3">
+            </div>
+            <div class="col-xs-3">
+            </div>
+            <div class="col-xs-3">
+            </div>
+          </span>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="form-group">
+            <button class="btn btn-default pull-right uilib-enability uilib-show-role-administrador uilib-show-role-tecnico" id="newRow">Nova res</button>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <table class="table table-bordered" id="reses">
+            <thead>
+              <tr>
+                <th width="20%">Consumo Estimado <i class="units">(m<sup>3</sup>/mês)</i></th>
+                <th width="20%">Tipo de reses</th>
+                <th width="20%">Nro de reses</th>
+                <th>Observações</th>
+                <th width="2%" class="uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"></th>
+                <th width="2%" class="uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"></th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </script>
+
+  <!-- tmpl actividade pecuaria (inside modal) -->
+  <script type="text/template" id="Pecuária_edit">
+    <input type="hidden" id="id">
+    <div class="row">
+      <div class="col-xs-offset-1 col-xs-8">
+        <div class="panel panel-info">
+          <div class="panel-heading">
+            <h3 class="panel-title"><strong>Datos gerais</strong></h3>
+          </div>
+          <div class="panel-body">
+            <div class="row">
+              <div class="form-group col-xs-4">
+                <label for="n_res_tot">Nro de reses total</label>
+                <input type="text" class="form-control widget-number" id="n_res_tot" disabled>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xs-2">
+        <div class="panel panel-info">
+          <div class="panel-heading">
+            <h3 class="panel-title"><strong>Consumos</strong></h3>
+          </div>
+          <div class="panel-body">
+            <div class="form-group">
+              <label for="c_estimado">C. estimado <i class="units">(m<sup>3</sup>/mês)</i></label>
+              <input type="text" class="form-control widget-number" id="c_estimado" disabled>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </script>
+
+  <!-- modal engadir res -->
+  <script type="text/template" id="resModalTpl">
+    <div class="modal fade" id="resModal" tabindex="-1" role="dialog" aria-labelledby="resModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Pechar"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="resModalLabel">Res</h4>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-xs-offset-1 col-xs-10">
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Dados de cálculo do consumo estimado</strong></h3>
+                  </div>
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="form-group col-xs-6">
+                        <label for="reses_tipo">Tipo de reses</label>
+                        <select class="form-control widget" id="reses_tipo"></select>
+                      </div>
+                      <div class="form-group col-xs-6">
+                        <label for="reses_nro">Nro de reses</label>
+                        <input type="text" class="form-control widget-number" id="reses_nro" pattern="[0-9]{1,8}([,][0-9]{1,2})?" required />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-xs-12">
+                    <label for="observacio">Observaçôes</label>
+                    <textarea class="form-control widget" id="observacio" rows="4"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <div class="row">
+              <div class="col-xs-offset-1 col-xs-10">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="okbutton">Aceitar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </script>
+
+  <!-- tmpl actividade piscicultura -->
+  <script type="text/template" id="Piscicultura">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="row">
+          <span class="col-xs-offset-1 col-xs-11">
+            <div class="col-xs-3">
+              <div class="row">
+                <span class="title">Consumo estimado <i class="units">(m<sup>3</sup>/mês)</i>:</span> <span><%- formatter().formatNumber(c_estimado) || '-' %></span>
+              </div>
+              <div class="row">
+                <span class="title">Área de exploraçaõ <i class="units">(ha)</i>:</span> <span><%- formatter().formatNumber(area) || '-' %></span>
+              </div>
+              <div class="row">
+                <span class="title">Ano inicio da atividade :</span> <span><%- ano_i_ati || '-' %></span>
+              </div>
+              <div class="row">
+                <span class="title">Nro de tanques/gaiolas :</span> <span><%- n_tanques || '-' %></span>
+              </div>
+              <div class="row">
+                <span class="title">Volume total tanques/gaiolas (Reservas) <i class="units">(m<sup>3</sup>)</i>:</span> <span><%- formatter().formatNumber(v_reservas) || '-' %></span>
+              </div>
+            </div>
+            <div class="col-xs-3">
+              <div class="row">
+                <span class="title">Nro de alevines povoados :</span> <span><%- n_ale_pov || '-' %></span>
+              </div>
+              <div class="row">
+                <span class="title">Produção anual <i class="units">(kg)</i>:</span> <span><%- produc_pi || '-' %></span>
+              </div>
+              <div class="row">
+                <span class="title">Processamento do peixe :</span> <span><%- tipo_proc || '-' %></span>
+              </div>
+              <div class="row">
+                <span class="title">Durante a abertura dos tanques/gaiolas :</span> <span><%- asis_aber || '-' %></span>
+              </div>
+              <div class="row">
+                <span class="title">Na monitoria dos tanques/gaiolas :</span> <span><%- asis_moni || '-' %></span>
+              </div>
+            </div>
+            <div class="col-xs-3">
+              <div class="row">
+                <span class="title">Origem da assistência :</span> <span><%- asis_orig || '-' %></span>
+              </div>
+              <div class="row">
+                <span class="title">Origem (Outros) :</span> <span><%- asis_or_o || '-' %></span>
+              </div>
+              <div class="row">
+                <span class="title">Tratamento da água que entra nos tanques :</span> <span><%- trat_t_en || '-' %></span>
+              </div>
+              <div class="row">
+                <span class="title">Tratamento da água que sai dos tanques :</span> <span><%- trat_a_sa || '-' %></span>
+              </div>
+              <div class="row">
+                <span class="title">As gaiolas estão submersas em :</span> <span><%- gaio_subm || '-' %></span>
+              </div>
+            </div>
+            <div class="col-xs-3">
+              <div class="row">
+                <span class="title">A exploraçaõ tem problemas :</span> <span><%- problemas || '-' %></span>
+              </div>
+              <div class="row">
+                <span class="title">Principais problemas :</span> <span><%- prob_prin || '-' %></span>
+              </div>
+            </div>
+          </span>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+              <div class="form-group">
+                <button class="btn btn-default pull-right uilib-enability uilib-show-role-administrador uilib-show-role-tecnico" id="newRow">Novo tanque</button>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <table class="table table-bordered" id="tanques">
+                <thead>
+                  <tr>
+                    <th>Id</th>
+                    <th>Tipo</th>
+                    <th>Volume <i class="units">(m<sup>3</sup>/mês)</i></th>
+                    <th>Estado</th>
+                    <th>Espécie cultivada</th>
+                    <th>Tipo de alimentação</th>
+                    <th>Nro de alevinos povoados</th>
+                    <th>Produção anual <i class="units">(Kg)</i></th>
+                    <th class="uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"></th>
+                    <th class="uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
+          </div>
+      </div>
+    </div>
+  </script>
+
+  <!-- tmpl actividade piscicultura-->
+  <script type="text/template" id="Piscicultura_edit">
+    <input type="hidden" id="id">
+    <div class="row">
+      <div class="col-xs-offset-1 col-xs-8">
+        <div class="panel panel-info">
+          <div class="panel-heading">
+            <h3 class="panel-title"><strong>Dados gerais</strong></h3>
+          </div>
+          <div class="panel-body">
+            <div class="row">
+              <div class="form-group col-xs-4">
+                <label for="ano_i_ati">Ano inicio atividade</label>
+                <input type="text" class="form-control widget-number" id="ano_i_ati" pattern="[0-9]{4}">
+              </div>
+              <div class="form-group col-xs-4">
+                <label for="area">Área <i class="units">(ha)</i></label>
+                <input type="text" class="form-control widget-number" id="area" pattern="[0-9]{1,8}([,][0-9]{1,4})?">
+              </div>
+              <div class="form-group col-xs-4">
+                <label for="n_tanques">Nro tanques/gaiolas</label>
+                <input type="text" class="form-control widget-number" id="n_tanques" pattern="[0-9]*">
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-xs-4">
+                <label for="v_reservas">Volume total tanques/gaiolas <i class="units">(m<sup>3</sup>)</i></label>
+                <input type="text" class="form-control widget-number" id="v_reservas" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
+              </div>
+              <div class="form-group col-xs-4">
+                <label for="n_ale_pov">Nro alevinos povoados</label>
+                <input type="text" class="form-control widget-number" id="n_ale_pov" pattern="[0-9]*">
+              </div>
+              <div class="form-group col-xs-4">
+                <label for="produc_pi">Produção Anual <i class="units">(Kg)</i></label>
+                <input type="text" class="form-control widget-number" id="produc_pi" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
+              </div>
+              <div class="form-group col-xs-4">
+                <label for="tipo_proc">Processamento do peixe</label>
+                <select class="form-control widget" id="tipo_proc"></select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-2">
+        <div class="panel panel-info">
+          <div class="panel-heading">
+            <h3 class="panel-title"><strong>Consumos</strong></h3>
+          </div>
+          <div class="panel-body" id="panel-body-piscicultura-consumos">
+            <div class="form-group">
+              <label for="c_estimado">C. estimado <i class="units">(m<sup>3</sup>/mês)</i></label>
+              <input type="text" class="form-control widget-number" id="c_estimado" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-offset-1 col-xs-10">
+        <div class="panel panel-info">
+          <div class="panel-heading">
+            <h3 class="panel-title"><strong>Assistência Técnica</strong></h3>
+          </div>
+          <div class="panel-body">
+            <div class="col-xs-4">
+              <div class="row">
+                <div class="form-group">
+                  <label for="asis_aber">Durante a abertura dos tanques/gaiolas</label>
+                  <select class="form-control widget" id="asis_aber"></select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group">
+                  <label for="asis_moni">Na monitoria dos tanques/gaiolas</label>
+                  <select class="form-control widget" id="asis_moni"></select>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-8">
+              <div id="asis_orig" class="widget-external">
+                <label class="col-xs-offset-1" for="asis_orig">Origem da assistência técnica</label>
+                <div class="row">
+                  <div><label class="checkbox col-xs-offset-1 col-xs-3"><input type="checkbox" name="asis_orig" value="SDAE">SDAE</label></div>
+                  <div><label class="checkbox col-xs-offset-1 col-xs-3"><input type="checkbox" name="asis_orig" value="DPMAIP-CD">DPMAIP-CD</label></div>
+                  <div><label class="checkbox col-xs-offset-1 col-xs-3"><input type="checkbox" name="asis_orig" value="IDEPA">IDEPA</label></div>
+                </div>
+                <div class="row">
+                  <div><label class="checkbox col-xs-offset-1 col-xs-3"><input type="checkbox" name="asis_orig" value="Outros">Outros</label></div>
+                  <div class="form-group col-xs-offset-1 col-xs-6">
+                    <input type="text" class="form-control widget" id="asis_or_o" disabled/>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-offset-1 col-xs-10">
+        <div class="panel panel-info">
+          <div class="panel-heading">
+            <h3 class="panel-title"><strong>Aspectos Ambientais</strong></h3>
+          </div>
+          <div class="panel-body">
+            <div class="row">
+              <div class="form-group col-xs-4">
+                <label for="trat_t_en">Tratamento da água que entra nos tanques</label>
+                <select class="form-control widget" id="trat_t_en"></select>
+              </div>
+              <div class="form-group form-group col-xs-4">
+                <label for="trat_a_sa">Tratamento da água que sai dos tanques</label>
+                <select class="form-control widget" id="trat_a_sa"></select>
+              </div>
+              <div class="form-group form-group col-xs-4">
+                <label for="gaio_subm">As gaiolas estão submersas em</label>
+                <select class="form-control widget" id="gaio_subm"></select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-offset-1 col-xs-10">
+        <div class="panel panel-info">
+          <div class="panel-heading">
+            <h3 class="panel-title"><strong>Problemas</strong></h3>
+          </div>
+          <div class="panel-body">
+            <div class="col-xs-3">
+              <div class="row">
+                <div class="form-group">
+                  <label for="problemas">A exploraçaõ tem problemas</label>
+                  <select class="form-control widget" id="problemas"></select>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-offset-1 col-xs-8">
+              <div class="row">
+                <div class="form-group">
+                  <label for="prob_prin">Principais problemas</label>
+                  <textarea class="form-control widget" id="prob_prin" rows="3" disabled></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </script>
+
+  <!-- tmpl actividade produccao energia -->
+  <script type="text/template" id="Producção de energia">
+    <div class="row">
+      <div class="col-xs-6">
+        <div class="row">
+          <span class="col-xs-offset-1 col-xs-11">
+            <span class="title">Consumo estimado <i class="units">(m<sup>3</sup>/mês)</i>:</span> <span><%- formatter().formatNumber(c_estimado) || '-' %></span>
+            <span class="title">Tipo de produção:</span> <span><%- energia_tipo || '-' %></span>
+          </span>
+        </div>
+        <div class="row">
+          <span class="col-xs-offset-1 col-xs-11">
+            <span class="title">Altura de água:</span> <span><%-  formatter().formatNumber(alt_agua) || '-' %></span>
+            <span class="title">Potência a instalar:</span> <span><%-  formatter().formatNumber(potencia) || '-' %></span>
+          </span>
+        </div>
+        <div class="row">
+          <span class="col-xs-offset-1 col-xs-11">
+            <span class="title">Evaluação Impacto:</span> <span><%- eval_impac === true ? 'Sim' : (eval_impac === false ? 'Não' : '-') %></span>
+          </span>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="row">
+          <span class="col-xs-offset-1 col-xs-11">
+            <span class="title">Tipo de equipamento:</span> <span><%- equipo || '-' %></span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </script>
+
+  <!-- tmpl actividade produccao energia (inside modal) -->
+  <script type="text/template" id="Producção de energia_edit">
+        <div class="row">
+          <div class="col-xs-offset-1 col-xs-10">
+            <input type="hidden" id="id">
+            <div class="panel panel-info">
+              <div class="panel-heading">
+                <h3 class="panel-title"><strong>Dados gerais</strong></h3>
+              </div>
+              <div class="panel-body">
+                <div class="col-xs-4">
+                  <div class="row">
+                    <div class="form-group ">
+                      <label for="energia_tipo">Tipo de produção</label>
+                      <select class="form-control widget" id="energia_tipo"></select>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">
+                      <label for="alt_agua">Altura de água</label>
+                      <input type="text" class="form-control widget-number" id="alt_agua" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">
+                      <label for="potencia">Potência a instalar</label>
+                      <input type="text" class="form-control widget-number" id="potencia" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
+                    </div>
+                  </div>
+
+                </div>
+                <div class="col-xs-offset-1 col-xs-7">
+                  <div class="row">
+                    <div class="form-group">
+                      <label for="eval_impac">Evaluação Impacto</label>
+                      <select class="form-control widget-boolean" id="eval_impac"></select>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">
+                      <label for="equipo">Tipo de equipamento</label>
+                      <textarea class="form-control widget" id="equipo" rows="4"></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-offset-1 col-xs-10">
+            <div class="panel panel-info">
+              <div class="panel-heading">
+                <h3 class="panel-title"><strong>Consumos</strong></h3>
+              </div>
+              <div class="panel-body">
+                <div class="col-xs-4">
+                  <div class="row">
+                    <div class="form-group">
+                      <label for="c_estimado">Consumo estimado <i class="units">(m<sup>3</sup>/mês)</i></label>
+                      <input type="text" class="form-control widget-number" id="c_estimado" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  </script>
+
+  <!-- tmpl actividade saneamento -->
+  <script type="text/template" id="Saneamento">
+    <div class="row">
+      <div class="col-xs-6">
+        <div class="row">
+          <span class="col-xs-offset-1 col-xs-11">
+            <span class="title">Consumo estimado <i class="units">(m<sup>3</sup>/mês)</i>:</span> <span><%- formatter().formatNumber(c_estimado) || '-' %></span>
+            <span class="title">Nro de habitantes:</span> <span><%- formatter().formatNumber(habitantes) || '-' %></span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </script>
+
+  <!-- tmpl actividade saneamento (inside modal) -->
+  <script type="text/template" id="Saneamento_edit">
+    <input type="hidden" id="id">
+    <div class="row">
+        <div class="col-xs-offset-1 col-xs-5">
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h3 class="panel-title"><strong>Dados de cálculo do consumo estimado</strong></h3>
+            </div>
+            <div class="panel-body">
+              <div class="row">
+                <div class="form-group col-xs-12">
+                  <label for="habitantes">Nro de habitantes</label>
+                  <input type="text" class="form-control widget-number" id="habitantes" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-5">
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h3 class="panel-title"><strong>Consumos</strong></h3>
+            </div>
+            <div class="panel-body">
+              <div class="row">
+                <div class="form-group col-xs-12">
+                  <label for="c_estimado">Consumo estimado <i class="units">(m<sup>3</sup>/mês)</i></label>
+                  <input type="text" class="form-control widget-number" id="c_estimado" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </script>
+
+  <!-- block license modal tmpl -->
+  <script type="text/template" id="block-license-modal-tmpl">
+    <div class="modal fade" id="licenciaModal" tabindex="-1" role="dialog" aria-labelledby="licenciaModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Pechar"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="licenciaModalLabel">Licencia <span id="tipo_agua" class="widget"></span></h4>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-xs-offset-1 col-xs-10">
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Dados gerais</strong></h3>
+                  </div>
+                  <div class="panel-body">
+                    <div class="row">
+                      <input type="hidden" id="tipo_agua">
+                      <input type="hidden" class="form-control widget" id="lic_nro">
+                      <div class="form-group col-xs-4">
+                        <label for="estado">Estado</label> <span id="info-estado-licencia" class="fa fa-question-circle" style="cursor:pointer"></span>
+                        <select type="text" class="form-control widget" id="estado" aria-describedby="info-estado-licencia"></select>
+                      </div>
+                      <div class="form-group col-xs-4">
+                        <label for="cadastro">Nro de cadastro</label>
+                        <input type="text" class="form-control widget" id="cadastro">
+                      </div>
+                      <div class="form-group col-xs-4">
+                        <label for="n_licen_a">Nro de licença histórico</label>
+                        <input type="text" class="form-control widget" id="n_licen_a" disabled>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-xs-4">
+                        <label for="estado">Tipo de licença</label>
+                        <select type="text" class="form-control widget" id="tipo_lic"></select>
+                      </div>
+                      <div class="form-group col-xs-4">
+                        <label for="d_emissao">Data emissão</label>
+                        <input type="text" class="form-control widget-date" id="d_emissao" placeholder="dd/mm/yyyy" pattern="^\d{1,2}[./-]\d{1,2}[./-]\d{4}$">
+                      </div>
+                      <div class="form-group col-xs-4">
+                        <label for="d_validade">Data validade</label>
+                        <input type="text" class="form-control widget-date" id="d_validade" placeholder="dd/mm/yyyy" pattern="^\d{1,2}[./-]\d{1,2}[./-]\d{4}$">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row panel-equal-height">
+              <div class="col-xs-offset-1 col-xs-6">
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Pagamentos</strong></h3>
+                  </div>
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="form-group col-xs-6">
+                        <label for="fact_tipo">Tipo de facturação</label>
+                        <input type="text" id="fact_tipo" class="form-control" disabled>
+                      </div>
+                      <div class="form-group col-xs-6">
+                        <label for="consumo_tipo">Tipo de consumo</label>
+                        <select type="text" id="consumo_tipo" class="form-control widget"></select>
+                      </div>
+                      <div class="form-group col-xs-6">
+                        <label for="taxa_fixa">Taxa fixa <i class="units">(MZN/mês)</i></label>
+                        <input type="text" class="form-control widget-number" id="taxa_fixa" pattern="[0-9]{1,8}([,][0-9]{1,2})?" required>
+                      </div>
+                      <div class="form-group col-xs-6">
+                        <label for="taxa_uso">Taxa de uso <i class="units">(MZN/m<sup>3</sup>)</i></label>
+                        <input type="text" class="form-control widget-number" id="taxa_uso" pattern="[0-9]{1,8}([,][0-9]{1,2})?" required>
+                      </div>
+                      <div class="form-group col-xs-6">
+                        <label for="consumo_fact">Consumo facturado <i class="units">(m<sup>3</sup>/mês)</i></label>
+                        <input type="text" id="consumo_fact" class="form-control widget-number" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
+                      </div>
+                      <div class="form-group col-xs-6">
+                        <label for="pago_mes">Valor pago mês <i class="units">(MZN/més)</i></label>
+                        <input type="text" class="form-control widget-number" id="pago_mes" pattern="[0-9]{1,8}([,][0-9]{1,2})?" disabled>
+                      </div>
+                      <div class="form-group col-xs-6">
+                        <label for="iva">IVA <i class="units">(%)</i></label>
+                        <input type="text" class="form-control widget-number" id="iva" pattern="[0-9]{1,2}?" required>
+                      </div>
+                      <div class="form-group col-xs-6">
+                        <label for="pago_iva">Valor com IVA <i class="units">(MZN/mês)</i></label>
+                        <input type="text" class="form-control widget-number" id="pago_iva" pattern="[0-9]{1,8}([,][0-9]{1,2})?" disabled>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-4">
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Consumos</strong></h3>
+                  </div>
+                  <div class="panel-body">
+
+                    <div class="row">
+                      <div class="form-group col-xs-12">
+                        <label for="c_licencia"><strong>Consumo licenciado <i class="units">(m<sup>3</sup>/mês)</i></strong></label>
+                        <input type="text" class="form-control widget-number" id="c_licencia" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-xs-12">
+                        <label for="c_real_int">Consumo real intermedio <i class="units">(m<sup>3</sup>/mês)</i></label>
+                        <input type="text" class="form-control widget-number" id="c_real_int" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-xs-12">
+                        <label for="c_soli_int">Consumo solicitado intermedio <i class="units">(m<sup>3</sup>/mês)</i></label>
+                        <input type="text" class="form-control widget-number" id="c_soli_int" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <div class="row">
+              <div class="col-xs-offset-1 col-xs-10">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="okbutton">Aceitar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </script>
+
+  <!-- block fonte modal template -->
+  <script type="text/template" id="block-fonte-modal-tmpl">
+    <div class="modal fade" id="editFonteModal" tabindex="-1" role="dialog" aria-labelledby="fonteModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Pechar" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="fonteModalLabel">Fonte</h4>
+          </div>
+          <div class="modal-body">
+
+            <div class="row">
+              <div class="col-xs-offset-1 col-xs-10">
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Dados gerais</strong></h3>
+                  </div>
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="form-group col-xs-6">
+                        <label for="tipo_agua">Tipo de água</label>
+                        <input type="text" class="form-control widget disabled" id="tipo_agua" required>
+                      </div>
+                      <div class="form-group col-xs-6">
+                        <label for="tipo_fonte">Tipo de fonte</label>
+                        <select class="form-control widget" id="tipo_fonte"></select>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-xs-6">
+                        <label for="d_dado">Data toma de dados</label>
+                        <input type="text" class="form-control widget-date" id="d_dado" placeholder="dd/mm/yyyy" pattern="^\d{1,2}[./-]\d{1,2}[./-]\d{4}$">
+                      </div>
+                      <div class="form-group col-xs-6">
+                        <label for="lat_lon">Lat / Lon</label>
+                        <input type="text" class="form-control widget" id="lat_lon">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-xs-6">
+                        <label for="sist_med">Sistema de medição</label>
+                        <select class="form-control widget" id="sist_med"></select>
+                      </div>
+                      <div class="form-group col-xs-6">
+                        <label for="metodo_est">Método estimação volume</label>
+                        <input type="text" class="form-control widget" id="metodo_est">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-xs-6">
+                        <label for="c_max">Máximo caudal extraíble <i class="units">(m<sup>3</sup>/mês)</i></label>
+                        <input type="text" class="form-control widget-number" id="c_max" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-offset-1 col-xs-10">
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Consumos</strong></h3>
+                  </div>
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="form-group col-xs-6">
+                        <label for="c_soli">Consumo solicitado <i class="units">(m<sup>3</sup>/mês)</i></label>
+                        <input type="text" class="form-control widget-number" id="c_soli" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
+                      </div>
+                      <div class="form-group col-xs-6">
+                        <label for="c_real">Consumo real <i class="units">(m<sup>3</sup>/mês)</i></label>
+                        <input type="text" class="form-control widget-number" id="c_real" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-xs-offset-1 col-xs-10">
+                <label for="observacio">Observaçôes</label>
+                <textarea class="form-control widget" id="observacio" rows="3"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <div class="row">
+              <div class="col-xs-offset-1 col-xs-10">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="okButton">Aceitar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </script>
+
+  <!-- template licencia -->
+  <script type="text/template" id="licencia-tmpl">
+    <div class="row">
+      <h4 class="col-xs-offset-1 col-xs-11">Licença <%- tipo_agua + ': ' + (lic_nro || '-') %>
+        <button type="button" class="btn btn-default btn-xs hidden uilib-enability uilib-show-role-administrador uilib-show-role-tecnico" id="addLicense">Adicionar</button>
+        <button type="button" class="btn btn-default btn-xs uilib-enability uilib-show-role-administrador uilib-show-role-tecnico" id="editLicense">Editar</button>
+        <button type="button" class="btn btn-default btn-xs uilib-enability uilib-show-role-administrador uilib-show-role-tecnico" id="addFonte">Nova fonte</button>
+        <button type="button" class="btn btn-default btn-xs uilib-enability uilib-show-role-administrador uilib-show-role-tecnico" id="removeLicense">Eliminar</button>
+      </h4>
+    </div>
+
+    <div class="row">
+      <span class="col-xs-offset-1 col-xs-11">
+        <span class="title">Estado:</span> <%- estado || '-' %> <i id="info-estado-licencia" class="fa fa-question-circle" style="cursor:pointer"></i>
+      </span>
+    </div>
+    <div class="row">
+      <span class="col-xs-offset-1 col-xs-11">
+        <span class="title">Nro de cadastro:</span> <%- cadastro || '-' %>
+        <span class="title">Tipo de Licença:</span> <%- tipo_lic || '-' %>
+        <span class="title">Data emissão:</span> <%- formatter().formatDate(d_emissao) || '-' %>
+        <span class="title">Data validade:</span> <%- formatter().formatDate(d_validade) || '-' %>
+      </span>
+    </div>
+    <div class="row">
+      <span class="col-xs-offset-1 col-xs-2 text-right"><%- formatter().formatNumber(consumo_fact) || '-' %> </span>
+      <span class="col-xs-9">
+        <span class="title"><i class="units">m<sup>3</sup>/mês</i> consumo facturado</span> <span class="title">(Valor com IVA: <%- formatter().formatNumber(pago_iva) || '-' %> MZN/més)</span>
+      </span>
+    </div>
+    <div class="row">
+      <span class="col-xs-offset-1 col-xs-2 text-right"><%- formatter().formatNumber(c_licencia) || '-' %> </span>
+      <span class="col-xs-9">
+        <span class="title"><i class="units">m<sup>3</sup>/mês</i> consumo licenciado</span> <span class="title">(Tipo de consumo: <%- consumo_tipo %>)</span>
+      </span>
+    </div>
+    <div class="row">
+      <span class="col-xs-offset-1 col-xs-2 text-right"><%- formatter().formatNumber(c_soli_tot) || '-' %> </span>
+      <span class="col-xs-9">
+        <span class="title"><i class="units">m<sup>3</sup>/mês</i> consumo solicitado</span> <span class="title">(<%- formatter().formatNumber(c_soli_int) || '-' %> intermedio / <%- formatter().formatNumber(c_soli_fon) || '-' %> fontes)</span>
+      </span>
+    </div>
+    <div class="row">
+      <span class="col-xs-offset-1 col-xs-2 text-right"><%- formatter().formatNumber(c_real_tot) || '-' %> </span>
+      <span class="col-xs-9">
+        <span class="title"><i class="units">m<sup>3</sup>/mês</i> consumo real</span> <span class="title">(<%- formatter().formatNumber(c_real_int) || '-' %> intermedio / <%- formatter().formatNumber(c_real_fon) || '-' %> fontes)</span>
+      </span>
+    </div>
+  </script>
+
+  <!-- JAVASCRIPT -->
+  <script src="/static/node-interaction.js"></script>
+  <script src="/static/lib/jquery/jquery-1.12.0.min.js"></script>
+  <script src="/static/lib/bootstrap/js/bootstrap.min.js"></script>
+  <script src="/static/lib/underscore/underscore-min.js"></script>
+  <script src="/static/lib/backbone/backbone-min.js"></script>
+  <script src="/static/lib/bootbox.min.js"></script>
+
+
+  <script src="/static/lib/leaflet/leaflet.js"></script>
+  <script src="/static/lib/leaflet/leaflet.label-src.js"></script>
+  <script src="/static/lib/leaflet-draw/dist/leaflet.draw.js"></script>
+
+  <script src="/static/lib/moment-2.11.2/moment-with-locales.js"></script>
+  <script src="/static/lib/numeral-js-1.5.3/min/languages.min.js"></script>
+  <script src="/static/lib/numeral-js-1.5.3/min/numeral.min.js"></script>
+  <script src="/static/lib/formatter/formatter.js"></script>
+
+  <script src="/static/lib/schema-validator/validator.js"></script>
+
+  <script src="/static/lib/backbone-geojson/Feature.js"></script>
+  <script src="/static/lib/backbone-geojson/FeatureCollection.js"></script>
+
+  <script src="/static/lib/backbone-uilib/models/Domain.js"></script>
+  <script src="/static/lib/backbone-uilib/models/DomainCollection.js"></script>
+  <script src="/static/lib/backbone-uilib/views/OptionView.js"></script>
+  <script src="/static/lib/backbone-uilib/views/SelectView.js"></script>
+  <script src="/static/lib/backbone-uilib/views/WidgetsView.js"></script>
+  <script src="/static/lib/backbone-uilib/views/BaseView.js"></script>
+  <script src="/static/lib/backbone-uilib/views/ModalView.js"></script>
+
+  <script src="/static/views/common/CheckBoxList.js"></script>
+  <script src="/static/views/common/NavBarView.js"></script>
+  <script src="/static/views/common/ConfigModalView.js"></script>
+  <script src="/static/views/show/TemplateEditTanque.js"></script>
+  <script src="/static/Config.js"></script>
+
+  <script src="/static/models/Estado.js"></script>
+  <script src="/static/models/EstadoCollection.js"></script>
+
+  <script src="/static/models/TanquePiscicola.js"></script>
+  <script src="/static/models/TanquePiscicolaCollection.js"></script>
+  <script src="/static/models/ActividadeNull.js"></script>
+  <script src="/static/models/ActividadeCultivo.js"></script>
+  <script src="/static/models/CultivoCollection.js"></script>
+  <script src="/static/models/Fonte.js"></script>
+  <script src="/static/models/FonteSchema.js"></script>
+  <script src="/static/models/FonteCollection.js"></script>
+  <script src="/static/models/Licencia.js"></script>
+  <script src="/static/models/LicenciaSchema.js"></script>
+  <script src="/static/models/LicenciaCollection.js"></script>
+  <script src="/static/models/Utente.js"></script>
+  <script src="/static/models/UtenteSchema.js"></script>
+  <script src="/static/models/UtenteCollection.js"></script>
+  <script src="/static/models/ActividadeRes.js"></script>
+  <script src="/static/models/ResCollection.js"></script>
+  <script src="/static/models/ActividadeAbastecimento.js"></script>
+  <script src="/static/models/ActividadeEnergia.js"></script>
+  <script src="/static/models/ActividadeIndustria.js"></script>
+  <script src="/static/models/ActividadePecuaria.js"></script>
+  <script src="/static/models/ActividadePiscicultura.js"></script>
+  <script src="/static/models/ActividadeRegadia.js"></script>
+  <script src="/static/models/ActividadeSaneamento.js"></script>
+  <script src="/static/models/ActividadesSchema.js"></script>
+  <script src="/static/models/Exploracao.js"></script>
+  <script src="/static/models/ExploracaoSchema.js"></script>
+
+  <script src="/static/views/common/ModalTooltipEstadoLicenciaView.js"></script>
+  <script src="/static/views/common/SelectBaciaView.js"></script>
+  <script src="/static/views/common/SelectLocationView.js"></script>
+  <script src="/static/views/show/OpenFolderButtonView.js"></script>
+  <script src="/static/views/common/ButtonSaveView.js"></script>
+  <script src="/static/views/show/ButtonDeleteView.js"></script>
+  <script src="/static/views/show/ButtonRefreshView.js"></script>
+  <script src="/static/views/show/SummaryConsumoView.js"></script>
+  <script src="/static/views/show/SummaryLicenseView.js"></script>
+  <script src="/static/views/show/SummaryPagosView.js"></script>
+  <script src="/static/views/show/CEstimadoComputedView.js"></script>
+  <script src="/static/views/show/BlockInfoView.js"></script>
+  <script src="/static/views/show/BlockMapView.js"></script>
+  <script src="/static/views/show/BlockLocationView.js"></script>
+  <script src="/static/views/common/SelectUtenteView.js"></script>
+  <script src="/static/views/show/BlockUtenteView.js"></script>
+  <script src="/static/views/show/ModalView.js"></script>
+  <script src="/static/views/show/ModalViewActivity.js"></script>
+  <script src="/static/views/show/CultivoResModalView.js"></script>
+  <script src="/static/views/show/TanquePiscicolaModalView.js"></script>
+  <script src="/static/views/show/LicenseModalView.js"></script>
+  <script src="/static/views/common/RowDeleteButtonView.js"></script>
+  <script src="/static/views/show/TableRowShowView.js"></script>
+  <script src="/static/views/common/TableView.js"></script>
+  <script src="/static/views/show/EditableTableView.js"></script>
+  <script src="/static/views/show/ActividadeView.js"></script>
+  <script src="/static/views/common/SelectActividadeView.js"></script>
+  <script src="/static/views/show/BlockActivityView.js"></script>
+  <script src="/static/views/show/BlockLicenseView.js"></script>
+
+  <script src="/static/views/show/BlockFontesView.js"></script>
+  <script src="/static/views/show/ExploracaoShowView.js"></script>
+  <script src="/static/models/Setting.js"></script>
+
+  <script src="/static/offline/MapConfig.js"></script>
+  <script src="/static/offline/LayerStyle.js"></script>
+  <script src="/static/offline/config-layers.js"></script>
+  <script src="/static/offline/FitToBounds.js"></script>
+  <script src="/static/offline/offline.js"></script>
+  <script src="/static/offline/LayerConfig.js"></script>
+
+  <script src="/static/exploracao-show.js"></script>
+
+  <script src="/static/MyWorkflow.js"></script>
+</body>
+</html>

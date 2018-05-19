@@ -1,0 +1,64 @@
+#block-info,
+#block-location,
+#block-utente {
+    border-top: 1px solid #ddd;
+}
+
+#map{
+    height: 42em;
+    margin-left: 1em;
+    width: 95%;
+    margin-bottom: 1em;
+}
+
+label{ /*override bootstrap settings*/
+    font-weight: inherit !important;
+}
+
+.title{
+    color: #999;
+}
+
+.btn-xs{ /*override bootstrap settings*/
+    color: #bbb !important;
+}
+
+.label{
+    font-size: small;
+}
+
+/* blocks: colors, margins, paddings */
+
+#map{
+    background-color: #eee;
+}
+
+.volume-summary{
+    background-color: #eee;
+    padding: .1em 0 .1em 0;
+}
+
+.volume-license,
+.volume-activity{
+    margin: 0 .1em 0 .1em
+}
+
+#tooltipEstadoLicenciaModalView .done {
+    background-color: #eee;
+}
+
+#modalContentTanque {
+    width: 680px;
+}
+
+#panel-body-utente-outros {
+    margin-bottom: 3%;
+}
+
+#panel-body-piscicultura-consumos {
+    margin-bottom: 90%;
+}
+
+#panel-body-regadio-consumos {
+    margin-bottom: 44%;
+}

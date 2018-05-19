@@ -1,0 +1,85 @@
+.selected{
+    background-color: rgba(255, 0, 0, 0.7);;
+}
+
+.edit_text_dialog {
+    position: absolute !important;
+    padding: 11px;
+    box-shadow: 0px 0px 6px 1px rgba(0, 0, 0, 0.17);
+    border-radius: 4px;
+    background: transparent linear-gradient(#FEFEFE, #F4F4F4) repeat scroll 0% 0%;
+    border: 1px solid #B7B7B7;
+    max-height: 500px;
+    max-width: 150px;
+    min-width: 50px;
+    left: -10px;
+    z-index: 0 !important;
+}
+
+.edit_text_dialog textarea{
+    max-width: 100px;
+    min-width: 50px;
+}
+
+.left{
+    float: left;
+}
+
+/* TABLE */
+
+table {
+    background: #FFFFFF;
+    border: solid 1px #DDDDDD;
+    margin-bottom: 1.25rem;
+    table-layout: auto;
+}
+
+table thead {
+    background: #F5F5F5;
+}
+
+table thead tr th, table tfoot tr th, table tfoot tr td, table tbody tr th, table tbody tr td, table tr td {
+    display: table-cell;
+    line-height: 1.125rem;
+}
+
+table thead tr th, table thead tr td {
+    color: #222222;
+    font-size: 1.5em;
+    font-weight: bold;
+    padding: 0.5rem 0.625rem 0.625rem;
+}
+
+thead tr{
+    cursor: default !important;
+}
+
+tbody tr{
+    cursor: pointer !important;
+}
+
+table tr th, table tr td {
+    color: #222222;
+    font-size: 1.3rem;
+    padding: 0.5625rem 0.625rem;
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* scrollable table */
+.scrollable tbody {
+    display: block;
+    overflow-y: auto;
+    max-height: 800px;
+    /*width: 100%;*/
+}
+
+/* make the rows 100% in width */
+.scrollable tr {
+    display: flex;
+}
+
+.scrollable td, .scroll th{
+    display: block;
+    flex: 1 auto;
+}

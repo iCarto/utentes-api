@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <title>Novo requerimento de solicitação de licen</title>
+  <link rel="stylesheet" type="text/css" href="/static/lib/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/static/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="/static/css/base.css">
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+</head>
+<body>
+
+  <div class="container-fluid">
+
+    <menu class="row">
+    </menu>
+
+
+
+    <div class="row">
+
+      <form class="col-xs-offset-3 col-xs-6">
+
+        <div class="row text-center" style="margin-bottom: 20px;">
+          <h1>Novo requerimento de solicitação de licença</h1>
+        </div>
+
+        <div id="form-exp_name-warning-message" class="alert alert-warning alert-dismissible" style="display:none;">
+          <strong>Atenção!</strong> Existe outro requerimento com o mesmo <strong>Nome da exploração</strong>.
+        </div>
+
+        <div class="row" style="margin-bottom: 35px;">
+          <div class="col-xs-12">
+            <div id="bt-toolbar" class="btn-group btn-group-justified" role="group">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" disabled>Anexar Documentação (<i class="fa fa-upload"></i>)</button>
+                </div>
+                <div class="btn-group" role="group">
+                    <button id="bt-ver-doc" type="button" class="btn btn-default" disabled>Transferir Documentação (<i class="fa fa-download"></i>)</button>
+                </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row panel-equal-height">
+
+          <div class="col-xs-6">
+            <div class="panel">
+            <div class="row">
+              <div class="col-xs-12">
+              <div class="form-group">
+                <label for="exp_name">Nome <i class="fa fa-question-circle" data-toggle="tooltip" title="Debe escribir un nome de al menos 3 caracteres"></i></label>
+                <input type="text" id="exp_name" class="form-control widget" required>
+              </div>
+            </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12">
+                <table class="table table-bordered table-checks">
+                  <thead>
+                    <tr><th>Tipo de Documento</th><th>Entrega</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Carta de requerimento de solicitação</td>
+                      <td><input id="carta_re" type="checkbox" required></td>
+                    </tr>
+                    <tr>
+                      <td>Ficha de pedido preenchida</td>
+                      <td><input id="ficha_pe" type="checkbox" required></td>
+                    </tr>
+                    <tr>
+                      <td>Identificação do proprietário</td>
+                      <td><input id="ident_pro" type="checkbox" required></td>
+                    </tr>
+                    <tr>
+                      <td>Certificado de registro comercial</td>
+                      <td><input id="certi_reg" type="checkbox" required></td>
+                    </tr>
+                    <tr>
+                      <td>DUAT</td>
+                      <td><input id="duat" type="checkbox" required></td>
+                    </tr>
+                    <tr>
+                      <td>Licença Ambiental (Se é preciso)</td>
+                      <td><input id="licen_am" type="checkbox"></td>
+                    </tr>
+                    <tr>
+                      <td>Mapa de localização</td>
+                      <td><input id="mapa" type="checkbox" required></td>
+                    </tr>
+                    <tr>
+                      <td>Autorização de apertura de poço/furo (Se é preciso)</td>
+                      <td><input id="licen_fu" type="checkbox"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          </div>
+
+          <div class="col-xs-6 panel-observacio">
+            <div class="panel">
+              <div class="form-group">
+                <label for="observacio">
+                  <div style="display:inline-block; width: 29%">
+                  Observações
+                  </div>
+                  <div id="js-btns-next" class="text-right" style="display:inline-block; width: 70%" >
+                    <!-- TODO. Los "siguientes estados" disponibles no deberían estar harcodeados en el html
+                    o bien, todos los botones deberían ser generados en otra parte, o de los dominios se deberían decidir que botones
+                    se pueden usar en el modo combo o algo así
+                    -->
+                    <button id="bt-ok" type="button" class="btn btn-default">Completa</button>
+                    <button id="bt-no" type="button" class="btn btn-primary">Incompleta</button>
+                  </div>
+                </label>
+                <textarea id="observacio" class="form-control widget"></textarea>
+              </div>
+            </div>
+            </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+<!-- javascript -->
+<script src="/static/node-interaction.js"></script>
+<script src="/static/lib/jquery/jquery-1.12.0.min.js"></script>
+<script src="/static/lib/bootstrap/js/bootstrap.min.js"></script>
+<script src="/static/lib/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
+<script src="/static/lib/underscore/underscore-min.js"></script>
+<script src="/static/lib/backbone/backbone-min.js"></script>
+<script src="/static/lib/bootbox.min.js"></script>
+
+<script src="/static/lib/moment-2.11.2/moment-with-locales.js"></script>
+<script src="/static/lib/numeral-js-1.5.3/min/languages.min.js"></script>
+<script src="/static/lib/numeral-js-1.5.3/min/numeral.min.js"></script>
+<script src="/static/lib/formatter/formatter.js"></script>
+
+<script src="/static/lib/schema-validator/validator.js"></script>
+
+<script src="/static/lib/backbone-geojson/Feature.js"></script>
+<script src="/static/lib/backbone-geojson/FeatureCollection.js"></script>
+
+<script src="/static/lib/backbone-uilib/models/Domain.js"></script>
+<script src="/static/lib/backbone-uilib/models/DomainCollection.js"></script>
+<script src="/static/lib/backbone-uilib/views/OptionView.js"></script>
+<script src="/static/lib/backbone-uilib/views/SelectView.js"></script>
+<script src="/static/lib/backbone-uilib/views/WidgetsView.js"></script>
+<script src="/static/lib/backbone-uilib/views/BaseView.js"></script>
+<script src="/static/lib/backbone-uilib/views/ModalView.js"></script>
+
+<script src="/static/views/common/NavBarView.js"></script>
+<script src="/static/views/common/ConfigModalView.js"></script>
+<script src="/static/Config.js"></script>
+
+<script src="/static/models/Fonte.js"></script>
+<script src="/static/models/FonteSchema.js"></script>
+<script src="/static/models/FonteCollection.js"></script>
+<script src="/static/models/TanquePiscicola.js"></script>
+<script src="/static/models/TanquePiscicolaCollection.js"></script>
+<script src="/static/models/Licencia.js"></script>
+<script src="/static/models/LicenciaSchema.js"></script>
+<script src="/static/models/LicenciaCollection.js"></script>
+<script src="/static/models/Utente.js"></script>
+<script src="/static/models/UtenteSchema.js"></script>
+<script src="/static/models/UtenteCollection.js"></script>
+<script src="/static/models/ActividadeRes.js"></script>
+<script src="/static/models/ResCollection.js"></script>
+<script src="/static/models/ActividadeNull.js"></script>
+<script src="/static/models/ActividadeCultivo.js"></script>
+<script src="/static/models/CultivoCollection.js"></script>
+<script src="/static/models/ActividadeNull.js"></script>
+<script src="/static/models/ActividadeAbastecimento.js"></script>
+<script src="/static/models/ActividadeEnergia.js"></script>
+<script src="/static/models/ActividadeIndustria.js"></script>
+<script src="/static/models/ActividadePecuaria.js"></script>
+<script src="/static/models/ActividadePiscicultura.js"></script>
+<script src="/static/models/CultivoCollection.js"></script>
+<script src="/static/models/ActividadeRegadia.js"></script>
+<script src="/static/models/ActividadeSaneamento.js"></script>
+<script src="/static/models/ActividadesSchema.js"></script>
+<script src="/static/models/Exploracao.js"></script>
+<script src="/static/models/ExploracaoSchema.js"></script>
+<script src="/static/models/ExploracaoCollection.js"></script>
+<script src="/static/models/Expediente.js"></script>
+
+<script src="/static/views/common/ModalTooltipEstadoLicenciaView.js"></script>
+<script src="/static/views/common/SelectLocationView.js"></script>
+<script src="/static/views/common/SelectBaciaView.js"></script>
+<script src="/static/views/common/ButtonSaveView.js"></script>
+<script src="/static/views/common/SelectActividadeView.js"></script>
+<script src="/static/views/common/SelectUtenteView.js"></script>
+<script src="/static/views/common/RowDeleteButtonView.js"></script>
+<script src="/static/views/new/RowFonteView.js"></script>
+<script src="/static/views/common/TableView.js"></script>
+<script src="/static/views/new/LicenseView.js"></script>
+
+<script src="/static/models/Setting.js"></script>
+
+<script src="/static/MyWorkflow.js"></script>
+<script src="/static/requerimento-new.js"></script>
+
+</body>
+</html>

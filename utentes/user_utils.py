@@ -34,6 +34,7 @@ class RootFactory(object):
                (Allow, ROL_ADMIN, PERM_UTENTES),
                (Allow, ROL_ADMIN, PERM_EXPLORACAO),
                (Allow, ROL_ADMIN, PERM_FACTURACAO),
+               (Allow, ROL_ADMIN, PERM_CULTIVO_TANQUE),
                (Allow, ROL_ADMIN, PERM_CREATE_REQUERIMENTO),
                (Allow, ROL_ADMIN, PERM_UPDATE_REQUERIMENTO),
 
@@ -48,6 +49,7 @@ class RootFactory(object):
                (Allow, ROL_TECNICO, PERM_UTENTES),
                (Allow, ROL_TECNICO, PERM_EXPLORACAO),
                (Allow, ROL_TECNICO, PERM_FACTURACAO),
+               (Allow, ROL_ADMIN, PERM_CULTIVO_TANQUE),
                (Allow, ROL_TECNICO, PERM_UPDATE_REQUERIMENTO),
 
                (Allow, ROL_JURIDICO, ROL_JURIDICO),

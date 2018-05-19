@@ -1,0 +1,29 @@
+.title{
+    color: #999;
+}
+
+html,
+body,
+main {
+    height: 100%;
+}
+
+#projects {
+    padding-top: 1em;
+}
+
+a:hover{
+    text-decoration: none;
+}
+
+a {
+    color: #00a2da;
+}
+
+a:hover {
+    color: #FE8433;
+}
+
+#panel-body-outros {
+    margin-bottom: 3%;
+}

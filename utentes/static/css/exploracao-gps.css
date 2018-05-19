@@ -1,0 +1,34 @@
+html,
+body{
+    width: 100%;
+    height: 100%;
+    background: white;
+}
+
+section.row{
+    height: 94%;
+}
+
+#map-pane {
+    float: left;
+    width: 100%;
+    height: 100%;
+}
+
+/* make actions more visually strong */
+
+.gps-toolbar ul{
+    font-size: 1.3em;
+}
+
+/* show actions in a horizontal way */
+.gps-toolbar li {
+    display: inline-block;
+}
+
+/* do not show button to import GPX action */
+input[type="file"],
+input[type="button"] {
+    position: fixed;
+    top: -1000px;
+}
