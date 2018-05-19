@@ -53,25 +53,25 @@ window.SIXHIARA.shpFieldsToExport = [
     { 'header': 'utente', 'value': 'utente.nome' },
     { 'header': 'uten_nuit', 'value': 'utente.nuit' },
     { 'header': 'abastecem',
-    'value': function (exp) { return exp.actividade.tipo === 'Abastecimento'; }
+    'value': function (exp) { return exp.actividade ? exp.actividade.tipo === 'Abastecimento' : false; }
     },
     { 'header': 'saneament',
-    'value': function (exp) { return exp.actividade.tipo === 'Saneamento'; }
+    'value': function (exp) { return exp.actividade ? exp.actividade.tipo === 'Saneamento' : false; }
     },
     { 'header': 'agricultu',
-    'value': function (exp) { return exp.actividade.tipo === 'Agricultura de Regadio'; }
+    'value': function (exp) { return exp.actividade ? exp.actividade.tipo === 'Agricultura de Regadio' : false; }
     },
     { 'header': 'pecuaria',
-    'value': function (exp) { return exp.actividade.tipo === 'Pecuária'; }
+    'value': function (exp) { return exp.actividade ? exp.actividade.tipo === 'Pecuária' : false;}
     },
     { 'header': 'piscicult',
-    'value': function (exp) { return exp.actividade.tipo === 'Piscicultura'; }
+    'value': function (exp) { return exp.actividade ? exp.actividade.tipo === 'Piscicultura' : false;}
     },
     { 'header': 'industria',
-    'value': function (exp) { return exp.actividade.tipo === 'Indústria'; }
+    'value': function (exp) { return exp.actividade ? exp.actividade.tipo === 'Indústria' : false;}
     },
     { 'header': 'pro_energ',
-    'value': function (exp) { return exp.actividade.tipo === 'Producção de energia'; }
+    'value': function (exp) { return exp.actividade ? exp.actividade.tipo === 'Producção de energia' : false; }
     },
     { 'header': 'con_l_to', 'value': 'c_licencia' },
     { 'header': 'tipo_subt',
