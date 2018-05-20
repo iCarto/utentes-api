@@ -125,7 +125,7 @@ class ActividadesAgriculturaRega(Actividade):
         return json
 
     def calculate_next_sequence(self, cultivos):
-        cult_id_sequence = [int(seq.cult_id.split('-')[2]) for seq in self.cultivos if seq.cult_id]
+        cult_id_sequence = [int(seq.cult_id.split('/')[3]) for seq in self.cultivos if seq.cult_id]
         if len(cult_id_sequence) == 0:
             return ActividadesAgriculturaRega.CULTIVO_NRO_SEQUENCE_FIRST
         else:
@@ -139,8 +139,9 @@ class ActividadesAgriculturaRega(Actividade):
                      ActividadesCultivos.create_from_json)
         next_cult_id_sequence = self.calculate_next_sequence(self.cultivos)
         for cultivo in self.cultivos:
-            cultivo.cult_id = json.get('exp_id') + '/{:03d}'.format(next_cult_id_sequence)
-            next_cult_id_sequence += 1
+            if not cultivo.cult_id:
+                cultivo.cult_id = json.get('exp_id') + '/{:03d}'.format(next_cult_id_sequence)
+                next_cult_id_sequence += 1
 
         # self.c_estimado = json.get('c_estimado')
         self.c_estimado = reduce(lambda x, y: x + y.c_estimado, self.cultivos, 0)
@@ -269,7 +270,7 @@ class ActividadesPiscicultura(Actividade):
         return json
 
     def calculate_next_sequence(self, tanques_piscicolas):
-        tanque_id_sequence = [int(seq.tanque_id.split('-')[2]) for seq in self.tanques_piscicolas if seq.tanque_id]
+        tanque_id_sequence = [int(seq.tanque_id.split('/')[3]) for seq in self.tanques_piscicolas if seq.tanque_id]
         if len(tanque_id_sequence) == 0:
             return ActividadesPiscicultura.TANQUE_NRO_SEQUENCE_FIRST
         else:
@@ -284,8 +285,9 @@ class ActividadesPiscicultura(Actividade):
                      ActividadesTanquesPiscicolas.create_from_json)
         next_tanque_id_sequence = self.calculate_next_sequence(self.tanques_piscicolas)
         for tanque in self.tanques_piscicolas:
-            tanque.tanque_id = json.get('exp_id') + '/{:03d}'.format(next_tanque_id_sequence)
-            next_tanque_id_sequence += 1
+            if not tanque.tanque_id:
+                tanque.tanque_id = json.get('exp_id') + '/{:03d}'.format(next_tanque_id_sequence)
+                next_tanque_id_sequence += 1
 
         for column in self.__mapper__.columns.keys():
             if column in SPECIAL_CASES:

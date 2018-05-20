@@ -84,6 +84,26 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
     setListeners: function(){
         var app = this;
 
+        this.on('change:exp_id', function(){
+            app.get('licencias').forEach(function(lic){
+                lic.set('lic_nro', app.get('exp_id') + '/' + lic.get('tipo_agua').substring(0, 3));
+            });
+            if (app.getActividadeTipo() === 'Agricultura de Regadio') {
+                app.get('actividade').get('cultivos').forEach(function(cult){
+                    var oldId = cult.get('cult_id');
+                    var newId = app.get('exp_id') + oldId.substring(oldId.length - 4);
+                    cult.set('cult_id', newId);
+                });
+            }
+            if (app.getActividadeTipo() === 'Piscicultura') {
+                app.get('actividade').get('tanques_piscicolas').forEach(function(tanque){
+                    var oldId =  tanque.get('tanque_id');
+                    var newId = app.get('exp_id') + oldId.substring(oldId.length - 4);
+                    tanque.set('tanque_id', newId);
+                });
+            }
+        });
+
         // licenses
         this.get('licencias').forEach(function(model){
             model.on('change:c_soli_tot', app.updateCSoli, app);
