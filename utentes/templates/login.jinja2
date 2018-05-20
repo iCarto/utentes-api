@@ -5,9 +5,11 @@
     <title>{{title}}</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="/static/lib/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/login.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/base.css">
+
+    {% assets "lib/bootstrap/css/bootstrap.css", "css/login.css", "css/base.css", output="dist/login.css", filters="cssutils" %}
+        <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}">
+    {% endassets %}
+
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
   </head>
 
@@ -26,8 +28,9 @@
 
     </div>
 
-    <script src="/static/lib/jquery/jquery-1.12.0.min.js"></script>
-    <script src="/static/lib/bootstrap/js/bootstrap.min.js"></script>
+    {% assets "lib/jquery/jquery-1.12.0.min.js", "lib/bootstrap/js/bootstrap.min.js", output="dist/login.js", filters="rjsmin" %}
+        <script src="{{ ASSET_URL }}"></script>
+    {% endassets %}
 
   </body>
 </html>

@@ -5,13 +5,19 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
   <title>Gestão de Utentes</title>
-  <link rel="stylesheet" type="text/css" href="/static/lib/bootstrap/css/bootstrap.min.css" />
-  <link rel="stylesheet" type="text/css" href="/static/lib/font-awesome/css/font-awesome.min.css">
-  <link rel="stylesheet" type="text/css" href="/static/lib/DataTables/DataTables-1.10.11/css/dataTables.bootstrap.css"/>
-  <link rel="stylesheet" type="text/css" href="/static/lib/DataTables/FixedHeader-3.1.1/css/fixedHeader.bootstrap.css"/>
-  <link rel="stylesheet" type="text/css" href="/static/lib/DataTables/Responsive-2.0.2/css/responsive.bootstrap.css"/>
-  <link rel="stylesheet" type="text/css" href="/static/css/utentes.css" />
-  <link rel="stylesheet" type="text/css" href="/static/css/base.css" />
+
+  {% assets
+  "lib/bootstrap/css/bootstrap.css",
+  "lib/font-awesome/css/font-awesome.css",
+  "lib/DataTables/DataTables-1.10.11/css/dataTables.bootstrap.css",
+  "lib/DataTables/FixedHeader-3.1.1/css/fixedHeader.bootstrap.css",
+  "lib/DataTables/Responsive-2.0.2/css/responsive.bootstrap.css",
+  "css/utentes.css",
+  "css/base.css",
+  output="dist/utentes.css", filters="cssrewrite,cssutils" %}
+        <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}">
+  {% endassets %}
+
   <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 
 </head>
@@ -199,52 +205,47 @@
   </script>
 
   <!-- javascri/static/pt -->
-  <script src="/static/node-interaction.js"></script>
-  <script src="/static/lib/jquery/jquery-1.12.0.min.js"></script>
-  <script src="/static/lib/bootstrap/js/bootstrap.min.js"></script>
-  <script src="/static/lib/underscore/underscore-min.js"></script>
-  <script src="/static/lib/backbone/backbone-min.js"></script>
-  <script src="/static/lib/bootbox.min.js"></script>
+  {% assets
+  "node-interaction.js",
+  "lib/jquery/jquery-1.12.0.min.js",
+  "lib/bootstrap/js/bootstrap.min.js",
+  "lib/underscore/underscore-min.js",
+  "lib/backbone/backbone.js",
+  "lib/bootbox.min.js",
+  "lib/DataTables/DataTables-1.10.11/js/jquery.dataTables.js",
+  "lib/DataTables/DataTables-1.10.11/js/dataTables.bootstrap.js",
+  "lib/DataTables/FixedHeader-3.1.1/js/dataTables.fixedHeader.js",
+  "lib/DataTables/Responsive-2.0.2/js/dataTables.responsive.js",
+  "lib/locale-sort.js",
+  "lib/moment-2.11.2/moment-with-locales.js",
+  "lib/numeral-js-1.5.3/min/languages.min.js",
+  "lib/numeral-js-1.5.3/min/numeral.min.js",
+  "lib/formatter/formatter.js",
+  "lib/schema-validator/validator.js",
+  "lib/backbone-geojson/Feature.js",
+  "lib/backbone-geojson/FeatureCollection.js",
+  "lib/backbone-uilib/models/Domain.js",
+  "lib/backbone-uilib/models/DomainCollection.js",
+  "lib/backbone-uilib/views/OptionView.js",
+  "lib/backbone-uilib/views/SelectView.js",
+  "lib/backbone-uilib/views/WidgetsView.js",
+  "lib/backbone-uilib/views/BaseView.js",
+  "lib/backbone-uilib/views/ModalView.js",
+  "views/common/NavBarView.js",
+  "views/common/ConfigModalView.js",
+  "Config.js",
+  "models/Setting.js",
+  "models/UtenteSchema.js",
+  "models/Utente.js",
+  "models/UtenteCollection.js",
+  "views/common/SelectLocationView.js",
+  "views/utentes/TableUtentes.js",
+  "utentes.js",
+  "MyWorkflow.js",
 
+  output="dist/utentes.js", filters="rjsmin" %}
+      <script src="{{ ASSET_URL }}"></script>
+  {% endassets %}
 
-  <script src="/static/lib/DataTables/DataTables-1.10.11/js/jquery.dataTables.js"></script>
-  <script src="/static/lib/DataTables/DataTables-1.10.11/js/dataTables.bootstrap.js"></script>
-  <script src="/static/lib/DataTables/FixedHeader-3.1.1/js/dataTables.fixedHeader.js"></script>
-  <script src="/static/lib/DataTables/Responsive-2.0.2/js/dataTables.responsive.js"></script>
-  <script src="/static/lib/locale-sort.js"></script>
-
-  <script src="/static/lib/moment-2.11.2/moment-with-locales.js"></script>
-  <script src="/static/lib/numeral-js-1.5.3/min/languages.min.js"></script>
-  <script src="/static/lib/numeral-js-1.5.3/min/numeral.min.js"></script>
-  <script src="/static/lib/formatter/formatter.js"></script>
-
-  <script src="/static/lib/schema-validator/validator.js"></script>
-
-  <script src="/static/lib/backbone-geojson/Feature.js"></script>
-  <script src="/static/lib/backbone-geojson/FeatureCollection.js"></script>
-
-  <script src="/static/lib/backbone-uilib/models/Domain.js"></script>
-  <script src="/static/lib/backbone-uilib/models/DomainCollection.js"></script>
-  <script src="/static/lib/backbone-uilib/views/OptionView.js"></script>
-  <script src="/static/lib/backbone-uilib/views/SelectView.js"></script>
-  <script src="/static/lib/backbone-uilib/views/WidgetsView.js"></script>
-  <script src="/static/lib/backbone-uilib/views/BaseView.js"></script>
-  <script src="/static/lib/backbone-uilib/views/ModalView.js"></script>
-
-  <script src="/static/views/common/NavBarView.js"></script>
-  <script src="/static/views/common/ConfigModalView.js"></script>
-  <script src="/static/Config.js"></script>
-
-  <script src="/static/models/Setting.js"></script>
-  <script src="/static/models/UtenteSchema.js"></script>
-  <script src="/static/models/Utente.js"></script>
-  <script src="/static/models/UtenteCollection.js"></script>
-
-  <script src="/static/views/common/SelectLocationView.js"></script>
-  <script src="/static/views/utentes/TableUtentes.js"></script>
-
-  <script src="/static/utentes.js"></script>
-
-  <script src="/static/MyWorkflow.js"></script>
 </body>
 </html>

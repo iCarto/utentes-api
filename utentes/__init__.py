@@ -66,9 +66,18 @@ def main(global_config, **settings):
     config.set_authentication_policy(authn_policy)
     config.set_authorization_policy(authz_policy)
 
-    config.include('pyramid_webassets')
     config.include('pyramid_jinja2')
+    config.include('pyramid_webassets')
+    # https://github.com/Pylons/pyramid_jinja2/issues/111
+    config.commit()
+
     config.add_jinja2_renderer('.html')
+
+    config.add_jinja2_extension('webassets.ext.jinja2.AssetsExtension')
+    assets_env = config.get_webassets_env()
+    jinja2_env = config.get_jinja2_environment()
+    jinja2_env.assets_environment = assets_env
+
 
     config.add_static_view('static', 'static', cache_max_age=3600)
 

@@ -5,10 +5,14 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
   <title>Gestão de Utentes</title>
-  <link rel="stylesheet" type="text/css" href="/static/lib/bootstrap/css/bootstrap.min.css" />
-  <link rel="stylesheet" type="text/css" href="/static/lib/font-awesome/css/font-awesome.min.css">
-  <link rel="stylesheet" type="text/css" href="/static/css/exploracao-new.css" />
-  <link rel="stylesheet" type="text/css" href="/static/css/base.css" />
+  {% assets
+  "lib/bootstrap/css/bootstrap.css",
+  "lib/font-awesome/css/font-awesome.css",
+  "css/exploracao-new.css",
+  "css/base.css",
+  output="dist/exploracao-new.css", filters="cssrewrite,cssutils" %}
+        <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}">
+  {% endassets %}
   <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 </head>
 <body>
@@ -560,85 +564,86 @@
 </script>
 
 <!-- javascript -->
-<script src="/static/node-interaction.js"></script>
-<script src="/static/lib/jquery/jquery-1.12.0.min.js"></script>
-<script src="/static/lib/bootstrap/js/bootstrap.min.js"></script>
-<script src="/static/lib/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
-<script src="/static/lib/underscore/underscore-min.js"></script>
-<script src="/static/lib/backbone/backbone-min.js"></script>
-<script src="/static/lib/bootbox.min.js"></script>
+{% assets
+"node-interaction.js",
+"lib/jquery/jquery-1.12.0.min.js",
+"lib/bootstrap/js/bootstrap.min.js",
+"lib/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js",
+"lib/underscore/underscore-min.js",
+"lib/backbone/backbone.js",
+"lib/bootbox.min.js",
+"lib/moment-2.11.2/moment-with-locales.js",
+"lib/numeral-js-1.5.3/min/languages.min.js",
+"lib/numeral-js-1.5.3/min/numeral.min.js",
+"lib/formatter/formatter.js",
 
+"lib/schema-validator/validator.js",
 
-<script src="/static/lib/moment-2.11.2/moment-with-locales.js"></script>
-<script src="/static/lib/numeral-js-1.5.3/min/languages.min.js"></script>
-<script src="/static/lib/numeral-js-1.5.3/min/numeral.min.js"></script>
-<script src="/static/lib/formatter/formatter.js"></script>
+"lib/backbone-geojson/Feature.js",
+"lib/backbone-geojson/FeatureCollection.js",
 
-<script src="/static/lib/schema-validator/validator.js"></script>
+"lib/backbone-uilib/models/Domain.js",
+"lib/backbone-uilib/models/DomainCollection.js",
+"lib/backbone-uilib/views/OptionView.js",
+"lib/backbone-uilib/views/SelectView.js",
+"lib/backbone-uilib/views/WidgetsView.js",
+"lib/backbone-uilib/views/BaseView.js",
+"lib/backbone-uilib/views/ModalView.js",
 
-<script src="/static/lib/backbone-geojson/Feature.js"></script>
-<script src="/static/lib/backbone-geojson/FeatureCollection.js"></script>
+"views/common/NavBarView.js",
+"views/common/ConfigModalView.js",
+"Config.js",
 
-<script src="/static/lib/backbone-uilib/models/Domain.js"></script>
-<script src="/static/lib/backbone-uilib/models/DomainCollection.js"></script>
-<script src="/static/lib/backbone-uilib/views/OptionView.js"></script>
-<script src="/static/lib/backbone-uilib/views/SelectView.js"></script>
-<script src="/static/lib/backbone-uilib/views/WidgetsView.js"></script>
-<script src="/static/lib/backbone-uilib/views/BaseView.js"></script>
-<script src="/static/lib/backbone-uilib/views/ModalView.js"></script>
+"models/Fonte.js",
+"models/FonteSchema.js",
+"models/FonteCollection.js",
+"models/TanquePiscicola.js",
+"models/TanquePiscicolaCollection.js",
+"models/Licencia.js",
+"models/LicenciaSchema.js",
+"models/LicenciaCollection.js",
+"models/Utente.js",
+"models/UtenteSchema.js",
+"models/UtenteCollection.js",
+"models/ActividadeRes.js",
+"models/ResCollection.js",
+"models/ActividadeNull.js",
+"models/ActividadeCultivo.js",
+"models/CultivoCollection.js",
+"models/ActividadeNull.js",
+"models/ActividadeAbastecimento.js",
+"models/ActividadeEnergia.js",
+"models/ActividadeIndustria.js",
+"models/ActividadePecuaria.js",
+"models/ActividadePiscicultura.js",
+"models/CultivoCollection.js",
+"models/ActividadeRegadia.js",
+"models/ActividadeSaneamento.js",
+"models/ActividadesSchema.js",
+"models/Exploracao.js",
+"models/ExploracaoSchema.js",
+"models/ExploracaoCollection.js",
+"models/Estado.js",
+"models/EstadoCollection.js",
+"models/Expediente.js",
 
-<script src="/static/views/common/NavBarView.js"></script>
-<script src="/static/views/common/ConfigModalView.js"></script>
-<script src="/static/Config.js"></script>
+"views/common/ModalTooltipEstadoLicenciaView.js",
+"views/common/SelectLocationView.js",
+"views/common/SelectBaciaView.js",
+"views/common/ButtonSaveView.js",
+"views/common/SelectActividadeView.js",
+"views/common/SelectUtenteView.js",
+"views/common/RowDeleteButtonView.js",
+"views/new/RowFonteView.js",
+"views/common/TableView.js",
+"views/new/LicenseView.js",
+"models/Setting.js",
 
-<script src="/static/models/Fonte.js"></script>
-<script src="/static/models/FonteSchema.js"></script>
-<script src="/static/models/FonteCollection.js"></script>
-<script src="/static/models/TanquePiscicola.js"></script>
-<script src="/static/models/TanquePiscicolaCollection.js"></script>
-<script src="/static/models/Licencia.js"></script>
-<script src="/static/models/LicenciaSchema.js"></script>
-<script src="/static/models/LicenciaCollection.js"></script>
-<script src="/static/models/Utente.js"></script>
-<script src="/static/models/UtenteSchema.js"></script>
-<script src="/static/models/UtenteCollection.js"></script>
-<script src="/static/models/ActividadeRes.js"></script>
-<script src="/static/models/ResCollection.js"></script>
-<script src="/static/models/ActividadeNull.js"></script>
-<script src="/static/models/ActividadeCultivo.js"></script>
-<script src="/static/models/CultivoCollection.js"></script>
-<script src="/static/models/ActividadeNull.js"></script>
-<script src="/static/models/ActividadeAbastecimento.js"></script>
-<script src="/static/models/ActividadeEnergia.js"></script>
-<script src="/static/models/ActividadeIndustria.js"></script>
-<script src="/static/models/ActividadePecuaria.js"></script>
-<script src="/static/models/ActividadePiscicultura.js"></script>
-<script src="/static/models/CultivoCollection.js"></script>
-<script src="/static/models/ActividadeRegadia.js"></script>
-<script src="/static/models/ActividadeSaneamento.js"></script>
-<script src="/static/models/ActividadesSchema.js"></script>
-<script src="/static/models/Exploracao.js"></script>
-<script src="/static/models/ExploracaoSchema.js"></script>
-<script src="/static/models/ExploracaoCollection.js"></script>
-<script src="/static/models/Estado.js"></script>
-<script src="/static/models/EstadoCollection.js"></script>
-<script src="/static/models/Expediente.js"></script>
-
-<script src="/static/views/common/ModalTooltipEstadoLicenciaView.js"></script>
-<script src="/static/views/common/SelectLocationView.js"></script>
-<script src="/static/views/common/SelectBaciaView.js"></script>
-<script src="/static/views/common/ButtonSaveView.js"></script>
-<script src="/static/views/common/SelectActividadeView.js"></script>
-<script src="/static/views/common/SelectUtenteView.js"></script>
-<script src="/static/views/common/RowDeleteButtonView.js"></script>
-<script src="/static/views/new/RowFonteView.js"></script>
-<script src="/static/views/common/TableView.js"></script>
-<script src="/static/views/new/LicenseView.js"></script>
-
-<script src="/static/models/Setting.js"></script>
-
-<script src="/static/MyWorkflow.js"></script>
-<script src="/static/exploracao-new.js"></script>
+"MyWorkflow.js",
+"exploracao-new.js",
+output="dist/exploracao-new.js", filters="rjsmin" %}
+    <script src="{{ ASSET_URL }}"></script>
+{% endassets %}
 
 
 </body>

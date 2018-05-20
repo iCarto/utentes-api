@@ -15,7 +15,8 @@ requires = [
     'transaction',
     'zope.sqlalchemy',
     'waitress',
-    'six'
+    'six',
+    'cssutils==1.0.2',
 ]
 
 excludes = ["utentes.tests", ]
