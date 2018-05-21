@@ -3,7 +3,7 @@
 *.egg-info
 *.pyc
 build/
-dist/
+# dist/
 
 ## Unit test / coverage reports
 .coverage
