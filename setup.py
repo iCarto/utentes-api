@@ -16,13 +16,17 @@ requires = [
     'zope.sqlalchemy',
     'waitress',
     'six',
+    'bcrypt==3.1.4'
     'cssutils==1.0.2',
+    'closure==20180204',
+    'pyramid-jinja2==2.7',
+    'pyramid-webassets==0.9',
 ]
 
 excludes = ["utentes.tests", ]
 
 setup(name='utentes',
-      version='0.0',
+      version='20180522,
       description='utentes',
       author='iCarto',
       author_email='info@icarto.es',
