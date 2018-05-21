@@ -437,9 +437,8 @@ var MyWorkflow = {
     }
 };
 
-
+window['wf'] = Object.create(MyWorkflow);
 $(document).ready(function() {
-    window['wf'] = Object.create(MyWorkflow);
     wf.fixMenu();
     wf.disabledWidgets('menu');
 });

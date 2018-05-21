@@ -1,0 +1,3 @@
+Vtable.dataTable.fixedHeader-floating,\u000atable.dataTable.fixedHeader-locked {\u000a  background-color: white;\u000a  margin-top: 0 !important;\u000a  margin-bottom: 0 !important;\u000a}\u000a\u000atable.dataTable.fixedHeader-floating {\u000a  position: fixed !important;\u000a}\u000a\u000atable.dataTable.fixedHeader-locked {\u000a  position: absolute !important;\u000a}\u000a\u000a@media print {\u000a  table.fixedHeader-floating {\u000a    display: none;\u000a  }\u000a}\u000a
+p1
+.
