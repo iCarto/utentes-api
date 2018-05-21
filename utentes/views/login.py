@@ -43,6 +43,8 @@ def login(request):
         user = get_user_from_db(request)
         if user:
             headers = remember(request, user.username)
+            if user.usergroup == u'D. Financeiro' and next == request.route_url(request.registry.settings.get('users.after_login_url')):
+                next = request.route_url('facturacao')
             response = HTTPFound(
                 location=next,
                 headers=headers

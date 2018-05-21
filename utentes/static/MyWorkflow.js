@@ -55,6 +55,10 @@ var MyWorkflow = {
             document.getElementById('facturacao').parentNode.remove();
         }
 
+        if (ROL_FINANCIERO === user) {
+            document.getElementById('requerimento-pendente').parentNode.remove();
+        }
+
         document.getElementById('user-info').innerHTML = this.getUser();
 
         if (this.getUser() === this.UNIQUE_USER) {

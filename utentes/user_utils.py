@@ -42,7 +42,6 @@ class RootFactory(object):
                (Allow, ROL_ADMINISTRATIVO, PERM_UPDATE_REQUERIMENTO),
 
                (Allow, ROL_FINANCIERO, PERM_FACTURACAO),
-               (Allow, ROL_FINANCIERO, PERM_UPDATE_REQUERIMENTO),
 
                (Allow, ROL_DIRECCION, PERM_UPDATE_REQUERIMENTO),
 
