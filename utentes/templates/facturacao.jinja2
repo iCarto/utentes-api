@@ -139,7 +139,7 @@
 <script type="text/template" id="exploracao-li-tmpl">
   <li class="row exploracao" id="exp_id-<%- exp_id %>">
     <span class="col-xs-12 pull-left" >
-      <a href="#"><%- exp_id %> <%- exp_name %></a> <small style="color: grey; font-size: 75%"><%= '(' + (actividade && actividade.tipo || 'Non declarada') + ')' %></small>
+      <a href="#"><%- exp_id %> <%- exp_name %></a> <small style="color: grey; font-size: 75%"><%= '(' + (actividade && actividade.tipo || 'Não declarada') + ')' %></small>
       <br>
         <small><%- licencias && licencias[0] && licencias[0].tipo_agua && licencias[0].tipo_agua + ' (' + licencias[0].estado + ')' || '-' %> / <%- licencias && licencias[1] && licencias[1].tipo_agua && licencias[1].tipo_agua + ' (' + licencias[1].estado + ')' || '-' %></small>
     </span>

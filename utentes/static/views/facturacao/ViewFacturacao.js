@@ -11,7 +11,7 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
     // at runtime.
     id: 'myid', // optional
     template: _.template(`
-    <div class="row" style="margin-bottom: 15px; margin-top: 10px">
+    <div class="row" style="margin-bottom: 10px; margin-top: 10px">
         <div class="col-xs-12">
             <div id="bt-toolbar" class="btn-group btn-group-justified" role="group">
                 <div class="btn-group" role="group">
@@ -21,7 +21,7 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
                     <button id="bt-ver-doc" type="button" class="btn btn-default" disabled>Transferir Documentação (<i class="fa fa-download"></i>)</button>
                 </div>
                 <div class="btn-group" role="group">
-                    <a id="bt-ficha" class="btn btn-default" role="button" href="/static/exploracao-show.html?id=<%- id %>">Ficha</a>
+                    <a id="bt-ficha" class="btn btn-default" role="button" href="/exploracao-show.html?id=<%- id %>">Ficha</a>
                 </div>
                 <div class="btn-group" role="group">
                     <button id="bt-emision" type="button" class="btn btn-default" disabled>Factura (emissão licença)</button>
@@ -33,8 +33,8 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
         </div>
     </div>
 
-<h4 style="margin-bottom: 20px;">
-  <a href="#"><%- exp_id %> <%- exp_name %></a> <small style="color: grey; font-size: 75%"><%= '(' + (actividade && actividade.tipo || 'Non declarada') + ')' %></small>
+<h4 style="margin-bottom: 10px;">
+  <a href="#"><%- exp_id %> <%- exp_name %></a> <small style="color: grey; font-size: 75%"><%= '(' + (actividade && actividade.tipo || 'Não declarada') + ')' %></small>
   <br>
   <small><%- licencias && licencias[0] && licencias[0].tipo_agua && licencias[0].tipo_agua + ' (' + licencias[0].estado + ')' || '-' %> / <%- licencias && licencias[1] && licencias[1].tipo_agua && licencias[1].tipo_agua + ' (' + licencias[1].estado + ')' || '-' %></small>
   <br>
@@ -44,13 +44,13 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
   <small style="font-size: 65%;" ><%- utente['nome'] %></small>
 </h4>
 
-    <div class="row form-horizontal" style="margin-top: 25px">
+    <div class="row form-horizontal" style="margin-top: 10px">
 
         <div class="col-xs-4">
             <div class="form-group" style="margin-left: 0px; margin-right: 0px">
-                <label for="pago_lic" class="control-label col-xs-8" style="text-align: left">Pagamento emissão licença</label>
-                <div class="col-xs-4">
-                    <select class="form-control" id="pago_lic" disabled>
+                <label for="pago_lic" class="control-label col-xs-9" style="text-align: left">Pagamento emissão licença</label>
+                <div class="col-xs-3" style="padding-left: 10px; padding-right: 10px;">
+                    <select class="form-control" style="padding: 3px 5px;" id="pago_lic" disabled>
                         <option>Sim</option>
                         <option selected>Não</option>
                     </select>
@@ -60,9 +60,9 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
 
         <div class="col-xs-4">
             <div class="form-group" style="margin-left: 0px; margin-right: 0px">
-                <label for="pagos" class="control-label col-xs-8" style="text-align: left">Pagamento consumos</label>
-                <div class="col-xs-4">
-                    <select class="form-control" id="pagos" disabled>
+                <label for="pagos" class="control-label col-xs-9" style="text-align: left">Pagamento consumos</label>
+                <div class="col-xs-3" style="padding-left: 10px; padding-right: 10px;">
+                    <select class="form-control" style="padding: 3px 5px;" id="pagos" disabled>
                         <option>Sim</option>
                         <option selected>Não</option>
                     </select>
@@ -72,9 +72,9 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
 
         <div class="form-group col-xs-4">
             <div class="form-group" style="margin-left: 0px; margin-right: 0px">
-                <label for="fact_tipo" class="control-label col-xs-6" style="text-align: left">Tipo de facturação</label>
-                <div class="col-xs-6">
-                    <select class="form-control" id="fact_tipo" disabled>
+                <label for="fact_tipo" class="control-label col-xs-7" style="text-align: left">Tipo de facturação</label>
+                <div class="col-xs-5" style="padding-left: 10px; padding-right: 10px;">
+                    <select class="form-control" style="padding: 3px 3px;" id="fact_tipo" disabled>
                         <option selected>Mensal</option>
                         <option>Trimestral</option>
                         <option>Anual</option>

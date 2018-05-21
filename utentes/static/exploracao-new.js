@@ -81,13 +81,13 @@ estados.fetch({
                             'd_soli': new Date(),
                         }, {silent: true});
                     }
-                    exploracao.set('exp_id', expedientes.get('new_exp_id'));
+                    exploracao.set('exp_id', expedientes.get('new_exp_id'), {silent: true});
                     document.getElementById('exp_id').placeholder = expedientes.get('new_exp_id');
                     doIt();
                     if (estados.getARA() === 'ARAS') {
                         document.querySelectorAll('#licencia-superficial #estado')[0].parentNode.remove();
                         document.querySelectorAll('#licencia-subterranea #estado')[0].parentNode.remove();
-                        exploracao.set('state_to_set_after_validation', 'Utente de facto');
+                        exploracao.set('state_to_set_after_validation', 'Utente de facto', {silent: true});
                         document.getElementById('save-button').innerHTML = 'Criar Utente de facto';
                     }
                 },
