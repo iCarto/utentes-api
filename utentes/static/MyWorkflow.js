@@ -65,10 +65,10 @@ var MyWorkflow = {
             document.getElementById('requerimento-new').parentNode.remove();
             document.getElementById('facturacao').parentNode.remove();
             document.getElementById('requerimento-pendente').parentNode.remove();
-            document.getElementById('user-info').remove();
+            document.getElementById('search-all').parentNode.remove();
             var navAdmin = document.getElementById('nav-admin');
             var settings = document.getElementById('settings');
-            navAdmin.replaceWith(settings)
+            navAdmin.replaceWith(settings);
         }
     },
 

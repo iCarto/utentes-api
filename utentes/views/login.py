@@ -14,7 +14,7 @@ def login(request):
         user = get_unique_user()
         headers = remember(request, user.username)
         response = HTTPFound(
-            location='/static/exploracao-search.html',
+            location='/exploracao-search.html',
             headers=headers
         )
         response.set_cookie('utentes_stub_user', value=user.username)

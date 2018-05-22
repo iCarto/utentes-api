@@ -18,7 +18,6 @@ requires = [
     'six',
     'bcrypt==3.1.4',
     'cssutils==1.0.2',
-    'closure==20180204',
     'pyramid-jinja2==2.7',
     'pyramid-webassets==0.9',
 ]
