@@ -13,3 +13,5 @@ build/
 *~
 node_modules
 .idea
+utentes/static/.webassets-cache/
+utentes/static/dist/
