@@ -18,11 +18,10 @@ Backbone.SIXHIARA.ViewSecretaria2 = Backbone.SIXHIARA.View1.extend({
   </div>
 </div>
 
-<h3>
-<%- formatter().formatDate(created_at) %> - <span style="color:#00a2da"><%- exp_name %></span> <span style="color: grey"><%= '(' + (actividade && actividade.tipo || 'Não declarada') + ').' %></span>
-<%- licencias && licencias[0] && licencias[0].tipo_agua || '-' %> / <%- licencias && licencias[1] && licencias[1].tipo_agua || '-' %>
-</h3>
-<h4 style="margin-bottom: 20px;"><%- exp_id %></h4>
+<h4 style="margin-bottom: 20px;">
+<%- formatter().formatDate(created_at) + ' - ' %><span style="color:#00a2da"><%- exp_id + ' '%> <%- exp_name %></span> <span style="color: grey"><%= ' (' + (actividade && actividade.tipo || 'Não declarada') + '). ' %></span>
+<%- (licencias && licencias[0] && licencias[0].tipo_agua || '-') + ' / ' %><%- licencias && licencias[1] && licencias[1].tipo_agua || '-' %>
+</h4>
 
 
       <div class="form-group" style="margin-top: 40px">

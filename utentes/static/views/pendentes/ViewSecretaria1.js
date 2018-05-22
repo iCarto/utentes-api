@@ -15,10 +15,9 @@ Backbone.SIXHIARA.ViewSecretaria1 = Backbone.SIXHIARA.View1.extend({
   </div>
 </div>
 
-<h3>
-<%- formatter().formatDate(created_at) %> - <span style="color:#00a2da"><%- exp_name %></span>
-</h3>
-<h4 style="margin-bottom: 20px;"><%- exp_id %></h4>
+<h4 style="margin-bottom: 20px;">
+<%- formatter().formatDate(created_at) + ' - ' %><span style="color:#00a2da"><%- exp_id + ' '%> <%- exp_name %></span>
+</h4>
 
 <div class="row panel-equal-height">
   <div class="col-xs-6">
@@ -32,35 +31,35 @@ Backbone.SIXHIARA.ViewSecretaria1 = Backbone.SIXHIARA.View1.extend({
           <tbody>
             <tr>
               <td>Carta de requerimento de solicitação</td>
-              <td><input id="carta_re" type="checkbox" <%- carta_re ? 'checked' : '' %> required></td>
+              <td><input id="carta_re" type="checkbox" <%- carta_re ? 'checked=""' : '' %> required></td>
             </tr>
             <tr>
               <td>Ficha de pedido preenchida</td>
-              <td><input id="ficha_pe" type="checkbox" <%- ficha_pe ? 'checked' : '' %> required></td>
+              <td><input id="ficha_pe" type="checkbox" <%- ficha_pe ? 'checked=""' : '' %> required></td>
             </tr>
             <tr>
               <td>Identificação do proprietário</td>
-              <td><input id="ident_pro" type="checkbox" <%- ident_pro ? 'checked' : '' %> required></td>
+              <td><input id="ident_pro" type="checkbox" <%- ident_pro ? 'checked=""' : '' %> required></td>
             </tr>
             <tr>
               <td>Certificado de registro comercial</td>
-              <td><input id="certi_reg" type="checkbox" <%- certi_reg ? 'checked' : '' %> required></td>
+              <td><input id="certi_reg" type="checkbox" <%- certi_reg ? 'checked=""' : '' %> required></td>
             </tr>
             <tr>
               <td>DUAT</td>
-              <td><input id="duat" type="checkbox" <%- duat ? 'checked' : '' %> required></td>
+              <td><input id="duat" type="checkbox" <%- duat ? 'checked=""' : '' %> required></td>
             </tr>
             <tr>
               <td>Licença Ambiental (Se é preciso)</td>
-              <td><input id="licen_am" type="checkbox" <%- licen_am ? 'checked' : '' %>></td>
+              <td><input id="licen_am" type="checkbox" <%- licen_am ? 'checked=""' : '' %>></td>
             </tr>
             <tr>
               <td>Mapa de localização</td>
-              <td><input id="mapa" type="checkbox" <%- mapa ? 'checked' : '' %> required></td>
+              <td><input id="mapa" type="checkbox" <%- mapa ? 'checked=""' : '' %> required></td>
             </tr>
             <tr>
               <td>Autorização de apertura de poço/furo (Se é preciso)</td>
-              <td><input id="licen_fu" type="checkbox" <%- licen_fu ? 'checked' : '' %>></td>
+              <td><input id="licen_fu" type="checkbox" <%- licen_fu ? 'checked=""' : '' %>></td>
             </tr>
           </tbody>
         </table>

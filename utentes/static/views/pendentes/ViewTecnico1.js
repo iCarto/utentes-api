@@ -24,11 +24,10 @@ Backbone.SIXHIARA.ViewTecnico1 = Backbone.SIXHIARA.View1.extend({
   </div>
 </div>
 
-<h3>
-<%- formatter().formatDate(created_at) %> - <span style="color:#00a2da"><%- exp_name %></span> <span style="color: grey"><%= '(' + (actividade && actividade.tipo || 'Não declarada') + ').' %></span>
-<%- licencias && licencias[0] && licencias[0].tipo_agua || '-' %> / <%- licencias && licencias[1] && licencias[1].tipo_agua || '-' %>
-</h3>
-<h4 style="margin-bottom: 20px;"><%- exp_id %></h4>
+<h4 style="margin-bottom: 20px;">
+<%- formatter().formatDate(created_at) + ' - ' %><span style="color:#00a2da"><%- exp_id + ' '%> <%- exp_name %></span> <span style="color: grey"><%= ' (' + (actividade && actividade.tipo || 'Não declarada') + '). ' %></span>
+<%- (licencias && licencias[0] && licencias[0].tipo_agua || '-') + ' / ' %><%- licencias && licencias[1] && licencias[1].tipo_agua || '-' %>
+</h4>
 
 <div class="row panel-equal-height">
   <div class="col-xs-6">
@@ -42,19 +41,19 @@ Backbone.SIXHIARA.ViewTecnico1 = Backbone.SIXHIARA.View1.extend({
           <tbody>
             <tr>
               <td>Análise da documentação</td>
-              <td><input id="anali_doc" type="checkbox" <%- anali_doc ? 'checked' : '' %> required></td>
+              <td><input id="anali_doc" type="checkbox" <%- anali_doc ? 'checked=""' : '' %> required></td>
             </tr>
             <tr>
               <td>Solicitação da visitoria</td>
-              <td><input id="soli_visit" type="checkbox" <%- soli_visit ? 'checked' : '' %> required></td>
+              <td><input id="soli_visit" type="checkbox" <%- soli_visit ? 'checked=""' : '' %> required></td>
             </tr>
             <tr>
               <td>Parecer da Unidade</td>
-              <td><input id="p_unid" type="checkbox" <%- p_unid ? 'checked' : '' %> required></td>
+              <td><input id="p_unid" type="checkbox" <%- p_unid ? 'checked=""' : '' %> required></td>
             </tr>
             <tr>
               <td>Parecer Técnico</td>
-              <td><input id="p_tec" type="checkbox" <%- p_tec ? 'checked' : '' %> required></td>
+              <td><input id="p_tec" type="checkbox" <%- p_tec ? 'checked=""' : '' %> required></td>
             </tr>
           </tbody>
         </table>

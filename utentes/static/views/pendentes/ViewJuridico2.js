@@ -18,11 +18,10 @@ Backbone.SIXHIARA.ViewJuridico2 = Backbone.SIXHIARA.View1.extend({
   </div>
 </div>
 
-<h3>
-<%- formatter().formatDate(created_at) %> - <span style="color:#00a2da"><%- exp_name %></span> <span style="color: grey"><%= '(' + (actividade && actividade.tipo || 'Não declarada') + ').' %></span>
-<%- licencias && licencias[0] && licencias[0].tipo_agua || '-' %> / <%- licencias && licencias[1] && licencias[1].tipo_agua || '-' %>
-</h3>
-<h4 style="margin-bottom: 20px;"><%- exp_id %></h4>
+<h4 style="margin-bottom: 20px;">
+<%- formatter().formatDate(created_at) + ' - ' %><span style="color:#00a2da"><%- exp_id + ' '%> <%- exp_name %></span> <span style="color: grey"><%= ' (' + (actividade && actividade.tipo || 'Não declarada') + '). ' %></span>
+<%- (licencias && licencias[0] && licencias[0].tipo_agua || '-') + ' / ' %><%- licencias && licencias[1] && licencias[1].tipo_agua || '-' %>
+</h4>
 
 
 <div class="row panel-equal-height">
@@ -37,15 +36,15 @@ Backbone.SIXHIARA.ViewJuridico2 = Backbone.SIXHIARA.View1.extend({
           <tbody>
             <tr>
               <td>Documentação legal</td>
-              <td><input id="doc_legal" type="checkbox" <%- doc_legal ? 'checked' : '' %> required></td>
+              <td><input id="doc_legal" type="checkbox" <%- doc_legal ? 'checked=""' : '' %> required></td>
             </tr>
             <tr>
               <td>Parecer Técnico</td>
-              <td><input id="p_juri" type="checkbox" <%- p_juri ? 'checked' : '' %> required></td>
+              <td><input id="p_juri" type="checkbox" <%- p_juri ? 'checked=""' : '' %> required></td>
             </tr>
             <tr>
               <td>Parecer de instituições relevantes</td>
-              <td><input id="p_rel" type="checkbox" <%- p_rel ? 'checked' : '' %> required></td>
+              <td><input id="p_rel" type="checkbox" <%- p_rel ? 'checked=""' : '' %> required></td>
             </tr>
           </tbody>
         </table>

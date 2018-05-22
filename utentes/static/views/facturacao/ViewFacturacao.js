@@ -85,7 +85,6 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
 
     </div>
 
-    <!-- https://stackoverflow.com/questions/20503064/ -->
     <div class="row panel-equal-height">
 
         <div class="col-xs-4">

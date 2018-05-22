@@ -145,9 +145,7 @@
       <br>
       <small><%- estado_lic %></small>
       <br>
-      <small><%- formatter().formatDate(created_at) %> </small>
-      <br>
-      <small><%- licencias && licencias[0] && licencias[0].tipo_agua || '-' %> / <%- licencias && licencias[1] && licencias[1].tipo_agua || '-' %></small>
+      <small><%- formatter().formatDate(created_at) %> </small>&nbsp;<small><%- licencias && licencias[0] && licencias[0].tipo_agua || '-' %> / <%- licencias && licencias[1] && licencias[1].tipo_agua || '-' %></small>
     </span>
   </li>
 </script>
