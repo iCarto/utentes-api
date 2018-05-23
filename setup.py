@@ -7,10 +7,10 @@ here = os.path.abspath(os.path.dirname(__file__))
 requires = [
     'pyramid==1.6.1',
     'pyramid_debugtoolbar',
-    'psycopg2==2.6.1',
+    'psycopg2==2.7.4',
     'SQLAlchemy==1.0.11',
     'geoalchemy2==0.2.6',
-    # 'shapely==1.5.13',
+     # 'shapely==1.5.13',
     'python-dateutil==2.5.0',
     'transaction',
     'zope.sqlalchemy',

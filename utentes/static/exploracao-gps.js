@@ -124,3 +124,6 @@ cultivos.fetch();
 
 var tanques = new Backbone.SIXHIARA.TanquePiscicolaCollection();
 tanques.fetch();
+
+var estados = new Backbone.SIXHIARA.EstadoCollection();
+estados.fetch();

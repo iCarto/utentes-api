@@ -19,7 +19,6 @@
 
       <form class="form-signin" method="post" action="{{request.route_url('login')}}">
         <h2 class="form-signin-heading">{{title}}</h2>
-        <small>'admin', 'administrativo', 'financieiro', 'secretaria', 'tecnico', 'juridico'</small>
         <input name="user" type="text" class="form-control" placeholder="Utilizador">
         <input name="passwd" type="password" class="form-control" placeholder="Senha">
         <input type="hidden" name="next" value="{{next}}">
