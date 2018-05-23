@@ -15,42 +15,39 @@ Backbone.SIXHIARA.NavBarView = Backbone.View.extend({
                     <li><a id="utentes" href="utentes.html">
                         <strong>UTENTES</strong>
                     </a></li>
-                    <li><a id="requerimento-new" href="requerimento-new.html">
-                        <strong>CRIAR</strong>
-                    </a></li>
-
                     <li><a id="facturacao" href="facturacao.html">
                         <strong>FACTURAÇÃO</strong>
                     </a></li>
-
+                    <li><a id="requerimento-new" href="requerimento-new.html">
+                        <strong>CRIAR</strong>
+                    </a></li>
                     <li><a id="requerimento-pendente" href="requerimento-pendente.html">
                         <strong>PENDENTES</strong>
                     </a></li>
-
-                    <li><a id="search-all" href="exploracao-search.html?all">
-                        <strong>TODAS</strong>
-                    </a></li>
-
                     <li id="nav-adicionar" class="dropdown uilib-enability uilib-show-role-administrador uilib-show-role-tecnico">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false"><strong>ADICIONAR <span class="caret"></span></strong></a>
                         <ul class="dropdown-menu">
                           <li><a id="new" href="exploracao-new.html"><strong>EXPLORAÇAO</strong></a></li>
-                          <li><a id="gps" href="exploracao-gps.html"><strong>XEOMETRÍA</strong></a></li>
+                          <li><a id="gps" href="exploracao-gps.html"><strong>GEOMETRIA</strong></a></li>
                         </ul>
                     </li>
+                    <li><a id="search-all" href="exploracao-search.html?all">
+                        <strong>TUDAS</strong>
+                    </a></li>
+
                 </ul>
 
 
                 <ul class="nav navbar-nav navbar-right">
                     <li id="nav-admin" class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                           aria-expanded="false"><span id="user-info">Utilizador</span> <span class="caret"></span></a>
+                           aria-expanded="false"><span id="user-info">Utilizador</span><span class="caret"></span></a>
                         <ul class="dropdown-menu">
                           <li><a id="user-info-link" href="/utilizador">Perfil</a></li>
                           <li class="uilib-enability uilib-show-role-administrador"><a href="/utilizadores">Utilizadores</a></li>
                           <li id="settings" class="uilib-enability uilib-show-role-administrador"><a href="#">
-                            Configuração <i class="fa fa-cog"></i>
+                            Configuração&nbsp;<i class="fa fa-cog"></i>
                           </a></li>
                           <li role="separator" class="divider"></li>
                           <li class="dropdown-header"></li>

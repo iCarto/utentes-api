@@ -2,14 +2,14 @@ Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.ViewJuridico2 = Backbone.SIXHIARA.View1.extend({
 
     template: _.template(`
-        <div class="row" style="margin-bottom: 35px; margin-top: 10px">
+        <div id="bt-toolbar" class="row">
   <div class="col-xs-12">
-    <div id="bt-toolbar" class="btn-group btn-group-justified" role="group">
+    <div class="btn-group btn-group-justified" role="group">
 <div class="btn-group" role="group">
-    <button type="button" class="btn btn-default" disabled>Anexar Documentação (<i class="fa fa-upload"></i>)</button>
+    <button type="button" class="btn btn-default" disabled>Anexar Documentação&nbsp;(<i class="fa fa-upload"></i>)</button>
 </div>
 <div class="btn-group" role="group">
-    <button id="bt-ver-doc" type="button" class="btn btn-default" disabled>Transferir Documentação (<i class="fa fa-download"></i>)</button>
+    <button id="bt-ver-doc" type="button" class="btn btn-default" disabled>Transferir Documentação&nbsp;(<i class="fa fa-download"></i>)</button>
 </div>
 <div class="btn-group" role="group">
     <a id="bt-ficha" class="btn btn-default" role="button" href="/exploracao-show.html?id=<%- id %>">Ficha</a>
@@ -65,10 +65,10 @@ Backbone.SIXHIARA.ViewJuridico2 = Backbone.SIXHIARA.View1.extend({
             o bien, todos los botones deberían ser generados en otra parte, o de los dominios se deberían decidir que botones
             se pueden usar en el modo combo o algo así
             -->
-            <button id="bt-ok" type="button" class="btn btn-default btn-sm" style="padding-left:7px; padding-right: 7px;">Imprimir (licença)</button>
+            <button id="bt-ok" type="button" class="btn btn-default btn-sm" style="padding-left:7px; padding-right: 7px;">Imprimir&nbsp;(licença)</button>
             <button id="bt-no" type="button" class="btn btn-primary btn-sm" style="padding-left:7px; padding-right: 7px;">Incompleta</button>
             <button id="bt-noaprobada" type="button" class="btn btn-primary btn-sm" style="padding-left:7px; padding-right: 7px;">Não aprovada</button>
-            <button id="bt-defacto" type="button" class="btn btn-info btn-sm" style="padding-left:7px; padding-right: 7px;">Utente de facto</button>
+            <button id="bt-defacto" type="button" class="btn btn-danger btn-sm" style="padding-left:7px; padding-right: 7px;">Utente de facto</button>
           </div>
         </label>
         <textarea id="observacio" class="form-control widget"></textarea>

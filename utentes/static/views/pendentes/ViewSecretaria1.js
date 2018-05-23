@@ -2,14 +2,14 @@ Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.ViewSecretaria1 = Backbone.SIXHIARA.View1.extend({
 
     template: _.template(`
-        <div class="row" style="margin-bottom: 35px; margin-top: 10px">
+        <div id="bt-toolbar" class="row">
   <div class="col-xs-12">
-    <div id="bt-toolbar" class="btn-group btn-group-justified" role="group">
+    <div class="btn-group btn-group-justified" role="group">
         <div class="btn-group" role="group">
-            <button type="button" class="btn btn-default" disabled>Anexar Documentação (<i class="fa fa-upload"></i>)</button>
+            <button type="button" class="btn btn-default" disabled>Anexar Documentação&nbsp;(<i class="fa fa-upload"></i>)</button>
         </div>
         <div class="btn-group" role="group">
-            <button id="bt-ver-doc" type="button" class="btn btn-default" disabled>Transferir Documentação (<i class="fa fa-download"></i>)</button>
+            <button id="bt-ver-doc" type="button" class="btn btn-default" disabled>Transferir Documentação&nbsp;(<i class="fa fa-download"></i>)</button>
         </div>
     </div>
   </div>
@@ -50,7 +50,7 @@ Backbone.SIXHIARA.ViewSecretaria1 = Backbone.SIXHIARA.View1.extend({
               <td><input id="duat" type="checkbox" <%- duat ? 'checked=""' : '' %> required></td>
             </tr>
             <tr>
-              <td>Licença Ambiental (Se é preciso)</td>
+              <td>Licença Ambiental&nbsp;(Se é preciso)</td>
               <td><input id="licen_am" type="checkbox" <%- licen_am ? 'checked=""' : '' %>></td>
             </tr>
             <tr>
@@ -58,7 +58,7 @@ Backbone.SIXHIARA.ViewSecretaria1 = Backbone.SIXHIARA.View1.extend({
               <td><input id="mapa" type="checkbox" <%- mapa ? 'checked=""' : '' %> required></td>
             </tr>
             <tr>
-              <td>Autorização de apertura de poço/furo (Se é preciso)</td>
+              <td>Autorização de apertura de poço/furo&nbsp;(Se é preciso)</td>
               <td><input id="licen_fu" type="checkbox" <%- licen_fu ? 'checked=""' : '' %>></td>
             </tr>
           </tbody>

@@ -105,7 +105,7 @@ function fillExploracao(e, autosave) {
                 'success': function(model) {
                     var exp_id = model.get('exp_id');
                     var exp_name = model.get('exp_name');
-                    bootbox.alert(`A exploração <strong>${exp_id} - ${exp_name}</strong> tem sido criada correctamente.`, function(){
+                    bootbox.alert(`A exploração&nbsp;<strong>${exp_id} - ${exp_name}</strong>&nbsp;tem sido criada correctamente.`, function(){
                         window.location = Backbone.SIXHIARA.Config.urlPendentes;
                     });
                 },
