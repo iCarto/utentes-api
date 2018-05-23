@@ -36,7 +36,7 @@ Backbone.SIXHIARA.ViewJuridico2 = Backbone.SIXHIARA.View1.extend({
           <tbody>
             <tr>
               <td>Documentação legal</td>
-              <td><input id="doc_legal" type="checkbox" <%- doc_legal ? 'checked=""' : '' %> required></td>
+              <td><input id="doc_legal" type="checkbox" checked required disabled></td>
             </tr>
             <tr>
               <td>Parecer Técnico</td>

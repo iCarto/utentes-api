@@ -12,7 +12,7 @@ class FacturacaoFactEstado(DeclarativeBase):
         'order_by': ['category', 'ordering', 'key']
     }
 
-    ESTADOS_FACTURABLES = ['Licenciada', 'Irregular', 'Utente de facto']
+    ESTADOS_FACTURABLES = ['Licenciada', 'Utente de facto']
 
     category = Column(Text, nullable=False, primary_key=True)
     key = Column(Text, nullable=False, primary_key=True)

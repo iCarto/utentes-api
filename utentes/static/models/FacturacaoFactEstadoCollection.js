@@ -15,10 +15,6 @@ Backbone.SIXHIARA.FacturacaoFactEstadoCollection = Backbone.UILib.DomainCollecti
             'order': 0,
         },{
             'category': 'licencia_estado',
-            'text': 'Irregular',
-            'order': 1,
-        },{
-            'category': 'licencia_estado',
             'text': 'Licenciada',
             'order': 2,
         },{
