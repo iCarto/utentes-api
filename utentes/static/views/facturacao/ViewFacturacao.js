@@ -200,7 +200,7 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
 
                   <div class="form-group col-xs-6">
                       <label for="iva">IVA <i class="units">(%)</i></label>
-                      <input type="text" class="form-control widget-number" id="iva" pattern="[0-9]{1,2}?" value="<%- formatter().formatNumber(facturacao[facturacao.length - 1].iva, '0[.]00') %>" disabled>
+                      <input type="text" class="form-control widget-number" id="iva" pattern="[0-9]{1,8}([,][0-9]{1,2})?" value="<%- formatter().formatNumber(facturacao[facturacao.length - 1].iva, '0[.]00') %>" disabled>
                   </div>
 
                   <div class="form-group col-xs-6">
@@ -253,7 +253,8 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
     */
     init: function() {
         self = this;
-        var currentComment = this.model.get('req_obs').slice(-1)[0];
+        var fact = this.model.get('facturacao').slice(-1)[0];
+        var currentComment = fact['observacio'].slice(-1)[0];
         if (currentComment.text) {
             document.getElementById('observacio').value = currentComment.text;
         }

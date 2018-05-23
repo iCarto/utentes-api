@@ -44,7 +44,7 @@ Backbone.SIXHIARA.Licencia = Backbone.Model.extend({
         }
 
         if (this.get('iva') === null) {
-            this.set('iva', 17);
+            this.set('iva', 12.75);
         }
 
         this.on('change:taxa_fixa change:taxa_uso change:consumo_fact', this.updatePagoMes, this);

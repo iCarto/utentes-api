@@ -79,9 +79,9 @@ def nuevo_ciclo_facturacion(request):
             f.pago_mes_sub = None
             f.pago_iva_sup = None
             f.pago_iva_sub = None
-            f.iva_sup = None
-            f.iva_sub = None
-            f.iva = None
+            f.iva_sup = lic_sup.iva
+            f.iva_sub = lic_sub.iva
+            f.iva = lic_sup.iva or lic_sub.iva
             f.pago_mes = None
             f.pago_iva = None
 

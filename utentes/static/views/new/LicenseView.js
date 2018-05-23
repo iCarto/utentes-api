@@ -17,7 +17,7 @@ Backbone.SIXHIARA.LicenseView = Backbone.UILib.BaseView.extend({
             'lic_nro': this.model.get('exp_id') ? this.model.get('exp_id') + '/' + this.tipo_agua.substring(0, 3) : null,
             'taxa_fixa': this.model.get('exp_id') ? 0 : null,
             'taxa_uso': this.model.get('exp_id') ? 0 : null,
-            'iva': this.model.get('exp_id') ? 0 : null,
+            'iva': 12.75,
         });
 
         this.updateModelView = new Backbone.UILib.WidgetsView({

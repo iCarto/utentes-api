@@ -29,7 +29,7 @@ class Licencia(Base):
     taxa_fixa = Column(Numeric(10, 2), nullable=False, doc='Taxa fixa')
     taxa_uso = Column(Numeric(10, 2), nullable=False, doc='Taxa de uso')
     pago_mes = Column(Numeric(10, 2), doc='Valor pago mensual')
-    iva = Column(Integer, nullable=False, doc='IVA')
+    iva = Column(Numeric(10, 2), nullable=False, doc='IVA')
     pago_iva = Column(Numeric(10, 2), doc='Valor com IVA')
     consumo_tipo = Column(Text, nullable=False, server_default=text("'Variável'::text"))
     consumo_fact = Column(Numeric(10, 2), doc='Consumo facturado mensal')
@@ -67,7 +67,7 @@ class Licencia(Base):
         self.taxa_fixa = to_decimal(json.get('taxa_fixa'))
         self.taxa_uso = to_decimal(json.get('taxa_uso'))
         self.pago_mes = to_decimal(json.get('pago_mes'))
-        self.iva = json.get('iva')
+        self.iva = to_decimal(json.get('iva'))
         self.pago_iva = to_decimal(json.get('pago_iva'))
         self.consumo_tipo = json.get('consumo_tipo') or u'Variável'
         self.consumo_fact = to_decimal(json.get('consumo_fact'))
