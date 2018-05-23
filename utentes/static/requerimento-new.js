@@ -25,15 +25,17 @@ function init() {
 }
 
 function validateName(name) {
-  $("#form-warning-message").hide()
+  $("#form-exp_name-warning-message").hide()
   var expList = expedientes.get('list');
+  var newName = accentNeutralise(name)
   for (exp in expList) {
-    if (expList[exp]['exp_name'] === name) {
-      $("#form-warning-message").show()
+        var existentName = accentNeutralise(expList[exp]['exp_name']);
+    if (existentName === newName) {
+      $("form-exp_name-warning-message").show();
+      return;
     }
   }
 }
-
 
 function enableBts() {
     var exp_name = document.getElementById('exp_name');

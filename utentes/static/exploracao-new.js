@@ -23,6 +23,7 @@ function validateID() {
   for (exp in expList) {
     if (expList[exp]['exp_id'] === exp_id.value) {
       $("#form-exp_id-warning-message").show()
+      return;
     }
   }
 }
@@ -30,9 +31,12 @@ function validateID() {
 function validateName() {
   $("#form-exp_name-warning-message").hide()
   var expList = expedientes.get('list');
+  var newName = accentNeutralise(exp_name.value)
   for (exp in expList) {
-    if (expList[exp]['exp_name'] === exp_name.value) {
+      var existentName = accentNeutralise(expList[exp]['exp_name']);
+    if (existentName === newName) {
       $("#form-exp_name-warning-message").show()
+      return;
     }
   }
 }
