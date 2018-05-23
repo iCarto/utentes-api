@@ -117,7 +117,12 @@ var actionsToolbar = new L.Toolbar.Control({
 var table = L.control.table(geoJsonLayer, {featOrderTitle: 'Ordem'}).addTo(map);
 
 var exploracaos = new Backbone.SIXHIARA.ExploracaoCollection();
-exploracaos.fetch();
+exploracaos.fetch({
+    parse: true,
+    success: function() {
+        exploracaos = exploracaos.withFicha();
+    }
+});
 
 var cultivos = new Backbone.SIXHIARA.CultivoCollection();
 cultivos.fetch();
