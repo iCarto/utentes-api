@@ -18,12 +18,20 @@
     <div class="container">
 
       <form class="form-signin" method="post" action="{{request.route_url('login')}}">
+        <img src="/static/img/logo.png" style="width: 100%" alt="logo ara">
         <h2 class="form-signin-heading">{{title}}</h2>
+
         <input name="user" type="text" class="form-control" placeholder="Utilizador">
         <input name="passwd" type="password" class="form-control" placeholder="Senha">
         <input type="hidden" name="next" value="{{next}}">
         <input type="submit" name="submit" value="Entrar" class="btn btn-large btn-primary text-center">
+
+        <div style="margin: 0 auto; width: 100%; text-align: center; margin-top: 20px">
+            <img src="/static/img/xunta_coop_icarto_1.png" style="width: 100%" alt="logos">
+        </div>
+
       </form>
+
 
     </div>
 
