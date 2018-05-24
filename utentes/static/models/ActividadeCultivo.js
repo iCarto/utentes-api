@@ -30,7 +30,7 @@ Backbone.SIXHIARA.ActividadeCultivo = Backbone.GeoJson.Feature.extend({
     eficienciaByRega: function() {
         var eficiencia = 0;
         switch (this.get('rega')) {
-        case 'Asperção':
+        case 'Aspersão':
             eficiencia = 0.76;
             break;
         case 'Goteo':
