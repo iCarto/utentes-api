@@ -229,3 +229,10 @@ with or whithout another 'observacio-anteriores' textarea
     margin-bottom: 22px;
     margin-top: 22px;
 }
+
+#js-btns-next {
+    display: inline-block;
+    /* width: 76% */
+    float: right;
+    text-align: right;
+}

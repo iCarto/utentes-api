@@ -55,9 +55,4 @@ def login(request):
             response.set_cookie('utentes_stub_role', value=usergroup)
             return response
 
-    return {'title': 'Login Utentes', 'next': next}
-
-
-@view_config(route_name='pending', renderer='json')
-def pending(request):
-    return {'title': 'Login Utentes'}
+    return {'title': 'SIRHAS: Utentes', 'next': next}

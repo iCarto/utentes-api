@@ -60,7 +60,7 @@ Backbone.SIXHIARA.ViewJuridico2 = Backbone.SIXHIARA.View1.extend({
           <div style="display:inline-block; width: 18%">
           Observações
           </div>
-          <div id="js-btns-next" class="text-right" style="display:inline-block; width: 81%" >
+          <div id="js-btns-next">
             <!-- TODO. Los "siguientes estados" disponibles no deberían estar harcodeados en el html
             o bien, todos los botones deberían ser generados en otra parte, o de los dominios se deberían decidir que botones
             se pueden usar en el modo combo o algo así

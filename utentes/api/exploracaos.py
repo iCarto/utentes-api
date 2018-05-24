@@ -217,9 +217,9 @@ def validate_entities(request, body):
     regexpExpIdFormat = '^\d{3}\/' + request.registry.settings.get('ara') + '\/\d{4}$'
     validatorExploracao.add_rule('EXP_ID_FORMAT', {'fails': lambda v: v and (not re.match(regexpExpIdFormat, v))})
 
+    validatorExploracao.add_rule('ACTIVITY_NOT_NULL', {'fails': activity_fail})
     if Licencia.implies_validate_ficha(body.get('estado_lic')):
         validatorExploracao.appendSchema(EXPLORACAO_SCHEMA_CON_FICHA)
-        validatorExploracao.add_rule('ACTIVITY_NOT_NULL', {'fails': activity_fail})
 
     msgs = validatorExploracao.validate(body)
 

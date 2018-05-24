@@ -92,7 +92,6 @@ def add_routes_views(config):
     config.add_route('index', '/')
     config.add_route('login', '/login')
     config.add_route('logout', '/logout')
-    config.add_route('pending', '/pending')
     config.add_route('user', '/utilizador')
     config.add_route('user_id', '/utilizador/{id}')
     config.add_route('users', '/utilizadores')
