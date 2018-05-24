@@ -55,11 +55,11 @@ LICENCIA_SCHEMA = [{
 }, {
     'fieldname': 'taxa_fixa',
     'message': 'Taxa fixa da licença não tem o formato correto',
-    'rules': ['NOT_NULL', 'IS_NUMERIC', 'INT_LESS_THAN_8']
+    'rules': ['IS_NUMERIC', 'INT_LESS_THAN_8']
 }, {
     'fieldname': 'taxa_uso',
     'message': 'Taxa de uso da licença não tem o formato correto',
-    'rules': ['NOT_NULL', 'IS_NUMERIC', 'INT_LESS_THAN_8']
+    'rules': ['IS_NUMERIC', 'INT_LESS_THAN_8']
 }, {
     'fieldname': 'pago_mes',
     'message': 'Valor pago mensual da licença não tem o formato correto',
