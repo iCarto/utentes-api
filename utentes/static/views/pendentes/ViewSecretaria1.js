@@ -42,11 +42,11 @@ Backbone.SIXHIARA.ViewSecretaria1 = Backbone.SIXHIARA.View1.extend({
               <td><input id="ident_pro" type="checkbox" <%- ident_pro ? 'checked=""' : '' %> required></td>
             </tr>
             <tr>
-              <td>Certificado de registro comercial</td>
+              <td>Certificado de registo comercial</td>
               <td><input id="certi_reg" type="checkbox" <%- certi_reg ? 'checked=""' : '' %> required></td>
             </tr>
             <tr>
-              <td>DUAT</td>
+              <td>DUAT ou declaração das estructuras locais (bairro)</td>
               <td><input id="duat" type="checkbox" <%- duat ? 'checked=""' : '' %> required></td>
             </tr>
             <tr>
@@ -90,7 +90,7 @@ Backbone.SIXHIARA.ViewSecretaria1 = Backbone.SIXHIARA.View1.extend({
             <textarea class="form-control widget" id="observacio_ant" disabled>
 <% for (var i=0; i<req_obs.length - 1; i+=1) {
 if (req_obs[i]['text']) {
-print('El ' + formatter().formatDate(req_obs[i]['create_at']) + ', ' + req_obs[i]['author'] + ', escribió: ' + req_obs[i]['text'] + '&#13;&#10;&#13;&#10;');
+print('O ' + formatter().formatDate(req_obs[i]['create_at']) + ', ' + req_obs[i]['author'] + ', escreveu: ' + req_obs[i]['text'] + '&#13;&#10;&#13;&#10;');
 }
 }
 %>

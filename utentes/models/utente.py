@@ -27,8 +27,8 @@ class Utente(Base):
     loc_distri = Column(Text, doc='Distrito')
     loc_posto = Column(Text, doc='Posto administrativo')
     loc_nucleo = Column(Text, doc='Bairro')
-    reg_comerc = Column(Text, doc='Nro de Registro Comercial')
-    reg_zona = Column(Text, doc='Registrado em')
+    reg_comerc = Column(Text, doc='Nro de Registo Comercial')
+    reg_zona = Column(Text, doc='Registado em')
     observacio = Column(Text, doc='Observações da actividade')
 
     exploracaos = relationship('Exploracao',

@@ -90,7 +90,7 @@ Backbone.SIXHIARA.ViewTecnico1 = Backbone.SIXHIARA.View1.extend({
        <textarea class="form-control widget" id="observacio_ant" rows="7" disabled>
 <% for (var i=0; i<req_obs.length - 1; i+=1) {
 if (req_obs[i]['text']) {
-print('El ' + formatter().formatDate(req_obs[i]['create_at']) + ', ' + req_obs[i]['author'] + ', escribió: ' + req_obs[i]['text'] + '&#13;&#10;&#13;&#10;');
+print('O ' + formatter().formatDate(req_obs[i]['create_at']) + ', ' + req_obs[i]['author'] + ', escreveu: ' + req_obs[i]['text'] + '&#13;&#10;&#13;&#10;');
 }
 }
 %>

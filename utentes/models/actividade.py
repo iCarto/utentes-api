@@ -73,7 +73,7 @@ class ActividadesAbastecemento(Actividade):
 
     gid = Column(ForeignKey(u'utentes.actividades.gid', ondelete=u'CASCADE', onupdate=u'CASCADE'), primary_key=True)
     c_estimado = Column(Numeric(10, 2), doc='Consumo mensal estimado')
-    habitantes = Column(Integer, doc='Número de  habitantes')  # , server_default=text("20"))
+    habitantes = Column(Integer, doc='Número de habitantes (Utilizadores)')  # , server_default=text("20"))
     dotacao = Column(Integer, doc='Dotação (l/pessoa/dia)')
 
     __mapper_args__ = {
@@ -339,7 +339,7 @@ class ActividadesSaneamento(Actividade):
 
     gid = Column(ForeignKey(u'utentes.actividades.gid', ondelete=u'CASCADE', onupdate=u'CASCADE'), primary_key=True)
     c_estimado = Column(Numeric(10, 2), doc='Consumo mensal estimado')
-    habitantes = Column(Integer, doc='Nro de habitantes')
+    habitantes = Column(Integer, doc='Nro de habitantes (Utilizadores)')
 
     __mapper_args__ = {
         'polymorphic_identity': u'Saneamento',

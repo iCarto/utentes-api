@@ -228,7 +228,7 @@ Backbone.SIXHIARA.TableUtentes = Backbone.View.extend({
         "sLengthMenu":     "Mostrar _MENU_ registos",
         "sZeroRecords":    "Não foram encontrados resultados",
         "sEmptyTable":     "Não há dados disponíveis sobre esta tabela",
-        // "sInfo":           "Mostrando registros del _START_ al _END_ de um total de _TOTAL_ registros",
+        // "sInfo":           "Mostrando registos del _START_ al _END_ de um total de _TOTAL_ registos",
         "sInfo":           "_START_/_END_ de _TOTAL_",
         "sInfoEmpty":      "0/0 de 0",
         "sInfoFiltered":   "(filtrado de _MAX_ registos no total)",

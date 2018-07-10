@@ -18,7 +18,7 @@ var formatValue = function(k, v, rowData) {
         v = '<i class="edit fa fa-pencil-square-o uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"></i>';
     } else if (k === 'delete'){
         v = '<i class="delete fa fa-trash uilib-enability uilib-show-role-administrador"></i>';
-    } else if (k === 'registro'){
+    } else if (k === 'registo'){
         var com = rowData.get('reg_comerc'),
             zon = rowData.get('reg_zona');
 
@@ -59,10 +59,10 @@ var tableUtentes = new Backbone.SIXHIARA.TableUtentes({
     el: $('#the_utentes_table'),
     collection: utentes,
     domains: domains,
-    columnNames: ['nome', 'uten_tipo', 'registro', 'localizacion', 'exploracaos', 'observacio', 'edit', 'delete'],
+    columnNames: ['nome', 'uten_tipo', 'registo', 'localizacion', 'exploracaos', 'observacio', 'edit', 'delete'],
   // 'edit' & 'delete' column are used to render the buttons
   // 'nuit', Is show with 'nome' and not it its own column
-  // 'reg_comerc', 'reg_zona' are shown as 'registro'
+  // 'reg_comerc', 'reg_zona' are shown as 'registo'
   // 'loc_provin', 'loc_distri', 'loc_posto', 'loc_nucleo' are shown as 'localizacion'
     columnsWithOutTitle: ['edit', 'delete'],
     columnTitles: {
@@ -70,9 +70,9 @@ var tableUtentes = new Backbone.SIXHIARA.TableUtentes({
         'nome':        'Nome / Nuit',
         'uten_tipo':    'Tipo de utente',
         'nuit':        'Nuit',
-        'registro':    'Registro (Nro / em)',
-        'reg_comerc':  'Nro Registro Comercial',
-        'reg_zona':    'Registrado em',
+        'registo':    'Registo (Nro / em)',
+        'reg_comerc':  'Nro Registo Comercial',
+        'reg_zona':    'Registado em',
         'localizacion':'Localizaçao',
         'loc_provin':  'Província',
         'loc_distri':  'Distrito',

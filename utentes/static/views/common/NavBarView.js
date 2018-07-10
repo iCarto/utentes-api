@@ -33,7 +33,7 @@ Backbone.SIXHIARA.NavBarView = Backbone.View.extend({
                         </ul>
                     </li>
                     <li><a id="search-all" href="exploracao-search.html?all">
-                        <strong>TUDAS</strong>
+                        <strong>TODAS</strong>
                     </a></li>
 
                 </ul>
@@ -51,7 +51,7 @@ Backbone.SIXHIARA.NavBarView = Backbone.View.extend({
                           </a></li>
                           <li role="separator" class="divider"></li>
                           <li class="dropdown-header"></li>
-                          <li><a href="/logout">Cerrar Sesión</a></li>
+                          <li><a href="/logout">Fechar sessão</a></li>
                         </ul>
                     </li>
                 </ul>
