@@ -38,6 +38,12 @@ Backbone.SIXHIARA.BlockLicenseView = Backbone.View.extend({
             this.$('#addFonte').addClass('hidden');
             this.$('#removeLicense').addClass('hidden');
         }
+        /*
+        fact_tipo no es una propiedad de cada licencia. Si no que es común a ambas
+        por lo que debería estar en un "emplazamiento" común a ambas y no hackeear de esta forma
+        o si no, igual hay que inyectarlo en el modelo de la Licencia o meterlo de verdad
+        */
+        this.$('span.js_fact_tipo').text(this.model.get('fact_tipo'));
         return this;
     },
 
