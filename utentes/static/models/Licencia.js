@@ -83,18 +83,19 @@ Backbone.SIXHIARA.Licencia = Backbone.Model.extend({
     },
 
     impliesValidateActivity: function() {
+        var E = Backbone.SIXHIARA.Estado;
         return ! [
-            'Desconhecido',
-            'Irregular',
-            'Não aprovada',
-            'Documentação incompleta (Pendente utente - D. Adm)',
-            'Documentação incompleta (Pendente utente - Direcção)',
-            'Documentação incompleta (Pendente utente - D. Jur)',
-            'Documentação incompleta (Pendente utente - R. Cad DT)',
-            'Documentação incompleta (Pendente utente - D. Fin)',
-            'Pendente Revisão Pedido Licença (Direcção)',
-            'Pendente Análise Pedido Licença (D. Jur)',
-            'Pendente Visita Campo (R. Cad DT)',
+            E.UNKNOWN,
+            E.IRREGULAR,
+            E.NOT_APPROVED,
+            E.INCOMPLETE_DA,
+            E.INCOMPLETE_DIR,
+            E.INCOMPLETE_DJ,
+            E.INCOMPLETE_DT,
+            E.INCOMPLETE_DF,
+            E.PENDING_REVIEW_DIR,
+            E.PENDING_REVIEW_DJ,
+            E.PENDING_FIELD_VISIT,
         ].includes(this.get('estado'));
     },
 

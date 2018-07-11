@@ -2,13 +2,13 @@
 
 from sqlalchemy import Boolean, Column, Integer, Numeric, Text, DateTime, UniqueConstraint, text
 from sqlalchemy import ForeignKey
-# from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql.json import JSONB
 
 from utentes.models.base import (
     Base,
     PGSQL_SCHEMA_UTENTES,
 )
+from utentes.models.facturacao_fact_estado import PENDING_CONSUMPTION
 
 
 class Facturacao(Base):
@@ -28,7 +28,7 @@ class Facturacao(Base):
     ano = Column(Text, nullable=False, server_default=text("to_char(now(), 'YYYY'::text)"))
     mes = Column(Text, nullable=False, server_default=text("to_char(now(), 'MM'::text)"))
     observacio = Column(JSONB)
-    fact_estado = Column(Text, nullable=False, server_default=text("'Pendiente introducir consumo'::text"))
+    fact_estado = Column(Text, nullable=False, server_default=text("'{}'::text".format(PENDING_CONSUMPTION)))
     fact_tipo = Column(Text, nullable=False, server_default=text("'Mensal'::text"))
     pago_lic = Column(Boolean)
     pagos = Column(Boolean)

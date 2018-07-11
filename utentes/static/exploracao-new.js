@@ -43,6 +43,7 @@ function validateName() {
 
 estados.fetch({
     success: function() {
+        var LIC_ST = Backbone.SIXHIARA.Estado;
         var params = new URLSearchParams(document.location.search.substring(1));
         var id = params.get('id');
         if (id) {
@@ -53,7 +54,7 @@ estados.fetch({
                     domains.fetch({
                         success: function(collection, response, options) {
                             fillComponentsWithDomains();
-                            if ((exploracao.get('estado_lic') !== 'Pendente Visita Campo (R. Cad DT)') && (exploracao.get('estado_lic') !== 'Documentação incompleta (Pendente utente - R. Cad DT)')) {
+                            if ((exploracao.get('estado_lic') !== LIC_ST.PENDING_FIELD_VISIT) && (exploracao.get('estado_lic') !== LIC_ST.INCOMPLETE_DT)) {
                                 // To avoid call it twice, for example clicking back browser button
                                 window.location = Backbone.SIXHIARA.Config.urlShow + exploracao.get('id');
                             }
@@ -81,7 +82,7 @@ estados.fetch({
                     fillComponentsWithDomains();
                     if (estados.getARA() === 'ARAS') {
                         exploracao.set({
-                            'estado_lic': 'Pendente Visita Campo (R. Cad DT)',
+                            'estado_lic': LIC_ST.PENDING_FIELD_VISIT,
                             'd_soli': new Date(),
                         }, {silent: true});
                     }
@@ -91,7 +92,7 @@ estados.fetch({
                     if (estados.getARA() === 'ARAS') {
                         document.querySelectorAll('#licencia-superficial #estado')[0].parentNode.remove();
                         document.querySelectorAll('#licencia-subterranea #estado')[0].parentNode.remove();
-                        exploracao.set('state_to_set_after_validation', 'Utente de facto', {silent: true});
+                        exploracao.set('state_to_set_after_validation', Backbone.SIXHIARA.Estado.DE_FACTO, {silent: true});
                         document.getElementById('save-button').innerHTML = 'Criar Utente de facto';
                     }
                 },

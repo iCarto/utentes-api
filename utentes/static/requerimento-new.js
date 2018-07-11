@@ -13,8 +13,9 @@ function init() {
     });
 
     var wf_tmp = Object.create(MyWorkflow);
-    var nextStateOk = wf_tmp.whichNextState('Não existe', {target:{id: 'bt-ok'}});
-    var nextStateNo = wf_tmp.whichNextState('Não existe', {target:{id: 'bt-no'}});
+    var NOT_EXISTS = Backbone.SIXHIARA.Estado.NOT_EXISTS;
+    var nextStateOk = wf_tmp.whichNextState(NOT_EXISTS, {target:{id: 'bt-ok'}});
+    var nextStateNo = wf_tmp.whichNextState(NOT_EXISTS, {target:{id: 'bt-no'}});
     document.getElementById('bt-ok').title = nextStateOk;
     document.getElementById('bt-no').title = nextStateNo;
 
@@ -58,7 +59,7 @@ function enableBts() {
 
 
 function fillExploracao(e, autosave) {
-    var exploracao = new Backbone.SIXHIARA.Exploracao({'estado_lic': 'Não existe'});
+    var exploracao = new Backbone.SIXHIARA.Exploracao({'estado_lic': Backbone.SIXHIARA.Estado.NOT_EXISTS});
     exploracao.set('req_obs', [{
         'create_at': null,
         'author': null,

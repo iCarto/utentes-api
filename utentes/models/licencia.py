@@ -4,6 +4,15 @@ from sqlalchemy import Column, Date, ForeignKey, Integer, Numeric, Text, text
 
 from utentes.lib.formatter.formatter import to_decimal, to_date
 from utentes.models.base import Base, PGSQL_SCHEMA_UTENTES
+from .estado import (
+    LICENSED,
+    IRREGULAR,
+    DE_FACTO,
+    PENDING_DIR_SIGN,
+    PENDING_FIELD_VISIT,
+    PENDING_EMIT_LICENSE,
+    PENDING_TECH_DECISION
+)
 
 
 class Licencia(Base):
@@ -112,22 +121,22 @@ class Licencia(Base):
         # En realidad no deberían ser iguales validate_ficha y validate_activity
         # en validate_ficha sería sólo validar not null loc_provin, ...
         return estado in [
-            u'Irregular',
-            u'Licenciada',
-            u'Pendente Parecer Técnico (R. Cad DT)',
-            u'Pendente Emisão Licença (D. Jur)',
-            u'Pendente Firma Licença (Direcção)',
-            u'Utente de facto',
+            IRREGULAR,
+            LICENSED,
+            PENDING_TECH_DECISION,
+            PENDING_EMIT_LICENSE,
+            PENDING_DIR_SIGN,
+            DE_FACTO,
         ]
 
     @staticmethod
     def implies_validate_ficha(estado):
         return estado in [
-            u'Irregular',
-            u'Licenciada',
-            u'Pendente Visita Campo (R. Cad DT)',  #
-            u'Pendente Parecer Técnico (R. Cad DT)',
-            u'Pendente Emisão Licença (D. Jur)',
-            u'Pendente Firma Licença (Direcção)',
-            u'Utente de facto',
+            IRREGULAR,
+            LICENSED,
+            PENDING_FIELD_VISIT,  #
+            PENDING_TECH_DECISION,
+            PENDING_EMIT_LICENSE,
+            PENDING_DIR_SIGN,
+            DE_FACTO,
         ]

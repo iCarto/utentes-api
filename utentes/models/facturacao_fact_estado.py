@@ -3,6 +3,13 @@
 from sqlalchemy import Column, Integer, Text
 
 from .base import DeclarativeBase, PGSQL_SCHEMA_DOMAINS
+from .estado import LICENSED, DE_FACTO
+
+PENDING_CONSUMPTION = u'Pendente Acrescentar Consumo (R. Cad DT)'
+PENDING_INVOICE = u'Pendente Emisão Factura (D. Fin)'
+PENDING_PAYMENT = u'Pendente Pagamento (Utente)'
+PAYED = u'Pagada'
+NOT_INVOIZABLE = u'Não facturable'
 
 
 class FacturacaoFactEstado(DeclarativeBase):
@@ -12,7 +19,7 @@ class FacturacaoFactEstado(DeclarativeBase):
         'order_by': ['category', 'ordering', 'key']
     }
 
-    ESTADOS_FACTURABLES = ['Licenciada', 'Utente de facto']
+    ESTADOS_FACTURABLES = [LICENSED, DE_FACTO]
 
     category = Column(Text, nullable=False, primary_key=True)
     key = Column(Text, nullable=False, primary_key=True)

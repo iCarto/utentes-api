@@ -15,11 +15,11 @@ Backbone.SIXHIARA.FacturacaoFactEstadoCollection = Backbone.UILib.DomainCollecti
             'order': 0,
         },{
             'category': 'licencia_estado',
-            'text': 'Licenciada',
+            'text': Backbone.SIXHIARA.Estado.LICENSED,
             'order': 2,
         },{
             'category': 'licencia_estado',
-            'text': 'Utente de facto',
+            'text': Backbone.SIXHIARA.Estado.DE_FACTO,
             'order': 3,
         }];
         return new Backbone.UILib.DomainCollection(s);

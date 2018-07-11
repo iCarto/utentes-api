@@ -96,6 +96,7 @@ var MyWorkflow = {
     },
 
     whichView: function(exp, next) {
+        var LIC_ST = Backbone.SIXHIARA.Estado;
 
         if (!exp) {
             return Backbone.SIXHIARA.ViewNoData;
@@ -104,20 +105,20 @@ var MyWorkflow = {
         var state = this.getCurrentState(exp);
         var role = this.getRole();
 
-        if (['Licenciada', 'Irregular', 'Utente de facto'].includes(state)) {
+        if (LIC_ST.CATEGORY_POST_LICENSED.includes(state)) {
             return this.whichFacturacaoView(exp, next);
         }
 
         switch (state) {
-        case 'Não existe':
+        case LIC_ST.NOT_EXISTS:
             break;
-        case 'Documentação incompleta (Pendente utente - D. Adm)':
+        case LIC_ST.INCOMPLETE_DA:
             return Backbone.SIXHIARA.ViewDocIncompletaAdm;
-        case 'Documentação incompleta (Pendente utente - Direcção)':
+        case LIC_ST.INCOMPLETE_DIR:
             return Backbone.SIXHIARA.ViewSecretaria1;
-        case 'Documentação incompleta (Pendente utente - D. Jur)':
+        case LIC_ST.INCOMPLETE_DJ:
             if (exp.get('req_obs').filter(function(o){
-                return o.state === 'Pendente Emisão Licença (D. Jur)';
+                return o.state === LIC_ST.PENDING_EMIT_LICENSE;
             }).length > 0) {
                 return Backbone.SIXHIARA.ViewJuridico2;
             }
@@ -128,29 +129,29 @@ var MyWorkflow = {
             if (role === ROL_TECNICO) {
                 return Backbone.SIXHIARA.ViewJuridicoNotEditable1;
             };
-        case 'Documentação incompleta (Pendente utente - D. Fin)':
+        case LIC_ST.INCOMPLETE_DF:
             return Backbone.SIXHIARA.UpsView;
-        case 'Pendente Revisão Pedido Licença (Direcção)':
+        case LIC_ST.PENDING_REVIEW_DIR:
             return Backbone.SIXHIARA.ViewSecretaria1;
-        case 'Pendente Análise Pedido Licença (D. Jur)':
+        case LIC_ST.PENDING_REVIEW_DJ:
             if (role === ROL_JURIDICO || role === ROL_ADMIN) {
                 return Backbone.SIXHIARA.ViewJuridico1;
             };
             if (role === ROL_TECNICO) {
                 return Backbone.SIXHIARA.ViewJuridicoNotEditable1;
             };
-        case 'Documentação incompleta (Pendente utente - R. Cad DT)':
-        case 'Pendente Visita Campo (R. Cad DT)':
-        case 'Pendente Parecer Técnico (R. Cad DT)':
+        case LIC_ST.INCOMPLETE_DT:
+        case LIC_ST.PENDING_FIELD_VISIT:
+        case LIC_ST.PENDING_TECH_DECISION:
             /*
              admin, tecnico. Hay que ponerlo. Si no, si por ejemplo jurídico
              pudiera ver este estado se le estaría renderizando esto.
             */
             return Backbone.SIXHIARA.ViewTecnico1;
-        case 'Pendente Emisão Licença (D. Jur)':
+        case LIC_ST.PENDING_EMIT_LICENSE:
             // admin, juridico
             return Backbone.SIXHIARA.ViewJuridico2;
-        case 'Pendente Firma Licença (Direcção)':
+        case LIC_ST.PENDING_DIR_SIGN:
             // admin, secretaria
             return Backbone.SIXHIARA.ViewSecretaria2;
         default:
@@ -161,11 +162,12 @@ var MyWorkflow = {
     },
 
     whichFacturacaoView: function(exp, next) {
+        var LIC_ST = Backbone.SIXHIARA.Estado;
         var estado_lic = this.getCurrentState(exp);
         var fact_estado = exp.get('fact_estado');
         var role = this.getRole();
 
-        if (! ['Licenciada', 'Irregular', 'Utente de facto'].includes(estado_lic)) {
+        if (! [LIC_ST.CATEGORY_POST_LICENSED].includes(estado_lic)) {
             return Backbone.SIXHIARA.UpsView;
         }
 
@@ -183,18 +185,19 @@ var MyWorkflow = {
 
     getCurrentState: function(exp) {
         // var lics = exp.get('licencias');
-        // var state1 = (lics.at(0) && lics.at(0).get('estado')) || 'Não existe';
-        // var state2 = (lics.at(1) && lics.at(1).get('estado')) || 'Não existe';
+        // var state1 = (lics.at(0) && lics.at(0).get('estado')) || Backbone.SIXHIARA.Estado.NOT_EXISTS;
+        // var state2 = (lics.at(1) && lics.at(1).get('estado')) || Backbone.SIXHIARA.Estado.NOT_EXISTS;
         //
-        // state1 = state1 !== 'Não existe' ? state1 : state2;
+        // state1 = state1 !== Backbone.SIXHIARA.Estado.NOT_EXISTS ? state1 : state2;
 
-        return exp.get('estado_lic') || 'Não existe';
+        return exp.get('estado_lic') || Backbone.SIXHIARA.Estado.NOT_EXISTS;
     },
 
     whichNextState: function(currentState, data, exp) {
         // Igual en lugar de currentState se le puede pasar la explotación
+        var LIC_ST = Backbone.SIXHIARA.Estado;
 
-        if (['Licenciada', 'Irregular', 'Utente de facto'].includes(currentState)) {
+        if (LIC_ST.CATEGORY_POST_LICENSED.includes(currentState)) {
             return this.whichFacturacaoNextState(currentState, data, exp);
         }
 
@@ -203,29 +206,29 @@ var MyWorkflow = {
         }
 
         switch (currentState) {
-        case 'Não existe':
+        case LIC_ST.NOT_EXISTS:
             return this.nextStateAfterNoExiste(data);
-        case 'Documentação incompleta (Pendente utente - D. Adm)':
+        case LIC_ST.INCOMPLETE_DA:
             return this.nextStateAfterNoExiste(data);
-        case 'Documentação incompleta (Pendente utente - Direcção)':
+        case LIC_ST.INCOMPLETE_DIR:
             return this.nextStateAfterPteRevDir(data);
-        case 'Documentação incompleta (Pendente utente - D. Jur)':
+        case LIC_ST.INCOMPLETE_DJ:
             return this.nextStateAfterPteRevJuri(data);
-        case 'Documentação incompleta (Pendente utente - R. Cad DT)':
+        case LIC_ST.INCOMPLETE_DT:
             return this.nextStateAfterVisitaCampo(data);
-        case 'Documentação incompleta (Pendente utente - D. Fin)':
+        case LIC_ST.INCOMPLETE_DF:
             throw 'Error';
-        case 'Pendente Revisão Pedido Licença (Direcção)':
+        case LIC_ST.PENDING_REVIEW_DIR:
             return this.nextStateAfterPteRevDir(data);
-        case 'Pendente Análise Pedido Licença (D. Jur)':
+        case LIC_ST.PENDING_REVIEW_DJ:
             return this.nextStateAfterPteRevJuri(data);
-        case 'Pendente Visita Campo (R. Cad DT)':
+        case LIC_ST.PENDING_FIELD_VISIT:
             return this.nextStateAfterVisitaCampo(data);
-        case 'Pendente Parecer Técnico (R. Cad DT)':
+        case LIC_ST.PENDING_TECH_DECISION:
             return this.nextStateAfterPteRevDT(data);
-        case 'Pendente Emisão Licença (D. Jur)':
+        case LIC_ST.PENDING_EMIT_LICENSE:
             return this.nextStatePteEmiJuri(data);
-        case 'Pendente Firma Licença (Direcção)':
+        case LIC_ST.PENDING_DIR_SIGN:
             return this.nextStatePteFirmaDir(data);
         default:
             throw 'Error';
@@ -233,129 +236,141 @@ var MyWorkflow = {
     },
 
     nextStateAfterNoExiste: function(data) {
+        var LIC_ST = Backbone.SIXHIARA.Estado;
         var nextState = undefined;
         if (data.target.id === 'bt-ok') {
-            nextState = 'Pendente Revisão Pedido Licença (Direcção)';
+            nextState = LIC_ST.PENDING_REVIEW_DIR;
         }
 
         if (data.target.id === 'bt-no') {
-            nextState = 'Documentação incompleta (Pendente utente - D. Adm)';
+            nextState = LIC_ST.INCOMPLETE_DA;
         }
         return nextState;
     },
 
     nextStateAfterPteRevDir: function(data) {
+        var LIC_ST = Backbone.SIXHIARA.Estado;
         var nextState = undefined;
         if (data.target.id === 'bt-ok') {
-            nextState = 'Pendente Análise Pedido Licença (D. Jur)';
+            nextState = LIC_ST.PENDING_REVIEW_DJ;
         }
 
         if (data.target.id === 'bt-no') {
-            nextState = 'Documentação incompleta (Pendente utente - Direcção)';
+            nextState = LIC_ST.INCOMPLETE_DIR;
         }
         return nextState;
     },
 
     nextStateAfterPteRevJuri: function(data) {
+        var LIC_ST = Backbone.SIXHIARA.Estado;
         var nextState = undefined;
         if (data.target.attributes && data.target.attributes['data-foo']) {
             return this.nextStatePteEmiJuri(data);
         }
 
         if (data.target.id === 'bt-ok') {
-            nextState = 'Pendente Visita Campo (R. Cad DT)';
+            nextState = LIC_ST.PENDING_FIELD_VISIT;
         }
 
         if (data.target.id === 'bt-no') {
-            nextState = 'Documentação incompleta (Pendente utente - D. Jur)';
+            nextState = LIC_ST.INCOMPLETE_DJ;
         }
 
         if (data.target.id === 'bt-noaprobada') {
-            nextState = 'Não aprovada';
+            nextState = LIC_ST.NOT_APPROVED;
         }
         return nextState;
     },
 
     nextStateAfterVisitaCampo: function(data) {
+        var LIC_ST = Backbone.SIXHIARA.Estado;
         var nextState = undefined;
         if (data.target.id === 'bt-ok') {
-            nextState = 'Pendente Parecer Técnico (R. Cad DT)';
+            nextState = LIC_ST.PENDING_TECH_DECISION;
         }
 
         if (data.target.id === 'bt-no') {
-            nextState = 'Documentação incompleta (Pendente utente - R. Cad DT)';
+            nextState = LIC_ST.INCOMPLETE_DT;
         }
 
         if (data.target.id === 'bt-noaprobada') {
-            nextState = 'Não aprovada';
+            nextState = LIC_ST.NOT_APPROVED;
         }
 
         if (data.target.id === 'bt-defacto') {
-            nextState = 'Utente de facto';
+            nextState = LIC_ST.DE_FACTO;
         }
 
         return nextState;
     },
 
     nextStateAfterPteRevDT: function(data) {
+        var LIC_ST = Backbone.SIXHIARA.Estado;
+
         var nextState = undefined;
         if (data.target.id === 'bt-ok') {
-            nextState = 'Pendente Emisão Licença (D. Jur)';
+            nextState = LIC_ST.PENDING_EMIT_LICENSE;
         }
 
         if (data.target.id === 'bt-no') {
-            nextState = 'Documentação incompleta (Pendente utente - R. Cad DT)';
+            nextState = LIC_ST.INCOMPLETE_DT;
         }
 
         if (data.target.id === 'bt-noaprobada') {
-            nextState = 'Não aprovada';
+            nextState = LIC_ST.NOT_APPROVED;
         }
 
         if (data.target.id === 'bt-defacto') {
-            nextState = 'Utente de facto';
+            nextState = LIC_ST.DE_FACTO;
         }
 
         return nextState;
     },
 
     nextStatePteEmiJuri: function(data) {
+        var LIC_ST = Backbone.SIXHIARA.Estado;
+
         var nextState = undefined;
         if (data.target.id === 'bt-ok') {
-            nextState = 'Pendente Firma Licença (Direcção)';
+            nextState = LIC_ST.PENDING_DIR_SIGN;
         }
 
         if (data.target.id === 'bt-no') {
-            nextState = 'Documentação incompleta (Pendente utente - D. Jur)';
+            nextState = LIC_ST.INCOMPLETE_DJ;
         }
 
         if (data.target.id === 'bt-noaprobada') {
-            nextState = 'Não aprovada';
+            nextState = LIC_ST.NOT_APPROVED;
         }
 
         if (data.target.id === 'bt-defacto') {
-            nextState = 'Utente de facto';
+            nextState = LIC_ST.DE_FACTO;
         }
         return nextState;
     },
 
     nextStatePteFirmaDir: function(data) {
+        var LIC_ST = Backbone.SIXHIARA.Estado;
+
         var nextState = undefined;
         if (data.target.id === 'bt-ok') {
-            nextState = 'Licenciada';
+            nextState = LIC_ST.LICENSED;
         }
 
         if (data.target.id === 'bt-noaprobada') {
-            nextState = 'Não aprovada';
+            nextState = LIC_ST.NOT_APPROVED;
         }
         return nextState;
     },
 
     whichFacturacaoNextState: function(currentState, data, exp) {
+        var LIC_ST = Backbone.SIXHIARA.Estado;
+
         // puede tener sentido agrupar en whichNextState
         var fact_estado = exp.get('fact_estado');
         var role = this.getRole();
 
-        if (! ['Licenciada', 'Irregular', 'Utente de facto'].includes(currentState)) {
+        if (! LIC_ST.CATEGORY_POST_LICENSED.includes(currentState)) {
             throw 'Error';
         }
 

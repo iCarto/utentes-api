@@ -40,7 +40,7 @@ Backbone.SIXHIARA.ExploracaoCollection = Backbone.GeoJson.FeatureCollection.exte
     withFicha: function() {
         var a = this.filter(function(exp) {
             var expTest = exp.cloneExploracao();
-            expTest.setLicState('Pendente Visita Campo (R. Cad DT)');
+            expTest.setLicState(Backbone.SIXHIARA.Estado.PENDING_FIELD_VISIT);
             return expTest.isValid();
         });
         return new Backbone.SIXHIARA.ExploracaoCollection(a);

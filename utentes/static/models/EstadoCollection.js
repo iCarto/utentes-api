@@ -82,71 +82,71 @@ Backbone.SIXHIARA.EstadoCollection = Backbone.UILib.DomainCollection.extend({
 
 var ESTADOS_PENDENTES = [
     {
-        'key': 'Não existe',
+        'key': Backbone.SIXHIARA.Estado.NOT_EXISTS,
         'roles': [],
     },
     {
-        'key': 'Não aprovada',
+        'key': Backbone.SIXHIARA.Estado.NOT_APPROVED,
         'roles': [],
     },
     {
-        'key': 'Irregular',
+        'key': Backbone.SIXHIARA.Estado.IRREGULAR,
         'roles': []
     },
     {
-        'key': 'Licenciada',
+        'key': Backbone.SIXHIARA.Estado.LICENSED,
         'roles': []
     },
     {
-        'key': 'Desconhecido',
+        'key': Backbone.SIXHIARA.Estado.UNKNOWN,
         'roles': []
     },
     {
-        'key': 'Documentação incompleta (Pendente utente - D. Adm)',
+        'key': Backbone.SIXHIARA.Estado.INCOMPLETE_DA,
         'roles': [ROL_ADMIN, ROL_ADMINISTRATIVO]
     },
     {
-        'key': 'Documentação incompleta (Pendente utente - Direcção)',
+        'key': Backbone.SIXHIARA.Estado.INCOMPLETE_DIR,
         'roles': [ROL_ADMIN, ROL_DIRECCION]
     },
     {
-        'key': 'Documentação incompleta (Pendente utente - D. Jur)',
+        'key': Backbone.SIXHIARA.Estado.INCOMPLETE_DJ,
         'roles': [ROL_ADMIN, ROL_JURIDICO, ROL_TECNICO]
     },
     {
-        'key': 'Documentação incompleta (Pendente utente - R. Cad DT)',
+        'key': Backbone.SIXHIARA.Estado.INCOMPLETE_DT,
         'roles': [ROL_ADMIN, ROL_TECNICO]
     },
     {
-        'key': 'Documentação incompleta (Pendente utente - D. Fin)',
+        'key': Backbone.SIXHIARA.Estado.INCOMPLETE_DF,
         'roles': [ROL_ADMIN, ROL_FINANCIERO]
     },
     {
-        'key': 'Pendente Revisão Pedido Licença (Direcção)',
+        'key': Backbone.SIXHIARA.Estado.PENDING_REVIEW_DIR,
         'roles': [ROL_ADMIN, ROL_DIRECCION]
     },
     {
-        'key': 'Pendente Análise Pedido Licença (D. Jur)',
+        'key': Backbone.SIXHIARA.Estado.PENDING_REVIEW_DJ,
         'roles': [ROL_ADMIN, ROL_TECNICO, ROL_JURIDICO]
     },
     {
-        'key': 'Pendente Visita Campo (R. Cad DT)',
+        'key': Backbone.SIXHIARA.Estado.PENDING_FIELD_VISIT,
         'roles': [ROL_ADMIN, ROL_TECNICO]
     },
     {
-        'key': 'Pendente Parecer Técnico (R. Cad DT)',
+        'key': Backbone.SIXHIARA.Estado.PENDING_TECH_DECISION,
         'roles': [ROL_ADMIN, ROL_TECNICO]
     },
     {
-        'key': 'Pendente Emisão Licença (D. Jur)',
+        'key': Backbone.SIXHIARA.Estado.PENDING_EMIT_LICENSE,
         'roles': [ROL_ADMIN, ROL_JURIDICO]
     },
     {
-        'key': 'Pendente Firma Licença (Direcção)',
+        'key': Backbone.SIXHIARA.Estado.PENDING_DIR_SIGN,
         'roles': [ROL_ADMIN, ROL_DIRECCION]
     },
     {
-        'key': 'Utente de facto',
+        'key': Backbone.SIXHIARA.Estado.DE_FACTO,
         'roles': []
     },
 ];

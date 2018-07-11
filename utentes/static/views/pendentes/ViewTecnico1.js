@@ -125,18 +125,18 @@ print('O ' + formatter().formatDate(req_obs[i]['create_at']) + ', ' + req_obs[i]
             return true;
         });
 
-
+        var E = Backbone.SIXHIARA.Estado;
         var validState = this.model.get('estado_lic');
         var expTest = this.model.cloneExploracao();
-        if (expTest.get('estado_lic') === 'Documentação incompleta (Pendente utente - R. Cad DT)') {
-            expTest.setLicState('Pendente Visita Campo (R. Cad DT)');
+        if (expTest.get('estado_lic') === E.INCOMPLETE_DT) {
+            expTest.setLicState(E.PENDING_FIELD_VISIT);
             if (expTest.isValid()) {
-                validState = 'Pendente Parecer Técnico (R. Cad DT)';
+                validState = E.PENDING_TECH_DECISION;
             } else {
-                validState = 'Pendente Visita Campo (R. Cad DT)';
+                validState = E.PENDING_FIELD_VISIT;
             }
         }
-        if (validState === 'Pendente Visita Campo (R. Cad DT)') {
+        if (validState === E.PENDING_FIELD_VISIT) {
             document.getElementById('bt-adicionar').classList.remove('disabled');
             document.getElementById('bt-adicionar').removeAttribute('aria-disabled');
             document.getElementById('bt-ficha').classList.add('disabled');
@@ -152,11 +152,11 @@ print('O ' + formatter().formatDate(req_obs[i]['create_at']) + ', ' + req_obs[i]
             document.getElementById('bt-ok').title = "Deve 'Adicionar' dantes de poder completar";
             document.getElementById('bt-defacto').title = "Deve 'Adicionar' dantes de poder criar uma 'Utente de facto'";
 
-        } else if (validState === 'Pendente Parecer Técnico (R. Cad DT)') {
-            expTest.setLicState('Pendente Parecer Técnico (R. Cad DT)');
+        } else if (validState === E.PENDING_TECH_DECISION) {
+            expTest.setLicState(E.PENDING_TECH_DECISION);
             if (expTest.isValid()) {
                 enableState = true;
-                document.getElementById('bt-ok').title = 'Pendente Emisão Licença (D. Jur)';
+                document.getElementById('bt-ok').title = 'E.PENDING_EMIT_LICENSE';
             } else {
                 enableState = false;
                 document.getElementById('bt-ok').title = "Deve rechear correctamente a 'Ficha' dantes de completar";
@@ -184,7 +184,7 @@ print('O ' + formatter().formatDate(req_obs[i]['create_at']) + ', ' + req_obs[i]
 
         var nextState = wf.whichNextState(exploracao.get('estado_lic'), e);
         if (e && e.target && (e.target.id === 'bt-ok')) {
-            nextState = 'Pendente Emisão Licença (D. Jur)';
+            nextState = E.PENDING_EMIT_LICENSE;
         }
 
         if (autosave) {

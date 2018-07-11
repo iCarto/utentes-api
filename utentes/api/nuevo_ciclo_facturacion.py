@@ -2,7 +2,11 @@
 
 from pyramid.view import view_config
 from utentes.models.exploracao import Exploracao
-from utentes.models.facturacao_fact_estado import FacturacaoFactEstado
+from utentes.models.facturacao_fact_estado import (
+    FacturacaoFactEstado,
+    PENDING_INVOICE,
+    PENDING_CONSUMPTION,
+)
 from utentes.models.facturacao import Facturacao
 import datetime
 from utentes.user_utils import PERM_ADMIN
@@ -38,9 +42,9 @@ def nuevo_ciclo_facturacion(request):
         f.exploracao = e.gid
 
         if lic_sup.consumo_tipo == u'Fixo' or lic_sub.consumo_tipo == u'Fixo':
-            f.fact_estado = 'Pendente Emisão Factura (D. Fin)'
+            f.fact_estado = PENDING_INVOICE
         else:
-            f.fact_estado = 'Pendente Acrescentar Consumo (R. Cad DT)'
+            f.fact_estado = PENDING_CONSUMPTION
 
         f.c_licencia_sup = lic_sup.c_licencia
         f.c_licencia_sub = lic_sub.c_licencia

@@ -57,7 +57,7 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
         'p_rel': false,
         'req_obs': false,
         'created_at': null,
-        'estado_lic': 'Desconhecido',
+        'estado_lic': Backbone.SIXHIARA.Estado.UNKNOWN,
     },
 
     initialize: function(){
@@ -615,14 +615,15 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
     },
 
     validateFicha: function() {
+        var E = Backbone.SIXHIARA.Estado;
         return [
-            'Irregular',
-            'Licenciada',
-            'Pendente Visita Campo (R. Cad DT)',
-            'Pendente Parecer Técnico (R. Cad DT)',
-            'Pendente Emisão Licença (D. Jur)',
-            'Pendente Firma Licença (Direcção)',
-            'Utente de facto',
+            E.IRREGULAR,
+            E.LICENSED,
+            E.PENDING_FIELD_VISIT,
+            E.PENDING_TECH_DECISION,
+            E.PENDING_EMIT_LICENSE,
+            E.PENDING_DIR_SIGN,
+            E.DE_FACTO,
         ].indexOf(this.get('estado_lic')) !== -1;
     },
 

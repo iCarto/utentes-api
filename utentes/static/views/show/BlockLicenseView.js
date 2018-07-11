@@ -30,7 +30,7 @@ Backbone.SIXHIARA.BlockLicenseView = Backbone.View.extend({
         } else {
             var lic = new Backbone.SIXHIARA.Licencia({
                 'tipo_agua': this.options.tipo_agua,
-                'lic_nro': 'Não existe',
+                'lic_nro': Backbone.SIXHIARA.Estado.NOT_EXISTS,
             });
             this.$el.append(this.template(lic.toJSON()));
             this.$('#addLicense').removeClass('hidden');
