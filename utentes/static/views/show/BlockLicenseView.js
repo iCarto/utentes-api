@@ -115,6 +115,7 @@ Backbone.SIXHIARA.BlockLicenseView = Backbone.View.extend({
 
         modalView.show();
         modalView.$('#fact_tipo')[0].value = this.model.get('fact_tipo');
+        wf.disabledWidgets('#licenciaModal');
     },
 
     renderAddLicenseModal: function (event) {
@@ -145,6 +146,7 @@ Backbone.SIXHIARA.BlockLicenseView = Backbone.View.extend({
 
         modalView.show();
         modalView.$('#fact_tipo')[0].value = this.model.get('fact_tipo');
+        wf.disabledWidgets('#licenciaModal');
     },
 
     showModalEstadoLicencia: function(){

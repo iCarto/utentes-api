@@ -19,6 +19,27 @@ var MyWorkflow = {
         return role;
     },
 
+    /*
+    Un usuario debería poder tener varios roles. Por razones históricas se ha
+    asumido una relación 1:1 en la mayoría del código, llamadas a getRole
+    Pero hay que ir refactorizando para usar una relación 1:n
+    O mejor todavía pasar aun sistema basado en permisos y no en roles
+
+    Todo esto del rol del usuario habría que cachearlo y no generarlo cada vez
+    que se haga la petición
+    */
+    getAllRolesSafe: function() {
+        var roles = [this.getRoleSafe()];
+
+        if (this.getUser() === this.UNIQUE_USER) {
+            roles.push('unique');
+        }
+        return roles;
+    },
+
+
+
+
     getRoleSafe: function(role) {
         if (!role){
             var role = this.getRole();
@@ -397,7 +418,6 @@ var MyWorkflow = {
     },
 
     disabledWidgets: function(selector) {
-        var role = this.getRoleSafe();
         var baseElement = document;
         if (selector) {
             baseElement = document.querySelectorAll(selector)[0];
@@ -424,10 +444,10 @@ var MyWorkflow = {
                 }
             });
             var disabled = true;
-            if (rolesDisabled.includes(role)) {
+            if (wf.user_roles_in(rolesDisabled)) {
                 disabled = true;
             }
-            if (rolesEnabled.includes(role)) {
+            if (wf.user_roles_in(rolesEnabled)) {
                 disabled = false;
             }
             if (rolesEnabled.length || rolesDisabled.lengh) {
@@ -435,16 +455,21 @@ var MyWorkflow = {
             }
 
             var hide = true;
-            if (rolesHide.includes(role)) {
+            if (wf.user_roles_in(rolesHide)) {
                 hide = true;
             }
-            if (rolesShowed.includes(role)) {
+            if (wf.user_roles_in(rolesShowed)) {
                 hide = false;
             }
             if ((rolesShowed.length || rolesHide.length) && hide) {
                 w.style.display = 'none';
             }
         });
+    },
+
+    user_roles_in: function(roles) {
+        var userRoles = wf.getAllRolesSafe();
+        return _.intersection(userRoles, roles).length > 0;
     },
 
     canDraw: function() {

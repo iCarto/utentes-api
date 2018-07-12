@@ -40,14 +40,6 @@ Backbone.SIXHIARA.LicenseModalView = Backbone.SIXHIARA.ModalView.extend({
             var widget = this.$('.modal').find('#pago_iva');
             widget.val(formatter().formatNumber(value));
         });
-
-        if (estados.getARA() === 'ARAS') {
-            document.getElementById('taxa_uso').disabled = true;
-            document.getElementById('taxa_fixa').disabled = true;
-            document.getElementById('iva').disabled = true;
-            document.getElementById('consumo_fact').disabled = true;
-        }
-
     },
 
 

@@ -3,10 +3,6 @@ var LICENCIA_SCHEMA = [{
     'message':   'Tipo de licença não pode estar vazio',
     'rules':     ['NOT_NULL']
 }, {
-    'fieldname': 'tipo_lic',
-    'message':   'Tipo de licença não pode estar vazio',
-    'rules':     ['NOT_NULL']
-}, {
     'fieldname': 'lic_nro',
     'message':   'Nro de licença não tem o formato correto',
     'rules':     ['LIC_NRO_FORMAT']

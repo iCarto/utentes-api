@@ -1533,11 +1533,11 @@
                       <input type="hidden" class="form-control widget" id="lic_nro">
                       <div class="form-group col-xs-4">
                         <label for="estado">Estado</label> <span id="info-estado-licencia" class="fa fa-question-circle" style="cursor:pointer"></span>
-                        <select type="text" class="form-control widget" id="estado" aria-describedby="info-estado-licencia"></select>
+                        <select type="text" class="form-control widget uilib-enability uilib-enable-role-administrador uilib-enable-role-juridico" id="estado" aria-describedby="info-estado-licencia"></select>
                       </div>
                       <div class="form-group col-xs-4">
                         <label for="cadastro">Nro de cadastro</label>
-                        <input type="text" class="form-control widget" id="cadastro">
+                        <input type="text" class="form-control widget uilib-enability uilib-enable-role-administrador uilib-enable-role-juridico" id="cadastro">
                       </div>
                       <div class="form-group col-xs-4">
                         <label for="n_licen_a">Nro de licença histórico</label>
@@ -1547,15 +1547,15 @@
                     <div class="row">
                       <div class="form-group col-xs-4">
                         <label for="estado">Tipo de licença</label>
-                        <select type="text" class="form-control widget" id="tipo_lic"></select>
+                        <select type="text" class="form-control widget uilib-enability uilib-enable-role-administrador uilib-enable-role-juridico" id="tipo_lic"></select>
                       </div>
                       <div class="form-group col-xs-4">
                         <label for="d_emissao">Data emissão</label>
-                        <input type="text" class="form-control widget-date" id="d_emissao" placeholder="dd/mm/yyyy" pattern="^\d{1,2}[./-]\d{1,2}[./-]\d{4}$">
+                        <input type="text" class="form-control widget-date uilib-enability uilib-enable-role-administrador uilib-enable-role-juridico" id="d_emissao" placeholder="dd/mm/yyyy" pattern="^\d{1,2}[./-]\d{1,2}[./-]\d{4}$">
                       </div>
                       <div class="form-group col-xs-4">
                         <label for="d_validade">Data validade</label>
-                        <input type="text" class="form-control widget-date" id="d_validade" placeholder="dd/mm/yyyy" pattern="^\d{1,2}[./-]\d{1,2}[./-]\d{4}$">
+                        <input type="text" class="form-control widget-date uilib-enability uilib-enable-role-administrador uilib-enable-role-juridico" id="d_validade" placeholder="dd/mm/yyyy" pattern="^\d{1,2}[./-]\d{1,2}[./-]\d{4}$">
                       </div>
                     </div>
                   </div>
@@ -1576,19 +1576,19 @@
                       </div>
                       <div class="form-group col-xs-6">
                         <label for="consumo_tipo">Tipo de consumo</label>
-                        <select type="text" id="consumo_tipo" class="form-control widget"></select>
+                        <select type="text" id="consumo_tipo" class="form-control widget uilib-enability uilib-enable-role-administrador uilib-enable-role-tecnico"></select>
                       </div>
                       <div class="form-group col-xs-6">
                         <label for="taxa_fixa">Taxa fixa <i class="units">(MZN/mês)</i></label>
-                        <input type="text" class="form-control widget-number" id="taxa_fixa" pattern="[0-9]{1,8}([,][0-9]{1,2})?" required>
+                        <input type="text" class="form-control widget-number uilib-enability uilib-enable-role-unique" id="taxa_fixa" pattern="[0-9]{1,8}([,][0-9]{1,2})?" required>
                       </div>
                       <div class="form-group col-xs-6">
                         <label for="taxa_uso">Taxa de uso <i class="units">(MZN/m<sup>3</sup>)</i></label>
-                        <input type="text" class="form-control widget-number" id="taxa_uso" pattern="[0-9]{1,8}([,][0-9]{1,2})?" required>
+                        <input type="text" class="form-control widget-number uilib-enability uilib-enable-role-unique" id="taxa_uso" pattern="[0-9]{1,8}([,][0-9]{1,2})?" required>
                       </div>
                       <div class="form-group col-xs-6">
                         <label for="consumo_fact">Consumo facturado <i class="units">(m<sup>3</sup>/mês)</i></label>
-                        <input type="text" id="consumo_fact" class="form-control widget-number" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
+                        <input type="text" id="consumo_fact" class="form-control widget-number uilib-enability uilib-enable-role-unique" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
                       </div>
                       <div class="form-group col-xs-6">
                         <label for="pago_mes">Valor pago mês <i class="units">(MZN/més)</i></label>
@@ -1596,7 +1596,7 @@
                       </div>
                       <div class="form-group col-xs-6">
                         <label for="iva">IVA <i class="units">(%)</i></label>
-                        <input type="text" class="form-control widget-number" id="iva" pattern="[0-9]{1,8}([,][0-9]{1,2})?" required>
+                        <input type="text" class="form-control widget-number uilib-enability uilib-enable-role-unique" id="iva" pattern="[0-9]{1,8}([,][0-9]{1,2})?" required>
                       </div>
                       <div class="form-group col-xs-6">
                         <label for="pago_iva">Valor com IVA <i class="units">(MZN/mês)</i></label>
@@ -1617,19 +1617,19 @@
                     <div class="row">
                       <div class="form-group col-xs-12">
                         <label for="c_licencia"><strong>Consumo licenciado <i class="units">(m<sup>3</sup>/mês)</i></strong></label>
-                        <input type="text" class="form-control widget-number" id="c_licencia" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
+                        <input type="text" class="form-control widget-number uilib-enability uilib-enable-role-administrador uilib-enable-role-tecnico" id="c_licencia" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
                       </div>
                     </div>
                     <div class="row">
                       <div class="form-group col-xs-12">
                         <label for="c_real_int">Consumo real intermedio <i class="units">(m<sup>3</sup>/mês)</i></label>
-                        <input type="text" class="form-control widget-number" id="c_real_int" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
+                        <input type="text" class="form-control widget-number uilib-enability uilib-enable-role-administrador uilib-enable-role-tecnico" id="c_real_int" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
                       </div>
                     </div>
                     <div class="row">
                       <div class="form-group col-xs-12">
                         <label for="c_soli_int">Consumo solicitado intermedio <i class="units">(m<sup>3</sup>/mês)</i></label>
-                        <input type="text" class="form-control widget-number" id="c_soli_int" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
+                        <input type="text" class="form-control widget-number uilib-enability uilib-enable-role-administrador uilib-enable-role-tecnico" id="c_soli_int" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
                       </div>
                     </div>
                   </div>
@@ -1751,8 +1751,8 @@
   <script type="text/template" id="licencia-tmpl">
     <div class="row">
       <h4 class="col-xs-offset-1 col-xs-11">Licença <%- tipo_agua + ': ' + (lic_nro || '-') %>
-        <button type="button" class="btn btn-default btn-xs hidden uilib-enability uilib-show-role-administrador uilib-show-role-tecnico" id="addLicense">Adicionar</button>
-        <button type="button" class="btn btn-default btn-xs uilib-enability uilib-show-role-administrador uilib-show-role-tecnico" id="editLicense">Editar</button>
+        <button type="button" class="btn btn-default btn-xs hidden uilib-enability uilib-show-role-administrador uilib-show-role-tecnico uilib-show-role-juridico" id="addLicense">Adicionar</button>
+        <button type="button" class="btn btn-default btn-xs uilib-enability uilib-show-role-administrador uilib-show-role-tecnico uilib-show-role-juridico" id="editLicense">Editar</button>
         <button type="button" class="btn btn-default btn-xs uilib-enability uilib-show-role-administrador uilib-show-role-tecnico" id="addFonte">Nova fonte</button>
         <button type="button" class="btn btn-default btn-xs uilib-enability uilib-show-role-administrador uilib-show-role-tecnico" id="removeLicense">Eliminar</button>
       </h4>
