@@ -199,7 +199,7 @@ class Exploracao(Base):
                      json.get('licencias'),
                      Licencia.create_from_json)
         for lic in self.licencias:
-            lic.generate_lic_nro(self.exp_id)
+            lic.update_lic_nro(self.exp_id)
 
     def update_and_validate_activity(self, json):
         actividade_json = json.get('actividade')

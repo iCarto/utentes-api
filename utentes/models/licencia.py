@@ -112,7 +112,7 @@ class Licencia(Base):
     def validate(self, json):
         return []
 
-    def generate_lic_nro(self, exp_id):
+    def update_lic_nro(self, exp_id):
         self.lic_nro = '{}/{}'.format(exp_id, self.tipo_agua[0:3])
         return self.lic_nro
 
