@@ -60,6 +60,14 @@ class Actividade(Base):
         a.update_from_json(json)
         return a
 
+    def next_child_id(self, childs, id_name):
+        """For activities that have childs like cultivos, reses, tanques"""
+        id_sequence = [int(getattr(seq, id_name).split('/')[3]) for seq in childs if getattr(seq, id_name)]
+        if len(id_sequence) == 0:
+            return 1
+        else:
+            return max(id_sequence) + 1
+
     def __json__(self, request):
         json = {c: getattr(self, c) for c in self.__mapper__.columns.keys()}
         del json['gid']
@@ -96,8 +104,6 @@ class ActividadesAgriculturaRega(Actividade):
     __tablename__ = 'actividades_agricultura_rega'
     __table_args__ = {u'schema': PGSQL_SCHEMA_UTENTES}
 
-    CULTIVO_NRO_SEQUENCE_FIRST = 1
-
     gid = Column(ForeignKey(u'utentes.actividades.gid', ondelete=u'CASCADE', onupdate=u'CASCADE'), primary_key=True)
     c_estimado = Column(Numeric(10, 2), doc='Consumo mensal estimado')
     n_cul_tot = Column(Integer, doc='Número de cultivos')
@@ -110,7 +116,7 @@ class ActividadesAgriculturaRega(Actividade):
     }
 
     cultivos = relationship('ActividadesCultivos',
-                            cascade="all, delete-orphan",
+                            cascade='all, delete-orphan',
                             order_by='ActividadesCultivos.gid',
                             passive_deletes=True)
 
@@ -124,24 +130,17 @@ class ActividadesAgriculturaRega(Actividade):
         }
         return json
 
-    def calculate_next_sequence(self, cultivos):
-        cult_id_sequence = [int(seq.cult_id.split('/')[3]) for seq in self.cultivos if seq.cult_id]
-        if len(cult_id_sequence) == 0:
-            return ActividadesAgriculturaRega.CULTIVO_NRO_SEQUENCE_FIRST
-        else:
-            return max(cult_id_sequence) + 1
-
     def update_from_json(self, json):
         self.gid = json.get('id')
         self.tipo = json.get('tipo')
+        next_cult_id = self.next_child_id(self.cultivos, 'cult_id')
         update_array(self.cultivos,
                      json.get('cultivos'),
                      ActividadesCultivos.create_from_json)
-        next_cult_id_sequence = self.calculate_next_sequence(self.cultivos)
         for cultivo in self.cultivos:
             if not cultivo.cult_id:
-                cultivo.cult_id = json.get('exp_id') + '/{:03d}'.format(next_cult_id_sequence)
-                next_cult_id_sequence += 1
+                cultivo.cult_id = json.get('exp_id') + '/{:03d}'.format(next_cult_id)
+                next_cult_id += 1
 
         # self.c_estimado = json.get('c_estimado')
         self.c_estimado = reduce(lambda x, y: x + y.c_estimado, self.cultivos, 0)
@@ -200,7 +199,7 @@ class ActividadesPecuaria(Actividade):
     }
 
     reses = relationship('ActividadesReses',
-                         cascade="all, delete-orphan",
+                         cascade='all, delete-orphan',
                          order_by='ActividadesReses.gid',
                          passive_deletes=True)
 
@@ -229,8 +228,6 @@ class ActividadesPiscicultura(Actividade):
     __tablename__ = 'actividades_piscicultura'
     __table_args__ = {u'schema': PGSQL_SCHEMA_UTENTES}
 
-    TANQUE_NRO_SEQUENCE_FIRST = 1
-
     gid = Column(ForeignKey(u'utentes.actividades.gid', ondelete=u'CASCADE', onupdate=u'CASCADE'), primary_key=True)
     c_estimado = Column(Numeric(10, 2), doc='Consumo mensal estimado')
     area = Column(Numeric(10, 4), doc='Área de exploração (ha)')
@@ -255,7 +252,7 @@ class ActividadesPiscicultura(Actividade):
     }
 
     tanques_piscicolas = relationship('ActividadesTanquesPiscicolas',
-                                      cascade="all, delete-orphan",
+                                      cascade='all, delete-orphan',
                                       order_by='ActividadesTanquesPiscicolas.gid',
                                       passive_deletes=True)
 
@@ -269,25 +266,18 @@ class ActividadesPiscicultura(Actividade):
         }
         return json
 
-    def calculate_next_sequence(self, tanques_piscicolas):
-        tanque_id_sequence = [int(seq.tanque_id.split('/')[3]) for seq in self.tanques_piscicolas if seq.tanque_id]
-        if len(tanque_id_sequence) == 0:
-            return ActividadesPiscicultura.TANQUE_NRO_SEQUENCE_FIRST
-        else:
-            return max(tanque_id_sequence) + 1
-
     def update_from_json(self, json, area_exp=None):
         # actividade - handled by sqlalchemy relationship
         SPECIAL_CASES = ['gid', 'tanques_piscicolas']
         self.gid = json.get('id')
+        next_tanque_id = self.next_child_id(self.tanques_piscicolas, 'tanque_id')
         update_array(self.tanques_piscicolas,
                      json.get('tanques_piscicolas'),
                      ActividadesTanquesPiscicolas.create_from_json)
-        next_tanque_id_sequence = self.calculate_next_sequence(self.tanques_piscicolas)
         for tanque in self.tanques_piscicolas:
             if not tanque.tanque_id:
-                tanque.tanque_id = json.get('exp_id') + '/{:03d}'.format(next_tanque_id_sequence)
-                next_tanque_id_sequence += 1
+                tanque.tanque_id = json.get('exp_id') + '/{:03d}'.format(next_tanque_id)
+                next_tanque_id += 1
 
         for column in self.__mapper__.columns.keys():
             if column in SPECIAL_CASES:
