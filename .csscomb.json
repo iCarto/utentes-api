@@ -1,0 +1,7 @@
+{
+    "block-indent": 4,
+    "eof-newline": true,
+    "strip-spaces": true,
+    "tab-size": true,
+    "space-before-closing-brace": "\n"
+}

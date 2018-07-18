@@ -1,17 +1,27 @@
 # Python
 *.egg
 *.egg-info
+__pycache__
 *.pyc
 build/
 # dist/
+
+
+# Javascript
+node_modules/
+
 
 ## Unit test / coverage reports
 .coverage
 
 
-# Utentes
-*~
-node_modules
+# IDEs and Vagrant
 .idea
+.vscode
+.vagrant
+*~
+
+
+# Project
 utentes/static/.webassets-cache/
 utentes/static/dist/

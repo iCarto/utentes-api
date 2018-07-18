@@ -1,5 +1,22 @@
 API for utentes project
 
+Descargar los repos en `~/development/sixhiara` (o el directorio que se quiera)
+
+* https://gitlab.com/icarto/sixhiara
+* https://gitlab.com/icarto/utentes-api
+* https://gitlab.com/icarto/utentes-bd
+* https://gitlab.com/icarto/utentes-deploy
+
+# First Install
+
+Se puede configurar un entorno similar al de producción mediante Vagrant. En la raíz del repo `utentes-bd` hay un Vagranfile que permite levantar y provisionar una vm
+
+```bash
+vagrant up
+```
+
+
+
 # Configuración inicial
 
     $ git clone ... utentes-api
@@ -15,11 +32,7 @@ API for utentes project
     $ sqitch deploy
 
 
-# Tests
 
-    $ pg_prove -r --ext .sql -d sixhiara -U postgres -h localhost tests/
-    $ python setup.py test -q -s utentes.tests # Todos los tests
-    $ python setup.py test -q -s utentes.tests.api.test_cultivos_get.CultivosGET_IntegrationTests.test_cultivo_get_length
 
 # Launch server
 
@@ -58,3 +71,39 @@ Tras añadir las líneas a .bashrc hacer un:
 virtualenvwrapper permite añadir hooks tras la activación del entorno. Si, como mostramos a continuación ligamos un entorno virtual a un directorio de proyecto (donde tendremos el código fuente), podemos hacer que al activar el entorno hagamos cd automáticamente al proyecto:
 
     $ echo 'cdproject' >>  $WORKON_HOME/postactivate
+    
+
+## Tests de pyramid
+
+```bash
+# Todos los tests
+python setup.py test -q -s utentes.tests
+
+# Sólo los tests de la API
+python setup.py test -q -s utentes.tests.api
+
+# Un test concreto
+python setup.py test -q -s utentes.tests.api.test_cultivos_get.CultivosGET_IntegrationTests.test_cultivo_get_length
+```
+    
+    
+    
+## Tests base de datos (pgTap)
+
+Es recomendable ejecutarlos desde dentro de la vm para evitar problemas de versiones
+
+```bash
+vagrant ssh
+cd PATH_TO_SQITCH_FOLDER
+```
+
+```bash
+pg_prove -Q tests/
+```
+
+Se asume que el fichero .proverc está en la carpeta sqitch y los tests se lanzan desde allí.
+El anterior comando lanza los tests en modo 'quiet'. Si alguno falla para obtener información más concreta relanzaremos el comando sin -Q
+
+```
+pg_prove tests/
+```
