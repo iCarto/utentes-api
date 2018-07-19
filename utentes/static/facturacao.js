@@ -85,7 +85,7 @@ var exploracaosFetched = function() {
 
     new Backbone.SIXHIARA.ButtonExportSHPView({
         el: $('#projects h1'),
-        collection: exploracaos,
+        listView: listView,
     }).render();
 
     mapView = new Backbone.SIXHIARA.MapView({

@@ -12,17 +12,6 @@ Backbone.SIXHIARA.ExploracaoCollection = Backbone.GeoJson.FeatureCollection.exte
         return new Backbone.SIXHIARA.ExploracaoCollection(a);
     },
 
-    downloadSHP: function() {
-        var options = {
-            folder: 'exploracoes',
-            types: {
-                polygon: 'exploracoes',
-            }
-        }
-        var features = this.toSHP();
-        shpwrite.download(features, options);
-    },
-
     toSHP: function() {
         var features = [];
         this.models.forEach(function(model){
