@@ -81,11 +81,11 @@ function formatter(){
     }
 
     function unformatDate(value){
-        var FORMAT_ISO = 'YYYY-MM-DD';
-        var FORMAT_DATE = 'DD/MM/YYYY';
+        // var FORMAT_DATE = 'DD/MM/YYYY';
         // TODO: use FORMAT_DATE to validate this
         if((value != undefined) && (value.split('/').length === 3) && value.split('/')[2].length === 4){
-            return moment(value, FORMAT_DATE).toDate();
+            var tokens = value.split('/');
+            return new Date(Date.UTC(tokens[2], tokens[1] - 1, tokens[0]));
         }
         return null;
     }

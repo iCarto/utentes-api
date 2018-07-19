@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from sqlalchemy import Boolean, Column, Date, Integer, Numeric, Text
+from sqlalchemy import Column, Date, Integer, Numeric, Text
 from sqlalchemy import ForeignKey, text
 
 from utentes.lib.formatter.formatter import to_decimal, to_date
