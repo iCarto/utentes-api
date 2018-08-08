@@ -47,6 +47,8 @@ Backbone.SIXHIARA.BlockMapView = Backbone.View.extend({
         }
 
         if (wf.canDraw()) {
+
+            if (L && L.drawLocal) L.drawLocal = Backbone.SIXHIARA.LeafletDrawLocalesES;
             var drawControl = new L.Control.Draw({
                 draw: {
                     circle: false,
