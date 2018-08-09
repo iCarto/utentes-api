@@ -188,7 +188,7 @@ var MyWorkflow = {
         var fact_estado = exp.get('fact_estado');
         var role = this.getRole();
 
-        if (! [LIC_ST.CATEGORY_POST_LICENSED].includes(estado_lic)) {
+        if (! LIC_ST.CATEGORY_POST_LICENSED.includes(estado_lic)) {
             return Backbone.SIXHIARA.UpsView;
         }
 
