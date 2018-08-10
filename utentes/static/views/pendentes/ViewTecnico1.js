@@ -156,7 +156,7 @@ print('O ' + formatter().formatDate(req_obs[i]['create_at']) + ', ' + req_obs[i]
             expTest.setLicState(E.PENDING_TECH_DECISION);
             if (expTest.isValid()) {
                 enableState = true;
-                document.getElementById('bt-ok').title = 'E.PENDING_EMIT_LICENSE';
+                document.getElementById('bt-ok').title = E.PENDING_EMIT_LICENSE;
             } else {
                 enableState = false;
                 document.getElementById('bt-ok').title = "Deve rechear correctamente a 'Ficha' dantes de completar";
@@ -181,7 +181,7 @@ print('O ' + formatter().formatDate(req_obs[i]['create_at']) + ', ' + req_obs[i]
     fillExploracao: function(e, autosave) {
         var self = this;
         var exploracao = this.model;
-
+        var E = Backbone.SIXHIARA.Estado;
         var nextState = wf.whichNextState(exploracao.get('estado_lic'), e);
         if (e && e.target && (e.target.id === 'bt-ok')) {
             nextState = E.PENDING_EMIT_LICENSE;
