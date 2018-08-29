@@ -36,16 +36,16 @@ Backbone.SIXHIARA.LayerStyle = {
         };
     },
 
-    onEachFeaturePostos: function (feature, layer) {
-        layer.bindLabel(feature.properties['Nome'], {
-            noHide: true,
-            // offset: [-0, -16],
-            className: 'sixhiara-leaflet-label-postos',
-            opacity: 1,
-            zoomAnimation: true,
-            // direction: 'auto',
-        });
-    },
+  onEachFeaturePostos: function (feature, layer) {
+    layer.bindLabel(feature.properties['POSTO'], {
+      noHide: true,
+      // offset: [-0, -16],
+      className: 'sixhiara-leaflet-label-postos',
+      opacity: 1,
+      zoomAnimation: true,
+      // direction: 'auto',
+    });
+  },
 
     doStyleProvincias:function (feature) {
         return {
@@ -59,17 +59,17 @@ Backbone.SIXHIARA.LayerStyle = {
         };
     },
 
-    onEachFeatureProvincias: function (feature, layer) {
-        layer.bindLabel(feature.properties['Nome'], {
-            noHide: true,
-            // offset: [-0, -16],
-            className: 'sixhiara-leaflet-label-provincias',
-            opacity: 1,
-            zoomAnimation: true,
-            direction: 'auto',
-        });
-        // layer.showLabel();
-    },
+  onEachFeatureProvincias: function (feature, layer) {
+    layer.bindLabel(feature.properties['PROVINCIA'], {
+      noHide: true,
+      // offset: [-0, -16],
+      className: 'sixhiara-leaflet-label-provincias',
+      opacity: 1,
+      zoomAnimation: true,
+      direction: 'auto',
+    });
+    // layer.showLabel();
+  },
 
     doStyleLagos: function (feature) {
         return {
@@ -164,36 +164,36 @@ Backbone.SIXHIARA.LayerStyle = {
     },
 
     doPointToLayerPaisesPunto: function (feature, latlng) {
-        return L.circleMarker(latlng, Backbone.SIXHIARA.LayerStyle.doStyleInvisibleMarker()).bindLabel(feature.properties.Nome, {
-            noHide: true,
-            offset: [-20, -15],
-            className: 'sixhiara-leaflet-label-paises',
-            opacity: 1,
-            zoomAnimation: true,
-            // direction: 'auto',
-        })
+      return L.circleMarker(latlng, Backbone.SIXHIARA.LayerStyle.doStyleInvisibleMarker()).bindLabel(feature.properties.NAME_SPANI, {
+        noHide: true,
+        offset: [-20, -15],
+        className: 'sixhiara-leaflet-label-paises',
+        opacity: 1,
+        zoomAnimation: true,
+        // direction: 'auto',
+      })
     },
 
     doPointToLayerPostosPunto: function (feature, latlng) {
-        return L.circleMarker(latlng, Backbone.SIXHIARA.LayerStyle.doStyleInvisibleMarker()).bindLabel(feature.properties.Nome, {
-            noHide: true,
-            offset: [-25, -10],
-            className: 'sixhiara-leaflet-label-postos',
-            opacity: 1,
-            zoomAnimation: true,
-            // direction: 'auto',
-        })
+      return L.circleMarker(latlng, Backbone.SIXHIARA.LayerStyle.doStyleInvisibleMarker()).bindLabel(feature.properties.POSTO, {
+        noHide: true,
+        offset: [-25, -10],
+        className: 'sixhiara-leaflet-label-postos',
+        opacity: 1,
+        zoomAnimation: true,
+        // direction: 'auto',
+      })
     },
 
     doPointToLayerProvinciasPunto: function (feature, latlng) {
-        return L.circleMarker(latlng, Backbone.SIXHIARA.LayerStyle.doStyleInvisibleMarker()).bindLabel(feature.properties.Nome, {
-            noHide: true,
-            offset: [-20, -15],
-            className: 'sixhiara-leaflet-label-provincias',
-            opacity: 1,
-            zoomAnimation: true,
-            // direction: 'auto',
-        })
+      return L.circleMarker(latlng, Backbone.SIXHIARA.LayerStyle.doStyleInvisibleMarker()).bindLabel(feature.properties.PROVINCIA, {
+        noHide: true,
+        offset: [-20, -15],
+        className: 'sixhiara-leaflet-label-provincias',
+        opacity: 1,
+        zoomAnimation: true,
+        // direction: 'auto',
+      })
     },
 
     doStyleAlbufeiras: function (feature) {

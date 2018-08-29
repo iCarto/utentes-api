@@ -5,7 +5,7 @@ Backbone.SIXHIARA.mapConfig = function(mapId, initOptions) {
         zoom: 7,
         center: SIXHIARA.center,
         maxBounds: [SIXHIARA.southWest, SIXHIARA.northEast],
-        minZoom: 7,
+        minZoom: 6,
         maxZoom: 19,
     };
 
