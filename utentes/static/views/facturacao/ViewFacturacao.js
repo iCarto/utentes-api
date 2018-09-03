@@ -35,8 +35,10 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
 
 
 <h4 style="margin-bottom: 10px;">
-<span style="color:#00a2da"><%- exp_id + ' '%> <%- exp_name %></span> <span style="color: grey"><%= ' (' + (actividade && actividade.tipo || 'Não declarada') + '). ' %></span>
-<%- (licencias && licencias[0] && licencias[0].tipo_agua || '-') + ' / ' %><%- licencias && licencias[1] && licencias[1].tipo_agua || '-' %>
+<span style="color:#00a2da"><%- exp_id + ' '%> <%- exp_name %></span> <span style="color: grey"><%= ' (' + (actividade && actividade.tipo || 'Não declarada') + ') ' %></span>
+<div class="licencias">
+    <div><%- licenciasStr[0] %></div><div><%- licenciasStr[1] %></div>
+</div>
 <br>
 <small style="font-size: 50%;" class="label <%- summary_licencia_val ? 'label-success' : 'label-danger' %>" id="summary_licencia"><%- summary_licencia_msg.charAt(0) %></small>
 &nbsp;<small style="font-size: 50%;" class="label <%- summary_consumo_val ? 'label-success' : 'label-danger' %>" id="summary_consumo"><%- summary_consumo_msg.charAt(0) %></small>
@@ -88,48 +90,6 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
     <div class="row panel-equal-height">
 
         <div class="col-xs-4">
-            <div id="lic-sup" class="panel panel-info panel-disabled">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><strong>Licença Superficial</strong></h3>
-                </div>
-                <div class="panel-body row">
-                    <div class="form-group col-xs-12">
-                        <label for="consumo_tipo_sup"><strong>Tipo de consumo</strong></label>
-                        <select class="form-control" id="consumo_tipo_sup" disabled >
-                            <option>Fixo</option>
-                            <option selected>Variável</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group col-xs-12">
-                        <label for="c_licencia_sup">Consumo licenciado&nbsp;<i class="units">(m<sup>3</sup>/mês)</i></label>
-                        <input type="text" class="form-control widget-number" id="c_licencia_sup" pattern="[0-9]{1,8}([,][0-9]{1,2})?" value="<%- formatter().formatNumber(c_licencia_sup, '0[.]00') %>" disabled>
-                    </div>
-
-                    <div class="form-group col-xs-12">
-                        <label for="consumo_fact_sup">Consumo facturado&nbsp;<i class="units">(m<sup>3</sup>/mês)</i></label>
-                        <input type="text" class="form-control widget-number" id="consumo_fact_sup" pattern="[0-9]{1,8}([,][0-9]{1,2})?" value="<%- formatter().formatNumber(facturacao[facturacao.length - 1].consumo_fact_sup, '0[.]00') %>" disabled>
-                    </div>
-
-                    <div class="form-group col-xs-12">
-                        <label for="taxa_fixa_sup">Taxa fixa&nbsp;<i class="units">(MZN/mês)</i></label>
-                        <input type="text" class="form-control widget-number" id="taxa_fixa_sup" pattern="[0-9]{1,8}([,][0-9]{1,2})?" value="<%- formatter().formatNumber(facturacao[facturacao.length - 1].taxa_fixa_sup, '0[.]00') %>" disabled>
-                    </div>
-
-                    <div class="form-group col-xs-12">
-                        <label for="taxa_uso_sup">Taxa de uso&nbsp;<i class="units">(MZN/m<sup>3</sup>)</i></label>
-                        <input type="text" class="form-control widget-number" id="taxa_uso_sup" pattern="[0-9]{1,8}([,][0-9]{1,2})?" value="<%- formatter().formatNumber(facturacao[facturacao.length - 1].taxa_uso_sup, '0[.]00') %>" disabled>
-                    </div>
-
-                    <div class="form-group col-xs-12">
-                        <label for="pago_mes_sup">Valor pago mês&nbsp;<i class="units">(MZN/més)</i></label>
-                        <input type="text" class="form-control widget-number" id="pago_mes_sup" pattern="[0-9]{1,8}([,][0-9]{1,2})?" disabled value="<%- formatter().formatNumber(facturacao[facturacao.length - 1].pago_mes_sup, '0[.]00') %>" disabled>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xs-4">
             <div id="lic-sub" class="panel panel-info panel-disabled">
                 <div class="panel-heading">
                     <h3 class="panel-title"><strong>Licença Subterrânea</strong></h3>
@@ -171,6 +131,48 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
             </div>
         </div>
 
+        <div class="col-xs-4">
+            <div id="lic-sup" class="panel panel-info panel-disabled">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Licença Superficial</strong></h3>
+                </div>
+                <div class="panel-body row">
+                    <div class="form-group col-xs-12">
+                        <label for="consumo_tipo_sup"><strong>Tipo de consumo</strong></label>
+                        <select class="form-control" id="consumo_tipo_sup" disabled >
+                            <option>Fixo</option>
+                            <option selected>Variável</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-xs-12">
+                        <label for="c_licencia_sup">Consumo licenciado&nbsp;<i class="units">(m<sup>3</sup>/mês)</i></label>
+                        <input type="text" class="form-control widget-number" id="c_licencia_sup" pattern="[0-9]{1,8}([,][0-9]{1,2})?" value="<%- formatter().formatNumber(c_licencia_sup, '0[.]00') %>" disabled>
+                    </div>
+
+                    <div class="form-group col-xs-12">
+                        <label for="consumo_fact_sup">Consumo facturado&nbsp;<i class="units">(m<sup>3</sup>/mês)</i></label>
+                        <input type="text" class="form-control widget-number" id="consumo_fact_sup" pattern="[0-9]{1,8}([,][0-9]{1,2})?" value="<%- formatter().formatNumber(facturacao[facturacao.length - 1].consumo_fact_sup, '0[.]00') %>" disabled>
+                    </div>
+
+                    <div class="form-group col-xs-12">
+                        <label for="taxa_fixa_sup">Taxa fixa&nbsp;<i class="units">(MZN/mês)</i></label>
+                        <input type="text" class="form-control widget-number" id="taxa_fixa_sup" pattern="[0-9]{1,8}([,][0-9]{1,2})?" value="<%- formatter().formatNumber(facturacao[facturacao.length - 1].taxa_fixa_sup, '0[.]00') %>" disabled>
+                    </div>
+
+                    <div class="form-group col-xs-12">
+                        <label for="taxa_uso_sup">Taxa de uso&nbsp;<i class="units">(MZN/m<sup>3</sup>)</i></label>
+                        <input type="text" class="form-control widget-number" id="taxa_uso_sup" pattern="[0-9]{1,8}([,][0-9]{1,2})?" value="<%- formatter().formatNumber(facturacao[facturacao.length - 1].taxa_uso_sup, '0[.]00') %>" disabled>
+                    </div>
+
+                    <div class="form-group col-xs-12">
+                        <label for="pago_mes_sup">Valor pago mês&nbsp;<i class="units">(MZN/més)</i></label>
+                        <input type="text" class="form-control widget-number" id="pago_mes_sup" pattern="[0-9]{1,8}([,][0-9]{1,2})?" disabled value="<%- formatter().formatNumber(facturacao[facturacao.length - 1].pago_mes_sup, '0[.]00') %>" disabled>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="col-xs-4" style="border-left: 1px solid #337ab7">
             <div class="panel panel-info">
                 <div class="panel-heading">
@@ -180,7 +182,7 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
                     <ul id="historico">
                     <% for (var i=0; i < facturacao.length ; i+=1) {
                         print('<li><strong>' + facturacao[i].mes + '/' + facturacao[i].ano + '</strong>. Valor com IVA: ' + (formatter().formatNumber(facturacao[i].pago_iva, '0[.]00') || '-') + ' MZN </li>')
-                        print('<ul><li>Superficial: ' + (formatter().formatNumber(facturacao[i].consumo_fact_sup, '0[.]00') || '-') +  ' m<sup>3</sup></li><li>Subterrânea: ' + (formatter().formatNumber(facturacao[i].consumo_fact_sub, '0[.]00') || '-') + ' m<sup>3</sup></li></ul>')
+                        print('<ul><li>Subterrânea: ' + (formatter().formatNumber(facturacao[i].consumo_fact_sub, '0[.]00') || '-') + ' m<sup>3</sup></li><li>Superficial: ' + (formatter().formatNumber(facturacao[i].consumo_fact_sup, '0[.]00') || '-') +  ' m<sup>3</sup></li></ul>')
                     }
                     %>
                     </ul>
@@ -242,6 +244,7 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
         var json = this.model.toJSON();
         json.c_licencia_sup = this.model.getLicencia('sup').get('c_licencia');
         json.c_licencia_sub = this.model.getLicencia('sub').get('c_licencia');
+        json.licenciasStr =  this.formatTipoLicencias();
         this.$el.html(this.template(json));
         return this;
     },
@@ -483,6 +486,21 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
     getSelectText: function(selectId) {
         var s = document.querySelectorAll('#myid selectId')[0]
         return s.options[s.selectedIndex].text;
+    },
+
+    formatTipoLicencias: function(){
+        var licenciasStr = [ "-", "-" ];
+
+        this.model.get('licencias').forEach(function(lic){
+            var tipo = lic.get('tipo_agua');
+            if ( tipo === 'Subterrânea' ) {
+                licenciasStr[0] = tipo;
+            }
+            if ( tipo === 'Superficial' ) {
+                licenciasStr[1] = tipo;
+            }
+        })
+        return licenciasStr;
     },
 
 });

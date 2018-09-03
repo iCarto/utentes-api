@@ -71,7 +71,6 @@ var domainsFetched = function(collection, response, options) {
 var exploracaosFetched = function() {
 
     exploracaosFiltered = new Backbone.SIXHIARA.ExploracaoCollection(exploracaos.models);
-
     listView = new Backbone.UILib.ListView({
         el: $('#project_list'),
         collection: exploracaosFiltered,
