@@ -406,7 +406,7 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
         json.geometry   = this.get('geometry') ? this.get('geometry').toJSON() : null;
         json.utente     = this.get('utente').toJSON();
         json.licencias  = this.get('licencias').toJSON();
-        json.licenciasStr  = this.formatTipoLicencias(this.get('licencias').toJSON());
+        json.licenciasStr  = this.formatTipoLicencias();
         json.fontes     = this.get('fontes').toJSON();
         if (this.getActividadeTipo() === Backbone.SIXHIARA.MSG.NO_ACTIVITY) {
             json.actividade = null;
@@ -660,15 +660,15 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
         return exp;
     },
 
-    formatTipoLicencias: function(json){
+    formatTipoLicencias: function(){
         var licenciasStr = [ "-", "-" ];
         this.get('licencias').forEach(function(lic){
             var tipo = lic.get('tipo_agua');
             if ( tipo === 'Subterrânea' ) {
-                licenciasStr[0] = tipo;
+                licenciasStr[0] = tipo + " (" + lic.get("estado") + ")";
             }
             if ( tipo === 'Superficial' ) {
-                licenciasStr[1] = tipo;
+                licenciasStr[1] = tipo + " (" + lic.get("estado") + ")";
             }
         })
         return licenciasStr;

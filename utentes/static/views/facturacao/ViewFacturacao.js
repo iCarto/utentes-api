@@ -490,17 +490,16 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
 
     formatTipoLicencias: function(){
         var licenciasStr = [ "-", "-" ];
-
         this.model.get('licencias').forEach(function(lic){
             var tipo = lic.get('tipo_agua');
             if ( tipo === 'Subterrânea' ) {
-                licenciasStr[0] = tipo;
+                licenciasStr[0] = tipo + " (" + lic.get("estado") + ")";
             }
             if ( tipo === 'Superficial' ) {
-                licenciasStr[1] = tipo;
+                licenciasStr[1] = tipo + " (" + lic.get("estado") + ")";
             }
         })
         return licenciasStr;
-    },
+    }
 
 });

@@ -236,3 +236,35 @@ with or whithout another 'observacio-anteriores' textarea
     float: right;
     text-align: right;
 }
+#myid .licencias {
+    display: inline-block;
+}
+
+#myid .licencias div {
+    min-width: 210px;
+}
+
+.licencias div:first-child {
+    border-right: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.licencias div:last-child {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.licencias div span {
+    color: #ccc;
+}
+
+.licencias div {
+    border-radius: 3px;
+    border: 1px solid #e5e5e5;
+    display: inline-block;
+    padding: 2px;
+    margin: 2px 0;
+    text-align: center;
+    min-width: 140px;
+}

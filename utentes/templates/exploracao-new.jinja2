@@ -38,157 +38,12 @@
             <div id="wizard-exp" >
 
               <ul class="hide">
-                <li><a href="#info" data-toggle="tab">Info</a></li>
                 <li><a href="#utente" data-toggle="tab">Utente</a></li>
+                <li><a href="#info" data-toggle="tab">Info</a></li>
                 <li><a href="#licencia" data-toggle="tab">Licencia</a></li>
               </ul>
 
               <div class="tab-content">
-                <div class="tab-pane" id="info">
-                  <div class="row">
-                    <h3 class="col-xs-1"><i class="fa fa-info"></i></h3>
-                    <h3 class="col-xs-11">Informação</h3>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-xs-offset-1 col-xs-11">
-                      <div id="form-exp_id-warning-message" class="alert alert-warning alert-dismissible" style="display:none;">
-                        <strong>Atenção!</strong> Existe outro requerimento com o mesmo <strong>Nro de exploração</strong>.
-                      </div>
-                      <div id="form-exp_name-warning-message" class="alert alert-warning alert-dismissible" style="display:none;">
-                        <strong>Atenção!</strong> Existe outro requerimento com o mesmo <strong>Nome de exploração</strong>.
-                      </div>
-                      <div class="panel panel-default">
-                        <div class="panel-body">
-                          <div class="col-xs-5">
-                            <div class="row">
-                              <div class="form-group">
-                                <label for="exp_name">Nro de exploração</label>
-                                <input type="text" class="form-control widget" id="exp_id" required>
-                              </div>
-                            </div>
-                            <div class="row">
-                              <div class="form-group">
-                                <label for="exp_name">Nome da exploração</label>
-                                <input type="text" class="form-control widget" id="exp_name" required>
-                              </div>
-                            </div>
-                            <div class="row">
-                              <div id="actividade-select" class="form-group">
-                                <label for="actividade">Tipo de actividade</label>
-                                <select id="actividade" class="form-control"></select>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-xs-offset-1 col-xs-6">
-                            <div class="row">
-                              <div class="form-group">
-                                <label for="d_soli">Data de solicitação</label>
-                                <input type="text" class="form-control widget-date" id="d_soli" placeholder="dd/mm/yyyy" pattern="^\d{1,2}[./-]\d{1,2}[./-]\d{4}$">
-                              </div>
-                            </div>
-                            <div class="row">
-                              <div class="form-group">
-                                <label for="observacio">Observações sobre linha de água e localizaçao</label>
-                                <textarea class="form-control widget" id="observacio" rows="5"></textarea>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="row">
-                    <h3 class="col-xs-1"><i class="fa fa-map-marker"></i></h3>
-                    <h3 class="col-xs-11">Localização</h3>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-xs-offset-1 col-xs-5">
-                      <div class="panel panel-default">
-                        <div class="panel-body" id="panel-body-loc-admin">
-                          <div class="row">
-                            <div class="col-xs-6">
-                              <div class="form-group">
-                                <label for="loc_provin">Província</label>
-                                <select class="form-control widget" id="loc_provin"></select>
-                              </div>
-                            </div>
-                            <div class="col-xs-6">
-                              <div class="form-group">
-                                  <label for="loc_distri">Distrito</label>
-                                  <select class="form-control widget" id="loc_distri"></select>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-xs-6">
-                              <div class="form-group">
-                                  <label for="loc_posto">Posto administrativo</label>
-                                  <select class="form-control widget" id="loc_posto"></select>
-                              </div>
-                            </div>
-                            <div class="col-xs-6">
-                              <div class="form-group">
-                                  <label for="loc_nucleo">Bairro</label>
-                                  <input type="text" class="form-control widget" id="loc_nucleo">
-                              </div>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-xs-12">
-                              <div class="form-group">
-                                  <label for="loc_endere">Endereço</label>
-                                  <textarea class="form-control widget" id="loc_endere" rows="4"></textarea>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-xs-6">
-                      <div class="panel panel-default">
-                        <div class="panel-body" id="panel-body-loc-hidro">
-                          <div class="row">
-                              <div class="col-xs-12">
-                                <div class="form-group col-xs-12">
-                                  <label for="loc_unidad">Unidade</label>
-                                  <select class="form-control widget" id="loc_unidad"></select>
-                                </div>
-                              </div>
-                          </div>
-                          <div class="row">
-                              <div class="col-xs-12">
-                                <div class="form-group col-xs-12">
-                                  <label for="loc_bacia">Bacia</label>
-                                  <select class="form-control widget" id="loc_bacia"></select>
-                                </div>
-                              </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-xs-12">
-                              <div class="form-group col-xs-12">
-                                <label for="loc_subaci">Sub-bacia</label>
-                                <select class="form-control widget" id="loc_subaci"></select>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-xs-12">
-                              <div class="form-group col-xs-12">
-                                <label for="loc_rio">Rio</label>
-                                <input type="text" class="form-control widget" id="loc_rio">
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
                 <div class="tab-pane" id="utente">
                   <div class="row">
                     <h3 class="col-xs-1"><i class="fa fa-user"></i></h3>
@@ -354,6 +209,152 @@
                 </div>
 
                 </div>
+
+                <div class="tab-pane" id="info">
+                  <div class="row">
+                    <h3 class="col-xs-1"><i class="fa fa-info"></i></h3>
+                    <h3 class="col-xs-11">Informação</h3>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-xs-offset-1 col-xs-11">
+                      <div id="form-exp_id-warning-message" class="alert alert-warning alert-dismissible" style="display:none;">
+                        <strong>Atenção!</strong> Existe outro requerimento com o mesmo <strong>Nro de exploração</strong>.
+                      </div>
+                      <div id="form-exp_name-warning-message" class="alert alert-warning alert-dismissible" style="display:none;">
+                        <strong>Atenção!</strong> Existe outro requerimento com o mesmo <strong>Nome de exploração</strong>.
+                      </div>
+                      <div class="panel panel-default">
+                        <div class="panel-body">
+                          <div class="col-xs-5">
+                            <div class="row">
+                              <div class="form-group">
+                                <label for="exp_name">Nro de exploração</label>
+                                <input type="text" class="form-control widget" id="exp_id" required>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="form-group">
+                                <label for="exp_name">Nome da exploração</label>
+                                <input type="text" class="form-control widget" id="exp_name" required>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div id="actividade-select" class="form-group">
+                                <label for="actividade">Tipo de actividade</label>
+                                <select id="actividade" class="form-control"></select>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xs-offset-1 col-xs-6">
+                            <div class="row">
+                              <div class="form-group">
+                                <label for="d_soli">Data de solicitação</label>
+                                <input type="text" class="form-control widget-date" id="d_soli" placeholder="dd/mm/yyyy" pattern="^\d{1,2}[./-]\d{1,2}[./-]\d{4}$">
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="form-group">
+                                <label for="observacio">Observações sobre linha de água e localizaçao</label>
+                                <textarea class="form-control widget" id="observacio" rows="5"></textarea>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <h3 class="col-xs-1"><i class="fa fa-map-marker"></i></h3>
+                    <h3 class="col-xs-11">Localização</h3>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-xs-offset-1 col-xs-5">
+                      <div class="panel panel-default">
+                        <div class="panel-body" id="panel-body-loc-admin">
+                          <div class="row">
+                            <div class="col-xs-6">
+                              <div class="form-group">
+                                <label for="loc_provin">Província</label>
+                                <select class="form-control widget" id="loc_provin"></select>
+                              </div>
+                            </div>
+                            <div class="col-xs-6">
+                              <div class="form-group">
+                                  <label for="loc_distri">Distrito</label>
+                                  <select class="form-control widget" id="loc_distri"></select>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-xs-6">
+                              <div class="form-group">
+                                  <label for="loc_posto">Posto administrativo</label>
+                                  <select class="form-control widget" id="loc_posto"></select>
+                              </div>
+                            </div>
+                            <div class="col-xs-6">
+                              <div class="form-group">
+                                  <label for="loc_nucleo">Bairro</label>
+                                  <input type="text" class="form-control widget" id="loc_nucleo">
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-xs-12">
+                              <div class="form-group">
+                                  <label for="loc_endere">Endereço</label>
+                                  <textarea class="form-control widget" id="loc_endere" rows="4"></textarea>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-xs-6">
+                      <div class="panel panel-default">
+                        <div class="panel-body" id="panel-body-loc-hidro">
+                          <div class="row">
+                              <div class="col-xs-12">
+                                <div class="form-group col-xs-12">
+                                  <label for="loc_unidad">Unidade</label>
+                                  <select class="form-control widget" id="loc_unidad"></select>
+                                </div>
+                              </div>
+                          </div>
+                          <div class="row">
+                              <div class="col-xs-12">
+                                <div class="form-group col-xs-12">
+                                  <label for="loc_bacia">Bacia</label>
+                                  <select class="form-control widget" id="loc_bacia"></select>
+                                </div>
+                              </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-xs-12">
+                              <div class="form-group col-xs-12">
+                                <label for="loc_subaci">Sub-bacia</label>
+                                <select class="form-control widget" id="loc_subaci"></select>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-xs-12">
+                              <div class="form-group col-xs-12">
+                                <label for="loc_rio">Rio</label>
+                                <input type="text" class="form-control widget" id="loc_rio">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
 
                 <div class="tab-pane" id="licencia">
 
