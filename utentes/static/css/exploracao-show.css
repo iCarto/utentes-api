@@ -5,10 +5,11 @@
 }
 
 #map{
-    height: 42em;
+    font-size: 14px;
+    height: 36em;
     margin-left: 1em;
     width: 95%;
-    margin-bottom: 1em;
+    margin-bottom: 0.9em;
 }
 
 label{ /*override bootstrap settings*/
@@ -19,9 +20,14 @@ label{ /*override bootstrap settings*/
     color: #999;
 }
 
-.btn-xs{ /*override bootstrap settings*/
+/*override bootstrap settings*/
+.btn-xs{
     color: #bbb !important;
 }
+.disabled .btn-xs {
+    color: #333 !important;
+}
+
 
 .label{
     font-size: small;
@@ -34,8 +40,13 @@ label{ /*override bootstrap settings*/
 }
 
 .volume-summary{
-    background-color: #eee;
-    padding: .1em 0 .1em 0;
+    background-color: #d9edf7;
+    padding: 1em 0;
+    margin: 0em;
+    border: 1px solid #bce8f1;
+}
+.volume-summary h3 {
+    margin: 0;
 }
 
 .volume-license,
@@ -61,4 +72,24 @@ label{ /*override bootstrap settings*/
 
 #panel-body-regadio-consumos {
     margin-bottom: 44%;
+}
+
+#block-subterranea.disabled .panel,
+#block-superficial.disabled .panel {
+    background-color: #eee;
+    color: gray;
+    cursor: not-allowed;
+    border: none;
+}
+#block-superficial .panel,
+#block-subterranea .panel {
+    padding-bottom: 10px;
+    border: 1px solid #bce8f1;
+}
+.disabled .lic_nro {
+    color: gray;
+}
+.lic_nro,
+.exploracao_info {
+    color: #00a2da;
 }

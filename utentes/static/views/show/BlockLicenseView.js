@@ -1,3 +1,4 @@
+var i = 0;
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.BlockLicenseView = Backbone.View.extend({
 
@@ -37,6 +38,7 @@ Backbone.SIXHIARA.BlockLicenseView = Backbone.View.extend({
             this.$('#editLicense').addClass('hidden');
             this.$('#addFonte').addClass('hidden');
             this.$('#removeLicense').addClass('hidden');
+            this.$el.addClass('disabled');
         }
         /*
         fact_tipo no es una propiedad de cada licencia. Si no que es común a ambas
