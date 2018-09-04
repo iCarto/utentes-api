@@ -214,7 +214,8 @@ with or whithout another 'observacio-anteriores' textarea
     text-align: center;
 }
 
-.panel.panel-disabled {
+.panel.panel-disabled,
+.panel.panel-disabled fieldset {
     cursor: not-allowed;
     background-color: #eee;
 }

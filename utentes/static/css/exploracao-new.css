@@ -43,3 +43,16 @@ fieldset {
     border: 0;
     padding-top: 0;
 }
+
+.panel.panel-disabled,
+.panel.panel-disabled .panel-heading,
+.panel.panel-disabled .panel-heading .panel-title,
+.panel.panel-disabled fieldset {
+    cursor: not-allowed;
+    background-color: #eee;
+    color: #777777;
+    border-color: #dddddd;
+}
+.panel.panel-disabled fieldset:first-child {
+    color: #333333;
+}

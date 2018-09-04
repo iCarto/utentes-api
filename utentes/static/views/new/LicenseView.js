@@ -52,6 +52,7 @@ Backbone.SIXHIARA.LicenseView = Backbone.UILib.BaseView.extend({
     // remove - Backbone.UILib.BaseView.prototype.remove.call(this);
 
     clickActive: function (e) {
+        this.$el.toggleClass("panel-disabled");
         if(e.target.checked){
             this.model.get('licencias').add(this.license);
             this.enableWidgets();
