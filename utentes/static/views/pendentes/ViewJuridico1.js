@@ -70,6 +70,16 @@ Backbone.SIXHIARA.ViewJuridico1 = Backbone.SIXHIARA.View1.extend({
               <td><input id="licen_fu" type="checkbox" <%- licen_fu ? 'checked=""' : '' %>></td>
               <td><input id="licen_fu_v" type="checkbox" <%- licen_fu_v ? 'checked=""' : '' %>></td>
             </tr>
+            <tr>
+              <td>Relatório técnico de perforação (Se é preciso)</td>
+              <td><input id="rel_tec_perf" type="checkbox" <%- rel_tec_perf ? 'checked=""' : '' %>></td>
+              <td><input id="rel_tec_perf_v" type="checkbox" <%- rel_tec_perf_v ? 'checked=""' : '' %>></td>
+            </tr>
+            <tr>
+              <td>Boletim de análise de água</td>
+              <td><input id="bol_an_agua" type="checkbox" <%- bol_an_agua ? 'checked=""' : '' %>></td>
+              <td><input id="bol_an_agua_v" type="checkbox" <%- bol_an_agua_v ? 'checked=""' : '' %>></td>
+            </tr>
           </tbody>
         </table>
       </div>

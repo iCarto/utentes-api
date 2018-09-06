@@ -61,6 +61,14 @@ Backbone.SIXHIARA.ViewSecretaria1 = Backbone.SIXHIARA.View1.extend({
               <td>Autorização de apertura de poço/furo&nbsp;(Se é preciso)</td>
               <td><input id="licen_fu" type="checkbox" <%- licen_fu ? 'checked=""' : '' %>></td>
             </tr>
+            <tr>
+              <td>Relatório técnico de perforação (Se é preciso)</td>
+              <td><input id="rel_tec_perf" type="checkbox" <%- rel_tec_perf ? 'checked=""' : '' %>></td>
+            </tr>
+            <tr>
+              <td>Boletim de análise de água</td>
+              <td><input id="bol_an_agua" type="checkbox" <%- bol_an_agua ? 'checked=""' : '' %>></td>
+            </tr>
           </tbody>
         </table>
       </div>

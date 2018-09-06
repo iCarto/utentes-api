@@ -38,7 +38,7 @@ class Exploracao(Base):
         'carta_re', 'ficha_pe', 'ident_pro', 'certi_reg', 'duat', 'licen_am', 'mapa', 'licen_fu',
         'carta_re_v', 'ficha_pe_v', 'ident_pro_v', 'certi_reg_v', 'duat_v', 'licen_am_v', 'mapa_v',
         'licen_fu_v', 'anali_doc', 'soli_visit', 'p_unid', 'p_tec', 'doc_legal',
-        'p_juri', 'p_rel', 'req_obs', 'estado_lic', 'created_at', 'exp_name'
+        'p_juri', 'p_rel', 'req_obs', 'estado_lic', 'created_at', 'exp_name', 'rel_tec_perf', 'rel_tec_perf_v', 'bol_an_agua', 'bol_an_agua_v'
     ]
 
     FACTURACAO_FIELDS = ['fact_estado', 'fact_tipo', 'pago_lic', 'pagos']
@@ -75,6 +75,8 @@ class Exploracao(Base):
     certi_reg = Column(Boolean, nullable=False, server_default=text('false'), doc='Certificado de registo comercial')
     duat = Column(Boolean, nullable=False, server_default=text('false'), doc='DUAT ou declaração das estructuras locais (bairro)')
     licen_am = Column(Boolean, nullable=False, server_default=text('false'), doc='Licença ambiental (se é preciso)')
+    bol_an_agua = Column(Boolean, nullable=False, server_default=text('false'), doc='Boletim de análise de água')
+    rel_tec_perf = Column(Boolean, nullable=False, server_default=text('false'), doc='Relatório técnico de perforação (Se é preciso)')
     mapa = Column(Boolean, nullable=False, server_default=text('false'), doc='Mapa de localização')
     licen_fu = Column(Boolean, nullable=False, server_default=text('false'), doc='Licença de apertura de poço/furo  (se é preciso)')
     carta_re_v = Column(Boolean, nullable=False, server_default=text('false'), doc='Carta de requerimento (validada)')
@@ -82,7 +84,9 @@ class Exploracao(Base):
     ident_pro_v = Column(Boolean, nullable=False, server_default=text('false'), doc='Identificação do proprietário (validada)')
     certi_reg_v = Column(Boolean, nullable=False, server_default=text('false'), doc='Certificado de registo comercial (validada)')
     duat_v = Column(Boolean, nullable=False, server_default=text('false'), doc='DUAT ou declaração das estructuras locais (bairro) (validada)')
-    licen_am_v = Column(Boolean, nullable=False, server_default=text('false'), doc='Licença ambiental (se é preciso) (validada)')
+    rel_tec_perf_v = Column(Boolean, nullable=False, server_default=text('false'), doc='Licença ambiental (se é preciso) (validada)')
+    licen_am_v = Column(Boolean, nullable=False, server_default=text('false'), doc='Relatório técnico de perforação (Se é preciso) (validada)')
+    bol_an_agua_v = Column(Boolean, nullable=False, server_default=text('false'), doc='Boletim de análise de água (validada)')
     mapa_v = Column(Boolean, nullable=False, server_default=text('false'), doc='Mapa de localização (validada)')
     licen_fu_v = Column(Boolean, nullable=False, server_default=text('false'), doc='Licença de apertura de poço/furo  (se é preciso) (validada)')
     anali_doc = Column(Boolean, nullable=False, server_default=text('false'), doc='Análise da documentação')
