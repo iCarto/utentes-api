@@ -70,10 +70,11 @@ var MyImportGPX = ImportGPX.extend({
         this.options.toolbarIcon.tooltip = 'Carregar';
         var action = this;
         $('#input-importgpx').on('change', function(e){
-            action.convertToGeoJSON(e.target.files, geoJsonLayer, map);
+            action.convertToGeoJSON(e.target.files, geoJsonLayer, map, table);
             // reset value of input.file element for the change event
             // to be triggered if the user loads again the same file
             $('#input-importgpx').val('');
+
         });
     },
 
@@ -108,9 +109,26 @@ var MyDeleteSelected = DeleteSelected.extend({
     }
 });
 
+var MyDeleteSession = EndSession.extend({
+    initialize: function() {
+        this.options.toolbarIcon.tooltip = 'Fechar Sessão';
+
+    },
+
+    addHooks: function () {
+        bootbox.confirm("Tem certeza de que deseja apagar todos os pontos carregados?", function(result){
+            if (result) {
+                table.endSession();
+            }
+            return;
+
+        });
+    },
+});
+
 var actionsToolbar = new L.Toolbar.Control({
     position: 'topright',
-    actions: [MyImportGPX, MyMakePolygon, MyClear, MyMoveToTop, MyDeleteSelected, MySaveToAPI],
+    actions: [MyImportGPX, MyMakePolygon, MyClear, MyMoveToTop, MyDeleteSelected, MySaveToAPI, MyDeleteSession],
     className: 'gps-toolbar',
 }).addTo(map);
 

@@ -40,9 +40,25 @@ L.Control.Table = L.Control.extend({
                 },
             }
     ).addTo(map);
+
+        map.on("moveend", this.saveMapView, this);
     },
 
     onAdd: function(map){
+        if (window.localStorage.getItem("gpxData")){
+            var points = this.getDataFromLocalStorage();
+            var myGeoJSON = this.layerFromPoints(points);
+            this.geoJsonLayer.addData(myGeoJSON);
+        } else {
+            this.disableSessionButton();
+        }
+
+        if (window.localStorage.getItem("mapView")){
+            this.loadMapView();
+        }
+
+
+
         var codeTitle = this.options.featCodeTitle;
         var orderTitle = this.options.featOrderTitle;
 
@@ -92,6 +108,7 @@ L.Control.Table = L.Control.extend({
         this.selection.forEach(function(value, key, map){
             this.geoJsonLayer.removeLayer(value.properties[this.options.featIdProp]);
         }, this);
+        this.saveToLocalStorage();
         this.selection.clear();
     },
 
@@ -214,6 +231,7 @@ L.Control.Table = L.Control.extend({
         var cellOrder = newRow.insertCell();
         cellOrder.setAttribute('id', 'fid-' + props[fid] + '-order');
         cellOrder.appendChild(document.createTextNode(props[order]));
+        this.saveToLocalStorage();
     },
 
     removeRow: function(e){
@@ -293,6 +311,7 @@ L.Control.Table = L.Control.extend({
     saveToAPI: function(){
         // TODO: save polygon
         // this could be a extensible point for others to choose what to do
+
         this.deleteSelected();
     },
 
@@ -340,6 +359,93 @@ L.Control.Table = L.Control.extend({
             polygon.properties[fidProp] = feat.properties[fidProp];
         });
         return polygon;
+    },
+
+    getDataFromLocalStorage: function(){
+        var localStorageData = window.localStorage.getItem("gpxData");
+        var parsed = JSON.parse(localStorageData);
+        return parsed;
+    },
+
+    layerFromPoints: function(points){
+        var gj = {
+            type: 'FeatureCollection',
+            features: []
+        }
+
+        points.forEach(function(point){
+            gj.features.push(this.getPoint(point))
+        }, this)
+
+        return gj;
+    },
+
+    getPoint: function(node) {
+        return {
+            type: 'Feature',
+            properties: { name: node.name },
+            geometry: {
+                type: 'Point',
+                coordinates: node.coordinates
+            }
+        };
+    },
+
+    resetView: function(){
+        map.setView(SIXHIARA.center, SIXHIARA.search.zoom);
+    },
+
+    saveToLocalStorage: function(){
+        var myarray = [];
+        this.geoJsonLayer.eachLayer(function(layer){
+            myarray.push({
+                name: layer.feature.properties.name,
+                coordinates: layer.feature.geometry.coordinates});
+        });
+
+        window.localStorage.removeItem("gpxData");
+        if (!_.isEmpty(myarray)) {
+            window.localStorage.setItem("gpxData", JSON.stringify(myarray));
+            this.saveMapView();
+            this.enableSessionButton();
+        } else {
+            this.resetView();
+            this.disableSessionButton();
+        }
+    },
+
+    saveMapView: function(){
+        var position = {
+            zoom: map.getZoom(),
+            center: map.getCenter()};
+
+        window.localStorage.removeItem("mapView");
+        window.localStorage.setItem("mapView", JSON.stringify(position));
+    },
+
+    loadMapView: function(){
+        if (window.localStorage.getItem("mapView")) {
+            var mapViewRaw = window.localStorage.getItem("mapView");
+            var mapView = JSON.parse(mapViewRaw);
+            map.setView(mapView.center, mapView.zoom);
+        }
+
+    },
+
+    endSession: function(){
+        this.geoJsonLayer.clearLayers();
+        this.disableSessionButton();
+        this.resetView();
+        window.localStorage.removeItem("gpxData");
+        window.localStorage.removeItem("mapView");
+    },
+
+    disableSessionButton: function(){
+        $("#endSession").parent().parent().addClass("disable");
+    },
+
+    enableSessionButton: function(){
+        $("#endSession").parent().parent().removeClass("disable");
     },
 
 });
