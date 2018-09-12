@@ -147,7 +147,10 @@
       <br>
       <small><%- formatter().formatDate(created_at) %> </small>&nbsp;
       <div class="licencias">
-          <small><div><%- licenciasStr[0] %></div><div><%- licenciasStr[1] %></div></small>
+          <small>
+              <div><%- Backbone.SIXHIARA.formatter.formatTipoLicencias(licencias)[0] %></div>
+              <div><%- Backbone.SIXHIARA.formatter.formatTipoLicencias(licencias)[1] %></div>
+          </small>
       </div>
     </span>
   </li>
