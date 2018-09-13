@@ -33,7 +33,7 @@ Backbone.SIXHIARA.NavBarView = Backbone.View.extend({
                         </ul>
                     </li>
                     <li><a id="search-all" href="exploracao-search.html?all">
-                        <strong>TODAS</strong>
+                        <strong>EM PROCESSO</strong>
                     </a></li>
 
                 </ul>

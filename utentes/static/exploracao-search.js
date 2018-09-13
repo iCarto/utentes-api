@@ -75,7 +75,18 @@ var estadosFetched = function(params) {
 
 var qparams = new URLSearchParams(document.location.search.substring(1));
 if (qparams.has('all')) {
-    estadosFetched();
+    estados.fetch({
+        success: function() {
+            var estadosFiltered = estados.filter(function(model){
+                return model.get('parent') !== 'post-licenciada' ;
+            })
+            estados = new Backbone.SIXHIARA.EstadoCollection(estadosFiltered);
+            var params = $.param({
+                'states': estados.pluck('text'),
+            });
+            estadosFetched(params);
+        },
+    });
 } else {
     estados.fetch({
         success: function() {
