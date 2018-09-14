@@ -62,7 +62,10 @@ var exploracaosFetched = function() {
     mapView.update(exploracaosFiltered);
 };
 
-var estadosFetched = function(params) {
+var estadosFetched = function(estados) {
+    var params = $.param({
+        'states': estados.pluck('text'),
+    });
     exploracaos.fetch({
         parse: true,
         success: exploracaosFetched,
@@ -74,27 +77,24 @@ var estadosFetched = function(params) {
 };
 
 var qparams = new URLSearchParams(document.location.search.substring(1));
-if (qparams.has('all')) {
+if (qparams.has('em_processo')) {
     estados.fetch({
         success: function() {
             var estadosFiltered = estados.filter(function(model){
-                return model.get('parent') !== 'post-licenciada' ;
+                var flag = model.get('parent') !== 'post-licenciada';
+                // Workaround. Review EstadosCollection to handle ara category
+                flag = flag && (model.get('category') !== 'ara');
+                return  flag;
             })
             estados = new Backbone.SIXHIARA.EstadoCollection(estadosFiltered);
-            var params = $.param({
-                'states': estados.pluck('text'),
-            });
-            estadosFetched(params);
+            estadosFetched(estados);
         },
     });
 } else {
     estados.fetch({
         success: function() {
             estados = estados.forSearchView();
-            var params = $.param({
-                'states': estados.pluck('text'),
-            });
-            estadosFetched(params);
+            estadosFetched(estados);
         },
     });
 }

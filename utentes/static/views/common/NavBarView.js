@@ -32,7 +32,7 @@ Backbone.SIXHIARA.NavBarView = Backbone.View.extend({
                           <li><a id="gps" href="exploracao-gps.html"><strong>GEOMETRIA</strong></a></li>
                         </ul>
                     </li>
-                    <li><a id="search-all" href="exploracao-search.html?all">
+                    <li><a id="search-all" href="exploracao-search.html?em_processo">
                         <strong>EM PROCESSO</strong>
                     </a></li>
 
