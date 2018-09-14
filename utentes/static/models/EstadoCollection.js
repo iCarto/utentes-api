@@ -107,7 +107,7 @@ var ESTADOS_PENDENTES = [
     },
     {
         'key': Backbone.SIXHIARA.Estado.INCOMPLETE_DIR,
-        'roles': [ROL_ADMIN, ROL_DIRECCION]
+        'roles': [ROL_ADMIN, ROL_DIRECCION, ROL_JURIDICO]
     },
     {
         'key': Backbone.SIXHIARA.Estado.INCOMPLETE_DJ,
@@ -123,7 +123,7 @@ var ESTADOS_PENDENTES = [
     },
     {
         'key': Backbone.SIXHIARA.Estado.PENDING_REVIEW_DIR,
-        'roles': [ROL_ADMIN, ROL_DIRECCION]
+        'roles': [ROL_ADMIN, ROL_DIRECCION, ROL_JURIDICO]
     },
     {
         'key': Backbone.SIXHIARA.Estado.PENDING_REVIEW_DJ,
@@ -143,7 +143,7 @@ var ESTADOS_PENDENTES = [
     },
     {
         'key': Backbone.SIXHIARA.Estado.PENDING_DIR_SIGN,
-        'roles': [ROL_ADMIN, ROL_DIRECCION]
+        'roles': [ROL_ADMIN, ROL_DIRECCION, ROL_JURIDICO]
     },
     {
         'key': Backbone.SIXHIARA.Estado.DE_FACTO,
