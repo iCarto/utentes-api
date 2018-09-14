@@ -28,24 +28,41 @@ Backbone.SIXHIARA.BlockLicenseView = Backbone.View.extend({
             this.$('#editLicense').removeClass('hidden');
             this.$('#addFonte').removeClass('hidden');
             this.$('#removeLicense').removeClass('hidden');
+            /*
+            fact_tipo no es una propiedad de cada licencia. Si no que es común a ambas
+            por lo que debería estar en un "emplazamiento" común a ambas y no hackeear de esta forma
+            o si no, igual hay que inyectarlo en el modelo de la Licencia o meterlo de verdad
+            */
+            this.$('span.js_fact_tipo').text(this.model.get('fact_tipo'));
+
         } else {
             var lic = new Backbone.SIXHIARA.Licencia({
                 'tipo_agua': this.options.tipo_agua,
                 'lic_nro': Backbone.SIXHIARA.Estado.NOT_EXISTS,
             });
+            
+            /*
+            Workaround. En Licencia.initialize se setean valores. Al crear una
+            licencia nueva vacía esos valores se muestran en el template a
+            pesar de que en realidad deberían nulos
+            */
+            lic.set({'taxa_uso': null, 'iva':null}, {'silent': true})
+            
             this.$el.append(this.template(lic.toJSON()));
             this.$('#addLicense').removeClass('hidden');
             this.$('#editLicense').addClass('hidden');
             this.$('#addFonte').addClass('hidden');
             this.$('#removeLicense').addClass('hidden');
             this.$el.addClass('disabled');
+            
+            /*
+            fact_tipo no es una propiedad de cada licencia. Si no que es común a ambas
+            por lo que debería estar en un "emplazamiento" común a ambas y no hackeear de esta forma
+            o si no, igual hay que inyectarlo en el modelo de la Licencia o meterlo de verdad
+            */
+            this.$('span.js_fact_tipo').text('-');
         }
-        /*
-        fact_tipo no es una propiedad de cada licencia. Si no que es común a ambas
-        por lo que debería estar en un "emplazamiento" común a ambas y no hackeear de esta forma
-        o si no, igual hay que inyectarlo en el modelo de la Licencia o meterlo de verdad
-        */
-        this.$('span.js_fact_tipo').text(this.model.get('fact_tipo'));
+        
         return this;
     },
 

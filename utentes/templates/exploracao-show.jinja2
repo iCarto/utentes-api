@@ -1784,37 +1784,39 @@
       </div>
       <div class="row">
         <span class="col-xs-offset-1 col-xs-11">
-          <span class="title">Tipo de consumo</span> <%- consumo_tipo || '-' %>
           <span class="title">Taxa fixa <i class="units">(MZN/més)</i></span> <%- formatter().formatNumber(taxa_fixa) || '-' %>
           <span class="title">Taxa uso <i class="units">(MZN/m<sup>3</sup>)</i></span> <%- formatter().formatNumber(taxa_uso) || '-' %>
         </span>
       </div>
 
-      <div class="row">
-        <span class="col-xs-offset-1 col-xs-2 text-right"><%- formatter().formatNumber(consumo_fact) || '-' %> </span>
-        <span class="col-xs-9">
-          <span class="title"><i class="units">m<sup>3</sup>/mês</i> consumo facturado</span> <span class="title">(Tipo de facturação: <span class="js_fact_tipo"></span>)</span>
-        </span>
-      </div>
-      <div class="row">
-        <span class="col-xs-offset-1 col-xs-2 text-right"><%- formatter().formatNumber(c_licencia) || '-' %> </span>
-        <span class="col-xs-9">
-          <span class="title"><i class="units">m<sup>3</sup>/mês</i> consumo licenciado</span>
-        </span>
-      </div>
 
-      <div class="row">
-        <span class="col-xs-offset-1 col-xs-2 text-right"><%- formatter().formatNumber(c_real_tot) || '-' %> </span>
-        <span class="col-xs-9">
-          <span class="title"><i class="units">m<sup>3</sup>/mês</i> consumo real</span> <span class="title">(<%- formatter().formatNumber(c_real_int) || '-' %> intermedio / <%- formatter().formatNumber(c_real_fon) || '-' %> fontes)</span>
-        </span>
-      </div>
-      <div class="row">
-        <span class="col-xs-offset-1 col-xs-2 text-right"><%- formatter().formatNumber(c_soli_tot) || '-' %> </span>
-        <span class="col-xs-9">
-          <span class="title"><i class="units">m<sup>3</sup>/mês</i> consumo solicitado</span> <span class="title">(<%- formatter().formatNumber(c_soli_int) || '-' %> intermedio / <%- formatter().formatNumber(c_soli_fon) || '-' %> fontes)</span>
-        </span>
-      </div>
+    <div class="row">
+      <span class="col-xs-offset-1 col-xs-2 text-right"><%- formatter().formatNumber(consumo_fact) || '-' %> </span>
+      <span class="col-xs-9">
+        <span class="title"><i class="units">m<sup>3</sup>/mês</i> consumo facturado</span> <span class="title">(Tipo de facturação/consumo:</span> <span class="js_fact_tipo"></span> <span class="title">/</span> <%- consumo_tipo || '-' %><span class="title">)</span>
+      </span>
+    </div>
+    <div class="row">
+      <span class="col-xs-offset-1 col-xs-2 text-right"><%- formatter().formatNumber(c_licencia) || '-' %> </span>
+      <span class="col-xs-9">
+        <span class="title"><i class="units">m<sup>3</sup>/mês</i> consumo licenciado</span>
+      </span>
+    </div>
+
+    <div class="row">
+      <span class="col-xs-offset-1 col-xs-2 text-right"><%- formatter().formatNumber(c_real_tot) || '-' %> </span>
+      <span class="col-xs-9">
+        <span class="title"><i class="units">m<sup>3</sup>/mês</i> consumo real</span> <span class="title">(</span><%- formatter().formatNumber(c_real_int) || '-' %> <span class="title">intermedio /</span> <%- formatter().formatNumber(c_real_fon) || '-' %> <span class="title">fontes)</span>
+      </span>
+    </div>
+    <div class="row">
+      <span class="col-xs-offset-1 col-xs-2 text-right"><%- formatter().formatNumber(c_soli_tot) || '-' %> </span>
+      <span class="col-xs-9">
+        <span class="title"><i class="units">m<sup>3</sup>/mês</i> consumo solicitado</span> <span class="title">(</span><%- formatter().formatNumber(c_soli_int) || '-' %> <span class="title"> intermedio /</span> <%- formatter().formatNumber(c_soli_fon) || '-' %> <span class="title">fontes)</span>
+      </span>
+    </div>
+    
+
     </div>
 
   </script>
