@@ -16,6 +16,21 @@ Backbone.SIXHIARA.Config = {
     apiTanquesPiscicolas: '/api/tanques_piscicolas',
 };
 
+Backbone.SIXHIARA.formatter = formatter();
+Backbone.SIXHIARA.formatter.formatTipoLicencias = function(licencias){
+    var licenciasStr = [ "-", "-" ];
+    licencias.forEach(function(lic){
+        var tipo = lic['tipo_agua'];
+        if( tipo === 'Subterrânea' ){
+            licenciasStr[0] = tipo;
+        }
+        if( tipo === 'Superficial'){
+            licenciasStr[1] = tipo;
+        }
+    })
+    return licenciasStr;
+}
+
 Backbone.SIXHIARA.MSG = {
     NO_ACTIVITY: 'Actividade non declarada',
 };

@@ -37,7 +37,8 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
 <h4 style="margin-bottom: 10px;">
 <span style="color:#00a2da"><%- exp_id + ' '%> <%- exp_name %></span> <span style="color: grey"><%= ' (' + (actividade && actividade.tipo || 'Não declarada') + ') ' %></span>
 <div class="licencias">
-    <div><%- licenciasStr[0] %></div><div><%- licenciasStr[1] %></div>
+    <div><%- Backbone.SIXHIARA.formatter.formatTipoLicencias(licencias)[0] %></div>
+    <div><%- Backbone.SIXHIARA.formatter.formatTipoLicencias(licencias)[1] %></div>
 </div>
 <br>
 <small style="font-size: 50%;" class="label <%- summary_licencia_val ? 'label-success' : 'label-danger' %>" id="summary_licencia"><%- summary_licencia_msg.charAt(0) %></small>
@@ -244,7 +245,6 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
         var json = this.model.toJSON();
         json.c_licencia_sup = this.model.getLicencia('sup').get('c_licencia');
         json.c_licencia_sub = this.model.getLicencia('sub').get('c_licencia');
-        json.licenciasStr =  this.formatTipoLicencias();
         this.$el.html(this.template(json));
         return this;
     },
@@ -487,19 +487,5 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
         var s = document.querySelectorAll('#myid selectId')[0]
         return s.options[s.selectedIndex].text;
     },
-
-    formatTipoLicencias: function(){
-        var licenciasStr = [ "-", "-" ];
-        this.model.get('licencias').forEach(function(lic){
-            var tipo = lic.get('tipo_agua');
-            if ( tipo === 'Subterrânea' ) {
-                licenciasStr[0] = tipo + " (" + lic.get("estado") + ")";
-            }
-            if ( tipo === 'Superficial' ) {
-                licenciasStr[1] = tipo + " (" + lic.get("estado") + ")";
-            }
-        })
-        return licenciasStr;
-    }
 
 });

@@ -142,7 +142,10 @@
       <a href="#"><%- exp_id %> <%- exp_name %></a> <small style="color: grey; font-size: 75%"><%= '(' + (actividade && actividade.tipo || 'Não declarada') + ')' %></small>
       <br>
         <div class="licencias">
-            <small><div><%- licenciasStr[0] %></div><div><%- licenciasStr[1] %></div></small>
+            <small>
+                <div><%- Backbone.SIXHIARA.formatter.formatTipoLicencias(licencias)[0] %></div>
+                <div><%- Backbone.SIXHIARA.formatter.formatTipoLicencias(licencias)[1] %></div>
+            </small>
         </div>
     </span>
     <span class="col-xs-12">

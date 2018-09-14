@@ -27,7 +27,8 @@ Backbone.SIXHIARA.ViewTecnico1 = Backbone.SIXHIARA.View1.extend({
 <h4 style="margin-bottom: 20px;">
 <%- formatter().formatDate(created_at) + ' - ' %><span style="color:#00a2da"><%- exp_id + ' '%> <%- exp_name %></span> <span style="color: grey"><%= ' (' + (actividade && actividade.tipo || 'Não declarada') + ')' %></span>
 <div class="licencias">
-    <div><%- licenciasStr[0] %></div><div><%- licenciasStr[1] %></div>
+    <div><%- Backbone.SIXHIARA.formatter.formatTipoLicencias(licencias)[0] %></div>
+    <div><%- Backbone.SIXHIARA.formatter.formatTipoLicencias(licencias)[1] %></div>
 </div>
 </h4>
 
@@ -254,17 +255,4 @@ print('O ' + formatter().formatDate(req_obs[i]['create_at']) + ', ' + req_obs[i]
         );
     },
 
-    formatTipoLicencias: function(){
-        var licenciasStr = [ "-", "-" ];
-        this.get('licencias').forEach(function(lic){
-            var tipo = lic.get('tipo_agua');
-            if ( tipo === 'Subterrânea' ) {
-                licenciasStr[0] = tipo + " (" + lic.get("estado") + ")";
-            }
-            if ( tipo === 'Superficial' ) {
-                licenciasStr[1] = tipo + " (" + lic.get("estado") + ")";
-            }
-        })
-        return licenciasStr;
-    }
 });
