@@ -35,10 +35,9 @@ class Exploracao(Base):
     }
 
     REQUERIMENTO_FIELDS = [
-        'carta_re', 'ficha_pe', 'ident_pro', 'certi_reg', 'duat', 'licen_am', 'mapa', 'licen_fu',
-        'carta_re_v', 'ficha_pe_v', 'ident_pro_v', 'certi_reg_v', 'duat_v', 'licen_am_v', 'mapa_v',
-        'licen_fu_v', 'anali_doc', 'soli_visit', 'p_unid', 'p_tec', 'doc_legal',
-        'p_juri', 'p_rel', 'req_obs', 'estado_lic', 'created_at', 'exp_name', 'rel_tec_perf', 'rel_tec_perf_v', 'bol_an_agua', 'bol_an_agua_v'
+        'carta_re', 'ficha_pe', 'ident_pro', 'certi_reg', 'duat', 'licen_am', 'mapa', 'licen_fu', 'r_perf', 'b_a_agua',
+        'carta_re_v', 'ficha_pe_v', 'ident_pro_v', 'certi_reg_v', 'duat_v', 'licen_am_v', 'mapa_v', 'licen_fu_v', 'r_perf_v',  'b_a_agua_v',
+        'anali_doc', 'soli_visit', 'p_unid', 'p_tec', 'doc_legal', 'p_juri', 'p_rel', 'req_obs', 'estado_lic', 'created_at', 'exp_name',  
     ]
 
     FACTURACAO_FIELDS = ['fact_estado', 'fact_tipo', 'pago_lic', 'pagos']
@@ -69,26 +68,29 @@ class Exploracao(Base):
     utente = Column(ForeignKey(u'utentes.utentes.gid', ondelete=u'CASCADE', onupdate=u'CASCADE'), nullable=False)
     estado_lic = Column(Text, nullable=False, doc='Estado')
     created_at = Column(DateTime, nullable=False, server_default=text('now()'), doc='Data creación requerimento')
+
     carta_re = Column(Boolean, nullable=False, server_default=text('false'), doc='Carta de requerimento')
     ficha_pe = Column(Boolean, nullable=False, server_default=text('false'), doc='Ficha de pedido preenchida')
     ident_pro = Column(Boolean, nullable=False, server_default=text('false'), doc='Identificação do proprietário')
     certi_reg = Column(Boolean, nullable=False, server_default=text('false'), doc='Certificado de registo comercial')
     duat = Column(Boolean, nullable=False, server_default=text('false'), doc='DUAT ou declaração das estructuras locais (bairro)')
     licen_am = Column(Boolean, nullable=False, server_default=text('false'), doc='Licença ambiental (se é preciso)')
-    bol_an_agua = Column(Boolean, nullable=False, server_default=text('false'), doc='Boletim de análise de água')
-    rel_tec_perf = Column(Boolean, nullable=False, server_default=text('false'), doc='Relatório técnico de perforação (Se é preciso)')
     mapa = Column(Boolean, nullable=False, server_default=text('false'), doc='Mapa de localização')
     licen_fu = Column(Boolean, nullable=False, server_default=text('false'), doc='Licença de apertura de poço/furo  (se é preciso)')
+    r_perf = Column(Boolean, nullable=False, server_default=text('false'), doc='Relatório técnico de perforação (Se é preciso)')
+    b_a_agua = Column(Boolean, nullable=False, server_default=text('false'), doc='Boletim de análise de água')
+
     carta_re_v = Column(Boolean, nullable=False, server_default=text('false'), doc='Carta de requerimento (validada)')
     ficha_pe_v = Column(Boolean, nullable=False, server_default=text('false'), doc='Ficha de pedido preenchida (validada)')
     ident_pro_v = Column(Boolean, nullable=False, server_default=text('false'), doc='Identificação do proprietário (validada)')
     certi_reg_v = Column(Boolean, nullable=False, server_default=text('false'), doc='Certificado de registo comercial (validada)')
     duat_v = Column(Boolean, nullable=False, server_default=text('false'), doc='DUAT ou declaração das estructuras locais (bairro) (validada)')
-    rel_tec_perf_v = Column(Boolean, nullable=False, server_default=text('false'), doc='Licença ambiental (se é preciso) (validada)')
     licen_am_v = Column(Boolean, nullable=False, server_default=text('false'), doc='Relatório técnico de perforação (Se é preciso) (validada)')
-    bol_an_agua_v = Column(Boolean, nullable=False, server_default=text('false'), doc='Boletim de análise de água (validada)')
     mapa_v = Column(Boolean, nullable=False, server_default=text('false'), doc='Mapa de localização (validada)')
     licen_fu_v = Column(Boolean, nullable=False, server_default=text('false'), doc='Licença de apertura de poço/furo  (se é preciso) (validada)')
+    r_perf_v = Column(Boolean, nullable=False, server_default=text('false'), doc='Licença ambiental (se é preciso) (validada)')
+    b_a_agua_v = Column(Boolean, nullable=False, server_default=text('false'), doc='Boletim de análise de água (validada)')
+
     anali_doc = Column(Boolean, nullable=False, server_default=text('false'), doc='Análise da documentação')
     soli_visit = Column(Boolean, nullable=False, server_default=text('false'), doc='Solicitação da vistoria')
     p_unid = Column(Boolean, nullable=False, server_default=text('false'), doc='Parecer da Unidade')
