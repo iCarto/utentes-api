@@ -43,11 +43,11 @@ Backbone.SIXHIARA.ViewSecretaria1 = Backbone.SIXHIARA.View1.extend({
             </tr>
             <tr>
               <td>Certificado de registo comercial</td>
-              <td><input id="certi_reg" type="checkbox" <%- certi_reg ? 'checked=""' : '' %> required></td>
+              <td><input id="certi_reg" type="checkbox" <%- certi_reg ? 'checked=""' : '' %>></td>
             </tr>
             <tr>
               <td>DUAT ou declaração das estructuras locais (bairro)</td>
-              <td><input id="duat" type="checkbox" <%- duat ? 'checked=""' : '' %> required></td>
+              <td><input id="duat" type="checkbox" <%- duat ? 'checked=""' : '' %>></td>
             </tr>
             <tr>
               <td>Licença Ambiental&nbsp;(Se é preciso)</td>
@@ -55,7 +55,7 @@ Backbone.SIXHIARA.ViewSecretaria1 = Backbone.SIXHIARA.View1.extend({
             </tr>
             <tr>
               <td>Mapa de localização</td>
-              <td><input id="mapa" type="checkbox" <%- mapa ? 'checked=""' : '' %> required></td>
+              <td><input id="mapa" type="checkbox" <%- mapa ? 'checked=""' : '' %>></td>
             </tr>
             <tr>
               <td>Autorização de apertura de poço/furo&nbsp;(Se é preciso)</td>

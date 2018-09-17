@@ -47,12 +47,12 @@ Backbone.SIXHIARA.ViewJuridico1 = Backbone.SIXHIARA.View1.extend({
             </tr>
             <tr>
               <td>Certificado de registo comercial</td>
-              <td><input id="certi_reg" type="checkbox" <%- certi_reg ? 'checked=""' : '' %> required></td>
+              <td><input id="certi_reg" type="checkbox" <%- certi_reg ? 'checked=""' : '' %>></td>
               <td><input id="certi_reg_v" type="checkbox" <%- certi_reg_v ? 'checked=""' : '' %> required></td>
             </tr>
             <tr>
               <td>DUAT ou declaração das estructuras locais (bairro)</td>
-              <td><input id="duat" type="checkbox" <%- duat ? 'checked=""' : '' %> required></td>
+              <td><input id="duat" type="checkbox" <%- duat ? 'checked=""' : '' %>></td>
               <td><input id="duat_v" type="checkbox" <%- duat_v ? 'checked=""' : '' %> required></td>
             </tr>
             <tr>
@@ -62,7 +62,7 @@ Backbone.SIXHIARA.ViewJuridico1 = Backbone.SIXHIARA.View1.extend({
             </tr>
             <tr>
               <td>Mapa de localização</td>
-              <td><input id="mapa" type="checkbox" <%- mapa ? 'checked=""' : '' %> required></td>
+              <td><input id="mapa" type="checkbox" <%- mapa ? 'checked=""' : '' %>></td>
               <td><input id="mapa_v" type="checkbox" <%- mapa_v ? 'checked=""' : '' %> required></td>
             </tr>
             <tr>
