@@ -1,11 +1,19 @@
-API for utentes project
+Part of utentes project
 
 Descargar los repos en `~/development/sixhiara` (o el directorio que se quiera)
 
-* https://gitlab.com/icarto/sixhiara
-* https://gitlab.com/icarto/utentes-api
-* https://gitlab.com/icarto/utentes-bd
-* https://gitlab.com/icarto/utentes-deploy
+* https://gitlab.com/icarto/sixhiara. Aplicación de escritorio basada en gvSIG para Inventario de Recursos Hídricos
+* https://gitlab.com/icarto/utentes-api. Aplicación de Utentes
+* https://gitlab.com/icarto/utentes-bd. Base de datos (sqitch), scripts adicionales, ... para Inventario y Utentes.
+* https://gitlab.com/icarto/utentes-deploy. Utilidades para empaquetar Utentes como una aplicación de Electron.
+
+**Repositorios que ya no están en uso**
+
+Los siguientes repositorios formaron parte en algún momento del proyecto pero ya no lo hacen:
+
+* utentes-ui. Backend y Frontend estaban en repositorios distintos, se han unido bajo utentes-api para hacer uso de templates y otras funcionalidades de backend.
+* leaflet-table. Se unió en su momento en utentes-ui y a posteriori en utentes-api para simplificar los despliegues
+
 
 # First Install
 
@@ -19,17 +27,21 @@ vagrant up
 
 # Configuración inicial
 
-    $ git clone ... utentes-api
+    
+    $ cd ~/development/sixhiara
+    $ git clone git@gitlab.com:icarto/utentes-api.git
     $ mkvirtualenv -a utentes-api utentes
 
     $ python setup.py develop
 
-
     $ psql -h localhost -U postgres -c "CREATE ROLE utentes LOGIN PASSWORD 'XXXX'"
     $ echo "" >> ~/.pgpass
     $ echo "*:*:*:utentes:XXXX" >> ~/.pgpass
-    $ createdb -h localhost -U postgres -T template0 --owner utentes aranorte
-    $ sqitch deploy
+    $ echo "localhost:*:*:postgres:postgres" >> ~/.pgpass # por comodidad si no se ha hecho previamente
+    $ createdb -h localhost -p 9001 -U postgres -T template0 --owner utentes aranorte
+    $ createdb -h localhost -p 9001 -U postgres -T template0 --owner utentes arasul
+    $ createdb -h localhost -p 9001 -U postgres -T template0 --owner utentes arazambeze
+    $ sqitch deploy # o restaurar desde un dump
 
 
 
@@ -40,38 +52,6 @@ vagrant up
     $ pserve development.ini --reload
 
 
-# Nomenclatura de virtualenvwrapper
-
-Estas son las principales variables de entorno y terminología que se usa en virtualenv
-
-*$WORKON_HOME* es el path al directorio donde estarán los distintos virtualenv que estemos usando. Es la localización donde se guardaran las librerías python que cada proyecto tenga como requisitos. El directorio debe existir, si no debemos crearlo.
-
-*$PROJECT_HOME* es el path al directorio en el que tengamos habitualmente el código fuente de nuestros proyectos. Esta variable no es necesario fijarla. De hecho puede ser positivo no setearla para evitar "magia". Generamente será algo así como ~/projects o ~/devel.
-
-*virtualenv* es el directorio donde estará el entorno virtual. Es decir donde estará el binario de python que estemos usando, las librerías que hayamos descargado, y también donde se _instalará_ nuestro proyecto, cuando hagamos un python setup.py develop. Cuando hayamos activado un virtualenv el path a este directorio estará recogido en la variable $VIRTUAL_ENV
-
-*project directory* Es el directorio donde estará el código fuente del proyecto en el que estemos trabajando. Generalmente estará en una ruta del tipo. Si hemos vinculado un virtualenv a un project directory (muy recomendable) habrá un fichero .project dentro de $VIRTUAL_ENV con el path absoluto al project directory
-
-
-## Instalación de virtualenv y virtualenvwrapper
-
-    $ sudo pip install virtualenvwrapper
-
-Añadir a .bashrc
-
-    export WORKON_HOME=$HOME/.virtualenvs
-    export PROJECT_HOME= PATH_AL_DIRECTORIO_DE_PROYECTOS # No es imprescindible
-    source /usr/local/bin/virtualenvwrapper.sh
-
-
-Tras añadir las líneas a .bashrc hacer un:
-
-    $ source ~/.bashrc
-
-virtualenvwrapper permite añadir hooks tras la activación del entorno. Si, como mostramos a continuación ligamos un entorno virtual a un directorio de proyecto (donde tendremos el código fuente), podemos hacer que al activar el entorno hagamos cd automáticamente al proyecto:
-
-    $ echo 'cdproject' >>  $WORKON_HOME/postactivate
-    
 
 ## Tests de pyramid
 
@@ -85,7 +65,6 @@ python setup.py test -q -s utentes.tests.api
 # Un test concreto
 python setup.py test -q -s utentes.tests.api.test_cultivos_get.CultivosGET_IntegrationTests.test_cultivo_get_length
 ```
-    
     
     
 ## Tests base de datos (pgTap)
