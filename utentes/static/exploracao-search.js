@@ -3,7 +3,7 @@ var exploracaos = new Backbone.SIXHIARA.ExploracaoCollection();
 var exploracaosFiltered = new Backbone.SIXHIARA.ExploracaoCollection();
 var domains = new Backbone.UILib.DomainCollection();
 var estados = new Backbone.SIXHIARA.EstadoCollection();
-var listView, mapView;
+var listView, mapView, numberOfResultsView;
 
 var domainsFetched = function(collection, response, options) {
     new Backbone.SIXHIARA.FiltersView({
@@ -28,6 +28,7 @@ var domainsFetched = function(collection, response, options) {
             listView.update(exploracaosFiltered);
             mapView.update(exploracaosFiltered);
         }
+        numberOfResultsView.update(_.size(exploracaosFiltered));
     });
 };
 
@@ -41,13 +42,18 @@ var exploracaosFetched = function() {
         subviewTemplate: _.template($('#exploracao-li-tmpl').html())
     });
 
+    numberOfResultsView = new Backbone.SIXHIARA.NumberOfResultsView({
+        el: $('#projects-header .results'),
+        totalResults: _.size(exploracaos)
+    });
+
     new Backbone.SIXHIARA.ButtonExportXLSView({
-        el: $('#projects h1'),
+        el: $('#projects-header .export-buttons'),
         listView: listView,
     }).render();
 
     new Backbone.SIXHIARA.ButtonExportSHPView({
-        el: $('#projects h1'),
+        el: $('#projects-header .export-buttons'),
         listView: listView,
     }).render();
 

@@ -11,7 +11,7 @@ Backbone.SIXHIARA.ButtonExportSHPView = Backbone.View.extend({
     },
 
     render: function() {
-        this.$el.append($('<button id="export-button-shp" type="button" class="btn btn-default btn-sm pull-right">SHP</button>'));
+        this.$el.append($('<button id="export-button-shp" type="button" class="btn btn-default btn-sm">SHP</button>'));
     },
 
     export: function(evt){

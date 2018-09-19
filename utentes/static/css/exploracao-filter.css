@@ -1,0 +1,35 @@
+#filters{
+    height: 100%;
+}
+
+#filters {
+    border-right: 1px solid #CCC;
+    padding: 0em 2em;
+}
+
+#filters h4{
+    border-bottom: 1px solid #CCC;
+    font-weight: bold;
+}
+
+/* Form */
+
+#filters .form-control {
+    padding: 6px 6px;
+    border: 1px solid #CCC;
+    box-shadow: none !important;
+    margin-bottom:12px;
+    white-space: normal;
+}
+
+
+/* ----- COLOR SCHEME ----- */
+
+#filters{
+    background-color: white;
+}
+
+#filters p,
+#filters label{
+    color: #7d7d7d;
+}

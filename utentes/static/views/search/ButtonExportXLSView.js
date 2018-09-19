@@ -17,7 +17,7 @@ Backbone.SIXHIARA.ButtonExportXLSView = Backbone.View.extend({
     },
 
     render: function() {
-        this.$el.append($('<button id="export-button-xls" type="button" class="btn btn-default btn-sm pull-right">XLS</button>'));
+        this.$el.append($('<button id="export-button-xls" type="button" class="btn btn-default btn-sm">XLS</button>'));
     },
 
     getInnerValue: function(obj, key) {

@@ -1,0 +1,22 @@
+
+#projects-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    border-bottom: 1px solid #f3f3f3;
+    padding-bottom: 1em;
+}
+
+#projects-header h1 {
+    margin-bottom: -3px;
+}
+
+#projects-header .results {
+    color: #ccc;
+}
+
+#projects-header .results .filtered {
+    font-weight: bold;
+    color: #999;
+}

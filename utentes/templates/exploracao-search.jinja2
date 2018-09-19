@@ -12,6 +12,8 @@
   "lib/leaflet/leaflet.label.css",
   "offline/sixhiara-labels.css",
   "css/exploracao-search.css",
+  "css/exploracao-filter.css",
+  "css/exploracao-projects-header.css",
   "css/base.css",
   output="dist/exploracao-search.css", filters="cssrewrite,cssutils" %}
         <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}">
@@ -27,87 +29,11 @@
 
   <main class="main-content row">
 
-    <section id="filters" class="col-xs-2">
-
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="row">
-            <h4 class="col-xs-12">Utentes</h4>
-          </div>
-          <div class="row">
-            <select class="form-control col-xs-6 widget" id="utente">
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="row">
-            <h4 class="col-xs-12">Localização</h4>
-          </div>
-          <div class="row">
-            <label for="loc_provin" class="col-xs-4">Província</label>
-            <select class="form-control col-xs-6 widget" id="loc_provin">
-            </select>
-          </div>
-          <div class="row">
-            <label for="loc_distri" class="col-xs-4">Distrito</label>
-            <select class="col-xs-6 form-control widget" id="loc_distri">
-            </select>
-          </div>
-          <div class="row">
-            <label for="loc_posto" class="col-xs-12">Posto administrativo</label>
-            <select class="col-xs-6 form-control widget" id="loc_posto">
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="row">
-            <h4 class="col-xs-12">Licença</h4>
-          </div>
-          <div class="row">
-            <label for="tipo_agua" class="col-xs-4">Tipo</label>
-            <select class="col-xs-6 form-control widget" id="tipo_agua">
-            </select>
-          </div>
-
-          <div class="row">
-            <label for="estado" class="col-xs-4">Estado</label>
-            <select class="col-xs-6 form-control widget" id="estado">
-            </select>
-          </div>
-
-          <div class="row">
-            <label for="pagos" class="col-xs-4">Pagamentos</label>
-            <select class="col-xs-6 form-control widget-boolean" id="pagos">
-            </select>
-          </div>
-
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="row">
-            <h4 class="col-xs-12">Actividade</h4>
-          </div>
-          <div class="row">
-            <select class="col-xs-6 form-control widget" id="actividade">
-            </select>
-          </div>
-        </div>
-      </div>
-
-  </section>
+  {% include 'exploracao-filter.jinja2' %}
 
   <section id="projects" class="col-xs-3">
 
-    <h1 class="text-center">Explorações</h1>
-    <br />
+    {% include 'exploracao-projects-header.jinja2' %}
 
     <ul id="project_list" class="list-unstyled">
     </ul>
@@ -138,7 +64,7 @@
 "lib/backbone/backbone.js",
 
 "tenant-custom-code.js",
-  
+
 "lib/leaflet/leaflet-src.js",
 "lib/leaflet/leaflet.label-src.js",
 "lib/formatter/formatter.js",
@@ -184,6 +110,7 @@
 "views/common/SelectLocationView.js",
 "views/search/MapView.js",
 "views/search/FiltersView.js",
+"views/search/NumberOfResultsView.js",
 "views/search/ButtonExportXLSView.js",
 "views/search/ButtonExportSHPView.js",
 

@@ -531,17 +531,21 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
     },
 
     contains: function(where){
-        var values = _.omit(where.values(), 'utente', 'tipo_agua', 'estado', 'actividade', 'pagos', 'mapBounds');
+        var values = _.omit(where.values(), 'utente', 'estado', 'tipo_lic', 'tipo_agua', 'loc_unidad', 'actividade', 'geometria', 'mapBounds');
         var properties = this.pick(_.keys(values));
         var containsAttrs = _.isEqual(properties, values);
         var containsUtente = true;
         if (where.attributes.utente) {
             containsUtente = (this.get('utente').get('nome') === where.attributes.utente);
         }
+        var containsUnidade = true;
+        if (where.attributes.loc_unidad) {
+            containsUnidade = (this.get('loc_unidad') === where.attributes.loc_unidad);
+        }
         var containsLic = true;
-        if(where.attributes.tipo_agua || where.attributes.estado){
+        if(where.attributes.tipo_lic || where.attributes.tipo_agua || where.attributes.estado){
             containsLic = false;
-            var whereLic = _.pick(where.values(), 'tipo_agua', 'estado');
+            var whereLic = _.pick(where.values(), 'tipo_lic', 'tipo_agua', 'estado');
             var lics = this.get('licencias').where(whereLic);
             if (lics.length > 0) {
                 containsLic = true;
@@ -552,10 +556,11 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
         if (where.attributes.actividade) {
             containsActividade = (this.get('actividade').get('tipo') === where.attributes.actividade);
         }
-
-        var containsPagos = true;
-        if (! _.isNull(where.attributes.pagos)) {
-            containsPagos = this.get('pagos') === where.attributes.pagos;
+        var containsGeometria = true;
+        if (where.attributes.geometria) {
+            var feature = this.toGeoJSON();
+            var featureHasGeometria = !_.isEmpty(feature.geometry);
+            containsGeometria = where.attributes.geometria === 'Sim' ? featureHasGeometria : !featureHasGeometria ;
         }
 
         var containsBounds = true;
@@ -569,7 +574,7 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
             }
         }
 
-        return containsAttrs && containsUtente && containsLic && containsActividade && containsBounds && containsPagos;
+        return containsAttrs && containsUtente && containsUnidade && containsLic && containsActividade && containsGeometria && containsBounds;
     },
 
     getActividadeTipo: function() {
