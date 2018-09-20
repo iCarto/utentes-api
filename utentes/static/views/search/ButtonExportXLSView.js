@@ -29,13 +29,13 @@ Backbone.SIXHIARA.ButtonExportXLSView = Backbone.View.extend({
         }, obj);
     },
 
-    getData: function(exploracaos) {
+    getData: function(collection, sheet) {
         var self = this;
         var data = []
-        data.push(SIXHIARA.xlsFieldsToExport.map(function(e){ return e.header }));
-        exploracaos.forEach(function(exploracao) {
-            var dataRow = SIXHIARA.xlsFieldsToExport.map(function(field) {
-                return self.getInnerValue(exploracao.toJSON(), field.value)
+        data.push(SIXHIARA.xlsFieldsToExport[sheet].map(function(e){ return e.header }));
+        collection.forEach(function(item) {
+            var dataRow = SIXHIARA.xlsFieldsToExport[sheet].map(function(field) {
+                return self.getInnerValue(item.toJSON(), field.value)
             });
             data.push(dataRow);
         });
@@ -50,18 +50,46 @@ Backbone.SIXHIARA.ButtonExportXLSView = Backbone.View.extend({
             return exp.get('utente').get('nome');
         });
 
-        var data = this.getData(exploracaos);
+        var dataExploracaos = this.getData(exploracaos, 'exploracaos');
 
         var wb = new Workbook();
-        var ws = this.sheet_from_array_of_arrays(data);
+        var wsExploracaos = this.sheet_from_array_of_arrays(dataExploracaos);
 
         /* add ranges to worksheet */
         /* ws['!merges'] = ranges; */
 
         /* add worksheet to workbook */
         var ws_name = "Explorações";
+
         wb.SheetNames.push(ws_name);
-        wb.Sheets[ws_name] = ws;
+        wb.Sheets[ws_name] = wsExploracaos;
+
+        if (SIRHA.ARA === 'DPMAIP') {
+
+            // filter by actividade Piscicultura
+            var exploracaosFiltered = _.filter(exploracaos, function(exp){
+                    return exp.get('actividade').get('tipo') === 'Piscicultura';
+            });
+
+            var tanques = [];
+            exploracaosFiltered.forEach(function(exp) {
+                exp.get('actividade').get('tanques_piscicolas').forEach(function(tanque) {
+                    tanque.set('utente', exp.get('utente').get('nome'));
+                    tanque.set('exp_id', exp.get('exp_id'));
+                    tanques.push(tanque);
+                });
+            });
+
+            var dataTanques = this.getData(tanques, 'tanques');
+
+            // add a new sheet
+            var ws_name = "Tanques";
+            wb.SheetNames.push(ws_name);
+
+            var wsTanques = this.sheet_from_array_of_arrays(dataTanques);
+            wb.Sheets[ws_name] = wsTanques;
+        }
+
         var wbout = XLSX.write(wb, {bookType:'xlsx', bookSST:false, type: 'binary'});
         saveAs(new Blob([this.s2ab(wbout)],{type:"application/octet-stream"}), file);
 

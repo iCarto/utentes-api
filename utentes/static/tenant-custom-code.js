@@ -42,12 +42,14 @@ if (window.SIRHA.ARA === 'ARAZ') {
     };
 }
 
-
+window.SIXHIARA.xlsFieldsToExport = {};
 if (window.SIRHA.ARA === 'DPMAIP') {
-    window.SIXHIARA.xlsFieldsToExport = [
-        {'header': 'Nome', 'value': 'utente.nome'},
+    window.SIXHIARA.xlsFieldsToExport.exploracaos = [
+        {'header': 'Nome utente', 'value': 'utente.nome'},
         {'header': 'Nuit', 'value': 'utente.nuit'},
         {'header': 'Tipo de utente', 'value': 'utente.uten_tipo'},
+        {'header': 'Nro de membros', 'value': 'utente.uten_memb'},
+        {'header': 'Nro de mulheres', 'value': 'utente.uten_mulh'},
         {'header': 'Nro registro comercial', 'value': 'utente.reg_comerc'},
         {'header': 'Registrado em', 'value': 'utente.reg_zona'},
         {'header': 'Provincia', 'value': 'utente.loc_provin'},
@@ -74,6 +76,33 @@ if (window.SIRHA.ARA === 'DPMAIP') {
         {'header': 'A exploraçaõ tem problemas', 'value': 'actividade.problemas'},
         {'header': 'Principais problemas', 'value': 'actividade.prob_prin'},
     ];
+
+    window.SIXHIARA.xlsFieldsToExport.tanques = [
+        {'header':'Nome utente', 'value': 'utente'},
+        {'header':'Nro da exploração', 'value':'exp_id'},
+        {'header':'Id Tanque', 'value':'tanque_id'},
+        {'header':'Tipo ', 'value':'tipo'},
+        {'header':'Comprimento (m)', 'value':'cumprimen'},
+        {'header':'Largura (m)', 'value':'largura'},
+        {'header':'Profundidade (m)', 'value':'profundid'},
+        {'header':'Área (m2)', 'value':'area'},
+        {'header':'Área GPS (m2)', 'value':'area_gps'},
+        {'header':'Volume (m3)', 'value':'volume'},
+        {'header':'Estado', 'value':'estado'},
+        {'header':'Espécie cultivada', 'value':'esp_culti'},
+        {'header':'Espécie cultivada (outros)', 'value':'esp_cul_o'},
+        {'header':'Tipo de alimentação', 'value':'tipo_alim'},
+        {'header':'Tipo de alimenção (outros)', 'value':'tipo_al_o'},
+        {'header':'Nro de alevinos povoados', 'value':'n_ale_pov'},
+        {'header':'Proveniência dos alevinos', 'value':'prov_alev'},
+        {'header':'Proveniência dos alevinos (outros)', 'value':'prov_al_o'},
+        {'header':'Venda (Kg)', 'value':'venda'},
+        {'header':'Consumo', 'value':'consumo'},
+        {'header':'Produção anual (Kg)', 'value':'pro_anual'},
+        {'header':'Peso médio final dos peixes (g)', 'value':'peso_med'},
+        {'header':'Fertilização da água', 'value':'fert_agua'},
+    ];
+
 
     window.SIXHIARA.shpFieldsToExport = [
         { 'header': 'exp_id', 'value': 'exp_id' },
@@ -139,7 +168,7 @@ if (window.SIRHA.ARA === 'DPMAIP') {
         },
     };
 
-    window.SIXHIARA.xlsFieldsToExport = [
+    window.SIXHIARA.xlsFieldsToExport.exploracaos = [
         {'header': 'Nome', 'value': 'utente.nome'},
         {'header': 'Nuit', 'value': 'utente.nuit'},
         {'header': 'Tipo de utente', 'value': 'utente.uten_tipo'},
@@ -251,4 +280,3 @@ if (window.SIRHA.ARA === 'DPMAIP') {
         { 'header': 'observacio', 'value': 'observacio' },
     ]
 }
-
