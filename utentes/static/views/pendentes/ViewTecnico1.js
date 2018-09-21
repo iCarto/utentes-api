@@ -27,8 +27,8 @@ Backbone.SIXHIARA.ViewTecnico1 = Backbone.SIXHIARA.View1.extend({
 <h4 style="margin-bottom: 20px;">
 <%- formatter().formatDate(created_at) + ' - ' %><span style="color:#00a2da"><%- exp_id + ' '%> <%- exp_name %></span> <span style="color: grey"><%= ' (' + (actividade && actividade.tipo || 'Não declarada') + ')' %></span>
 <div class="licencias">
-    <div><%- Backbone.SIXHIARA.formatter.formatTipoLicencias(licencias)[0] %></div>
-    <div><%- Backbone.SIXHIARA.formatter.formatTipoLicencias(licencias)[1] %></div>
+    <%- Backbone.SIXHIARA.formatter.formatTipoLicencias(licencias)[0] %> /
+    <%- Backbone.SIXHIARA.formatter.formatTipoLicencias(licencias)[1] %>
 </div>
 </h4>
 

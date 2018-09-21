@@ -56,14 +56,14 @@ Backbone.SIXHIARA.ViewJuridico1 = Backbone.SIXHIARA.View1.extend({
               <td><input id="duat_v" type="checkbox" <%- duat_v ? 'checked=""' : '' %> required></td>
             </tr>
             <tr>
-              <td>Licença Ambiental&nbsp;(Se é preciso)</td>
-              <td><input id="licen_am" type="checkbox" <%- licen_am ? 'checked=""' : '' %>></td>
-              <td><input id="licen_am_v" type="checkbox" <%- licen_am_v ? 'checked=""' : '' %>></td>
-            </tr>
-            <tr>
               <td>Mapa de localização</td>
               <td><input id="mapa" type="checkbox" <%- mapa ? 'checked=""' : '' %>></td>
               <td><input id="mapa_v" type="checkbox" <%- mapa_v ? 'checked=""' : '' %> required></td>
+            </tr>
+            <tr>
+              <td>Licença Ambiental&nbsp;(Se é preciso)</td>
+              <td><input id="licen_am" type="checkbox" <%- licen_am ? 'checked=""' : '' %>></td>
+              <td><input id="licen_am_v" type="checkbox" <%- licen_am_v ? 'checked=""' : '' %>></td>
             </tr>
             <tr>
               <td>Autorização de apertura de poço/furo&nbsp;(Se é preciso)</td>

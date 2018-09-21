@@ -50,12 +50,12 @@ Backbone.SIXHIARA.ViewSecretaria1 = Backbone.SIXHIARA.View1.extend({
               <td><input id="duat" type="checkbox" <%- duat ? 'checked=""' : '' %>></td>
             </tr>
             <tr>
-              <td>Licença Ambiental&nbsp;(Se é preciso)</td>
-              <td><input id="licen_am" type="checkbox" <%- licen_am ? 'checked=""' : '' %>></td>
-            </tr>
-            <tr>
               <td>Mapa de localização</td>
               <td><input id="mapa" type="checkbox" <%- mapa ? 'checked=""' : '' %>></td>
+            </tr>
+            <tr>
+              <td>Licença Ambiental&nbsp;(Se é preciso)</td>
+              <td><input id="licen_am" type="checkbox" <%- licen_am ? 'checked=""' : '' %>></td>
             </tr>
             <tr>
               <td>Autorização de apertura de poço/furo&nbsp;(Se é preciso)</td>

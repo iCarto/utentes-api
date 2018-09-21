@@ -39,7 +39,7 @@ body,
 }
 
 #projects .leaflet-mouseover {
-    background-color: rgba(204, 204, 204, 0.5);
+    background-color: rgba(204, 204, 204, 0.3);
 }
 
 #projects h2{

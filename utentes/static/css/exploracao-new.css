@@ -31,7 +31,6 @@ fieldset span {
 }
 
 #panel-body-loc-admin {
-    margin-bottom: 2.5%;
     padding-left: 3%;
 }
 
@@ -40,9 +39,20 @@ fieldset span {
     padding-left: 3%;
 }
 
-#panel-body-outros {
-    margin-bottom: 1.5%;
+#panel-body-outros,
+#panel-body-outros-localizacao {
+    min-height: 330px;
 }
+#panel-body-loc-admin,
+#panel-body-loc-hidro {
+    min-height: 320px;
+}
+/* @media (max-width: 1200px) {
+    #panel-body-loc-admin,
+    #panel-body-loc-hidro {
+        min-height: 520px;
+    }
+} */
 
 
 

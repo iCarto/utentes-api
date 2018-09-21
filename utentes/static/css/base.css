@@ -240,11 +240,19 @@ with or whithout another 'observacio-anteriores' textarea
 #myid .licencias {
     display: inline-block;
 }
-
 #myid .licencias div {
     min-width: 210px;
 }
-
+#project_list > div {
+    padding-left: 5px;
+}
+.licencias {
+    display: inline-table;
+    margin-bottom: 3px;
+}
+.leaflet-mouseover .licencias div {
+    border-color: lightgrey;
+}
 .licencias div:first-child {
     border-right: 0;
     border-top-right-radius: 0;
@@ -263,9 +271,8 @@ with or whithout another 'observacio-anteriores' textarea
 .licencias div {
     border-radius: 3px;
     border: 1px solid #e5e5e5;
-    display: inline-block;
+    display: table-cell;
     padding: 2px;
-    margin: 2px 0;
     text-align: center;
     min-width: 140px;
 }
