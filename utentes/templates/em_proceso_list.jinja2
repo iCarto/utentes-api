@@ -1,0 +1,10 @@
+<script type="text/template" id="exploracao-li-tmpl">
+  <li class="row exploracao" id="exp_id-<%- exp_id %>">
+    <span class="col-xs-12 pull-left" >
+      <a href="<%- urlShow %>"><%- exp_id %> <%- exp_name %></a> <small style="color: grey; font-size: 75%"><%= '(' + (actividade && actividade.tipo || 'Não declarada') + ')' %></small>
+    </span>
+    <span class="col-xs-12">
+      <small><%- estado_lic %></small>
+    </span>
+  </li>
+</script>

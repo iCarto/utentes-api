@@ -1,0 +1,13 @@
+<script type="text/template" id="exploracao-li-tmpl">
+  <li class="row exploracao" id="exp_id-<%- exp_id %>">
+    <span class="col-xs-12 pull-left" >
+      <a href="<%- urlShow %>"><%- exp_id %> <%- exp_name %></a> <small style="color: grey; font-size: 75%"><%= '(' + (actividade && actividade.tipo || 'Não declarada') + ')' %></small>
+    </span>
+    <span class="col-xs-12">
+      <small class="label <%- summary_licencia_val ? 'label-success' : 'label-danger' %>" id="summary_licencia"><%- summary_licencia_msg.charAt(0) %></small>
+      <small class="label <%- summary_consumo_val ? 'label-success' : 'label-danger' %>" id="summary_consumo"><%- summary_consumo_msg.charAt(0) %></small>
+      <small class="label <%- summary_pagos_val === null ? 'label-default' : (summary_pagos_val ? 'label-success' : 'label-danger') %>" id="summary_pagos"><%- summary_pagos_msg.charAt(0) %></small>
+      <small style="color: grey; font-size: 75%"><%- utente['nome'] %></small>
+    </span>
+  </li>
+</script>
