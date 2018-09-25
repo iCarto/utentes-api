@@ -13,5 +13,8 @@ error_msgs = {
     'bad_import_file': 'Error carregando ficheiro',
     'user_already_exists': 'O utilizador ja existe',
     'user_not_exists': 'O utilizador não existe',
+    'no_document': 'Não existe o documento co nome indicado',
+    'exist_document': 'Já existe um documento com este nome',
+    'no_permission': 'Você não tem permissão para executar esta ação',
     'unknown_error': 'Error desconhecido. Informe ao administrador',
 }

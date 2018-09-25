@@ -23,6 +23,8 @@ PERM_EXPLORACAO = 'create_update_exploracao'
 PERM_FACTURACAO = 'update_facturacao'
 PERM_CREATE_REQUERIMENTO = 'create_requerimento'
 PERM_UPDATE_REQUERIMENTO = 'update_requerimento'
+PERM_CREATE_DOCUMENTO = 'create_documento'
+PERM_DELETE_DOCUMENTO = 'create_documento'
 
 
 # GESTIONAR UNIQUE USER
@@ -37,11 +39,17 @@ class RootFactory(object):
                (Allow, ROL_ADMIN, PERM_CULTIVO_TANQUE),
                (Allow, ROL_ADMIN, PERM_CREATE_REQUERIMENTO),
                (Allow, ROL_ADMIN, PERM_UPDATE_REQUERIMENTO),
+               (Allow, ROL_ADMIN, PERM_CREATE_DOCUMENTO),
+               (Allow, ROL_ADMIN, PERM_DELETE_DOCUMENTO),
 
                (Allow, ROL_ADMINISTRATIVO, PERM_CREATE_REQUERIMENTO),
                (Allow, ROL_ADMINISTRATIVO, PERM_UPDATE_REQUERIMENTO),
+               (Allow, ROL_ADMINISTRATIVO, PERM_CREATE_DOCUMENTO),
+               (Allow, ROL_ADMINISTRATIVO, PERM_DELETE_DOCUMENTO),
 
                (Allow, ROL_FINANCIERO, PERM_FACTURACAO),
+               (Allow, ROL_FINANCIERO, PERM_CREATE_DOCUMENTO),
+               (Allow, ROL_FINANCIERO, PERM_DELETE_DOCUMENTO),
 
                (Allow, ROL_DIRECCION, PERM_UPDATE_REQUERIMENTO),
 
@@ -50,9 +58,13 @@ class RootFactory(object):
                (Allow, ROL_TECNICO, PERM_FACTURACAO),
                (Allow, ROL_TECNICO, PERM_CULTIVO_TANQUE),
                (Allow, ROL_TECNICO, PERM_UPDATE_REQUERIMENTO),
+               (Allow, ROL_TECNICO, PERM_CREATE_DOCUMENTO),
+               (Allow, ROL_TECNICO, PERM_DELETE_DOCUMENTO),
 
                (Allow, ROL_JURIDICO, ROL_JURIDICO),
                (Allow, ROL_JURIDICO, PERM_UPDATE_REQUERIMENTO),
+               (Allow, ROL_JURIDICO, PERM_CREATE_DOCUMENTO),
+               (Allow, ROL_JURIDICO, PERM_DELETE_DOCUMENTO),
                ]
 
     def __init__(self, request):

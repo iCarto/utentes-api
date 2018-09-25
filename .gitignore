@@ -25,3 +25,4 @@ node_modules/
 # Project
 utentes/static/.webassets-cache/
 utentes/static/dist/
+utentes/static/files/
