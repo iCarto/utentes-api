@@ -12,14 +12,24 @@ Backbone.SIXHIARA.TanquePiscicolaModalView = Backbone.SIXHIARA.ModalView.extend(
             collection: this.options.domains.byCategory('tanque_piscicola_estado')
         }).render();
 
-        new Backbone.UILib.SelectView({
-            el: this.$('#esp_culti'),
-            collection: this.options.domains.byCategory('tanque_piscicola_esp_culti')
+        var checkboxList_esp_culti = new Backbone.SIXHIARA.CheckBoxList({
+            model: this.widgetModel,
+            model_attr_name: 'esp_culti',
+            el: this.$('.modal').find('#esp_culti'),
+            enable_others: {
+                'childId': 'esp_cul_o',
+                'enabledValues': 'Outros',
+            }
         }).render();
 
-        new Backbone.UILib.SelectView({
-            el: this.$('#prov_alev'),
-            collection: this.options.domains.byCategory('tanque_piscicola_prov_alev')
+        var checkboxList_prov_alev = new Backbone.SIXHIARA.CheckBoxList({
+            model: this.widgetModel,
+            model_attr_name: 'prov_alev',
+            el: this.$('.modal').find('#prov_alev'),
+            enable_others: {
+                'childId': 'prov_al_o',
+                'enabledValues': 'Outros',
+            }
         }).render();
 
         new Backbone.UILib.SelectView({
@@ -27,7 +37,7 @@ Backbone.SIXHIARA.TanquePiscicolaModalView = Backbone.SIXHIARA.ModalView.extend(
             collection: this.options.domains.byCategory('tanque_piscicola_fert_agua')
         }).render();
 
-        var checkboxList = new Backbone.SIXHIARA.CheckBoxList({
+        var checkboxList_tipo_alim = new Backbone.SIXHIARA.CheckBoxList({
             model: this.widgetModel,
             model_attr_name: 'tipo_alim',
             el: this.$('.modal').find('#tipo_alim'),
@@ -36,34 +46,6 @@ Backbone.SIXHIARA.TanquePiscicolaModalView = Backbone.SIXHIARA.ModalView.extend(
                 'enabledValues': 'Outros',
             }
         }).render();
-
-        var inputEspCultiOutro = this.$("#esp_cul_o");
-        if (this.widgetModel.get("esp_culti")==="Outros"){
-            inputEspCultiOutro.prop("disabled", false);
-        }
-        this.listenTo(this.widgetModel, "change:esp_culti", function(model, value, options){
-            if (value==="Outros") {
-                inputEspCultiOutro.prop("disabled", false);
-            } else {
-                model.set('esp_cul_o', null);
-                inputEspCultiOutro[0].value = null;
-                inputEspCultiOutro.prop("disabled", true);
-            }
-        });
-
-        var inputProvAlevinesOutro = this.$("#prov_al_o");
-        if (this.widgetModel.get("prov_alev")==="Outros"){
-            inputProvAlevinesOutro.prop("disabled", false);
-        }
-        this.listenTo(this.widgetModel, "change:prov_alev", function(model, value, options){
-            if (value==="Outros") {
-                inputProvAlevinesOutro.prop("disabled", false);
-            } else {
-                model.set('prov_al_o', null);
-                inputProvAlevinesOutro[0].value = null;
-                inputProvAlevinesOutro.prop("disabled", true);
-            }
-        });
 
         var inputFertAguaOutros = this.$("#fert_a_o");
         if (this.widgetModel.get("fert_agua")==="Outros"){

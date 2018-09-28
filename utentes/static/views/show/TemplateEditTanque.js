@@ -81,13 +81,26 @@ Backbone.SIXHIARA.TemplateEditTanque = Backbone.View.extend({
                         <label for="estado">Estado</label>
                         <select class="form-control widget" id="estado"></select>
                     </div>
-                    <div class="form-group col-xs-4">
-                        <label for="esp_culti">Espécie Cultivada</label>
-                        <select class="form-control widget" id="esp_culti" required></select>
                     </div>
-                    <div class="form-group col-xs-4">
-                        <label for="esp_cul_o">Espécie Cultivada (outros)</label>
-                        <input type="text" class="form-control widget" id="esp_cul_o" disabled/>
+                    <div class="row">
+                    <hr>
+                    </div>
+                    <div class="row">
+                    <div id="esp_culti" class="widget-external col-xs-12">
+                        <label for="esp_culti">Espécie Cultivada</label>
+                        <div class="row">
+                        <div><label class="checkbox col-xs-2"><input type="checkbox" name="esp_culti" value="Peixe gato">Peixe gato</label></div>
+                        <div><label class="checkbox col-xs-2"><input type="checkbox" name="esp_culti" value="Tainha">Tainha</label></div>
+                        <div><label class="checkbox col-xs-2"><input type="checkbox" name="esp_culti" value="Carpa">Carpa</label></div>
+                        <div><label class="checkbox col-xs-2"><input type="checkbox" name="esp_culti" value="Tilapia nilótica">Tilapia nilótica</label></div>
+                        <div><label class="checkbox col-xs-3"><input type="checkbox" name="esp_culti" value="Tilapia mossambicus">Tilapia mossambicus</label></div>
+                        </div>
+                        <div class="row">
+                        <div><label class="checkbox col-xs-2"><input type="checkbox" name="esp_culti" value="Outros">Outros</label></div>
+                        <div class="form-group col-xs-10">
+                            <input type="text" class="form-control widget" id="esp_cul_o" disabled/>
+                        </div>
+                        </div>
                     </div>
                     </div>
                     <div class="row">
@@ -128,13 +141,19 @@ Backbone.SIXHIARA.TemplateEditTanque = Backbone.View.extend({
                         <label for="n_ale_pov">Nro Alevines</label>
                         <input type="text" class="form-control widget-number" id="n_ale_pov" pattern="[0-9]{1,8}" />
                     </div>
-                    <div class="form-group col-xs-3">
+                    <div id="prov_alev" class="widget-external col-xs-9">
                         <label for="prov_alev">Proveniência dos alevines</label>
-                        <select class="form-control widget" id="prov_alev"></select>
-                    </div>
-                    <div class="form-group col-xs-3">
-                        <label for="prov_al_o">Proveniência (outros)</label>
-                        <input type="text" class="form-control widget" id="prov_al_o" disabled/>
+                        <div class="row">
+                        <div><label class="checkbox col-xs-4"><input type="checkbox" name="prov_alev" value="Melhorados">Melhorados</label></div>
+                        <div><label class="checkbox col-xs-4"><input type="checkbox" name="prov_alev" value="Reprodução nos tanques">Reprodução nos tanques</label></div>
+                        <div><label class="checkbox col-xs-4"><input type="checkbox" name="prov_alev" value="Selvagens">Selvagens</label></div>
+                        </div>
+                        <div class="row">
+                        <div><label class="checkbox col-xs-2"><input type="checkbox" name="prov_alev" value="Outros">Outros</label></div>
+                        <div class="form-group col-xs-10">
+                            <input type="text" class="form-control widget" id="prov_al_o" disabled/>
+                        </div>
+                        </div>
                     </div>
                     </div>
                     <div class="row">

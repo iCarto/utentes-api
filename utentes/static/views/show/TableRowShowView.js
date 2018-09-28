@@ -6,6 +6,7 @@ Backbone.SIXHIARA.TableRowShowView = Backbone.View.extend({
     template: _.template(`
         <td class="tipo_agua"><%- tipo_agua %></td>
         <td class="tipo_fonte"><%- tipo_fonte %></td>
+        <td class="disp_a"><%- disp_a %></td>
         <td class="c_soli"><% print(formatter().formatNumber(c_soli)) %></td>
         <td class="c_real"><% print(formatter().formatNumber(c_real)) %></td>
         <td class="c_max"><% print(formatter().formatNumber(c_max)) %></td>
@@ -44,6 +45,7 @@ Backbone.SIXHIARA.TableRowShowView = Backbone.View.extend({
         var displayNull = '';
         this.$('td.tipo_agua').text(fonte.get('tipo_agua') || displayNull);
         this.$('td.tipo_fonte').text(fonte.get('tipo_fonte') || displayNull);
+        this.$('td.disp_a').text(fonte.get('disp_a') || displayNull);
         this.$('td.lat_lon').text(fonte.get('lat_lon') || displayNull);
         var c_soli = formatter().formatNumber(fonte.get('c_soli'));
         this.$('td.c_soli').text(c_soli || displayNull);
@@ -81,6 +83,12 @@ Backbone.SIXHIARA.TableRowShowView = Backbone.View.extend({
             collection: this.options.domains.byCategory('sistema_medicao')
         }).render();
         modalView.addAuxView(sistMedView);
+
+        var dispAgua = new Backbone.UILib.SelectView({
+            el: modalView.$('#disp_a'),
+            collection: this.options.domains.byCategory('piscicultura_fontes_disp_a')
+        }).render();
+        modalView.addAuxView(dispAgua);
 
         modalView.render();
     },

@@ -211,18 +211,19 @@
         <table class="table table-bordered" id="block-fontes">
           <thead>
             <tr>
-              <th width="8%">Tipo de água</th>
-              <th width="8%">Tipo de fonte</th>
-              <th width="12%">Consumo solicitado <i class="units">(m<sup>3</sup>/mês)</i></th>
-              <th width="11%">Consumo real <i class="units">(m<sup>3</sup>/mês)</i></th>
-              <th width="11%">Máximo caudal <i class="units">(m<sup>3</sup>/mês)</i></th>
-              <th width="9%">Sistema de medição</th>
-              <th width="9%">Método estimação</th>
-              <th width="8%">Toma de dados</th>
-              <th width="9%">Lat / Lon</th>
+              <th style="width:8%">Tipo de água</th>
+              <th style="width:8%">Tipo de fonte</th>
+              <th style="width:12%">Disponibilidade de agua</th>
+              <th style="width:13%">Consumo solicitado <i class="units">(m<sup>3</sup>/mês)</i></th>
+              <th style="width:11%">Consumo real <i class="units">(m<sup>3</sup>/mês)</i></th>
+              <th style="width:11%">Máximo caudal <i class="units">(m<sup>3</sup>/mês)</i></th>
+              <th style="width:9%">Sistema de medição</th>
+              <th style="width:9%">Método estimação</th>
+              <th style="width:8%">Toma de dados</th>
+              <th style="width:7%">Lat / Lon</th>
               <th>Observações</th>
-              <th width="2%" class="uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"></th>
-              <th width="2%" class="uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"></th>
+              <th style="width:2%" class="uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"></th>
+              <th style="width:2%" class="uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"></th>
             </tr>
           </thead>
           <tbody></tbody>
@@ -718,14 +719,14 @@
           <table class="table table-bordered" id="cultivos">
             <thead>
               <tr>
-                <th width="14%">Id</th>
-                <th width="14%">Consumo Estimado <i class="units">(m<sup>3</sup>/mês)</i></th>
-                <th width="14%">Tipo de cultivo / rega</th>
-                <th width="14%">Eficiencia del riego</th>
-                <th width="14%">Área <i class="units">(ha)</i></th>
+                <th style="width:14%">Id</th>
+                <th style="width:14%">Consumo Estimado <i class="units">(m<sup>3</sup>/mês)</i></th>
+                <th style="width:14%">Tipo de cultivo / rega</th>
+                <th style="width:14%">Eficiencia del riego</th>
+                <th style="width:14%">Área <i class="units">(ha)</i></th>
                 <th>Observações</th>
-                <th width="2%" class="uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"></th>
-                <th width="2%" class="uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"></th>
+                <th style="width:2%" class="uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"></th>
+                <th style="width:2%" class="uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"></th>
               </tr>
             </thead>
             <tbody>
@@ -993,12 +994,12 @@
           <table class="table table-bordered" id="reses">
             <thead>
               <tr>
-                <th width="20%">Consumo Estimado <i class="units">(m<sup>3</sup>/mês)</i></th>
-                <th width="20%">Tipo de reses</th>
-                <th width="20%">Nro de reses</th>
+                <th style="width:20%">Consumo Estimado <i class="units">(m<sup>3</sup>/mês)</i></th>
+                <th style="width:20%">Tipo de reses</th>
+                <th style="width:20%">Nro de reses</th>
                 <th>Observações</th>
-                <th width="2%" class="uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"></th>
-                <th width="2%" class="uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"></th>
+                <th style="width:2%" class="uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"></th>
+                <th style="width:2%" class="uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"></th>
               </tr>
             </thead>
             <tbody>
@@ -1701,6 +1702,10 @@
                       <div class="form-group col-xs-6">
                         <label for="c_max">Máximo caudal extraíble <i class="units">(m<sup>3</sup>/mês)</i></label>
                         <input type="text" class="form-control widget-number" id="c_max" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
+                      </div>
+                      <div class="form-group col-xs-6">
+                        <label for="disp_a">Disponibilidade de agua</label>
+                        <select class="form-control widget" id="disp_a"></select>
                       </div>
                     </div>
                   </div>

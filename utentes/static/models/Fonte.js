@@ -5,6 +5,7 @@ Backbone.SIXHIARA.Fonte = Backbone.Model.extend({
         'id':         null,
         'tipo_agua':  null,
         'tipo_fonte': null,
+        'disp_a':   null,
         'lat_lon':    null,
         'd_dado':     null,
         'c_soli':     null,

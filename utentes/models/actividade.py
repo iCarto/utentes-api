@@ -233,6 +233,7 @@ class ActividadesPiscicultura(Actividade):
     area = Column(Numeric(10, 4), doc='Área de exploração (ha)')
     ano_i_ati = Column(Integer, doc='Ano inicio da atividade')
     n_tanques = Column(Integer, doc='Nro de tanques')
+    tipo_agua = Column(Text, doc='Tipo de aquacultura')
     v_reservas = Column(Numeric(10, 2), doc='Volume total tanques/gaiolas (reservas)')
     n_ale_pov = Column(Integer, doc='Nro de alevins por povoar')
     produc_pi = Column(Numeric(10, 2), doc='Produção Anual (kg)')
@@ -246,6 +247,7 @@ class ActividadesPiscicultura(Actividade):
     gaio_subm = Column(Text, doc='As gaiolas estão submersas em')
     problemas = Column(Text, doc='A exploraçaõ tem problemas')
     prob_prin = Column(Text, doc='Principais problemas')
+    esp_culti = Column(Text, nullable=False, doc='Espécie cultivada')
 
     __mapper_args__ = {
         'polymorphic_identity': u'Piscicultura',
