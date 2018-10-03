@@ -10,6 +10,7 @@ Backbone.SIXHIARA.ButtonOpenDocumentsView = Backbone.View.extend({
 
     openDocumentsDialog: function(){
         var modalView = new Backbone.DMS.DocumentosModalView({
+            title: 'Arquivo Electrónico',
             model: this.model,
             exploracao: this.model,
             modalSelectorTpl: '#documents-modal-tmpl',
