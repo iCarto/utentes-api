@@ -1,0 +1,150 @@
+
+#documents-modal .modal-body {
+    display: flex;
+    flex-direction: row;
+    padding: 0px;
+}
+
+#documents-modal .navbar {
+    background-color: #f7f7f7;
+    width: 30%;
+    min-height: 400px;
+    margin-bottom: 0px;
+    border: 0px;
+}
+
+#documents-modal .navbar li {
+    cursor: pointer;
+    margin: 0px;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid #eee;
+    color: #777;
+}
+
+#documents-modal .navbar li.active {
+    background-color: white;
+    border-right: 0px;
+    color: #333;
+}
+
+#documents-modal .navbar li i {
+    font-size: 35px;
+}
+
+#documents-modal .navbar li h3 {
+    margin: 5px;
+}
+
+#documents-modal .content {
+    width: 70%;
+    padding: 5px 20px;
+}
+
+#documents-modal #breadcrumb-view {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#documents-modal #breadcrumb-view .breadcrumb {
+    background-color: inherit;
+    padding: 0px;
+    font-style: italic;
+}
+
+#documents-modal #file-collection-table {
+    width: 100%;
+    padding: 20px;
+}
+
+#documents-modal #file-collection-table .type {
+    width: 5%;
+    font-size: 15px;
+}
+
+#documents-modal #file-collection-table .name {
+    text-align: left;
+    vertical-align: middle;
+}
+
+#documents-modal #file-collection-table .size {
+    text-align: right;
+    width: 15%;
+    vertical-align: middle;
+}
+
+#documents-modal #file-collection-table .actions {
+    text-align: right;
+    vertical-align: middle;
+    width: 15%;
+}
+
+#documents-modal #file-collection-table .actions i {
+    font-size: 20px;
+    padding: 0px 5px;
+}
+
+#documents-modal #file-collection-table .actions .fa-trash {
+    color: #ccc;
+}
+
+#zip-download {
+    text-align: right;
+    font-style: italic;
+}
+
+#zip-download i {
+    font-size: 20px;
+}
+
+#fileupload-view {
+    display: flex;
+    flex-flow: row wrap;
+    margin-top: 20px;
+}
+
+#fileupload-view #errors {
+    flex: 1 100%;
+}
+
+#fileupload-view input[type="file"] {
+    display: none;
+}
+
+#fileupload-view .dropzone {
+    flex: 1;
+}
+
+#fileupload-view .fileupload {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: inline-block;
+    padding: 40px;
+    text-align: center;
+    cursor: pointer;
+}
+
+#fileupload-view .fileupload:hover {
+    background: rgb(245, 255, 235)
+}
+
+#fileupload-view .fileupload i {
+    font-size: 40px;
+}
+
+#fileupload-view .uploading {
+    margin-left: 10px;
+    flex: 2;
+}
+
+#fileupload-view span {
+    margin-left: 10px;
+    font-style: italic;
+}
+
+#fileupload-view .uploading .bar {
+    height: 18px;
+    background: rgb(117, 172, 117);
+    border-radius: 5px;
+}
