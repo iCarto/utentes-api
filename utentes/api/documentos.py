@@ -30,6 +30,7 @@ def exploracao_get_folders(request):
     if exploracao_id:
         res = request.db.query(
                 Documento.departamento,
+                label('last_created_at', func.max(Documento.created_at)),
                 label('num_files', func.count(Documento.gid))
             ).filter(Documento.exploracao == exploracao_id).group_by(Documento.departamento).order_by(Documento.departamento).all()
         # TODO: There is another way?
@@ -40,8 +41,9 @@ def exploracao_get_folders(request):
                 'url': '',
                 'type': 'folder',
                 'name': row[0],
-                'size': row[1],
+                'size': row[2],
                 'departamento': row[0],
+                'created_at': row[1],
                 'url': '/api/exploracaos/' + exploracao_id + '/documentos/' + row[0]
             })
         return json_result

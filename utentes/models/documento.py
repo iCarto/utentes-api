@@ -48,7 +48,8 @@ class Documento(Base):
             'url': url,
             'name': self.name,
             'size': self.size,
-            'departamento': self.departamento
+            'departamento': self.departamento,
+            'created_at': self.created_at
         }
 
     def get_file_path_upload(self):
