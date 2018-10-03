@@ -4,11 +4,11 @@ Backbone.DMS.Folder = function (options) {
     this.options = options || {};
 
     this.defaults = _.extend({}, Backbone.DMS.File.prototype.defaults, {
-        'fileCollection': null,
-        'permissionUpload': true
+        'fileCollection': null
     });
 
     Backbone.Model.apply(this, [options]);
+
 };
 
 _.extend(Backbone.DMS.Folder.prototype, Backbone.DMS.File.prototype, {
@@ -17,10 +17,20 @@ _.extend(Backbone.DMS.Folder.prototype, Backbone.DMS.File.prototype, {
         return '';
     },
 
+    evaluatePermissions: function(fileCollectionData) {
+        return fileCollectionData;
+    },
+
     fetchFileCollection: function () {
         this.get('fileCollection').url = this.getFileCollectionUrl();
-        this.get('fileCollection').fetch();
+        this.get('fileCollection').fetch({
+            success: this.fetchFileCollectionSuccess.bind(this)
+        });
     },
+
+    fetchFileCollectionSuccess: function(fileCollectionData) {
+        this.evaluatePermissions(fileCollectionData);
+    }
 
 });
 

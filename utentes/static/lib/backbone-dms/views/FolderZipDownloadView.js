@@ -2,7 +2,7 @@ Backbone.DMS = Backbone.DMS || {};
 Backbone.DMS.FolderZipDownloadView = Backbone.View.extend({
 
     template: _.template(
-        '<div id="zip-download">Descarregar todos os arquivos <a href="#"><i class="fa fa-file-zip-o"></i></a></div>'
+        '<div id="zip-download"><a href="#">Descarregar todos os arquivos <i class="fa fa-file-zip-o"></i></div>'
     ),
 
     initialize: function(options){

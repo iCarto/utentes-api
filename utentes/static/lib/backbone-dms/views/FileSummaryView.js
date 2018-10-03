@@ -10,7 +10,15 @@ Backbone.DMS.FileSummaryView = Backbone.View.extend({
         '<td class="type"><i class="fa fa-file"></i></td>' +
         '<td class="name"><a id="download-button" href="<%=data.url%>" target="_blank"><%=data.name%></a></td>' +
         '<td class="size"><%=formatBytes(data.size, 2)%></td>' +
-        '<td class="actions"><a id="download-button" href="<%=data.url%>" target="_blank"><i class="fa fa-download"></i></a><a id="delete-button" href="#"><i class="fa fa-trash"></i></a></td>'
+        '<td class="actions"></td>'
+    ),
+
+    templateDownloadButton: _.template(
+        '<a id="download-button" href="<%=data.url%>" target="_blank"><i class="fa fa-download"></i></a>'
+    ),
+
+    templateDeleteButton: _.template(
+        '<a id="delete-button" href="#"><i class="fa fa-trash"></i></a>'
     ),
 
     initialize: function(){
@@ -24,7 +32,23 @@ Backbone.DMS.FileSummaryView = Backbone.View.extend({
             data: this.model.toJSON(),
             formatBytes: this.formatBytes
         }));
+        this.showDownloadButton();
+        this.showDeleteButton();
         return this;
+    },
+
+    showDownloadButton: function() {
+        if(_.contains(this.model.get('permissions'), PERMISSION_DOWNLOAD)) {
+            this.$el.children('.actions').append(this.templateDownloadButton({
+                data: this.model.toJSON()
+            }));
+        }
+    },
+
+    showDeleteButton: function() {
+        if(_.contains(this.model.get('permissions'), PERMISSION_DELETE)) {
+            this.$el.children('.actions').append(this.templateDeleteButton());
+        }
     },
 
     deleteFile: function() {

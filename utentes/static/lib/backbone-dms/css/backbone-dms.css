@@ -90,37 +90,34 @@
 }
 
 #zip-download {
-    text-align: right;
     font-style: italic;
+    text-align: right;
 }
 
 #zip-download i {
-    font-size: 20px;
+    font-size: 15px;
 }
 
 #fileupload-view {
     display: flex;
-    flex-flow: row wrap;
-    margin-top: 20px;
-}
-
-#fileupload-view #errors {
-    flex: 1 100%;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 #fileupload-view input[type="file"] {
     display: none;
 }
 
-#fileupload-view .dropzone {
-    flex: 1;
-}
-
 #fileupload-view .fileupload {
     border: 1px solid #ccc;
     border-radius: 5px;
     display: inline-block;
-    padding: 40px;
+    padding: 20px;
+    width: 200px;
     text-align: center;
     cursor: pointer;
 }
@@ -134,8 +131,8 @@
 }
 
 #fileupload-view .uploading {
-    margin-left: 10px;
-    flex: 2;
+    margin: 10px;
+    width: 80%;
 }
 
 #fileupload-view span {

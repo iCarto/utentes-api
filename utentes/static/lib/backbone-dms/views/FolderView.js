@@ -8,17 +8,24 @@ Backbone.DMS.FolderView = Backbone.View.extend({
             model: this.model
         });
 
-        this.fileCollectionView = new Backbone.DMS.FileCollectionView({
-            model: this.model.get('fileCollection')
+        this.fileUploadView = new Backbone.DMS.FileUploadView({
+            model: new Backbone.DMS.FileUpload(),
+            postUrl: this.model.get('fileCollection').url
         });
-        this.listenTo(this.fileCollectionView.model, 'navigate', this.navigateListener)
+        this.listenTo(this.fileUploadView.model, 'change', this.fileUploadViewChange)
 
         this.folderZipDownloadView = new Backbone.DMS.FolderZipDownloadView({
             model: this.model.get('fileCollection')
         });
 
+        this.fileCollectionView = new Backbone.DMS.FileCollectionView({
+            model: this.model.get('fileCollection')
+        });
+        this.listenTo(this.fileCollectionView.model, 'navigate', this.navigateListener)
+
         this.render();
-        this.listenTo(this.model, 'change:name', this.render)
+        this.listenTo(this.model, 'change:name', this.render);
+        this.listenTo(this.model, 'change:permissions', this.showUploadView)
     },
 
     render: function(e){
@@ -26,21 +33,17 @@ Backbone.DMS.FolderView = Backbone.View.extend({
 
         this.$el.append(this.breadcrumbView.render().el)
 
-        this.$el.append(this.fileCollectionView.render().el)
-
         this.$el.append(this.folderZipDownloadView.render().el)
 
-        if(this.model.get('permissionUpload')) {
-            this.fileUploadView = new Backbone.DMS.FileUploadView({
-                model: new Backbone.DMS.FileUpload(),
-                postUrl: this.model.get('fileCollection').url
-            });
-            this.listenTo(this.fileUploadView.model, 'change', this.fileUploadViewChange)
-
-            this.$el.append(this.fileUploadView.render().el)
-        }
+        this.$el.append(this.fileCollectionView.render().el)
 
         return this;
+    },
+
+    showUploadView: function()  {
+        if(_.contains(this.model.get('permissions'), PERMISSION_UPLOAD)) {
+            this.$el.children(":first").after(this.fileUploadView.render().el)
+        }
     },
 
     fileUploadViewChange: function() {
