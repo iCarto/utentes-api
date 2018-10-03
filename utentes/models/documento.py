@@ -10,12 +10,6 @@ from utentes.models.base import (
     Base
 )
 
-def get_file_path_root():
-    # by default packagedir/utentes/static/files
-    here = os.path.dirname(__file__)
-    return os.path.abspath(os.path.join(here, os.pardir, 'static/files'))
-
-
 class Documento(Base):
 
     __tablename__ = 'documentos'
@@ -36,8 +30,11 @@ class Documento(Base):
     created_at = Column(DateTime, nullable=False, server_default=text('now()'))
 
     defaults = {
-        'path_root': get_file_path_root()
+        'path_root': ''
     }
+
+    def set_path_root(self, path_root):
+        self.defaults['path_root'] = path_root
 
     def __json__(self, request):
         url = ''
@@ -60,12 +57,11 @@ class Documento(Base):
                             self.name).encode('utf-8')
 
     def get_file_path_save(self):
-        # by default: packagedir/utentes/static/files/attachments/{exploracao_id}/{departamento}/{id}/{name}
+        # by default: packagedir/utentes/static/files/attachments/{exploracao_id}/{departamento}/{name}
         return os.path.join(self.defaults['path_root'],
                             'documentos',
                             str(self.exploracao),
                             self.departamento,
-                            str(self.gid),
                             self.name).encode('utf-8')
 
     def get_file_path(self):

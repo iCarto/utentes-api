@@ -130,6 +130,7 @@ def documento_upload(request, exploracao_id, departamento):
 
     request.db.add(documento)
     request.db.commit()
+    documento.set_path_root(request.registry.settings['media_root'])
     documento.upload_file(input_file.file)
     return documento
 
@@ -158,6 +159,7 @@ def documento_delete(request):
 
         try:
             documento = request.db.query(Documento).filter(Documento.exploracao == exploracao_id, Documento.departamento == departamento, Documento.name == name).one()
+            documento.set_path_root(request.registry.settings['media_root'])
             documento.delete_file()
             request.db.delete(documento)
             request.db.commit()
