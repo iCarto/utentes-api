@@ -5,39 +5,8 @@
     padding: 0px;
 }
 
-#documents-modal .navbar {
-    background-color: #f7f7f7;
-    width: 30%;
-    min-height: 400px;
-    margin-bottom: 0px;
-    border: 0px;
-}
-
-#documents-modal .navbar li {
-    cursor: pointer;
-    margin: 0px;
-    padding: 20px;
-    text-align: center;
-    border: 1px solid #eee;
-    color: #777;
-}
-
-#documents-modal .navbar li.active {
-    background-color: white;
-    border-right: 0px;
-    color: #333;
-}
-
-#documents-modal .navbar li i {
-    font-size: 35px;
-}
-
-#documents-modal .navbar li h3 {
-    margin: 5px;
-}
-
 #documents-modal .content {
-    width: 70%;
+    width: 100%;
     padding: 5px 20px;
 }
 

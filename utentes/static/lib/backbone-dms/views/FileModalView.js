@@ -14,8 +14,6 @@ Backbone.DMS.FileModalView = function (options) {
                         '<h4 class="modal-title" id="editInfoModalLabel"><%=title%></h4>' +
                     '</div>' +
                     '<div class="modal-body">' +
-                        '<nav class="navbar  navbar-expand-lg navbar-light bg-light">' +
-                        '</nav>' +
                     '</div>' +
                     '<div class="modal-footer">' +
                         '<div class="row">' +
@@ -43,7 +41,6 @@ _.extend(Backbone.DMS.FileModalView.prototype, Backbone.View.prototype, {
         this.$el.html(this.template({
             title: this.title
         }));
-        this.$el.find('.navbar').append(this.navbarTemplate(this.model.toJSON()));
 
         var folderView = new Backbone.DMS.FolderView({
             model: this.model
