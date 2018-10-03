@@ -6,10 +6,7 @@ Backbone.SIXHIARA.ViewSecretaria1 = Backbone.SIXHIARA.View1.extend({
   <div class="col-xs-12">
     <div class="btn-group btn-group-justified" role="group">
         <div class="btn-group" role="group">
-            <button type="button" class="btn btn-default" disabled>Anexar Documentação&nbsp;(<i class="fa fa-upload"></i>)</button>
-        </div>
-        <div class="btn-group" role="group">
-            <button id="bt-ver-doc" type="button" class="btn btn-default" disabled>Transferir Documentação&nbsp;(<i class="fa fa-download"></i>)</button>
+            <button id="documentos" class="btn btn-default" role="button">Documentos</button>
         </div>
     </div>
   </div>
@@ -125,6 +122,11 @@ print('O ' + formatter().formatDate(req_obs[i]['create_at']) + ', ' + req_obs[i]
 
         document.querySelectorAll('table input[type="checkbox"]').forEach(function(input){
             input.addEventListener('change', self.autosave.bind(self), false);
+        });
+
+        var openDocumentsView = new Backbone.SIXHIARA.ButtonOpenDocumentsView({
+            el: $('#documentos'),
+            model: this.model
         });
     },
 

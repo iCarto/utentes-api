@@ -5,15 +5,12 @@ Backbone.SIXHIARA.ViewSecretaria2 = Backbone.SIXHIARA.View1.extend({
         <div id="bt-toolbar" class="row">
   <div class="col-xs-12">
     <div class="btn-group btn-group-justified" role="group">
-<div class="btn-group" role="group">
-    <button type="button" class="btn btn-default" disabled>Anexar Documentação&nbsp;(<i class="fa fa-upload"></i>)</button>
-</div>
-<div class="btn-group" role="group">
-    <button id="bt-ver-doc" type="button" class="btn btn-default" disabled>Transferir Documentação&nbsp;(<i class="fa fa-download"></i>)</button>
-</div>
-<div class="btn-group" role="group">
-    <a id="bt-ficha" class="btn btn-default" role="button" href="/exploracao-show.html?id=<%- id %>">Ficha</a>
-</div>
+        <div class="btn-group" role="group">
+            <button id="documentos" class="btn btn-default" role="button">Documentos</button>
+        </div>
+        <div class="btn-group" role="group">
+            <a id="bt-ficha" class="btn btn-default" role="button" href="/exploracao-show.html?id=<%- id %>">Ficha</a>
+        </div>
     </div>
   </div>
 </div>
@@ -62,6 +59,11 @@ print('O ' + formatter().formatDate(req_obs[i]['create_at']) + ', ' + req_obs[i]
     init: function() {
         Backbone.SIXHIARA.View1.prototype.init.call(this);
         this.enableBts();
+
+        var openDocumentsView = new Backbone.SIXHIARA.ButtonOpenDocumentsView({
+            el: $('#documentos'),
+            model: this.model
+        });
     },
 
     enableBts: function() {

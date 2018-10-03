@@ -11,6 +11,7 @@
   "lib/font-awesome/css/font-awesome.css",
   "lib/leaflet/leaflet.css",
   "lib/leaflet/leaflet.label.css",
+  "lib/backbone-dms/css/backbone-dms.css",
   "offline/sixhiara-labels.css",
   "lib/leaflet-draw/dist/leaflet.draw.css",
   "css/exploracao-show.css",
@@ -1815,18 +1816,18 @@
         <span class="title"><i class="units">m<sup>3</sup>/mês</i> consumo solicitado</span> <span class="title">(</span><%- formatter().formatNumber(c_soli_int) || '-' %> <span class="title"> intermedio /</span> <%- formatter().formatNumber(c_soli_fon) || '-' %> <span class="title">fontes)</span>
       </span>
     </div>
-    
+
 
     </div>
 
   </script>
 
   {% include 'set-ara-variable.jinja2' %}
-  
+
   <!-- JAVASCRIPT -->
   {% assets
   "node-interaction.js",
-  
+
   "lib/jquery/jquery-1.12.0.min.js",
   "lib/bootstrap/js/bootstrap.min.js",
   "lib/underscore/underscore-min.js",
@@ -1838,9 +1839,12 @@
   "lib/moment-2.11.2/moment-with-locales.js",
   "lib/numeral-js-1.5.3/min/languages.min.js",
   "lib/numeral-js-1.5.3/min/numeral.min.js",
-  
+  "lib/jquery-ui/jquery-ui.min.js",
+  "lib/jquery-fileupload/jquery.iframe-transport.js",
+  "lib/jquery-fileupload/jquery.fileupload.js",
+
   "tenant-custom-code.js",
-  
+
   "lib/formatter/formatter.js",
   "lib/schema-validator/validator.js",
   "lib/backbone-geojson/Feature.js",
@@ -1852,6 +1856,22 @@
   "lib/backbone-uilib/views/WidgetsView.js",
   "lib/backbone-uilib/views/BaseView.js",
   "lib/backbone-uilib/views/ModalView.js",
+
+  "lib/backbone-dms/models/File.js",
+  "lib/backbone-dms/models/FileCollection.js",
+  "lib/backbone-dms/models/Folder.js",
+  "lib/backbone-dms/models/FileUpload.js",
+  "lib/backbone-dms/views/FileSummaryView.js",
+  "lib/backbone-dms/views/FolderSummaryView.js",
+  "lib/backbone-dms/views/FolderView.js",
+  "lib/backbone-dms/views/FileModalView.js",
+  "lib/backbone-dms/views/FileUploadView.js",
+  "lib/backbone-dms/views/FileCollectionView.js",
+  "lib/backbone-dms/views/FolderZipDownloadView.js",
+  "lib/backbone-dms/views/BreadcrumbView.js",
+  "views/dms/DepartamentoFolder.js",
+  "views/dms/DocumentosModalView.js",
+
   "views/common/CheckBoxList.js",
   "views/common/NavBarView.js",
   "views/common/ConfigModalView.js",
@@ -1890,6 +1910,7 @@
   "views/common/SelectBaciaView.js",
   "views/common/SelectLocationView.js",
   "views/show/OpenFolderButtonView.js",
+  "views/common/ButtonOpenDocumentsView.js",
   "views/common/ButtonSaveView.js",
   "views/show/ButtonDeleteView.js",
   "views/show/ButtonRefreshView.js",

@@ -52,11 +52,11 @@ Backbone.SIXHIARA.ExploracaoShowView = Backbone.View.extend({
                 /** Buttons View are here, because after the domains are loaded,
                 'change' events are triggered in the model. If a button like refresh
                 is listening it to be enabled, we must wait here **/
-                var openFolderButtonView = new Backbone.SIXHIARA.OpenFolderButtonView({
+                var openDocumentsView = new Backbone.SIXHIARA.ButtonOpenDocumentsView({
                     el: $('#documentos'),
                     model: exploracao
                 });
-                view.subViews.push(openFolderButtonView);
+                view.subViews.push(openDocumentsView);
 
                 // TODO: do not listen to events if button is disabled
                 var buttonSaveView = new Backbone.SIXHIARA.ButtonSaveView({
