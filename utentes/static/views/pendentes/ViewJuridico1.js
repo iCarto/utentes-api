@@ -6,7 +6,7 @@ Backbone.SIXHIARA.ViewJuridico1 = Backbone.SIXHIARA.View1.extend({
   <div class="col-xs-12">
     <div class="btn-group btn-group-justified" role="group">
         <div class="btn-group" role="group">
-            <button id="documentos" class="btn btn-default" role="button">Documentos</button>
+            <button id="documentos" class="btn btn-default" role="button">Documentaçao</button>
         </div>
     </div>
   </div>
