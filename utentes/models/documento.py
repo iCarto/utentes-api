@@ -3,7 +3,7 @@
 import os
 
 from sqlalchemy import Column, ForeignKey, text
-from sqlalchemy import Boolean, Integer, Text
+from sqlalchemy import Boolean, Integer, Text, DateTime
 from utentes.models.filehandler import FileHandler
 from utentes.models.base import (
     PGSQL_SCHEMA_UTENTES,
@@ -32,6 +32,8 @@ class Documento(Base):
     size = Column(Text)
     departamento = Column(Text)
     saved = Column(Boolean, default=False)
+    user = Column(Text, unique=True)
+    created_at = Column(DateTime, nullable=False, server_default=text('now()'))
 
     defaults = {
         'path_root': get_file_path_root()

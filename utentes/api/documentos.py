@@ -111,6 +111,7 @@ def documento_upload(request, exploracao_id, departamento):
     documento.size = len(input_file.value)
     documento.exploracao = exploracao_id
     documento.departamento = departamento
+    documento.user = request.user.username
 
     if request.user.usergroup != ROL_ADMIN and request.user.usergroup != departamento:
         raise badrequest_exception({
