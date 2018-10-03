@@ -68,6 +68,12 @@
     vertical-align: middle;
 }
 
+#documents-modal #file-collection-table .created_at {
+    text-align: center;
+    width: 10%;
+    vertical-align: middle;
+}
+
 #documents-modal #file-collection-table .size {
     text-align: right;
     width: 15%;

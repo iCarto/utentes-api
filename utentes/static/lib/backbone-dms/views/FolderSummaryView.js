@@ -9,6 +9,7 @@ Backbone.DMS.FolderSummaryView = Backbone.View.extend({
     template: _.template(
         '<td class="type"><i class="fa fa-folder"></i></td>' +
         '<td class="name"><a href="#" class="navigateButton"><%=name%></a></td>' +
+        '<td class="created_at"><% print(formatter().formatDate(created_at)) %></td>' +
         '<td class="size"><%=size%> arquivos</td>' +
         '<td class="actions"><a href="#" class="navigateButton"><i class="fa fa-sitemap"></i></a></td>'
     ),

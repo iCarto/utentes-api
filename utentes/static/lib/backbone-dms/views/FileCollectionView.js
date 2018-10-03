@@ -8,6 +8,7 @@ Backbone.DMS.FileCollectionView = Backbone.View.extend({
         '<thead>' +
             '<th class="type"></th>' +
             '<th class="name">Nombre</th>' +
+            '<th class="created_at">Data</th>' +
             '<th class="size">Tamaño</th>' +
             '<th class="actions"></th>' +
         '</thead>' +

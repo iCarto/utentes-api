@@ -13,6 +13,7 @@ Backbone.DMS.FileCollection = Backbone.Collection.extend({
                     'type': filesResponse[i].type,
                     'size': filesResponse[i].size,
                     'url': filesResponse[i].url,
+                    'created_at': filesResponse[i].created_at
                 })
             );
         }

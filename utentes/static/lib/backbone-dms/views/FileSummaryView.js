@@ -9,6 +9,7 @@ Backbone.DMS.FileSummaryView = Backbone.View.extend({
     template: _.template(
         '<td class="type"><i class="fa fa-file"></i></td>' +
         '<td class="name"><a id="download-button" href="<%=data.url%>" target="_blank"><%=data.name%></a></td>' +
+        '<td class="created_at"><% print(formatter().formatDate(data.created_at)) %></td>' +
         '<td class="size"><%=formatBytes(data.size, 2)%></td>' +
         '<td class="actions"></td>'
     ),
