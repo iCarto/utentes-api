@@ -68,8 +68,6 @@ if (window.SIRHA.ARA === 'DPMAIP') {
         {'header': 'Nro de alevinos povoados', 'value': 'actividade.n_ale_pov'},
         {'header': 'Produção Anual (kg)', 'value': 'actividade.produc_pi'},
         {'header': 'Processamento do peixe', 'value': 'actividade.tipo_proc'},
-        {'header': 'Durante a abertura dos tanques/gaiolas', 'value': 'actividade.asis_aber'},
-        {'header': 'Na monitoria dos tanques/gaiolas', 'value': 'actividade.asis_moni'},
         {'header': 'Tratamento da água que entra nos tanques', 'value': 'actividade.trat_t_en'},
         {'header': 'Tratamento da água que sai dos tanques', 'value': 'actividade.trat_a_sa'},
         {'header': 'As gaiolas estão submersas em', 'value': 'actividade.gaio_subm'},
@@ -169,7 +167,7 @@ if (window.SIRHA.ARA === 'DPMAIP') {
     };
 
     window.SIXHIARA.xlsFieldsToExport.exploracaos = [
-        {'header': 'Nome', 'value': 'utente.nome'},
+        {'header': 'Nome utente', 'value': 'utente.nome'},
         {'header': 'Nuit', 'value': 'utente.nuit'},
         {'header': 'Tipo de utente', 'value': 'utente.uten_tipo'},
         {'header': 'Nro registo comercial', 'value': 'utente.reg_comerc'},
@@ -180,7 +178,7 @@ if (window.SIRHA.ARA === 'DPMAIP') {
         {'header': 'Bairro', 'value': 'utente.loc_nucleo'},
         {'header': 'Observações', 'value': 'utente.observacio'},
         {'header': 'Id Exp', 'value': 'exp_id'},
-        {'header': 'Nome exploraçõe', 'value': 'exp_name'},
+        {'header': 'Nome da exploração', 'value': 'exp_name'},
         {'header': 'Actividade', 'value': 'actividade.tipo'},
         {'header': 'Consumo licenciado', 'value': 'c_licencia'},
         {'header': 'Consumo solicitado', 'value': 'c_soli'},
