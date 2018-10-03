@@ -8,12 +8,6 @@ Backbone.DMS.FolderView = Backbone.View.extend({
             model: this.model
         });
 
-        this.fileUploadView = new Backbone.DMS.FileUploadView({
-            model: new Backbone.DMS.FileUpload(),
-            postUrl: this.model.get('fileCollection').url
-        });
-        this.listenTo(this.fileUploadView.model, 'change', this.fileUploadViewChange)
-
         this.folderZipDownloadView = new Backbone.DMS.FolderZipDownloadView({
             model: this.model.get('fileCollection')
         });
@@ -42,6 +36,12 @@ Backbone.DMS.FolderView = Backbone.View.extend({
 
     showUploadView: function()  {
         if(_.contains(this.model.get('permissions'), PERMISSION_UPLOAD)) {
+            this.fileUploadView = new Backbone.DMS.FileUploadView({
+                model: new Backbone.DMS.FileUpload(),
+                postUrl: this.model.get('fileCollection').url
+            });
+            this.listenTo(this.fileUploadView.model, 'change', this.fileUploadViewChange)
+
             this.$el.children(":first").after(this.fileUploadView.render().el)
         }
     },

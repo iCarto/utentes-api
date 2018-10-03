@@ -3,6 +3,7 @@ Backbone.DMS.DocumentosModalView = Backbone.DMS.FileModalView.extend({
 
     initialize: function(options) {
         this.options = options || {};
+        this.openDefaultRoot = options.openDefaultRoot;
         var exploracao = options.exploracao;
         this.model = new Backbone.DMS.DepartamentoFolder({
             'exploracao_id': exploracao.get('id'),
@@ -13,6 +14,9 @@ Backbone.DMS.DocumentosModalView = Backbone.DMS.FileModalView.extend({
     },
 
     getDefaultDepartamento: function() {
+        if(this.openDefaultRoot){
+            return null;
+        }
         if(wf.isAdminOrDirector()) {
             return null;
         }

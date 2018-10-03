@@ -54,7 +54,8 @@ Backbone.SIXHIARA.ExploracaoShowView = Backbone.View.extend({
                 is listening it to be enabled, we must wait here **/
                 var openDocumentsView = new Backbone.SIXHIARA.ButtonOpenDocumentsView({
                     el: $('#documentos'),
-                    model: exploracao
+                    model: exploracao,
+                    openDefaultRoot: true,
                 });
                 view.subViews.push(openDocumentsView);
 
