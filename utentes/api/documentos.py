@@ -44,7 +44,7 @@ def exploracao_get_folders(request):
                 'size': row[2],
                 'departamento': row[0],
                 'created_at': row[1],
-                'url': '/api/exploracaos/' + exploracao_id + '/documentos/' + row[0]
+                'url': request.route_url('api_exploracao_documentos_departamento', id=exploracao_id, departamento=row[0])
             })
         return json_result
 
@@ -86,6 +86,7 @@ def documento_read(request):
     if exploracao_id and departamento and name:
         try:
             documento = request.db.query(Documento).filter(Documento.exploracao == exploracao_id, Documento.departamento == departamento, Documento.name == name).one()
+            documento.set_path_root(request.registry.settings['media_root'])
             return FileResponse(documento.get_file_path())
         except(MultipleResultsFound, NoResultFound):
             raise badrequest_exception({

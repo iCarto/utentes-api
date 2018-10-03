@@ -39,7 +39,7 @@ class Documento(Base):
     def __json__(self, request):
         url = ''
         if request:
-            url = request.host_url + '/api/exploracaos/' + str(self.exploracao) + '/documentos/' + self.departamento + '/' + self.name
+            url = request.route_url('api_exploracao_documentos_departamento_file', id=self.exploracao, departamento=self.departamento, name=self.name)
         return {
             'gid': self.gid,
             'url': url,
