@@ -37,17 +37,10 @@ Backbone.DMS.DocumentosModalView = Backbone.DMS.FileModalView.extend({
     },
 
     getDefaultDepartamento: function() {
-        if(this.isAdminOrDirector()) {
+        if(wf.isAdminOrDirector()) {
             return null;
         }
         return wf.getRole();
     },
-
-    isAdminOrDirector(role) {
-        if(!role) {
-            role = wf.getRole();
-        }
-        return role === ROL_ADMIN || role === ROL_DIRECCION;
-    }
 
 });

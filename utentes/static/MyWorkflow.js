@@ -60,6 +60,14 @@ var MyWorkflow = {
         }
     },
 
+
+    isAdminOrDirector(role) {
+        if(!role) {
+            role = wf.getRole();
+        }
+        return role === ROL_ADMIN || role === ROL_DIRECCION;
+    },
+
     fixMenu: function() {
         var user = this.getRole();
 
