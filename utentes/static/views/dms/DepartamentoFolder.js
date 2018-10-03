@@ -56,6 +56,21 @@ Backbone.DMS.DepartamentoFolder = Backbone.DMS.Folder.extend({
         }
     },
 
+    evaluatePermissions: function(fileCollectionData) {
+        var filePermissions = [PERMISSION_DOWNLOAD];
+        var folderPermissions = [];
+        var role = wf.getRole();
+        if(role === this.get('departamento')) {
+            filePermissions = [PERMISSION_DOWNLOAD, PERMISSION_DELETE];
+            folderPermissions = [PERMISSION_UPLOAD]
+        }
+        _.each(fileCollectionData.models, function(file){
+            file.set('permissions', filePermissions)
+        });
+        this.set('permissions', folderPermissions);
+        return fileCollectionData;
+    },
+
     fetchExploracaoRoot: function() {
         this.set('name', '/');
     },

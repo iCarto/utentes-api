@@ -21,8 +21,6 @@ Backbone.DMS.DocumentosModalView = Backbone.DMS.FileModalView.extend({
             'utente': exploracao.get('utente').get('nome'),
             'departamento': this.getDefaultDepartamento()
         });
-        this.reviewPermissionUpload();
-        this.listenTo(this.model, 'change:name', this.reviewPermissionUpload);
     },
 
     uploadPanelButtonClicked: function() {
@@ -43,15 +41,6 @@ Backbone.DMS.DocumentosModalView = Backbone.DMS.FileModalView.extend({
             return null;
         }
         return wf.getRole();
-    },
-
-    reviewPermissionUpload: function() {
-        var role = wf.getRole();
-        var permissionUpload = (role === this.model.get('name'));
-        if(this.isAdminOrDirector(role)) {
-            permissionUpload = false;
-        }
-        this.model.set('permissionUpload', permissionUpload);
     },
 
     isAdminOrDirector(role) {
