@@ -12,7 +12,9 @@ from utentes.models.exploracao import Exploracao
 from utentes.models.documento import Documento
 from utentes.api.error_msgs import error_msgs
 
-from utentes.user_utils import PERM_GET, PERM_CREATE_DOCUMENTO, PERM_DELETE_DOCUMENTO, ROL_ADMIN
+from utentes.user_utils import PERM_GET, PERM_CREATE_DOCUMENTO, PERM_DELETE_DOCUMENTO, ROL_ADMIN, ROL_ADMINISTRATIVO, ROL_FINANCIERO, ROL_JURIDICO, ROL_TECNICO
+
+
 
 import json
 
@@ -28,25 +30,32 @@ def exploracao_get_folders(request):
         exploracao_id = request.matchdict.get('id', None)
 
     if exploracao_id:
+        departamentos_json_array = init_departamentos_json_array(request, exploracao_id)
         res = request.db.query(
                 Documento.departamento,
-                label('last_created_at', func.max(Documento.created_at)),
-                label('num_files', func.count(Documento.gid))
+                label('num_files', func.count(Documento.gid)),
+                label('last_created_at', func.max(Documento.created_at))
             ).filter(Documento.exploracao == exploracao_id).group_by(Documento.departamento).order_by(Documento.departamento).all()
-        # TODO: There is another way?
-        json_result = []
         for row in res:
-            json_result.append({
-                'gid': exploracao_id,
-                'url': '',
-                'type': 'folder',
-                'name': row[0],
-                'size': row[2],
-                'departamento': row[0],
-                'created_at': row[1],
-                'url': request.route_url('api_exploracao_documentos_departamento', id=exploracao_id, departamento=row[0])
-            })
-        return json_result
+            departamento = next((departamento_json for departamento_json in departamentos_json_array if departamento_json['name'] == row[0]), None)
+            if departamento:
+                departamento['size'] = row[1]
+                departamento['created_at'] = row[2]
+        return departamentos_json_array
+
+def init_departamentos_json_array(request, exploracao_id):
+    departamentos = [ROL_ADMINISTRATIVO, ROL_FINANCIERO, ROL_JURIDICO, ROL_TECNICO]
+    departamentos_json_array = []
+    for departamento in departamentos:
+        departamentos_json_array.append({
+            'gid': exploracao_id,
+            'type': 'folder',
+            'name': departamento,
+            'size': 0,
+            'created_at': None,
+            'url': request.route_url('api_exploracao_documentos_departamento', id=exploracao_id, departamento=departamento)
+        })
+    return departamentos_json_array
 
 
 @view_config(
