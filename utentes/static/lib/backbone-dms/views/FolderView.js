@@ -8,10 +8,6 @@ Backbone.DMS.FolderView = Backbone.View.extend({
             model: this.model
         });
 
-        this.folderZipDownloadView = new Backbone.DMS.FolderZipDownloadView({
-            model: this.model.get('fileCollection')
-        });
-
         this.fileCollectionView = new Backbone.DMS.FileCollectionView({
             model: this.model.get('fileCollection')
         });
@@ -19,7 +15,7 @@ Backbone.DMS.FolderView = Backbone.View.extend({
 
         this.render();
         this.listenTo(this.model, 'change:name', this.render);
-        this.listenTo(this.model, 'change:permissions', this.showUploadView)
+        this.listenTo(this.model, 'change:permissions', this.refreshViewsOnPermissions)
     },
 
     render: function(e){
@@ -27,11 +23,14 @@ Backbone.DMS.FolderView = Backbone.View.extend({
 
         this.$el.append(this.breadcrumbView.render().el)
 
-        this.$el.append(this.folderZipDownloadView.render().el)
-
         this.$el.append(this.fileCollectionView.render().el)
 
         return this;
+    },
+
+    refreshViewsOnPermissions: function() {
+        this.showFolderZipDownloadView();
+        this.showUploadView();
     },
 
     showUploadView: function()  {
@@ -43,6 +42,16 @@ Backbone.DMS.FolderView = Backbone.View.extend({
             this.listenTo(this.fileUploadView.model, 'change', this.fileUploadViewChange)
 
             this.$el.children(":first").after(this.fileUploadView.render().el)
+        }
+    },
+
+    showFolderZipDownloadView: function()  {
+        if(_.contains(this.model.get('permissions'), PERMISSION_DOWNLOAD)) {
+            this.folderZipDownloadView = new Backbone.DMS.FolderZipDownloadView({
+                model: this.model.get('fileCollection')
+            });
+
+            this.$el.children(":first").after(this.folderZipDownloadView.render().el);
         }
     },
 
