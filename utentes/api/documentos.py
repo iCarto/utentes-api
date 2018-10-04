@@ -25,23 +25,20 @@ import json
     renderer='json',
 )
 def exploracao_get_folders(request):
-    exploracao_id = None
-    if request.matchdict:
-        exploracao_id = request.matchdict.get('id', None)
+    exploracao_id = request.matchdict.get('id', None)
 
-    if exploracao_id:
-        departamentos_json_array = init_departamentos_json_array(request, exploracao_id)
-        res = request.db.query(
-                Documento.departamento,
-                label('num_files', func.count(Documento.gid)),
-                label('last_created_at', func.max(Documento.created_at))
-            ).filter(Documento.exploracao == exploracao_id).group_by(Documento.departamento).order_by(Documento.departamento).all()
-        for row in res:
-            departamento = next((departamento_json for departamento_json in departamentos_json_array if departamento_json['name'] == row[0]), None)
-            if departamento:
-                departamento['size'] = row[1]
-                departamento['created_at'] = row[2]
-        return departamentos_json_array
+    departamentos_json_array = init_departamentos_json_array(request, exploracao_id)
+    res = request.db.query(
+            Documento.departamento,
+            label('num_files', func.count(Documento.gid)),
+            label('last_created_at', func.max(Documento.created_at))
+        ).filter(Documento.exploracao == exploracao_id).group_by(Documento.departamento).order_by(Documento.departamento)
+    for row in res:
+        departamento = next((departamento_json for departamento_json in departamentos_json_array if departamento_json['name'] == row[0]), None)
+        if departamento:
+            departamento['size'] = row[1]
+            departamento['created_at'] = row[2]
+    return departamentos_json_array
 
 def init_departamentos_json_array(request, exploracao_id):
     departamentos = [ROL_ADMINISTRATIVO, ROL_FINANCIERO, ROL_JURIDICO, ROL_TECNICO]
@@ -65,16 +62,10 @@ def init_departamentos_json_array(request, exploracao_id):
     renderer='json',
 )
 def departamento_read(request):
-    exploracao_id = None
-    departamento = None
-    name = None
-    if request.matchdict:
-        exploracao_id = request.matchdict.get('id', None)
-        departamento = request.matchdict.get('departamento', None)
-        name = request.matchdict.get('name', None)
+    exploracao_id = request.matchdict.get('id', None)
+    departamento = request.matchdict.get('departamento', None)
 
-    if exploracao_id and departamento:
-        return request.db.query(Documento).filter(Documento.exploracao == exploracao_id, Documento.departamento == departamento).order_by(Documento.name).all()
+    return request.db.query(Documento).filter(Documento.exploracao == exploracao_id, Documento.departamento == departamento).order_by(Documento.name).all()
 
 
 @view_config(
@@ -84,24 +75,19 @@ def departamento_read(request):
     renderer='json',
 )
 def documento_read(request):
-    exploracao_id = None
-    departamento = None
-    name = None
-    if request.matchdict:
-        exploracao_id = request.matchdict.get('id', None)
-        departamento = request.matchdict.get('departamento', None)
-        name = request.matchdict.get('name', None)
+    exploracao_id = request.matchdict.get('id', None)
+    departamento = request.matchdict.get('departamento', None)
+    name = request.matchdict.get('name', None)
 
-    if exploracao_id and departamento and name:
-        try:
-            documento = request.db.query(Documento).filter(Documento.exploracao == exploracao_id, Documento.departamento == departamento, Documento.name == name).one()
-            documento.set_path_root(request.registry.settings['media_root'])
-            return FileResponse(documento.get_file_path())
-        except(MultipleResultsFound, NoResultFound):
-            raise badrequest_exception({
-                'error': error_msgs['no_document'],
-                'name': name
-            })
+    try:
+        documento = request.db.query(Documento).filter(Documento.exploracao == exploracao_id, Documento.departamento == departamento, Documento.name == name).one()
+        documento.set_path_root(request.registry.settings['media_root'])
+        return FileResponse(documento.get_file_path())
+    except(MultipleResultsFound, NoResultFound):
+        raise badrequest_exception({
+            'error': error_msgs['no_document'],
+            'name': name
+        })
 
 
 @view_config(
@@ -111,10 +97,9 @@ def documento_read(request):
     renderer='json',
 )
 def documento_create(request):
-    if request.matchdict:
-        exploracao_id = request.matchdict['id']
-        departamento = request.matchdict['departamento']
-        return documento_upload(request, exploracao_id, departamento)
+    exploracao_id = request.matchdict['id']
+    departamento = request.matchdict['departamento']
+    return documento_upload(request, exploracao_id, departamento)
 
 def documento_upload(request, exploracao_id, departamento):
     input_file = request.POST['file']
@@ -152,32 +137,27 @@ def documento_upload(request, exploracao_id, departamento):
     renderer='json',
 )
 def documento_delete(request):
-    exploracao_id = None
-    departamento = None
-    name = None
-    if request.matchdict:
-        exploracao_id = request.matchdict.get('id', None)
-        departamento = request.matchdict.get('departamento', None)
-        name = request.matchdict.get('name', None)
+    exploracao_id = request.matchdict.get('id', None)
+    departamento = request.matchdict.get('departamento', None)
+    name = request.matchdict.get('name', None)
 
-    if exploracao_id and departamento and name:
-        if request.user.usergroup != ROL_ADMIN and request.user.usergroup != departamento:
-            raise badrequest_exception({
-                'error': error_msgs['no_permission'],
-                'name': name
-            })
+    if request.user.usergroup != ROL_ADMIN and request.user.usergroup != departamento:
+        raise badrequest_exception({
+            'error': error_msgs['no_permission'],
+            'name': name
+        })
 
-        try:
-            documento = request.db.query(Documento).filter(Documento.exploracao == exploracao_id, Documento.departamento == departamento, Documento.name == name).one()
-            documento.set_path_root(request.registry.settings['media_root'])
-            documento.delete_file()
-            request.db.delete(documento)
-            request.db.commit()
-        except(MultipleResultsFound, NoResultFound):
-            raise badrequest_exception({
-                'error': error_msgs['no_document'],
-                'name': name
-            })
+    try:
+        documento = request.db.query(Documento).filter(Documento.exploracao == exploracao_id, Documento.departamento == departamento, Documento.name == name).one()
+        documento.set_path_root(request.registry.settings['media_root'])
+        documento.delete_file()
+        request.db.delete(documento)
+        request.db.commit()
+    except(MultipleResultsFound, NoResultFound):
+        raise badrequest_exception({
+            'error': error_msgs['no_document'],
+            'name': name
+        })
 
 @view_config(
     route_name='api_exploracao_documentos_zip',
@@ -195,23 +175,21 @@ def exploracao_documentos_zip(request):
     import tempfile
     tmp_file = tempfile.NamedTemporaryFile()
 
-    exploracao_id = None
-    if request.matchdict:
-        exploracao_id = request.matchdict.get('id', None)
-        query = request.db.query(Documento).filter(Documento.exploracao == exploracao_id)
-        filename = 'documentos_' + exploracao_id
+    exploracao_id = request.matchdict.get('id', None)
+    query = request.db.query(Documento).filter(Documento.exploracao == exploracao_id)
+    filename = 'documentos_' + exploracao_id
 
-        departamento = request.matchdict.get('departamento', None)
-        if departamento:
-            query.filter(Documento.departamento == departamento)
-            filename += '_' + departamento
+    departamento = request.matchdict.get('departamento', None)
+    if departamento:
+        query.filter(Documento.departamento == departamento)
+        filename += '_' + departamento
 
-        documentos = query.all()
+    documentos = query.all()
 
-        response = FileResponse(create_zip_file(tmp_file.name, documentos), request)
-        response.content_type = 'application/zip'
-        response.content_disposition = 'attachment; filename="' + filename + '.zip"'
-        return response
+    response = FileResponse(create_zip_file(tmp_file.name, documentos), request)
+    response.content_type = 'application/zip'
+    response.content_disposition = 'attachment; filename="' + filename + '.zip"'
+    return response
 
 def create_zip_file(zip_filename, documentos):
     import os
