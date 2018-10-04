@@ -8,13 +8,27 @@ Backbone.DMS.FolderView = Backbone.View.extend({
             model: this.model
         });
 
+        this.fileUploadView = new Backbone.DMS.FileUploadView({
+            model: new Backbone.DMS.FileUpload(),
+            postUrl: this.model.get('fileCollection').url
+        });
+        this.listenTo(this.fileUploadView.model, 'change', this.fileUploadViewChange)
+
         this.fileCollectionView = new Backbone.DMS.FileCollectionView({
             model: this.model.get('fileCollection')
         });
         this.listenTo(this.fileCollectionView.model, 'navigate', this.navigateListener)
 
+        this.folderZipDownloadView = new Backbone.DMS.FolderZipDownloadView({
+            model: new Backbone.DMS.FolderZipDownload({
+                url: this.model.get('fileCollection').url
+            })
+        });
+
         this.render();
-        this.listenTo(this.model, 'change:name', this.render);
+        this.refreshViewsOnPermissions();
+
+        this.listenTo(this.model, 'change:name', this.refreshUrls);
         this.listenTo(this.model, 'change:permissions', this.refreshViewsOnPermissions)
     },
 
@@ -23,9 +37,18 @@ Backbone.DMS.FolderView = Backbone.View.extend({
 
         this.$el.append(this.breadcrumbView.render().el)
 
+        this.$el.append(this.fileUploadView.render().el)
+
+        this.$el.append(this.folderZipDownloadView.render().el)
+
         this.$el.append(this.fileCollectionView.render().el)
 
         return this;
+    },
+
+    refreshUrls: function(){
+        this.fileUploadView.updateUrl(this.model.get('fileCollection').url);
+        this.folderZipDownloadView.updateUrl(this.model.get('fileCollection').url);
     },
 
     refreshViewsOnPermissions: function() {
@@ -34,25 +57,11 @@ Backbone.DMS.FolderView = Backbone.View.extend({
     },
 
     showUploadView: function()  {
-        if(_.contains(this.model.get('permissions'), PERMISSION_UPLOAD)) {
-            this.fileUploadView = new Backbone.DMS.FileUploadView({
-                model: new Backbone.DMS.FileUpload(),
-                postUrl: this.model.get('fileCollection').url
-            });
-            this.listenTo(this.fileUploadView.model, 'change', this.fileUploadViewChange)
-
-            this.$el.children(":first").after(this.fileUploadView.render().el)
-        }
+        this.fileUploadView.showView(_.contains(this.model.get('permissions'), PERMISSION_UPLOAD))
     },
 
     showFolderZipDownloadView: function()  {
-        if(_.contains(this.model.get('permissions'), PERMISSION_DOWNLOAD)) {
-            this.folderZipDownloadView = new Backbone.DMS.FolderZipDownloadView({
-                model: this.model.get('fileCollection')
-            });
-
-            this.$el.children(":first").after(this.folderZipDownloadView.render().el);
-        }
+        this.folderZipDownloadView.showView(_.contains(this.model.get('permissions'), PERMISSION_DOWNLOAD))
     },
 
     fileUploadViewChange: function() {

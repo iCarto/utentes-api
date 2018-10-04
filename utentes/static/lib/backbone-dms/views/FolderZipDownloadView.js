@@ -7,14 +7,26 @@ Backbone.DMS.FolderZipDownloadView = Backbone.View.extend({
 
     initialize: function(options){
         options || (options = {});
-        this.downloadZIPUrl = this.model.url + '/zip';
+        this.listenTo(this.model, 'change', this.render)
     },
 
     render: function(){
         this.$el.empty();
         this.$el.html(this.template());
-        this.$el.find('#zip-download a').attr("href", this.downloadZIPUrl);
+        this.$el.find('#zip-download a').attr("href", this.model.get('url') + '/zip');
         return this;
     },
+
+    updateUrl: function(url) {
+        this.model.set('url', url);
+    },
+
+    showView: function(show) {
+        if(show) {
+            this.render();
+        }else{
+            this.$el.empty();
+        }
+    }
 
 });

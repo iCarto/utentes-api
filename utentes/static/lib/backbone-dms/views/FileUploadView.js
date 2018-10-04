@@ -32,7 +32,6 @@ Backbone.DMS.FileUploadView = Backbone.View.extend({
 
     initialize: function(options){
         options || (options = {});
-        this.postUrl = options.postUrl
         _.bindAll(this, 'onUploadStart', 'onUploadProgress', 'onUploadDone', 'onUploadError', 'showErrors');
     },
 
@@ -40,7 +39,7 @@ Backbone.DMS.FileUploadView = Backbone.View.extend({
         this.$el.empty();
         this.$el.html(this.template());
         this.$el.find('#fileupload').fileupload({
-            url: this.postUrl,
+            url: this.model.get('url'),
             add: this.onUploadStart,
             progress: this.onUploadProgress,
             done: this.onUploadDone,
@@ -48,6 +47,18 @@ Backbone.DMS.FileUploadView = Backbone.View.extend({
             dropZone: this.$el.find('.fileupload')
         });
         return this;
+    },
+
+    updateUrl: function(url) {
+        this.model.set('url', url);
+    },
+
+    showView: function(show) {
+        if(show) {
+            this.render();
+        }else{
+            this.$el.empty();
+        }
     },
 
     onUploadStart: function(e, data) {

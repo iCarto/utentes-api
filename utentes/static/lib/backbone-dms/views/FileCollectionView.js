@@ -18,6 +18,7 @@ Backbone.DMS.FileCollectionView = Backbone.View.extend({
 
     initialize: function(options){
         options || (options = {});
+        this.model.fetch();
         this.listenTo(this.model, 'sync remove', this.renderFileCollection);
         _.bindAll(this, 'renderFileCollection');
     },

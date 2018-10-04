@@ -17,12 +17,20 @@ _.extend(Backbone.DMS.Folder.prototype, Backbone.DMS.File.prototype, {
         return '';
     },
 
-    evaluatePermissions: function(fileCollectionData) {
-        return fileCollectionData;
+    setCurrentFolderPermissions: function() {
+        this.unset('permissions');
+        this.set('permissions', this.getFolderPermissions());
+    },
+
+    getFolderPermissions: function() {
+        return [];
+    },
+
+    getFileCollectionPermissions: function() {
+        return [];
     },
 
     fetchFileCollection: function () {
-        this.unset('permissions');
         this.get('fileCollection').url = this.getFileCollectionUrl();
         this.get('fileCollection').fetch({
             success: this.fetchFileCollectionSuccess.bind(this)
@@ -30,7 +38,12 @@ _.extend(Backbone.DMS.Folder.prototype, Backbone.DMS.File.prototype, {
     },
 
     fetchFileCollectionSuccess: function(fileCollectionData) {
-        this.evaluatePermissions(fileCollectionData);
+        if(this.get('fileCollection')) {
+            var filePermissions = this.getFileCollectionPermissions();
+            _.each(this.get('fileCollection').models, function(file){
+                file.set('permissions', filePermissions)
+            });
+        }
     }
 
 });

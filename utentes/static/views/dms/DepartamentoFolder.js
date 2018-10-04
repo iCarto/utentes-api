@@ -18,15 +18,20 @@ Backbone.DMS.DepartamentoFolder = Backbone.DMS.Folder.extend({
         this.set('exploracao', options.exploracao);
         this.set('departamento', options.departamento);
         this.set('name', options.departamento);
-        this.set('fileCollection', new Backbone.DMS.FileCollection());
+        var fileCollection = new Backbone.DMS.FileCollection();
+        fileCollection.url = this.getFileCollectionUrl();
+        this.set('fileCollection', fileCollection);
         this.set('path', [options.utente, options.exploracao, options.departamento])
-        this.fetchFileCollection();
         this.listenTo(this, 'change:name', this.modelUpdatedListener);
+
+        this.setCurrentFolderPermissions();
+
     },
 
     modelUpdatedListener: function() {
         this.updateDepartamento();
         this.updatePath();
+        this.setCurrentFolderPermissions();
         this.fetchFileCollection();
     },
 
@@ -56,21 +61,22 @@ Backbone.DMS.DepartamentoFolder = Backbone.DMS.Folder.extend({
         }
     },
 
-    evaluatePermissions: function(fileCollectionData) {
-        var filePermissions = [PERMISSION_DOWNLOAD];
+    getFolderPermissions: function(fileCollectionData) {
         var folderPermissions = [PERMISSION_DOWNLOAD];
+        var role = wf.getRole();
+        if(role === this.get('departamento') || (this.get('departamento') && wf.isAdmin(role))) {
+            folderPermissions.push(PERMISSION_UPLOAD);
+        }
+        return folderPermissions;
+    },
+
+    getFileCollectionPermissions: function() {
+        var filePermissions = [PERMISSION_DOWNLOAD];
         var role = wf.getRole();
         if(role === this.get('departamento') || wf.isAdmin(role)) {
             filePermissions.push(PERMISSION_DELETE);
-            if(this.get('departamento')) {
-                folderPermissions.push(PERMISSION_UPLOAD);
-            }
         }
-        _.each(fileCollectionData.models, function(file){
-            file.set('permissions', filePermissions)
-        });
-        this.set('permissions', folderPermissions);
-        return fileCollectionData;
+        return filePermissions;
     },
 
     fetchExploracaoRoot: function() {

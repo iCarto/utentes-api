@@ -3,7 +3,7 @@ Backbone.DMS = Backbone.DMS || {};
 Backbone.DMS.FileUpload = Backbone.Model.extend({
 
     defaults: {
-        'uploadedFiles': new Backbone.DMS.FileCollection(),
+        'uploadedFiles': new Backbone.DMS.FileCollection()
     },
 
     addUploadedFile: function(filename) {
