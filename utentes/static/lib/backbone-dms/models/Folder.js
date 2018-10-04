@@ -17,6 +17,9 @@ _.extend(Backbone.DMS.Folder.prototype, Backbone.DMS.File.prototype, {
         return '';
     },
 
+    modelUpdated: function() {
+    },
+
     setCurrentFolderPermissions: function() {
         this.unset('permissions');
         this.set('permissions', this.getFolderPermissions());
@@ -30,8 +33,12 @@ _.extend(Backbone.DMS.Folder.prototype, Backbone.DMS.File.prototype, {
         return [];
     },
 
-    fetchFileCollection: function () {
+    updateFileCollectionUrl: function() {
         this.get('fileCollection').url = this.getFileCollectionUrl();
+        return this.get('fileCollection').url;
+    },
+
+    fetchFileCollection: function () {
         this.get('fileCollection').fetch({
             success: this.fetchFileCollectionSuccess.bind(this)
         });

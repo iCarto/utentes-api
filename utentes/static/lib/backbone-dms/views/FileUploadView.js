@@ -39,7 +39,7 @@ Backbone.DMS.FileUploadView = Backbone.View.extend({
         this.$el.empty();
         this.$el.html(this.template());
         this.$el.find('#fileupload').fileupload({
-            url: this.model.get('url'),
+            url: this.model.get('urlUpload'),
             add: this.onUploadStart,
             progress: this.onUploadProgress,
             done: this.onUploadDone,
@@ -50,7 +50,7 @@ Backbone.DMS.FileUploadView = Backbone.View.extend({
     },
 
     updateUrl: function(url) {
-        this.model.set('url', url);
+        this.model.set('urlUpload', url);
     },
 
     showView: function(show) {
@@ -83,6 +83,7 @@ Backbone.DMS.FileUploadView = Backbone.View.extend({
     },
 
     onUploadDone: function(e, data) {
+        this.model.addUploadedFile(data.files[0].name);
         var id = this.getFileUploadId(data.files[0].name);
         this.$el.find('#' + id + '.file-uploading').remove();
     },
@@ -117,8 +118,7 @@ Backbone.DMS.FileUploadView = Backbone.View.extend({
     },
 
     getFileUploadId: function(filename) {
-        this.model.addUploadedFile(filename);
-        filename = filename.replace(/\./g,'_');
+        filename = filename.replace(/[^a-zA-Z0-9]/g,'_');
         return filename.replace(/ /g,'_');
     }
 

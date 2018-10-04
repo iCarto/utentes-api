@@ -21,18 +21,15 @@ Backbone.DMS.DepartamentoFolder = Backbone.DMS.Folder.extend({
         var fileCollection = new Backbone.DMS.FileCollection();
         fileCollection.url = this.getFileCollectionUrl();
         this.set('fileCollection', fileCollection);
-        this.set('path', [options.utente, options.exploracao, options.departamento])
-        this.listenTo(this, 'change:name', this.modelUpdatedListener);
 
         this.setCurrentFolderPermissions();
-
+        this.updatePath();
     },
 
-    modelUpdatedListener: function() {
+    modelUpdated: function() {
         this.updateDepartamento();
         this.updatePath();
         this.setCurrentFolderPermissions();
-        this.fetchFileCollection();
     },
 
     updateDepartamento: function() {
@@ -43,12 +40,28 @@ Backbone.DMS.DepartamentoFolder = Backbone.DMS.Folder.extend({
         }
     },
 
+    // We should define a Path model object and work with it
+    // in BreadcrumbView
     updatePath: function() {
         var path = this.get('path');
         if(this.has('departamento')) {
-            path = [this.get('utente'), this.get('exploracao'), this.get('departamento')];
+            path = [
+                {
+                    name: this.get('exploracao'),
+                    folder: '/'
+                },
+                {
+                    name: this.get('departamento'),
+                    folder: this.get('departamento')
+                }
+            ];
         }else{
-            path = [this.get('utente'), this.get('exploracao')];
+            path = [
+                {
+                    name: this.get('exploracao'),
+                    folder: '/'
+                }
+            ];
         }
         this.set('path', path);
     },
@@ -77,10 +90,6 @@ Backbone.DMS.DepartamentoFolder = Backbone.DMS.Folder.extend({
             filePermissions.push(PERMISSION_DELETE);
         }
         return filePermissions;
-    },
-
-    fetchExploracaoRoot: function() {
-        this.set('name', '/');
     },
 
 });
