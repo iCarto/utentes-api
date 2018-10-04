@@ -62,6 +62,7 @@ def exploracaos_delete(request):
     if not gid:
         raise badrequest_exception({'error': error_msgs['gid_obligatory']})
     try:
+        exploracao_documentos_delete(gid)
         e = request.db.query(Exploracao).filter(Exploracao.gid == gid).one()
         request.db.delete(e)
         request.db.commit()
@@ -72,6 +73,13 @@ def exploracaos_delete(request):
         })
     return {'gid': gid}
 
+
+def exploracao_documentos_delete(request, exploracao_gid):
+    documentos = request.db.query(Documento).filter(Documento.exploracao == exploracao_id).all()
+    for documento in documentos:
+        documento.delete_file()
+        request.db.delete(documento)
+    request.db.commit()
 
 def upsert_utente(request, body):
     u_filter = Utente.nome == body.get('utente').get('nome')
