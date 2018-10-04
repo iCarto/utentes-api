@@ -17,7 +17,7 @@ Backbone.DMS.DocumentosModalView = Backbone.DMS.FileModalView.extend({
         if(this.openDefaultRoot){
             return null;
         }
-        if(wf.isAdminOrDirector()) {
+        if(wf.isAdmin() || wf.isDirector()) {
             return null;
         }
         return wf.getRole();

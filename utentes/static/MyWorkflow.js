@@ -60,12 +60,18 @@ var MyWorkflow = {
         }
     },
 
-
-    isAdminOrDirector(role) {
+    isAdmin(role) {
         if(!role) {
             role = wf.getRole();
         }
-        return role === ROL_ADMIN || role === ROL_DIRECCION;
+        return role === ROL_ADMIN;
+    },
+
+    isDirector(role) {
+        if(!role) {
+            role = wf.getRole();
+        }
+        return role === ROL_DIRECCION;
     },
 
     fixMenu: function() {

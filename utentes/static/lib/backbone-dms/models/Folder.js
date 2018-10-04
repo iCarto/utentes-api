@@ -22,6 +22,7 @@ _.extend(Backbone.DMS.Folder.prototype, Backbone.DMS.File.prototype, {
     },
 
     fetchFileCollection: function () {
+        this.unset('permissions');
         this.get('fileCollection').url = this.getFileCollectionUrl();
         this.get('fileCollection').fetch({
             success: this.fetchFileCollectionSuccess.bind(this)

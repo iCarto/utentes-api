@@ -58,11 +58,13 @@ Backbone.DMS.DepartamentoFolder = Backbone.DMS.Folder.extend({
 
     evaluatePermissions: function(fileCollectionData) {
         var filePermissions = [PERMISSION_DOWNLOAD];
-        var folderPermissions = [];
+        var folderPermissions = [PERMISSION_DOWNLOAD];
         var role = wf.getRole();
-        if(role === this.get('departamento')) {
-            filePermissions = [PERMISSION_DOWNLOAD, PERMISSION_DELETE];
-            folderPermissions = [PERMISSION_UPLOAD]
+        if(role === this.get('departamento') || wf.isAdmin(role)) {
+            filePermissions.push(PERMISSION_DELETE);
+            if(this.get('departamento')) {
+                folderPermissions.push(PERMISSION_UPLOAD);
+            }
         }
         _.each(fileCollectionData.models, function(file){
             file.set('permissions', filePermissions)
