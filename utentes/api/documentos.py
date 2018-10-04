@@ -176,31 +176,35 @@ def exploracao_documentos_zip(request):
     tmp_file = tempfile.NamedTemporaryFile()
 
     exploracao_id = request.matchdict.get('id', None)
-    query = request.db.query(Documento).filter(Documento.exploracao == exploracao_id)
     filename = 'documentos_' + exploracao_id
 
     departamento = request.matchdict.get('departamento', None)
     if departamento:
-        query.filter(Documento.departamento == departamento)
-        filename += '_' + departamento
+        query = request.db.query(Documento).filter(Documento.exploracao == exploracao_id, Documento.departamento == departamento)
+    else:
+        query = request.db.query(Documento).filter(Documento.exploracao == exploracao_id)
 
     documentos = query.all()
 
-    response = FileResponse(create_zip_file(tmp_file.name, documentos), request)
+    response = FileResponse(create_zip_file(request, tmp_file.name, documentos, departamento), request)
     response.content_type = 'application/zip'
     response.content_disposition = 'attachment; filename="' + filename + '.zip"'
     return response
 
-def create_zip_file(zip_filename, documentos):
+def create_zip_file(request, zip_filename, documentos, departamento):
     import os
     import zipfile
     zip = zipfile.ZipFile(zip_filename, 'w', compression=zipfile.ZIP_DEFLATED)
 
     for documento in documentos:
+        documento.set_path_root(request.registry.settings['media_root'])
         path_in_disk = documento.get_file_path()
         if os.path.isfile(path_in_disk):
             name = documento.name
-            path_in_zip = os.path.join(documento.departamento, name)
+            if departamento:
+                path_in_zip = os.path.join(name)
+            else:
+                path_in_zip = os.path.join(documento.departamento, name)
             zip.write(path_in_disk, path_in_zip)
 
     zip.close()
