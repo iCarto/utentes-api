@@ -46,12 +46,16 @@ Backbone.SIXHIARA.ViewSecretaria1 = Backbone.SIXHIARA.View1.extend({
               <td><input id="certi_reg" type="checkbox" <%- certi_reg ? 'checked=""' : '' %>></td>
             </tr>
             <tr>
-              <td>DUAT ou declaração das estructuras locais (bairro)</td>
+              <td>DUAT ou declaração das estructuras locais&nbsp;(bairro)</td>
               <td><input id="duat" type="checkbox" <%- duat ? 'checked=""' : '' %>></td>
             </tr>
             <tr>
               <td>Mapa de localização</td>
               <td><input id="mapa" type="checkbox" <%- mapa ? 'checked=""' : '' %>></td>
+            </tr>
+            <tr>
+              <td>Boletim de análise de água</td>
+              <td><input id="b_a_agua" type="checkbox" <%- b_a_agua ? 'checked=""' : '' %>></td>
             </tr>
             <tr>
               <td>Licença Ambiental&nbsp;(Se é preciso)</td>
@@ -62,12 +66,8 @@ Backbone.SIXHIARA.ViewSecretaria1 = Backbone.SIXHIARA.View1.extend({
               <td><input id="licen_fu" type="checkbox" <%- licen_fu ? 'checked=""' : '' %>></td>
             </tr>
             <tr>
-              <td>Relatório técnico de perforação (Se é preciso)</td>
+              <td>Relatório técnico de perforação&nbsp;(Se é preciso)</td>
               <td><input id="r_perf" type="checkbox" <%- r_perf ? 'checked=""' : '' %>></td>
-            </tr>
-            <tr>
-              <td>Boletim de análise de água</td>
-              <td><input id="b_a_agua" type="checkbox" <%- b_a_agua ? 'checked=""' : '' %>></td>
             </tr>
           </tbody>
         </table>

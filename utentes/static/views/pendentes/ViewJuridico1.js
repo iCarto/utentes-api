@@ -51,7 +51,7 @@ Backbone.SIXHIARA.ViewJuridico1 = Backbone.SIXHIARA.View1.extend({
               <td><input id="certi_reg_v" type="checkbox" <%- certi_reg_v ? 'checked=""' : '' %> required></td>
             </tr>
             <tr>
-              <td>DUAT ou declaração das estructuras locais (bairro)</td>
+              <td>DUAT ou declaração das estructuras locais&nbsp;(bairro)</td>
               <td><input id="duat" type="checkbox" <%- duat ? 'checked=""' : '' %>></td>
               <td><input id="duat_v" type="checkbox" <%- duat_v ? 'checked=""' : '' %> required></td>
             </tr>
@@ -59,6 +59,11 @@ Backbone.SIXHIARA.ViewJuridico1 = Backbone.SIXHIARA.View1.extend({
               <td>Mapa de localização</td>
               <td><input id="mapa" type="checkbox" <%- mapa ? 'checked=""' : '' %>></td>
               <td><input id="mapa_v" type="checkbox" <%- mapa_v ? 'checked=""' : '' %> required></td>
+            </tr>
+            <tr>
+              <td>Boletim de análise de água</td>
+              <td><input id="b_a_agua" type="checkbox" <%- b_a_agua ? 'checked=""' : '' %>></td>
+              <td><input id="b_a_agua_v" type="checkbox" <%- b_a_agua_v ? 'checked=""' : '' %>></td>
             </tr>
             <tr>
               <td>Licença Ambiental&nbsp;(Se é preciso)</td>
@@ -71,14 +76,9 @@ Backbone.SIXHIARA.ViewJuridico1 = Backbone.SIXHIARA.View1.extend({
               <td><input id="licen_fu_v" type="checkbox" <%- licen_fu_v ? 'checked=""' : '' %>></td>
             </tr>
             <tr>
-              <td>Relatório técnico de perforação (Se é preciso)</td>
+              <td>Relatório técnico de perforação&nbsp;(Se é preciso)</td>
               <td><input id="r_perf" type="checkbox" <%- r_perf ? 'checked=""' : '' %>></td>
               <td><input id="r_perf_v" type="checkbox" <%- r_perf_v ? 'checked=""' : '' %>></td>
-            </tr>
-            <tr>
-              <td>Boletim de análise de água</td>
-              <td><input id="b_a_agua" type="checkbox" <%- b_a_agua ? 'checked=""' : '' %>></td>
-              <td><input id="b_a_agua_v" type="checkbox" <%- b_a_agua_v ? 'checked=""' : '' %>></td>
             </tr>
           </tbody>
         </table>
