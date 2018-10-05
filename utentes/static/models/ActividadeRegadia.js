@@ -71,10 +71,10 @@ Backbone.SIXHIARA.ActividadeRegadia = Backbone.SIXHIARA.ActividadeNull.extend({
             },
             style: {
                 stroke: true,
-                color: '#00b300',
+                color: '#aa6e00',
                 weight: 1,
                 opacity: 1,
-                fillColor: '#00b300',
+                fillColor: '#aa6e00',
                 fillOpacity: 0.5,
             }
         });
