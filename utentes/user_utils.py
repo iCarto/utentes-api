@@ -24,7 +24,7 @@ PERM_FACTURACAO = 'update_facturacao'
 PERM_CREATE_REQUERIMENTO = 'create_requerimento'
 PERM_UPDATE_REQUERIMENTO = 'update_requerimento'
 PERM_CREATE_DOCUMENTO = 'create_documento'
-PERM_DELETE_DOCUMENTO = 'create_documento'
+PERM_DELETE_DOCUMENTO = 'delete_documento'
 
 
 # GESTIONAR UNIQUE USER
