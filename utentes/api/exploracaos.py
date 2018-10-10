@@ -10,7 +10,7 @@ from utentes.models.base import badrequest_exception
 from utentes.models.utente import Utente
 from utentes.models.utente_schema import UTENTE_SCHEMA
 from utentes.models.exploracao import Exploracao, ExploracaoBase
-from utentes.models.documento import Documento
+from utentes.models.documento import delete_exploracao_documentos
 from utentes.models.licencia import Licencia
 from utentes.models.exploracao_schema import EXPLORACAO_SCHEMA, EXPLORACAO_SCHEMA_CON_FICHA
 from utentes.models.licencia_schema import LICENCIA_SCHEMA
@@ -63,7 +63,7 @@ def exploracaos_delete(request):
     if not gid:
         raise badrequest_exception({'error': error_msgs['gid_obligatory']})
     try:
-        exploracao_documentos_delete(request, gid)
+        delete_exploracao_documentos(request, gid)
         e = request.db.query(Exploracao).filter(Exploracao.gid == gid).one()
         request.db.delete(e)
         request.db.commit()
@@ -74,13 +74,6 @@ def exploracaos_delete(request):
         })
     return {'gid': gid}
 
-
-def exploracao_documentos_delete(request, exploracao_gid):
-    documentos = request.db.query(Documento).filter(Documento.exploracao == exploracao_gid).all()
-    for documento in documentos:
-        documento.delete_file()
-        request.db.delete(documento)
-    request.db.commit()
 
 
 def upsert_utente(request, body):

@@ -7,10 +7,10 @@ from utentes.lib.schema_validator.validator import Validator
 from utentes.models.base import badrequest_exception
 from utentes.models.utente_schema import UTENTE_SCHEMA
 from utentes.models.utente import Utente
+from utentes.models.documento import delete_exploracao_documentos
 from error_msgs import error_msgs
 
 from utentes.user_utils import PERM_ADMIN, PERM_UTENTES, PERM_GET
-
 
 import logging
 log = logging.getLogger(__name__)
@@ -43,8 +43,10 @@ def utentes_delete(request):
             'error': error_msgs['gid_obligatory']
         })
     try:
-        e = request.db.query(Utente).filter(Utente.gid == gid).one()
-        request.db.delete(e)
+        u = request.db.query(Utente).filter(Utente.gid == gid).one()
+        for e in u.exploracaos:
+            delete_exploracao_documentos(request, e.gid)
+        request.db.delete(u)
         request.db.commit()
     except(MultipleResultsFound, NoResultFound):
         raise badrequest_exception({

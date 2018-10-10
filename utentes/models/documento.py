@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+import shutil
 import os
 import sys
 
@@ -10,6 +10,19 @@ from utentes.models.base import (
     PGSQL_SCHEMA_UTENTES,
     Base
 )
+
+
+def delete_exploracao_documentos(request, exploracao_gid):
+    # Maybe this should be in a class that handles all exploracao documents
+    documentos = request.db.query(Documento).filter(Documento.exploracao == exploracao_gid).all()
+    exploracao_folder = None
+    for documento in documentos:
+        documento.set_path_root(request.registry.settings['media_root'])
+        exploracao_folder = documento.get_documento_entity_folder()
+        documento.delete_file()
+        request.db.delete(documento)
+    exploracao_folder and shutil.rmtree(exploracao_folder)
+
 
 class Documento(Base):
 
@@ -58,11 +71,16 @@ class Documento(Base):
                             str(self.gid),
                             self.name).encode(sys.getfilesystemencoding())
 
-    def get_file_path_save(self):
-        # by default: packagedir/utentes/static/files/attachments/{exploracao_id}/{departamento}/{name}
+    def get_documento_entity_folder(self):
+        # by default: packagedir/utentes/static/files/attachments/{exploracao_id}
         return os.path.join(self.defaults['path_root'],
                             'documentos',
-                            str(self.exploracao),
+                            str(self.exploracao)
+                            ).encode('utf-8')
+
+    def get_file_path_save(self):
+        # by default: packagedir/utentes/static/files/attachments/{exploracao_id}/{departamento}/{name}
+        return os.path.join(self.get_documento_entity_folder(),
                             self.departamento,
                             self.name).encode(sys.getfilesystemencoding())
 
