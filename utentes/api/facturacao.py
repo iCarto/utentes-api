@@ -3,9 +3,10 @@
 from pyramid.view import view_config
 from utentes.models.base import badrequest_exception
 from utentes.models.exploracao import Exploracao
+from utentes.models.facturacao import Facturacao
 from utentes.api.error_msgs import error_msgs
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
-from utentes.user_utils import PERM_GET, PERM_FACTURACAO
+from utentes.user_utils import PERM_GET, PERM_FACTURACAO, FACTURAS_DEFAULT_VALUES
 
 import logging
 log = logging.getLogger(__name__)
@@ -43,6 +44,67 @@ def facturacao_get(request):
             'type': 'FeatureCollection',
             'features': features
         }
+
+@view_config(route_name='api_facturacao_new_factura', permission=PERM_FACTURACAO, request_method='GET', renderer='json')
+
+def num_factura_get(request):
+
+    gid = None
+    if request.matchdict:
+        gid = request.matchdict['id'] or None
+
+    if gid:
+        try:
+            facturacao = request.db.query(Facturacao).filter(Facturacao.gid == gid).one()
+            exp_id = facturacao.exploracao
+            if facturacao.fact_id is not None:
+                return facturacao.fact_id
+
+            try:
+                exploracao = request.db.query(Exploracao).filter(Exploracao.gid == exp_id).one()
+                unidad = exploracao.loc_unidad
+                ano = facturacao.ano
+
+                if unidad:
+                    sql = "SELECT to_number(substring(fact.fact_id from '^....'), '9999') " + \
+                    " FROM utentes.exploracaos exp," + \
+                    " utentes.facturacao fact" + \
+                    " WHERE exp.gid = fact.exploracao" + \
+                    "   AND exp.loc_unidad  = '{}' ".format(unidad) + \
+                    "   AND fact.fact_id IS NOT NULL" + \
+                    " ORDER BY substring(fact.fact_id from '^....') DESC LIMIT 1;"
+
+                    result = request.db.execute(sql).first() or [0]
+
+                    if result[0]:
+                        next_id = '%0*d' % (4, result[0] + 1)
+                    else:
+                        # Use default values
+                        result = FACTURAS_DEFAULT_VALUES.get(unidad)
+                        next_id = '%0*d' % (4, result)
+
+                    numFactura = str(next_id) + "-" + \
+                                       unidad + "/" + \
+                                       ano
+
+                    facturacao.fact_id = numFactura
+
+                    request.db.add(facturacao)
+                    request.db.commit()
+
+                    return numFactura
+
+            except(MultipleResultsFound, NoResultFound):
+                raise badrequest_exception({
+                    'error': error_msgs['no_gid'],
+                    'gid': gid
+                })
+
+        except(MultipleResultsFound, NoResultFound):
+            raise badrequest_exception({
+                'error': error_msgs['no_gid'],
+                'gid': gid
+            })
 
 
 @view_config(route_name='api_facturacao_id', permission=PERM_FACTURACAO, request_method='PATCH', renderer='json')

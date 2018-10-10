@@ -30,6 +30,7 @@ class Facturacao(Base):
     observacio = Column(JSONB)
     fact_estado = Column(Text, nullable=False, server_default=text("'{}'::text".format(PENDING_CONSUMPTION)))
     fact_tipo = Column(Text, nullable=False, server_default=text("'Mensal'::text"))
+    fact_id = Column(Text, unique=True)
     pago_lic = Column(Boolean)
     pagos = Column(Boolean)
     c_licencia_sup = Column(Numeric(10, 2))

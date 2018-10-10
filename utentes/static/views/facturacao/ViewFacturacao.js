@@ -6,6 +6,10 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
     // this property like so: 'container homepage'
     className: 'myclass',
 
+    events: {
+        'click #bt-consumo': 'newPrinter',
+    },
+
     // Note: When declaring a View, options, el, tagName, id and className
     // may be defined as functions, if you want their values to be determined
     // at runtime.
@@ -24,7 +28,7 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
                     <button id="bt-emision" type="button" class="btn btn-default" disabled>Factura&nbsp;(emissão licença)</button>
                 </div>
                 <div class="btn-group" role="group">
-                    <button id="bt-consumo" type="button" class="btn btn-default" disabled>Factura&nbsp;(consumo)</button>
+                    <button id="bt-consumo" type="button" class="btn btn-default">Factura&nbsp;(consumo)</button>
                 </div>
             </div>
         </div>
@@ -494,4 +498,51 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
         return s.options[s.selectedIndex].text;
     },
 
+    newPrinter: function(){
+        var json = this.model.toJSON();
+
+        if (!json.loc_unidad) {
+            bootbox.alert("A exploração tem que ter uma Unidade de Gestão.");
+            return;
+        }
+        // Create a copy of the model and remove nulls
+        var data = JSON.parse(JSON.stringify(json, function(key, value) {
+            if(value === null) {
+                return "";
+            }
+            return value;
+        }));
+
+        data.jura = "0,00";
+
+        var date = moment(new Date());
+        data.dateFactura = formatter().formatDate(date);
+        data.vencimento = formatter().formatDate(date.add(1, 'M'));
+
+        data.nameFile = data.exp_id.concat("_")
+                                   .concat(date.year())
+                                   .concat('.docx');
+
+        data.urlTemplate = 'static/print-templates/Modelo_Factura_SIRHAS_desarrollo.docx';
+        data.pago_iva = formatter().formatNumber(json.facturacao[json.facturacao.length - 1].pago_iva, '0[.]00') || 0;
+
+        var self = this;
+
+        var factura = new Backbone.SIXHIARA.NewFactura({id: json.facturacao[json.facturacao.length - 1].id});
+
+        factura.fetch({
+            success: function(model, resp, options) {
+                data.numFactura = resp;
+
+                var docxGenerator = new Backbone.SIXHIARA.DocxGeneratorView({
+                    model: self.model,
+                    data: data
+                });
+            },
+            error: function(){
+                bootbox.alert("Erro ao gerar a factura.");
+                return;
+            }
+        });
+    },
 });
