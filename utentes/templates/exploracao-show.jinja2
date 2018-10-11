@@ -1112,10 +1112,16 @@
                 <span class="title">Área de exploraçaõ <i class="units">(ha)</i>:</span> <span><%- formatter().formatNumber(area) || '-' %></span>
               </div>
               <div class="row">
-                <span class="title">Ano inicio da atividade :</span> <span><%- ano_i_ati || '-' %></span>
+                <span class="title">Ano inicio da atividade:</span> <span><%- ano_i_ati || '-' %></span>
               </div>
               <div class="row">
-                <span class="title">Nro de tanques/gaiolas :</span> <span><%- n_tanques || '-' %></span>
+                <span class="title">Tipo de aquacultura:</span> <span><%- tipo_aqua || '-' %></span>
+              </div>
+              <div class="row">
+                <span class="title">Espécies cultivadas:</span> <span><%- esp_culti || '-' %></span>
+              </div>
+              <div class="row">
+                <span class="title">Nro de tanques/gaiolas:</span> <span><%- n_tanques || '-' %></span>
               </div>
               <div class="row">
                 <span class="title">Volume total tanques/gaiolas (Reservas) <i class="units">(m<sup>3</sup>)</i>:</span> <span><%- formatter().formatNumber(v_reservas) || '-' %></span>
@@ -1123,19 +1129,22 @@
             </div>
             <div class="col-xs-3">
               <div class="row">
-                <span class="title">Nro de alevines povoados :</span> <span><%- n_ale_pov || '-' %></span>
+                <span class="title">Proveniência dos alevinos:</span> <span><%- prov_alev || '-' %></span>
+              </div>
+              <div class="row">
+                <span class="title">Nro de alevines povoados:</span> <span><%- n_ale_pov || '-' %></span>
               </div>
               <div class="row">
                 <span class="title">Produção anual <i class="units">(kg)</i>:</span> <span><%- produc_pi || '-' %></span>
               </div>
               <div class="row">
-                <span class="title">Processamento do peixe :</span> <span><%- tipo_proc || '-' %></span>
+                <span class="title">Processamento do peixe:</span> <span><%- tipo_proc || '-' %></span>
               </div>
               <div class="row">
-                <span class="title">Durante a abertura dos tanques/gaiolas :</span> <span><%- asis_aber || '-' %></span>
+                <span class="title">Durante a abertura dos tanques/gaiolas:</span> <span><%- asis_aber || '-' %></span>
               </div>
               <div class="row">
-                <span class="title">Na monitoria dos tanques/gaiolas :</span> <span><%- asis_moni || '-' %></span>
+                <span class="title">Na monitoria dos tanques/gaiolas:</span> <span><%- asis_moni || '-' %></span>
               </div>
             </div>
             <div class="col-xs-3">
@@ -1201,8 +1210,8 @@
   <!-- tmpl actividade piscicultura-->
   <script type="text/template" id="Piscicultura_edit">
     <input type="hidden" id="id">
-    <div class="row">
-      <div class="col-xs-offset-1 col-xs-8">
+
+      <div class="col-xs-offset-1 col-xs-10">
         <div class="panel panel-info">
           <div class="panel-heading">
             <h3 class="panel-title"><strong>Dados gerais</strong></h3>
@@ -1214,15 +1223,18 @@
                 <input type="text" class="form-control widget-number" id="ano_i_ati" pattern="[0-9]{4}">
               </div>
               <div class="form-group col-xs-4">
+                <label for="tipo_proc">Processamento do peixe</label>
+                <select class="form-control widget" id="tipo_proc"></select>
+              </div>
+              <div class="form-group col-xs-4">
                 <label for="area">Área <i class="units">(ha)</i></label>
                 <input type="text" class="form-control widget-number" id="area" pattern="[0-9]{1,8}([,][0-9]{1,4})?">
               </div>
+
               <div class="form-group col-xs-4">
-                <label for="n_tanques">Nro tanques/gaiolas</label>
-                <input type="text" class="form-control widget-number" id="n_tanques" pattern="[0-9]*">
+                  <label for="n_tanques">Nro tanques/gaiolas</label>
+                  <input type="text" class="form-control widget-number" id="n_tanques" pattern="[0-9]*">
               </div>
-            </div>
-            <div class="row">
               <div class="form-group col-xs-4">
                 <label for="v_reservas">Volume total tanques/gaiolas <i class="units">(m<sup>3</sup>)</i></label>
                 <input type="text" class="form-control widget-number" id="v_reservas" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
@@ -1236,28 +1248,57 @@
                 <input type="text" class="form-control widget-number" id="produc_pi" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
               </div>
               <div class="form-group col-xs-4">
-                <label for="tipo_proc">Processamento do peixe</label>
-                <select class="form-control widget" id="tipo_proc"></select>
+                <label for="tipo_proc">Tipo de aquacultura</label>
+                <select class="form-control widget" id="tipo_aqua"></select>
               </div>
+            </div>
+            <div class="row">
+            <hr>
+            </div>
+            <div class="row">
+                <div id="esp_culti" class="widget-external col-xs-12">
+                    <label for="esp_culti">Espécies Cultivadas</label>
+                    <div class="row">
+                        <div><label class="checkbox col-xs-1"><input type="checkbox" name="esp_culti" value="Carpa">Carpa</label></div>
+                        <div><label class="checkbox col-xs-2"><input type="checkbox" name="esp_culti" value="Tainha">Tainha</label></div>
+                        <div><label class="checkbox col-xs-3"><input type="checkbox" name="esp_culti" value="Tilapia mossambicus">Tilapia mossambicus</label></div>
+                        <div><label class="checkbox col-xs-2"><input type="checkbox" name="esp_culti" value="Tilapia nilótica">Tilapia nilótica</label></div>
+                        <div><label class="checkbox col-xs-2"><input type="checkbox" name="esp_culti" value="Outros">Outros</label></div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+                <hr>
+            </div>
+            <div class="row">
+                <div id="prov_alev" class="widget-external col-xs-12">
+                    <label for="prov_alev">Proveniência dos alevines</label>
+                    <div class="row">
+                        <div><label class="checkbox col-xs-3"><input type="checkbox" name="prov_alev" value="Melhorados">Melhorados</label></div>
+                        <div><label class="checkbox col-xs-3"><input type="checkbox" name="prov_alev" value="Reprodução nos tanques">Reprodução nos tanques</label></div>
+                        <div><label class="checkbox col-xs-3"><input type="checkbox" name="prov_alev" value="Selvagens">Selvagens</label></div>
+                        <div><label class="checkbox col-xs-3"><input type="checkbox" name="prov_alev" value="Outros">Outros</label></div>
+                    </div>
+                </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-xs-2">
+      <div class="col-xs-offset-1 col-xs-10">
         <div class="panel panel-info">
           <div class="panel-heading">
             <h3 class="panel-title"><strong>Consumos</strong></h3>
           </div>
-          <div class="panel-body" id="panel-body-piscicultura-consumos">
+          <div class="panel-body">
             <div class="form-group">
               <label for="c_estimado">C. estimado <i class="units">(m<sup>3</sup>/mês)</i></label>
               <input type="text" class="form-control widget-number" id="c_estimado" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
             </div>
           </div>
         </div>
-
       </div>
-    </div>
+
 
     <div class="row">
       <div class="col-xs-offset-1 col-xs-10">
@@ -1296,6 +1337,7 @@
                 </div>
               </div>
             </div>
+
           </div>
         </div>
       </div>

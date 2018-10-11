@@ -1,9 +1,10 @@
-# -*- coding: utf-8 -*-
+    # -*- coding: utf-8 -*-
 
 from sqlalchemy import Boolean, Column, Integer, Numeric, Text
 from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy import ForeignKey, text
 from sqlalchemy.orm import relationship
+from sqlalchemy.dialects.postgresql import ARRAY
 
 from utentes.models.base import (
     Base,
@@ -232,9 +233,11 @@ class ActividadesPiscicultura(Actividade):
     c_estimado = Column(Numeric(10, 2), doc='Consumo mensal estimado')
     area = Column(Numeric(10, 4), doc='Área de exploração (ha)')
     ano_i_ati = Column(Integer, doc='Ano inicio da atividade')
+    tipo_aqua = Column(Text, doc='Tipo de aquacultura')
+    esp_culti = Column(ARRAY(Text), nullable=False, doc='Espécies cultivadas')
     n_tanques = Column(Integer, doc='Nro de tanques')
-    tipo_agua = Column(Text, doc='Tipo de aquacultura')
     v_reservas = Column(Numeric(10, 2), doc='Volume total tanques/gaiolas (reservas)')
+    prov_alev = Column(ARRAY(Text), nullable=False, doc='Proveniência dos alevinos')
     n_ale_pov = Column(Integer, doc='Nro de alevins por povoar')
     produc_pi = Column(Numeric(10, 2), doc='Produção Anual (kg)')
     tipo_proc = Column(Text, doc='Processamento do peixe')
@@ -247,7 +250,6 @@ class ActividadesPiscicultura(Actividade):
     gaio_subm = Column(Text, doc='As gaiolas estão submersas em')
     problemas = Column(Text, doc='A exploraçaõ tem problemas')
     prob_prin = Column(Text, doc='Principais problemas')
-    esp_culti = Column(Text, nullable=False, doc='Espécie cultivada')
 
     __mapper_args__ = {
         'polymorphic_identity': u'Piscicultura',

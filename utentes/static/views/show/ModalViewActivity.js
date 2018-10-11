@@ -158,6 +158,12 @@ Backbone.SIXHIARA.ModalViewActivity = Backbone.View.extend({
             }).render();
             this.addActivitySubview(selectImpacto);
         } else if (tipo === 'Piscicultura') {
+            var tipo_aqua = this.options.domains.byCategory('actividades_piscicultura_tipo_aqua');
+            var select_tipo_aqua = new Backbone.UILib.SelectView({
+                el: this.$('#tipo_aqua'),
+                collection: tipo_aqua
+            }).render();
+            this.addActivitySubview(select_tipo_aqua);
             var tipo_proc = this.options.domains.byCategory('piscicultura_tipo_proc');
             var select_tipo_proc = new Backbone.UILib.SelectView({
                 el: this.$('#tipo_proc'),
@@ -201,7 +207,19 @@ Backbone.SIXHIARA.ModalViewActivity = Backbone.View.extend({
             }).render();
             this.addActivitySubview(select_problemas);
 
-            var checkboxList = new Backbone.SIXHIARA.CheckBoxList({
+            var espCultiChbList = new Backbone.SIXHIARA.CheckBoxList({
+                model: this.draftModel,
+                model_attr_name: 'esp_culti',
+                el: this.$('.modal').find('#esp_culti'),
+            }).render();
+
+            var provAlevChbList = new Backbone.SIXHIARA.CheckBoxList({
+                model: this.draftModel,
+                model_attr_name: 'prov_alev',
+                el: this.$('.modal').find('#prov_alev'),
+            }).render();
+
+            var asisOrigChbList = new Backbone.SIXHIARA.CheckBoxList({
                 model: this.draftModel,
                 model_attr_name: 'asis_orig',
                 el: this.$('.modal').find('#asis_orig'),

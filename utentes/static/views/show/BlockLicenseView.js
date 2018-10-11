@@ -117,14 +117,13 @@ Backbone.SIXHIARA.BlockLicenseView = Backbone.View.extend({
         }).render();
         modalView.addAuxView(sistMedView);
 
-        modalView.render();
-
-	var dispAgua = new Backbone.UILib.SelectView({
+        var dispAgua = new Backbone.UILib.SelectView({
             el: modalView.$('#disp_a'),
             collection: this.options.domains.byCategory('piscicultura_fontes_disp_a')
         }).render();
         modalView.addAuxView(dispAgua);
 
+        modalView.render();
     },
 
     renderEditLicenseModal: function (event) {
