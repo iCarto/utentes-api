@@ -9,7 +9,8 @@ from utentes.lib.schema_validator.validation_exception import ValidationExceptio
 from utentes.models.base import badrequest_exception
 from utentes.models.utente import Utente
 from utentes.models.utente_schema import UTENTE_SCHEMA
-from utentes.models.exploracao import Exploracao
+from utentes.models.exploracao import Exploracao, ExploracaoBase
+from utentes.models.documento import Documento
 from utentes.models.licencia import Licencia
 from utentes.models.exploracao_schema import EXPLORACAO_SCHEMA, EXPLORACAO_SCHEMA_CON_FICHA
 from utentes.models.licencia_schema import LICENCIA_SCHEMA
@@ -75,25 +76,24 @@ def exploracaos_delete(request):
 
 
 def exploracao_documentos_delete(request, exploracao_gid):
-    documentos = request.db.query(Documento).filter(Documento.exploracao == exploracao_id).all()
+    documentos = request.db.query(Documento).filter(Documento.exploracao == exploracao_gid).all()
     for documento in documentos:
         documento.delete_file()
         request.db.delete(documento)
     request.db.commit()
 
+
 def upsert_utente(request, body):
     u_filter = Utente.nome == body.get('utente').get('nome')
-    u = request.db.query(Utente).filter(u_filter).first()
+    u = request.db.query(Utente).filter(u_filter).all()
     if not u:
         validatorUtente = Validator(UTENTE_SCHEMA)
         msgs = validatorUtente.validate(body['utente'])
         if len(msgs) > 0:
             raise badrequest_exception({'error': msgs})
         u = Utente.create_from_json(body['utente'])
-    # else:
-    #     u.update_from_json(body['utente'])
         request.db.add(u)
-    return u
+    return u[0]
 
 
 @view_config(route_name='api_exploracaos_id', permission=PERM_EXPLORACAO, request_method='PUT', renderer='json')
@@ -113,24 +113,7 @@ def exploracaos_update(request):
         e = request.db.query(Exploracao).filter(Exploracao.gid == gid).one()
 
         u = upsert_utente(request, body)
-        # u_id = body.get('utente').get('id')
-        # if not u_id:
-        #     u = Utente.create_from_json(body['utente'])
-        #     # TODO:660 validate utente
-        #     request.db.add(u)
-        # elif e.utente_rel.gid != u_id:
-        #     u_filter = Utente.gid == u_id
-        #     u = request.db.query(Utente).filter(u_filter).one()
-        # else:
-        #     u = e.utente_rel
-
-        # validatorUtente = Validator(UTENTE_SCHEMA)
-        # msgs = validatorUtente.validate(request.json_body['utente'])
-        # if len(msgs) > 0:
-        #     raise badrequest_exception({'error': msgs})
         e.utente_rel = u
-        # u.update_from_json(request.json_body['utente'])
-        # request.db.add(u)
 
         if _tipo_actividade_changes(e, request.json_body):
             request.db.delete(e.actividade)
@@ -178,12 +161,12 @@ def exploracaos_create(request):
     if len(msgs) > 0:
         raise badrequest_exception({'error': msgs})
 
-    e = request.db.query(Exploracao).filter(Exploracao.exp_id == exp_id).first()
+    e = request.db.query(ExploracaoBase).filter(ExploracaoBase.exp_id == exp_id).first()
     if e:
         raise badrequest_exception({'error': error_msgs['exploracao_already_exists']})
 
     u_filter = Utente.nome == body.get('utente').get('nome')
-    u = request.db.query(Utente).filter(u_filter).first()
+    u = request.db.query(Utente).filter(u_filter).one_or_none()
     if not u:
         validatorUtente = Validator(UTENTE_SCHEMA)
         msgs = validatorUtente.validate(body['utente'])

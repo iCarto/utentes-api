@@ -27,26 +27,48 @@ class ST_Multi(GenericFunction):
     type = Geometry
 
 
-class Exploracao(Base):
+class ExploracaoBase(Base):
     __tablename__ = 'exploracaos'
     __table_args__ = {u'schema': PGSQL_SCHEMA_UTENTES}
     __mapper_args__ = {
         'order_by': 'exp_id'
     }
 
+    gid = Column(Integer, primary_key=True, server_default=text("nextval('utentes.exploracaos_gid_seq'::regclass)"))
+    utente = Column(ForeignKey(u'utentes.utentes.gid', ondelete=u'CASCADE', onupdate=u'CASCADE'), nullable=False)
+    exp_id = Column(Text, nullable=False, unique=True, doc='Número da exploração')
+    exp_name = Column(Text, nullable=False, doc='Nome da exploração')
+
+
+
+    actividade = relationship(u'Actividade',
+                              cascade='all, delete-orphan',
+                              lazy='joined',
+                              # backref='exploracao_rel',
+                              uselist=False)
+
+    def __json__(self, request):
+        return {
+            'gid': self.gid,
+            'exp_name': self.exp_name,
+            'exp_id': self.exp_id,
+            'actividade': {
+                'id': self.actividade.gid,
+                'tipo': self.actividade.tipo,
+            }
+        }
+
+
+class Exploracao(ExploracaoBase):
     REQUERIMENTO_FIELDS = [
         'carta_re', 'ficha_pe', 'ident_pro', 'certi_reg', 'duat', 'licen_am', 'mapa', 'licen_fu', 'r_perf', 'b_a_agua',
-        'carta_re_v', 'ficha_pe_v', 'ident_pro_v', 'certi_reg_v', 'duat_v', 'licen_am_v', 'mapa_v', 'licen_fu_v', 'r_perf_v',  'b_a_agua_v',
-        'anali_doc', 'soli_visit', 'p_unid', 'p_tec', 'doc_legal', 'p_juri', 'p_rel', 'req_obs', 'estado_lic', 'created_at', 'exp_name',  
+        'carta_re_v', 'ficha_pe_v', 'ident_pro_v', 'certi_reg_v', 'duat_v', 'licen_am_v', 'mapa_v', 'licen_fu_v', 'r_perf_v', 'b_a_agua_v',
+        'anali_doc', 'soli_visit', 'p_unid', 'p_tec', 'doc_legal', 'p_juri', 'p_rel', 'req_obs', 'estado_lic', 'created_at', 'exp_name',
     ]
 
     FACTURACAO_FIELDS = ['fact_estado', 'fact_tipo', 'pago_lic', 'pagos']
 
     READ_ONLY = ['created_at']
-
-    gid = Column(Integer, primary_key=True, server_default=text("nextval('utentes.exploracaos_gid_seq'::regclass)"))
-    exp_id = Column(Text, nullable=False, unique=True, doc='Número da exploração')
-    exp_name = Column(Text, nullable=False, doc='Nome da exploração')
     d_soli = Column(Date, doc='Data da solicitação')
     pagos = Column(Boolean, doc='Utente ao corrente dos pagamaneto')
     observacio = Column(Text, doc='Observações')
@@ -65,7 +87,7 @@ class Exploracao(Base):
     c_estimado = Column(Numeric(10, 2), doc='Consumo mensal estimado ')
     area = Column(Numeric(10, 4), doc='')
     the_geom = Column(Geometry('MULTIPOLYGON', '32737'), index=True)
-    utente = Column(ForeignKey(u'utentes.utentes.gid', ondelete=u'CASCADE', onupdate=u'CASCADE'), nullable=False)
+
     estado_lic = Column(Text, nullable=False, doc='Estado')
     created_at = Column(DateTime, nullable=False, server_default=text('now()'), doc='Data creación requerimento')
 
@@ -105,23 +127,24 @@ class Exploracao(Base):
     fact_tipo = Column(Text, nullable=False, server_default=text("'Mensal'::text"), doc='Mensal/Trimestral/Anual')
     pago_lic = Column(Boolean, nullable=False, server_default=text('false'), doc='Factura emisión licencia pagada')
 
+    utente_rel = relationship('Utente',
+                              lazy='joined',
+                              passive_deletes=True)
+
     licencias = relationship(u'Licencia',
                              cascade='all, delete-orphan',
-                             # backref='exploracao_rel',
+                             lazy='joined',
                              passive_deletes=True)
     fontes = relationship(u'Fonte',
                           cascade='all, delete-orphan',
-                          # backref='exploracao_rel',
+                          lazy='joined',
                           passive_deletes=True)
-    actividade = relationship(u'Actividade',
-                              cascade='all, delete-orphan',
-                              # backref='exploracao_rel',
-                              uselist=False)
 
     facturacao = relationship(u'Facturacao',
                               cascade='all, delete-orphan',
-                              # backref='exploracao_rel',
+                              lazy='joined',
                               passive_deletes=True)
+
 
     def get_licencia(self, tipo):
         lic = [l for l in self.licencias if l.tipo_agua.upper().startswith(tipo.upper())]
@@ -269,7 +292,6 @@ class Exploracao(Base):
                 'c_real': self.c_real,
                 'c_estimado': self.c_estimado,
                 'actividade': self.actividade,
-                # 'utente':     self.utente,
                 'area': self.area,
                 'fontes': self.fontes,
                 'licencias': self.licencias,

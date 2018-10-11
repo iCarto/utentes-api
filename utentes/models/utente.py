@@ -31,9 +31,9 @@ class Utente(Base):
     reg_zona = Column(Text, doc='Registado em')
     observacio = Column(Text, doc='Observações da actividade')
 
-    exploracaos = relationship('Exploracao',
-                               backref='utente_rel',
-                               passive_deletes=True)
+    exploracaos = relationship('ExploracaoBase',
+                               lazy='joined',
+                               passive_deletes='all')
 
     @staticmethod
     def create_from_json(json):
@@ -51,17 +51,9 @@ class Utente(Base):
 
     def __json__(self, request):
         SPECIAL_CASES = ['gid']
-        exploracaos = []
-        for e in self.exploracaos:
-            exploracaos.append({
-                'gid': e.gid,
-                'exp_name': e.exp_name,
-                'exp_id': e.exp_id,
-                'actividade': e.actividade
-            })
         payload = {
             'id': self.gid,
-            'exploracaos': exploracaos,
+            'exploracaos': self.exploracaos,
         }
         for column in self.__mapper__.columns.keys():
             if column in SPECIAL_CASES:
