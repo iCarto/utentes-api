@@ -2,41 +2,53 @@ Backbone.DMS = Backbone.DMS || {};
 Backbone.DMS.BreadcrumbView = Backbone.View.extend({
     id: 'breadcrumb-view',
 
+    events: {
+        'click .navigateButton': 'navigateButtonClick'
+    },
+
     template: _.template(
         '<ul id="breadcrumb" class="breadcrumb">' +
-            '<% _(path).each(function(pathEntry) { %><li><a href="<%=pathEntry.folder%>" class="navigation-button"><%=pathEntry.name%></a></li><% }) %>' +
         '</ul>' +
-        '<a id="back-button" href="#"><i class="fa fa-arrow-up"></i> Subir nivel</a>'
+        '<a id="parent-folder-button" class="navigateButton" href="#">Subir n&iacute;vel <i class="fa fa-arrow-up"></i></a>'
     ),
 
     initialize: function(options){
         options || (options = {});
-        this.listenTo(this.model, 'change:path', this.render);
-        _.bindAll(this, 'navigationButtonClick', 'backToRoot');
+        this.createListeners();
+    },
+
+    createListeners: function() {
+        this.listenTo(this.model, 'sync', this.renderPathFolders);
     },
 
     render: function(){
         this.$el.empty();
-        this.$el.html(this.template(this.model.toJSON()));
-        var name = this.model.get('name');
-        var backButton = this.$el.find('#back-button');
-        backButton.toggle(name != '/');
-        backButton.on('click', this.backToRoot);
-
-        var navigationButton = this.$el.find('.navigation-button');
-        navigationButton.on('click', this.navigationButtonClick);
-
+        this.$el.html(this.template());
         return this;
     },
 
-    navigationButtonClick: function(event) {
-        var name = $(event.target).attr('href');
-        this.model.set('name', name);
-        event.preventDefault();
+    renderPathFolders: function() {
+        var pathFolderCollection = this.model;
+        if(pathFolderCollection) {
+            var container = document.createDocumentFragment();
+            this.pathFolderViews = this.model.map(this.createPathFolderView);
+            this.pathFolderViews.forEach(function(pathFolderView){
+                container.appendChild(pathFolderView.render().el)
+            });
+            this.$el.find("ul").empty().append(container);
+            this.$el.find('#parent-folder-button').toggle(pathFolderCollection.length > 1)
+        }
     },
 
-    backToRoot: function() {
-        this.model.set('name', '/');
+    createPathFolderView: function(pathFolder) {
+        return new Backbone.DMS.PathFolderView({model: pathFolder});
+    },
+
+    navigateButtonClick: function() {
+        if(this.model.length > 1) {
+            var parentModel = this.model.at(this.model.length - 2);
+            parentModel.navigateTrigger();
+        }
     }
 
 });

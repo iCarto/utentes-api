@@ -4,8 +4,11 @@ Backbone.DMS.Folder = function (options) {
     this.options = options || {};
 
     this.defaults = _.extend({}, Backbone.DMS.File.prototype.defaults, {
-        'fileCollection': null
+        'path': new Backbone.DMS.FolderCollection(),
+        'files': new Backbone.DMS.FileCollection()
     });
+
+    this.listenTo(this,'sync', this.fetchFullFolder)
 
     Backbone.Model.apply(this, [options]);
 
@@ -13,44 +16,50 @@ Backbone.DMS.Folder = function (options) {
 
 _.extend(Backbone.DMS.Folder.prototype, Backbone.DMS.File.prototype, {
 
-    getFileCollectionUrl: function() {
-        return '';
+    parse: function(folderResponse) {
+        this.get('files').url = folderResponse['files'];
+        this.get('path').url = folderResponse['path'];
+        return {
+            'id': folderResponse['id'],
+            'name': folderResponse['name'],
+            'type': folderResponse['type'],
+            'size': folderResponse['size'],
+            'url': folderResponse['url'],
+            'date': new Date(folderResponse['date']),
+            'permissions': folderResponse['permissions']
+        }
     },
 
-    modelUpdated: function() {
+    fetchFullFolder: function() {
+        this.fetchFiles();
+        this.fetchPath();
     },
 
-    setCurrentFolderPermissions: function() {
-        this.unset('permissions');
-        this.set('permissions', this.getFolderPermissions());
-    },
-
-    getFolderPermissions: function() {
-        return [];
-    },
-
-    getFileCollectionPermissions: function() {
-        return [];
-    },
-
-    updateFileCollectionUrl: function() {
-        this.get('fileCollection').url = this.getFileCollectionUrl();
-        return this.get('fileCollection').url;
-    },
-
-    fetchFileCollection: function () {
-        this.get('fileCollection').fetch({
-            success: this.fetchFileCollectionSuccess.bind(this)
+    fetchFiles: function () {
+        this.get('files').fetch({
+            success: this.fetchFilesSuccess.bind(this)
         });
     },
 
-    fetchFileCollectionSuccess: function(fileCollectionData) {
-        if(this.get('fileCollection')) {
-            var filePermissions = this.getFileCollectionPermissions();
-            _.each(this.get('fileCollection').models, function(file){
-                file.set('permissions', filePermissions)
-            });
+    fetchPath() {
+        this.get('path').fetch();
+    },
+
+    fetchFilesSuccess: function(fileCollectionData) {
+        if(this.get('files')) {
+            this.reviewFilePermissions(this.get('files').models)
         }
+    },
+
+    reviewFilePermissions: function(files) {
+        var folderPermissions = this.get('permissions');
+        _.each(files, function(file){
+            var filePermissions = folderPermissions;
+            if(file.get('permissions')) {
+                filePermissions = file.get('permissions')
+            }
+            file.set('permissions', filePermissions)
+        });
     }
 
 });

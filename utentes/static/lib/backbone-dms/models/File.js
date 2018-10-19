@@ -7,8 +7,7 @@ Backbone.DMS.File = Backbone.Model.extend({
         'type': '',
         'size': '',
         'url': '',
-        'path': [],
-        'permissions': []
+        'permissions': null
     },
 
     navigateTrigger: function() {

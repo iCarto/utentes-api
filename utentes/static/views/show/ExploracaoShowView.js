@@ -49,15 +49,17 @@ Backbone.SIXHIARA.ExploracaoShowView = Backbone.View.extend({
                     })
                 });
 
+                var defaultUrlBase = Backbone.SIXHIARA.Config.apiExploracaos + '/' + exploracao.get('id') + '/documentos'
+                var fileModalView = new Backbone.DMS.FileModalView({
+                    openElementId: '#file-modal',
+                    title: 'Arquivo Electr&oacute;nico',
+                    urlBase: defaultUrlBase,
+                    id: 'root'
+                });
+
                 /** Buttons View are here, because after the domains are loaded,
                 'change' events are triggered in the model. If a button like refresh
                 is listening it to be enabled, we must wait here **/
-                var openDocumentsView = new Backbone.SIXHIARA.ButtonOpenDocumentsView({
-                    el: $('#documentos'),
-                    model: exploracao,
-                    openDefaultRoot: true,
-                });
-                view.subViews.push(openDocumentsView);
 
                 // TODO: do not listen to events if button is disabled
                 var buttonSaveView = new Backbone.SIXHIARA.ButtonSaveView({

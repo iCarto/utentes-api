@@ -32,7 +32,7 @@
       <section id="block-title" class="col-xs-12">
         <h3>
           <button id="delete-button" type="button" class="btn btn-default btn-sm uilib-enability uilib-show-role-administrador">Eliminar</button>
-          <button id="documentos" type="button" class="btn btn-default btn-sm">Documentaçao</button>
+          <button id="file-modal" type="button" class="btn btn-default btn-sm">Documentaçao</button>
           <button id="refresh-button" type="button" class="btn btn-default btn-sm">Refrescar</button>
           <button id="save-button" type="button" class="btn btn-primary btn-sm uilib-enability uilib-show-role-administrador uilib-show-role-tecnico">Gravar</button>
         </h3>
@@ -1905,11 +1905,12 @@
   "lib/backbone-uilib/views/ModalView.js",
 
   "lib/backbone-dms/Config.js",
+  "lib/backbone-dms/util/Util.js",
   "lib/backbone-dms/models/File.js",
   "lib/backbone-dms/models/FileCollection.js",
   "lib/backbone-dms/models/Folder.js",
+  "lib/backbone-dms/models/FolderCollection.js",
   "lib/backbone-dms/models/FileUpload.js",
-  "lib/backbone-dms/models/FolderZipDownload.js",
   "lib/backbone-dms/views/FileSummaryView.js",
   "lib/backbone-dms/views/FolderSummaryView.js",
   "lib/backbone-dms/views/FolderView.js",
@@ -1917,9 +1918,8 @@
   "lib/backbone-dms/views/FileUploadView.js",
   "lib/backbone-dms/views/FileCollectionView.js",
   "lib/backbone-dms/views/FolderZipDownloadView.js",
+  "lib/backbone-dms/views/PathFolderView.js",
   "lib/backbone-dms/views/BreadcrumbView.js",
-  "views/dms/DepartamentoFolder.js",
-  "views/dms/DocumentosModalView.js",
 
   "views/common/CheckBoxList.js",
   "views/common/NavBarView.js",
@@ -1959,7 +1959,6 @@
   "views/common/SelectBaciaView.js",
   "views/common/SelectLocationView.js",
   "views/show/OpenFolderButtonView.js",
-  "views/common/ButtonOpenDocumentsView.js",
   "views/common/ButtonSaveView.js",
   "views/show/ButtonDeleteView.js",
   "views/show/ButtonRefreshView.js",

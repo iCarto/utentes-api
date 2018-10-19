@@ -3,76 +3,62 @@ Backbone.DMS.FolderView = Backbone.View.extend({
     id: "folder-view",
     className: 'content',
 
-    initialize: function(){
+    initialize: function(options){
+        options || (options = {});
+
+        this.viewPermissions = options.viewPermissions;
+
+        this.createViews();
+        this.createListeners();
+    },
+
+    createViews: function() {
         this.breadcrumbView = new Backbone.DMS.BreadcrumbView({
-            model: this.model
+            model: this.model.get('path')
         });
-
         this.fileUploadView = new Backbone.DMS.FileUploadView({
-            model: new Backbone.DMS.FileUpload(),
-            postUrl: this.model.get('fileCollection').url
-        });
-        this.listenTo(this.fileUploadView.model.get('uploadedFiles'), 'add', this.fileUploadViewChange)
-
-        this.fileCollectionView = new Backbone.DMS.FileCollectionView({
-            model: this.model.get('fileCollection')
-        });
-        this.listenTo(this.fileCollectionView.model, 'navigate', this.navigateListener)
-
-        this.folderZipDownloadView = new Backbone.DMS.FolderZipDownloadView({
-            model: new Backbone.DMS.FolderZipDownload({
-                url: this.model.get('fileCollection').url
+            model: new Backbone.DMS.FileUpload({
+                folder: this.model
             })
         });
+        this.fileCollectionView = new Backbone.DMS.FileCollectionView({
+            model: this.model.get('files')
+        });
+        this.folderZipDownloadView = new Backbone.DMS.FolderZipDownloadView({
+            model: this.model
+        });
+    },
 
-        this.render();
-        this.refreshViewsOnPermissions();
-
-        this.listenTo(this.model, 'change:name', this.refreshViews);
+    createListeners: function() {
+        this.listenTo(this.model, 'sync', this.reviewModelPermissions);
+        this.listenTo(this.breadcrumbView.model, 'navigate', this.navigateListener);
+        this.listenTo(this.fileCollectionView.model, 'navigate', this.navigateListener);
+        this.listenTo(this.fileUploadView.model.get('uploadedFiles'), 'add', this.reloadFiles);
     },
 
     render: function(e){
         this.$el.empty();
-
         this.$el.append(this.breadcrumbView.render().el)
-
         this.$el.append(this.fileUploadView.render().el)
-
         this.$el.append(this.folderZipDownloadView.render().el)
-
         this.$el.append(this.fileCollectionView.render().el)
-
         return this;
     },
 
-    refreshViews: function(){
-        this.model.modelUpdated();
-        url = this.model.updateFileCollectionUrl();
-        this.fileUploadView.updateUrl(url);
-        this.folderZipDownloadView.updateUrl(url);
-        this.model.fetchFileCollection();
-        this.refreshViewsOnPermissions();
-    },
-
-    refreshViewsOnPermissions: function() {
-        this.showFolderZipDownloadView();
-        this.showUploadView();
-    },
-
-    showUploadView: function()  {
-        this.fileUploadView.showView(_.contains(this.model.get('permissions'), PERMISSION_UPLOAD))
-    },
-
-    showFolderZipDownloadView: function()  {
-        this.folderZipDownloadView.showView(_.contains(this.model.get('permissions'), PERMISSION_DOWNLOAD))
-    },
-
-    fileUploadViewChange: function(data) {
-        this.model.fetchFileCollection();
-    },
-
     navigateListener: function(file) {
+        this.reviewModelPermissions(file);
         this.model.set(file.attributes);
+        this.model.fetch();
+    },
+
+    reloadFiles: function(data) {
+        this.model.fetchFiles();
+    },
+
+    reviewModelPermissions: function(model) {
+        if(!model.get('permissions') && this.viewPermissions) {
+            model.set('permissions', this.viewPermissions)
+        }
     }
 
 });

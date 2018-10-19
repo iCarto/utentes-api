@@ -8,30 +8,30 @@ Backbone.DMS.FileSummaryView = Backbone.View.extend({
 
     template: _.template(
         '<td class="type"><i class="fa fa-file"></i></td>' +
-        '<td class="name"><a id="download-button" href="<%=data.url%>" target="_blank"><%=data.name%></a></td>' +
-        '<td class="created_at"><% print(formatter().formatDate(data.created_at)) %></td>' +
+        '<td class="name"><a id="download-button" href="<%=downloadUrl%>" target="_blank"><%=data.name%></a></td>' +
+        '<td class="date"><%=formatDate(data.date)%></td>' +
         '<td class="size"><%=formatBytes(data.size, 2)%></td>' +
         '<td class="actions"></td>'
     ),
 
     templateDownloadButton: _.template(
-        '<a id="download-button" href="<%=data.url%>" target="_blank"><i class="fa fa-download"></i></a>'
+        '<a id="download-button" href="<%=downloadUrl%>" target="_blank"><i class="fa fa-download"></i></</a>'
     ),
 
     templateDeleteButton: _.template(
-        '<a id="delete-button" href="#"><i class="fa fa-trash"></i></a>'
+        '<a id="delete-button" href="#"><i class="fa fa-trash"></i></</a>'
     ),
 
     initialize: function(){
         _.bindAll(this, 'deleteFile');
-        this.model.set('id', this.model.get('name'))
-        this.render();
     },
 
     render: function(){
         this.$el.html(this.template({
             data: this.model.toJSON(),
-            formatBytes: this.formatBytes
+            downloadUrl: this.model.url(),
+            formatDate: Util.formatDate,
+            formatBytes: Util.formatBytes
         }));
         this.showDownloadButton();
         this.showDeleteButton();
@@ -39,38 +39,35 @@ Backbone.DMS.FileSummaryView = Backbone.View.extend({
     },
 
     showDownloadButton: function() {
-        if(_.contains(this.model.get('permissions'), PERMISSION_DOWNLOAD)) {
+        if(!this.model.get('permissions') || _.contains(this.model.get('permissions'), PERMISSION_DOWNLOAD)) {
             this.$el.children('.actions').append(this.templateDownloadButton({
-                data: this.model.toJSON()
+                downloadUrl: this.model.url()
             }));
         }
     },
 
     showDeleteButton: function() {
-        if(_.contains(this.model.get('permissions'), PERMISSION_DELETE)) {
+        if(!this.model.get('permissions') || _.contains(this.model.get('permissions'), PERMISSION_DELETE)) {
             this.$el.children('.actions').append(this.templateDeleteButton());
         }
     },
 
     deleteFile: function() {
+
         bootbox.confirm('Se você aceitar, o documento é eliminado', result => {
             if (result) {
                 this.model.destroy({
-                    error: function(xhr, textStatus, errorThrown) {
-                        bootbox.alert(textStatus.responseJSON.error);
-                    }
+                    error: function(model, response, error) {
+                        console.log(response)
+                        var errorText = error.errorThrown;
+                        if(response.responseJSON) {
+                            errorText = response.responseJSON.error;
+                        }
+                        bootbox.alert(errorText);
+                    },
+                    wait: true // wait for the response before calling "remove" event
                 });
             }
         });
-    },
-
-    formatBytes: function(bytes,decimals) {
-        if(bytes == 0) return '0 Bytes';
-        var k = 1024,
-            dm = decimals <= 0 ? 0 : decimals || 2,
-            sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
-            i = Math.floor(Math.log(bytes) / Math.log(k));
-        return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
     }
-
 });

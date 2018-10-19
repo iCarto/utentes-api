@@ -119,11 +119,11 @@ def add_routes_api(config):
     # POST   /api/exploracaos/{id}/documentos/{departamento} = Create a new documento
     # GET    /api/exploracaos/{id}/documentos/{departamento}/{filename} = Return individual documento
     # DELETE /api/exploracaos/{id}/documentos/{departamento}/{filename} = Delete documento
-    config.add_route('api_exploracao_documentos', '/api/exploracaos/{id}/documentos')
-    config.add_route('api_exploracao_documentos_zip', '/api/exploracaos/{id}/documentos/zip')
     config.add_route('api_exploracao_documentos_departamento', '/api/exploracaos/{id}/documentos/{departamento}')
+    config.add_route('api_exploracao_documentos_departamento_files', '/api/exploracaos/{id}/documentos/{departamento}/files')
+    config.add_route('api_exploracao_documentos_departamento_path', '/api/exploracaos/{id}/documentos/{departamento}/path')
     config.add_route('api_exploracao_documentos_departamento_zip', '/api/exploracaos/{id}/documentos/{departamento}/zip')
-    config.add_route('api_exploracao_documentos_departamento_file', '/api/exploracaos/{id}/documentos/{departamento}/{name}')
+    config.add_route('api_exploracao_documentos_departamento_file', '/api/exploracaos/{id}/documentos/{departamento}/files/{name}')
 
     # GET    /api/utentes      = Return all utentes
     # POST   /api/utentes      = Create a new utente, 'nome' in body

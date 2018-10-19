@@ -32,33 +32,24 @@ Backbone.DMS.FileUploadView = Backbone.View.extend({
 
     initialize: function(options){
         options || (options = {});
+        this.listenTo(this.model.get('folder'), 'change', this.render)
         _.bindAll(this, 'onUploadStart', 'onUploadProgress', 'onUploadDone', 'onUploadError', 'showErrors');
     },
 
     render: function(){
         this.$el.empty();
-        this.$el.html(this.template());
-        this.$el.find('#fileupload').fileupload({
-            url: this.model.get('urlUpload'),
-            add: this.onUploadStart,
-            progress: this.onUploadProgress,
-            done: this.onUploadDone,
-            error: this.onUploadError,
-            dropZone: this.$el.find('.fileupload')
-        });
-        return this;
-    },
-
-    updateUrl: function(url) {
-        this.model.set('urlUpload', url);
-    },
-
-    showView: function(show) {
-        if(show) {
-            this.render();
-        }else{
-            this.$el.empty();
+        if(!this.model.get('folder').get('permissions') || _.contains(this.model.get('folder').get('permissions'), PERMISSION_UPLOAD)) {
+            this.$el.html(this.template());
+            this.$el.find('#fileupload').fileupload({
+                url: this.model.get('folder').url(),
+                add: this.onUploadStart,
+                progress: this.onUploadProgress,
+                done: this.onUploadDone,
+                fail: this.onUploadError,
+                dropZone: this.$el.find('.fileupload')
+            });
         }
+        return this;
     },
 
     onUploadStart: function(e, data) {
@@ -88,10 +79,14 @@ Backbone.DMS.FileUploadView = Backbone.View.extend({
         this.$el.find('#' + id + '.file-uploading').remove();
     },
 
-    onUploadError: function(error) {
-        var errorResponse = error.responseJSON;
-        this.showErrors(errorResponse.name, [errorResponse.error])
-        var id = this.getFileUploadId(errorResponse.name);
+    onUploadError: function(error, data) {
+        console.log(data.jqXHR)
+        if(data.jqXHR.responseJSON) {
+            this.showErrors(data.files[0].name, [data.jqXHR.responseJSON.error])
+        }else{
+            this.showErrors(data.files[0].name, [data.jqXHR.statusText]);
+        }
+        var id = this.getFileUploadId(data.files[0].name);
         this.$el.find('#' + id + '.file-uploading').remove();
     },
 

@@ -9,11 +9,13 @@ Backbone.DMS.FileCollection = Backbone.Collection.extend({
         for(var i = 0; i < filesResponse.length; i++) {
             files.push(
                 new Backbone.DMS.File({
+                    'id': filesResponse[i].id,
                     'name': filesResponse[i].name,
                     'type': filesResponse[i].type,
                     'size': filesResponse[i].size,
                     'url': filesResponse[i].url,
-                    'created_at': filesResponse[i].created_at
+                    'date': new Date(filesResponse[i].date),
+                    'permissions': filesResponse[i].permissions
                 })
             );
         }

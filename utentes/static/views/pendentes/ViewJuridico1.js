@@ -6,7 +6,7 @@ Backbone.SIXHIARA.ViewJuridico1 = Backbone.SIXHIARA.View1.extend({
   <div class="col-xs-12">
     <div class="btn-group btn-group-justified" role="group">
         <div class="btn-group" role="group">
-            <button id="documentos" class="btn btn-default" role="button">Documentaçao</button>
+            <button id="file-modal" class="btn btn-default" role="button">Documentaçao</button>
         </div>
     </div>
   </div>
@@ -137,10 +137,15 @@ print('O ' + formatter().formatDate(req_obs[i]['create_at']) + ', ' + req_obs[i]
             input.addEventListener('change', self.autosave.bind(self), false);
         });
 
-        var openDocumentsView = new Backbone.SIXHIARA.ButtonOpenDocumentsView({
-            el: $('#documentos'),
-            model: this.model
+        var defaultDepartamento = wf.isAdmin() ? 'root' : wf.getRole();
+        var defaultUrlBase = Backbone.SIXHIARA.Config.apiExploracaos + '/' + this.model.get('id') + '/documentos'
+        var fileModalView = new Backbone.DMS.FileModalView({
+            openElementId: '#file-modal',
+            title: 'Arquivo Electr&oacute;nico',
+            urlBase: defaultUrlBase,
+            id: defaultDepartamento
         });
+
     },
 
     enableBts: function() {

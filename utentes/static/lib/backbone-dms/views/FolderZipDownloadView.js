@@ -2,31 +2,33 @@ Backbone.DMS = Backbone.DMS || {};
 Backbone.DMS.FolderZipDownloadView = Backbone.View.extend({
 
     template: _.template(
-        '<div id="zip-download"><a href="#">Descarregar todos os arquivos <i class="fa fa-file-zip-o"></i></div>'
+        '<div id="zip-download"><a href="<%=downloadZipUrl%>">Descarregar todos os arquivos <i class="fa fa-file-zip-o"></i></div>'
     ),
 
     initialize: function(options){
         options || (options = {});
-        this.listenTo(this.model, 'change', this.render)
+        this.createListeners();
+    },
+
+    createListeners: function(){
+        this.listenTo(this.model, 'change', this.render);
+        this.listenTo(this.model.get('files'), 'sync remove', this.showIfHasFiles);
     },
 
     render: function(){
         this.$el.empty();
-        this.$el.html(this.template());
-        this.$el.find('#zip-download a').attr("href", this.model.get('url') + '/zip');
+        this.$el.html(this.template({
+            downloadZipUrl: this.model.url() + '/zip'
+        }));
         return this;
     },
 
-    updateUrl: function(url) {
-        this.model.set('url', url);
+    hasPermissions: function() {
+        return !this.model.get('permissions') || _.contains(this.model.get('permissions'), PERMISSION_DOWNLOAD);
     },
 
-    showView: function(show) {
-        if(show) {
-            this.render();
-        }else{
-            this.$el.empty();
-        }
-    }
+    showIfHasFiles: function() {
+        this.$el.toggle(this.model.get('files').length > 0 && this.hasPermissions());
+    },
 
 });

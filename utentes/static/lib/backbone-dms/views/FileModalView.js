@@ -27,14 +27,21 @@ Backbone.DMS.FileModalView = function (options) {
         '</div>'
     );
 
-    this.model = options.model;
+    if(options.openElementId) {
+        $(options.openElementId).on('click', this.show.bind(this));
+    }
+
+    this.model = new Backbone.DMS.Folder();
+
+    this.folderView = new Backbone.DMS.FolderView({
+        model: this.model,
+        viewPermissions: this.options.permissions
+    })
 
     Backbone.View.apply(this, [options]);
 };
 
 _.extend(Backbone.DMS.FileModalView.prototype, Backbone.View.prototype, {
-
-    navbarTemplate: _.template(''),
 
     render: function() {
         this.$el.empty();
@@ -42,17 +49,25 @@ _.extend(Backbone.DMS.FileModalView.prototype, Backbone.View.prototype, {
             title: this.title
         }));
 
-        var folderView = new Backbone.DMS.FolderView({
-            model: this.model
-        })
-
-        this.$el.find('.modal-body').append(folderView.$el)
+        this.$el.find('.modal-body').append(this.folderView.render().el);
 
         return this;
     },
 
+    initModel: function() {
+        if(this.options.urlBase) {
+            this.model.urlRoot = this.options.urlBase;
+        }
+        if(this.options.id) {
+            this.model.set('id', this.options.id);
+        }
+        this.model.fetch();
+    },
+
     show: function() {
+        this.initModel();
         $(document.body).append(this.render().el);
+
         var self = this;
 
         this.$('.modal').on('hidden.bs.modal', function(){

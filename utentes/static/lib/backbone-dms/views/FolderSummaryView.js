@@ -8,18 +8,20 @@ Backbone.DMS.FolderSummaryView = Backbone.View.extend({
 
     template: _.template(
         '<td class="type"><i class="fa fa-folder"></i></td>' +
-        '<td class="name"><a href="#" class="navigateButton"><%=name%></a></td>' +
-        '<td class="created_at"><% print(formatter().formatDate(created_at)) %></td>' +
-        '<td class="size"><%=size%> arquivos</td>' +
+        '<td class="name"><a href="#" class="navigateButton"><%=data.name%></a></td>' +
+        '<td class="date"><%=formatDate(data.date)%></td>' +
+        '<td class="size"><%=data.size%> arquivos</td>' +
         '<td class="actions"><a href="#" class="navigateButton"><i class="fa fa-sitemap"></i></a></td>'
     ),
 
     initialize: function(){
-        this.render();
     },
 
     render: function(){
-        this.$el.html( this.template(this.model.toJSON()));
+        this.$el.html( this.template({
+            data: this.model.toJSON(),
+            formatDate: Util.formatDate
+        }));
         return this;
     },
 

@@ -15,7 +15,7 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
         <div class="col-xs-12">
             <div class="btn-group btn-group-justified" role="group">
                 <div class="btn-group" role="group">
-                    <button id="documentos" class="btn btn-default" role="button">Documentaçao</button>
+                    <button id="file-modal" class="btn btn-default" role="button">Documentaçao</button>
                 </div>
                 <div class="btn-group" role="group">
                     <a id="bt-ficha" class="btn btn-default" role="button" href="/exploracao-show.html?id=<%- id %>">Ficha</a>
@@ -283,10 +283,15 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
         this.initSelects()
         document.getElementById('observacio').addEventListener('input', self.autosave.bind(self), false);
 
-        var openDocumentsView = new Backbone.SIXHIARA.ButtonOpenDocumentsView({
-            el: $('#documentos'),
-            model: this.model
+        var defaultDepartamento = wf.isAdmin() ? 'root' : wf.getRole();
+        var defaultUrlBase = Backbone.SIXHIARA.Config.apiExploracaos + '/' + this.model.get('id') + '/documentos'
+        var fileModalView = new Backbone.DMS.FileModalView({
+            openElementId: '#file-modal',
+            title: 'Arquivo Electr&oacute;nico',
+            urlBase: defaultUrlBase,
+            id: defaultDepartamento
         });
+
     },
 
     widgetsToBeUsed: function() {

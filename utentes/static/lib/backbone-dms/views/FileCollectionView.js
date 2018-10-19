@@ -7,9 +7,9 @@ Backbone.DMS.FileCollectionView = Backbone.View.extend({
     template: _.template(
         '<thead>' +
             '<th class="type"></th>' +
-            '<th class="name">Nombre</th>' +
-            '<th class="created_at">Data</th>' +
-            '<th class="size">Tamaño</th>' +
+            '<th class="name">Nome</th>' +
+            '<th class="date">Data</th>' +
+            '<th class="size">Tamanho</th>' +
             '<th class="actions"></th>' +
         '</thead>' +
         '<tbody>' +
@@ -18,9 +18,12 @@ Backbone.DMS.FileCollectionView = Backbone.View.extend({
 
     initialize: function(options){
         options || (options = {});
-        this.model.fetch();
-        this.listenTo(this.model, 'sync remove', this.renderFileCollection);
-        _.bindAll(this, 'renderFileCollection');
+        this.createListeners();
+    },
+
+    createListeners: function() {
+        this.listenTo(this.model, 'sync', this.renderFileCollection);
+        this.listenTo(this.model, 'remove', this.removeFile);
     },
 
     render: function() {
@@ -30,20 +33,28 @@ Backbone.DMS.FileCollectionView = Backbone.View.extend({
     },
 
     renderFileCollection() {
-        var fileCollection = this.model;
-        if(fileCollection) {
+        if(this.model) {
             var container = document.createDocumentFragment();
-            fileCollection.each(function(file){
-                if(file.get('type') == 'folder') {
-                    var fileView = new Backbone.DMS.FolderSummaryView({ model: file });
-                    container.appendChild(fileView.el);
-                }else{
-                    var fileView = new Backbone.DMS.FileSummaryView({ model: file });
-                    container.appendChild(fileView.el);
-                }
+            this.fileSummaryViews = this.model.map(this.createFileSummaryView);
+            this.fileSummaryViews.forEach(function(fileSummaryView){
+                container.appendChild(fileSummaryView.render().el)
             });
-            this.$el.find("tbody").empty();
-            this.$el.find("tbody").append(container);
+            this.$el.find("tbody").empty().append(container);
         }
+    },
+
+    createFileSummaryView: function(file) {
+        if(file.get('type') == 'folder') {
+            return new Backbone.DMS.FolderSummaryView({ model: file });
+        }else{
+            return new Backbone.DMS.FileSummaryView({ model: file });
+        }
+    },
+
+    removeFile: function(file){
+        var fileSummaryViewRemoved = this.fileSummaryViews.find(function(fileSummaryView){
+            return fileSummaryView.model == file
+        });
+        fileSummaryViewRemoved.remove();
     }
 });

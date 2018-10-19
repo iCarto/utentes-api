@@ -41,12 +41,13 @@ class Documento(Base):
         if request:
             url = request.route_url('api_exploracao_documentos_departamento_file', id=self.exploracao, departamento=self.departamento, name=self.name)
         return {
+            'id': self.name,
             'gid': self.gid,
             'url': url,
             'name': self.name,
             'size': self.size,
             'departamento': self.departamento,
-            'created_at': self.created_at
+            'date': self.created_at
         }
 
     def get_file_path_upload(self):
