@@ -55,6 +55,7 @@ def build_exception(httpexc, body):
     response = httpexc()
     response.body = json.dumps(body)
     response.content_type = 'application/json'
+    response.charset = 'utf-8'
     return response
 
 

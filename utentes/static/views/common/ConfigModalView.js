@@ -11,6 +11,7 @@ Backbone.SIXHIARA.ConfigModalView = Backbone.View.extend({
             <h4 class="modal-title" id="modalViewLabel">Configuraçao</h4>
             </div>
             <div class="modal-body">
+
             <div class="row">
                 <div class="form-group">
                 <label class="col-xs-offset-1" for="docPath">Ruta aos documentos</label>
@@ -22,6 +23,10 @@ Backbone.SIXHIARA.ConfigModalView = Backbone.View.extend({
             </div>
 
             <div class="row">
+                <hr>
+            </div>
+
+            <div class="row">
                 <div class="form-group">
                 <div class="input-group col-xs-offset-1 col-xs-10">
                     <input style="display:none" id="import-fountains" type="file" accept=".zip, application/zip, application/x-zip, application/x-zip-compressed"></input>
@@ -29,6 +34,50 @@ Backbone.SIXHIARA.ConfigModalView = Backbone.View.extend({
                 </div>
                 </div>
             </div>
+
+            <div class="row">
+                <hr>
+            </div>
+
+            <div class="row">
+            <div class="col-xs-offset-1 col-xs-10" style="padding-right: 0px; padding-left: 0px;">
+            <form class="form-horizontal">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Base de dados</div>
+                        <div class="panel-body">
+                            <div id="db-msgs" class="panel hidden">
+                                <div class="panel-heading">Erro de Base de dados</div>
+                                <div class="panel-body">
+                                    Error que tega
+                                </div>
+                            </div>
+                        <div>
+
+                        <div class="row panel-equal-height">
+                            <div class="col-xs-6">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">Exportação de dados</div>
+                                    <div class="panel-body">
+                                        <span id="dump" class="btn btn-primary" style="margin-bottom: 20px;">Exportar</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">Importação de dados</div>
+                                    <div class="panel-body">
+                                        <span id="restore" class="btn btn-primary" style="margin-bottom: 20px;">Importar</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+            </div>
+            </div>
+
 
             </div> <!-- /modal-body -->
         </div>
@@ -39,7 +88,9 @@ Backbone.SIXHIARA.ConfigModalView = Backbone.View.extend({
     events: {
         'click #openFile': 'openFile',
         'change #import-fountains': 'importFountains',
-        'click #import-fountains-bt': 'importFountainsBt'
+        'click #import-fountains-bt': 'importFountainsBt',
+        'click #restore': 'restore',
+        'click #dump': 'dump',
     },
 
     initialize: function(options) {
@@ -110,7 +161,7 @@ Backbone.SIXHIARA.ConfigModalView = Backbone.View.extend({
     handleFile: function(file) {
         if (file.name.slice(-3) !== 'zip') {
             this.$('.modal').modal('hide');
-            bootbox.alert("Error carregando ficheiro");
+            bootbox.alert('O arquivo deve ter uma extensão .zip');
             return;
         }
         var self = this;
@@ -144,5 +195,48 @@ Backbone.SIXHIARA.ConfigModalView = Backbone.View.extend({
                 });
             });
         }
+    },
+
+    restore: function() {
+        var remote = nodeRequire('remote');
+
+        var dialog = remote.require('dialog');
+        var file = dialog.showOpenDialog({
+            filters: [{'name': '.dump', 'extensions': ['.dump']}],
+            properties: [ 'openFile' ],
+        });
+
+        if (file && file.length) {
+            if (file[0].slice(-4) !== 'dump') {
+                this.$('.modal').modal('hide');
+                bootbox.alert('O arquivo deve ter uma extensão .dump');
+                return;
+            }
+            document.body.style.cursor = 'wait';
+            $.getJSON('/api/db/restore', {'file': file[0]})
+                .done(function(data) {
+                    bootbox.alert('Banco de dados restaurado com sucesso');
+                })
+                .fail(function(data) {
+                    bootbox.alert('<h1 style="color:red">Erro</h1><br><br>' + JSON.stringify(data.responseJSON.error));
+                })
+                .always(function(){
+                    document.body.style.cursor = 'default';
+                })
+        }
+    },
+
+    dump: function() {
+        document.body.style.cursor = 'wait';
+        $.getJSON('/api/db/dump')
+            .done(function(data) {
+                bootbox.alert('O arquivo está em:<br><br>' + data.file);
+            })
+            .fail(function(data) {
+                bootbox.alert('<h1 style="color:red">Erro</h1><br><br>' + JSON.stringify(data.responseJSON.error));
+            })
+            .always(function() {
+                document.body.style.cursor = 'default';
+            });
     },
 });

@@ -68,6 +68,7 @@ def main(global_config, **settings):
 
     config.include('pyramid_jinja2')
     config.include('pyramid_webassets')
+    config.include('utentes.dbutils')
     # https://github.com/Pylons/pyramid_jinja2/issues/111
     config.commit()
 
@@ -84,7 +85,7 @@ def main(global_config, **settings):
     add_routes_views(config)
     add_routes_api(config)
 
-    config.scan(ignore='utentes.test')
+    config.scan(ignore=['utentes.test', 'utentes.dbutils'])
     return config.make_wsgi_app()
 
 
