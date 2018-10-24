@@ -48,6 +48,7 @@ EXPLORACAO_SCHEMA = [
     },
 ]
 
+
 EXPLORACAO_SCHEMA_CON_FICHA = [
     {
         "fieldname": "loc_provin",
@@ -62,11 +63,6 @@ EXPLORACAO_SCHEMA_CON_FICHA = [
     {
         "fieldname": "loc_posto",
         "message": u"O posto da exploracão não pode estar vazio",
-        "rules": ["NOT_NULL"],
-    },
-    {
-        "fieldname": "loc_unidad",
-        "message": u"A unidade da exploracão não pode estar vazio",
         "rules": ["NOT_NULL"],
     },
     {

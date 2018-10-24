@@ -176,6 +176,7 @@ Backbone.SIXHIARA.BlockLicenseView = Backbone.View.extend({
             collectionModel: Backbone.SIXHIARA.Licencia,
             model: new Backbone.SIXHIARA.Licencia({
                 tipo_agua: this.options.tipo_agua,
+                estado: 'Desconhecido',
             }),
             domains: this.options.domains,
             creating: true,

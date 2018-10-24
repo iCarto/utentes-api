@@ -25,7 +25,7 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
         c_licencia: null,
         c_real: null,
         c_estimado: null,
-        actividade: new Backbone.SIXHIARA.ActividadeNull(),
+        actividade: new Backbone.SIXHIARA.ActividadePiscicultura(),
         area: null,
         geometry: null,
         utente: new Backbone.SIXHIARA.Utente(),
@@ -74,7 +74,8 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
         lic_time_over: false,
     },
 
-    initialize: function() {
+
+    initialize: function(){
         // set some computed properties
         this.set("summary_licencia_val", this.updateSummaryEstado());
         this.set("summary_licencia_msg", "Licença");

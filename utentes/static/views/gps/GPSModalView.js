@@ -10,7 +10,6 @@ Backbone.SIXHIARA.GPSModalView = Backbone.UILib.ModalView.extend({
                 text: "Exploracao",
                 order: 1,
             }),
-            new Backbone.UILib.Domain({alias: "Cultura", text: "Cultura", order: 2}),
             new Backbone.UILib.Domain({
                 alias: "Tanque Piscícola",
                 text: "Tanque Piscícola",

@@ -63,11 +63,6 @@ var EXPLORACAO_SCHEMA_CON_FICHA = [
         rules: ["NOT_NULL"],
     },
     {
-        fieldname: "loc_unidad",
-        message: "A Unidade da exploracão não pode estar vazio",
-        rules: ["NOT_NULL"],
-    },
-    {
         fieldname: "utente",
         message: "A exploracão debe ter um utemte",
         rules: ["NOT_NULL"],
