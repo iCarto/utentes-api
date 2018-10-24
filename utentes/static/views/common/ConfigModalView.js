@@ -12,6 +12,7 @@ Backbone.SIXHIARA.ConfigModalView = Backbone.View.extend({
             </div>
             <div class="modal-body">
 
+            <!--
             <div class="row">
                 <div class="form-group">
                 <label class="col-xs-offset-1" for="docPath">Ruta aos documentos</label>
@@ -21,6 +22,7 @@ Backbone.SIXHIARA.ConfigModalView = Backbone.View.extend({
                 </div>
                 </div>
             </div>
+            -->
 
             <div class="row">
                 <hr>
@@ -86,7 +88,7 @@ Backbone.SIXHIARA.ConfigModalView = Backbone.View.extend({
     `,
 
     events: {
-        'click #openFile': 'openFile',
+        // 'click #openFile': 'openFile',
         'change #import-fountains': 'importFountains',
         'click #import-fountains-bt': 'importFountainsBt',
         'click #restore': 'restore',
@@ -128,24 +130,24 @@ Backbone.SIXHIARA.ConfigModalView = Backbone.View.extend({
         this.remove();
     },
 
-    openFile: function() {
-        var remote = nodeRequire('remote');
-
-        var dialog = remote.require('dialog');
-        var file = dialog.showOpenDialog({
-            properties: [ 'openDirectory' ],
-            defaultPath: this.s.get('docPath'),
-        });
-
-        if (file) {
-            this.s.set('docPath', file[0]);
-            this.setValue();
-        }
-    },
+    // openFile: function() {
+    //     var remote = nodeRequire('remote');
+    //
+    //     var dialog = remote.require('dialog');
+    //     var file = dialog.showOpenDialog({
+    //         properties: [ 'openDirectory' ],
+    //         defaultPath: this.s.get('docPath'),
+    //     });
+    //
+    //     if (file) {
+    //         this.s.set('docPath', file[0]);
+    //         this.setValue();
+    //     }
+    // },
 
     setValue: function() {
-        var docPath = this.s.get('docPath');
-        this.$('#docPath').val(docPath);
+        // var docPath = this.s.get('docPath');
+        // this.$('#docPath').val(docPath);
     },
 
     importFountainsBt: function() {
