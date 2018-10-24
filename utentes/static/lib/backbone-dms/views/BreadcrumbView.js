@@ -2,9 +2,10 @@ Backbone.DMS = Backbone.DMS || {};
 Backbone.DMS.BreadcrumbView = Backbone.View.extend({
     id: 'breadcrumb-view',
 
-    events: {
+    // TODO: not working, why?
+    /*events: {
         'click .navigateButton': 'navigateButtonClick'
-    },
+    },*/
 
     template: _.template(
         '<ul id="breadcrumb" class="breadcrumb">' +
@@ -14,6 +15,7 @@ Backbone.DMS.BreadcrumbView = Backbone.View.extend({
 
     initialize: function(options){
         options || (options = {});
+        _.bindAll(this, 'navigationButtonClick')
         this.createListeners();
     },
 
@@ -24,6 +26,8 @@ Backbone.DMS.BreadcrumbView = Backbone.View.extend({
     render: function(){
         this.$el.empty();
         this.$el.html(this.template());
+        var navigationButton = this.$el.find('.navigateButton');
+        navigationButton.on('click', this.navigationButtonClick);
         return this;
     },
 
@@ -44,7 +48,7 @@ Backbone.DMS.BreadcrumbView = Backbone.View.extend({
         return new Backbone.DMS.PathFolderView({model: pathFolder});
     },
 
-    navigateButtonClick: function() {
+    navigationButtonClick: function() {
         if(this.model.length > 1) {
             var parentModel = this.model.at(this.model.length - 2);
             parentModel.navigateTrigger();
