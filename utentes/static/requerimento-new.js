@@ -23,6 +23,15 @@ function init() {
 
     $('[data-toggle="tooltip"]').tooltip();
 
+    var defaultDepartamento = wf.isAdmin() ? 'root' : wf.getRole();
+    var defaultUrlBase = Backbone.SIXHIARA.Config.apiExploracaos + '/documentos'
+    var fileModalView = new Backbone.DMS.FileModalView({
+        openElementId: '#file-modal',
+        title: 'Arquivo Electr&oacute;nico',
+        urlBase: defaultUrlBase,
+        id: defaultDepartamento
+    });
+
 }
 
 function validateName(name) {
@@ -116,6 +125,7 @@ function fillExploracao(e, autosave) {
             }
         );
     });
+
 };
 
 
