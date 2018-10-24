@@ -10,7 +10,9 @@ Backbone.DMS.FolderSummaryView = Backbone.View.extend({
         '<td class="type"><i class="fa fa-folder"></i></td>' +
         '<td class="name"><a href="#" class="navigateButton"><%=data.name%></a></td>' +
         '<td class="date"><%=formatDate(data.date)%></td>' +
-        '<td class="size"><%=data.size%> arquivos</td>' +
+        '<td class="size">' +
+            '<% if(data.size) { print(data.size + " " + (data.size == 1 ? "arquivo" : "arquivos")) }else{ print("-") }  %>' +
+        '</td>' +
         '<td class="actions"><a href="#" class="navigateButton"><i class="fa fa-sitemap"></i></a></td>'
     ),
 
