@@ -15,7 +15,7 @@ Backbone.DMS.FileUploadView = Backbone.View.extend({
 
     templateError: _.template(
         '<div class="alert alert-danger">' +
-            'Houve um erro ao enviar o arquivo <i><%=filename%></i><br>' +
+            'Houve um erro co arquivo <i><%=filename%></i><br>' +
             '<ul>' +
                 '<% _(errors).each(function(error) { %><li><%=error%></li><% }) %>' +
             '</ul>' +
@@ -26,7 +26,7 @@ Backbone.DMS.FileUploadView = Backbone.View.extend({
         this.options = options || {};
         this.createViews();
         this.createListeners();
-        _.bindAll(this, 'updatePostUrl', 'updatePendingFileUrl', 'savePendingFiles', 'onUploadStart', 'onUploadProgress', 'onUploadDone', 'onUploadError', 'showErrors');
+        _.bindAll(this, 'updatePostUrl', 'updatePendingFileUrl', 'savePendingFiles', 'onFileAdd', 'onUploadProgress', 'onUploadDone', 'onUploadError', 'showErrors');
     },
 
     createListeners: function() {
@@ -46,7 +46,7 @@ Backbone.DMS.FileUploadView = Backbone.View.extend({
             this.$el.html(this.template());
             this.$el.find('#fileupload').fileupload({
                 url: this.model.get('folder').url(),
-                add: this.onUploadStart,
+                add: this.onFileAdd,
                 progress: this.onUploadProgress,
                 done: this.onUploadDone,
                 fail: this.onUploadError,
@@ -75,7 +75,7 @@ Backbone.DMS.FileUploadView = Backbone.View.extend({
         })
     },
 
-    onUploadStart: function(e, data) {
+    onFileAdd: function(e, data) {
         var filename = data.files[0].name;
         var errors = this.validate(data)
         if(errors.length > 0) {
@@ -124,6 +124,11 @@ Backbone.DMS.FileUploadView = Backbone.View.extend({
         var size = data.files[0].size;
         if(size > (150*1024*1024)) {
             uploadErrors.push('O tamanho do arquivo não pode exceder 150 MB');
+        }
+        var filename = data.files[0].name;
+        var filePending = this.model.get('pendingFiles').get(filename);
+        if(filePending) {
+            uploadErrors.push('Já existe um arquivo com esse nome na lista');
         }
         return uploadErrors;
     },
