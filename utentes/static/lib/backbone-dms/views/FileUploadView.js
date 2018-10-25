@@ -10,14 +10,6 @@ Backbone.DMS.FileUploadView = Backbone.View.extend({
                 '<span>Arraste cá o documento/arquivo</span>' +
             '</label>' +
             '<input id="fileupload" type="file" name="file" multiple/>' +
-        '</div>' +
-        '<div class="uploading"></div>'
-    ),
-
-    templateUploading: _.template(
-        '<div id="<%=id%>" class="file-uploading">' +
-            '<span><%=filename%></span>' +
-            '<div class="bar" style="width: 0%;"></div>' +
         '</div>'
     ),
 
@@ -31,9 +23,21 @@ Backbone.DMS.FileUploadView = Backbone.View.extend({
     ),
 
     initialize: function(options){
-        options || (options = {});
-        this.listenTo(this.model.get('folder'), 'change', this.render)
-        _.bindAll(this, 'onUploadStart', 'onUploadProgress', 'onUploadDone', 'onUploadError', 'showErrors');
+        this.options = options || {};
+        this.createViews();
+        this.createListeners();
+        _.bindAll(this, 'updatePostUrl', 'updatePendingFileUrl', 'savePendingFiles', 'onUploadStart', 'onUploadProgress', 'onUploadDone', 'onUploadError', 'showErrors');
+    },
+
+    createListeners: function() {
+        this.listenTo(this.model.get('folder'), 'change', this.render);
+        this.listenTo(this.model.get('folder'), 'change:id', this.updatePostUrl);
+    },
+
+    createViews: function() {
+        this.uploadingView = new Backbone.DMS.FileUploadingCollectionView({
+            model: this.model.get('pendingFiles')
+        })
     },
 
     render: function(){
@@ -49,7 +53,26 @@ Backbone.DMS.FileUploadView = Backbone.View.extend({
                 dropZone: this.$el.find('.fileupload')
             });
         }
+        this.$el.append(this.uploadingView.render().el);
         return this;
+    },
+
+    updatePostUrl: function() {
+        var pendingFiles = this.model.get('pendingFiles');
+        pendingFiles.forEach(this.updatePendingFileUrl)
+    },
+
+    updatePendingFileUrl: function(pendingFile) {
+        var data = pendingFile.get('data');
+        data.url = this.model.get('folder').url()
+    },
+
+    savePendingFiles: function() {
+        var pendingFiles = this.model.get('pendingFiles');
+        pendingFiles.forEach(function(pendingFile){
+            var data = pendingFile.get('data');
+            data.submit();
+        })
     },
 
     onUploadStart: function(e, data) {
@@ -58,36 +81,42 @@ Backbone.DMS.FileUploadView = Backbone.View.extend({
         if(errors.length > 0) {
             this.showErrors(filename, errors)
         }else{
-            var id = this.getFileUploadId(data.files[0].name);
-            this.$el.children('.uploading').append(this.templateUploading({
-                id,
-                filename
-            }));
-            data.submit();
+            var filePendent = new Backbone.DMS.FilePendent({
+                filename: filename,
+                data: data
+            })
+            this.model.get('pendingFiles').add(filePendent);
+            if(this.model.get('uploadInmediate')) {
+                data.submit();
+            }
         }
     },
 
     onUploadProgress: function(e, data) {
         var progress = parseInt(data.loaded / data.total * 100, 10);
-        var id = this.getFileUploadId(data.files[0].name);
-        $('#' + id + '.file-uploading .bar').css('width', progress + '%');
+        var filename = data.files[0].name;
+        var filePendent = this.model.get('pendingFiles').get(filename);
+        filePendent.set('progress', progress);
     },
 
     onUploadDone: function(e, data) {
         this.model.addUploadedFile(data.files[0].name);
-        var id = this.getFileUploadId(data.files[0].name);
-        this.$el.find('#' + id + '.file-uploading').remove();
+        this.removeFileFromUploading(data);
     },
 
     onUploadError: function(error, data) {
-        console.log(data.jqXHR)
         if(data.jqXHR.responseJSON) {
             this.showErrors(data.files[0].name, [data.jqXHR.responseJSON.error])
         }else{
             this.showErrors(data.files[0].name, [data.jqXHR.statusText]);
         }
-        var id = this.getFileUploadId(data.files[0].name);
-        this.$el.find('#' + id + '.file-uploading').remove();
+        this.removeFileFromUploading(data);
+    },
+
+    removeFileFromUploading: function(data){
+        var filename = data.files[0].name;
+        var filePendent = this.model.get('pendingFiles').get(filename)
+        this.model.get('pendingFiles').remove(filePendent);
     },
 
     validate: function(data) {
@@ -116,5 +145,4 @@ Backbone.DMS.FileUploadView = Backbone.View.extend({
         filename = filename.replace(/[^a-zA-Z0-9]/g,'_');
         return filename.replace(/ /g,'_');
     }
-
 });

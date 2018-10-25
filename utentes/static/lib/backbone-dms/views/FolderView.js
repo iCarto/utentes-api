@@ -4,9 +4,7 @@ Backbone.DMS.FolderView = Backbone.View.extend({
     className: 'content',
 
     initialize: function(options){
-        options || (options = {});
-
-        this.viewPermissions = options.viewPermissions;
+        this.options = options || {};
 
         this.createViews();
         this.createListeners();
@@ -18,7 +16,8 @@ Backbone.DMS.FolderView = Backbone.View.extend({
         });
         this.fileUploadView = new Backbone.DMS.FileUploadView({
             model: new Backbone.DMS.FileUpload({
-                folder: this.model
+                folder: this.model,
+                uploadInmediate: this.options.uploadInmediate
             })
         });
         this.fileCollectionView = new Backbone.DMS.FileCollectionView({
@@ -38,10 +37,19 @@ Backbone.DMS.FolderView = Backbone.View.extend({
 
     render: function(e){
         this.$el.empty();
-        this.$el.append(this.breadcrumbView.render().el)
-        this.$el.append(this.fileUploadView.render().el)
-        this.$el.append(this.folderZipDownloadView.render().el)
-        this.$el.append(this.fileCollectionView.render().el)
+        var componentsToShow = this.getComponentsToShow();
+        if(componentsToShow.includes("breadcrumb")) {
+            this.$el.append(this.breadcrumbView.render().el)
+        }
+        if(componentsToShow.includes("upload")) {
+            this.$el.append(this.fileUploadView.render().el)
+        }
+        if(componentsToShow.includes("zip")) {
+            this.$el.append(this.folderZipDownloadView.render().el)
+        }
+        if(componentsToShow.includes("files")) {
+            this.$el.append(this.fileCollectionView.render().el)
+        }
         return this;
     },
 
@@ -56,9 +64,17 @@ Backbone.DMS.FolderView = Backbone.View.extend({
     },
 
     reviewModelPermissions: function(model) {
-        if(!model.get('permissions') && this.viewPermissions) {
-            model.set('permissions', this.viewPermissions)
+        if(!model.get('permissions') && this.options.viewPermissions) {
+            model.set('permissions', this.options.viewPermissions)
         }
+    },
+
+    getComponentsToShow: function() {
+        return this.options.components ? this.options.components : ["breadcrumb", "upload", "zip", "files"];
+    },
+
+    saveFiles: function() {
+        this.fileUploadView.savePendingFiles();
     }
 
 });

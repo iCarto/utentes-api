@@ -58,7 +58,6 @@ Backbone.DMS.FileSummaryView = Backbone.View.extend({
             if (result) {
                 this.model.destroy({
                     error: function(model, response, error) {
-                        console.log(response)
                         var errorText = error.errorThrown;
                         if(response.responseJSON) {
                             errorText = response.responseJSON.error;

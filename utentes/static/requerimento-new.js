@@ -1,6 +1,13 @@
 var expedientes = new Backbone.SIXHIARA.Expediente();
 expedientes.fetch();
 
+var fileModalView = new Backbone.DMS.FileModalView({
+    openElementId: '#file-modal',
+    title: 'Arquivo Electr&oacute;nico',
+    uploadInmediate: false,
+    components: ["upload"]
+});
+
 function init() {
 
     document.querySelectorAll('form input[type="checkbox"]').forEach(function(input){
@@ -22,15 +29,6 @@ function init() {
     enableBts();
 
     $('[data-toggle="tooltip"]').tooltip();
-
-    var defaultDepartamento = wf.isAdmin() ? 'root' : wf.getRole();
-    var defaultUrlBase = Backbone.SIXHIARA.Config.apiExploracaos + '/documentos'
-    var fileModalView = new Backbone.DMS.FileModalView({
-        openElementId: '#file-modal',
-        title: 'Arquivo Electr&oacute;nico',
-        urlBase: defaultUrlBase,
-        id: defaultDepartamento
-    });
 
 }
 
@@ -115,6 +113,14 @@ function fillExploracao(e, autosave) {
                 'success': function(model) {
                     var exp_id = model.get('exp_id');
                     var exp_name = model.get('exp_name');
+
+                    var departamento = wf.isAdmin() ? ROL_ADMINISTRATIVO : wf.getRole();
+                    var url = Backbone.SIXHIARA.Config.apiExploracaos + '/' + model.get('id') + '/documentos';
+                    fileModalView.setUrlBase(url);
+                    console.log(departamento)
+                    fileModalView.setId(departamento);
+                    fileModalView.saveFiles();
+
                     bootbox.alert(`A exploração&nbsp;<strong>${exp_id} - ${exp_name}</strong>&nbsp;tem sido criada correctamente.`, function(){
                         window.location = Backbone.SIXHIARA.Config.urlPendentes;
                     });

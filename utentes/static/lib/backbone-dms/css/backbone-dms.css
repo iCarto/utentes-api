@@ -115,7 +115,21 @@
     font-style: italic;
 }
 
+#fileupload-view .uploading .file-uploading {
+    margin-bottom: 10px;
+}
+
+#fileupload-view .uploading .bar-container {
+    height: 18px;
+    background: #ccc;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 9pt;
+    color: white;
+}
+
 #fileupload-view .uploading .bar {
+    margin-top: -17px;
     height: 18px;
     background: rgb(117, 172, 117);
     border-radius: 5px;

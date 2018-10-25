@@ -35,7 +35,9 @@ Backbone.DMS.FileModalView = function (options) {
 
     this.folderView = new Backbone.DMS.FolderView({
         model: this.model,
-        viewPermissions: this.options.permissions
+        viewPermissions: this.options.permissions,
+        uploadInmediate: this.options.uploadInmediate,
+        components: this.options.components
     })
 
     Backbone.View.apply(this, [options]);
@@ -56,12 +58,22 @@ _.extend(Backbone.DMS.FileModalView.prototype, Backbone.View.prototype, {
 
     initModel: function() {
         if(this.options.urlBase) {
-            this.model.urlRoot = this.options.urlBase;
+            this.setUrlBase(this.options.urlBase);
         }
         if(this.options.id) {
-            this.model.set('id', this.options.id);
+            this.setId(this.options.id);
         }
-        this.model.fetch();
+        if(this.options.urlBase && this.options.id){
+            this.model.fetch();
+        }
+    },
+
+    setUrlBase: function(urlBase) {
+        this.model.urlRoot = urlBase;
+    },
+
+    setId: function(id) {
+        this.model.set('id', id);
     },
 
     show: function() {
@@ -86,6 +98,10 @@ _.extend(Backbone.DMS.FileModalView.prototype, Backbone.View.prototype, {
         this.$el.unbind();
         this.off();
         Backbone.View.prototype.remove.call(this);
+    },
+
+    saveFiles: function() {
+        this.folderView.saveFiles();
     }
 
 });

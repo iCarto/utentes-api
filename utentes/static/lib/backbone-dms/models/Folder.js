@@ -30,19 +30,31 @@ _.extend(Backbone.DMS.Folder.prototype, Backbone.DMS.File.prototype, {
         }
     },
 
+    url: function() {
+        if(this.urlRoot && this.get('id')) {
+            return this.urlRoot + '/' + this.get('id');
+        }else{
+            return '';
+        }
+    },
+
     fetchFullFolder: function() {
         this.fetchFiles();
         this.fetchPath();
     },
 
     fetchFiles: function () {
-        this.get('files').fetch({
-            success: this.fetchFilesSuccess.bind(this)
-        });
+        if(this.get('files').url){
+            this.get('files').fetch({
+                success: this.fetchFilesSuccess.bind(this)
+            });
+        }
     },
 
     fetchPath() {
-        this.get('path').fetch();
+        if(this.get('path').url){
+            this.get('path').fetch();
+        }
     },
 
     fetchFilesSuccess: function(fileCollectionData) {
