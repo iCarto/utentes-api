@@ -10,7 +10,7 @@ Backbone.SIXHIARA.EstadoCollection = Backbone.UILib.DomainCollection.extend({
 
     forSearchView: function() {
 
-        if (window.SIRHA.is_single_user_mode()) {
+        if (! window.SIRHA.is_single_user_mode()) {
             return new Backbone.SIXHIARA.EstadoCollection(this.where({'parent': 'post-licenciada'}));
         } else {
             return new Backbone.SIXHIARA.EstadoCollection(this.models);

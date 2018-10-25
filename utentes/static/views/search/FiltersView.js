@@ -62,7 +62,10 @@ Backbone.SIXHIARA.FiltersView = Backbone.UILib.BaseView.extend({
     },
 
     setUtentesFilter: function(utentes) {
-        this.utentesView.update(utentes)
+        var utentesNotRepeated = _.uniq(utentes.models, function(domain) {
+            return domain.get('text')
+        })
+        this.utentesView.update(utentesNotRepeated)
     }
 
 });

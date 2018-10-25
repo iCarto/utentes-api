@@ -115,10 +115,7 @@ if (qparams.has('em_processo')) {
     estados.fetch({
         success: function() {
             var estadosFiltered = estados.filter(function(model){
-                var flag = model.get('parent') !== 'post-licenciada';
-                // Workaround. Review EstadosCollection to handle ara category
-                flag = flag && (model.get('category') !== 'ara');
-                return  flag;
+                return model.get('parent') !== 'post-licenciada';
             })
             estados = new Backbone.SIXHIARA.EstadoCollection(estadosFiltered);
             estadosFetched(estados);
