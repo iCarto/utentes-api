@@ -513,7 +513,7 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
         if (toValidate) {
             var licValidator = validator(LICENCIA_SCHEMA);
 
-            var ara = estados.getARA();
+            var ara = window.SIRHA.getARA();
             licValidator.addRule('LIC_NRO_FORMAT', {
                 fails: function (value) {
                     var re = RegExp('^\\d{3}\/' + ara + '\/\\d{4}\/(Sup|Sub)$');
@@ -671,6 +671,6 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
 });
 
 Backbone.SIXHIARA.Exploracao.EXP_ID_REGEXP = function() {
-    var ara = estados.getARA();
+    var ara = window.SIRHA.getARA();
     return new RegExp('^\\d{3}\/' + ara + '\/\\d{4}$');
 };

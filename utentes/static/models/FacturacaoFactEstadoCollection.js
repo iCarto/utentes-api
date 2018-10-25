@@ -36,9 +36,8 @@ Backbone.SIXHIARA.FacturacaoFactEstadoCollection = Backbone.UILib.DomainCollecti
     },
 
     forFacturacaoView: function() {
-        var ara = this.getARA();
 
-        if (ara === 'ARAS') {
+        if (window.SIRHA.is_single_user_mode()) {
             var states = this.availableFacturacaoStates();
             var foo = this.filter(function(e){
                 return states.indexOf(e.get('text')) !== -1
@@ -61,14 +60,6 @@ Backbone.SIXHIARA.FacturacaoFactEstadoCollection = Backbone.UILib.DomainCollecti
             return s.key;
         })
         return states;
-    },
-
-    getARA: function() {
-        if (!Backbone.SIXHIARA.EstadoCollection.ara) {
-            this.ara = this.byCategory('ara').at(0).get('key');
-            Backbone.SIXHIARA.EstadoCollection.ara = this.ara;
-        }
-        return Backbone.SIXHIARA.EstadoCollection.ara;
     },
 
     available: function(data) {

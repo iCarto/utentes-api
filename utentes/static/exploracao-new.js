@@ -7,7 +7,6 @@ $(document).ready(function() {
 
 
 var exploracao = new Backbone.SIXHIARA.Exploracao();
-var estados = new Backbone.SIXHIARA.EstadoCollection();
 var domains = new Backbone.UILib.DomainCollection();
 var expedientes = new Backbone.SIXHIARA.Expediente();
 expedientes.fetch();
@@ -42,69 +41,67 @@ function validateName() {
   }
 }
 
-estados.fetch({
-    success: function() {
-        var LIC_ST = Backbone.SIXHIARA.Estado;
-        var params = new URLSearchParams(document.location.search.substring(1));
-        var id = params.get('id');
-        if (id) {
-            exploracao.set('id', id, {silent: true});
-            exploracao.fetch({
-                parse: true,
-                success: function(){
-                    domains.fetch({
-                        success: function(collection, response, options) {
-                            fillComponentsWithDomains();
-                            if ((exploracao.get('estado_lic') !== LIC_ST.PENDING_FIELD_VISIT) && (exploracao.get('estado_lic') !== LIC_ST.INCOMPLETE_DT)) {
-                                // To avoid call it twice, for example clicking back browser button
-                                window.location = Backbone.SIXHIARA.Config.urlShow + exploracao.get('id');
-                            }
-                            exploracao.set('d_soli', new Date(exploracao.get('created_at')), {silent: true});
-                            doIt();
-                            document.getElementById('exp_id').readOnly = true;
-                            document.getElementById('d_soli').readOnly = true;
-                            document.querySelectorAll('#licencia-superficial #estado')[0].parentNode.remove();
-                            document.querySelectorAll('#licencia-subterranea #estado')[0].parentNode.remove();
-                            var nextState = wf.whichNextState(exploracao.get('estado_lic'), {target: {id: 'bt-ok'}});
-                            exploracao.set('state_to_set_after_validation', nextState);
-                        },
-                        error: function (collection, response, option) {
-                            console.log('error fetching domains');
-                        }
-                    });
-                },
-                error: function(){
-                    console.log('Error recuperando exploração');
-                }
-            });
-        } else {
+
+var LIC_ST = Backbone.SIXHIARA.Estado;
+var params = new URLSearchParams(document.location.search.substring(1));
+var id = params.get('id');
+if (id) {
+    exploracao.set('id', id, {silent: true});
+    exploracao.fetch({
+        parse: true,
+        success: function(){
             domains.fetch({
                 success: function(collection, response, options) {
                     fillComponentsWithDomains();
-                    if (estados.getARA() === 'ARAS') {
-                        exploracao.set({
-                            'estado_lic': LIC_ST.PENDING_FIELD_VISIT,
-                            'd_soli': new Date(),
-                        }, {silent: true});
+                    if ((exploracao.get('estado_lic') !== LIC_ST.PENDING_FIELD_VISIT) && (exploracao.get('estado_lic') !== LIC_ST.INCOMPLETE_DT)) {
+                        // To avoid call it twice, for example clicking back browser button
+                        window.location = Backbone.SIXHIARA.Config.urlShow + exploracao.get('id');
                     }
-                    exploracao.set('exp_id', expedientes.get('new_exp_id'), {silent: true});
-                    document.getElementById('exp_id').placeholder = expedientes.get('new_exp_id');
+                    exploracao.set('d_soli', new Date(exploracao.get('created_at')), {silent: true});
                     doIt();
-                    if (estados.getARA() === 'ARAS') {
-                        document.querySelectorAll('#licencia-superficial #estado')[0].parentNode.remove();
-                        document.querySelectorAll('#licencia-subterranea #estado')[0].parentNode.remove();
-                        exploracao.set('state_to_set_after_validation', Backbone.SIXHIARA.Estado.DE_FACTO, {silent: true});
-                        document.getElementById('save-button').innerHTML = 'Criar Utente de facto';
-                    }
+                    document.getElementById('exp_id').readOnly = true;
+                    document.getElementById('d_soli').readOnly = true;
+                    document.querySelectorAll('#licencia-superficial #estado')[0].parentNode.remove();
+                    document.querySelectorAll('#licencia-subterranea #estado')[0].parentNode.remove();
+                    var nextState = wf.whichNextState(exploracao.get('estado_lic'), {target: {id: 'bt-ok'}});
+                    exploracao.set('state_to_set_after_validation', nextState);
                 },
                 error: function (collection, response, option) {
                     console.log('error fetching domains');
                 }
             });
-
+        },
+        error: function(){
+            console.log('Error recuperando exploração');
         }
-    }
-});
+    });
+} else {
+    domains.fetch({
+        success: function(collection, response, options) {
+            fillComponentsWithDomains();
+            if (! window.SIRHA.is_single_user_mode()) {
+                exploracao.set({
+                    'estado_lic': LIC_ST.PENDING_FIELD_VISIT,
+                    'd_soli': new Date(),
+                }, {silent: true});
+            }
+            exploracao.set('exp_id', expedientes.get('new_exp_id'), {silent: true});
+            document.getElementById('exp_id').placeholder = expedientes.get('new_exp_id');
+            doIt();
+            if (! window.SIRHA.is_single_user_mode()) {
+                document.querySelectorAll('#licencia-superficial #estado')[0].parentNode.remove();
+                document.querySelectorAll('#licencia-subterranea #estado')[0].parentNode.remove();
+                exploracao.set('state_to_set_after_validation', Backbone.SIXHIARA.Estado.DE_FACTO, {silent: true});
+                document.getElementById('save-button').innerHTML = 'Criar Utente de facto';
+            }
+        },
+        error: function (collection, response, option) {
+            console.log('error fetching domains');
+        }
+    });
+
+}
+
 
 var utentes = new Backbone.SIXHIARA.UtenteCollection();
 utentes.fetch({

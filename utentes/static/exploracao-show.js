@@ -16,9 +16,6 @@ function idIsNotValid(id){
     return (id === undefined) || (id === null) || (id === '');
 }
 
-var estados = new Backbone.SIXHIARA.EstadoCollection();
-estados.fetch();
-
 
 var exploracaoModel = new Backbone.SIXHIARA.Exploracao();
 exploracaoModel.set('id', window.location.search.split('=')[1], {silent: true});

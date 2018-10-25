@@ -1,4 +1,4 @@
-if (window.SIRHA.ARA === 'DPMAIP') {
+if (window.SIRHA.getARA() === 'DPMAIP') {
     SIXHIARA = window.SIXHIARA || {
         center: [-12.5, 39.0],
         southWest: [-23, 31],
@@ -9,7 +9,7 @@ if (window.SIRHA.ARA === 'DPMAIP') {
     };
 }
 
-if (window.SIRHA.ARA === 'ARAN') {
+if (window.SIRHA.getARA() === 'ARAN') {
     SIXHIARA = window.SIXHIARA || {
         center: [-13, 38.5050],
         southWest: [-23, 31],
@@ -20,7 +20,7 @@ if (window.SIRHA.ARA === 'ARAN') {
     };
 }
 
-if (window.SIRHA.ARA === 'ARAS') {
+if (window.SIRHA.getARA() === 'ARAS') {
     SIXHIARA = window.SIXHIARA || {
         center: [-22.6, 33.8],
         southWest: [-29, 22],
@@ -31,7 +31,7 @@ if (window.SIRHA.ARA === 'ARAS') {
     };
 }
 
-if (window.SIRHA.ARA === 'ARAZ') {
+if (window.SIRHA.getARA() === 'ARAZ') {
     SIXHIARA = window.SIXHIARA || {
         center: [-16.98, 34.63],
         southWest: [-28.3, -6.76],
@@ -43,7 +43,7 @@ if (window.SIRHA.ARA === 'ARAZ') {
 }
 
 window.SIXHIARA.xlsFieldsToExport = {};
-if (window.SIRHA.ARA === 'DPMAIP') {
+if (window.SIRHA.getARA() === 'DPMAIP') {
     window.SIXHIARA.xlsFieldsToExport.exploracaos = [
         {'header': 'Nome utente', 'value': 'utente.nome'},
         {'header': 'Nuit', 'value': 'utente.nuit'},

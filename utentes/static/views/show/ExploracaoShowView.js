@@ -22,7 +22,12 @@ Backbone.SIXHIARA.ExploracaoShowView = Backbone.View.extend({
             success: function(collection, response, options) {
 
                 // TODO. Do not hide this here
-                if (estados.getARA() === 'ARAS') {
+                /* En el modo no-escritorio, el combo de estado en la ficha de la licencia
+                sólo puede mostrar o bien el estado actual de la licencia, cuando todavía está
+                en proceso. O bien uno de los posibles estados post-lic "de facto", "irregular",
+                "licenciada"
+                */
+                if (!window.SIRHA.is_single_user_mode()) {
                     var actualState = domains.where({'text':view.model.get('estado_lic')})[0];
                     domains.forEach(function(d){
                         if (d.get('category') === 'licencia_estado') {
