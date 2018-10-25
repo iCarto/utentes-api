@@ -123,4 +123,5 @@ Manteniendo esta definición en la API, el plugin podrá realizar todas las acci
 - Eliminar dependencia de FontAwesome
 - Eliminar dependendie de Bootbox
 - Configuración de textos o multidioma
+- Revisar funcionalidad de subida asíncrona (refactorizar, utilizar parámetros de configuración más acordes, visualización, etc)
 - Empaquetarlo como plugin en un único archivo
