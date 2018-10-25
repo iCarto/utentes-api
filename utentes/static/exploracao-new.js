@@ -2,6 +2,7 @@ $(document).ready(function() {
     $('#wizard-exp').bootstrapWizard({
         'withVisible': false
     });
+    document.body.style.cursor = 'wait';
 });
 
 
@@ -109,6 +110,7 @@ var utentes = new Backbone.SIXHIARA.UtenteCollection();
 utentes.fetch({
     success: function(collection, response, options) {
         fillSelectUtente();
+        document.body.style.cursor = 'default';
     },
     error: function (collection, response, options) {
         console.log('error fetching utentes');
