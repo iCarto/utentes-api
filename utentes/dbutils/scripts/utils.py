@@ -8,6 +8,15 @@ class DBUtilsException(Exception):
     pass
 
 
+def home_directory(user=''):
+    """
+    Returns the home directory of the current user if called without paremeters
+    or the user passed as parameter
+    """
+    from os.path import expanduser
+    return expanduser('~' + user)
+
+
 def connection_parameters(session):
     url = session.get_bind().url
     return {

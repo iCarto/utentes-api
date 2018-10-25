@@ -10,16 +10,8 @@ from utils import (
     connection_parameters,
     ensure_connection_is_available,
     get_custom_enviroment_with_password,
+    home_directory,
 )
-
-
-def home_directory(user=''):
-    """
-    Returns the home directory of the current user if called without paremeters
-    or the user passed as parameter
-    """
-    from os.path import expanduser
-    return expanduser('~' + user)
 
 
 def dump_filename(bdname=''):

@@ -2,6 +2,7 @@
 
 import datetime
 import decimal
+import os
 from pyramid.config import Configurator
 from pyramid.request import Request
 from pyramid.decorator import reify
@@ -12,8 +13,8 @@ from sqlalchemy.orm import sessionmaker
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
 
-from .user_utils import get_user_role, get_user_from_request
-
+from .user_utils import get_user_role, get_user_from_request, is_single_user_mode
+from utentes.dbutils.scripts.utils import home_directory
 
 class RequestWithDB(Request):
 
@@ -39,6 +40,9 @@ def decimal_adapter(obj, request):
 
 
 def main(global_config, **settings):
+    if is_single_user_mode(settings):
+        settings['media_root'] = os.path.join(home_directory(), settings['ara'], 'media')
+
     engine = engine_from_config(settings, 'sqlalchemy.')
     session_factory = sessionmaker(bind=engine)
     settings['db.session_factory'] = session_factory
@@ -78,7 +82,6 @@ def main(global_config, **settings):
     assets_env = config.get_webassets_env()
     jinja2_env = config.get_jinja2_environment()
     jinja2_env.assets_environment = assets_env
-
 
     config.add_static_view('static', 'static', cache_max_age=3600)
 
