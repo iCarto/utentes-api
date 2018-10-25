@@ -3,15 +3,42 @@ var exploracaos = new Backbone.SIXHIARA.ExploracaoCollection();
 var exploracaosFiltered = new Backbone.SIXHIARA.ExploracaoCollection();
 var domains = new Backbone.UILib.DomainCollection();
 var estados = new Backbone.SIXHIARA.EstadoCollection();
-var listView, mapView, numberOfResultsView;
+var listView, mapView, numberOfResultsView, filtersView;
+
+var setUtentesFilterFromExploracaos = function() {
+    var utentesListFromExploracaos = getUtentesList(exploracaos);
+    if(filtersView) {
+        filtersView.setUtentesFilter(utentesListFromExploracaos);
+    }
+};
+
+var getUtentesList = function(exploracaos) {
+    var utentesFilterList = exploracaos
+        .reject(function(exploracao){
+            return !exploracao.get('utente') || !exploracao.get('utente').get('id');
+        })
+        .map(function(exploracao){
+            var utente = exploracao.get('utente');
+            return new Backbone.UILib.Domain({
+                'category': 'utente',
+                'text': utente.get('nome'),
+            });
+        });
+    utentesFilterList.unshift(new Backbone.UILib.Domain({
+        'orden': 0
+    }));
+    return new Backbone.UILib.DomainCollection(utentesFilterList);
+};
 
 var domainsFetched = function(collection, response, options) {
-    new Backbone.SIXHIARA.FiltersView({
+    filtersView = new Backbone.SIXHIARA.FiltersView({
         el: $('#filters'),
         model: where,
         domains: domains,
         states: estados.length ? estados.forSearchFilterView() : undefined,
     }).render();
+    this.setUtentesFilterFromExploracaos();
+
     exploracaos.listenTo(where, 'change', function(model, options){
         if (!model) return;
         var keys = _.keys(model.changed);
@@ -35,6 +62,7 @@ var domainsFetched = function(collection, response, options) {
 var exploracaosFetched = function() {
 
     exploracaosFiltered = new Backbone.SIXHIARA.ExploracaoCollection(exploracaos.models);
+    this.setUtentesFilterFromExploracaos();
 
     listView = new Backbone.UILib.ListView({
         el: $('#project_list'),

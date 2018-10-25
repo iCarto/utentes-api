@@ -22,18 +22,18 @@ Backbone.SIXHIARA.FiltersView = Backbone.UILib.BaseView.extend({
         }));
 
         // select views
-        this.addView(
-    new Backbone.SIXHIARA.SelectLocationView({
-        domains: domains,
-        model: this.model,
-        domainsKeys: ['provincia', 'distrito', 'posto'],
-        el: this.$el,
-    })
-    );
-        this.addView(new Backbone.UILib.SelectView({
+        this.addView(new Backbone.SIXHIARA.SelectLocationView({
+            domains: domains,
+            model: this.model,
+            domainsKeys: ['provincia', 'distrito', 'posto'],
+            el: this.$el,
+        }));
+
+        this.utentesView = new Backbone.UILib.SelectView({
             el: this.$('#utente'),
             collection: utentes
-        }));
+        });
+        this.addView(this.utentesView);
 
         this.addView(new Backbone.UILib.SelectView({
             el: this.$('#estado'),
@@ -60,5 +60,9 @@ Backbone.SIXHIARA.FiltersView = Backbone.UILib.BaseView.extend({
             collection: actividades
         }));
     },
+
+    setUtentesFilter: function(utentes) {
+        this.utentesView.update(utentes)
+    }
 
 });
