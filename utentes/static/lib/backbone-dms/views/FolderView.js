@@ -73,8 +73,8 @@ Backbone.DMS.FolderView = Backbone.View.extend({
         return this.options.components ? this.options.components : ["breadcrumb", "upload", "zip", "files"];
     },
 
-    saveFiles: function() {
-        this.fileUploadView.savePendingFiles();
+    saveFiles: function(options) {
+        this.fileUploadView.savePendingFiles(options);
     }
 
 });

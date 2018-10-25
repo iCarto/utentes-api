@@ -26,7 +26,7 @@ Backbone.DMS.FileUploadView = Backbone.View.extend({
         this.options = options || {};
         this.createViews();
         this.createListeners();
-        _.bindAll(this, 'updatePostUrl', 'updatePendingFileUrl', 'savePendingFiles', 'onFileAdd', 'onUploadProgress', 'onUploadDone', 'onUploadError', 'showErrors');
+        _.bindAll(this, 'updatePostUrl', 'updatePendingFileUrl', 'savePendingFiles', 'onFileAdd', 'onUploadProgress', 'onUploadDone', 'onUploadsFinished', 'onUploadError', 'showErrors');
     },
 
     createListeners: function() {
@@ -50,6 +50,7 @@ Backbone.DMS.FileUploadView = Backbone.View.extend({
                 progress: this.onUploadProgress,
                 done: this.onUploadDone,
                 fail: this.onUploadError,
+                stop: this.onUploadsFinished,
                 dropZone: this.$el.find('.fileupload')
             });
         }
@@ -67,7 +68,9 @@ Backbone.DMS.FileUploadView = Backbone.View.extend({
         data.url = this.model.get('folder').url()
     },
 
-    savePendingFiles: function() {
+    savePendingFiles: function(savePendingFilesOptions) {
+        this.savePendingFilesOptions = savePendingFilesOptions || {};
+        this.$el.find('.dropzone').hide();
         var pendingFiles = this.model.get('pendingFiles');
         pendingFiles.forEach(function(pendingFile){
             var data = pendingFile.get('data');
@@ -102,6 +105,12 @@ Backbone.DMS.FileUploadView = Backbone.View.extend({
     onUploadDone: function(e, data) {
         this.model.addUploadedFile(data.files[0].name);
         this.removeFileFromUploading(data);
+    },
+
+    onUploadsFinished: function() {
+        if(this.savePendingFilesOptions && this.savePendingFilesOptions.uploadFinished) {
+            this.savePendingFilesOptions.uploadFinished(!this.hasErrors());
+        }
     },
 
     onUploadError: function(error, data) {
@@ -141,9 +150,15 @@ Backbone.DMS.FileUploadView = Backbone.View.extend({
             }
         ));
         this.$el.children('#errors').append(error);
-        setTimeout(function(){
-            error.hide('slow');
-        }, 10000);
+        if(this.model.get('uploadInmediate')) {
+            setTimeout(function(){
+                error.hide('slow');
+            }, 10000);
+        }
+    },
+
+    hasErrors: function() {
+        return this.$el.children('#errors').children().length > 0;
     },
 
     getFileUploadId: function(filename) {

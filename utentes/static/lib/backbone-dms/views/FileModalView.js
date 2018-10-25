@@ -18,7 +18,7 @@ Backbone.DMS.FileModalView = function (options) {
                     '<div class="modal-footer">' +
                         '<div class="row">' +
                             '<div class="col-xs-offset-1 col-xs-10">' +
-                                '<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>' +
+                                '<button type="button" class="close-button btn btn-default" data-dismiss="modal">Cerrar</button>' +
                             '</div>' +
                         '</div>' +
                     '</div>' +
@@ -100,8 +100,12 @@ _.extend(Backbone.DMS.FileModalView.prototype, Backbone.View.prototype, {
         Backbone.View.prototype.remove.call(this);
     },
 
-    saveFiles: function() {
-        this.folderView.saveFiles();
+    saveFiles: function(options) {
+        this.folderView.saveFiles(options);
+    },
+
+    hideCloseButton: function() {
+        this.$('.close-button').hide();
     }
 
 });

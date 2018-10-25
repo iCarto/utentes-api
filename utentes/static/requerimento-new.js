@@ -116,23 +116,30 @@ function fillExploracao(e, autosave) {
 
                     var departamento = wf.isAdmin() ? ROL_ADMINISTRATIVO : wf.getRole();
                     var url = Backbone.SIXHIARA.Config.apiExploracaos + '/' + model.get('id') + '/documentos';
+                    fileModalView.show();
                     fileModalView.setUrlBase(url);
-                    console.log(departamento)
                     fileModalView.setId(departamento);
-                    fileModalView.saveFiles();
-
-                    bootbox.alert(`A exploração&nbsp;<strong>${exp_id} - ${exp_name}</strong>&nbsp;tem sido criada correctamente.`, function(){
-                        window.location = Backbone.SIXHIARA.Config.urlPendentes;
+                    fileModalView.saveFiles({
+                        uploadFinished: function(success) {
+                            if(success) {
+                                fileModalView._close();
+                                bootbox.alert(`A exploração&nbsp;<strong>${exp_id} - ${exp_name}</strong>&nbsp;tem sido criada correctamente.`, function(){
+                                    window.location = Backbone.SIXHIARA.Config.urlPendentes;
+                                });
+                            }else{
+                                bootbox.alert(`<span style="color: red;">A exploração&nbsp;<strong>${exp_id} - ${exp_name}</strong>&nbsp;tem sido criada correctamente, pero produziu-se um erro ao enviar os arquivos. Informe ao administrador.</strong>`);
+                            }
+                        }
                     });
+
                 },
                 'error': function() {
                     bootbox.alert('<span style="color: red;">Produziu-se um erro. Informe ao administrador.</strong>');
-                },
+                }
             }
         );
     });
 
 };
-
 
 init();
