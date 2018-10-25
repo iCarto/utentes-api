@@ -55,11 +55,50 @@ Backbone.UILib.DomainCollection = Backbone.UILib.DomainCollection.extend({
 
 
 ROL_ADMIN = 'Administrador';
-ROL_ADMINISTRATIVO = 'D. Administrativo';
-ROL_FINANCIERO = 'D. Financeiro';
+ROL_ADMINISTRATIVO = 'Departamento Administrativo'; // DA
+ROL_FINANCIERO = 'Departamento Financeiro'; // DF
 ROL_DIRECCION = 'Direcção';
-ROL_TECNICO = 'D. Técnico';
-ROL_JURIDICO = 'D. Jurídico';
+ROL_TECNICO = 'Departamento Técnico';  // DT
+ROL_JURIDICO = 'Departamento Jurídico'; // DJ
+ROL_SINGLE_SAFE = 'single'
+
+var role_domains_collection = new Backbone.UILib.DomainCollection([
+    {
+        'category': 'groups',
+        'text': null,
+        'order': 0,
+    },
+    {
+        'category': 'groups',
+        'text': ROL_ADMIN,
+        'order': 1,
+    },
+    {
+        'category': 'groups',
+        'text': ROL_ADMINISTRATIVO,
+        'order': 2,
+    },
+    {
+        'category': 'groups',
+        'text': ROL_DIRECCION,
+        'order': 3,
+    },
+    {
+        'category': 'groups',
+        'text': ROL_FINANCIERO,
+        'order': 4,
+    },
+    {
+        'category': 'groups',
+        'text': ROL_JURIDICO,
+        'order': 5,
+    },
+    {
+        'category': 'groups',
+        'text': ROL_TECNICO,
+        'order': 6,
+    },
+]);
 
 window.bootbox && bootbox.addLocale('pt-mz', {
     OK: 'Aceitar',

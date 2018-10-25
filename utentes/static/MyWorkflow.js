@@ -1,6 +1,6 @@
 var MyWorkflow = {
 
-    UNIQUE_USER: 'UNIQUE_USER',
+    SINGLE_USER: 'SINGLE_USER',
     USER_COOKIE_KEY: 'utentes_stub_user',
 
     getUser: function() {
@@ -9,7 +9,7 @@ var MyWorkflow = {
     },
 
     getRole: function() {
-        // Usar además del ROL el ARA o tener un ROL_UNIQUE_USER
+        // Usar además del ROL el ARA o tener un ROL_SINGLE_USER
         // En todo caso los ROLES deberian ser una clase aparte
         var role = document.cookie.replace(/(?:(?:^|.*;\s*)utentes_stub_role\s*\=\s*([^;]*).*$)|^.*$/, '$1');
         role = decodeURIComponent(role);
@@ -31,13 +31,11 @@ var MyWorkflow = {
     getAllRolesSafe: function() {
         var roles = [this.getRoleSafe()];
 
-        if (this.getUser() === this.UNIQUE_USER) {
-            roles.push('unique');
+        if (this.getUser() === this.SINGLE_USER) {
+            roles.push(ROL_SINGLE_SAFE);
         }
         return roles;
     },
-
-
 
 
     getRoleSafe: function(role) {
@@ -60,14 +58,14 @@ var MyWorkflow = {
         }
     },
 
-    isAdmin(role) {
+    isAdmin: function(role) {
         if(!role) {
             role = wf.getRole();
         }
         return role === ROL_ADMIN;
     },
 
-    isDirector(role) {
+    isDirector: function(role) {
         if(!role) {
             role = wf.getRole();
         }
@@ -96,7 +94,7 @@ var MyWorkflow = {
 
         document.getElementById('user-info').innerHTML = this.getUser();
 
-        if (this.getUser() === this.UNIQUE_USER) {
+        if (this.getUser() === this.SINGLE_USER) {
             document.getElementById('requerimento-new').parentNode.remove();
             document.getElementById('facturacao').parentNode.remove();
             document.getElementById('requerimento-pendente').parentNode.remove();

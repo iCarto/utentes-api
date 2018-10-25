@@ -1,41 +1,5 @@
 var user = new Backbone.SIXHIARA.User();
-var domains = new Backbone.UILib.DomainCollection([
-    {
-        'category': 'groups',
-        'text': null,
-        'order': 0,
-    },
-    {
-        'category': 'groups',
-        'text': 'Administrador',
-        'order': 1,
-    },
-    {
-        'category': 'groups',
-        'text':'D. Administrativo',
-        'order': 2,
-    },
-    {
-        'category': 'groups',
-        'text':'Direcção',
-        'order': 3,
-    },
-    {
-        'category': 'groups',
-        'text':'D. Financeiro',
-        'order': 4,
-    },
-    {
-        'category': 'groups',
-        'text':'D. Jurídico',
-        'order': 5,
-    },
-    {
-        'category': 'groups',
-        'text':'D. Técnico',
-        'order': 6,
-    },
-]);
+
 
 var id = document.getElementById('userid').innerHTML;
 user.set('id', id);
@@ -44,7 +8,7 @@ user.fetch({
     success: function() {
         new Backbone.UILib.SelectView({
             el: this.$('#usergroup'),
-            collection: domains.byCategory('groups'),
+            collection: role_domains_collection.byCategory('groups'),
         }).render();
         document.getElementById('usergroup').disabled = true;
         new Backbone.UILib.WidgetsView({

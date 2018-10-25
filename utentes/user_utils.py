@@ -9,11 +9,13 @@ from pyramid.security import Authenticated
 from utentes.models.user import User
 
 ROL_ADMIN = u'Administrador'
-ROL_ADMINISTRATIVO = u'D. Administrativo'
-ROL_FINANCIERO = u'D. Financeiro'
+ROL_ADMINISTRATIVO = u'Departamento Administrativo'  # DA
+ROL_FINANCIERO = u'Departamento Financeiro'  # DF
 ROL_DIRECCION = u'Direcção'
-ROL_TECNICO = u'D. Técnico'
-ROL_JURIDICO = u'D. Jurídico'
+ROL_TECNICO = u'Departamento Técnico'
+ROL_JURIDICO = u'Departamento Jurídico'  # DJ
+
+SINGLE_USER = 'SINGLE_USER'
 
 PERM_ADMIN = 'admin'
 PERM_UTENTES = 'create_update_utente'
@@ -115,20 +117,20 @@ def get_user_from_db(request):
 
 
 VALID_LOGINS = {
-    'admin': u'Administrador',
-    'administrativo': u'D. Administrativo',
-    'financieiro': u'D. Financeiro',
-    'secretaria': u'Direcção',
-    'tecnico': u'D. Técnico',
-    'juridico': u'D. Jurídico',
+    'admin': ROL_ADMIN,
+    'administrativo': ROL_ADMINISTRATIVO,
+    'financieiro': ROL_FINANCIERO,
+    'secretaria': ROL_DIRECCION,
+    'tecnico': ROL_TECNICO,
+    'juridico': ROL_JURIDICO,
 }
 
 
 def get_unique_user():
     return User.create_from_json({
-        'username': 'UNIQUE_USER',
-        'usergroup': 'Administrador',
-        'password': 'UNIQUE_USER'
+        'username': SINGLE_USER,
+        'usergroup': ROL_ADMIN,
+        'password': SINGLE_USER
         })
 
 
