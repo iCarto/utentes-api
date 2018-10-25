@@ -9,6 +9,11 @@ Backbone.DMS.FileUploadingCollectionView = Backbone.View.extend({
         this.createListeners();
     },
 
+    render: function() {
+        this.renderFileUploadingCollection();
+        return this;
+    },
+
     createListeners: function() {
         this.listenTo(this.model, 'add', this.renderFileUploadingCollection);
         this.listenTo(this.model, 'remove', this.removeFileUploading);

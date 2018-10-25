@@ -3,8 +3,15 @@ Backbone.DMS.FileUploadingView = Backbone.View.extend({
     tagName: 'div',
     className: 'file-uploading',
 
+    events: {
+        'click .fa-close': 'removeFile'
+    },
+
     template: _.template(
-        '<span><%=data.name%></span>' +
+        '<div class="data">' +
+            '<span><%=data.name%></span>' +
+            '<i class="fa fa-close"></i>' +
+        '</div>' +
         '<div class="bar-container" style="width: 100%;">' +
             '<span></span>' +
             '<div class="bar" style="width: 0%;"></div>' +
@@ -43,6 +50,10 @@ Backbone.DMS.FileUploadingView = Backbone.View.extend({
             text = 'Salvando...'
         }
         this.$el.find('.bar-container span').text(text);
+    },
+
+    removeFile: function() {
+        this.model.trigger("destroy", this.model);
     }
 
 });

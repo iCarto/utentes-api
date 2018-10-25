@@ -119,6 +119,15 @@
     margin-bottom: 10px;
 }
 
+#fileupload-view .uploading .file-uploading .data {
+    display: flex;
+    justify-content: space-between;
+}
+
+#fileupload-view .uploading .file-uploading .data .fa-close {
+    cursor: pointer;
+}
+
 #fileupload-view .uploading .bar-container {
     height: 18px;
     background: #ccc;
