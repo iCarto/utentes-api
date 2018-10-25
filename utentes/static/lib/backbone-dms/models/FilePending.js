@@ -1,6 +1,6 @@
 Backbone.DMS = Backbone.DMS || {};
 
-Backbone.DMS.FilePendent = Backbone.Model.extend({
+Backbone.DMS.FilePending = Backbone.Model.extend({
 
     defaults: {
         'id': null,

@@ -81,11 +81,11 @@ Backbone.DMS.FileUploadView = Backbone.View.extend({
         if(errors.length > 0) {
             this.showErrors(filename, errors)
         }else{
-            var filePendent = new Backbone.DMS.FilePendent({
+            var pendingFile = new Backbone.DMS.FilePending({
                 filename: filename,
                 data: data
             })
-            this.model.get('pendingFiles').add(filePendent);
+            this.model.get('pendingFiles').add(pendingFile);
             if(this.model.get('uploadInmediate')) {
                 data.submit();
             }
@@ -95,8 +95,8 @@ Backbone.DMS.FileUploadView = Backbone.View.extend({
     onUploadProgress: function(e, data) {
         var progress = parseInt(data.loaded / data.total * 100, 10);
         var filename = data.files[0].name;
-        var filePendent = this.model.get('pendingFiles').get(filename);
-        filePendent.set('progress', progress);
+        var pendingFile = this.model.get('pendingFiles').get(filename);
+        pendingFile.set('progress', progress);
     },
 
     onUploadDone: function(e, data) {
@@ -115,8 +115,8 @@ Backbone.DMS.FileUploadView = Backbone.View.extend({
 
     removeFileFromUploading: function(data){
         var filename = data.files[0].name;
-        var filePendent = this.model.get('pendingFiles').get(filename)
-        this.model.get('pendingFiles').remove(filePendent);
+        var pendingFile = this.model.get('pendingFiles').get(filename)
+        this.model.get('pendingFiles').remove(pendingFile);
     },
 
     validate: function(data) {
