@@ -15,6 +15,7 @@ from utentes.lib.schema_validator.validation_exception import ValidationExceptio
 
 PGSQL_SCHEMA_UTENTES = 'utentes'
 PGSQL_SCHEMA_DOMAINS = 'domains'
+PGSQL_SCHEMA_USERS = 'utentes'
 
 
 class BaseClass(object):

@@ -2,23 +2,19 @@
 
 import bcrypt
 
-from sqlalchemy import Column, Integer, Text, DateTime,  text, TIMESTAMP
+from sqlalchemy import Column, Integer, Text, DateTime, text, TIMESTAMP
 from sqlalchemy import func
 
 from utentes.lib.schema_validator.validator import Validator
 from utentes.lib.schema_validator.validation_exception import ValidationException
 
 from user_schema import USER_SCHEMA
-
-from utentes.models.base import (
-    Base,
-    PGSQL_SCHEMA_UTENTES,
-)
+from utentes.models.base import Base, PGSQL_SCHEMA_USERS
 
 
 class User(Base):
     __tablename__ = 'users'
-    __table_args__ = {u'schema': PGSQL_SCHEMA_UTENTES}
+    __table_args__ = {u'schema': PGSQL_SCHEMA_USERS}
     __mapper_args__ = {
         'order_by': 'username'
     }
