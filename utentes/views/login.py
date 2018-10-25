@@ -3,14 +3,14 @@ from pyramid.httpexceptions import HTTPFound
 from pyramid.view import view_config
 from pyramid.security import remember
 
-from utentes.user_utils import get_user_from_db, get_unique_user
+from utentes.user_utils import get_user_from_db, get_unique_user, ROL_FINANCIERO, is_single_user_mode
 
 
 @view_config(route_name='index', renderer='utentes:templates/login.jinja2')
 @view_config(route_name='login', renderer='utentes:templates/login.jinja2')
 def login(request):
 
-    if request.registry.settings.get('ara') == 'ARAN':
+    if is_single_user_mode():
         user = get_unique_user()
         headers = remember(request, user.username)
         response = HTTPFound(
@@ -43,7 +43,7 @@ def login(request):
         user = get_user_from_db(request)
         if user:
             headers = remember(request, user.username)
-            if user.usergroup == u'D. Financeiro' and next == request.route_url(request.registry.settings.get('users.after_login_url')):
+            if user.usergroup == ROL_FINANCIERO and next == request.route_url(request.registry.settings.get('users.after_login_url')):
                 next = request.route_url('facturacao')
             response = HTTPFound(
                 location=next,

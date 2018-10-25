@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
-from pyramid.security import authenticated_userid
-
-from pyramid.security import Allow
-from pyramid.security import Authenticated
+from pyramid.security import (
+    authenticated_userid,
+    Allow,
+    Authenticated,
+)
+from pyramid.threadlocal import get_current_registry
 
 from utentes.models.user import User
 
@@ -73,8 +75,13 @@ class RootFactory(object):
         pass
 
 
+def is_single_user_mode(settings=None):
+    settings = settings or get_current_registry().settings
+    return settings.get('ara') in ['ARAN', 'DPMAIP']
+
+
 def get_user_role(username, request):
-    if request.registry.settings.get('ara') == 'ARAN':
+    if is_single_user_mode():
         return [get_unique_user().usergroup]
     try:
         user = request.db.query(User).filter(User.username == username).one()
@@ -84,7 +91,7 @@ def get_user_role(username, request):
 
 
 def get_user_from_request(request):
-    if request.registry.settings.get('ara') == 'ARAN':
+    if is_single_user_mode():
         return get_unique_user()
 
     username = authenticated_userid(request)
@@ -98,7 +105,7 @@ def get_user_from_request(request):
 
 
 def get_user_from_db(request):
-    if request.registry.settings.get('ara') == 'ARAN':
+    if is_single_user_mode():
         return get_unique_user()
     from pyramid.settings import asbool
     if asbool(request.registry.settings.get('users.debug')):
