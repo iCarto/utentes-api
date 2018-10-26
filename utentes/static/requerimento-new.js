@@ -64,6 +64,20 @@ function enableBts() {
     validateName(exp_name.value);
 };
 
+function savePendingFiles(model) {
+    fileModalView.saveFiles({
+        uploadFinished: function(success) {
+            if(success) {
+                fileModalView._close();
+                bootbox.alert(`A exploração&nbsp;<strong>${model.get('exp_id')} - ${model.get('exp_name')}</strong>&nbsp;tem sido criada correctamente.`, function(){
+                    window.location = Backbone.SIXHIARA.Config.urlPendentes;
+                });
+            }else{
+                bootbox.alert(`<span style="color: red;">A exploração&nbsp;<strong>${model.get('exp_id')} - ${model.get('exp_name')}</strong>&nbsp;tem sido criada correctamente, pero produziu-se um erro ao enviar os arquivos. Informe ao administrador.</strong>`);
+            }
+        }
+    });
+}
 
 function fillExploracao(e, autosave) {
     var exploracao = new Backbone.SIXHIARA.Exploracao({'estado_lic': Backbone.SIXHIARA.Estado.NOT_EXISTS});
@@ -119,19 +133,7 @@ function fillExploracao(e, autosave) {
                     fileModalView.show();
                     fileModalView.setUrlBase(url);
                     fileModalView.setId(departamento);
-                    fileModalView.saveFiles({
-                        uploadFinished: function(success) {
-                            if(success) {
-                                fileModalView._close();
-                                bootbox.alert(`A exploração&nbsp;<strong>${exp_id} - ${exp_name}</strong>&nbsp;tem sido criada correctamente.`, function(){
-                                    window.location = Backbone.SIXHIARA.Config.urlPendentes;
-                                });
-                            }else{
-                                bootbox.alert(`<span style="color: red;">A exploração&nbsp;<strong>${exp_id} - ${exp_name}</strong>&nbsp;tem sido criada correctamente, pero produziu-se um erro ao enviar os arquivos. Informe ao administrador.</strong>`);
-                            }
-                        }
-                    });
-
+                    fileModalView.onShown(savePendingFiles, model);
                 },
                 'error': function() {
                     bootbox.alert('<span style="color: red;">Produziu-se um erro. Informe ao administrador.</strong>');

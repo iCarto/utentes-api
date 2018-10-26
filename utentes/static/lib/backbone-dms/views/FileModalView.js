@@ -88,6 +88,12 @@ _.extend(Backbone.DMS.FileModalView.prototype, Backbone.View.prototype, {
         this.$('.modal').modal('show');
     },
 
+    onShown: function(callback, options) {
+        this.$('.modal').on('shown.bs.modal', function(){
+            callback(options);
+        });
+    },
+
     _close: function() {
         this.$('.modal').unbind();
         this.$('.modal').remove();
