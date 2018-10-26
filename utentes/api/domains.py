@@ -2,7 +2,6 @@
 
 from pyramid.view import view_config
 
-from utentes.models.utente import Utente
 from utentes.models.domain import Domain
 from utentes.user_utils import PERM_GET
 
@@ -17,12 +16,4 @@ def domains_get(request):
         'order': 0,
         'parent': ''
     })
-    for u in request.db.query(Utente):
-        domains.append({
-            'category': 'utente',
-            'text': u.nome,
-            'alias': '',
-            'order': None,
-            'parent': ''
-        })
     return domains
