@@ -128,12 +128,19 @@ function fillExploracao(e, autosave) {
                     var exp_id = model.get('exp_id');
                     var exp_name = model.get('exp_name');
 
-                    var departamento = wf.isAdmin() ? ROL_ADMINISTRATIVO : wf.getRole();
-                    var url = Backbone.SIXHIARA.Config.apiExploracaos + '/' + model.get('id') + '/documentos';
-                    fileModalView.show();
-                    fileModalView.setUrlBase(url);
-                    fileModalView.setId(departamento);
-                    fileModalView.onShown(savePendingFiles, model);
+                    if(fileModalView.hasPendingFiles()) {
+                        console.log('hasPendingFiles')
+                        var departamento = wf.isAdmin() ? ROL_ADMINISTRATIVO : wf.getRole();
+                        var url = Backbone.SIXHIARA.Config.apiExploracaos + '/' + model.get('id') + '/documentos';
+                        fileModalView.show();
+                        fileModalView.setUrlBase(url);
+                        fileModalView.setId(departamento);
+                        fileModalView.onShown(savePendingFiles, model);
+                    }else{
+                        bootbox.alert(`A exploração&nbsp;<strong>${model.get('exp_id')} - ${model.get('exp_name')}</strong>&nbsp;tem sido criada correctamente.`, function(){
+                            window.location = Backbone.SIXHIARA.Config.urlPendentes;
+                        });
+                    }
                 },
                 'error': function() {
                     bootbox.alert('<span style="color: red;">Produziu-se um erro. Informe ao administrador.</strong>');

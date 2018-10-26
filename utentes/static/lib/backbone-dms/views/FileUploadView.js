@@ -157,6 +157,10 @@ Backbone.DMS.FileUploadView = Backbone.View.extend({
         }
     },
 
+    hasPendingFiles: function() {
+        return this.model.get('pendingFiles').length > 0;
+    },
+
     hasErrors: function() {
         return this.$el.children('#errors').children().length > 0;
     },

@@ -106,6 +106,10 @@ _.extend(Backbone.DMS.FileModalView.prototype, Backbone.View.prototype, {
         Backbone.View.prototype.remove.call(this);
     },
 
+    hasPendingFiles: function() {
+        return this.folderView.hasPendingFiles();
+    },
+
     saveFiles: function(options) {
         this.folderView.saveFiles(options);
     },
