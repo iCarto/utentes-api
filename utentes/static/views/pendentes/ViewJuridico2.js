@@ -54,7 +54,7 @@ Backbone.SIXHIARA.ViewJuridico2 = Backbone.SIXHIARA.View1.extend({
             </tr>
             <% for (var i=0; i<licencias.length; i+=1) { %>
                 <%- licencias[i].printed %>
-                <tr class="printed-licenses-checkboxes">
+                <tr class="hidden">
                   <td>Licença <%= licencias[i].tipo_agua %> impressa</td>
                   <td><input id="license<%= licencias[i].lic_nro.substring(licencias[i].lic_nro.length, licencias[i].lic_nro.length -3) %>" type="checkbox" <%- licencias[i].printed ? 'checked=""' : '' %> required disabled></td>
                 </tr>
@@ -203,7 +203,7 @@ print('O ' + formatter().formatDate(req_obs[i]['create_at']) + ', ' + req_obs[i]
                     datosAra.fetch({
                         success: function(model, resp, options) {
                             data.ara = resp
-                            data.ara.logoUrl = Backbone.SIXHIARA.araLogos[SIRHA.ARA];
+                            data.ara.logoUrl = 'static/img/' + window.SIRHA.getARA() + '_logo.png';
                             var docxGenerator = new Backbone.SIXHIARA.DocxGeneratorView({
                                 model: self.model,
                                 data: data

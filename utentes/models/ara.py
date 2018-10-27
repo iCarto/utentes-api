@@ -6,16 +6,14 @@ from sqlalchemy.dialects.postgresql.json import JSONB
 from utentes.models.base import (
     Base,
     PGSQL_SCHEMA_UTENTES,
-    update_array,
 )
+
 
 class Ara(Base):
     __tablename__ = 'datos_aras'
     __table_args__ = {u'schema': PGSQL_SCHEMA_UTENTES}
 
-    id = Column(
-        Text,
-        primary_key=True)
+    id = Column(Text, primary_key=True)
     name = Column(Text, nullable=False, doc='Nome da Ara')
     nuit = Column(Text, nullable=False, doc='Nuit da Ara')
     endereco = Column(JSONB, doc='Direccion')
