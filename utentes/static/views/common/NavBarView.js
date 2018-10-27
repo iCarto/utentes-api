@@ -5,7 +5,7 @@ Backbone.SIXHIARA.NavBarView = Backbone.View.extend({
         <nav class="navbar navbar-static-top">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <img class="navbar-brand" src="/static/img/logo.png" alt="Logo" />
+                    <img class="navbar-brand" src="/static/img/${window.SIRHA.getARA()}_logo.png" alt="Logo" />
                 </div>
 
                 <ul class="nav navbar-nav">
