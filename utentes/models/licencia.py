@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from sqlalchemy import Boolean, Column, Date, ForeignKey, Integer, Numeric, Text, text
+from sqlalchemy import Column, Date, ForeignKey, Integer, Numeric, Text, text
 
 from utentes.lib.formatter.formatter import to_decimal, to_date
 from utentes.models.base import Base, PGSQL_SCHEMA_UTENTES
@@ -42,7 +42,6 @@ class Licencia(Base):
     pago_iva = Column(Numeric(10, 2), doc='Valor com IVA')
     consumo_tipo = Column(Text, nullable=False, server_default=text("'Variável'::text"))
     consumo_fact = Column(Numeric(10, 2), doc='Consumo facturado mensal')
-    printed = Column(Boolean, doc='Licença impressa')
     exploracao = Column(
         ForeignKey(
             u'utentes.exploracaos.gid',
@@ -65,7 +64,6 @@ class Licencia(Base):
         self.cadastro = json.get('cadastro')
         self.n_licen_a = json.get('n_licen_a')
         self.estado = json.get('estado')
-        self.printed = json.get('printed')
         self.d_emissao = to_date(json.get('d_emissao'))
         self.d_validade = to_date(json.get('d_validade'))
         self.c_soli_tot = to_decimal(json.get('c_soli_tot'))
@@ -92,7 +90,6 @@ class Licencia(Base):
             'cadastro': self.cadastro,
             'n_licen_a': self.n_licen_a,
             'estado': self.estado,
-            'printed': self.printed,
             'd_emissao': self.d_emissao,
             'd_validade': self.d_validade,
             'c_soli_tot': self.c_soli_tot,

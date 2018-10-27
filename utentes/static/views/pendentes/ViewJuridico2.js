@@ -52,14 +52,9 @@ Backbone.SIXHIARA.ViewJuridico2 = Backbone.SIXHIARA.View1.extend({
               <td>Parecer de instituições relevantes</td>
               <td><input id="p_rel" type="checkbox" <%- p_rel ? 'checked=""' : '' %> required></td>
             </tr>
-            <% for (var i=0; i<licencias.length; i+=1) { %>
-                <%- licencias[i].printed %>
-                <tr class="hidden">
-                  <td>Licença <%= licencias[i].tipo_agua %> impressa</td>
-                  <td><input id="license<%= licencias[i].lic_nro.substring(licencias[i].lic_nro.length, licencias[i].lic_nro.length -3) %>" type="checkbox" <%- licencias[i].printed ? 'checked=""' : '' %> required disabled></td>
-                </tr>
-            <% } %>
-
+            <tr class="hidden">
+            <td>Licença impressa</td>
+            <td><input id="lic_imp" type="checkbox" <%- lic_imp ? 'checked=""' : '' %> required></td>
           </tbody>
         </table>
       </div>
@@ -195,34 +190,22 @@ print('O ' + formatter().formatDate(req_obs[i]['create_at']) + ', ' + req_obs[i]
                                               .concat(data.exp_name)
                                               .concat('.docx');
         var self = this;
-        var saveLicencia = new Backbone.SIXHIARA.LicenseSaveIsPrinted({id: data.licencia.id});
+
         var datosAra = new Backbone.SIXHIARA.AraGetData();
-        saveLicencia.fetch({
+        datosAra.fetch({
             success: function(model, resp, options) {
-                if (resp) {
-                    datosAra.fetch({
-                        success: function(model, resp, options) {
-                            data.ara = resp
-                            data.ara.logoUrl = 'static/img/' + window.SIRHA.getARA() + '_logo.png';
-                            var docxGenerator = new Backbone.SIXHIARA.DocxGeneratorView({
-                                model: self.model,
-                                data: data
-                            });
-                            $("#license".concat(licenseSortName)).attr('checked', true).trigger("change");
-                            var e = new Event('change');
-                            document.getElementById("license".concat(licenseSortName)).dispatchEvent(e);
-                            self.enableBts();
-                        },
-                        error: function(){
-                            bootbox.alert(`Erro ao gerar impressão de licença ${data.licencia.lic_nro}.`);
-                            return;
-                        }
-                    })
-                }
+                data.ara = resp
+                data.ara.logoUrl = 'static/img/' + window.SIRHA.getARA() + '_logo.png';
+                var docxGenerator = new Backbone.SIXHIARA.DocxGeneratorView({
+                    model: self.model,
+                    data: data
+                });
+                var lic_imp = document.getElementById('lic_imp');
+                lic_imp.checked = true
+                lic_imp.dispatchEvent(new Event('change'));
             },
-            error: function(){
-                bootbox.alert(`Erro ao gerar impressão de licença ${data.licencia.lic_nro}.`);
-                return;
+            error: function() {
+                bootbox.alert(`Erro ao gerar impressão de licença`);
             }
         });
     },

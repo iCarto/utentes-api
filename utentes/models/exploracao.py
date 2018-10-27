@@ -64,6 +64,7 @@ class Exploracao(ExploracaoBase):
         'carta_re', 'ficha_pe', 'ident_pro', 'certi_reg', 'duat', 'licen_am', 'mapa', 'licen_fu', 'r_perf', 'b_a_agua',
         'carta_re_v', 'ficha_pe_v', 'ident_pro_v', 'certi_reg_v', 'duat_v', 'licen_am_v', 'mapa_v', 'licen_fu_v', 'r_perf_v', 'b_a_agua_v',
         'anali_doc', 'soli_visit', 'p_unid', 'p_tec', 'doc_legal', 'p_juri', 'p_rel', 'req_obs', 'estado_lic', 'created_at', 'exp_name',
+        'lic_imp',
     ]
 
     FACTURACAO_FIELDS = ['fact_estado', 'fact_tipo', 'pago_lic', 'pagos']
@@ -126,6 +127,7 @@ class Exploracao(ExploracaoBase):
     fact_estado = Column(Text, nullable=False, doc='Estado de pago del ciclo de facturación')
     fact_tipo = Column(Text, nullable=False, server_default=text("'Mensal'::text"), doc='Mensal/Trimestral/Anual')
     pago_lic = Column(Boolean, nullable=False, server_default=text('false'), doc='Factura emisión licencia pagada')
+    lic_imp = Column(Boolean, nullable=False, server_default=text('false'), doc='Licença impressa')
 
     utente_rel = relationship('Utente',
                               lazy='joined',

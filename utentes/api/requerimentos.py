@@ -3,11 +3,9 @@
 from pyramid.view import view_config
 from utentes.models.base import badrequest_exception
 from utentes.models.exploracao import Exploracao
-from utentes.models.licencia import Licencia
 from utentes.models.ara import Ara
 from utentes.api.error_msgs import error_msgs
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
-from pyramid.renderers import JSON
 
 from utentes.user_utils import PERM_GET, PERM_UPDATE_REQUERIMENTO, PERM_CREATE_REQUERIMENTO
 
@@ -91,26 +89,6 @@ def calculate_new_exp_id(request, ara):
 
     return '{}/{}/{}'.format(next_id, ara, year)
 
-@view_config(route_name='api_requerimento_print_license', permission=PERM_GET, request_method='GET', renderer='json')
-def save_printed_license(request):
-    gid = None
-    if request.matchdict:
-        gid = request.matchdict['id'] or None
-
-    if gid:
-        try:
-            licencia =  request.db.query(Licencia).filter(Licencia.gid == gid).one()
-            if licencia.printed is False:
-                licencia.printed = True
-                request.db.add(licencia)
-                request.db.commit()
-                return True
-            return True
-        except(MultipleResultsFound, NoResultFound):
-            raise badrequest_exception({
-                'error': error_msgs['no_gid'],
-                'gid': gid
-            })
 
 @view_config(route_name='api_requerimento_get_datos_ara', permission=PERM_GET, request_method='GET', renderer='json')
 def get_datos_ara(request):
