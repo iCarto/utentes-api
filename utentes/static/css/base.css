@@ -276,3 +276,6 @@ with or whithout another 'observacio-anteriores' textarea
     text-align: center;
     min-width: 140px;
 }
+.printed-licenses-checkboxes {
+    display: none;
+}

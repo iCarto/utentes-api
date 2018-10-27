@@ -162,6 +162,8 @@ def add_routes_api(config):
 
     config.add_route('api_requerimento', '/api/requerimento')
     config.add_route('api_requerimento_id', '/api/requerimento/{id}')
+    config.add_route('api_requerimento_print_license', '/api/requerimento/{id}/printed')
+    config.add_route('api_requerimento_get_datos_ara', '/api/get_datos_ara')
 
     config.add_route('api_facturacao', '/api/facturacao')
     config.add_route('api_facturacao_id', '/api/facturacao/{id}')

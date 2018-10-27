@@ -100,6 +100,23 @@ var role_domains_collection = new Backbone.UILib.DomainCollection([
     },
 ]);
 
+Backbone.SIXHIARA.duracionLicencias = {
+    "Licença": "5",
+    "Autorização": "1-2",
+    "Concessão": "6-50"
+}
+
+Backbone.SIXHIARA.tipoTemplates = {
+    Licença: 'static/print-templates/Modelo_Licenca_Autorizacion_SIRHAS.docx',
+    Autorização: 'static/print-templates/Modelo_Licenca_Autorizacion_SIRHAS.docx',
+    Concessão: 'static/print-templates/Modelo_Concesao_SIRHAS.docx'
+}
+Backbone.SIXHIARA.araLogos = {
+    ARAS: 'static/img/ARAS_logo.png',
+    ARAN: 'static/img/ARAN_logo.png',
+    ARAZ: 'static/img/ARAZ_logo.png'
+}
+
 window.bootbox && bootbox.addLocale('pt-mz', {
     OK: 'Aceitar',
     CANCEL : 'Cancelar',
