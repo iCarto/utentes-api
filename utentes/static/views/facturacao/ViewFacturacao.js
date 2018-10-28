@@ -523,25 +523,33 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
                                    .concat(date.year())
                                    .concat('.docx');
 
-        data.urlTemplate = 'static/print-templates/Modelo_Factura_SIRHAS_desarrollo.docx';
+        data.urlTemplate = Backbone.SIXHIARA.tipoTemplates['Factura'];
         data.pago_iva = formatter().formatNumber(json.facturacao[json.facturacao.length - 1].pago_iva, '0[.]00') || 0;
 
         var self = this;
 
         var factura = new Backbone.SIXHIARA.NewFactura({id: json.facturacao[json.facturacao.length - 1].id});
-
-        factura.fetch({
+        var datosAra = new Backbone.SIXHIARA.AraGetData();
+        datosAra.fetch({
             success: function(model, resp, options) {
-                data.numFactura = resp;
-
-                var docxGenerator = new Backbone.SIXHIARA.DocxGeneratorView({
-                    model: self.model,
-                    data: data
+                data.ara = resp
+                data.ara.logoUrl = 'static/img/' + window.SIRHA.getARA() + '_logo.png';
+                factura.fetch({
+                    success: function(model, resp, options) {
+                        data.numFactura = resp;
+                        var docxGenerator = new Backbone.SIXHIARA.DocxGeneratorView({
+                            model: self.model,
+                            data: data
+                        });
+                    },
+                    error: function(){
+                        bootbox.alert("Erro ao gerar a factura.");
+                        return;
+                    }
                 });
             },
-            error: function(){
-                bootbox.alert("Erro ao gerar a factura.");
-                return;
+            error: function() {
+                bootbox.alert(`Erro ao gerar impressão de licença`);
             }
         });
     },

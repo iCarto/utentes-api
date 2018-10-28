@@ -110,6 +110,7 @@ Backbone.SIXHIARA.tipoTemplates = {
     Licença: 'static/print-templates/Modelo_Licenca_Autorizacion_SIRHA.docx',
     Autorização: 'static/print-templates/Modelo_Licenca_Autorizacion_SIRHA.docx',
     Concessão: 'static/print-templates/Modelo_Concesao_SIRHA.docx',
+    Factura: 'static/print-templates/Modelo_Factura_SIRHAS_desarrollo.docx',
 };
 
 window.bootbox && bootbox.addLocale('pt-mz', {
