@@ -215,8 +215,7 @@ def documento_delete(request):
     renderer='json',
 )
 def exploracao_documentos_zip(request):
-    import tempfile
-    tmp_file = tempfile.NamedTemporaryFile()
+
 
     exploracao_id = request.matchdict.get('id', None)
     filename = 'documentos_' + exploracao_id
@@ -229,29 +228,48 @@ def exploracao_documentos_zip(request):
 
     documentos = query.all()
 
-    response = FileResponse(create_zip_file(request, tmp_file.name, documentos, departamento), request)
+    tzip = create_zip_file(request, documentos, departamento)
+
+    from pyramid.response import FileIter
+    from pyramid.response import Response
+    response = Response()
     response.content_type = 'application/zip'
     response.content_disposition = 'attachment; filename="' + filename + '.zip"'
+    response.app_iter = FileIter(tzip)
+
     return response
 
-def create_zip_file(request, zip_filename, documentos, departamento):
+def create_zip_file(request, documentos, departamento):
+    # TODO. To be improved. Un par de cosas a tener en cuenta:
+    # * TemporaryFile, SpooledTemporaryFile y StringIO no generan/aseguran que
+    # hay un path en disco.
+    # FileResponse nececista un path a disco y hacen un open(path, 'r'). Al acabar
+    # hace un close.
+    # NameTemporaryFile por defecto hace un open(w+b), y ZipFile si le pasamos un
+    # path hace un open(w). Es decir abrimos el fichero dos veces. Con el del FileResponse
+    # también se abriría de nuevo. En Windows esto no funciona.
+    # https://stackoverflow.com/questions/12949077/
+    # https://stackoverflow.com/questions/11967720/
+    # https://stackoverflow.com/questions/23212435/
+    # https://stackoverflow.com/questions/12881294/
     import os
     import zipfile
-    zip = zipfile.ZipFile(zip_filename, 'w', compression=zipfile.ZIP_DEFLATED)
-
-    for documento in documentos:
-        documento.set_path_root(request.registry.settings['media_root'])
-        path_in_disk = documento.get_file_path()
-        if os.path.isfile(path_in_disk):
-            name = documento.name
-            if departamento != 'root':
-                path_in_zip = os.path.join(name)
-            else:
-                path_in_zip = os.path.join(documento.departamento, name)
-            zip.write(path_in_disk, path_in_zip)
-
-    zip.close()
-    return zip_filename
+    import tempfile
+    tmp = tempfile.NamedTemporaryFile()
+    print tmp.name
+    with zipfile.ZipFile(tmp, 'w', compression=zipfile.ZIP_DEFLATED) as zip:
+            for documento in documentos:
+                documento.set_path_root(request.registry.settings['media_root'])
+                path_in_disk = documento.get_file_path()
+                if os.path.isfile(path_in_disk):
+                    name = documento.name
+                    if departamento != 'root':
+                        path_in_zip = os.path.join(name)
+                    else:
+                        path_in_zip = os.path.join(documento.departamento, name)
+                    zip.write(path_in_disk, path_in_zip)
+    tmp.seek(0)
+    return tmp
 
 
 def get_folder_permissions(request, departamento):
