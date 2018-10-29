@@ -7,7 +7,7 @@ def find_pg_executable_path_by_harcoded(name):
     # comillas
     # las / \
     # y como se ejecuta
-    p = '"C:\\Program Files\\PostgreSQL\\10\\bin\\{}.exe"'.format(name)
+    p = 'C:\\Program Files\\PostgreSQL\\10\\bin\\{}.exe'.format(name)
     if os.path.exists(p):
         return p
     return None
