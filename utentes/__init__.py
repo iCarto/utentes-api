@@ -3,6 +3,7 @@
 import datetime
 import decimal
 import os
+import sys
 from pyramid.config import Configurator
 from pyramid.request import Request
 from pyramid.decorator import reify
@@ -41,7 +42,9 @@ def decimal_adapter(obj, request):
 
 def main(global_config, **settings):
     if is_single_user_mode(settings):
-        settings['media_root'] = os.path.join(home_directory(), settings['ara'], 'media')
+        media_root = os.path.join(home_directory(), settings['ara'], 'media')
+        media_root = media_root.decode(sys.getfilesystemencoding())
+        settings['media_root'] = media_root
 
     engine = engine_from_config(settings, 'sqlalchemy.')
     session_factory = sessionmaker(bind=engine)

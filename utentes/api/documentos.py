@@ -256,7 +256,6 @@ def create_zip_file(request, documentos, departamento):
     import zipfile
     import tempfile
     tmp = tempfile.NamedTemporaryFile()
-    print tmp.name
     with zipfile.ZipFile(tmp, 'w', compression=zipfile.ZIP_DEFLATED) as zip:
             for documento in documentos:
                 documento.set_path_root(request.registry.settings['media_root'])
@@ -267,6 +266,9 @@ def create_zip_file(request, documentos, departamento):
                         path_in_zip = os.path.join(name)
                     else:
                         path_in_zip = os.path.join(documento.departamento, name)
+                    # https://stackoverflow.com/questions/1807063/
+                    if os.name == 'nt':
+                        path_in_zip = path_in_zip.encode('cp437')
                     zip.write(path_in_disk, path_in_zip)
     tmp.seek(0)
     return tmp

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import sys
 
 from sqlalchemy import Column, ForeignKey, text
 from sqlalchemy import Boolean, Integer, Text, DateTime
@@ -55,7 +56,7 @@ class Documento(Base):
         return os.path.join(self.defaults['path_root'],
                             'uploads',
                             str(self.gid),
-                            self.name).encode('utf-8')
+                            self.name).encode(sys.getfilesystemencoding())
 
     def get_file_path_save(self):
         # by default: packagedir/utentes/static/files/attachments/{exploracao_id}/{departamento}/{name}
@@ -63,7 +64,7 @@ class Documento(Base):
                             'documentos',
                             str(self.exploracao),
                             self.departamento,
-                            self.name).encode('utf-8')
+                            self.name).encode(sys.getfilesystemencoding())
 
     def get_file_path(self):
         if self.saved:
