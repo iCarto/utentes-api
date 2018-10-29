@@ -131,9 +131,7 @@ Backbone.SIXHIARA.ConfigModalView = Backbone.View.extend({
     },
 
     // openFile: function() {
-    //     var remote = nodeRequire('remote');
-    //
-    //     var dialog = remote.require('dialog');
+     //    const {dialog} = nodeRequire('electron').remote;
     //     var file = dialog.showOpenDialog({
     //         properties: [ 'openDirectory' ],
     //         defaultPath: this.s.get('docPath'),
@@ -200,11 +198,10 @@ Backbone.SIXHIARA.ConfigModalView = Backbone.View.extend({
     },
 
     restore: function() {
-        var remote = nodeRequire('remote');
+        const {dialog} = nodeRequire('electron').remote;
 
-        var dialog = remote.require('dialog');
         var file = dialog.showOpenDialog({
-            filters: [{'name': '.dump', 'extensions': ['.dump']}],
+            filters: [{'name': '.dump', 'extensions': ['dump']}],
             properties: [ 'openFile' ],
         });
 
@@ -218,6 +215,7 @@ Backbone.SIXHIARA.ConfigModalView = Backbone.View.extend({
             $.getJSON('/api/db/restore', {'file': file[0]})
                 .done(function(data) {
                     bootbox.alert('Banco de dados restaurado com sucesso');
+                    window.location.reload(true);
                 })
                 .fail(function(data) {
                     bootbox.alert('<h1 style="color:red">Erro</h1><br><br>' + JSON.stringify(data.responseJSON.error));

@@ -63,7 +63,7 @@ def exploracaos_delete(request):
     if not gid:
         raise badrequest_exception({'error': error_msgs['gid_obligatory']})
     try:
-        exploracao_documentos_delete(gid)
+        exploracao_documentos_delete(request, gid)
         e = request.db.query(Exploracao).filter(Exploracao.gid == gid).one()
         request.db.delete(e)
         request.db.commit()

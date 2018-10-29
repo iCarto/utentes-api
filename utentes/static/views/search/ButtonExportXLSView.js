@@ -64,7 +64,7 @@ Backbone.SIXHIARA.ButtonExportXLSView = Backbone.View.extend({
         wb.SheetNames.push(ws_name);
         wb.Sheets[ws_name] = wsExploracaos;
 
-        if (SIRHA.ARA === 'DPMAIP') {
+        if (window.SIRHA.getARA() === 'DPMAIP') {
 
             // filter by actividade Piscicultura
             var exploracaosFiltered = _.filter(exploracaos, function(exp){
