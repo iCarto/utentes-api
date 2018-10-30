@@ -1879,6 +1879,9 @@
           <button type="button" class="btn btn-default btn-xs hidden uilib-enability uilib-show-role-administrador uilib-show-role-tecnico uilib-show-role-juridico" id="addLicense">Adicionar</button>
           <button type="button" class="btn btn-default btn-xs uilib-enability uilib-show-role-administrador uilib-show-role-tecnico uilib-show-role-juridico" id="editLicense">Editar</button>
           <button type="button" class="btn btn-default btn-xs uilib-enability uilib-show-role-administrador uilib-show-role-tecnico" id="addFonte">Nova fonte</button>
+          {% if request.registry.settings['ara'] != 'DPMAIP' %}
+          <button type="button" class="btn btn-default btn-xs hidden uilib-enability uilib-show-role-administrador uilib-show-role-juridico" id="printLicense">impressão de Licença</button>
+          {% endif %}
           <button type="button" class="btn btn-default btn-xs uilib-enability uilib-show-role-administrador uilib-show-role-tecnico" id="removeLicense">Eliminar</button>
         </h4>
       </div>
@@ -1969,6 +1972,8 @@
   "node-interaction.js",
 
   "lib/jquery/jquery-1.12.0.min.js",
+  "lib/docx-templates/docx-templates.js",
+  "lib/jszip-utils/jszip-utils.js",
   "lib/bootstrap/js/bootstrap.min.js",
   "lib/underscore/underscore-min.js",
   "lib/backbone/backbone.js",
@@ -1996,6 +2001,8 @@
   "lib/backbone-uilib/views/WidgetsView.js",
   "lib/backbone-uilib/views/BaseView.js",
   "lib/backbone-uilib/views/ModalView.js",
+  "views/common/DocxGeneratorView.js",
+  "models/AraGetData.js",
 
   "lib/backbone-dms/Config.js",
   "lib/backbone-dms/util/Util.js",

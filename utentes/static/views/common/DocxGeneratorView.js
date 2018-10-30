@@ -15,17 +15,22 @@ Backbone.SIXHIARA.DocxGeneratorView = Backbone.View.extend({
                     cmdDelimiter: '***',
                     additionalJsContext: {
                         // Creates a base64 string with the image data
-                        imageGenerator: function(url, outputFormat){
+                        imageGenerator: function(url, width, outputFormat){
                             return new Promise(function(resolve){
                                 var image = new Image();
-                                image.width = 4.4;
-                                image.height = 1.2;
                                 image.extension = '.png';
                                 image.onload = function() {
                                     var canvas = document.createElement('CANVAS');
                                     var ctx = canvas.getContext('2d');
                                     canvas.height = this.naturalHeight;
                                     canvas.width = this.naturalWidth;
+                                    image.width = width
+                                    /*
+                                    img object width/height attrs only accepts
+                                    non-negative integers as values
+                                    so this values will be rounded
+                                    */
+                                    image.height = (width * canvas.height) / canvas.width;
                                     ctx.drawImage(this, 0, 0);
                                     var dataUrl = canvas.toDataURL(outputFormat);
                                     image.data = dataUrl.slice('data:image/png;base64,'.length)

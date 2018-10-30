@@ -10,6 +10,7 @@ Backbone.SIXHIARA.BlockLicenseView = Backbone.View.extend({
         'click #addFonte':      'renderAddFonteModal',
         'click #removeLicense': 'removeLicense',
         'click #info-estado-licencia': 'showModalEstadoLicencia',
+        'click #printLicense': 'printLicense',
     },
 
     initialize: function(options){
@@ -28,6 +29,15 @@ Backbone.SIXHIARA.BlockLicenseView = Backbone.View.extend({
             this.$('#editLicense').removeClass('hidden');
             this.$('#addFonte').removeClass('hidden');
             this.$('#removeLicense').removeClass('hidden');
+
+
+            if (this.license.get("estado") == Backbone.SIXHIARA.Estado.LICENSED ||
+                this.license.get("estado") == Backbone.SIXHIARA.Estado.PENDING_DIR_SIGN ||
+                this.license.get("estado") == Backbone.SIXHIARA.Estado.PENDING_EMIT_LICENSE ||
+                window.SIRHA.is_single_user_mode()) {
+                    this.$('#printLicense').removeClass('hidden');
+            }
+            // licenciada, pendente firma licença (Director) y pendente emissão licença (DJ)
             /*
             fact_tipo no es una propiedad de cada licencia. Si no que es común a ambas
             por lo que debería estar en un "emplazamiento" común a ambas y no hackeear de esta forma
@@ -40,21 +50,23 @@ Backbone.SIXHIARA.BlockLicenseView = Backbone.View.extend({
                 'tipo_agua': this.options.tipo_agua,
                 'lic_nro': Backbone.SIXHIARA.Estado.NOT_EXISTS,
             });
-            
+
             /*
             Workaround. En Licencia.initialize se setean valores. Al crear una
             licencia nueva vacía esos valores se muestran en el template a
             pesar de que en realidad deberían nulos
             */
             lic.set({'taxa_uso': null, 'iva':null}, {'silent': true})
-            
+
             this.$el.append(this.template(lic.toJSON()));
             this.$('#addLicense').removeClass('hidden');
             this.$('#editLicense').addClass('hidden');
             this.$('#addFonte').addClass('hidden');
             this.$('#removeLicense').addClass('hidden');
+            this.$('#printLicense').addClass('hidden');
+
             this.$el.addClass('disabled');
-            
+
             /*
             fact_tipo no es una propiedad de cada licencia. Si no que es común a ambas
             por lo que debería estar en un "emplazamiento" común a ambas y no hackeear de esta forma
@@ -62,7 +74,7 @@ Backbone.SIXHIARA.BlockLicenseView = Backbone.View.extend({
             */
             this.$('span.js_fact_tipo').text('-');
         }
-        
+
         return this;
     },
 
@@ -173,7 +185,7 @@ Backbone.SIXHIARA.BlockLicenseView = Backbone.View.extend({
         modalView.show();
         modalView.$('#fact_tipo')[0].value = this.model.get('fact_tipo');
         wf.disabledWidgets('#licenciaModal');
-        
+
     },
 
     showModalEstadoLicencia: function(){
@@ -181,6 +193,57 @@ Backbone.SIXHIARA.BlockLicenseView = Backbone.View.extend({
             collection: this.options.domains.byCategory('licencia_estado'),
             actual_state: this.license && this.license.get('estado') || null,
         }).show();
+    },
+
+    printLicense: function(i){
+        var json = this.model.toJSON();
+
+        if (!this.license.get("tipo_lic")) {
+            bootbox.alert("A exploração tem que ter uma tipo de licença.");
+            return;
+        }
+        json.licencia = this.license.toJSON();
+        // Create a copy of the main object since both types of licenses share fields
+        // In adition, remove its nulls to avoid problems during the template generation
+        var data = JSON.parse(JSON.stringify(json, function(key, value) {
+            if(value === null) {
+                return "";
+            }
+            return value;
+        }));
+
+        // We filter fontes by tipo_agua (Subterrânea / Superficial)
+        data.fontes = data.fontes.filter(function(fonte){
+            return fonte.tipo_agua == data.licencia.tipo_agua;
+        });
+
+        var licenseSortName = /(\d{4}\/)(\w{3})/.exec(data.licencia.lic_nro)[2];
+
+        data.licencia.d_emissao = formatter().formatDate(data.licencia.d_emissao) || "";
+        data.licencia.d_validade = formatter().formatDate(data.licencia.d_validade)  || "";
+        data.urlTemplate = Backbone.SIXHIARA.tipoTemplates[data.licencia.tipo_lic];
+        data.licencia.duration = Backbone.SIXHIARA.duracionLicencias[data.licencia.tipo_lic];
+        data.nameFile = data.licencia.tipo_lic.concat("_")
+                                              .concat(data.licencia.lic_nro)
+                                              .concat("_")
+                                              .concat(data.exp_name)
+                                              .concat('.docx');
+        var self = this;
+
+        var datosAra = new Backbone.SIXHIARA.AraGetData();
+        datosAra.fetch({
+            success: function(model, resp, options) {
+                data.ara = resp
+                data.ara.logoUrl = 'static/img/' + window.SIRHA.getARA() + '_logo.png';
+                var docxGenerator = new Backbone.SIXHIARA.DocxGeneratorView({
+                    model: self.model,
+                    data: data
+                })
+            },
+            error: function() {
+                bootbox.alert(`Erro ao gerar impressão de licença`);
+            }
+        });
     },
 
 });
