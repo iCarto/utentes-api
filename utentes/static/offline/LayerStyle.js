@@ -37,7 +37,7 @@ Backbone.SIXHIARA.LayerStyle = {
     },
 
     onEachFeaturePostos: function(feature, layer) {
-        layer.bindLabel(feature.properties["Nome"], {
+        layer.bindLabel(feature.properties["nome"], {
             noHide: true,
             // offset: [-0, -16],
             className: "sixhiara-leaflet-label-postos",
@@ -60,7 +60,7 @@ Backbone.SIXHIARA.LayerStyle = {
     },
 
     onEachFeatureProvincias: function(feature, layer) {
-        layer.bindLabel(feature.properties["Nome"], {
+        layer.bindLabel(feature.properties["nome"], {
             noHide: true,
             // offset: [-0, -16],
             className: "sixhiara-leaflet-label-provincias",
@@ -142,7 +142,7 @@ Backbone.SIXHIARA.LayerStyle = {
         return L.marker(latlng, {
             icon: Backbone.SIXHIARA.LayerStyle.marker_Cidadesevilas,
             clickable: false,
-        }).bindLabel(feature.properties.NOME, {
+        }).bindLabel(feature.properties.nome, {
             noHide: true,
             offset: [-0, -16],
             className: "sixhiara-leaflet-label-cidades",
@@ -167,7 +167,7 @@ Backbone.SIXHIARA.LayerStyle = {
         return L.circleMarker(
             latlng,
             Backbone.SIXHIARA.LayerStyle.doStyleInvisibleMarker()
-        ).bindLabel(feature.properties.Nome, {
+        ).bindLabel(feature.properties.nome, {
             noHide: true,
             offset: [-20, -15],
             className: "sixhiara-leaflet-label-paises",
@@ -181,7 +181,7 @@ Backbone.SIXHIARA.LayerStyle = {
         return L.circleMarker(
             latlng,
             Backbone.SIXHIARA.LayerStyle.doStyleInvisibleMarker()
-        ).bindLabel(feature.properties.Nome, {
+        ).bindLabel(feature.properties.nome, {
             noHide: true,
             offset: [-25, -10],
             className: "sixhiara-leaflet-label-postos",
@@ -195,7 +195,7 @@ Backbone.SIXHIARA.LayerStyle = {
         return L.circleMarker(
             latlng,
             Backbone.SIXHIARA.LayerStyle.doStyleInvisibleMarker()
-        ).bindLabel(feature.properties.Nome, {
+        ).bindLabel(feature.properties.nome, {
             noHide: true,
             offset: [-20, -15],
             className: "sixhiara-leaflet-label-provincias",

@@ -5,7 +5,7 @@ Backbone.SIXHIARA.mapConfig = function(mapId, initOptions) {
         zoom: 7,
         center: SIXHIARA.center,
         maxBounds: [SIXHIARA.southWest, SIXHIARA.northEast],
-        minZoom: 7,
+        minZoom: 6,
         maxZoom: 19,
         trackResize: false,
     };
@@ -53,7 +53,7 @@ Backbone.SIXHIARA.mapConfig = function(mapId, initOptions) {
         );
     }
 
-    var baseMap = window.localStorage.getItem("baseMap") || "Sem rede";
+    var baseMap = window.localStorage.getItem("baseMap") || "OSM-HOT";
     if (baseMap === "Sem rede") {
         offBaseLayer.loadOffline(true);
     } else if (baseMap === "OSM-HOT") {
