@@ -7,6 +7,7 @@ Backbone.SIXHIARA.mapConfig = function(mapId, initOptions) {
         maxBounds: [SIXHIARA.southWest, SIXHIARA.northEast],
         minZoom: 7,
         maxZoom: 19,
+        trackResize: false,
     };
 
     var mapOptions = _.defaults(_.extend({}, defaultMapOptions, options.mapOptions || {}), defaultMapOptions);
