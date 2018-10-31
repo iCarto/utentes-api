@@ -33,7 +33,7 @@ if (window.SIRHA.getARA() === 'ARAS') {
 
 if (window.SIRHA.getARA() === 'ARAZ') {
     SIXHIARA = window.SIXHIARA || {
-        center: [-16.98, 34.63],
+        center: [-16, 34.63],
         southWest: [-28.3, -6.76],
         northEast: [3, 77],
         search: {

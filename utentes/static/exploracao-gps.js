@@ -1,6 +1,6 @@
 var options = {
     mapOptions: {
-        zoom:8,
+        zoom: (window.SIXHIARA.gps && window.SIXHIARA.gps.zoom) || 8,
     },
     offline: {
         layers: allLayers,
