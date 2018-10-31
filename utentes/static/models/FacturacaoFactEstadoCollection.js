@@ -37,7 +37,7 @@ Backbone.SIXHIARA.FacturacaoFactEstadoCollection = Backbone.UILib.DomainCollecti
 
     forFacturacaoView: function() {
 
-        if (window.SIRHA.is_single_user_mode()) {
+        if (! window.SIRHA.is_single_user_mode()) {
             var states = this.availableFacturacaoStates();
             var foo = this.filter(function(e){
                 return states.indexOf(e.get('text')) !== -1

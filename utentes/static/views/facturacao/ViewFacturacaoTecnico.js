@@ -14,5 +14,6 @@ Backbone.SIXHIARA.ViewFacturacaoTecnico = Backbone.SIXHIARA.ViewFacturacao.exten
                 }
             });
         });
+        document.getElementById('bt-consumo').disabled = true;
     },
 });

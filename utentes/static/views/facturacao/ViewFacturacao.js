@@ -331,6 +331,7 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
         });
 
         document.getElementById('bt-ok').disabled = !enable;
+        document.getElementById('bt-consumo').disabled = !enable;
         return enable
     },
 
@@ -520,6 +521,8 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
         data.vencimento = formatter().formatDate(date.add(1, 'M'));
 
         data.nameFile = data.exp_id.concat("_")
+                                   .concat(date.month())
+                                   .concat('_')
                                    .concat(date.year())
                                    .concat('.docx');
 
