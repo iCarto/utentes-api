@@ -6,7 +6,7 @@ from utentes.models.exploracao import Exploracao
 from utentes.models.facturacao import Facturacao
 from utentes.api.error_msgs import error_msgs
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
-from utentes.user_utils import PERM_GET, PERM_FACTURACAO, FACTURAS_DEFAULT_VALUES
+from utentes.user_utils import PERM_GET, PERM_FACTURACAO
 
 import logging
 log = logging.getLogger(__name__)
@@ -45,66 +45,81 @@ def facturacao_get(request):
             'features': features
         }
 
-@view_config(route_name='api_facturacao_new_factura', permission=PERM_FACTURACAO, request_method='GET', renderer='json')
 
+@view_config(route_name='api_facturacao_new_factura', permission=PERM_FACTURACAO, request_method='GET', renderer='json')
 def num_factura_get(request):
 
     gid = None
     if request.matchdict:
         gid = request.matchdict['id'] or None
 
-    if gid:
-        try:
-            facturacao = request.db.query(Facturacao).filter(Facturacao.gid == gid).one()
-            exp_id = facturacao.exploracao
-            if facturacao.fact_id is not None:
-                return facturacao.fact_id
+    if not gid:
+        raise badrequest_exception({
+            'error': error_msgs['no_gid'],
+            'gid': gid
+        })
 
-            try:
-                exploracao = request.db.query(Exploracao).filter(Exploracao.gid == exp_id).one()
-                unidad = exploracao.loc_unidad
-                ano = facturacao.ano
+    try:
+        facturacao = request.db.query(Facturacao).filter(Facturacao.gid == gid).one()
+    except(MultipleResultsFound, NoResultFound):
+        raise badrequest_exception({
+            'error': error_msgs['no_gid'],
+            'gid': gid
+        })
 
-                if unidad:
-                    sql = "SELECT to_number(substring(fact.fact_id from '^....'), '9999') " + \
-                    " FROM utentes.exploracaos exp," + \
-                    " utentes.facturacao fact" + \
-                    " WHERE exp.gid = fact.exploracao" + \
-                    "   AND exp.loc_unidad  = '{}' ".format(unidad) + \
-                    "   AND fact.fact_id IS NOT NULL" + \
-                    " ORDER BY substring(fact.fact_id from '^....') DESC LIMIT 1;"
+    exp_id = facturacao.exploracao
+    if facturacao.fact_id is not None:
+        return facturacao.fact_id
 
-                    result = request.db.execute(sql).first() or [0]
+    try:
+        exploracao = request.db.query(Exploracao).filter(Exploracao.gid == exp_id).one()
+    except(MultipleResultsFound, NoResultFound):
+        raise badrequest_exception({
+            'error': error_msgs['no_gid'],
+            'gid': gid
+        })
 
-                    if result[0]:
-                        next_id = '%0*d' % (4, result[0] + 1)
-                    else:
-                        # Use default values
-                        result = FACTURAS_DEFAULT_VALUES.get(unidad)
-                        next_id = '%0*d' % (4, result)
+    if not exploracao.loc_unidad:
+        raise badrequest_exception({
+            'error': 'A unidade é un campo obligatorio',
+            'exp_id': exp_id
+        })
 
-                    numFactura = str(next_id) + "-" + \
-                                       unidad + "/" + \
-                                       ano
+    params = {
+        'unidad': exploracao.loc_unidad,
+        'ano': facturacao.ano,
+    }
 
-                    facturacao.fact_id = numFactura
+    sql = '''
+        SELECT substring(fact_id, 0, 5)::int + 1
+        FROM utentes.facturacao
+        WHERE fact_id ~ '.*-{unidad}/{ano}'
+        ORDER BY fact_id DESC
+        LIMIT 1;
+        '''.format(**params)
 
-                    request.db.add(facturacao)
-                    request.db.commit()
+    # TODO. Para 2018. Debemos dejar reservados números de facturas
+    # Estos defaults serán eliminados a futuro
+    FACTURAS_DEFAULT_VALUES = {
+        'UGBI/2018': [2500],
+        'UGBL/2018': [1800],
+        'UGBU/2018': [9000],
+        'UGBS/2018': [1500]
+    }
 
-                    return numFactura
+    params['next_serial'] = (
+        request.db.execute(sql).first()
+        or FACTURAS_DEFAULT_VALUES.get('{unidad}/{ano}'.format(**params), 0)
+    )[0]
 
-            except(MultipleResultsFound, NoResultFound):
-                raise badrequest_exception({
-                    'error': error_msgs['no_gid'],
-                    'gid': gid
-                })
+    num_factura = '{next_serial:4d}-{unidad}/{ano}'.format(**params)
 
-        except(MultipleResultsFound, NoResultFound):
-            raise badrequest_exception({
-                'error': error_msgs['no_gid'],
-                'gid': gid
-            })
+    facturacao.fact_id = num_factura
+
+    request.db.add(facturacao)
+    request.db.commit()
+
+    return num_factura
 
 
 @view_config(route_name='api_facturacao_id', permission=PERM_FACTURACAO, request_method='PATCH', renderer='json')

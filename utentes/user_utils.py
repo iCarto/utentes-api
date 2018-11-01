@@ -132,14 +132,6 @@ VALID_LOGINS = {
     'juridico': ROL_JURIDICO,
 }
 
-FACTURAS_DEFAULT_VALUES = {
-    'UGBI': 2500,
-    'UGBL': 1800,
-    'UGBU': 9000,
-    'UGBS': 1500
-}
-
-
 def get_unique_user():
     return User.create_from_json({
         'username': SINGLE_USER,
