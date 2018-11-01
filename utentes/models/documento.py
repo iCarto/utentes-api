@@ -71,16 +71,11 @@ class Documento(Base):
                             str(self.gid),
                             self.name).encode(sys.getfilesystemencoding())
 
-    def get_documento_entity_folder(self):
-        # by default: packagedir/utentes/static/files/attachments/{exploracao_id}
-        return os.path.join(self.defaults['path_root'],
-                            'documentos',
-                            str(self.exploracao)
-                            ).encode('utf-8')
-
     def get_file_path_save(self):
         # by default: packagedir/utentes/static/files/attachments/{exploracao_id}/{departamento}/{name}
-        return os.path.join(self.get_documento_entity_folder(),
+        return os.path.join(self.defaults['path_root'],
+                            'documentos',
+                            str(self.exploracao),
                             self.departamento,
                             self.name).encode(sys.getfilesystemencoding())
 
