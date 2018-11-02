@@ -61,11 +61,21 @@ Backbone.SIXHIARA.FiltersView = Backbone.UILib.BaseView.extend({
         }));
     },
 
-    setUtentesFilter: function(utentes) {
-        var utentesNotRepeated = _.uniq(utentes.models, function(domain) {
-            return domain.get('text')
-        })
-        this.utentesView.update(utentesNotRepeated)
-    }
+    setUtentesFilterFromExploracaos: function(exploracaos) {
+        var filterText = exploracaos.map(function(exp){
+            return {'text': exp.getUtenteOrExploracaoName()};
+        });
+        var filterTextWithoutDuplicates = _.uniq(filterText, function(item) {
+            return item.text;
+        });
+        filterTextWithoutDuplicates.sort(function(a, b){
+            return a.text.localeCompare(b.text);
+        });
+
+        var filterCollecion = new Backbone.UILib.DomainCollection(filterTextWithoutDuplicates);
+        filterCollecion.unshift({'orden': 0});
+
+        this.utentesView.update(filterCollecion);
+    },
 
 });

@@ -5,30 +5,6 @@ var domains = new Backbone.UILib.DomainCollection();
 var estados = new Backbone.SIXHIARA.EstadoCollection();
 var listView, mapView, numberOfResultsView, filtersView;
 
-var setUtentesFilterFromExploracaos = function() {
-    var utentesListFromExploracaos = getUtentesList(exploracaos);
-    if(filtersView) {
-        filtersView.setUtentesFilter(utentesListFromExploracaos);
-    }
-};
-
-var getUtentesList = function(exploracaos) {
-    var utentesFilterList = exploracaos
-        .reject(function(exploracao){
-            return !exploracao.get('utente') || !exploracao.get('utente').get('id');
-        })
-        .map(function(exploracao){
-            var utente = exploracao.get('utente');
-            return new Backbone.UILib.Domain({
-                'category': 'utente',
-                'text': utente.get('nome'),
-            });
-        });
-    utentesFilterList.unshift(new Backbone.UILib.Domain({
-        'orden': 0
-    }));
-    return new Backbone.UILib.DomainCollection(utentesFilterList);
-};
 
 var domainsFetched = function(collection, response, options) {
     filtersView = new Backbone.SIXHIARA.FiltersView({
@@ -37,7 +13,10 @@ var domainsFetched = function(collection, response, options) {
         domains: domains,
         states: estados.length ? estados.forSearchFilterView() : undefined,
     }).render();
-    this.setUtentesFilterFromExploracaos();
+
+    if (filtersView && exploracaos.length) {
+        filtersView.setUtentesFilterFromExploracaos(exploracaos);
+    }
 
     exploracaos.listenTo(where, 'change', function(model, options){
         if (!model) return;
@@ -62,7 +41,10 @@ var domainsFetched = function(collection, response, options) {
 var exploracaosFetched = function() {
 
     exploracaosFiltered = new Backbone.SIXHIARA.ExploracaoCollection(exploracaos.models);
-    this.setUtentesFilterFromExploracaos();
+
+    if (filtersView && exploracaos.length) {
+        filtersView.setUtentesFilterFromExploracaos(exploracaos);
+    }
 
     listView = new Backbone.UILib.ListView({
         el: $('#project_list'),

@@ -536,7 +536,7 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
         var containsAttrs = _.isEqual(properties, values);
         var containsUtente = true;
         if (where.attributes.utente) {
-            containsUtente = (this.get('utente').get('nome') === where.attributes.utente);
+            containsUtente = (this.getUtenteOrExploracaoName() === where.attributes.utente);
         }
         var containsUnidade = true;
         if (where.attributes.loc_unidad) {
@@ -576,6 +576,13 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
 
         return containsAttrs && containsUtente && containsUnidade && containsLic && containsActividade && containsGeometria && containsBounds;
     },
+
+
+    getUtenteOrExploracaoName: function() {
+        var utenteName = this.get('utente') && this.get('utente').get('nome');
+        return utenteName || this.get('exp_name');
+    },
+
 
     getActividadeTipo: function() {
         var tipo = Backbone.SIXHIARA.MSG.NO_ACTIVITY;
