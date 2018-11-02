@@ -205,7 +205,7 @@ print('O ' + formatter().formatDate(req_obs[i]['create_at']) + ', ' + req_obs[i]
                 lic_imp.dispatchEvent(new Event('change'));
             },
             error: function() {
-                bootbox.alert(`Erro ao gerar impressão de licença`);
+                bootbox.alert(`Erro ao imprimir licença`);
             }
         });
     },
