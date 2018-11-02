@@ -87,14 +87,16 @@
 {% include 'set-ara-variable.jinja2' %}
 
 <!-- javascript -->
+
+<script src="/static/lib/docx-templates/docx-templates.js"></script>
+<script src="/static/lib/jszip-utils/jszip-utils.js"></script>
+
 {% assets
 "node-interaction.js",
 
 "lib/jquery/jquery-1.12.0.min.js",
 "lib/bootstrap/js/bootstrap.min.js",
 "lib/underscore/underscore-min.js",
-"lib/jszip-utils/jszip-utils.js",
-"lib/docx-templates/docx-templates.js",
 "lib/backbone/backbone.js",
 "lib/leaflet/leaflet-src.js",
 "lib/leaflet/leaflet.label-src.js",
