@@ -499,6 +499,24 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
         return s.options[s.selectedIndex].text;
     },
 
+    // This function breaks data's endereco in two lines
+    cleanText: function(str){
+        var splitted = str.split(" ");
+        var output = new Array(2).fill("");
+        var limit = 33; // number of max caracters per line
+        splitted.forEach(function(d, i){
+            if(output[0].length < limit){
+                output[0]+= d + " ";
+            }else {
+                output[1]+= d + " ";
+            }
+        })
+        // remove dots, commas or empty strings at the end of each sentence
+        return output.map(function(sentence){
+            return sentence.trim().replace(/[.,\s]$/gm,'');
+        })
+    },
+
     newPrinter: function(){
         var json = this.model.toJSON();
 
@@ -536,7 +554,8 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
         datosAra.fetch({
             success: function(model, resp, options) {
                 data.ara = resp
-                data.ara.logoUrl = 'static/img/' + window.SIRHA.getARA() + '_logo.png';
+                data.ara.logoUrl = 'static/print-templates/images/' + window.SIRHA.getARA() + '_factura.png';
+                data.ara.endereco = self.cleanText(data.ara.endereco);
                 factura.fetch({
                     success: function(model, resp, options) {
                         data.numFactura = resp;
