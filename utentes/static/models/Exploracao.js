@@ -580,7 +580,8 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
 
     getUtenteOrExploracaoName: function() {
         var utenteName = this.get('utente') && this.get('utente').get('nome');
-        return utenteName || this.get('exp_name');
+        var name = utenteName || this.get('exp_name');
+        return name.trim();
     },
 
 
