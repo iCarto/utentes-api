@@ -25,7 +25,7 @@ requires = [
 excludes = ["utentes.tests", ]
 
 setup(name='utentes',
-      version='20180525.1',
+      version='181105',
       description='utentes',
       author='iCarto',
       author_email='info@icarto.es',
