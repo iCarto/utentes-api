@@ -95,6 +95,9 @@ def exploracao_get_root_folders(request):
 
 def init_departamentos_json_array(request, exploracao_id):
     departamentos = [ROL_ADMINISTRATIVO, ROL_FINANCIERO, ROL_JURIDICO, ROL_TECNICO]
+    if request.registry.settings.get('ara') == 'DPMAIP':
+        departamentos = [ROL_TECNICO]
+
     departamentos_json_array = []
     for departamento in departamentos:
         departamentos_json_array.append({
