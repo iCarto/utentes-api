@@ -148,6 +148,24 @@ print('O ' + formatter().formatDate(req_obs[i]['create_at']) + ', ' + req_obs[i]
         document.getElementById('bt-ok').disabled = !enable;
     },
 
+    // This function breaks data's endereco in two lines
+    cleanText: function(str){
+        var splitted = str.split(" ");
+        var output = new Array(2).fill("");
+        var limit = 33; // number of max caracters per line
+        splitted.forEach(function(d, i){
+            if(output[0].length < limit){
+                output[0]+= d + " ";
+            }else {
+                output[1]+= d + " ";
+            }
+        })
+        // remove dots, commas or empty strings at the end of each sentence
+        return output.map(function(sentence){
+            return sentence.trim().replace(/[.,\s]$/gm,'');
+        })
+    },
+
     printLicense: function(){
         // It has to print one document for each kind of tipo licencia (Subterránea / Superficial)
         // We iterate through licenses:
@@ -196,6 +214,7 @@ print('O ' + formatter().formatDate(req_obs[i]['create_at']) + ', ' + req_obs[i]
             success: function(model, resp, options) {
                 data.ara = resp
                 data.ara.logoUrl = 'static/img/' + window.SIRHA.getARA() + '_logo.png';
+                data.ara.endereco = self.cleanText(data.ara.endereco);
                 var docxGenerator = new Backbone.SIXHIARA.DocxGeneratorView({
                     model: self.model,
                     data: data

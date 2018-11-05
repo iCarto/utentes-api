@@ -15,9 +15,9 @@ Backbone.SIXHIARA.DocxGeneratorView = Backbone.View.extend({
                     cmdDelimiter: '***',
                     additionalJsContext: {
                         // Creates a base64 string with the image data
-                        imageGenerator: function(url, outputFormat){
+                        imageGenerator: function(url, width, height, outputFormat){
                             return new Promise(function(resolve){
-                                var image = new Image(6, 2);
+                                var image = new Image(width, height);
                                 image.extension = '.png';
                                 image.onload = function() {
                                     var canvas = document.createElement('CANVAS');
