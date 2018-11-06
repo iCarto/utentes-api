@@ -361,7 +361,7 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
         }
         var self = this;
         var autosaveInfo = document.getElementById('autosave-info');
-        autosaveInfo.innerHTML = 'Modificacións pendentes'
+        autosaveInfo.innerHTML = 'Modificações pendentes'
         autosaveInfo.style.color = 'red';
         if (this.timeoutId) {
             clearTimeout(this.timeoutId);
@@ -371,7 +371,7 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
         }
         this.timeoutId = setTimeout(function () {
             self.fillExploracao(null, true);
-            autosaveInfo.innerHTML = 'Modificacións gardadas'
+            autosaveInfo.innerHTML = 'Modificações gravadas'
             autosaveInfo.style.color = 'green';
             self.autosaveInputTimeOutId = setTimeout(function() {
                 autosaveInfo.innerHTML = '';
@@ -499,24 +499,6 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
         return s.options[s.selectedIndex].text;
     },
 
-    // This function breaks data's endereco in two lines
-    cleanText: function(str){
-        var splitted = str.split(" ");
-        var output = new Array(2).fill("");
-        var limit = 33; // number of max caracters per line
-        splitted.forEach(function(d, i){
-            if(output[0].length < limit){
-                output[0]+= d + " ";
-            }else {
-                output[1]+= d + " ";
-            }
-        })
-        // remove dots, commas or empty strings at the end of each sentence
-        return output.map(function(sentence){
-            return sentence.trim().replace(/[.,\s]$/gm,'');
-        })
-    },
-
     newPrinter: function(){
         var json = this.model.toJSON();
 
@@ -555,7 +537,6 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
             success: function(model, resp, options) {
                 data.ara = resp
                 data.ara.logoUrl = 'static/print-templates/images/' + window.SIRHA.getARA() + '_factura.png';
-                data.ara.endereco = self.cleanText(data.ara.endereco);
                 factura.fetch({
                     success: function(model, resp, options) {
                         data.numFactura = resp;

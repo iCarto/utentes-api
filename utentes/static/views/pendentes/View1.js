@@ -58,7 +58,7 @@ Backbone.SIXHIARA.View1 = Backbone.View.extend({
         // http://codetunnel.io/how-to-implement-autosave-in-your-web-app/
         var self = this;
         var autosaveInfo = document.getElementById('autosave-info');
-        autosaveInfo.innerHTML = 'Modificacións pendentes';
+        autosaveInfo.innerHTML = 'Modificações pendentes.';
         autosaveInfo.style.color = 'red';
         if (this.timeoutId) {
             clearTimeout(this.timeoutId);
@@ -68,7 +68,7 @@ Backbone.SIXHIARA.View1 = Backbone.View.extend({
         }
         this.timeoutId = setTimeout(function () {
             self.fillExploracao(null, true);
-            autosaveInfo.innerHTML = 'Modificacións gardadas';
+            autosaveInfo.innerHTML = 'Modificações gravadas';
             autosaveInfo.style.color = 'green';
             self.autosaveInputTimeOutId = setTimeout(function() {
                 autosaveInfo.innerHTML = '';

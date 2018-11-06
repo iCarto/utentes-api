@@ -242,7 +242,8 @@ Backbone.SIXHIARA.BlockLicenseView = Backbone.View.extend({
         datosAra.fetch({
             success: function(model, resp, options) {
                 data.ara = resp
-                data.ara.logoUrl = 'static/img/' + window.SIRHA.getARA() + '_logo.png';
+                data.ara.logoUrl = 'static/print-templates/images/' + window.SIRHA.getARA() + '_cabecera.png';
+                data.ara.portadaUrl = 'static/print-templates/images/' + window.SIRHA.getARA() + '_portada.png';
                 var docxGenerator = new Backbone.SIXHIARA.DocxGeneratorView({
                     model: self.model,
                     data: data

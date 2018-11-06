@@ -2,6 +2,7 @@
 
 from sqlalchemy import Column, Text
 from sqlalchemy.dialects.postgresql.json import JSONB
+from sqlalchemy.dialects.postgresql import ARRAY
 
 from utentes.models.base import (
     Base,
@@ -16,7 +17,7 @@ class Ara(Base):
     id = Column(Text, primary_key=True)
     name = Column(Text, nullable=False, doc='Nome da Ara')
     nuit = Column(Text, nullable=False, doc='Nuit da Ara')
-    endereco = Column(JSONB, doc='Direccion')
+    endereco = Column(ARRAY(Text), doc='Dirección')
     conta_bancaria = Column(JSONB, doc='Dados da conta bancária')
     outros = Column(JSONB, doc='Outros dados')
     valores = Column(JSONB, doc='Valores')
