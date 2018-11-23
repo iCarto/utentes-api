@@ -24,11 +24,15 @@ Backbone.SIXHIARA.BlockLicenseView = Backbone.View.extend({
     render: function(){
         this.$el.html('');
         if(this.license){
+
             this.$el.append(this.template(this.license.toJSON()));
             this.$('#addLicense').addClass('hidden');
             this.$('#editLicense').removeClass('hidden');
             this.$('#addFonte').removeClass('hidden');
             this.$('#removeLicense').removeClass('hidden');
+            if (this.license.get("lic_time_info")) {
+                this.$('#info-license-block').removeClass('hidden');
+            }
 
 
             if (this.license.get("estado") == Backbone.SIXHIARA.Estado.LICENSED ||
@@ -64,6 +68,8 @@ Backbone.SIXHIARA.BlockLicenseView = Backbone.View.extend({
             this.$('#addFonte').addClass('hidden');
             this.$('#removeLicense').addClass('hidden');
             this.$('#printLicense').addClass('hidden');
+            this.$('#info-license-block').addClass('hidden');
+
 
             this.$el.addClass('disabled');
 

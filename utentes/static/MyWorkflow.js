@@ -150,9 +150,7 @@ var MyWorkflow = {
         case LIC_ST.INCOMPLETE_DIR:
             return Backbone.SIXHIARA.ViewSecretaria1;
         case LIC_ST.INCOMPLETE_DJ:
-            if (exp.get('req_obs').filter(function(o){
-                return o.state === LIC_ST.PENDING_EMIT_LICENSE;
-            }).length > 0) {
+            if (this.isNotCompleteForFirstDJState(exp)) {
                 return Backbone.SIXHIARA.ViewJuridico2;
             }
 
@@ -192,6 +190,30 @@ var MyWorkflow = {
         }
 
         return Backbone.SIXHIARA.UpsView;
+    },
+
+    isNotCompleteForFirstDJState: function(exp) {
+        return exp.get('req_obs').filter(function(o){
+                return o.state === Backbone.SIXHIARA.Estado.PENDING_EMIT_LICENSE;
+            }).length > 0
+    },
+
+    isNeedAskForEnteredDocumentationDate(exp, data) {
+        var LIC_ST = Backbone.SIXHIARA.Estado;
+        var estado_lic = exp.get("estado_lic");
+        var nextState = this.whichNextState(estado_lic, data)
+
+        if (data.target.id == 'bt-ok') {
+            if (estado_lic == LIC_ST.INCOMPLETE_DA) {
+                    return true
+            }
+            if (estado_lic == LIC_ST.INCOMPLETE_DJ &&
+                nextState == LIC_ST.PENDING_FIELD_VISIT &&
+                !this.isNotCompleteForFirstDJState(exp)) {
+                    return true;
+            }
+        }
+        return false
     },
 
     whichFacturacaoView: function(exp, next) {

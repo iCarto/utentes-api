@@ -14,6 +14,9 @@ function init() {
         input.addEventListener('change', enableBts);
     });
     document.getElementById('exp_name').addEventListener('input', enableBts);
+    document.getElementById('d_soli').addEventListener('input', enableBts);
+    document.getElementById('d_soli').value = moment().format("DD/MM/YYYY");
+
 
     document.getElementById('js-btns-next').addEventListener('click', function(e){
         fillExploracao(e);
@@ -47,7 +50,9 @@ function validateName(name) {
 
 function enableBts() {
     var exp_name = document.getElementById('exp_name');
-    var enableBtNo = exp_name.value && exp_name.value.length > 3;
+    var validDate = /^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$/.test(document.getElementById("d_soli").value);
+    var enableBtNo = exp_name.value && exp_name.value.length > 3 && validDate;
+
     document.getElementById('bt-no').disabled = !enableBtNo;
 
     var enable = enableBtNo && Array.from(
@@ -109,9 +114,19 @@ function fillExploracao(e, autosave) {
 
     exploracao.setLicState(nextState);
 
+    if (exploracao.get("estado_lic") == Backbone.SIXHIARA.Estado.INCOMPLETE_DA ||
+        exploracao.get("estado_lic") == Backbone.SIXHIARA.Estado.INCOMPLETE_DJ) {
+            exploracao.setDocPendenteUtente();
+    }
+
     document.querySelectorAll('form input[type="checkbox"]').forEach(function(input){
         exploracao.set(input.id, input.checked);
     });
+
+    var sTokens = document.getElementById("d_soli").value.split("/")
+    var initialDate = new Date(sTokens[2], sTokens[1] - 1, sTokens[0], 1, 1, 1)
+    exploracao.set('d_soli', initialDate);
+    exploracao.set('d_ultima_entrega_doc', initialDate);
 
     exploracao.urlRoot = Backbone.SIXHIARA.Config.apiRequerimentos;
     bootbox.confirm(`Vai criar-se uma nova exploração com estado: <br> <strong>${nextState}</strong>`, function(result){

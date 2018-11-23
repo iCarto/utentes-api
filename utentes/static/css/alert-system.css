@@ -1,0 +1,34 @@
+.label-as-badge {
+    border-radius: 1em;
+}
+.label-primary {
+    background-color: #337ab7;
+}
+#info-license-block {
+    display: inline-block;
+    margin-bottom: 5px;
+    padding: .2em .6em .3em;
+}
+.info-pill {
+    display: inline;
+    padding: .05em .6em .15em;
+    font-size: 75%;
+    font-weight: bold;
+    line-height: 1;
+    color: #ffffff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+}
+
+.alert-system-top-message {
+    padding: 15px;
+    margin: 0;
+    margin-bottom: 0;
+    margin-top: 20px;
+    margin-right: 20px;
+    border-radius: 4px;
+    border-width: 1px;
+    border-style: solid;
+}

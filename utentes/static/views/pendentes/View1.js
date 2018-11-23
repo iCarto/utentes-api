@@ -45,7 +45,44 @@ Backbone.SIXHIARA.View1 = Backbone.View.extend({
         $('[data-toggle="tooltip"]').tooltip();
 
         document.getElementById('js-btns-next').addEventListener('click', function(e){
-            self.fillExploracao(e);
+            if(wf.isNeedAskForEnteredDocumentationDate(self.model, e)){
+                    var ModalUltimaEntregaDoc = Backbone.SIXHIARA.UltimaEntregaDocModalView.extend({
+                        okButtonClicked: function() {
+                            var el = document.getElementById("d_ultima_entrega_doc");
+                            var strDate = el.value;
+                            var sTokens = strDate.split('/');
+                            var dateDoc = new Date(sTokens[2], sTokens[1] - 1, sTokens[0], 1, 1, 1);
+
+                            if (this.isValidDate(strDate)) {
+                                if (this.isAfterNow(strDate) || this.isBeforeSolicitacao(strDate)) {
+                                    var d_soli = formatter().formatDate(self.model.get('d_soli'));
+                                    bootbox.alert({
+                                        message:`A data não pode ser posterior à actual nem antes da data da solicitação (${d_soli}).`,
+                                        callback: this.showDefaultDate
+                                    });
+                                }else{
+                                    self.model.set('d_ultima_entrega_doc', dateDoc);
+                                    self.model.save({ wait: true });
+                                    this.$('.modal').modal('hide');
+                                    self.fillExploracao(e)
+                                }
+                            }else {
+                                bootbox.alert({
+                                    message:'A data não é válida.',
+                                    callback: this.showDefaultDate
+                                });
+
+                            }
+                        }
+                    });
+                    var modalView = new ModalUltimaEntregaDoc({
+                        model: self.model
+                    })
+                    modalView.show();
+
+            }else {
+                self.fillExploracao(e);
+            }
         });
 
         this.tabBarTitle = new Backbone.SIXHIARA.TabBarTitle({
@@ -53,6 +90,7 @@ Backbone.SIXHIARA.View1 = Backbone.View.extend({
             model: currentState,
         }).render();
     },
+
 
     autosave: function() {
         // http://codetunnel.io/how-to-implement-autosave-in-your-web-app/

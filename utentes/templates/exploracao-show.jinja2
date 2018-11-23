@@ -15,6 +15,7 @@
   "offline/sixhiara-labels.css",
   "lib/leaflet-draw/dist/leaflet.draw.css",
   "css/exploracao-show.css",
+  "css/alert-system.css",
   "css/base.css",
   output="dist/exploracao-show.css", filters="cssrewrite,cssutils" %}
         <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}">
@@ -27,7 +28,7 @@
 
     <menu class="row">
     </menu>
-
+    <div id="license-info" class="row"></div>
     <section class="row">
       <section id="block-title" class="col-xs-12">
         <h3>
@@ -1907,6 +1908,7 @@
         <span class="col-xs-offset-1 col-xs-11">
           <span class="title">Data emissão:</span> <%- formatter().formatDate(d_emissao) || '-' %>
           <span class="title">Data validade:</span> <%- formatter().formatDate(d_validade) || '-' %>
+          <small id="info-license-block" class="info-pill <%- lic_time_over ? 'label-danger' : (lic_time_warning ? 'label-warning' : lic_time_enough ? 'label-success' : 'hidden') %>"> <%- lic_time_info!== null ? lic_time_info : 'Sem informação' %></small>
         </span>
       </div>
       <div class="row">
@@ -2069,6 +2071,7 @@
   "views/common/SelectLocationView.js",
   "views/show/OpenFolderButtonView.js",
   "views/common/ButtonSaveView.js",
+  "views/common/BlockInfoLicenseView.js",
   "views/show/ButtonDeleteView.js",
   "views/show/ButtonRefreshView.js",
   "views/show/SummaryConsumoView.js",

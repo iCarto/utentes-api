@@ -84,6 +84,12 @@ Backbone.SIXHIARA.ExploracaoShowView = Backbone.View.extend({
                     model: exploracao
                 });
                 view.subViews.push(buttonRefreshView);
+
+                var blockInfoLicenseView = new Backbone.SIXHIARA.BlockInfoLicenseView({
+                    el: $('#license-info'),
+                    model: exploracao
+                });
+                view.subViews.push(blockInfoLicenseView);
             },
             error: function () {
                 // TODO: show message to user

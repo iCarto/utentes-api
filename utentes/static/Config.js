@@ -100,6 +100,11 @@ var role_domains_collection = new Backbone.UILib.DomainCollection([
     },
 ]);
 
+Backbone.SIXHIARA.tiemposRenovacion = {
+    limit: 90,
+    warning: 30
+};
+
 Backbone.SIXHIARA.duracionLicencias = {
     'Licença': '5',
     'Autorização': '1-2',

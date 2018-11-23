@@ -8,6 +8,7 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
         'exp_id':     null,
         'exp_name':   null,
         'd_soli':     null,
+        'd_ultima_entrega_doc':     null,
         'observacio': null,
         'loc_provin': null,
         'loc_distri': null,
@@ -63,6 +64,10 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
         'req_obs': false,
         'created_at': null,
         'estado_lic': Backbone.SIXHIARA.Estado.UNKNOWN,
+        'lic_time_info': null,
+        'lic_time_enough': false,
+        'lic_time_warning': false,
+        'lic_time_over': false,
     },
 
     initialize: function(){
@@ -75,6 +80,7 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
         this.set('summary_pagos_msg',    'Pagamentos');
 
         this.setListeners();
+        this.setLicenseTimeInfo();
         this.on('sync', function(model, response, options){
             // TODO: on sync, how to off old listeners for licenses, if any?
             this.set('summary_licencia_val', this.updateSummaryEstado());
@@ -82,6 +88,7 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
             this.set('summary_pagos_val', this.updateSummaryPagos());
             this.set('summary_pago_iva', this.updateSummaryPagoIva());
             this.setListeners();
+            this.setLicenseTimeInfo();
         }, this);
 
     },
@@ -374,6 +381,7 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
     parse: function(response){
         response = Backbone.GeoJson.Feature.prototype.parse.apply(this, arguments);
         this.parseDate(response, 'd_soli');
+        this.parseDate(response, 'd_ultima_entrega_doc');
 
         if (_.has(response, 'utente')) {
             response.utente = new Backbone.SIXHIARA.Utente(response.utente)
@@ -402,9 +410,10 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
     parseDate: function(response, field) {
         if (response[field]) {
             var sTokens = response[field].split('-');
-            response[field] = new Date(sTokens[0], sTokens[1] - 1, sTokens[2])
+            response[field] = new Date(sTokens[0], sTokens[1] - 1, sTokens[2], 1, 1, 1)
         }
     },
+
 
     toJSON: function() {
         var json = _.clone(this.attributes);
@@ -667,6 +676,13 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
         });
     },
 
+    setDocPendenteUtente: function(){
+        this.set("lic_time_info", 'Pendente do utente');
+        this.set("lic_time_enough", false);
+        this.set("lic_time_warning", false);
+        this.set("lic_time_over", false);
+    },
+
     cloneExploracao: function() {
         // Merge with toJSON and parse
         var exp = new Backbone.SIXHIARA.Exploracao(this.attributes);
@@ -676,6 +692,108 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
         exp.set('fontes', this.get('fontes'));
         return exp;
     },
+
+    getDifferenceTimeToString: function(initDate, warningDate, topDate, reverse){
+        var difference = moment.duration(warningDate.diff(initDate))
+
+        var remainYears = parseInt(difference.get('years'));
+        var remainMonths = parseInt(difference.get('months'));
+        var remainDays = parseInt(difference.get('days'));
+        var remainHours = parseInt(difference.get('hours'));
+
+        var remainYearsStr = remainYears == 0 || remainYears > 1 ? remainYears + " anos" : remainYears + " ano";
+        var remainMonthsStr = remainMonths == 0 || remainMonths > 1 ? remainMonths + " meses" : remainMonths + " mês";
+        var remainDaysStr = remainDays == 0 || remainDays > 1 ? remainDays + " dias" : remainDays + " dia";
+
+        return (remainYears > 0 && remainMonths > 0 && remainDays > 0) ?
+                    (remainYearsStr + ", " + remainMonthsStr + " e " + remainDaysStr) :
+                  (remainYears > 0 && !remainMonths && remainDays > 0) ?
+                    (remainYearsStr + " e " + remainDaysStr) :
+                  (remainYears > 0 && remainMonths > 0 && !remainDays) ?
+                    (remainYearsStr + " e " + remainMonthsStr) :
+                  (remainMonths > 0 && remainDays > 0) ?
+                    (remainMonthsStr + " e " + remainDaysStr) :
+                  (!remainMonths && remainDays > 0) ?
+                    (remainDaysStr) :
+                  (remainMonths > 0 && !remainDays) ?
+                    (remainMonthsStr) :
+                  (remainMonths === 0 && remainDays === 0 && remainHours > 0) ? "Menos de um dia" :
+                    0;
+    },
+
+    setLicenseTimeInfo: function() {
+        if(Backbone.SIXHIARA.Estado.CATEGORY_POST_LICENSED.indexOf(this.get('estado_lic')) === -1){
+            this.setLicenseTimeInfoPendentes();
+        }else {
+            this.setLicenseTimeInfoExploracaos();
+        }
+    },
+
+    setLicenseTimeInfoPendentes: function() {
+        // Pendentes
+        if (this.get("estado_lic") == Backbone.SIXHIARA.Estado.INCOMPLETE_DA ||
+            this.get("estado_lic") == Backbone.SIXHIARA.Estado.INCOMPLETE_DJ) {
+                this.setDocPendenteUtente();
+                return
+        }
+
+        var licenseDate = this.get("d_ultima_entrega_doc");
+        var now = moment();
+        licenseDate = moment(licenseDate);
+        var times = Backbone.SIXHIARA.tiemposRenovacion;
+        var remainDays = times.limit - now.diff(licenseDate, 'days');
+        var remainDaysStr = remainDays == 0 || remainDays > 1 ? remainDays + " dias" : remainDays + " dia";
+        this.set("lic_time_info", remainDaysStr);
+
+        if (remainDays > 0 && remainDays < times.warning) {
+            this.set("lic_time_warning", true);
+
+        } else if (remainDays <= 0 ){
+            this.set("lic_time_info", "Prazo esgotado");
+            this.set("lic_time_over", true);
+
+        } else if(remainDays >= times.warning){
+            this.set("lic_time_enough", true);
+        }
+    },
+
+    setLicenseTimeInfoExploracaos: function() {
+        var now = moment();
+        var topDate = now.clone().add(2, 'months');
+
+        // store the first license to compare with
+        var endsFirst = this.get('licencias').at(0);
+        this.get("licencias").forEach(function(lic){
+
+            if (lic.get("d_validade")) {
+                var licenseDate = moment(lic.get("d_validade"))
+                lic.set("lic_time_info", this.getDifferenceTimeToString(now, licenseDate, now.clone().add(2, "months")));
+
+                var topDate = licenseDate.clone().subtract(6, "months");
+                var warningDate = licenseDate.clone().subtract(2, "months");
+
+                if(now.isAfter(topDate) && now.isBefore(licenseDate)){
+                    if(now.isBetween(warningDate, licenseDate)){
+                        lic.set("lic_time_warning", true);
+                    }else if (now.isBetween(topDate, warningDate)) {
+                        lic.set("lic_time_enough", true);
+                    }
+                }else if(licenseDate.isBefore(now)){
+                    lic.set("lic_time_over", true);
+                    lic.set("lic_time_info", "Licença cadudada");
+                }
+
+                // Select the license that ends first
+                if (moment(endsFirst.get("d_validade")).isAfter(moment(lic.get("d_validade")))) {
+                    endsFirst = lic;
+                }
+            }
+        }, this);
+        this.set("lic_time_info", endsFirst.get("lic_time_info"))
+        this.set("lic_time_enough", endsFirst.get("lic_time_enough"))
+        this.set("lic_time_warning", endsFirst.get("lic_time_warning"))
+        this.set("lic_time_over", endsFirst.get("lic_time_over"))
+    }
 
 });
 

@@ -64,13 +64,14 @@ class Exploracao(ExploracaoBase):
         'carta_re', 'ficha_pe', 'ident_pro', 'certi_reg', 'duat', 'licen_am', 'mapa', 'licen_fu', 'r_perf', 'b_a_agua',
         'carta_re_v', 'ficha_pe_v', 'ident_pro_v', 'certi_reg_v', 'duat_v', 'licen_am_v', 'mapa_v', 'licen_fu_v', 'r_perf_v', 'b_a_agua_v',
         'anali_doc', 'soli_visit', 'p_unid', 'p_tec', 'doc_legal', 'p_juri', 'p_rel', 'req_obs', 'estado_lic', 'created_at', 'exp_name',
-        'lic_imp',
+        'lic_imp', 'd_soli', 'd_ultima_entrega_doc'
     ]
 
     FACTURACAO_FIELDS = ['fact_estado', 'fact_tipo', 'pago_lic', 'pagos']
 
     READ_ONLY = ['created_at']
-    d_soli = Column(Date, doc='Data da solicitação')
+    d_soli = Column(Date, nullable=False, server_default=text('now()'), doc='Data da solicitação')
+    d_ultima_entrega_doc = Column(Date, nullable=False, server_default=text('now()'), doc='Data de entrega da última documentação')
     pagos = Column(Boolean, doc='Utente ao corrente dos pagamaneto')
     observacio = Column(Text, doc='Observações')
     loc_provin = Column(Text, doc='Província')  # NOT NULL after some estado_lic
@@ -164,6 +165,7 @@ class Exploracao(ExploracaoBase):
         self.fact_tipo = 'Mensal'
         self.pago_lic = False
 
+
     def update_from_json_facturacao(self, json):
         self.fact_estado = json['fact_estado']
         self.fact_tipo = json['fact_tipo']
@@ -197,7 +199,6 @@ class Exploracao(ExploracaoBase):
         self.exp_id = json.get('exp_id')
         # self.exp_name = json.get('exp_name')
         self.pagos = json.get('pagos')
-        self.d_soli = to_date(json.get('d_soli'))
         self.observacio = json.get('observacio')
         self.loc_provin = json.get('loc_provin')
         self.loc_distri = json.get('loc_distri')
@@ -280,7 +281,6 @@ class Exploracao(ExploracaoBase):
                 'exp_id': self.exp_id,
                 # 'exp_name': self.exp_name,
                 'pagos': self.pagos,
-                'd_soli': self.d_soli,
                 'observacio': self.observacio,
                 'loc_provin': self.loc_provin,
                 'loc_distri': self.loc_distri,

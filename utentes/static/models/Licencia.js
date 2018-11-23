@@ -24,6 +24,10 @@ Backbone.SIXHIARA.Licencia = Backbone.Model.extend({
         'pago_iva': null,
         'consumo_tipo': null,
         'consumo_fact': null,
+        'lic_time_info': null,
+        'lic_time_enough': false,
+        'lic_time_warning': false,
+        'lic_time_over': false,
     },
 
     initialize: function(){

@@ -14,6 +14,8 @@
       <small class="label <%- summary_pagos_val === null ? 'label-default' : (summary_pagos_val ? 'label-success' : 'label-danger') %>" id="summary_pagos"><%- summary_pagos_msg.charAt(0) %></small>
       {% endif %}
       <small style="color: grey; font-size: 75%"><%- utente['nome'] %></small>
+      <small class="info-pill <%- lic_time_over ? 'label-danger' : (lic_time_warning ? 'label-warning' : lic_time_enough ? 'label-success' : 'hidden') %>"><%- lic_time_info || 'Sem informação' %></small>
+
     </span>
   </li>
 </script>

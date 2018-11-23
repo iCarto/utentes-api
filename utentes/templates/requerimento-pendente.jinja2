@@ -15,6 +15,7 @@
     "css/requerimento-pendente.css",
     "css/exploracao-filter.css",
     "css/exploracao-projects-header.css",
+    "css/alert-system.css",
     "css/base.css",
     output="dist/requerimento-pendente.css", filters="cssrewrite,cssutils" %}
           <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}">
@@ -72,7 +73,10 @@
       <br>
       <small><%- estado_lic %></small>
       <br>
-      <small><%- formatter().formatDate(created_at) %> </small>&nbsp;
+      <small><%- d_soli ? formatter().formatDate(d_soli) : formatter().formatDate(created_at) %> </small>&nbsp;
+      <small class="info-pill <%- lic_time_over ? 'label-danger' : (lic_time_warning ? 'label-warning' : lic_time_enough ? 'label-success' : 'label-default') %>"> <%- lic_time_info || 'Sem informação' %></small>
+
+
       <div class="licencias">
           <small>
               <div><%- Backbone.SIXHIARA.formatter.formatTipoLicencias(licencias)[0] %></div>
@@ -141,6 +145,8 @@
 "lib/backbone-uilib/views/BaseView.js",
 "views/common/NavBarView.js",
 "views/common/ConfigModalView.js",
+"views/show/ModalView.js",
+"views/common/UltimaEntregaDocModalView.js",
 "views/common/DocxGeneratorView.js",
 "Config.js",
 "models/Estado.js",
