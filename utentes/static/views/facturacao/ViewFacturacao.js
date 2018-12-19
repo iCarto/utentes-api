@@ -99,8 +99,8 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
                     <div class="form-group col-xs-12">
                         <label for="consumo_tipo_sub"><strong>Tipo de consumo</strong></label>
                         <select class="form-control" id="consumo_tipo_sub" disabled >
-                            <option>Fixo</option>
-                            <option selected>Variável</option>
+                            <option selected>Fixo</option>
+                            <option>Variável</option>
                         </select>
                     </div>
 
@@ -141,8 +141,8 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
                     <div class="form-group col-xs-12">
                         <label for="consumo_tipo_sup"><strong>Tipo de consumo</strong></label>
                         <select class="form-control" id="consumo_tipo_sup" disabled >
-                            <option>Fixo</option>
-                            <option selected>Variável</option>
+                            <option selected>Fixo</option>
+                            <option>Variável</option>
                         </select>
                     </div>
 
@@ -300,12 +300,18 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
 
     widgetsToBeUsed: function() {
         var self = this;
+        var user = wf.getRole();
         this.widgets = ['pago_lic', 'pagos', 'fact_tipo', 'iva'];
         this.model.get('licencias').forEach(function(lic){
             var tipo = lic.get('tipo_agua').substring(0, 3).toLowerCase();
             document.getElementById('lic-' + tipo).classList.remove('panel-disabled');
-            ['taxa_fixa_sup', 'taxa_fixa_sub', 'taxa_uso_sup', 'taxa_uso_sub'].forEach(function(w){
-                if (w.endsWith(tipo)) {
+            ['taxa_fixa_sup', 'taxa_fixa_sub', 'taxa_uso_sup', 'taxa_uso_sub', 'consumo_fact_sup', 'consumo_fact_sub'].forEach(function(w){
+                if (
+                    ROL_FINANCIERO === user &&
+                    w.endsWith(tipo)
+                ) {
+                    self.widgets.push(w);
+                }else if (w.endsWith(tipo)) {
                     self.widgets.push(w);
                 }
             });

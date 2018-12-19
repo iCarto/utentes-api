@@ -40,7 +40,7 @@ class Licencia(Base):
     pago_mes = Column(Numeric(10, 2), doc='Valor pago mensual')
     iva = Column(Numeric(10, 2), nullable=False, doc='IVA')
     pago_iva = Column(Numeric(10, 2), doc='Valor com IVA')
-    consumo_tipo = Column(Text, nullable=False, server_default=text("'Variável'::text"))
+    consumo_tipo = Column(Text, nullable=False, server_default=text("'Fixo'::text"))
     consumo_fact = Column(Numeric(10, 2), doc='Consumo facturado mensal')
     exploracao = Column(
         ForeignKey(
@@ -78,7 +78,7 @@ class Licencia(Base):
         self.pago_mes = to_decimal(json.get('pago_mes'))
         self.iva = to_decimal(json.get('iva'))
         self.pago_iva = to_decimal(json.get('pago_iva'))
-        self.consumo_tipo = json.get('consumo_tipo') or u'Variável'
+        self.consumo_tipo = json.get('consumo_tipo') or u'Fixo'
         self.consumo_fact = to_decimal(json.get('consumo_fact'))
 
     def __json__(self, request):
