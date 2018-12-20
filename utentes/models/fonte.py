@@ -14,6 +14,7 @@ class Fonte(Base):
     gid = Column(Integer, primary_key=True, server_default=text("nextval('utentes.fontes_gid_seq'::regclass)"))
     tipo_agua = Column(Text, nullable=False, doc='Tipo de água')
     tipo_fonte = Column(Text, doc='Tipo de Fonte')
+    cadastro = Column(Text, doc='Nº de Cadastro')
     disp_a = Column(Text, doc='Disponibilidade de agua')
     lat_lon = Column(Text, doc='Latitude / Longitud')
     d_dado = Column(Date, doc='Data toma de dados')
@@ -40,6 +41,7 @@ class Fonte(Base):
         self.gid = json.get('id')
         self.tipo_agua = json.get('tipo_agua')
         self.tipo_fonte = json.get('tipo_fonte')
+        self.cadastro = json.get('cadastro')
         self.disp_a = json.get('disp_a')
         self.lat_lon = json.get('lat_lon')
         self.d_dado = to_date(json.get('d_dado'))
@@ -56,6 +58,7 @@ class Fonte(Base):
             'id': self.gid,
             'tipo_agua': self.tipo_agua,
             'tipo_fonte': self.tipo_fonte,
+            'cadastro': self.cadastro,
             'disp_a': self.disp_a,
             'lat_lon': self.lat_lon,
             'd_dado': self.d_dado,

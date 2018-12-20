@@ -292,6 +292,12 @@
                       </div>
                       <div class="row">
                         <div class="form-group">
+                          <label for="cadastro_uni">Nº de cadastro Unificado</label>
+                          <input type="text" class="form-control widget uilib-enability uilib-enable-role-administrador uilib-enable-role-juridico" id="cadastro_uni">
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="form-group">
                           <label for="exp_name">Nome da exploração</label>
                           <input type="text" class="form-control widget" id="exp_name" required>
                         </div>
@@ -301,12 +307,6 @@
                         <div class="form-group">
                           <label for="d_soli">Data de solicitação</label>
                           <input type="text" class="form-control widget-date" id="d_soli" placeholder="dd/mm/yyyy" pattern="^\d{1,2}[./-]\d{1,2}[./-]\d{4}$">
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="form-group">
-                          <label for="pagos">Pagamentos</label>
-                          <select class="form-control widget-boolean uilib-enability uilib-enable-role-administrador" id="pagos"></select>
                         </div>
                       </div>
                       {% endif %}
@@ -1634,10 +1634,6 @@
                         <select type="text" class="form-control widget uilib-enability uilib-enable-role-administrador uilib-enable-role-juridico" id="estado" aria-describedby="info-estado-licencia"></select>
                       </div>
                       <div class="form-group col-xs-4">
-                        <label for="cadastro">Nro de cadastro</label>
-                        <input type="text" class="form-control widget uilib-enability uilib-enable-role-administrador uilib-enable-role-juridico" id="cadastro">
-                      </div>
-                      <div class="form-group col-xs-4">
                         <label for="n_licen_a">Nro de licença histórico</label>
                         <input type="text" class="form-control widget" id="n_licen_a" disabled>
                       </div>
@@ -1822,6 +1818,12 @@
                         <select class="form-control widget" id="disp_a"></select>
                       </div>
                     </div>
+                    <div class="row">
+                      <div class="form-group col-xs-6">
+                        <label for="cadastro">Nº de Cadastro</label>
+                        <input type="text" class="form-control widget" id="cadastro">
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1894,7 +1896,6 @@
       </div>
       <div class="row">
         <span class="col-xs-offset-1 col-xs-11">
-          <span class="title">Nro de cadastro:</span> <%- cadastro || '-' %>
           <span class="title">Nro de licença histórico:</span> <%- n_licen_a || '-' %>
           <span class="title">Tipo de Licença:</span> <%- tipo_lic || '-' %>
         </span>

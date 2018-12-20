@@ -45,6 +45,7 @@ Backbone.SIXHIARA.TableRowShowView = Backbone.View.extend({
         var displayNull = '';
         this.$('td.tipo_agua').text(fonte.get('tipo_agua') || displayNull);
         this.$('td.tipo_fonte').text(fonte.get('tipo_fonte') || displayNull);
+        this.$('td.cadastro').text(fonte.get('cadastro') || displayNull);
         this.$('td.disp_a').text(fonte.get('disp_a') || displayNull);
         this.$('td.lat_lon').text(fonte.get('lat_lon') || displayNull);
         var c_soli = formatter().formatNumber(fonte.get('c_soli'));
@@ -64,7 +65,6 @@ Backbone.SIXHIARA.TableRowShowView = Backbone.View.extend({
         e.preventDefault();
 
         var fonte = this.model;
-
         var modalView = new Backbone.UILib.ModalView({
             model: this.model,
             selectorTmpl: '#block-fonte-modal-tmpl'

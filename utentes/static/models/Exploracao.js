@@ -18,6 +18,7 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
         'loc_bacia':  null,
         'loc_subaci': null,
         'loc_rio':    null,
+        'cadastro_uni':    null,
         'pagos':      null,
         'c_soli':     null,
         'c_licencia': null,

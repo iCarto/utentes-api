@@ -82,6 +82,7 @@ class Exploracao(ExploracaoBase):
     loc_bacia = Column(Text, doc='Bacia')
     loc_subaci = Column(Text, doc='Sub-bacia')
     loc_rio = Column(Text, doc='Rio')
+    cadastro_uni = Column(Text, doc='Nº de cadastro Unificado')
     c_soli = Column(Numeric(10, 2), doc='Consumo mensal solicitado ')
     c_licencia = Column(Numeric(10, 2), doc='Consumo mensal licenciado')
     c_real = Column(Numeric(10, 2), doc='Consumo mensal real')
@@ -207,6 +208,7 @@ class Exploracao(ExploracaoBase):
         self.loc_bacia = json.get('loc_bacia')
         self.loc_subaci = json.get('loc_subaci')
         self.loc_rio = json.get('loc_rio')
+        self.cadastro_uni = json.get('cadastro_uni')
         self.c_soli = to_decimal(json.get('c_soli'))
         self.c_licencia = to_decimal(json.get('c_licencia'))
         self.c_real = to_decimal(json.get('c_real'))
@@ -289,6 +291,7 @@ class Exploracao(ExploracaoBase):
                 'loc_bacia': self.loc_bacia,
                 'loc_subaci': self.loc_subaci,
                 'loc_rio': self.loc_rio,
+                'cadastro_uni': self.cadastro_uni,
                 'c_soli': self.c_soli,
                 'c_licencia': self.c_licencia,
                 'c_real': self.c_real,
