@@ -68,7 +68,9 @@
           <div class="row">
             <span class="col-xs-offset-1 col-xs-11">
               <span class="title">Data de solicitação:</span> <span class="widget-date" id="d_soli">-</span>
+              <span class="title">Nº de cadastro Unificado:</span> <span class="widget" id="cadastro_uni">-</span>
             </span>
+
           </div>
           {% endif %}
           <div class="row">
@@ -293,7 +295,7 @@
                       <div class="row">
                         <div class="form-group">
                           <label for="cadastro_uni">Nº de cadastro Unificado</label>
-                          <input type="text" class="form-control widget uilib-enability uilib-enable-role-administrador uilib-enable-role-juridico" id="cadastro_uni">
+                          <input type="text" class="form-control widget uilib-enability uilib-enable-role-administrador uilib-enable-role-tecnico" id="cadastro_uni">
                         </div>
                       </div>
                       <div class="row">
@@ -1634,15 +1636,15 @@
                         <select type="text" class="form-control widget uilib-enability uilib-enable-role-administrador uilib-enable-role-juridico" id="estado" aria-describedby="info-estado-licencia"></select>
                       </div>
                       <div class="form-group col-xs-4">
+                        <label for="estado">Tipo de licença</label>
+                        <select type="text" class="form-control widget uilib-enability uilib-enable-role-administrador uilib-enable-role-juridico" id="tipo_lic"></select>
+                      </div>
+                      <div class="form-group col-xs-4">
                         <label for="n_licen_a">Nro de licença histórico</label>
                         <input type="text" class="form-control widget" id="n_licen_a" disabled>
                       </div>
                     </div>
                     <div class="row">
-                      <div class="form-group col-xs-4">
-                        <label for="estado">Tipo de licença</label>
-                        <select type="text" class="form-control widget uilib-enability uilib-enable-role-administrador uilib-enable-role-juridico" id="tipo_lic"></select>
-                      </div>
                       <div class="form-group col-xs-4">
                         <label for="d_emissao">Data emissão</label>
                         <input type="text" class="form-control widget-date uilib-enability uilib-enable-role-administrador uilib-enable-role-juridico" id="d_emissao" placeholder="dd/mm/yyyy" pattern="^\d{1,2}[./-]\d{1,2}[./-]\d{4}$">

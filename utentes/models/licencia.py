@@ -23,7 +23,6 @@ class Licencia(Base):
     lic_nro = Column(Text, nullable=False, unique=True, doc='Nro de Licença')
     tipo_agua = Column(Text, nullable=False, doc='Tipo de água')
     tipo_lic = Column(Text, nullable=False, doc='Tipo de Licença')
-    cadastro = Column(Text, doc='Nro de Cadastro')
     n_licen_a = Column(Text, doc='Nro de licença histórico')
     estado = Column(Text, nullable=False, doc='Estado')
     d_emissao = Column(Date, doc='Data emissão')
@@ -61,7 +60,6 @@ class Licencia(Base):
         self.tipo_agua = json.get('tipo_agua')
         self.tipo_lic = json.get('tipo_lic')
         self.finalidade = json.get('finalidade')
-        self.cadastro = json.get('cadastro')
         self.n_licen_a = json.get('n_licen_a')
         self.estado = json.get('estado')
         self.d_emissao = to_date(json.get('d_emissao'))
@@ -87,7 +85,6 @@ class Licencia(Base):
             'lic_nro': self.lic_nro,
             'tipo_agua': self.tipo_agua,
             'tipo_lic': self.tipo_lic,
-            'cadastro': self.cadastro,
             'n_licen_a': self.n_licen_a,
             'estado': self.estado,
             'd_emissao': self.d_emissao,

@@ -6,7 +6,6 @@ Backbone.SIXHIARA.Licencia = Backbone.Model.extend({
         'lic_nro':    null,
         'tipo_agua':   null,
         'tipo_lic':   null,
-        'cadastro':   null,
         'n_licen_a':  null,
         'estado':     null,
         'd_emissao':  null,
