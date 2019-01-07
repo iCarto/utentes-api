@@ -325,6 +325,7 @@ class Exploracao(ExploracaoBase):
                 'loc_distri': self.utente_rel.loc_distri,
                 'loc_posto': self.utente_rel.loc_posto,
                 'loc_nucleo': self.utente_rel.loc_nucleo,
+                'loc_endere': self.utente_rel.loc_endere,
                 'reg_comerc': self.utente_rel.reg_comerc,
                 'reg_zona': self.utente_rel.reg_zona,
                 'observacio': self.utente_rel.observacio

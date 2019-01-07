@@ -113,49 +113,53 @@
             </div>
 
             <div class="row">
-              <div class="col-xs-offset-1 col-xs-5">
+              <div class="col-xs-offset-1 col-xs-6">
                 <div class="panel panel-info">
                   <div class="panel-heading">
                     <h3 class="panel-title"><strong>Localização</strong></h3>
                   </div>
                   <div class="panel-body">
                     <div class="row">
-                      <div class="col-xs-12">
+                      <div class="col-xs-6">
                         <div class="form-group">
                           <label for="loc_provin">Província</label>
                           <select class="form-control widget widget-utente" id="loc_provin"></select>
                         </div>
                       </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-xs-12">
-                        <div class="form-group">
-                          <label for="loc_distri">Distrito</label>
-                          <select class="form-control widget widget-utente" id="loc_distri"></select>
-                        </div>
+                      <div class="col-xs-6">
+                          <div class="form-group">
+                              <label for="loc_distri">Distrito</label>
+                              <select class="form-control widget widget-utente" id="loc_distri"></select>
+                          </div>
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-xs-12">
+                      <div class="col-xs-6">
                         <div class="form-group">
                           <label for="loc_posto">Posto administrativo</label>
                           <select class="form-control widget widget-utente" id="loc_posto"></select>
                         </div>
                       </div>
+                      <div class="col-xs-6">
+                          <div class="form-group">
+                              <label for="loc_nucleo">Bairro</label>
+                              <input type="text" class="form-control widget widget-utente" id="loc_nucleo">
+                          </div>
+                      </div>
                     </div>
                     <div class="row">
-                      <div class="col-xs-12">
-                        <div class="form-group">
-                          <label for="loc_nucleo">Bairro</label>
-                          <input type="text" class="form-control widget widget-utente" id="loc_nucleo">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label for="loc_endere">Endereço</label>
+                                <textarea class="form-control widget widget-utente" id="loc_endere" rows="4"></textarea>
+                            </div>
                         </div>
-                      </div>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div class="col-xs-5">
+              <div class="col-xs-4">
                 <div class="panel panel-info">
                   <div class="panel-heading">
                     <h3 class="panel-title"><strong>Outros</strong></h3>
@@ -205,11 +209,11 @@
   </script>
 
   {% include 'set-ara-variable.jinja2' %}
-  
+
   <!-- javascri/static/pt -->
   {% assets
   "node-interaction.js",
-  
+
   "lib/jquery/jquery-1.12.0.min.js",
   "lib/bootstrap/js/bootstrap.min.js",
   "lib/underscore/underscore-min.js",
@@ -223,9 +227,9 @@
   "lib/moment-2.11.2/moment-with-locales.js",
   "lib/numeral-js-1.5.3/min/languages.min.js",
   "lib/numeral-js-1.5.3/min/numeral.min.js",
-  
+
   "tenant-custom-code.js",
-  
+
   "lib/formatter/formatter.js",
   "lib/schema-validator/validator.js",
   "lib/backbone-geojson/Feature.js",

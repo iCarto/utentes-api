@@ -62,10 +62,6 @@ label{ /*override bootstrap settings*/
     width: 680px;
 }
 
-#panel-body-utente-outros {
-    margin-bottom: 3%;
-}
-
 #panel-body-regadio-consumos {
     margin-bottom: 44%;
 }
