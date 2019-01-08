@@ -100,8 +100,10 @@ def utentes_create(request):
     if not nome:
         raise badrequest_exception({'error': 'nome es um campo obligatorio'})
 
-    e = request.db.query(Utente).filter(Utente.nome == nome).first()
+    e = request.db.query(Utente).filter(Utente.nome == nome).all()
+    print(e)
     if e:
+        print('excepcion')
         raise badrequest_exception({'error': error_msgs['utente_already_exists']})
 
     u = Utente.create_from_json(body)

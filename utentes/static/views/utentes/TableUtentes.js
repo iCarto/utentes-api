@@ -190,7 +190,11 @@ Backbone.SIXHIARA.TableUtentes = Backbone.View.extend({
                     },
                     error: function(xhr, textStatus, errorThrown) {
                         if (textStatus && textStatus.responseJSON && textStatus.responseJSON.error) {
-                            bootbox.alert(textStatus.responseJSON.error.join('\n'));
+                            var errorMsg = textStatus.responseJSON.error;
+                            if (Array.isArray(errorMsg)) {
+                                errorMsg = errorMsg.join('\n');
+                            }
+                            bootbox.alert(errorMsg);
                         } else {
                             bootbox.alert(textStatus.statusText);
                         }
