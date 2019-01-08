@@ -64,7 +64,7 @@ if (id) {
                     document.querySelectorAll('#licencia-superficial #estado')[0].parentNode.remove();
                     document.querySelectorAll('#licencia-subterranea #estado')[0].parentNode.remove();
                     var nextState = wf.whichNextState(exploracao.get('estado_lic'), {target: {id: 'bt-ok'}});
-                    exploracao.set('state_to_set_after_validation', nextState);
+                    exploracao.set('state_to_set_after_validation', nextState, {silent: true});
                 },
                 error: function (collection, response, option) {
                     console.log('error fetching domains');
