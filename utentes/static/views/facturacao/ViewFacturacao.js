@@ -306,12 +306,7 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
             var tipo = lic.get('tipo_agua').substring(0, 3).toLowerCase();
             document.getElementById('lic-' + tipo).classList.remove('panel-disabled');
             ['taxa_fixa_sup', 'taxa_fixa_sub', 'taxa_uso_sup', 'taxa_uso_sub', 'consumo_fact_sup', 'consumo_fact_sub'].forEach(function(w){
-                if (
-                    ROL_FINANCIERO === user &&
-                    w.endsWith(tipo)
-                ) {
-                    self.widgets.push(w);
-                }else if (w.endsWith(tipo)) {
+                if (w.endsWith(tipo)) {
                     self.widgets.push(w);
                 }
             });
