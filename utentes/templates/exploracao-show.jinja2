@@ -242,19 +242,16 @@
         <table class="table table-bordered" id="block-fontes">
           <thead>
             <tr>
-              <th style="width:8%">Tipo de água</th>
-              <th style="width:8%">Tipo de fonte</th>
-              <th style="width:12%">Disponibilidade de agua</th>
-              <th style="width:13%">Consumo solicitado <i class="units">(m<sup>3</sup>/mês)</i></th>
+              <th style="width:7%">Tipo de água</th>
+              <th style="width:7%">Tipo de fonte</th>
+              <th style="width:12%">Consumo solicitado <i class="units">(m<sup>3</sup>/mês)</i></th>
               {% if request.registry.settings['ara'] != 'DPMAIP' %}
-              <th style="width:11%">Consumo real <i class="units">(m<sup>3</sup>/mês)</i></th>
+              <th style="width:10%">Consumo real <i class="units">(m<sup>3</sup>/mês)</i></th>
               {% endif %}
-              <th style="width:11%">Máximo caudal <i class="units">(m<sup>3</sup>/mês)</i></th>
-              <th style="width:9%">Sistema de medição</th>
-              <th style="width:9%">Método estimação</th>
               <th style="width:8%">Toma de dados</th>
-              <th style="width:7%">Lat / Lon</th>
-              <th>Observações</th>
+              <th style="width:12%">Nº de catastro</th>
+              <th style="width:12%">Lat / Lon</th>
+              <th style="width:25%" class="observacio">Observações</th>
               <th style="width:2%" class="uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"></th>
               <th style="width:2%" class="uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"></th>
             </tr>

@@ -85,3 +85,14 @@ label{ /*override bootstrap settings*/
 .exploracao_info {
     color: #00a2da;
 }
+#block-fontes thead th,
+#block-fontes tbody td {
+    text-align: center;
+}
+#block-fontes tbody .observacio {
+    text-align: left;
+}
+#block-fontes thead .units {
+    color: gray;
+    font-size: 80%;
+}
