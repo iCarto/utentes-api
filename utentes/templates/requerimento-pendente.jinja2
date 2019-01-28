@@ -73,7 +73,7 @@
       <br>
       <small><%- estado_lic %></small>
       <br>
-      <small><%- d_soli ? formatter().formatDate(d_soli) : formatter().formatDate(created_at) %> </small>&nbsp;
+      <small><%- formatter().formatDate(d_ultima_entrega_doc) %> </small>&nbsp;
       <small class="info-pill <%- lic_time_over ? 'label-danger' : (lic_time_warning ? 'label-warning' : lic_time_enough ? 'label-success' : 'label-default') %>"> <%- lic_time_info || 'Sem informação' %></small>
 
 
