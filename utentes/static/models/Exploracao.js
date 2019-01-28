@@ -79,16 +79,16 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
         this.set('summary_pagos_val',    this.updateSummaryPagos());
         this.set('summary_pagos_msg',    'Pagamentos');
 
-        this.setListeners();
         this.setLicenseTimeInfo();
+        this.setListeners();
         this.on('sync', function(model, response, options){
             // TODO: on sync, how to off old listeners for licenses, if any?
             this.set('summary_licencia_val', this.updateSummaryEstado());
             this.set('summary_consumo_val', this.updateSummaryConsumo());
             this.set('summary_pagos_val', this.updateSummaryPagos());
             this.set('summary_pago_iva', this.updateSummaryPagoIva());
-            this.setListeners();
             this.setLicenseTimeInfo();
+            this.setListeners();
         }, this);
 
     },
@@ -677,10 +677,10 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
     },
 
     setDocPendenteUtente: function(){
-        this.set("lic_time_info", 'Pendente do utente');
-        this.set("lic_time_enough", false);
-        this.set("lic_time_warning", false);
-        this.set("lic_time_over", false);
+        this.set("lic_time_info", 'Pendente do utente', {silent:true});
+        this.set("lic_time_enough", false, {silent:true});
+        this.set("lic_time_warning", false, {silent:true});
+        this.set("lic_time_over", false, {silent:true});
     },
 
     cloneExploracao: function() {
@@ -743,17 +743,17 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
         var times = Backbone.SIXHIARA.tiemposRenovacion;
         var remainDays = times.limit - now.diff(licenseDate, 'days');
         var remainDaysStr = remainDays == 0 || remainDays > 1 ? remainDays + " dias" : remainDays + " dia";
-        this.set("lic_time_info", remainDaysStr);
+        this.set("lic_time_info", remainDaysStr, {silent:true});
 
         if (remainDays > 0 && remainDays < times.warning) {
-            this.set("lic_time_warning", true);
+            this.set("lic_time_warning", true, {silent:true});
 
         } else if (remainDays <= 0 ){
-            this.set("lic_time_info", "Prazo esgotado");
-            this.set("lic_time_over", true);
+            this.set("lic_time_info", "Prazo esgotado", {silent:true});
+            this.set("lic_time_over", true, {silent:true});
 
         } else if(remainDays >= times.warning){
-            this.set("lic_time_enough", true);
+            this.set("lic_time_enough", true, {silent:true});
         }
     },
 
@@ -767,20 +767,20 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
 
             if (lic.get("d_validade")) {
                 var licenseDate = moment(lic.get("d_validade"))
-                lic.set("lic_time_info", this.getDifferenceTimeToString(now, licenseDate, now.clone().add(2, "months")));
+                lic.set("lic_time_info", this.getDifferenceTimeToString(now, licenseDate, now.clone().add(2, "months")), {silent:true});
 
                 var topDate = licenseDate.clone().subtract(6, "months");
                 var warningDate = licenseDate.clone().subtract(2, "months");
 
                 if(now.isAfter(topDate) && now.isBefore(licenseDate)){
                     if(now.isBetween(warningDate, licenseDate)){
-                        lic.set("lic_time_warning", true);
+                        lic.set("lic_time_warning", true, {silent:true});
                     }else if (now.isBetween(topDate, warningDate)) {
-                        lic.set("lic_time_enough", true);
+                        lic.set("lic_time_enough", true, {silent:true});
                     }
                 }else if(licenseDate.isBefore(now)){
-                    lic.set("lic_time_over", true);
-                    lic.set("lic_time_info", "Licença cadudada");
+                    lic.set("lic_time_over", true, {silent:true});
+                    lic.set("lic_time_info", "Licença cadudada", {silent:true});
                 }
 
                 // Select the license that ends first
@@ -789,10 +789,10 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
                 }
             }
         }, this);
-        this.set("lic_time_info", endsFirst.get("lic_time_info"))
-        this.set("lic_time_enough", endsFirst.get("lic_time_enough"))
-        this.set("lic_time_warning", endsFirst.get("lic_time_warning"))
-        this.set("lic_time_over", endsFirst.get("lic_time_over"))
+        this.set("lic_time_info", endsFirst.get("lic_time_info"), {silent:true})
+        this.set("lic_time_enough", endsFirst.get("lic_time_enough"), {silent:true})
+        this.set("lic_time_warning", endsFirst.get("lic_time_warning"), {silent:true})
+        this.set("lic_time_over", endsFirst.get("lic_time_over"), {silent:true})
     }
 
 });
