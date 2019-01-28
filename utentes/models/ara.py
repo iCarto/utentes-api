@@ -6,13 +6,13 @@ from sqlalchemy.dialects.postgresql import ARRAY
 
 from utentes.models.base import (
     Base,
-    PGSQL_SCHEMA_UTENTES,
+    PGSQL_SCHEMA_DOMAINS,
 )
 
 
 class Ara(Base):
     __tablename__ = 'datos_aras'
-    __table_args__ = {u'schema': PGSQL_SCHEMA_UTENTES}
+    __table_args__ = {u'schema': PGSQL_SCHEMA_DOMAINS}
 
     id = Column(Text, primary_key=True)
     name = Column(Text, nullable=False, doc='Nome da Ara')
