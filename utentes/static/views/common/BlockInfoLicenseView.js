@@ -3,8 +3,8 @@ Backbone.SIXHIARA.BlockInfoLicenseView = Backbone.View.extend({
 
     template: _.template(
         '<div class="col-lg-6">' +
-            '<div class="alert-system-top-message <%- colorClass %>">' +
-            '<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+            '<div class="alert <%- colorClass %> alert-system-top-message ">' +
+            '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
             "<%- infoMessage %>" +
             "</div>" +
             "</div>"
