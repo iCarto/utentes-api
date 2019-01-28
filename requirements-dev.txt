@@ -1,2 +1,17 @@
 flake8
 flake8-quotes
+flake8-class-newline
+flake8-tuple
+flake8-print
+flake8-debugger
+flake8-builtins
+flake8-comprehensions
+mccabe
+cohesion
+isort
+# pip install isort[requirements,pipfile] para la proxima release de isort
+yapf
+
+# Only works in python3
+# flake8-broken-line
+# flake8-pie
