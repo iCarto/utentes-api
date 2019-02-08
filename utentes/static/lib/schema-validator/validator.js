@@ -59,12 +59,11 @@ function validator(schemaValidateFrom){
 
     function isDate(){
         var ruleObj = new Object();
+        var isoFormat = /^\d{4}-\d{2}-\d{2}$/;
 
         function fails(value){
-            if((value instanceof Date) || (value === null)){
-                return false;
-            }
-            return true;
+            var valid = (value instanceof Date) || (value === null) || isoFormat.test(value);
+            return !valid;
         }
 
         ruleObj.fails = fails;

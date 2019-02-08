@@ -1,5 +1,6 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.Licencia = Backbone.Model.extend({
+    dateFields: ['d_emissao', 'd_validade'],
 
     defaults: {
         'id':         null,
@@ -52,19 +53,6 @@ Backbone.SIXHIARA.Licencia = Backbone.Model.extend({
 
         this.on('change:taxa_fixa change:taxa_uso change:consumo_fact', this.updatePagoMes, this);
         this.on('change:pago_mes change:iva', this.updatePagoIva, this);
-    },
-
-    parse: function(response) {
-        this.parseDate(response, 'd_emissao');
-        this.parseDate(response, 'd_validade');
-        return response;
-    },
-
-    parseDate: function(response, field) {
-        if (response[field]) {
-            var sTokens = response[field].split('-');
-            response[field] = new Date(sTokens[0], sTokens[1] - 1, sTokens[2])
-        }
     },
 
     getSoliTot: function(){

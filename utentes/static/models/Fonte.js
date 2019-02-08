@@ -1,5 +1,6 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.Fonte = Backbone.Model.extend({
+    dateFields: ['d_dado',],
 
     defaults: {
         'id':         null,
@@ -16,17 +17,4 @@ Backbone.SIXHIARA.Fonte = Backbone.Model.extend({
         'metodo_est': null,
         'observacio': null,
     },
-
-    parse: function(response) {
-        this.parseDate(response, 'd_dado');
-        return response;
-    },
-
-    parseDate: function(response, field) {
-        if (response[field]) {
-            var sTokens = response[field].split('-');
-            response[field] = new Date(sTokens[0], sTokens[1] - 1, sTokens[2])
-        }
-    },
-
 });

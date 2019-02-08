@@ -1,5 +1,6 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
+    dateFields: ['d_soli', 'd_ultima_entrega_doc'],
 
     urlRoot: Backbone.SIXHIARA.Config.apiExploracaos,
 
@@ -379,9 +380,7 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
     },
 
     parse: function(response){
-        response = Backbone.GeoJson.Feature.prototype.parse.apply(this, arguments);
-        this.parseDate(response, 'd_soli');
-        this.parseDate(response, 'd_ultima_entrega_doc');
+        response = Backbone.SIXHIARA.Exploracao.__super__.parse.apply(this, arguments);
 
         if (_.has(response, 'utente')) {
             response.utente = new Backbone.SIXHIARA.Utente(response.utente)
@@ -407,27 +406,22 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
         return response;
     },
 
-    parseDate: function(response, field) {
-        if (response[field]) {
-            var sTokens = response[field].split('-');
-            response[field] = new Date(sTokens[0], sTokens[1] - 1, sTokens[2], 1, 1, 1)
-        }
-    },
 
 
-    toJSON: function() {
-        var json = _.clone(this.attributes);
-        json.geometry   = this.get('geometry') ? this.get('geometry').toJSON() : null;
-        json.utente     = this.get('utente').toJSON();
-        json.licencias  = this.get('licencias').toJSON();
-        json.fontes     = this.get('fontes').toJSON();
+
+    toJSON: function(options) {
+        var attrs = Backbone.SIXHIARA.Exploracao.__super__.toJSON.apply(this, arguments);
+        attrs.geometry   = this.get('geometry') ? this.get('geometry').toJSON() : null;
+        attrs.utente     = this.get('utente').toJSON();
+        attrs.licencias  = this.get('licencias').toJSON();
+        attrs.fontes     = this.get('fontes').toJSON();
         if (this.getActividadeTipo() === Backbone.SIXHIARA.MSG.NO_ACTIVITY) {
-            json.actividade = null;
+            attrs.actividade = null;
         } else {
-            json.actividade = this.get('actividade').toJSON();
+            attrs.actividade = this.get('actividade').toJSON();
         }
-        json.urlShow    = this.urlShow();
-        return json;
+        attrs.urlShow    = this.urlShow();
+        return attrs;
     },
 
     validate: function(attrs, options){
