@@ -33,6 +33,7 @@ class RequestWithDB(Request):
 
 
 def date_adapter(obj, request):
+    """ Returns string in format 'yyyy-mm-dd' or None """
     return obj.isoformat() if obj else None
 
 

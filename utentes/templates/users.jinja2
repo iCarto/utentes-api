@@ -107,18 +107,20 @@
       </div>
     </div>
   </script>
-  
+
 {% include 'set-ara-variable.jinja2' %}
 
 {% assets
 "node-interaction.js",
 
 "lib/jquery/jquery-1.12.0.min.js",
-"lib/underscore/underscore-min.js",
-"lib/backbone/backbone.js",
 "lib/bootstrap/js/bootstrap.min.js",
 "lib/bootbox.min.js",
+"lib/underscore/underscore-min.js",
+"lib/backbone/backbone.js",
+"lib/moment-2.11.2/moment-with-locales.js",
 
+"monkey-patching/index.js",
 "tenant-custom-code.js",
 
 "lib/schema-validator/validator.js",

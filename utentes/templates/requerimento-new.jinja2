@@ -53,7 +53,7 @@
               <div class="col-xs-12">
               <div class="form-group">
                 <label for="exp_name">Nome <i class="fa fa-question-circle" data-toggle="tooltip" title="Debe escribir un nome de al menos 3 caracteres"></i></label>
-                <input type="text" id="exp_name" class="form-control widget" required>
+                <input type="text" id="exp_name" class="form-control widget" autofocus required>
               </div>
               <div class="form-group">
                   <label class="" for="exp_name">Data de solicitação</label>
@@ -150,9 +150,9 @@
 
 "lib/jquery/jquery-1.12.0.min.js",
 "lib/bootstrap/js/bootstrap.min.js",
+"lib/bootbox.min.js",
 "lib/underscore/underscore-min.js",
 "lib/backbone/backbone.js",
-"lib/bootbox.min.js",
 "lib/moment-2.11.2/moment-with-locales.js",
 "lib/numeral-js-1.5.3/min/languages.min.js",
 "lib/numeral-js-1.5.3/min/numeral.min.js",
@@ -160,14 +160,13 @@
 "lib/jquery-fileupload/jquery.iframe-transport.js",
 "lib/jquery-fileupload/jquery.fileupload.js",
 
+"monkey-patching/index.js",
 "tenant-custom-code.js",
 
-"lib/formatter/formatter.js",
 "lib/schema-validator/validator.js",
-
+"lib/formatter/formatter.js",
 "lib/backbone-geojson/Feature.js",
 "lib/backbone-geojson/FeatureCollection.js",
-
 "lib/backbone-dms/Config.js",
 "lib/backbone-dms/util/Util.js",
 "lib/backbone-dms/models/File.js",
@@ -196,9 +195,9 @@
 "lib/backbone-uilib/views/BaseView.js",
 "lib/backbone-uilib/views/ModalView.js",
 "utils/accentNeutralise.js",
+"Config.js",
 "views/common/NavBarView.js",
 "views/common/ConfigModalView.js",
-"Config.js",
 "models/Estado.js",
 "models/Fonte.js",
 "models/FonteSchema.js",
