@@ -24,8 +24,9 @@ Backbone.SIXHIARA.UltimaEntregaDocModalView = Backbone.View.extend({
                                 <div class="col-xs-12">
                                     <div class="row">
                                         <div class="form-group">
-                                           <label for="exp_id">Insira a nova data de entrega da documentação</label>
-                                           <input type="text" class="form-control widget widget-date" id="d_ultima_entrega_doc" placeholder="dd/mm/yyyy" pattern="^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\\d\\d$">
+                                           <label class="control-label" for="d_ultima_entrega_doc">Insira a nova data de entrega da documentação</label>
+                                           <input type="text" class="form-control widget-date" id="d_ultima_entrega_doc" placeholder="dd/mm/yyyy" aria-describedby="helpBlock_d_ultima_entrega_doc" required>
+                                           <span id="helpBlock_d_ultima_entrega_doc" class="help-block" style="padding-top: 2px;">&nbsp;</span>
                                         </div>
                                     </div>
                                 </div>
@@ -38,7 +39,7 @@ Backbone.SIXHIARA.UltimaEntregaDocModalView = Backbone.View.extend({
                <div class="row">
                   <div class="col-xs-offset-1 col-xs-10">
                      <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                     <button type="button" class="btn btn-primary" id="okbutton">Aceitar</button>
+                     <button type="button" class="btn btn-primary" id="okbutton" disabled>Aceitar</button>
                   </div>
                </div>
             </div>
@@ -57,31 +58,35 @@ Backbone.SIXHIARA.UltimaEntregaDocModalView = Backbone.View.extend({
         return this;
     },
 
-    isValidDate: function(value){
-        return /^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$/.test(value);
-    },
-
-    isAfterNow: function(value){
-        var sTokens = value.split('/');
-        var date = new Date(sTokens[2], sTokens[1] - 1, sTokens[0]);
-        return date > new Date();
-    },
-
     isBeforeSolicitacao: function(value){
-        var sTokens = value.split('/');
-        var date = new Date(sTokens[2], sTokens[1] - 1, sTokens[0], 1, 1, 1);
-        return date < this.model.get("d_soli");
-    },
-
-    showDefaultDate: function() {
-        document.getElementById('d_ultima_entrega_doc').value = moment().format("DD/MM/YYYY");
+        return formatter().isFirstDateBeforeSecondDate(value, this.model.get("d_soli"));
     },
 
     show: function() {
-        $(document.body).append(this.render().el);
-        this.showDefaultDate()
-
         var self = this;
+        $(document.body).append(this.render().el);
+        document.getElementById('d_ultima_entrega_doc').addEventListener('input', function(e) {
+            var dateWidget = e.target;
+            var dateObj = formatter().unformatDate(dateWidget.value);
+            var validDate = dateObj && formatter().validDateFormat(dateWidget.value) && !formatter().isFuture(dateObj) && !self.isBeforeSolicitacao(dateObj);
+            if (validDate) {
+                dateWidget.setCustomValidity('');
+            } else {
+                dateWidget.setCustomValidity('A data deve ter o formato correto, ser posterior à data da solicitação e não ser posterior a hoje.');
+            }
+
+            var helpBlock = document.getElementById('helpBlock_d_ultima_entrega_doc');
+            if (validDate) {
+                helpBlock.innerText = '';
+                helpBlock.style.color = null;
+            } else {
+                helpBlock.innerText = 'A data deve ter o formato correto, ser posterior à data da solicitação e não ser posterior a hoje.';
+                helpBlock.style.color = 'red';
+            }
+
+            document.getElementById('okbutton').disabled = !validDate;
+        }, false);
+
 
         this.$('.modal').on('hidden.bs.modal', function(){
             self._close();

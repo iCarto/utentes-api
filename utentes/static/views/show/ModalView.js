@@ -44,6 +44,17 @@ Backbone.SIXHIARA.ModalView = Backbone.View.extend({
             self._close();
         });
         this.$('.modal').modal('show');
+        this.$('.modal').find('.widget-date').toArray().forEach(function(widget){
+            widget.addEventListener('input', function(e){
+                var dateWidget = e.target;
+                var validDate = formatter().validDateFormat(dateWidget.value);
+                if (validDate) {
+                    dateWidget.setCustomValidity('');
+                } else {
+                    dateWidget.setCustomValidity('A data deve ter o formato correto');
+                }
+            });
+        });
     },
 
     _close: function() {

@@ -17,6 +17,19 @@ exp_id.addEventListener('input', validateID);
 var exp_name = document.getElementById('exp_name');
 exp_name.addEventListener('input', validateName);
 
+var dateId = 'd_soli';
+var dateWidget = document.getElementById(dateId);
+dateWidget.addEventListener('input', function(e){
+    var dateWidget = e.target;
+    var validDate = formatter().validDateFormat(dateWidget.value);
+    if (validDate) {
+        dateWidget.setCustomValidity('');
+    } else {
+        dateWidget.setCustomValidity('A data deve ter o formato correto');
+    }
+});
+
+
 function validateID() {
   $("#form-exp_id-warning-message").hide()
   var expList = expedientes.get('list');
@@ -46,6 +59,7 @@ var LIC_ST = Backbone.SIXHIARA.Estado;
 var params = new URLSearchParams(document.location.search.substring(1));
 var id = params.get('id');
 if (id) {
+    // Se llega a la página desde la de requerimentos
     exploracao.set('id', id, {silent: true});
     exploracao.fetch({
         parse: true,
