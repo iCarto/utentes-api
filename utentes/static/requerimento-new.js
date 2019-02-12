@@ -15,7 +15,6 @@ function init() {
     });
     document.getElementById('exp_name').addEventListener('input', enableBts);
     document.getElementById('d_soli').addEventListener('input', enableBts);
-    document.getElementById('d_soli').value = moment().format("DD/MM/YYYY");
 
 
     document.getElementById('js-btns-next').addEventListener('click', function(e){

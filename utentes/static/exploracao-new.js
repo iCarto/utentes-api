@@ -71,7 +71,6 @@ if (id) {
                         // To avoid call it twice, for example clicking back browser button
                         window.location = Backbone.SIXHIARA.Config.urlShow + exploracao.get('id');
                     }
-                    exploracao.set('d_soli', new Date(exploracao.get('created_at')), {silent: true});
                     doIt();
                     document.getElementById('exp_id').readOnly = true;
                     document.getElementById('d_soli').readOnly = true;
@@ -96,7 +95,6 @@ if (id) {
             if (! window.SIRHA.is_single_user_mode()) {
                 exploracao.set({
                     'estado_lic': LIC_ST.PENDING_FIELD_VISIT,
-                    'd_soli': new Date(),
                 }, {silent: true});
             }
             exploracao.set('exp_id', expedientes.get('new_exp_id'), {silent: true});
