@@ -71,6 +71,110 @@ function formatter(){
         return null;
     }
 
+    function formatBoolean(value){
+        // TODO let user inject their own formatter
+        // to cover use cases like this
+        if(value) return "Existe";
+        else if (value === false) return "Não existe";
+        return "";
+    }
+
+
+    /*
+    We use `Date` in the function name for dates that take into account year, month and day. Also `today`.
+    We use `DateTime` in the function name for datetimes that take into account year, month, day, hours, minutes and seconds. Also `now`.
+    We use TimeStamp when the resolution is minor that seconds (miliseconds or nanoseconds). Also `now`.
+    We use `Time` for hour, minute, seconds comparisons.
+
+    f = formatter()
+    d_str = '12/02/2019'
+    d = f.unformatDate(d_str)
+    d_org = f.unformatDate(d_str)
+    console.assert(f.isToday(d) === true)
+    console.assert(f.isPast(d) === false)
+    console.assert(f.isFuture(d) === false)
+    console.assert(d.getTime() == d_org.getTime())
+
+    d_str = '13/02/2019'
+    d = f.unformatDate(d_str)
+    d_org = f.unformatDate(d_str)
+    console.assert(f.isToday(d) === false)
+    console.assert(f.isPast(d) === false)
+    console.assert(f.isFuture(d) === true)
+    console.assert(d.getTime() == d_org.getTime())
+
+    d_str = '11/02/2019'
+    d = f.unformatDate(d_str)
+    d_org = f.unformatDate(d_str)
+    console.assert(f.isToday(d) === false)
+    console.assert(f.isPast(d) === true)
+    console.assert(f.isFuture(d) === false)
+    console.assert(d.getTime() == d_org.getTime())
+
+    */
+
+    function today() {
+        var today = new Date(Date.now());
+        today.setHours(0,0,0,0);
+        return today;
+    }
+
+    function now() {
+        return new Date(Date.now());
+    }
+
+    function isSameDate(_first, _second) {
+        /* input values must be a Date like object */
+        var first = this.trimTime(_first);
+        var second = this.trimTime(_second);
+        return first.getTime() === second.getTime();
+    }
+
+    function isFirstDateAfterSecondDate(_first, _second) {
+        /* input values must be a Date like object */
+        var first = this.trimTime(_first);
+        var second = this.trimTime(_second);
+        return first > second;
+    }
+
+    function isFirstDateBeforeSecondDate(_first, _second) {
+        /* input values must be a Date like object */
+        var first = this.trimTime(_first);
+        var second = this.trimTime(_second);
+        return first < second;
+    }
+
+    function isToday(d) {
+        /* input value must be a Date like object */
+        return this.isSameDate(d, this.today());
+    }
+
+    function isFuture(d) {
+        /* input value must be a Date like object */
+        return this.isFirstDateAfterSecondDate(d, this.today());
+    }
+
+    function isPast(d) {
+        /* input value must be a Date like object */
+        return this.isFirstDateBeforeSecondDate(d, this.today());
+    }
+
+
+
+    function trimTime(d) {
+        /* input value must be a Date like object
+           returns a new Date object
+        */
+        var c = this.cloneDate(d);
+        c.setHours(0, 0, 0, 0);
+        return c;
+    }
+
+    function cloneDate(d) {
+        /* input value must be a Date like object */
+        return new Date(d.getTime());
+    }
+
     function formatDate(value){
         var FORMAT_DATE = 'DD/MM/YYYY';
         // moment(undefined) returns current day, ouch!
@@ -80,30 +184,93 @@ function formatter(){
         return null;
     }
 
-    function unformatDate(value){
-        // var FORMAT_DATE = 'DD/MM/YYYY';
-        // TODO: use FORMAT_DATE to validate this
-        if((value != undefined) && (value.split('/').length === 3) && value.split('/')[2].length === 4){
-            var tokens = value.split('/');
-            return new Date(Date.UTC(tokens[2], tokens[1] - 1, tokens[0]));
-        }
-        return null;
+    function parseValidDate(value) {
+        var tokens = value.trim().split('/');
+        return new Date(Date.UTC(tokens[2], tokens[1] - 1, tokens[0]));
     }
 
-    function formatBoolean(value){
-        // TODO let user inject their own formatter
-        // to cover use cases like this
-        if(value) return "Existe";
-        else if (value === false) return "Não existe";
-        return "";
+    function validDateFormat(value) {
+        /*
+        Mismas reglas que unformatDate pero devuelve True/False, con la
+        excepción de que devuelve true con null, undefined , '', o cadenas de
+        texto con sólo espacios
+        */
+
+        // Si ya es un Date lo devolvemos
+        if (value instanceof Date) {
+            return true;
+        }
+
+        // Devuelve true con null, undefined , '', o cadenas de texto con sólo espacios
+        if (_.isUndefined(value) || _.isNull(value) || (_.isString(value) && _.isEmpty(value.trim()))) {
+            return true;
+        }
+
+        // Si no es un String
+        if (!_.isString(value)){
+            return false;
+        }
+
+        value = value.trim();
+
+        // Usa '/' como separador, los tokens son numéricos, y de forma gruesa
+        // tienen los rangos adecuados
+        var validDate = /^(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20|21)\d\d$/.test(value);
+        if (!validDate) {
+            return false;
+        }
+        var tokens = value.split('/');
+        var d = new Date(Date.UTC(tokens[2], tokens[1] - 1, tokens[0]));
+
+        // Chequemos que las fechas están en rango. No usamos !== para poder comparar strings y enteros
+        if (d.getFullYear() != tokens[2] || d.getMonth != tokens[1] - 1 && d.getDate() != tokens[0]) {
+            return false;
+        }
+        return true;
     }
+
+    function unformatDate(value) {
+        /*
+        Admite un `value` en formato 'DD/MM/YYYY' y devuelve un `Date`
+        En caso de que `value` no sea un `String` con formato válido devuelve `null`
+        El año debe ser 19xx, 20xx, 21xx para considerarlo válido
+        En caso de recibir un Date devuelve el propio Date
+        */
+        if (!this.validDateFormat(value)) {
+            return null;
+        }
+
+        // Si ya es un Date lo devolvemos
+        if (value instanceof Date) {
+            return value;
+        }
+
+        if (_.isUndefined(value) || _.isNull(value) || (_.isString(value) && _.isEmpty(value.trim()))) {
+            return null;
+        }
+        return this.parseValidDate(value);
+    }
+
 
     var formatterObj = new Object();
-    formatterObj.formatNumber   = formatNumber;
+    formatterObj.formatNumber = formatNumber;
     formatterObj.unformatNumber = unformatNumber;
-    formatterObj.formatDate     = formatDate;
-    formatterObj.unformatDate   = unformatDate;
-    formatterObj.formatBoolean  = formatBoolean;
-    return formatterObj;
 
+    formatterObj.now = now;
+    formatterObj.today = today;
+    formatterObj.isSameDate = isSameDate;
+    formatterObj.isFirstDateAfterSecondDate = isFirstDateAfterSecondDate;
+    formatterObj.isFirstDateBeforeSecondDate = isFirstDateBeforeSecondDate;
+    formatterObj.isToday = isToday;
+    formatterObj.isFuture = isFuture;
+    formatterObj.isPast = isPast;
+    formatterObj.trimTime = trimTime;
+    formatterObj.cloneDate = cloneDate ;
+    formatterObj.formatDate = formatDate;
+    formatterObj.parseValidDate = parseValidDate;
+    formatterObj.validDateFormat = validDateFormat;
+    formatterObj.unformatDate = unformatDate;
+    formatterObj.formatBoolean = formatBoolean;
+
+    return formatterObj;
 }
