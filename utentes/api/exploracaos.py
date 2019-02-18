@@ -1,25 +1,28 @@
 # -*- coding: utf-8 -*-
 
-from pyramid.view import view_config
+import logging
 
+from pyramid.view import view_config
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
+from utentes.api.error_msgs import error_msgs
+from utentes.lib.schema_validator.validation_exception import (
+    ValidationException,
+)
 from utentes.lib.schema_validator.validator import Validator
-from utentes.lib.schema_validator.validation_exception import ValidationException
 from utentes.models.base import badrequest_exception
+from utentes.models.documento import delete_exploracao_documentos
+from utentes.models.exploracao import Exploracao, ExploracaoBase
+from utentes.models.exploracao_schema import (
+    EXPLORACAO_SCHEMA, EXPLORACAO_SCHEMA_CON_FICHA,
+)
+from utentes.models.fonte_schema import FONTE_SCHEMA
+from utentes.models.licencia import Licencia
+from utentes.models.licencia_schema import LICENCIA_SCHEMA
 from utentes.models.utente import Utente
 from utentes.models.utente_schema import UTENTE_SCHEMA
-from utentes.models.exploracao import Exploracao, ExploracaoBase
-from utentes.models.documento import delete_exploracao_documentos
-from utentes.models.licencia import Licencia
-from utentes.models.exploracao_schema import EXPLORACAO_SCHEMA, EXPLORACAO_SCHEMA_CON_FICHA
-from utentes.models.licencia_schema import LICENCIA_SCHEMA
-from utentes.models.fonte_schema import FONTE_SCHEMA
-from utentes.api.error_msgs import error_msgs
+from utentes.user_utils import PERM_ADMIN, PERM_EXPLORACAO, PERM_GET
 
-from utentes.user_utils import PERM_GET, PERM_ADMIN, PERM_EXPLORACAO
-
-import logging
 log = logging.getLogger(__name__)
 
 
@@ -75,18 +78,19 @@ def exploracaos_delete(request):
     return {'gid': gid}
 
 
-
 def upsert_utente(request, body):
     u_filter = Utente.nome == body.get('utente').get('nome')
     u = request.db.query(Utente).filter(u_filter).all()
-    if not u:
-        validatorUtente = Validator(UTENTE_SCHEMA)
-        msgs = validatorUtente.validate(body['utente'])
-        if len(msgs) > 0:
-            raise badrequest_exception({'error': msgs})
-        u = Utente.create_from_json(body['utente'])
-        request.db.add(u)
-    return u[0]
+    if u:
+        return u[0]
+
+    validatorUtente = Validator(UTENTE_SCHEMA)
+    msgs = validatorUtente.validate(body['utente'])
+    if len(msgs) > 0:
+        raise badrequest_exception({'error': msgs})
+    u = Utente.create_from_json(body['utente'])
+    request.db.add(u)
+    return u
 
 
 @view_config(route_name='api_exploracaos_id', permission=PERM_EXPLORACAO, request_method='PUT', renderer='json')
