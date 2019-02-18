@@ -553,7 +553,7 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
                 });
             },
             error: function() {
-                bootbox.alert(`Erro ao imprimir licença`);
+                bootbox.alert(`Erro ao imprimir factura`);
             }
         });
     },
