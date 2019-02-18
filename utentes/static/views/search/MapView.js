@@ -87,7 +87,7 @@ Backbone.SIXHIARA.MapView = Backbone.View.extend({
 
     mapEvents: function() {
         var self = this;
-        this.map.on('moveend', function(e){
+        this.map.on('dragend', function(e){
             // user or programatic event? https://github.com/Leaflet/Leaflet/issues/2267
             if (e.hard) return;
             where.set('mapBounds', self.map.getBounds());

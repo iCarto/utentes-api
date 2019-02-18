@@ -389,9 +389,23 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
         if (_.has(response, 'licencias')) {
             response.licencias = new Backbone.SIXHIARA.LicenciaCollection(response.licencias, {parse:true})
         }
-
         if (_.has(response, 'fontes')) {
             response.fontes = new Backbone.SIXHIARA.FonteCollection(response.fontes, {parse:true})
+        }
+        if (_.has(response, 'renovacao')) {
+            this.parseDate(response.renovacao, 'd_soli');
+            this.parseDate(response.renovacao, 'd_ultima_entrega_doc');
+
+            this.parseDate(response.renovacao, 'd_emissao_sub_old');
+            this.parseDate(response.renovacao, 'd_emissao_sub');
+            this.parseDate(response.renovacao, 'd_validade_sub_old');
+            this.parseDate(response.renovacao, 'd_validade_sub');
+
+            this.parseDate(response.renovacao, 'd_emissao_sup_old');
+            this.parseDate(response.renovacao, 'd_emissao_sup');
+            this.parseDate(response.renovacao, 'd_validade_sup_old');
+            this.parseDate(response.renovacao, 'd_validade_sup');
+            response.renovacao = new Backbone.SIXHIARA.Renovacao(response.renovacao);
         }
 
         if (_.has(response, 'actividade')) {
@@ -407,14 +421,15 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
     },
 
 
-
-
     toJSON: function(options) {
         var attrs = Backbone.SIXHIARA.Exploracao.__super__.toJSON.apply(this, arguments);
         attrs.geometry   = this.get('geometry') ? this.get('geometry').toJSON() : null;
         attrs.utente     = this.get('utente').toJSON();
         attrs.licencias  = this.get('licencias').toJSON();
         attrs.fontes     = this.get('fontes').toJSON();
+        if (this.get('renovacao')) {
+            json.renovacao  = this.get('renovacao').toJSON();
+        }
         if (this.getActividadeTipo() === Backbone.SIXHIARA.MSG.NO_ACTIVITY) {
             attrs.actividade = null;
         } else {
@@ -577,8 +592,18 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
                 }
             }
         }
+        var containsRenovacao = true;
+        if (!_.isEmpty(this.get('renovacao'))) {
+            // Este 'estado' hace referencia al estado de la renovación
+            // y no al estado de la licencia
+            if (where.attributes.estado) {
+                containsLic = true;
+                containsRenovacao = (this.get('renovacao').get('estado') === where.attributes.estado);
 
-        return containsAttrs && containsUtente && containsUnidade && containsLic && containsActividade && containsGeometria && containsBounds;
+            }
+        }
+
+        return containsAttrs && containsUtente && containsUnidade && containsLic && containsActividade && containsGeometria && containsBounds && containsRenovacao;
     },
 
 
@@ -677,6 +702,13 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
         this.set("lic_time_over", false, {silent:true});
     },
 
+    setDocPendenteUtenteRenovacao: function(){
+        this.get('renovacao').set('lic_time_info', 'Pendente do utente', {silent:true});
+        this.get('renovacao').set('lic_time_enough', false, {silent:true});
+        this.get('renovacao').set('lic_time_warning', false, {silent:true});
+        this.get('renovacao').set('lic_time_over', false, {silent:true});
+    },
+
     cloneExploracao: function() {
         // Merge with toJSON and parse
         var exp = new Backbone.SIXHIARA.Exploracao(this.attributes);
@@ -721,8 +753,50 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
         }else {
             this.setLicenseTimeInfoExploracaos();
         }
+        if (!_.isEmpty(this.get('renovacao'))) {
+            this.setLicenseTimeInfoRenovacoes();
+        }
     },
 
+    setLicenseTimeInfoRenovacoes: function() {
+        var renovacao = this.get('renovacao')
+        if (renovacao.get('estado') == Backbone.SIXHIARA.EstadoRenovacao.INCOMPLETE_DA ||
+            renovacao.get('estado') == Backbone.SIXHIARA.EstadoRenovacao.INCOMPLETE_DJ) {
+                this.setDocPendenteUtenteRenovacao();
+                return
+        }
+        if (renovacao.get('d_ultima_entrega_doc')) {
+            var licenseDate = renovacao.get('d_ultima_entrega_doc');
+            var now = moment();
+            licenseDate = moment(licenseDate);
+            var times = Backbone.SIXHIARA.tiemposRenovacion;
+            var remainDays = times.limit - now.diff(licenseDate, 'days');
+            var remainDaysStr = remainDays == 1 ? remainDays + ' dia' : remainDays + ' dias';
+
+            if (remainDays > 0 && remainDays < times.warning) {
+                renovacao.set('lic_time_warning', true);
+
+            } else if (remainDays <= 0 ){
+                remainDaysStr = 'Prazo esgotado'
+                renovacao.set('lic_time_over', true);
+
+            } else if(remainDays >= times.warning){
+                renovacao.set('lic_time_enough', true);
+            }
+
+            var message;
+            if (remainDaysStr) {
+                if (remainDaysStr == 'Prazo esgotado' || remainDaysStr == 'Licença cadudada') {
+                    message = remainDaysStr;
+                }else {
+                    message = 'Ficam ' + remainDaysStr + ' para o fim do prazo de renovação da licença';
+                }
+            }else {
+                message = 'Sem informação';
+            }
+            renovacao.set('lic_time_info', message);
+        }
+    },
     setLicenseTimeInfoPendentes: function() {
         // Pendentes
         if (this.get("estado_lic") == Backbone.SIXHIARA.Estado.INCOMPLETE_DA ||

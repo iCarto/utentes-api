@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from pyramid.view import view_config
-from utentes.user_utils import PERM_GET, PERM_CULTIVO_TANQUE, PERM_EXPLORACAO, PERM_FACTURACAO, PERM_CREATE_REQUERIMENTO, PERM_UPDATE_REQUERIMENTO
+from utentes.user_utils import PERM_GET, PERM_CULTIVO_TANQUE, PERM_EXPLORACAO, PERM_FACTURACAO, PERM_CREATE_REQUERIMENTO, PERM_UPDATE_REQUERIMENTO, PERM_UPDATE_RENOVACAO
 
 
 @view_config(route_name='exploracao-gps', permission=PERM_CULTIVO_TANQUE, renderer='utentes:templates/exploracao-gps.jinja2')
@@ -28,7 +28,6 @@ def exploracao_show(request):
 def facturacao(request):
     return {}
 
-
 @view_config(route_name='requerimento-new', permission=PERM_CREATE_REQUERIMENTO, renderer='utentes:templates/requerimento-new.jinja2')
 def requerimento_new(request):
     return {}
@@ -38,6 +37,9 @@ def requerimento_new(request):
 def requerimento_pendente(request):
     return {}
 
+@view_config(route_name='renovacao', permission=PERM_UPDATE_RENOVACAO, renderer='utentes:templates/renovacao.jinja2')
+def renovacao(request):
+    return {}
 
 @view_config(route_name='utentes', permission=PERM_GET, renderer='utentes:templates/utentes.jinja2')
 def utentes(request):

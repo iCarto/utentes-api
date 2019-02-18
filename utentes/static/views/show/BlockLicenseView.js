@@ -1,4 +1,3 @@
-var i = 0;
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.BlockLicenseView = Backbone.View.extend({
 

@@ -1,0 +1,246 @@
+Backbone.SIXHIARA = Backbone.SIXHIARA || {};
+Backbone.SIXHIARA.ViewTecnico = Backbone.SIXHIARA.View1.extend({
+
+    template: _.template(`
+        <div id="bt-toolbar" class="row">
+           <div class="col-xs-12">
+              <div class="btn-group btn-group-justified" role="group">
+                 <div class="btn-group" role="group">
+                    <button id="file-modal" class="btn btn-default" role="button">Documentaçao</button>
+                 </div>
+                 <div class="btn-group" role="group">
+                    <a id="bt-geometria" class="btn btn-default" role="button" href="/exploracao-gps.html">Geometria</a>
+                 </div>
+                 <div class="btn-group" role="group">
+                    <a id="bt-ficha" class="btn btn-default" role="button" href="/exploracao-show.html?id=<%- id %>">Ficha</a>
+                 </div>
+              </div>
+           </div>
+        </div>
+        <div id="time-renovacao-info" class="info-pill <%- renovacao.lic_time_over ? 'label-danger' : (renovacao.lic_time_warning ? 'label-warning' : renovacao.lic_time_enough ? 'label-success' : 'label-default') %>"> <%- renovacao.lic_time_info || 'Sem informação' %></div>
+        <h4 style="margin-bottom: 20px;">
+           <%- (renovacao.d_ultima_entrega_doc ? formatter().formatDate(renovacao.d_ultima_entrega_doc) + ' - ' : '') %><span style="color:#00a2da"><%- exp_id + ' '%> <%- exp_name %></span> <span style="color: grey"><%= ' (' + (actividade && actividade.tipo || 'Não declarada ') + ') ' %></span>
+           <div class="licencias">
+              <%- Backbone.SIXHIARA.formatter.formatTipoLicencias(licencias)[0] %> / <%- Backbone.SIXHIARA.formatter.formatTipoLicencias(licencias)[1] %>
+           </div>
+        </h4>
+        <div id="renovacao-block" class="row panel-equal-height">
+           <div class="col-xs-6">
+              <div class="panel">
+                 <div class="row">
+                    <div class="col-xs-12">
+                       <table class="table table-bordered table-checks">
+                          <thead>
+                             <tr>
+                                <th>Tipo de Documento</th>
+                                <th>Pronto</th>
+                             </tr>
+                          </thead>
+                          <tbody>
+                             <tr>
+                                <td>Análise da documentação</td>
+                                <td><input id="anali_doc" type="checkbox" <%- renovacao.anali_doc ? 'checked=""' : '' %> required></td>
+                             </tr>
+                             <tr>
+                                <td>Solicitação da visitoria</td>
+                                <td><input id="soli_visit" type="checkbox" <%- renovacao.soli_visit ? 'checked=""' : '' %> required></td>
+                             </tr>
+                             <tr>
+                                <td>Parecer da Unidade</td>
+                                <td><input id="p_unid" type="checkbox" <%- renovacao.p_unid ? 'checked=""' : '' %> required></td>
+                             </tr>
+                             <tr>
+                                <td>Parecer Técnico</td>
+                                <td><input id="p_tec" type="checkbox" <%- renovacao.p_tec ? 'checked=""' : '' %> required></td>
+                             </tr>
+                          </tbody>
+                       </table>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <div class="col-xs-6 panel-observacio">
+              <div class="panel">
+                 <div class="form-group">
+                    <label for="observacio">
+                       <div style="display:inline-block; width: 24%">
+                          Observações
+                       </div>
+                       <div id="js-btns-next">
+                          <!-- TODO. Los "siguientes estados" disponibles no deberían estar harcodeados en el html
+                             o bien, todos los botones deberían ser generados en otra parte, o de los dominios se deberían decidir que botones
+                             se pueden usar en el modo combo o algo así
+                             -->
+                          <button id="bt-ok" type="button" class="btn btn-default btn-sm">Completa</button>
+                          <button id="bt-no" type="button" class="btn btn-primary btn-sm">Incompleta</button>
+                          <button id="bt-noaprobada" type="button" class="btn btn-primary btn-sm">Não aprovada</button>
+                          <button id="bt-defacto" type="button" class="btn btn-danger btn-sm">Utente de facto</button>
+                       </div>
+                    </label>
+                    <textarea id="observacio" class="form-control widget"></textarea>
+                 </div>
+              </div>
+           </div>
+        </div>
+        <div class="form-group">
+           <label for="observacio_ant">Observações anteriores</label>
+           <textarea class="form-control widget" id="observacio_ant" rows="7" disabled>
+              <% for (var i=0; i<renovacao.obser.length - 1; i+=1) {
+                 if (renovacao.obser[i]['text']) {
+                    print('O ' + formatter().formatDate(renovacao.obser[i]['create_at']) + ', ' + renovacao.obser[i]['author'] + ', escreveu: ' + renovacao.obser[i]['text'] + '&#13;&#10;&#13;&#10;');
+                 }
+              }
+              %>
+           </textarea>
+        </div>
+    `),
+
+    init: function() {
+        Backbone.SIXHIARA.View1.prototype.init.call(this);
+        var self = this;
+
+        document.querySelectorAll('table input[type="checkbox"]').forEach(function(input){
+            input.addEventListener('change', self.enableBts.bind(self), false);
+        });
+
+        if (self.model.get('renovacao').get('lic_time_info')) {
+            document.getElementById('time-renovacao-info').style.display = 'block';
+        }
+
+        this.enableBts();
+
+        document.querySelectorAll('table input[type="checkbox"]').forEach(function(input){
+            input.addEventListener('change', self.autosave.bind(self), false);
+        });
+
+        var defaultDepartamento = wfr.isAdmin() ? 'root' : wfr.getRole();
+        var defaultUrlBase = Backbone.SIXHIARA.Config.apiRenovacoes + '/' + this.model.get('renovacao').get('id') + '/documentos'
+        var fileModalView = new Backbone.DMS.FileModalView({
+            openElementId: '#file-modal',
+            title: 'Arquivo Electr&oacute;nico',
+            urlBase: defaultUrlBase,
+            id: defaultDepartamento
+        });
+
+    },
+
+    enableBts: function() {
+        var enableState = false;
+        var enableChb = Array.from(
+            document.querySelectorAll('table input[type="checkbox"]')
+        ).every(input => {
+            if (input.required) {
+                return input.checked;
+            }
+            return true;
+        });
+
+        var E = Backbone.SIXHIARA.EstadoRenovacao;
+        var validState = this.model.get('renovacao').get('estado');
+        var expTest = this.model.cloneExploracao();
+        if (expTest.get('renovacao').get('estado') === E.INCOMPLETE_DT) {
+            if (expTest.isValid()) {
+                validState = E.PENDING_TECH_DECISION;
+            }
+        }
+        if (validState === E.PENDING_TECH_DECISION) {
+            expTest.setLicState(E.PENDING_TECH_DECISION);
+            if (expTest.isValid()) {
+                enableState = true;
+                document.getElementById('bt-ok').title = E.PENDING_EMIT_LICENSE;
+            } else {
+                enableState = false;
+                document.getElementById('bt-ok').title = "Deve rechear correctamente a 'Ficha' dantes de completar";
+            }
+            document.getElementById('bt-ficha').classList.remove('disabled');
+            document.getElementById('bt-ficha').removeAttribute('aria-disabled');
+            document.getElementById('bt-geometria').classList.remove('disabled');
+            document.getElementById('bt-geometria').removeAttribute('aria-disabled');
+            document.getElementById('bt-defacto').classList.remove('disabled');
+            document.getElementById('bt-defacto').removeAttribute('aria-disabled');
+            document.getElementById('p_unid').disabled = false;
+            document.getElementById('p_tec').disabled = false;
+        } else {
+            throw 'Error';
+        }
+
+        document.getElementById('bt-ok').disabled = ! (enableChb && enableState);
+    },
+
+    fillRenovacao: function(e, autosave) {
+        var self = this;
+        var exploracao = this.model;
+        var renovacao = exploracao.get("renovacao");
+        var E = Backbone.SIXHIARA.EstadoRenovacao;
+        var nextState = wfr.whichNextState(renovacao.get('estado'), e);
+        if (e && e.target && (e.target.id === 'bt-ok')) {
+            nextState = E.PENDING_EMIT_LICENSE;
+        }
+
+        if (autosave) {
+            this.dofillRenovacao(e, autosave);
+        } else {
+            bootbox.confirm(`A exploração vai mudar o seu a: <br> <strong>${nextState}</strong>`, function(result){
+                if (result) {
+                    self.dofillRenovacao(e, autosave);
+                }
+            });
+        }
+    },
+
+    dofillRenovacao: function(e, autosave) {
+        var self = this;
+        var exploracao = this.model;
+        var renovacao = this.model.get("renovacao");
+
+        var nextState = wfr.whichNextState(renovacao.get('estado'), e);
+
+        var currentComment = renovacao.get('obser').slice(-1)[0];
+        Object.assign(currentComment, {
+            'create_at': new Date(),
+            'author': wfr.getUser(),
+            'text': document.getElementById('observacio').value,
+            'state': nextState,
+        });
+
+        if (!autosave) {
+            renovacao.get('obser').push({
+                'create_at': null,
+                'author': null,
+                'text': null,
+                'state': null,
+            });
+        }
+
+        renovacao.setLicState(nextState);
+
+        document.querySelectorAll('table input[type="checkbox"]').forEach(function(input){
+            renovacao.set(input.id, input.checked);
+        });
+
+        exploracao.urlRoot = Backbone.SIXHIARA.Config.apiRenovacoes;
+        exploracao.save(
+            null,
+            {
+                'patch': true,
+                'validate': false,
+                'wait': true,
+                'success': function(model) {
+                    var exp_id = model.get('exp_id');
+                    var exp_name = model.get('exp_name');
+                    if (autosave) {
+                        console.log('autosaving');
+                    } else {
+                        bootbox.alert(`A exploração&nbsp;<strong>${exp_id} - ${exp_name}</strong>&nbsp;tem sido gravada correctamente.`, function(){
+                            exploracao.trigger('show-next-exp', exploracao);
+                        });
+                    }
+                },
+                'error': function() {
+                    bootbox.alert('<span style="color: red;">Produziu-se um erro. Informe ao administrador.</strong>');
+                },
+            }
+        );
+    },
+
+});

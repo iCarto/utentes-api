@@ -55,6 +55,7 @@ Backbone.SIXHIARA.ViewJuridico2 = Backbone.SIXHIARA.View1.extend({
             <tr class="hidden">
             <td>Licença impressa</td>
             <td><input id="lic_imp" type="checkbox" <%- lic_imp ? 'checked=""' : '' %> required></td>
+            </tr>
           </tbody>
         </table>
       </div>

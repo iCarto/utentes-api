@@ -22,7 +22,10 @@ Backbone.SIXHIARA.NavBarView = Backbone.View.extend({
                         <strong>CRIAR</strong>
                     </a></li>
                     <li><a id="requerimento-pendente" href="requerimento-pendente.html">
-                        <strong>PENDENTES</strong>
+                        <strong>NOVAS LICENÇAS</strong>
+                    </a></li>
+                    <li><a id="renovacao" href="renovacao.html">
+                        <strong>RENOVAÇÕES</strong>
                     </a></li>
                     <li id="nav-adicionar" class="dropdown uilib-enability uilib-show-role-administrador uilib-show-role-tecnico">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"

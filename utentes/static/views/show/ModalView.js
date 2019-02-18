@@ -64,7 +64,6 @@ Backbone.SIXHIARA.ModalView = Backbone.View.extend({
     },
 
     okButtonClicked: function(){
-        console.log(this);
         if (this.options.editing) {
             var widgets = this.$('.modal').find('.widget, .widget-number, .widget-date, .widget-boolean, .widget-external');
             var widgetsId = _.map(widgets, function(w){return w.id});
