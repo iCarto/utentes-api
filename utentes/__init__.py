@@ -177,6 +177,7 @@ def add_routes_api(config):
 
     config.add_route('api_renovacao', '/api/renovacao')
     config.add_route('api_renovacao_id', '/api/renovacao/{id}')
+    config.add_route('api_renovacao_historico_id', '/api/renovacao_historico/{id}')
 
     config.add_route('nuevo_ciclo_facturacion', '/api/nuevo_ciclo_facturacion')
 

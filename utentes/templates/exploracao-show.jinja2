@@ -1885,6 +1885,7 @@
           <button type="button" class="btn btn-default btn-xs hidden uilib-enability uilib-show-role-administrador uilib-show-role-tecnico uilib-show-role-juridico" id="addLicense">Adicionar</button>
           <button type="button" class="btn btn-default btn-xs uilib-enability uilib-show-role-administrador uilib-show-role-tecnico uilib-show-role-juridico" id="editLicense">Editar</button>
           <button type="button" class="btn btn-default btn-xs uilib-enability uilib-show-role-administrador uilib-show-role-tecnico" id="addFonte">Nova fonte</button>
+          <button type="button" class="btn btn-default btn-xs uilib-enability uilib-show-role-administrador uilib-show-role-tecnico" id="showHistoric">Historico</button>
           {% if request.registry.settings['ara'] != 'DPMAIP' %}
           <button type="button" class="btn btn-default btn-xs hidden uilib-enability uilib-show-role-administrador uilib-show-role-juridico" id="printLicense">Imprimir licença</button>
           {% endif %}
@@ -2049,6 +2050,7 @@
   "models/Fonte.js",
   "models/FonteSchema.js",
   "models/FonteCollection.js",
+  "models/HistoricoLicencias.js",
   "models/Licencia.js",
   "models/LicenciaSchema.js",
   "models/LicenciaCollection.js",
@@ -2084,6 +2086,7 @@
   "views/show/BlockLocationView.js",
   "views/common/SelectUtenteView.js",
   "views/show/BlockUtenteView.js",
+  "views/show/ModalHistoricoLicencias.js",
   "views/show/ModalView.js",
   "views/show/ModalViewActivity.js",
   "views/show/CultivoResModalView.js",

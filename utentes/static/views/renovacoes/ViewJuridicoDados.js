@@ -5,6 +5,14 @@ Backbone.SIXHIARA.ViewJuridicoDados = Backbone.SIXHIARA.View1.extend({
         "click #bt-imprimir-licencia" : "printLicense"
     },
 
+    templateHistorico: _.template(`
+        <% for (var i=0; i < renovacao.length ; i+=1) {
+            print('<li><strong>' + renovacao[i].tipo_agua + '</strong>. </li>')
+            print('<ul><li>Data validade: ' + formatter().formatDate(renovacao[i].d_validade) + '</li><li>Data emissão: ' + formatter().formatDate(renovacao[i].d_emissao) + '</li><li>Consumo facturado: ' + renovacao[i].c_licencia + '</li><li>Tipo de Licença: ' + renovacao[i].tipo_lic + '</li></ul>')
+        }
+        %>
+    `),
+
     template: _.template(`
         <div id="bt-toolbar" class="row">
            <div class="col-xs-12">
@@ -212,6 +220,34 @@ Backbone.SIXHIARA.ViewJuridicoDados = Backbone.SIXHIARA.View1.extend({
             title: 'Arquivo Electr&oacute;nico',
             urlBase: defaultUrlBase,
             id: defaultDepartamento
+        });
+
+        var json = self.model.toJSON();
+        var historico = new Backbone.SIXHIARA.HistoricoLicencias(this.model);
+        historico.fetch({
+            wait: true,
+            success: function(model, resp, options){
+                var data = []
+                json.licencias.forEach(function(lic){
+                    var prefix = lic.tipo_agua.substring(0, 3).toLowerCase()
+                    resp.forEach(function(h){
+                        data.push({
+                                tipo_agua : lic.tipo_agua,
+                                d_emissao : h['d_emissao_' + prefix + '_old'],
+                                d_validade: h['d_validade_' + prefix + '_old'],
+                                c_licencia: h['c_licencia_' + prefix + '_old'],
+                                tipo_lic:   h['tipo_lic_' + prefix + '_old']
+                            });
+                    });
+                });
+                self.$el.find('#historico').append(self.templateHistorico({
+                    renovacao: data
+                }));
+            },
+            error: function(){
+                bootbox.alert('Erro ao carregar dados históricos da licença.');
+                return;
+            }
         });
 
     },

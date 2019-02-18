@@ -96,3 +96,7 @@ label{ /*override bootstrap settings*/
     color: gray;
     font-size: 80%;
 }
+#historicoLicenciaModalView .table > tbody > tr > th,
+#historicoLicenciaModalView .table > tbody > tr > td {
+    text-align: center;
+}

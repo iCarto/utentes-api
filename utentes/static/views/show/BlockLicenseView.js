@@ -7,6 +7,7 @@ Backbone.SIXHIARA.BlockLicenseView = Backbone.View.extend({
         'click #addLicense':    'renderAddLicenseModal',
         'click #editLicense':   'renderEditLicenseModal',
         'click #addFonte':      'renderAddFonteModal',
+        'click #showHistoric':  'renderHistoricLicenseModal',
         'click #removeLicense': 'removeLicense',
         'click #info-estado-licencia': 'showModalEstadoLicencia',
         'click #printLicense': 'printLicense',
@@ -28,6 +29,7 @@ Backbone.SIXHIARA.BlockLicenseView = Backbone.View.extend({
             this.$('#addLicense').addClass('hidden');
             this.$('#editLicense').removeClass('hidden');
             this.$('#addFonte').removeClass('hidden');
+            this.$('#showHistoric').removeClass('hidden');
             this.$('#removeLicense').removeClass('hidden');
             if (this.license.get("lic_time_info")) {
                 this.$('#info-license-block').removeClass('hidden');
@@ -65,6 +67,7 @@ Backbone.SIXHIARA.BlockLicenseView = Backbone.View.extend({
             this.$('#addLicense').removeClass('hidden');
             this.$('#editLicense').addClass('hidden');
             this.$('#addFonte').addClass('hidden');
+            this.$('#showHistoric').addClass('hidden');
             this.$('#removeLicense').addClass('hidden');
             this.$('#printLicense').addClass('hidden');
             this.$('#info-license-block').addClass('hidden');
@@ -206,6 +209,28 @@ Backbone.SIXHIARA.BlockLicenseView = Backbone.View.extend({
             collection: this.options.domains.byCategory('licencia_estado'),
             actual_state: this.license && this.license.get('estado') || null,
         }).show();
+    },
+
+    renderHistoricLicenseModal: function(){
+        var self = this;
+        var licencia = this.model.get('licencias').where({'tipo_agua': this.options.tipo_agua});
+        var historico = new Backbone.SIXHIARA.HistoricoLicencias(this.model);
+        var self = this;
+        historico.fetch({
+            success: function(model, resp, options){
+                var modal = new Backbone.SIXHIARA.ModalHistoricoLicencias({
+                    lic_nro: licencia[0].get('lic_nro'),
+                    tipo_agua: licencia[0].get('tipo_agua'),
+                    exp_id: self.model.get('exp_id'),
+                    exp_name: self.model.get('exp_name'),
+                    renovacoes: resp
+                }).show();
+            },
+            error: function(){
+                bootbox.alert('Erro ao carregar dados históricos da licença.');
+                return;
+            }
+        });
     },
 
     printLicense: function(i){

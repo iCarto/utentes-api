@@ -12,6 +12,7 @@ Backbone.SIXHIARA.Config = {
     apiRequerimentos: '/api/requerimento',
     apiFacturacao: '/api/facturacao',
     apiRenovacoes: '/api/renovacao',
+    apiHistoricoRenovacoes: '/api/renovacao_historico',
     apiUtentes: '/api/utentes',
     apiCultivos: '/api/cultivos',
     apiTanquesPiscicolas: '/api/tanques_piscicolas',

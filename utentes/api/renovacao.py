@@ -128,3 +128,22 @@ def renovacao_update(request):
         raise badrequest_exception({
         'error': 'Há mais de uma renovação em progresso para a exploração selecionada'
         })
+
+@view_config(route_name='api_renovacao_historico_id', permission=PERM_GET, request_method='GET', renderer='json')
+def renovacao_get_historical(request):
+
+    gid = None
+    if request.matchdict:
+        gid = request.matchdict['id'] or None
+    if gid:
+        try:
+            return request.db.query(Renovacao) \
+                             .filter(Renovacao.exploracao == gid, Renovacao.estado == LICENSED) \
+                             .order_by(Renovacao.d_validade_sub_old.desc(), Renovacao.d_validade_sup_old.desc()) \
+                             .all()
+
+        except(MultipleResultsFound, NoResultFound):
+            raise badrequest_exception({
+                'error': error_msgs['no_gid'],
+                'gid': gid
+            })
