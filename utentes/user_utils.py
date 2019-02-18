@@ -29,7 +29,7 @@ PERM_CREATE_REQUERIMENTO = 'create_requerimento'
 PERM_UPDATE_REQUERIMENTO = 'update_requerimento'
 PERM_CREATE_DOCUMENTO = 'create_documento'
 PERM_DELETE_DOCUMENTO = 'delete_documento'
-
+PERM_UPDATE_RENOVACAO = 'update_renovacao'
 
 # GESTIONAR UNIQUE USER
 class RootFactory(object):
@@ -45,17 +45,21 @@ class RootFactory(object):
                (Allow, ROL_ADMIN, PERM_UPDATE_REQUERIMENTO),
                (Allow, ROL_ADMIN, PERM_CREATE_DOCUMENTO),
                (Allow, ROL_ADMIN, PERM_DELETE_DOCUMENTO),
+               (Allow, ROL_ADMIN, PERM_UPDATE_RENOVACAO),
 
                (Allow, ROL_ADMINISTRATIVO, PERM_CREATE_REQUERIMENTO),
                (Allow, ROL_ADMINISTRATIVO, PERM_UPDATE_REQUERIMENTO),
                (Allow, ROL_ADMINISTRATIVO, PERM_CREATE_DOCUMENTO),
                (Allow, ROL_ADMINISTRATIVO, PERM_DELETE_DOCUMENTO),
+               (Allow, ROL_ADMINISTRATIVO, PERM_UPDATE_RENOVACAO),
 
                (Allow, ROL_FINANCIERO, PERM_FACTURACAO),
                (Allow, ROL_FINANCIERO, PERM_CREATE_DOCUMENTO),
                (Allow, ROL_FINANCIERO, PERM_DELETE_DOCUMENTO),
+               (Allow, ROL_FINANCIERO, PERM_UPDATE_RENOVACAO),
 
                (Allow, ROL_DIRECCION, PERM_UPDATE_REQUERIMENTO),
+               (Allow, ROL_DIRECCION, PERM_UPDATE_RENOVACAO),
 
                (Allow, ROL_TECNICO, PERM_UTENTES),
                (Allow, ROL_TECNICO, PERM_EXPLORACAO),
@@ -64,11 +68,13 @@ class RootFactory(object):
                (Allow, ROL_TECNICO, PERM_UPDATE_REQUERIMENTO),
                (Allow, ROL_TECNICO, PERM_CREATE_DOCUMENTO),
                (Allow, ROL_TECNICO, PERM_DELETE_DOCUMENTO),
+               (Allow, ROL_TECNICO, PERM_UPDATE_RENOVACAO),
 
                (Allow, ROL_JURIDICO, PERM_EXPLORACAO),
                (Allow, ROL_JURIDICO, PERM_UPDATE_REQUERIMENTO),
                (Allow, ROL_JURIDICO, PERM_CREATE_DOCUMENTO),
                (Allow, ROL_JURIDICO, PERM_DELETE_DOCUMENTO),
+               (Allow, ROL_JURIDICO, PERM_UPDATE_RENOVACAO),
                ]
 
     def __init__(self, request):

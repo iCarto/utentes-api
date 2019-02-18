@@ -108,6 +108,7 @@ def add_routes_views(config):
     config.add_route('exploracao-search', 'exploracao-search.html')
     config.add_route('exploracao-show', 'exploracao-show.html')
     config.add_route('facturacao', 'facturacao.html')
+    config.add_route('renovacao', 'renovacao.html')
     config.add_route('requerimento-new', 'requerimento-new.html')
     config.add_route('requerimento-pendente', 'requerimento-pendente.html')
     config.add_route('utentes', 'utentes.html')
@@ -160,6 +161,8 @@ def add_routes_api(config):
     config.add_route('api_domains_licencia_estado', '/api/domains/licencia_estado')
     config.add_route('api_domains_facturacao_fact_estado', '/api/domains/facturacao_fact_estado')
 
+    config.add_route('api_domains_licencia_estado_renovacao', '/api/domains/licencia_estado_renovacao')
+
     # GET /api/base/fountains = Return a GeoJSON
     # POST /api/base/fountains = DELETE the table and insert the features in the zip
     config.add_route('api_base_fountains', '/api/base/fountains')
@@ -172,6 +175,8 @@ def add_routes_api(config):
     config.add_route('api_facturacao_id', '/api/facturacao/{id}')
     config.add_route('api_facturacao_new_factura', '/api/facturacao/{id}/emitir_factura')
 
+    config.add_route('api_renovacao', '/api/renovacao')
+    config.add_route('api_renovacao_id', '/api/renovacao/{id}')
 
     config.add_route('nuevo_ciclo_facturacion', '/api/nuevo_ciclo_facturacion')
 
