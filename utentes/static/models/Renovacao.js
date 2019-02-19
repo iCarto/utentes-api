@@ -1,5 +1,6 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
-Backbone.SIXHIARA.Renovacao = Backbone.SIXHIARA.Exploracao.extend({
+Backbone.SIXHIARA.Renovacao = Backbone.Model.extend({
+    dateFields: ['d_soli', 'd_ultima_entrega_doc', 'd_emissao_sub_old', 'd_emissao_sub', 'd_emissao_sup_old', 'd_emissao_sup'],
 
     urlRoot: Backbone.SIXHIARA.Config.apiRenovacoes,
 
@@ -63,30 +64,6 @@ Backbone.SIXHIARA.Renovacao = Backbone.SIXHIARA.Exploracao.extend({
         'lic_time_enough':   false,
         'lic_time_warning':  false,
         'lic_time_over':     false
-    },
-
-    initialize: function(){},
-
-    toJSON: function(){
-        return _.clone(this.attributes);
-    },
-
-    parse: function(response){
-        response = Backbone.GeoJson.Feature.prototype.parse.apply(this, arguments);
-        this.parseDate(response, 'd_soli');
-        this.parseDate(response, 'd_ultima_entrega_doc');
-        this.parseDate(response, 'd_emissao_sub_old');
-        this.parseDate(response, 'd_emissao_sub');
-        this.parseDate(response, 'd_emissao_sup_old');
-        this.parseDate(response, 'd_emissao_sup');
-        return response;
-    },
-
-    parseDate: function(response, field) {
-        if (response[field]) {
-            var sTokens = response[field].split('-');
-            response[field] = new Date(sTokens[0], sTokens[1] - 1, sTokens[2], 1, 1, 1);
-        }
     },
 
     setLicState: function(state) {
