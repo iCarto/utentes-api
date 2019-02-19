@@ -1,18 +1,16 @@
 # -*- coding: utf-8 -*-
 
-from pyramid.view import view_config
-from utentes.models.exploracao import Exploracao
-from utentes.models.facturacao_fact_estado import (
-    FacturacaoFactEstado,
-    PENDING_INVOICE,
-    PENDING_CONSUMPTION,
-)
-from utentes.models.facturacao import Facturacao
 import datetime
-from utentes.user_utils import PERM_ADMIN
-
-
 import logging
+
+from pyramid.view import view_config
+
+from utentes.models.exploracao import Exploracao
+from utentes.models.facturacao import Facturacao
+from utentes.models.facturacao_fact_estado import (
+    PENDING_CONSUMPTION, PENDING_INVOICE, FacturacaoFactEstado,
+)
+
 log = logging.getLogger(__name__)
 
 
@@ -20,9 +18,14 @@ def diff_month(d1, d2):
     return (d1.year - d2.year) * 12 + d1.month - d2.month
 
 
-@view_config(route_name='nuevo_ciclo_facturacion', permission=PERM_ADMIN, request_method='GET', renderer='json')
+@view_config(route_name='nuevo_ciclo_facturacion', request_method='GET', renderer='json')
 # admin || financieiro
 def nuevo_ciclo_facturacion(request):
+    request_token = request.GET.get('token_new_fact_cycle')
+    settings_token = request.registry.settings['token_new_fact_cycle']
+    if (request_token != settings_token):
+        return {'NO': 'NO'}
+
     states = FacturacaoFactEstado.ESTADOS_FACTURABLES
     exps = request.db.query(Exploracao).filter(Exploracao.estado_lic.in_(states)).all()
     today = datetime.datetime.now()
