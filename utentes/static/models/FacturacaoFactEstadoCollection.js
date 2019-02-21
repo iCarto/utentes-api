@@ -85,14 +85,14 @@ FACTURACAO_ESTADOS.splice(0, 0,
     },
     {
         'key': FACTURACAO_ESTADOS.PENDING_PAY,
-        'roles': [ROL_ADMIN, ROL_FINANCIERO]
+        'roles': [ROL_ADMIN, ROL_OBSERVADOR, ROL_FINANCIERO]
     },
     {
         'key': FACTURACAO_ESTADOS.PENDIND_INVOICE,
-        'roles': [ROL_ADMIN, ROL_FINANCIERO]
+        'roles': [ROL_ADMIN, ROL_OBSERVADOR, ROL_FINANCIERO]
     },
     {
         'key': FACTURACAO_ESTADOS.PENDING_M3,
-        'roles': [ROL_ADMIN, ROL_TECNICO]
+        'roles': [ROL_ADMIN, ROL_OBSERVADOR, ROL_TECNICO]
     }
 );

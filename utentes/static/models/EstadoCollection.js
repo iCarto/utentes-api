@@ -93,47 +93,47 @@ var ESTADOS_PENDENTES = [
     },
     {
         'key': Backbone.SIXHIARA.Estado.INCOMPLETE_DA,
-        'roles': [ROL_ADMIN, ROL_ADMINISTRATIVO]
+        'roles': [ROL_ADMIN, ROL_OBSERVADOR, ROL_ADMINISTRATIVO]
     },
     {
         'key': Backbone.SIXHIARA.Estado.INCOMPLETE_DIR,
-        'roles': [ROL_ADMIN, ROL_DIRECCION, ROL_JURIDICO]
+        'roles': [ROL_ADMIN, ROL_OBSERVADOR, ROL_DIRECCION, ROL_JURIDICO]
     },
     {
         'key': Backbone.SIXHIARA.Estado.INCOMPLETE_DJ,
-        'roles': [ROL_ADMIN, ROL_JURIDICO, ROL_TECNICO]
+        'roles': [ROL_ADMIN, ROL_OBSERVADOR, ROL_JURIDICO, ROL_TECNICO]
     },
     {
         'key': Backbone.SIXHIARA.Estado.INCOMPLETE_DT,
-        'roles': [ROL_ADMIN, ROL_TECNICO]
+        'roles': [ROL_ADMIN, ROL_OBSERVADOR, ROL_TECNICO]
     },
     {
         'key': Backbone.SIXHIARA.Estado.INCOMPLETE_DF,
-        'roles': [ROL_ADMIN, ROL_FINANCIERO]
+        'roles': [ROL_ADMIN, ROL_OBSERVADOR, ROL_FINANCIERO]
     },
     {
         'key': Backbone.SIXHIARA.Estado.PENDING_REVIEW_DIR,
-        'roles': [ROL_ADMIN, ROL_DIRECCION, ROL_JURIDICO]
+        'roles': [ROL_ADMIN, ROL_OBSERVADOR, ROL_DIRECCION, ROL_JURIDICO]
     },
     {
         'key': Backbone.SIXHIARA.Estado.PENDING_REVIEW_DJ,
-        'roles': [ROL_ADMIN, ROL_TECNICO, ROL_JURIDICO]
+        'roles': [ROL_ADMIN, ROL_OBSERVADOR, ROL_TECNICO, ROL_JURIDICO]
     },
     {
         'key': Backbone.SIXHIARA.Estado.PENDING_FIELD_VISIT,
-        'roles': [ROL_ADMIN, ROL_TECNICO]
+        'roles': [ROL_ADMIN, ROL_OBSERVADOR, ROL_TECNICO]
     },
     {
         'key': Backbone.SIXHIARA.Estado.PENDING_TECH_DECISION,
-        'roles': [ROL_ADMIN, ROL_TECNICO]
+        'roles': [ROL_ADMIN, ROL_OBSERVADOR, ROL_TECNICO]
     },
     {
         'key': Backbone.SIXHIARA.Estado.PENDING_EMIT_LICENSE,
-        'roles': [ROL_ADMIN, ROL_JURIDICO]
+        'roles': [ROL_ADMIN, ROL_OBSERVADOR, ROL_JURIDICO]
     },
     {
         'key': Backbone.SIXHIARA.Estado.PENDING_DIR_SIGN,
-        'roles': [ROL_ADMIN, ROL_DIRECCION, ROL_JURIDICO]
+        'roles': [ROL_ADMIN, ROL_OBSERVADOR, ROL_DIRECCION, ROL_JURIDICO]
     },
     {
         'key': Backbone.SIXHIARA.Estado.DE_FACTO,
