@@ -13,7 +13,7 @@ var MyWorkflow = {
         // En todo caso los ROLES deberian ser una clase aparte
         var role = document.cookie.replace(/(?:(?:^|.*;\s*)utentes_stub_role\s*\=\s*([^;]*).*$)|^.*$/, '$1');
         role = decodeURIComponent(role);
-        if (![ROL_ADMIN, ROL_ADMINISTRATIVO, ROL_FINANCIERO, ROL_DIRECCION, ROL_TECNICO, ROL_JURIDICO].includes(role)) {
+        if (![ROL_ADMIN, ROL_OBSERVADOR, ROL_ADMINISTRATIVO, ROL_FINANCIERO, ROL_DIRECCION, ROL_TECNICO, ROL_JURIDICO].includes(role)) {
             throw Error('Not valid role');
         }
         return role;
@@ -45,6 +45,8 @@ var MyWorkflow = {
         switch (role) {
         case ROL_ADMIN:
             return 'administrador';
+        case ROL_OBSERVADOR:
+            return 'observador';
         case ROL_ADMINISTRATIVO:
             return 'administrativo';
         case ROL_FINANCIERO:
@@ -72,6 +74,13 @@ var MyWorkflow = {
         return role === ROL_DIRECCION;
     },
 
+    isObservador: function(role) {
+        if(!role) {
+            role = wf.getRole();
+        }
+        return role === ROL_OBSERVADOR;
+    },
+
     fixMenu: function() {
         var user = this.getRole();
 
@@ -84,12 +93,16 @@ var MyWorkflow = {
             document.getElementById('gps').parentNode.remove();
         }
 
-        if ([ROL_ADMIN, ROL_TECNICO, ROL_FINANCIERO].indexOf(user) === -1) {
+        if ([ROL_ADMIN, ROL_OBSERVADOR, ROL_TECNICO, ROL_FINANCIERO].indexOf(user) === -1) {
             document.getElementById('facturacao').parentNode.remove();
         }
 
         if (ROL_FINANCIERO === user) {
             document.getElementById('requerimento-pendente').parentNode.remove();
+        }
+
+        if (ROL_OBSERVADOR === user) {
+            document.getElementById('search-all').parentNode.remove();
         }
 
         document.getElementById('user-info').innerHTML = this.getUser();
@@ -154,7 +167,7 @@ var MyWorkflow = {
                 return Backbone.SIXHIARA.ViewJuridico2;
             }
 
-            if (role === ROL_JURIDICO || role === ROL_ADMIN) {
+            if (role === ROL_JURIDICO || role === ROL_ADMIN || role === ROL_OBSERVADOR) {
                 return Backbone.SIXHIARA.ViewJuridico1;
             };
             if (role === ROL_TECNICO) {
@@ -165,7 +178,7 @@ var MyWorkflow = {
         case LIC_ST.PENDING_REVIEW_DIR:
             return Backbone.SIXHIARA.ViewSecretaria1;
         case LIC_ST.PENDING_REVIEW_DJ:
-            if (role === ROL_JURIDICO || role === ROL_ADMIN) {
+            if (role === ROL_JURIDICO || role === ROL_ADMIN || role === ROL_OBSERVADOR) {
                 return Backbone.SIXHIARA.ViewJuridico1;
             };
             if (role === ROL_TECNICO) {

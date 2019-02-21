@@ -63,6 +63,7 @@ ROL_DIRECCION = 'Direcção';
 ROL_TECNICO = 'Departamento Técnico';  // DT
 ROL_JURIDICO = 'Departamento Jurídico'; // DJ
 ROL_SINGLE_SAFE = 'single'
+ROL_OBSERVADOR = 'Observador';
 
 var role_domains_collection = new Backbone.UILib.DomainCollection([
     {
@@ -99,6 +100,11 @@ var role_domains_collection = new Backbone.UILib.DomainCollection([
         'category': 'groups',
         'text': ROL_TECNICO,
         'order': 6,
+    },
+    {
+        'category': 'groups',
+        'text': ROL_OBSERVADOR,
+        'order': 7,
     },
 ]);
 
