@@ -16,6 +16,7 @@ ROL_FINANCIERO = u'Departamento Financeiro'  # DF
 ROL_DIRECCION = u'Direcção'
 ROL_TECNICO = u'Departamento Técnico'
 ROL_JURIDICO = u'Departamento Jurídico'  # DJ
+ROL_OBSERVADOR = u'observador'
 
 SINGLE_USER = 'SINGLE_USER'
 
@@ -75,6 +76,12 @@ class RootFactory(object):
                (Allow, ROL_JURIDICO, PERM_CREATE_DOCUMENTO),
                (Allow, ROL_JURIDICO, PERM_DELETE_DOCUMENTO),
                (Allow, ROL_JURIDICO, PERM_UPDATE_RENOVACAO),
+
+               (Allow, ROL_OBSERVADOR, PERM_GET),
+               (Allow, ROL_OBSERVADOR, PERM_FACTURACAO),
+               (Allow, ROL_OBSERVADOR, PERM_CULTIVO_TANQUE),
+               (Allow, ROL_OBSERVADOR, PERM_UPDATE_REQUERIMENTO),
+               (Allow, ROL_OBSERVADOR, PERM_UPDATE_RENOVACAO),
                ]
 
     def __init__(self, request):
@@ -136,6 +143,7 @@ VALID_LOGINS = {
     'secretaria': ROL_DIRECCION,
     'tecnico': ROL_TECNICO,
     'juridico': ROL_JURIDICO,
+    'observador': ROL_OBSERVADOR,
 }
 
 def get_unique_user():
