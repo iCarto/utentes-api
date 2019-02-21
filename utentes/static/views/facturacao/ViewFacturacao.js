@@ -24,10 +24,10 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
                 <div class="btn-group" role="group">
                     <a id="bt-ficha" class="btn btn-default" role="button" href="/exploracao-show.html?id=<%- id %>">Ficha</a>
                 </div>
-                <div class="btn-group" role="group">
+                <div class="btn-group uilib-enability uilib-hide-role-observador" role="group">
                     <button id="bt-emision" type="button" class="btn btn-default" disabled>Factura&nbsp;(emissão licença)</button>
                 </div>
-                <div class="btn-group" role="group">
+                <div class="btn-group uilib-enability uilib-hide-role-observador" role="group">
                     <button id="bt-consumo" type="button" class="btn btn-default">Factura&nbsp;(consumo)</button>
                 </div>
             </div>
@@ -226,10 +226,10 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
                     o bien, todos los botones deberían ser generados en otra parte, o de los dominios se deberían decidir que botones
                     se pueden usar en el modo combo o algo así
                     -->
-                    <button id="bt-ok" type="button" class="btn btn-default btn-sm">Diferida</button>
+                    <button id="bt-ok" type="button" class="btn btn-default btn-sm uilib-enability uilib-hide-role-observador">Diferida</button>
                 </div>
             </label>
-            <textarea id="observacio" class="form-control widget"></textarea>
+            <textarea id="observacio" class="form-control widget uilib-enability uilib-disable-role-observador"></textarea>
         </div>
       </div>
       </div>
@@ -300,7 +300,10 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
 
     widgetsToBeUsed: function() {
         var self = this;
-        var user = wf.getRole();
+        if (wf.isObservador()) {
+            this.widgets = [];
+            return;
+        }
         this.widgets = ['pago_lic', 'pagos', 'fact_tipo', 'iva'];
         this.model.get('licencias').forEach(function(lic){
             var tipo = lic.get('tipo_agua').substring(0, 3).toLowerCase();

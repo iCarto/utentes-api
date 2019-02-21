@@ -77,7 +77,7 @@ var MyWorkflowRenovacao = {
 
     isObservador: function(role) {
         if(!role) {
-            role = wf.getRole();
+            role = wfr.getRole();
         }
         return role === ROL_OBSERVADOR;
     },
@@ -140,6 +140,7 @@ var MyWorkflowRenovacao = {
             'exp_id': exp.get('exp_id'),
             'notscroll': true,
         });
+        wfr.disabledWidgets('#insert-data');
     },
 
     whichView: function(exp, next) {
@@ -449,26 +450,15 @@ var MyWorkflowRenovacao = {
                     rolesHide.push(c.split('role-')[1]);
                 }
             });
-            var disabled = true;
-            if (wfr.user_roles_in(rolesDisabled)) {
-                disabled = true;
+            if (!w.hasAttribute('disabled')) {
+                if (rolesEnabled.length && !wfr.user_roles_in(rolesEnabled) ||
+                    rolesDisabled.length && wfr.user_roles_in(rolesDisabled)) {
+                    w.disabled = true;
+                }
             }
-            if (wfr.user_roles_in(rolesEnabled)) {
-                disabled = false;
-            }
-            if (rolesEnabled.length || rolesDisabled.lengh) {
-                w.disabled = disabled;
-            }
-
-            var hide = true;
-            if (wfr.user_roles_in(rolesHide)) {
-                hide = true;
-            }
-            if (wfr.user_roles_in(rolesShowed)) {
-                hide = false;
-            }
-            if ((rolesShowed.length || rolesHide.length) && hide) {
-                w.style.display = 'none';
+            if (rolesShowed.length && !wfr.user_roles_in(rolesShowed) ||
+                rolesHide.length && wfr.user_roles_in(rolesHide)) {
+                    w.style.display = 'none';
             }
         });
     },

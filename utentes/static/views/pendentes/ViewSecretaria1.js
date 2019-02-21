@@ -28,43 +28,43 @@ Backbone.SIXHIARA.ViewSecretaria1 = Backbone.SIXHIARA.View1.extend({
           <tbody>
             <tr>
               <td>Carta de requerimento de solicitação</td>
-              <td><input id="carta_re" type="checkbox" <%- carta_re ? 'checked=""' : '' %> required></td>
+              <td><input id="carta_re" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- carta_re ? 'checked=""' : '' %> required></td>
             </tr>
             <tr>
               <td>Ficha de pedido preenchida</td>
-              <td><input id="ficha_pe" type="checkbox" <%- ficha_pe ? 'checked=""' : '' %> required></td>
+              <td><input id="ficha_pe" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- ficha_pe ? 'checked=""' : '' %> required></td>
             </tr>
             <tr>
               <td>Identificação do proprietário</td>
-              <td><input id="ident_pro" type="checkbox" <%- ident_pro ? 'checked=""' : '' %> required></td>
+              <td><input id="ident_pro" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- ident_pro ? 'checked=""' : '' %> required></td>
             </tr>
             <tr>
               <td>Certificado de registo comercial</td>
-              <td><input id="certi_reg" type="checkbox" <%- certi_reg ? 'checked=""' : '' %>></td>
+              <td><input id="certi_reg" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- certi_reg ? 'checked=""' : '' %>></td>
             </tr>
             <tr>
               <td>DUAT ou declaração das estructuras locais&nbsp;(bairro)</td>
-              <td><input id="duat" type="checkbox" <%- duat ? 'checked=""' : '' %>></td>
+              <td><input id="duat" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- duat ? 'checked=""' : '' %>></td>
             </tr>
             <tr>
               <td>Mapa de localização</td>
-              <td><input id="mapa" type="checkbox" <%- mapa ? 'checked=""' : '' %>></td>
+              <td><input id="mapa" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- mapa ? 'checked=""' : '' %>></td>
             </tr>
             <tr>
               <td>Boletim de análise de água</td>
-              <td><input id="b_a_agua" type="checkbox" <%- b_a_agua ? 'checked=""' : '' %>></td>
+              <td><input id="b_a_agua" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- b_a_agua ? 'checked=""' : '' %>></td>
             </tr>
             <tr>
               <td>Licença Ambiental&nbsp;(Se é preciso)</td>
-              <td><input id="licen_am" type="checkbox" <%- licen_am ? 'checked=""' : '' %>></td>
+              <td><input id="licen_am" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- licen_am ? 'checked=""' : '' %>></td>
             </tr>
             <tr>
               <td>Autorização de apertura de poço/furo&nbsp;(Se é preciso)</td>
-              <td><input id="licen_fu" type="checkbox" <%- licen_fu ? 'checked=""' : '' %>></td>
+              <td><input id="licen_fu" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- licen_fu ? 'checked=""' : '' %>></td>
             </tr>
             <tr>
               <td>Relatório técnico de perforação&nbsp;(Se é preciso)</td>
-              <td><input id="r_perf" type="checkbox" <%- r_perf ? 'checked=""' : '' %>></td>
+              <td><input id="r_perf" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- r_perf ? 'checked=""' : '' %>></td>
             </tr>
           </tbody>
         </table>
@@ -85,11 +85,11 @@ Backbone.SIXHIARA.ViewSecretaria1 = Backbone.SIXHIARA.View1.extend({
             o bien, todos los botones deberían ser generados en otra parte, o de los dominios se deberían decidir que botones
             se pueden usar en el modo combo o algo así
             -->
-            <button id="bt-ok" type="button" class="btn btn-default">Completa</button>
-            <button id="bt-no" type="button" class="btn btn-primary">Incompleta</button>
+            <button id="bt-ok" type="button" class="btn btn-default uilib-enability uilib-hide-role-observador">Completa</button>
+            <button id="bt-no" type="button" class="btn btn-primary uilib-enability uilib-hide-role-observador">Incompleta</button>
           </div>
         </label>
-        <textarea id="observacio" class="form-control widget"></textarea>
+        <textarea id="observacio" class="form-control widget uilib-enability uilib-disable-role-observador"></textarea>
 
           <label for="observacio_ant">Observações anteriores</label>
             <textarea class="form-control widget" id="observacio_ant" disabled>

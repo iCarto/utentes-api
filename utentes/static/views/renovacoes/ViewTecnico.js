@@ -8,7 +8,7 @@ Backbone.SIXHIARA.ViewTecnico = Backbone.SIXHIARA.View1.extend({
                  <div class="btn-group" role="group">
                     <button id="file-modal" class="btn btn-default" role="button">Documentaçao</button>
                  </div>
-                 <div class="btn-group" role="group">
+                 <div class="btn-group uilib-enability uilib-hide-role-observador" role="group">
                     <a id="bt-geometria" class="btn btn-default" role="button" href="/exploracao-gps.html">Geometria</a>
                  </div>
                  <div class="btn-group" role="group">
@@ -39,19 +39,19 @@ Backbone.SIXHIARA.ViewTecnico = Backbone.SIXHIARA.View1.extend({
                           <tbody>
                              <tr>
                                 <td>Análise da documentação</td>
-                                <td><input id="anali_doc" type="checkbox" <%- renovacao.anali_doc ? 'checked=""' : '' %> required></td>
+                                <td><input id="anali_doc" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- renovacao.anali_doc ? 'checked=""' : '' %> required></td>
                              </tr>
                              <tr>
                                 <td>Solicitação da visitoria</td>
-                                <td><input id="soli_visit" type="checkbox" <%- renovacao.soli_visit ? 'checked=""' : '' %> required></td>
+                                <td><input id="soli_visit" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- renovacao.soli_visit ? 'checked=""' : '' %> required></td>
                              </tr>
                              <tr>
                                 <td>Parecer da Unidade</td>
-                                <td><input id="p_unid" type="checkbox" <%- renovacao.p_unid ? 'checked=""' : '' %> required></td>
+                                <td><input id="p_unid" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- renovacao.p_unid ? 'checked=""' : '' %> required></td>
                              </tr>
                              <tr>
                                 <td>Parecer Técnico</td>
-                                <td><input id="p_tec" type="checkbox" <%- renovacao.p_tec ? 'checked=""' : '' %> required></td>
+                                <td><input id="p_tec" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- renovacao.p_tec ? 'checked=""' : '' %> required></td>
                              </tr>
                           </tbody>
                        </table>
@@ -71,13 +71,13 @@ Backbone.SIXHIARA.ViewTecnico = Backbone.SIXHIARA.View1.extend({
                              o bien, todos los botones deberían ser generados en otra parte, o de los dominios se deberían decidir que botones
                              se pueden usar en el modo combo o algo así
                              -->
-                          <button id="bt-ok" type="button" class="btn btn-default btn-sm">Completa</button>
-                          <button id="bt-no" type="button" class="btn btn-primary btn-sm">Incompleta</button>
-                          <button id="bt-noaprobada" type="button" class="btn btn-primary btn-sm">Não aprovada</button>
-                          <button id="bt-defacto" type="button" class="btn btn-danger btn-sm">Utente de facto</button>
+                          <button id="bt-ok" type="button" class="btn btn-default btn-sm uilib-enability uilib-hide-role-observador">Completa</button>
+                          <button id="bt-no" type="button" class="btn btn-primary btn-sm uilib-enability uilib-hide-role-observador">Incompleta</button>
+                          <button id="bt-noaprobada" type="button" class="btn btn-primary btn-sm uilib-enability uilib-hide-role-observador">Não aprovada</button>
+                          <button id="bt-defacto" type="button" class="btn btn-danger btn-sm uilib-enability uilib-hide-role-observador">Utente de facto</button>
                        </div>
                     </label>
-                    <textarea id="observacio" class="form-control widget"></textarea>
+                    <textarea id="observacio" class="form-control widget uilib-enability uilib-disable-role-observador"></textarea>
                  </div>
               </div>
            </div>

@@ -8,7 +8,7 @@ Backbone.SIXHIARA.ViewJuridico1 = Backbone.SIXHIARA.View1.extend({
                  <div class="btn-group" role="group">
                     <button id="file-modal" class="btn btn-default" role="button">Documentaçao</button>
                  </div>
-                 <div class="btn-group" role="group">
+                 <div class="btn-group uilib-enability uilib-hide-role-observador" role="group">
                     <a id="bt-geometria" class="btn btn-default" role="button" href="/exploracao-gps.html" disabled>Geometria</a>
                  </div>
                  <div class="btn-group" role="group">
@@ -40,23 +40,23 @@ Backbone.SIXHIARA.ViewJuridico1 = Backbone.SIXHIARA.View1.extend({
                           <tbody>
                              <tr>
                                 <td>Carta de requerimento de renovação</td>
-                                <td><input id="carta_ren" type="checkbox" <%- renovacao.carta_ren ? 'checked=""' : '' %> required></td>
-                                <td><input id="carta_ren_v" type="checkbox" <%- renovacao.carta_ren_v ? 'checked=""' : '' %> required></td>
+                                <td><input id="carta_ren" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- renovacao.carta_ren ? 'checked=""' : '' %> required></td>
+                                <td><input id="carta_ren_v" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- renovacao.carta_ren_v ? 'checked=""' : '' %> required></td>
                              </tr>
                              <tr>
                                 <td>Identificação do proprietário</td>
-                                <td><input id="ident_pro" type="checkbox" <%- renovacao.ident_pro ? 'checked=""' : '' %>></td>
-                                <td><input id="ident_pro_v" type="checkbox" <%- renovacao.ident_pro_v ? 'checked=""' : '' %> required></td>
+                                <td><input id="ident_pro" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- renovacao.ident_pro ? 'checked=""' : '' %>></td>
+                                <td><input id="ident_pro_v" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- renovacao.ident_pro_v ? 'checked=""' : '' %> required></td>
                              </tr>
                              <tr>
                                 <td>Certificado de registo comercial</td>
-                                <td><input id="certi_reg" type="checkbox" <%- renovacao.certi_reg ? 'checked=""' : '' %>></td>
-                                <td><input id="certi_reg_v" type="checkbox" <%- renovacao.certi_reg_v ? 'checked=""' : '' %> required></td>
+                                <td><input id="certi_reg" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- renovacao.certi_reg ? 'checked=""' : '' %>></td>
+                                <td><input id="certi_reg_v" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- renovacao.certi_reg_v ? 'checked=""' : '' %> required></td>
                              </tr>
                              <tr>
                                 <td>DUAT ou declaração das estructuras locais&nbsp;(bairro)</td>
-                                <td><input id="duat" type="checkbox" <%- renovacao.duat ? 'checked=""' : '' %>></td>
-                                <td><input id="duat_v" type="checkbox" <%- renovacao.duat_v ? 'checked=""' : '' %> required></td>
+                                <td><input id="duat" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- renovacao.duat ? 'checked=""' : '' %>></td>
+                                <td><input id="duat_v" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- renovacao.duat_v ? 'checked=""' : '' %> required></td>
                              </tr>
                           </tbody>
                        </table>
@@ -76,9 +76,9 @@ Backbone.SIXHIARA.ViewJuridico1 = Backbone.SIXHIARA.View1.extend({
                              o bien, todos los botones deberían ser generados en otra parte, o de los dominios se deberían decidir que botones
                              se pueden usar en el modo combo o algo así
                              -->
-                          <button id="bt-ok" type="button" class="btn btn-default">Completa</button>
-                          <button id="bt-no" type="button" class="btn btn-primary">Incompleta</button>
-                          <button id="bt-noaprobada" type="button" class="btn btn-primary">Não aprovada</button>
+                          <button id="bt-ok" type="button" class="btn btn-default uilib-enability uilib-hide-role-observador">Completa</button>
+                          <button id="bt-no" type="button" class="btn btn-primary uilib-enability uilib-hide-role-observador">Incompleta</button>
+                          <button id="bt-noaprobada" type="button" class="btn btn-primary uilib-enability uilib-hide-role-observador">Não aprovada</button>
                        </div>
                     </label>
                     <textarea id="observacio" class="form-control widget"></textarea>

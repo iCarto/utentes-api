@@ -34,12 +34,12 @@ Backbone.SIXHIARA.ViewSecretaria2 = Backbone.SIXHIARA.View1.extend({
             o bien, todos los botones deberían ser generados en otra parte, o de los dominios se deberían decidir que botones
             se pueden usar en el modo combo o algo así
             -->
-            <button id="bt-ok" type="button" class="btn btn-default">Licença Assinada<small>&nbsp;(Director)</small></button>
-            <button id="bt-noaprobada" type="button" class="btn btn-primary">Não aprovada<small>&nbsp;(Director)</small></button>
+            <button id="bt-ok" type="button" class="btn btn-default uilib-enability uilib-hide-role-observador">Licença Assinada<small>&nbsp;(Director)</small></button>
+            <button id="bt-noaprobada" type="button" class="btn btn-primary uilib-enability uilib-hide-role-observador">Não aprovada<small>&nbsp;(Director)</small></button>
 
           </div>
         </label>
-        <textarea id="observacio" class="form-control widget" rows="7"></textarea>
+        <textarea id="observacio" class="form-control widget btn btn-default uilib-enability uilib-disable-role-observador" rows="7"></textarea>
       </div>
 
  <div class="form-group" style="margin-top: 40px">

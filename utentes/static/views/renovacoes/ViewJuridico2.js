@@ -36,15 +36,15 @@ Backbone.SIXHIARA.ViewJuridico2 = Backbone.SIXHIARA.View1.extend({
                           <tbody>
                              <tr>
                                 <td>Documentação legal</td>
-                                <td><input id="doc_legal" type="checkbox" checked required disabled></td>
+                                <td><input id="doc_legal" class="uilib-enability uilib-disable-role-observador" type="checkbox" checked required disabled></td>
                              </tr>
                              <tr>
                                 <td>Parecer Técnico</td>
-                                <td><input id="p_juri" type="checkbox" <%- renovacao.p_juri ? 'checked=""' : '' %> required></td>
+                                <td><input id="p_juri" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- renovacao.p_juri ? 'checked=""' : '' %> required></td>
                              </tr>
                              <tr>
                                 <td>Parecer de instituições relevantes</td>
-                                <td><input id="p_rel" type="checkbox" <%- renovacao.p_rel ? 'checked=""' : '' %> required></td>
+                                <td><input id="p_rel" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- renovacao.p_rel ? 'checked=""' : '' %> required></td>
                              </tr>
                           </tbody>
                        </table>
@@ -64,13 +64,13 @@ Backbone.SIXHIARA.ViewJuridico2 = Backbone.SIXHIARA.View1.extend({
                              o bien, todos los botones deberían ser generados en otra parte, o de los dominios se deberían decidir que botones
                              se pueden usar en el modo combo o algo así
                              -->
-                          <button id="bt-ok" type="button" class="btn btn-default btn-sm" style="padding-left:7px; padding-right: 7px;" disabled>Seguinte</button>
-                          <button id="bt-no" type="button" class="btn btn-primary btn-sm" style="padding-left:7px; padding-right: 7px;">Incompleta</button>
-                          <button id="bt-noaprobada" type="button" class="btn btn-primary btn-sm" style="padding-left:7px; padding-right: 7px;">Não aprovada</button>
-                          <button id="bt-defacto" type="button" class="btn btn-danger btn-sm" style="padding-left:7px; padding-right: 7px;">Utente de facto</button>
+                          <button id="bt-ok" type="button" class="btn btn-default btn-sm uilib-enability uilib-hide-role-observador" style="padding-left:7px; padding-right: 7px;" disabled>Completa</button>
+                          <button id="bt-no" type="button" class="btn btn-primary btn-sm uilib-enability uilib-hide-role-observador" style="padding-left:7px; padding-right: 7px;">Incompleta</button>
+                          <button id="bt-noaprobada" type="button" class="btn btn-primary btn-sm uilib-enability uilib-hide-role-observador" style="padding-left:7px; padding-right: 7px;">Não aprovada</button>
+                          <button id="bt-defacto" type="button" class="btn btn-danger btn-sm uilib-enability uilib-hide-role-observador" style="padding-left:7px; padding-right: 7px;">Utente de facto</button>
                        </div>
                     </label>
-                    <textarea id="observacio" class="form-control widget"></textarea>
+                    <textarea id="observacio" class="form-control widget uilib-enability uilib-disable-role-observador"></textarea>
                  </div>
               </div>
            </div>

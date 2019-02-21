@@ -5,6 +5,9 @@ Backbone.SIXHIARA.ViewFacturacaoTecnico = Backbone.SIXHIARA.ViewFacturacao.exten
         var self = this;
         this.widgets = [];
 
+        if (wf.isObservador()) {
+            return;
+        }
         this.model.get('licencias').forEach(function(lic){
             var tipo = lic.get('tipo_agua').substring(0, 3).toLowerCase();
             document.getElementById('lic-' + tipo).classList.remove('panel-disabled');

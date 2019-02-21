@@ -139,6 +139,7 @@ var MyWorkflow = {
             'exp_id': exp.get('exp_id'),
             'notscroll': true,
         });
+        wf.disabledWidgets('#insert-data');
     },
 
     whichView: function(exp, next) {
@@ -490,26 +491,15 @@ var MyWorkflow = {
                     rolesHide.push(c.split('role-')[1]);
                 }
             });
-            var disabled = true;
-            if (wf.user_roles_in(rolesDisabled)) {
-                disabled = true;
+            if (!w.hasAttribute('disabled')) {
+                if (rolesEnabled.length && !wf.user_roles_in(rolesEnabled) ||
+                    rolesDisabled.length && wf.user_roles_in(rolesDisabled)) {
+                    w.disabled = true;
+                }
             }
-            if (wf.user_roles_in(rolesEnabled)) {
-                disabled = false;
-            }
-            if (rolesEnabled.length || rolesDisabled.lengh) {
-                w.disabled = disabled;
-            }
-
-            var hide = true;
-            if (wf.user_roles_in(rolesHide)) {
-                hide = true;
-            }
-            if (wf.user_roles_in(rolesShowed)) {
-                hide = false;
-            }
-            if ((rolesShowed.length || rolesHide.length) && hide) {
-                w.style.display = 'none';
+            if (rolesShowed.length && !wf.user_roles_in(rolesShowed) ||
+                rolesHide.length && wf.user_roles_in(rolesHide)) {
+                    w.style.display = 'none';
             }
         });
     },

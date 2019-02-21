@@ -23,8 +23,8 @@ Backbone.SIXHIARA.ViewJuridicoDados = Backbone.SIXHIARA.View1.extend({
                  <div class="btn-group" role="group">
                     <a id="bt-ficha" class="btn btn-default" role="button" href="/exploracao-show.html?id=<%- id %>">Ficha</a>
                  </div>
-                 <div class="btn-group" role="group">
-                    <button id="bt-imprimir-licencia" type="button" class="btn btn-default">Imprimir&nbsp;(licença)</button>
+                 <div class="btn-group uilib-enability uilib-hide-role-observador" role="group">
+                     <button id="bt-imprimir-licencia" class="btn btn-default" type="button" class="btn btn-default">Imprimir&nbsp;(licença)</button>
                  </div>
               </div>
            </div>
@@ -176,11 +176,11 @@ Backbone.SIXHIARA.ViewJuridicoDados = Backbone.SIXHIARA.View1.extend({
                              o bien, todos los botones deberían ser generados en otra parte, o de los dominios se deberían decidir que botones
                              se pueden usar en el modo combo o algo así
                              -->
-                         <button id="bt-ok" type="button" class="btn btn-default btn-sm" disabled>Completa</button>
-                         <button id="bt-noaprobada" type="button" class="btn btn-primary btn-sm" style="padding-left:7px; padding-right: 7px;">Não aprovada</button>
+                          <button id="bt-ok" type="button" class="btn btn-default btn-sm uilib-enability uilib-hide-role-observador" disabled>Seguinte</button>
+                          <button id="bt-noaprobada" type="button" class="btn btn-primary btn-sm uilib-enability uilib-hide-role-observador" style="padding-left:7px; padding-right: 7px;">Não aprovada</button>
                        </div>
                     </label>
-                    <textarea id="observacio" class="form-control widget"></textarea>
+                    <textarea id="observacio" class="form-control widget uilib-enability uilib-disable-role-observador" rows="8"></textarea>
                  </div>
               </div>
            </div>
@@ -253,8 +253,10 @@ Backbone.SIXHIARA.ViewJuridicoDados = Backbone.SIXHIARA.View1.extend({
     },
 
     widgetsToBeUsed: function() {
-        var user = wfr.getRole();
         this.widgets = [];
+        if (wfr.isObservador()) {
+            return;
+        }
         this.model.get('licencias').forEach(function(lic){
             var tipo = lic.get('tipo_agua').substring(0, 3).toLowerCase();
             document.getElementById('lic-' + tipo + "-old").classList.remove('panel-disabled');
