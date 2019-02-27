@@ -9,7 +9,7 @@ from utentes.api.error_msgs import error_msgs
 from utentes.models.base import badrequest_exception
 from utentes.models.exploracao import Exploracao
 from utentes.models.facturacao import Facturacao
-from utentes.user_utils import PERM_FACTURACAO, PERM_GET
+from utentes.user_utils import PERM_UPDATE_CREATE_FACTURACAO, PERM_GET
 
 log = logging.getLogger(__name__)
 
@@ -56,7 +56,7 @@ def facturacao_get(request):
 
 @view_config(
     route_name='api_facturacao_new_factura',
-    permission=PERM_FACTURACAO,
+    permission=PERM_UPDATE_CREATE_FACTURACAO,
     request_method='GET',
     renderer='json')
 def num_factura_get(request):
@@ -130,12 +130,12 @@ def num_factura_get(request):
 
 @view_config(
     route_name='api_facturacao_id',
-    permission=PERM_FACTURACAO,
+    permission=PERM_UPDATE_CREATE_FACTURACAO,
     request_method='PATCH',
     renderer='json')
 @view_config(
     route_name='api_facturacao_id',
-    permission=PERM_FACTURACAO,
+    permission=PERM_UPDATE_CREATE_FACTURACAO,
     request_method='PUT',
     renderer='json')
 def facturacao_update(request):

@@ -22,15 +22,18 @@ SINGLE_USER = 'SINGLE_USER'
 
 PERM_ADMIN = 'admin'
 PERM_UTENTES = 'create_update_utente'
-PERM_CULTIVO_TANQUE = 'update_cultivo_tanque'
+PERM_UPDATE_CULTIVO_TANQUE = 'update_cultivo_tanque'
 PERM_GET = 'get'
 PERM_EXPLORACAO = 'create_update_exploracao'
-PERM_FACTURACAO = 'update_facturacao'
+PERM_FACTURACAO = 'get_facturacao'
+PERM_RENOVACAO = 'get_renovacao'
+PERM_REQUERIMENTO = 'get_requerimento'
 PERM_CREATE_REQUERIMENTO = 'create_requerimento'
-PERM_UPDATE_REQUERIMENTO = 'update_requerimento'
 PERM_CREATE_DOCUMENTO = 'create_documento'
-PERM_DELETE_DOCUMENTO = 'delete_documento'
+PERM_UPDATE_CREATE_FACTURACAO = 'update_facturacao'
+PERM_UPDATE_REQUERIMENTO = 'update_requerimento'
 PERM_UPDATE_RENOVACAO = 'update_renovacao'
+PERM_DELETE_DOCUMENTO = 'delete_documento'
 
 # GESTIONAR UNIQUE USER
 class RootFactory(object):
@@ -41,47 +44,59 @@ class RootFactory(object):
                (Allow, ROL_ADMIN, PERM_UTENTES),
                (Allow, ROL_ADMIN, PERM_EXPLORACAO),
                (Allow, ROL_ADMIN, PERM_FACTURACAO),
-               (Allow, ROL_ADMIN, PERM_CULTIVO_TANQUE),
+               (Allow, ROL_ADMIN, PERM_UPDATE_CREATE_FACTURACAO),
+               (Allow, ROL_ADMIN, PERM_UPDATE_CULTIVO_TANQUE),
+               (Allow, ROL_ADMIN, PERM_REQUERIMENTO),
                (Allow, ROL_ADMIN, PERM_CREATE_REQUERIMENTO),
                (Allow, ROL_ADMIN, PERM_UPDATE_REQUERIMENTO),
                (Allow, ROL_ADMIN, PERM_CREATE_DOCUMENTO),
                (Allow, ROL_ADMIN, PERM_DELETE_DOCUMENTO),
+               (Allow, ROL_ADMIN, PERM_RENOVACAO),
                (Allow, ROL_ADMIN, PERM_UPDATE_RENOVACAO),
 
+               (Allow, ROL_ADMINISTRATIVO, PERM_REQUERIMENTO),
                (Allow, ROL_ADMINISTRATIVO, PERM_CREATE_REQUERIMENTO),
                (Allow, ROL_ADMINISTRATIVO, PERM_UPDATE_REQUERIMENTO),
                (Allow, ROL_ADMINISTRATIVO, PERM_CREATE_DOCUMENTO),
                (Allow, ROL_ADMINISTRATIVO, PERM_DELETE_DOCUMENTO),
+               (Allow, ROL_ADMINISTRATIVO, PERM_RENOVACAO),
                (Allow, ROL_ADMINISTRATIVO, PERM_UPDATE_RENOVACAO),
 
                (Allow, ROL_FINANCIERO, PERM_FACTURACAO),
+               (Allow, ROL_FINANCIERO, PERM_UPDATE_CREATE_FACTURACAO),
                (Allow, ROL_FINANCIERO, PERM_CREATE_DOCUMENTO),
                (Allow, ROL_FINANCIERO, PERM_DELETE_DOCUMENTO),
+               (Allow, ROL_FINANCIERO, PERM_RENOVACAO),
                (Allow, ROL_FINANCIERO, PERM_UPDATE_RENOVACAO),
 
+               (Allow, ROL_DIRECCION, PERM_REQUERIMENTO),
                (Allow, ROL_DIRECCION, PERM_UPDATE_REQUERIMENTO),
+               (Allow, ROL_DIRECCION, PERM_RENOVACAO),
                (Allow, ROL_DIRECCION, PERM_UPDATE_RENOVACAO),
 
                (Allow, ROL_TECNICO, PERM_UTENTES),
                (Allow, ROL_TECNICO, PERM_EXPLORACAO),
                (Allow, ROL_TECNICO, PERM_FACTURACAO),
-               (Allow, ROL_TECNICO, PERM_CULTIVO_TANQUE),
+               (Allow, ROL_TECNICO, PERM_UPDATE_CREATE_FACTURACAO),
+               (Allow, ROL_TECNICO, PERM_UPDATE_CULTIVO_TANQUE),
+               (Allow, ROL_TECNICO, PERM_REQUERIMENTO),
                (Allow, ROL_TECNICO, PERM_UPDATE_REQUERIMENTO),
                (Allow, ROL_TECNICO, PERM_CREATE_DOCUMENTO),
                (Allow, ROL_TECNICO, PERM_DELETE_DOCUMENTO),
+               (Allow, ROL_TECNICO, PERM_RENOVACAO),
                (Allow, ROL_TECNICO, PERM_UPDATE_RENOVACAO),
 
                (Allow, ROL_JURIDICO, PERM_EXPLORACAO),
+               (Allow, ROL_JURIDICO, PERM_REQUERIMENTO),
                (Allow, ROL_JURIDICO, PERM_UPDATE_REQUERIMENTO),
                (Allow, ROL_JURIDICO, PERM_CREATE_DOCUMENTO),
                (Allow, ROL_JURIDICO, PERM_DELETE_DOCUMENTO),
+               (Allow, ROL_JURIDICO, PERM_RENOVACAO),
                (Allow, ROL_JURIDICO, PERM_UPDATE_RENOVACAO),
 
-               (Allow, ROL_OBSERVADOR, PERM_GET),
                (Allow, ROL_OBSERVADOR, PERM_FACTURACAO),
-               (Allow, ROL_OBSERVADOR, PERM_CULTIVO_TANQUE),
-               (Allow, ROL_OBSERVADOR, PERM_UPDATE_REQUERIMENTO),
-               (Allow, ROL_OBSERVADOR, PERM_UPDATE_RENOVACAO),
+               (Allow, ROL_OBSERVADOR, PERM_REQUERIMENTO),
+               (Allow, ROL_OBSERVADOR, PERM_RENOVACAO),
                ]
 
     def __init__(self, request):

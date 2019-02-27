@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from pyramid.view import view_config
-from utentes.user_utils import PERM_GET, PERM_CULTIVO_TANQUE, PERM_EXPLORACAO, PERM_FACTURACAO, PERM_CREATE_REQUERIMENTO, PERM_UPDATE_REQUERIMENTO, PERM_UPDATE_RENOVACAO
+from utentes.user_utils import PERM_GET, PERM_UPDATE_CULTIVO_TANQUE, PERM_EXPLORACAO, PERM_FACTURACAO, PERM_CREATE_REQUERIMENTO, PERM_REQUERIMENTO, PERM_RENOVACAO
 
 
-@view_config(route_name='exploracao-gps', permission=PERM_CULTIVO_TANQUE, renderer='utentes:templates/exploracao-gps.jinja2')
+@view_config(route_name='exploracao-gps', permission=PERM_UPDATE_CULTIVO_TANQUE, renderer='utentes:templates/exploracao-gps.jinja2')
 def exploracao_gps(request):
     return {}
 
@@ -33,11 +33,11 @@ def requerimento_new(request):
     return {}
 
 
-@view_config(route_name='requerimento-pendente', permission=PERM_UPDATE_REQUERIMENTO, renderer='utentes:templates/requerimento-pendente.jinja2')
+@view_config(route_name='requerimento-pendente', permission=PERM_REQUERIMENTO, renderer='utentes:templates/requerimento-pendente.jinja2')
 def requerimento_pendente(request):
     return {}
 
-@view_config(route_name='renovacao', permission=PERM_UPDATE_RENOVACAO, renderer='utentes:templates/renovacao.jinja2')
+@view_config(route_name='renovacao', permission=PERM_RENOVACAO, renderer='utentes:templates/renovacao.jinja2')
 def renovacao(request):
     return {}
 

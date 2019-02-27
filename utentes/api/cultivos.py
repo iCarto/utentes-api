@@ -9,7 +9,7 @@ from utentes.models.actividades_schema import ActividadeSchema
 from utentes.models.cultivo import ActividadesCultivos
 from utentes.models.actividade import Actividade
 from utentes.models.exploracao import Exploracao
-from utentes.user_utils import PERM_CULTIVO_TANQUE, PERM_GET
+from utentes.user_utils import PERM_UPDATE_CULTIVO_TANQUE, PERM_GET
 
 
 from error_msgs import error_msgs
@@ -40,7 +40,7 @@ def cultivos_get(request):
         }
 
 
-@view_config(route_name='api_cultivos_id', permission=PERM_CULTIVO_TANQUE, request_method='PUT', renderer='json')
+@view_config(route_name='api_cultivos_id', permission=PERM_UPDATE_CULTIVO_TANQUE, request_method='PUT', renderer='json')
 def cultivos_update(request):
     gid = request.matchdict['id']
     if not gid:

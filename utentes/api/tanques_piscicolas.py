@@ -7,7 +7,7 @@ from utentes.lib.schema_validator.validator import Validator
 from utentes.models.base import badrequest_exception
 from utentes.models.actividades_schema import ActividadeSchema
 from utentes.models.tanques_piscicolas import ActividadesTanquesPiscicolas as UsedModel
-from utentes.user_utils import PERM_CULTIVO_TANQUE, PERM_GET
+from utentes.user_utils import PERM_UPDATE_CULTIVO_TANQUE, PERM_GET
 
 
 from error_msgs import error_msgs
@@ -38,7 +38,7 @@ def tanques_piscicolas_get(request):
         }
 
 
-@view_config(route_name='api_tanques_piscicolas_id', permission=PERM_CULTIVO_TANQUE, request_method='PUT', renderer='json')
+@view_config(route_name='api_tanques_piscicolas_id', permission=PERM_UPDATE_CULTIVO_TANQUE, request_method='PUT', renderer='json')
 def tanques_piscicolas_update(request):
     gid = request.matchdict['id']
     if not gid:
