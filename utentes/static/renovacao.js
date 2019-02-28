@@ -132,14 +132,16 @@ var renovacoesFetched = function() {
         } else {
             expHandled.add(model.get('exp_id'));
         }
-        listView.update(renovacoesFiltered);
-        mapView.update(renovacoesFiltered);
 
         if (wfr.hasNextStateSameRole(model, estados.ESTADOS_RENOVACAO)) {
             wfr.renderView(model);
         }else {
             wfr.renderView(nextExpToShow());
         }
+
+        listView.update(renovacoesFiltered);
+        mapView.update(renovacoesFiltered);
+
     });
 
 };

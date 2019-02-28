@@ -127,6 +127,7 @@ Backbone.SIXHIARA.View1 = Backbone.View.extend({
     },
 
     doFillRenovacao: function(e, autosave) {
+        var self = this;
         var renovacao = this.model.get('renovacao');
         var exploracao = this.model;
 
@@ -187,6 +188,10 @@ Backbone.SIXHIARA.View1 = Backbone.View.extend({
                 var exp_name = model.get('exp_name');
                 if (autosave) {
                     console.log('autosaving');
+                    if (wfr.isFirstState(model.get('renovacao').get('estado'))) {
+                        self.setRenovacaoTimeInfo(exploracao, model)
+                        wfr.renderView(exploracao);
+                    }
                 } else {
                     bootbox.alert(
                         `A exploração&nbsp;<strong>${exp_id} - ${exp_name}</strong>&nbsp;tem sido gravada correctamente.`, function() {
@@ -224,4 +229,14 @@ Backbone.SIXHIARA.View1 = Backbone.View.extend({
         var date = new Date(sTokens[2], sTokens[1] - 1, sTokens[0], 1, 1, 1);
         return date > new Date();
     },
+
+    setRenovacaoTimeInfo: function(exploracao, model){
+        var exploracaoModel = new Backbone.SIXHIARA.ExpConRenovacao(model.attributes);
+        var renovacao = exploracaoModel.get('renovacao')
+        exploracao.set('lic_time_info', renovacao.get('lic_time_info'));
+        exploracao.set('lic_time_enough', renovacao.get('lic_time_enough'));
+        exploracao.set('lic_time_warning', renovacao.get('lic_time_warning'));
+        exploracao.set('lic_time_over', renovacao.get('lic_time_over'));
+
+    }
 });

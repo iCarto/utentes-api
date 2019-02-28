@@ -460,6 +460,13 @@ var MyWorkflowRenovacao = {
         });
     },
 
+    isFirstState: function(currentState){
+        var LIC_ST = Backbone.SIXHIARA.EstadoRenovacao;
+        var nextState = this.whichNextState(currentState)
+        return nextState == LIC_ST.PENDING_RENOV_LICENSE ||
+               nextState == LIC_ST.INCOMPLETE_DA;
+    },
+
     user_roles_in: function(roles) {
         var userRoles = wfr.getAllRolesSafe();
         return _.intersection(userRoles, roles).length > 0;
