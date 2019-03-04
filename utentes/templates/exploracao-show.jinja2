@@ -34,7 +34,7 @@
         <h3>
           <button id="delete-button" type="button" class="btn btn-default btn-sm uilib-enability uilib-show-role-administrador">Eliminar</button>
           <button id="file-modal" type="button" class="btn btn-default btn-sm">Documentaçao</button>
-          <button id="refresh-button" type="button" class="btn btn-default btn-sm">Refrescar</button>
+          <button id="refresh-button" type="button" class="btn btn-default btn-sm uilib-enability uilib-hide-role-observador">Refrescar</button>
           <button id="save-button" type="button" class="btn btn-primary btn-sm uilib-enability uilib-show-role-administrador uilib-show-role-tecnico uilib-show-role-juridico">Gravar</button>
         </h3>
       </section>
@@ -1883,7 +1883,7 @@
         <h4 class="col-xs-offset-1 col-xs-11">Consumo <%- tipo_agua %>
         {% endif %}
           <button type="button" class="btn btn-default btn-xs hidden uilib-enability uilib-show-role-administrador uilib-show-role-tecnico uilib-show-role-juridico" id="addLicense">Adicionar</button>
-          <button type="button" class="btn btn-default btn-xs uilib-enability uilib-show-role-administrador uilib-show-role-tecnico uilib-show-role-juridico uilib-show-role-observador" id="editLicense">Editar</button>
+          <button type="button" class="btn btn-default btn-xs uilib-enability uilib-show-role-administrador uilib-show-role-tecnico uilib-show-role-juridico" id="editLicense">Editar</button>
           <button type="button" class="btn btn-default btn-xs uilib-enability uilib-show-role-administrador uilib-show-role-tecnico" id="addFonte">Nova fonte</button>
           <button type="button" class="btn btn-default btn-xs uilib-enability uilib-show-role-administrador uilib-show-role-tecnico uilib-show-role-observador" id="showHistoric">Historico</button>
           {% if request.registry.settings['ara'] != 'DPMAIP' %}

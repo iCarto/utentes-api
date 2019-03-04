@@ -16,7 +16,7 @@ ROL_FINANCIERO = u'Departamento Financeiro'  # DF
 ROL_DIRECCION = u'Direcção'
 ROL_TECNICO = u'Departamento Técnico'
 ROL_JURIDICO = u'Departamento Jurídico'  # DJ
-ROL_OBSERVADOR = u'observador'
+ROL_OBSERVADOR = u'Observador'
 
 SINGLE_USER = 'SINGLE_USER'
 
