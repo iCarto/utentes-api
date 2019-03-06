@@ -64,6 +64,7 @@ ROL_TECNICO = 'Departamento Técnico';  // DT
 ROL_JURIDICO = 'Departamento Jurídico'; // DJ
 ROL_SINGLE_SAFE = 'single'
 ROL_OBSERVADOR = 'Observador';
+ROL_UNIDAD_DELEGACION = 'Unidade ou Delegação';
 
 var role_domains_collection = new Backbone.UILib.DomainCollection([
     {

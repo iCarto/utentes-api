@@ -12,7 +12,7 @@ from utentes.models.exploracao import Exploracao
 from utentes.models.documento import Documento
 from utentes.api.error_msgs import error_msgs
 
-from utentes.user_utils import PERM_GET, PERM_CREATE_DOCUMENTO, PERM_DELETE_DOCUMENTO, ROL_ADMIN, ROL_ADMINISTRATIVO, ROL_FINANCIERO, ROL_JURIDICO, ROL_TECNICO
+from utentes.user_utils import PERM_GET, PERM_CREATE_DOCUMENTO, PERM_DELETE_DOCUMENTO, ROL_ADMIN, ROL_ADMINISTRATIVO, ROL_FINANCIERO, ROL_JURIDICO, ROL_TECNICO, ROL_UNIDAD_DELEGACION
 
 import json
 
@@ -94,7 +94,7 @@ def exploracao_get_root_folders(request):
     return departamentos_json_array
 
 def init_departamentos_json_array(request, exploracao_id):
-    departamentos = [ROL_ADMINISTRATIVO, ROL_FINANCIERO, ROL_JURIDICO, ROL_TECNICO]
+    departamentos = [ROL_ADMINISTRATIVO, ROL_FINANCIERO, ROL_JURIDICO, ROL_TECNICO, ROL_UNIDAD_DELEGACION]
     if request.registry.settings.get('ara') == 'DPMAIP':
         departamentos = [ROL_TECNICO]
 

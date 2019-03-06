@@ -24,6 +24,7 @@ class User(Base):
     password = Column(Text)
     # screen_name = Column(Text)
     usergroup = Column(Text)
+    unidade = Column(Text)
     last_login = Column(TIMESTAMP(timezone=False))
     new_login = Column(TIMESTAMP(timezone=False), server_default=func.now())
     created_at = Column(DateTime, nullable=False, server_default=text('now()'))
@@ -44,6 +45,8 @@ class User(Base):
             self.usergroup = json.get('usergroup')
         if json.get('password'):
             self.set_password(json.get('password'))
+        if json.get('unidade'):
+            self.unidade = json.get('unidade')
 
     def set_password(self, pw):
         pwhash = bcrypt.hashpw(pw.encode('utf8'), bcrypt.gensalt())
@@ -60,4 +63,5 @@ class User(Base):
             'id': self.id,
             'username': self.username,
             'usergroup': self.usergroup,
+            'unidade': self.unidade,
         }

@@ -2,14 +2,30 @@ Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.UserModalView = Backbone.SIXHIARA.ModalView.extend({
 
     customConfiguration: function() {
-        new Backbone.UILib.SelectView({
-            el: this.$('#usergroup'),
-            collection: this.options.domains.byCategory('groups'),
-        }).render();
+        var self = this;
+        var domains = new Backbone.UILib.DomainCollection();
+        domains.fetch({
+            success: function(collection, response, options) {
+                var unidades = collection.byCategory('unidade');
+                unidades.shift();
+                self.unidades = unidades.pluck('text');
 
-        if (this.options.editing) {
-            this.$('#password')[0].required = false;
-        }
+                var concatenated = self.options.domains.byCategory('groups').toJSON().concat(unidades.toJSON());
+                var newCollection = new Backbone.Collection(concatenated);
+
+                new Backbone.UILib.SelectView({
+                    el: self.$('#usergroup'),
+                    collection: newCollection,
+                }).render();
+
+                if (self.options.editing) {
+                    self.$('#password')[0].required = false;
+                }
+            },
+            error: function() {
+                bootbox.alert('<span style="color: red;">Produziu-se um erro. Informe ao administrador.</strong>');
+            }
+        });
     },
 
 
@@ -21,6 +37,12 @@ Backbone.SIXHIARA.UserModalView = Backbone.SIXHIARA.ModalView.extend({
             var attrs = this.widgetModel.pick(widgetsId);
             this.model.set(attrs);
         } else {
+            var usergroup = this.model.get('usergroup');
+            if(this.unidades.indexOf(usergroup) != -1){
+                this.model.set('unidade', usergroup);
+                this.model.set('usergroup', ROL_UNIDAD_DELEGACION);
+            }
+
             this.collection.add(this.model);
         }
 

@@ -17,6 +17,7 @@ ROL_DIRECCION = u'Direcção'
 ROL_TECNICO = u'Departamento Técnico'
 ROL_JURIDICO = u'Departamento Jurídico'  # DJ
 ROL_OBSERVADOR = u'Observador'
+ROL_UNIDAD_DELEGACION = u'Unidade ou Delegação'
 
 SINGLE_USER = 'SINGLE_USER'
 
@@ -97,6 +98,13 @@ class RootFactory(object):
                (Allow, ROL_OBSERVADOR, PERM_FACTURACAO),
                (Allow, ROL_OBSERVADOR, PERM_REQUERIMENTO),
                (Allow, ROL_OBSERVADOR, PERM_RENOVACAO),
+
+               (Allow, ROL_UNIDAD_DELEGACION, PERM_FACTURACAO),
+               (Allow, ROL_UNIDAD_DELEGACION, PERM_REQUERIMENTO),
+               (Allow, ROL_UNIDAD_DELEGACION, PERM_RENOVACAO),
+               (Allow, ROL_UNIDAD_DELEGACION, PERM_CREATE_DOCUMENTO),
+               (Allow, ROL_UNIDAD_DELEGACION, PERM_DELETE_DOCUMENTO),
+
                ]
 
     def __init__(self, request):

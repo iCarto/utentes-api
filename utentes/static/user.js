@@ -1,6 +1,5 @@
 var user = new Backbone.SIXHIARA.User();
 
-
 var id = document.getElementById('userid').innerHTML;
 user.set('id', id);
 user.fetch({

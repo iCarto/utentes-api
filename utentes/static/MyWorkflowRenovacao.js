@@ -14,7 +14,7 @@ var MyWorkflowRenovacao = {
         // En todo caso los ROLES deberian ser una clase aparte
         var role = document.cookie.replace(/(?:(?:^|.*;\s*)utentes_stub_role\s*\=\s*([^;]*).*$)|^.*$/, '$1');
         role = decodeURIComponent(role);
-        if (![ROL_ADMIN, ROL_OBSERVADOR, ROL_ADMINISTRATIVO, ROL_FINANCIERO, ROL_DIRECCION, ROL_TECNICO, ROL_JURIDICO].includes(role)) {
+        if (![ROL_ADMIN, ROL_OBSERVADOR, ROL_UNIDAD_DELEGACION, ROL_ADMINISTRATIVO, ROL_FINANCIERO, ROL_DIRECCION, ROL_TECNICO, ROL_JURIDICO].includes(role)) {
             throw Error('Not valid role');
         }
         return role;
@@ -56,6 +56,8 @@ var MyWorkflowRenovacao = {
             return 'direccao';
         case ROL_TECNICO:
             return 'tecnico';
+        case ROL_UNIDAD_DELEGACION:
+            return 'unidade';
         case ROL_JURIDICO:
             return 'juridico';
         }
@@ -89,12 +91,12 @@ var MyWorkflowRenovacao = {
             document.getElementById('requerimento-new').parentNode.remove();
         }
 
-        if ([ROL_ADMIN, ROL_TECNICO].indexOf(user) === -1) {
+        if ([ROL_ADMIN, ROL_TECNICO, ROL_UNIDAD_DELEGACION].indexOf(user) === -1) {
             document.getElementById('new').parentNode.remove();
             document.getElementById('gps').parentNode.remove();
         }
 
-        if ([ROL_ADMIN, ROL_OBSERVADOR, ROL_TECNICO, ROL_FINANCIERO].indexOf(user) === -1) {
+        if ([ROL_ADMIN, ROL_OBSERVADOR, ROL_TECNICO, ROL_UNIDAD_DELEGACION, ROL_FINANCIERO].indexOf(user) === -1) {
             document.getElementById('facturacao').parentNode.remove();
         }
 
@@ -170,7 +172,7 @@ var MyWorkflowRenovacao = {
             if (role === ROL_JURIDICO || role === ROL_ADMIN || role === ROL_OBSERVADOR) {
                 return Backbone.SIXHIARA.ViewJuridico1;
             };
-            if (role === ROL_TECNICO) {
+            if (role === ROL_TECNICO || role === ROL_UNIDAD_DELEGACION) {
                 return Backbone.SIXHIARA.ViewJuridicoNotEditable;
             };
         case LIC_ST.PENDING_REVIEW_DIR:
@@ -179,7 +181,7 @@ var MyWorkflowRenovacao = {
             if (role === ROL_JURIDICO || role === ROL_ADMIN || role === ROL_OBSERVADOR) {
                 return Backbone.SIXHIARA.ViewJuridico1;
             };
-            if (role === ROL_TECNICO) {
+            if (role === ROL_TECNICO || role === ROL_UNIDAD_DELEGACION) {
                 return Backbone.SIXHIARA.ViewJuridicoNotEditable;
             };
         case LIC_ST.INCOMPLETE_DT:

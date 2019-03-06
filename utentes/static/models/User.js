@@ -8,5 +8,6 @@ Backbone.SIXHIARA.User = Backbone.Model.extend({
         'username': null,
         'usergroup': null,
         'password': null,
+        'unidade': null,
     }
 });
