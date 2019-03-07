@@ -213,7 +213,7 @@ Backbone.SIXHIARA.ViewJuridicoDados = Backbone.SIXHIARA.View1.extend({
             })
         });
 
-        var defaultDepartamento = wfr.isAdmin() ? 'root' : wfr.getRole();
+        var defaultDepartamento = wfr.isAdmin() ? 'root' : wfr.getMainRole();
         var defaultUrlBase = Backbone.SIXHIARA.Config.apiExploracaos + '/' + this.model.get('id') + '/documentos'
         var fileModalView = new Backbone.DMS.FileModalView({
             openElementId: '#file-modal',

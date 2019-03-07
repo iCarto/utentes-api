@@ -60,7 +60,7 @@ print('O ' + formatter().formatDate(req_obs[i]['create_at']) + ', ' + req_obs[i]
         Backbone.SIXHIARA.View1.prototype.init.call(this);
         this.enableBts();
 
-        var defaultDepartamento = wf.isAdmin() ? 'root' : wf.getRole();
+        var defaultDepartamento = wf.isAdmin() ? 'root' : wf.getMainRole();
         var defaultUrlBase = Backbone.SIXHIARA.Config.apiExploracaos + '/' + this.model.get('id') + '/documentos'
         var fileModalView = new Backbone.DMS.FileModalView({
             openElementId: '#file-modal',

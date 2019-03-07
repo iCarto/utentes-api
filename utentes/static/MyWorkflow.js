@@ -8,7 +8,7 @@ var MyWorkflow = {
         return user;
     },
 
-    getRole: function() {
+    getMainRole: function() {
         // Usar además del ROL el ARA o tener un ROL_SINGLE_USER
         // En todo caso los ROLES deberian ser una clase aparte
         var role = document.cookie.replace(/(?:(?:^|.*;\s*)utentes_stub_role\s*\=\s*([^;]*).*$)|^.*$/, '$1');
@@ -21,7 +21,7 @@ var MyWorkflow = {
 
     /*
     Un usuario debería poder tener varios roles. Por razones históricas se ha
-    asumido una relación 1:1 en la mayoría del código, llamadas a getRole
+    asumido una relación 1:1 en la mayoría del código, llamadas a getMainRole
     Pero hay que ir refactorizando para usar una relación 1:n
     O mejor todavía pasar aun sistema basado en permisos y no en roles
 
@@ -29,18 +29,21 @@ var MyWorkflow = {
     que se haga la petición
     */
     getAllRolesSafe: function() {
-        var roles = [this.getRoleSafe()];
+        var roles = [this.getMainRoleSafe()];
 
         if (this.getUser() === this.SINGLE_USER) {
             roles.push(ROL_SINGLE_SAFE);
+        }
+        if (roles.indexOf('unidade') !== -1) {
+            roles.push(ROL_OBSERVADOR.toLowerCase());
         }
         return roles;
     },
 
 
-    getRoleSafe: function(role) {
+    getMainRoleSafe: function(role) {
         if (!role){
-            var role = this.getRole();
+            var role = this.getMainRole();
         }
         switch (role) {
         case ROL_ADMIN:
@@ -64,38 +67,38 @@ var MyWorkflow = {
 
     isAdmin: function(role) {
         if(!role) {
-            role = wf.getRole();
+            role = wf.getMainRole();
         }
         return role === ROL_ADMIN;
     },
 
     isDirector: function(role) {
         if(!role) {
-            role = wf.getRole();
+            role = wf.getMainRole();
         }
         return role === ROL_DIRECCION;
     },
 
     isObservador: function(role) {
         if(!role) {
-            role = wf.getRole();
+            role = wf.getMainRole();
         }
         return role === ROL_OBSERVADOR;
     },
 
     fixMenu: function() {
-        var user = this.getRole();
+        var user = this.getMainRole();
 
-        if ([ROL_ADMIN, ROL_ADMINISTRATIVO].indexOf(user) === -1) {
+        if (wf.user_roles_in([ROL_ADMIN, ROL_ADMINISTRATIVO]) === -1) {
             document.getElementById('requerimento-new').parentNode.remove();
         }
 
-        if ([ROL_ADMIN, ROL_TECNICO, ROL_UNIDAD_DELEGACION].indexOf(user) === -1) {
+        if (wf.user_roles_in([ROL_ADMIN, ROL_TECNICO, ROL_UNIDAD_DELEGACION]) === -1) {
             document.getElementById('new').parentNode.remove();
             document.getElementById('gps').parentNode.remove();
         }
 
-        if ([ROL_ADMIN, ROL_OBSERVADOR, ROL_TECNICO, ROL_UNIDAD_DELEGACION, ROL_FINANCIERO].indexOf(user) === -1) {
+        if (wf.user_roles_in([ROL_ADMIN, ROL_OBSERVADOR, ROL_TECNICO, ROL_UNIDAD_DELEGACION, ROL_FINANCIERO]) === -1) {
             document.getElementById('facturacao').parentNode.remove();
         }
 
@@ -152,7 +155,7 @@ var MyWorkflow = {
         }
 
         var state = this.getCurrentState(exp);
-        var role = this.getRole();
+        var role = this.getMainRole();
 
         if (LIC_ST.CATEGORY_POST_LICENSED.includes(state)) {
             return this.whichFacturacaoView(exp, next);
@@ -170,10 +173,10 @@ var MyWorkflow = {
                 return Backbone.SIXHIARA.ViewJuridico2;
             }
 
-            if (role === ROL_JURIDICO || role === ROL_ADMIN || role === ROL_OBSERVADOR) {
+            if (role === ROL_JURIDICO || role === ROL_ADMIN || role === ROL_OBSERVADOR || role === ROL_UNIDAD_DELEGACION) {
                 return Backbone.SIXHIARA.ViewJuridico1;
             };
-            if (role === ROL_TECNICO || role === ROL_UNIDAD_DELEGACION) {
+            if (role === ROL_TECNICO) {
                 return Backbone.SIXHIARA.ViewJuridicoNotEditable1;
             };
         case LIC_ST.INCOMPLETE_DF:
@@ -181,10 +184,10 @@ var MyWorkflow = {
         case LIC_ST.PENDING_REVIEW_DIR:
             return Backbone.SIXHIARA.ViewSecretaria1;
         case LIC_ST.PENDING_REVIEW_DJ:
-            if (role === ROL_JURIDICO || role === ROL_ADMIN || role === ROL_OBSERVADOR) {
+            if (role === ROL_JURIDICO || role === ROL_ADMIN || role === ROL_OBSERVADOR || role === ROL_UNIDAD_DELEGACION) {
                 return Backbone.SIXHIARA.ViewJuridico1;
             };
-            if (role === ROL_TECNICO || role === ROL_UNIDAD_DELEGACION) {
+            if (role === ROL_TECNICO) {
                 return Backbone.SIXHIARA.ViewJuridicoNotEditable1;
             };
         case LIC_ST.INCOMPLETE_DT:
@@ -236,7 +239,7 @@ var MyWorkflow = {
         var LIC_ST = Backbone.SIXHIARA.Estado;
         var estado_lic = this.getCurrentState(exp);
         var fact_estado = exp.get('fact_estado');
-        var role = this.getRole();
+        var role = this.getMainRole();
 
         if (! LIC_ST.CATEGORY_POST_LICENSED.includes(estado_lic)) {
             return Backbone.SIXHIARA.UpsView;
@@ -439,7 +442,7 @@ var MyWorkflow = {
 
         // puede tener sentido agrupar en whichNextState
         var fact_estado = exp.get('fact_estado');
-        var role = this.getRole();
+        var role = this.getMainRole();
 
         if (! LIC_ST.CATEGORY_POST_LICENSED.includes(currentState)) {
             throw 'Error';
@@ -512,7 +515,7 @@ var MyWorkflow = {
     },
 
     canDraw: function() {
-        return [ROL_TECNICO, ROL_ADMIN].includes(this.getRole());
+        return [ROL_TECNICO, ROL_ADMIN].includes(this.getMainRole());
     }
 };
 

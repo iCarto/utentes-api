@@ -125,7 +125,7 @@ print('O ' + formatter().formatDate(req_obs[i]['create_at']) + ', ' + req_obs[i]
             input.addEventListener('change', self.autosave.bind(self), false);
         });
 
-        var defaultDepartamento = wf.isAdmin() ? 'root' : wf.getRole();
+        var defaultDepartamento = wf.isAdmin() ? 'root' : wf.getMainRole();
         var defaultUrlBase = Backbone.SIXHIARA.Config.apiExploracaos + '/' + this.model.get('id') + '/documentos'
         var fileModalView = new Backbone.DMS.FileModalView({
             openElementId: '#file-modal',

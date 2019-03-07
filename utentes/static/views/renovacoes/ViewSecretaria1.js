@@ -111,7 +111,7 @@ Backbone.SIXHIARA.ViewSecretaria1 = Backbone.SIXHIARA.View1.extend({
             input.addEventListener('change', self.autosave.bind(self), false);
         });
 
-        var defaultDepartamento = wfr.isAdmin() ? 'root' : wfr.getRole();
+        var defaultDepartamento = wfr.isAdmin() ? 'root' : wfr.getMainRole();
         var defaultUrlBase = Backbone.SIXHIARA.Config.apiExploracaos + '/' + this.model.get('id') + '/documentos'
         var fileModalView = new Backbone.DMS.FileModalView({
             openElementId: '#file-modal',

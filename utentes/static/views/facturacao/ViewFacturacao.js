@@ -287,7 +287,7 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
         this.initSelects()
         document.getElementById('observacio').addEventListener('input', self.autosave.bind(self), false);
 
-        var defaultDepartamento = wf.isAdmin() ? 'root' : wf.getRole();
+        var defaultDepartamento = wf.isAdmin() ? 'root' : wf.getMainRole();
         var defaultUrlBase = Backbone.SIXHIARA.Config.apiExploracaos + '/' + this.model.get('id') + '/documentos'
         var fileModalView = new Backbone.DMS.FileModalView({
             openElementId: '#file-modal',

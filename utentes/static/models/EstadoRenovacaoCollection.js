@@ -91,7 +91,7 @@ Backbone.SIXHIARA.EstadoRenovacaoCollection = Backbone.UILib.DomainCollection.ex
     },
 
     availableRenovacaoStates: function() {
-        var role = wfr.getRole();
+        var role = wfr.getMainRole();
         var states = this.ESTADOS_RENOVACAO.filter(function(s) {
             return s.roles.indexOf(role) !== -1;
         });
