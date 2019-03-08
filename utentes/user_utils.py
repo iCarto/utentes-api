@@ -65,7 +65,7 @@ class RootFactory(object):
                (Allow, ROL_TECNICO, PERM_CREATE_DOCUMENTO),
                (Allow, ROL_TECNICO, PERM_DELETE_DOCUMENTO),
 
-               (Allow, ROL_JURIDICO, ROL_JURIDICO),
+               (Allow, ROL_JURIDICO, PERM_EXPLORACAO),
                (Allow, ROL_JURIDICO, PERM_UPDATE_REQUERIMENTO),
                (Allow, ROL_JURIDICO, PERM_CREATE_DOCUMENTO),
                (Allow, ROL_JURIDICO, PERM_DELETE_DOCUMENTO),
