@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+  <title>{% block title %}Gestão de Utentes{% endblock %}</title>
+  {% block css_assets %}{% endblock %}
+</head>
+<body class="container-fluid">
+    <menu class="row">
+        <nav class="navbar navbar-static-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <img id="logo" class="navbar-brand" src="/static/img/{{ request.registry.settings['ara'] }}_logo.png" alt="Logo" />
+                </div>
+
+                <ul class="nav navbar-nav">
+                    <li><a id="search" href="{{request.route_url('exploracao-search')}}">
+                        <strong>EXPLORAÇÕES</strong>
+                    </a></li>
+                    <li><a id="utentes" href="{{request.route_url('utentes')}}">
+                        <strong>UTENTES</strong>
+                    </a></li>
+
+                    {% if not is_single_user_mode() %}
+                        {% if request.has_permission('get_facturacao') %}
+                        <li><a id="facturacao" href="{{request.route_url('facturacao')}}">
+                            <strong>FACTURAÇÃO</strong>
+                        </a></li>
+                        {% endif %}
+                        {% if request.has_permission('create_exploracao') %}
+                        <li><a id="requerimento-new" href="{{request.route_url('requerimento-new')}}">
+                            <strong>CRIAR</strong>
+                        </a></li>
+                        {% endif %}
+                        {% if request.has_permission('get_requerimento') %}
+                        <li><a id="requerimento-pendente" href="{{request.route_url('requerimento-pendente')}}">
+                            <strong>NOVAS LICENÇAS</strong>
+                        </a></li>
+                        {% endif %}
+                        {% if request.has_permission('get_renovacao') %}
+                        <li><a id="renovacao" href="{{request.route_url('renovacao')}}">
+                            <strong>RENOVAÇÕES</strong>
+                        </a></li>
+                        {% endif %}
+                    {% endif %}
+
+
+                    {% if request.has_permission('update_cultivo_tanque') and request.has_permission('create_exploracao') %}
+                    <li id="nav-adicionar" class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false"><strong>ADICIONAR <span class="caret"></span></strong></a>
+                        <ul class="dropdown-menu">
+                          <li><a id="new" href="{{request.route_url('exploracao-new')}}"><strong>EXPLORAÇAO</strong></a></li>
+                          <li><a id="gps" href="{{request.route_url('exploracao-gps')}}"><strong>GEOMETRIA</strong></a></li>
+                        </ul>
+                    </li>
+                    {% endif %}
+
+                    {% if not is_single_user_mode() and request.has_permission('get_em_processo') %}
+                    <li><a id="search-all" href="{{request.route_url('exploracao-search')}}?em_processo">
+                        <strong>EM PROCESSO</strong>
+                    </a></li>
+                    {% endif %}
+
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li id="nav-admin" class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false"><span id="user-info">Utilizador</span><span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                          <li><a id="user-info-link" href="{{request.route_url('user')}}">Perfil</a></li>
+                          <li class="uilib-enability uilib-show-role-administrador"><a href="{{request.route_url('users')}}">Utilizadores</a></li>
+                          <li id="settings" class="uilib-enability uilib-show-role-administrador"><a href="#">
+                            Configuração&nbsp;<i class="fa fa-cog"></i>
+                          </a></li>
+                          <li role="separator" class="divider"></li>
+                          <li class="dropdown-header"></li>
+                          <li><a href="{{request.route_url('logout')}}">Fechar sessão</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </menu>
+{% block main_block %}{% endblock%}
+
+{# Useful JavaScript #}
+<script>
+
+SIRHA = {
+    _ARA: '{{ request.registry.settings['ara'] }}',
+    getARA: function() { return this._ARA; },
+    is_single_user_mode: function() { return ['ARAN', 'DPMAIP'].includes(this._ARA); },
+}
+
+{# Highlight selected menu item #}
+var activeMenuEl = document.querySelector("a[href='{{request.url}}']")
+activeMenuEl && activeMenuEl.classList.add('active');
+
+{# JS for SingleUser mode #}
+{% if is_single_user_mode() %}
+
+{# Remove nav-admin and replace it with settings #}
+var navAdmin = document.getElementById('nav-admin');
+var settings = document.getElementById('settings');
+navAdmin.replaceWith(settings);
+
+{% else %}
+
+{# Fill user name in Menu #}
+function getUser(){
+    if (this.hasOwnProperty("wf")) {
+        return wf.getUser();
+    }else if (this.hasOwnProperty("wfr")) {
+        return wfr.getUser();
+    }else {
+        return '';
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById('user-info').innerHTML = getUser();
+})
+
+{% endif %}
+</script>
+
+{% block js_assets %}{% endblock %}
+
+</body>
+</html>
