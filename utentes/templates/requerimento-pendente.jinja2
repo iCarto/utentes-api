@@ -1,10 +1,5 @@
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-  <title>Gestão de Utentes</title>
+{% extends "base.jinja2" %}
+{% block css_assets %}
     {% assets
     "lib/bootstrap/css/bootstrap.css",
     "lib/font-awesome/css/font-awesome.css",
@@ -20,215 +15,209 @@
     output="dist/requerimento-pendente.css", filters="cssrewrite,cssutils" %}
           <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}">
     {% endassets %}
+{% endblock css_assets %}
 
-  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+{% block main_block %}
 
-</head>
-<body class="container-fluid">
+    <main class="main-content row">
 
-  <menu class="row">
-  </menu>
+      {% include 'exploracao-filter.jinja2' %}
 
-  <main class="main-content row">
+      <section id="projects" class="col-xs-3">
 
-  {% include 'exploracao-filter.jinja2' %}
+        {% include 'exploracao-projects-header.jinja2' %}
 
-  <section id="projects" class="col-xs-3">
+        <ul id="project_list" class="list-unstyled">
+        </ul>
 
-    {% include 'exploracao-projects-header.jinja2' %}
+      </section>
 
-    <ul id="project_list" class="list-unstyled">
-    </ul>
+      <section id="map-container" class="col-xs-7">
+        <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation"><a href="#insert-data-tab" aria-controls="insert-data-tab" role="tab" data-toggle="tab">Requerimento</a></li>
+        <li role="presentation" class="active"><a href="#map-tab" aria-controls="map-tab" role="tab" data-toggle="tab">Mapa</a></li>
 
-  </section>
-
-  <section id="map-container" class="col-xs-7">
-    <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation"><a href="#insert-data-tab" aria-controls="insert-data-tab" role="tab" data-toggle="tab">Requerimento</a></li>
-    <li role="presentation" class="active"><a href="#map-tab" aria-controls="map-tab" role="tab" data-toggle="tab">Mapa</a></li>
-
-  </ul>
-  <!-- Tab panes -->
-  <div class="tab-content" style="height: 94%">
-    <div role="tabpanel" id="insert-data-tab" class="tab-pane" style="height: 100%">
-      <div id="insert-data" class="row" style="height: 100%">
-        <!-- <h3 class="text-center">Gestión de estado / proceso</h3> -->
+      </ul>
+      <!-- Tab panes -->
+      <div class="tab-content" style="height: 94%">
+        <div role="tabpanel" id="insert-data-tab" class="tab-pane" style="height: 100%">
+          <div id="insert-data" class="row" style="height: 100%">
+            <!-- <h3 class="text-center">Gestión de estado / proceso</h3> -->
+          </div>
+          <span id="autosave-info"></span>
+        </div>
+        <div role="tabpanel" id="map-tab" class="tab-pane active" style="height: 100%">
+          <div id="map" class="row" style="height: 100%"></div>
+        </div>
       </div>
-      <span id="autosave-info"></span>
-    </div>
-    <div role="tabpanel" id="map-tab" class="tab-pane active" style="height: 100%">
-      <div id="map" class="row" style="height: 100%"></div>
-    </div>
-  </div>
 
-  </section>
+      </section>
 
-</main>
+    </main>
 
-<!-- templates -->
-<script type="text/template" id="exploracao-li-tmpl">
-  <li class="row exploracao" id="exp_id-<%- exp_id %>">
-    <span class="col-xs-12 pull-left" >
-      <a href="#"><%- exp_id %> <%- exp_name %></a> <small style="color: grey; font-size: 75%"><%= '(' + (actividade && actividade.tipo || 'Não declarada') + ')' %></small>
-      <br>
-      <small><%- estado_lic %></small>
-      <br>
-      <small><%- formatter().formatDate(d_ultima_entrega_doc) %> </small>&nbsp;
-      <small class="info-pill <%- lic_time_over ? 'label-danger' : (lic_time_warning ? 'label-warning' : lic_time_enough ? 'label-success' : 'label-default') %>"> <%- lic_time_info || 'Sem informação' %></small>
+    <!-- templates -->
+    <script type="text/template" id="exploracao-li-tmpl">
+      <li class="row exploracao" id="exp_id-<%- exp_id %>">
+        <span class="col-xs-12 pull-left" >
+          <a href="#"><%- exp_id %> <%- exp_name %></a> <small style="color: grey; font-size: 75%"><%= '(' + (actividade && actividade.tipo || 'Não declarada') + ')' %></small>
+          <br>
+          <small><%- estado_lic %></small>
+          <br>
+          <small><%- formatter().formatDate(d_ultima_entrega_doc) %> </small>&nbsp;
+          <small class="info-pill <%- lic_time_over ? 'label-danger' : (lic_time_warning ? 'label-warning' : lic_time_enough ? 'label-success' : 'label-default') %>"> <%- lic_time_info || 'Sem informação' %></small>
 
 
-      <div class="licencias">
-          <small>
-              <div><%- Backbone.SIXHIARA.formatter.formatTipoLicencias(licencias)[0] %></div>
-              <div><%- Backbone.SIXHIARA.formatter.formatTipoLicencias(licencias)[1] %></div>
-          </small>
-      </div>
-    </span>
-  </li>
-</script>
+          <div class="licencias">
+              <small>
+                  <div><%- Backbone.SIXHIARA.formatter.formatTipoLicencias(licencias)[0] %></div>
+                  <div><%- Backbone.SIXHIARA.formatter.formatTipoLicencias(licencias)[1] %></div>
+              </small>
+          </div>
+        </span>
+      </li>
+    </script>
+{% endblock main_block %}
 
-{% include 'set-ara-variable.jinja2' %}
+{% block js_assets %}
 
-<script src="/static/lib/docx-templates/docx-templates.js"></script>
-<script src="/static/lib/jszip-utils/jszip-utils.js"></script>
-<!-- javascri/static/pt -->
-{% assets
-"node-interaction.js",
+    <script src="/static/lib/docx-templates/docx-templates.js"></script>
+    <script src="/static/lib/jszip-utils/jszip-utils.js"></script>
+    <!-- javascri/static/pt -->
+    {% assets
+    "node-interaction.js",
 
-"lib/jquery/jquery-1.12.0.min.js",
-"lib/bootstrap/js/bootstrap.min.js",
-"lib/bootbox.min.js",
-"lib/underscore/underscore-min.js",
-"lib/backbone/backbone.js",
-"lib/moment-2.11.2/moment-with-locales.js",
-"lib/numeral-js-1.5.3/min/languages.min.js",
-"lib/numeral-js-1.5.3/min/numeral.min.js",
-"lib/leaflet/leaflet-src.js",
-"lib/leaflet/leaflet.label-src.js",
+    "lib/jquery/jquery-1.12.0.min.js",
+    "lib/bootstrap/js/bootstrap.min.js",
+    "lib/bootbox.min.js",
+    "lib/underscore/underscore-min.js",
+    "lib/backbone/backbone.js",
+    "lib/moment-2.11.2/moment-with-locales.js",
+    "lib/numeral-js-1.5.3/min/languages.min.js",
+    "lib/numeral-js-1.5.3/min/numeral.min.js",
+    "lib/leaflet/leaflet-src.js",
+    "lib/leaflet/leaflet.label-src.js",
 
-"lib/jquery-ui/jquery-ui.min.js",
-"lib/jquery-fileupload/jquery.iframe-transport.js",
-"lib/jquery-fileupload/jquery.fileupload.js",
+    "lib/jquery-ui/jquery-ui.min.js",
+    "lib/jquery-fileupload/jquery.iframe-transport.js",
+    "lib/jquery-fileupload/jquery.fileupload.js",
 
-"monkey-patching/index.js",
-"tenant-custom-code.js",
+    "monkey-patching/index.js",
+    "tenant-custom-code.js",
 
-"lib/backbone-dms/Config.js",
-"lib/backbone-dms/util/Util.js",
-"lib/backbone-dms/models/File.js",
-"lib/backbone-dms/models/FileCollection.js",
-"lib/backbone-dms/models/Folder.js",
-"lib/backbone-dms/models/FolderCollection.js",
-"lib/backbone-dms/models/FilePending.js",
-"lib/backbone-dms/models/FileUpload.js",
-"lib/backbone-dms/views/FileSummaryView.js",
-"lib/backbone-dms/views/FolderSummaryView.js",
-"lib/backbone-dms/views/FolderView.js",
-"lib/backbone-dms/views/FileModalView.js",
-"lib/backbone-dms/views/FileUploadView.js",
-"lib/backbone-dms/views/FileUploadingCollectionView.js",
-"lib/backbone-dms/views/FileUploadingView.js",
-"lib/backbone-dms/views/FileCollectionView.js",
-"lib/backbone-dms/views/FolderZipDownloadView.js",
-"lib/backbone-dms/views/PathFolderView.js",
-"lib/backbone-dms/views/BreadcrumbView.js",
+    "lib/backbone-dms/Config.js",
+    "lib/backbone-dms/util/Util.js",
+    "lib/backbone-dms/models/File.js",
+    "lib/backbone-dms/models/FileCollection.js",
+    "lib/backbone-dms/models/Folder.js",
+    "lib/backbone-dms/models/FolderCollection.js",
+    "lib/backbone-dms/models/FilePending.js",
+    "lib/backbone-dms/models/FileUpload.js",
+    "lib/backbone-dms/views/FileSummaryView.js",
+    "lib/backbone-dms/views/FolderSummaryView.js",
+    "lib/backbone-dms/views/FolderView.js",
+    "lib/backbone-dms/views/FileModalView.js",
+    "lib/backbone-dms/views/FileUploadView.js",
+    "lib/backbone-dms/views/FileUploadingCollectionView.js",
+    "lib/backbone-dms/views/FileUploadingView.js",
+    "lib/backbone-dms/views/FileCollectionView.js",
+    "lib/backbone-dms/views/FolderZipDownloadView.js",
+    "lib/backbone-dms/views/PathFolderView.js",
+    "lib/backbone-dms/views/BreadcrumbView.js",
 
-"lib/formatter/formatter.js",
-"lib/schema-validator/validator.js",
-"lib/backbone-geojson/Feature.js",
-"lib/backbone-geojson/FeatureCollection.js",
-"lib/backbone-uilib/models/Domain.js",
-"lib/backbone-uilib/models/DomainCollection.js",
-"lib/backbone-uilib/views/OptionView.js",
-"lib/backbone-uilib/views/SelectView.js",
-"lib/backbone-uilib/views/WidgetsView.js",
-"lib/backbone-uilib/views/ItemView.js",
-"lib/backbone-uilib/views/ListView.js",
-"lib/backbone-uilib/views/BaseView.js",
-"Config.js",
-"views/common/NavBarView.js",
-"views/common/ConfigModalView.js",
-"views/show/ModalView.js",
-"views/common/UltimaEntregaDocModalView.js",
-"views/common/DocxGeneratorView.js",
-"models/Estado.js",
-"models/EstadoCollection.js",
-"models/TanquePiscicola.js",
-"models/TanquePiscicolaCollection.js",
-"models/ActividadeNull.js",
-"models/ActividadeCultivo.js",
-"models/CultivoCollection.js",
-"models/Fonte.js",
-"models/FonteSchema.js",
-"models/FonteCollection.js",
-"models/Licencia.js",
-"models/LicenciaSchema.js",
-"models/LicenciaCollection.js",
-"models/Utente.js",
-"models/UtenteSchema.js",
-"models/UtenteCollection.js",
-"models/ActividadeRes.js",
-"models/ResCollection.js",
-"models/ActividadeAbastecimento.js",
-"models/ActividadeEnergia.js",
-"models/ActividadeIndustria.js",
-"models/ActividadePecuaria.js",
-"models/ActividadePiscicultura.js",
-"models/ActividadeRegadia.js",
-"models/ActividadeSaneamento.js",
-"models/ActividadesSchema.js",
-"models/Exploracao.js",
-"models/ExploracaoSchema.js",
-"models/Where.js",
-"models/Fonte.js",
-"models/FonteCollection.js",
-"models/Licencia.js",
-"models/LicenciaCollection.js",
-"models/AraGetData.js",
-"models/Utente.js",
-"models/Exploracao.js",
-"models/ExploracaoCollection.js",
-"models/Setting.js",
-"views/common/SelectLocationView.js",
-"views/search/MapView.js",
-"views/search/FiltersView.js",
-"views/search/NumberOfResultsView.js",
-"views/search/ButtonExportXLSView.js",
-"views/search/ButtonExportSHPView.js",
-"offline/MapConfig.js",
-"offline/LayerStyle.js",
-"offline/config-layers.js",
-"offline/FitToBounds.js",
-"offline/offline.js",
-"offline/LayerConfig.js",
-"views/common/TabBarTitle.js",
-"MyWorkflow.js",
-"views/pendentes/View1.js",
-"views/pendentes/ViewNoData.js",
-"views/pendentes/ViewSecretaria1.js",
-"views/pendentes/ViewDocIncompletaAdm.js",
-"views/pendentes/ViewSecretaria2.js",
-"views/pendentes/ViewJuridico1.js",
-"views/pendentes/ViewJuridico2.js",
-"views/pendentes/ViewTecnico1.js",
-"views/pendentes/ViewJuridicoNotEditable1.js",
-"views/pendentes/UpsView.js",
-"utils/MyLeafletEvent.js",
-"requerimento-pendente.js",
+    "lib/formatter/formatter.js",
+    "lib/schema-validator/validator.js",
+    "lib/backbone-geojson/Feature.js",
+    "lib/backbone-geojson/FeatureCollection.js",
+    "lib/backbone-uilib/models/Domain.js",
+    "lib/backbone-uilib/models/DomainCollection.js",
+    "lib/backbone-uilib/views/OptionView.js",
+    "lib/backbone-uilib/views/SelectView.js",
+    "lib/backbone-uilib/views/WidgetsView.js",
+    "lib/backbone-uilib/views/ItemView.js",
+    "lib/backbone-uilib/views/ListView.js",
+    "lib/backbone-uilib/views/BaseView.js",
+    "Config.js",
+    "views/common/NavBarView.js",
+    "views/common/ConfigModalView.js",
+    "views/show/ModalView.js",
+    "views/common/UltimaEntregaDocModalView.js",
+    "views/common/DocxGeneratorView.js",
+    "models/Estado.js",
+    "models/EstadoCollection.js",
+    "models/TanquePiscicola.js",
+    "models/TanquePiscicolaCollection.js",
+    "models/ActividadeNull.js",
+    "models/ActividadeCultivo.js",
+    "models/CultivoCollection.js",
+    "models/Fonte.js",
+    "models/FonteSchema.js",
+    "models/FonteCollection.js",
+    "models/Licencia.js",
+    "models/LicenciaSchema.js",
+    "models/LicenciaCollection.js",
+    "models/Utente.js",
+    "models/UtenteSchema.js",
+    "models/UtenteCollection.js",
+    "models/ActividadeRes.js",
+    "models/ResCollection.js",
+    "models/ActividadeAbastecimento.js",
+    "models/ActividadeEnergia.js",
+    "models/ActividadeIndustria.js",
+    "models/ActividadePecuaria.js",
+    "models/ActividadePiscicultura.js",
+    "models/ActividadeRegadia.js",
+    "models/ActividadeSaneamento.js",
+    "models/ActividadesSchema.js",
+    "models/Exploracao.js",
+    "models/ExploracaoSchema.js",
+    "models/Where.js",
+    "models/Fonte.js",
+    "models/FonteCollection.js",
+    "models/Licencia.js",
+    "models/LicenciaCollection.js",
+    "models/AraGetData.js",
+    "models/Utente.js",
+    "models/Exploracao.js",
+    "models/ExploracaoCollection.js",
+    "models/Setting.js",
+    "views/common/SelectLocationView.js",
+    "views/search/MapView.js",
+    "views/search/FiltersView.js",
+    "views/search/NumberOfResultsView.js",
+    "views/search/ButtonExportXLSView.js",
+    "views/search/ButtonExportSHPView.js",
+    "offline/MapConfig.js",
+    "offline/LayerStyle.js",
+    "offline/config-layers.js",
+    "offline/FitToBounds.js",
+    "offline/offline.js",
+    "offline/LayerConfig.js",
+    "views/common/TabBarTitle.js",
+    "MyWorkflow.js",
+    "views/pendentes/View1.js",
+    "views/pendentes/ViewNoData.js",
+    "views/pendentes/ViewSecretaria1.js",
+    "views/pendentes/ViewDocIncompletaAdm.js",
+    "views/pendentes/ViewSecretaria2.js",
+    "views/pendentes/ViewJuridico1.js",
+    "views/pendentes/ViewJuridico2.js",
+    "views/pendentes/ViewTecnico1.js",
+    "views/pendentes/ViewJuridicoNotEditable1.js",
+    "views/pendentes/UpsView.js",
+    "utils/MyLeafletEvent.js",
+    "requerimento-pendente.js",
 
-output="dist/requerimento-pendente.js", filters="rjsmin" %}
-    <script src="{{ ASSET_URL }}"></script>
-{% endassets %}
+    output="dist/requerimento-pendente.js", filters="rjsmin" %}
+        <script src="{{ ASSET_URL }}"></script>
+    {% endassets %}
 
-{% assets
-"lib/shpwrite.js",
-"lib/excel-libs/xlsx.core.min.js",
-"lib/excel-libs/jszip.min.js",
-"lib/excel-libs/FileSaver.js",
-output="dist/export.js", filters="rjsmin" %}
-    <script src="{{ ASSET_URL }}"></script>
-{% endassets %}
+    {% assets
+    "lib/shpwrite.js",
+    "lib/excel-libs/xlsx.core.min.js",
+    "lib/excel-libs/jszip.min.js",
+    "lib/excel-libs/FileSaver.js",
+    output="dist/export.js", filters="rjsmin" %}
+        <script src="{{ ASSET_URL }}"></script>
+    {% endassets %}
 
-
-</body>
-</html>
+{% endblock js_assets %}

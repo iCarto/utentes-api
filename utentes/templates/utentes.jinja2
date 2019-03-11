@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-  <title>Gestão de Utentes</title>
-
+{% extends "base.jinja2" %}
+{% block css_assets %}
   {% assets
   "lib/bootstrap/css/bootstrap.css",
   "lib/font-awesome/css/font-awesome.css",
@@ -17,247 +11,239 @@
   output="dist/utentes.css", filters="cssrewrite,cssutils" %}
         <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}">
   {% endassets %}
+{% endblock css_assets %}
 
-  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+{% block main_block %}
+    <main>
+      <section id="projects" class="row">
+        <div id="the_utentes_table" class="col-xs-12">
+          <!-- aquí va la tabla -->
+        </div>
+      </section>
+    </main>
+    <!-- templates -->
+    <script type="text/template" id="block-utente-modal-tmpl">
+      <div class="modal fade" id="editUtenteModal" tabindex="-1" role="dialog" aria-labelledby="editUtenteModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Pechar"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="editUtenteModalLabel">Utente</h4>
+            </div>
+            <div class="modal-body">
+              <input type="hidden" id="id">
 
-</head>
-<body class="container-fluid">
-  <main>
-    <menu class="row">
-    </menu>
-
-    <section id="projects" class="row">
-      <div id="the_utentes_table" class="col-xs-12">
-        <!-- aquí va la tabla -->
-      </div>
-    </section>
-
-  </main>
-
-  <!-- templates -->
-  <script type="text/template" id="block-utente-modal-tmpl">
-    <div class="modal fade" id="editUtenteModal" tabindex="-1" role="dialog" aria-labelledby="editUtenteModalLabel">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Pechar"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="editUtenteModalLabel">Utente</h4>
-          </div>
-          <div class="modal-body">
-            <input type="hidden" id="id">
-
-            <div class="row">
-              <div class="col-xs-offset-1 col-xs-10">
-                <div class="panel panel-info">
-                  <div class="panel-heading">
-                    <h3 class="panel-title"><strong>Dados gerais</strong></h3>
-                  </div>
-                  <div class="panel-body">
-                    <div class="row">
-                      <div class="form-group col-xs-4">
-                        <label for="nome">Nome do utente</label>
-                        <input type="text" class="form-control widget widget-utente" id="nome" required>
-                      </div>
-                      <div class="form-group col-xs-4">
-                        <label for="uten_tipo">Tipo de utente</label>
-                        <select class="form-control widget widget-utente" id="uten_tipo"></select>
-                      </div>
-                      <div class="form-group col-xs-4">
-                        <label for="nuit">NUIT</label>
-                        <input type="text" class="form-control widget widget-utente" id="nuit">
-                      </div>
+              <div class="row">
+                <div class="col-xs-offset-1 col-xs-10">
+                  <div class="panel panel-info">
+                    <div class="panel-heading">
+                      <h3 class="panel-title"><strong>Dados gerais</strong></h3>
                     </div>
-                    <div class="row">
-                      <div class="form-group col-xs-4">
-                        <label for="uten_tipo">Nome do Gerente/Presidente</label>
-                        <input type="text" class="form-control widget widget-utente" id="uten_gere">
+                    <div class="panel-body">
+                      <div class="row">
+                        <div class="form-group col-xs-4">
+                          <label for="nome">Nome do utente</label>
+                          <input type="text" class="form-control widget widget-utente" id="nome" required>
+                        </div>
+                        <div class="form-group col-xs-4">
+                          <label for="uten_tipo">Tipo de utente</label>
+                          <select class="form-control widget widget-utente" id="uten_tipo"></select>
+                        </div>
+                        <div class="form-group col-xs-4">
+                          <label for="nuit">NUIT</label>
+                          <input type="text" class="form-control widget widget-utente" id="nuit">
+                        </div>
                       </div>
-                      <div class="form-group col-xs-4">
-                        <label for="uten_tipo">Nro Membros</label>
-                        <input type="text" class="form-control widget widget-number widget-utente" id="uten_memb" pattern="[0-9]{1,8}">
-                      </div>
-                      <div class="form-group col-xs-4">
-                        <label for="uten_tipo">Nro Mulheres</label>
-                        <input type="text" class="form-control widget widget-number widget-utente" id="uten_mulh" pattern="[0-9]{1,8}">
+                      <div class="row">
+                        <div class="form-group col-xs-4">
+                          <label for="uten_tipo">Nome do Gerente/Presidente</label>
+                          <input type="text" class="form-control widget widget-utente" id="uten_gere">
+                        </div>
+                        <div class="form-group col-xs-4">
+                          <label for="uten_tipo">Nro Membros</label>
+                          <input type="text" class="form-control widget widget-number widget-utente" id="uten_memb" pattern="[0-9]{1,8}">
+                        </div>
+                        <div class="form-group col-xs-4">
+                          <label for="uten_tipo">Nro Mulheres</label>
+                          <input type="text" class="form-control widget widget-number widget-utente" id="uten_mulh" pattern="[0-9]{1,8}">
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div class="row">
-              <div class="col-xs-offset-1 col-xs-10">
-                <div class="panel panel-info">
-                  <div class="panel-heading">
-                    <h3 class="panel-title"><strong>Dados de contacto</strong></h3>
-                  </div>
-                  <div class="panel-body">
-                    <div class="row">
-                      <div class="form-group col-xs-4">
-                          <label for="uten_tipo">Pessoa de contacto</label>
-                          <input type="text" class="form-control widget widget-utente" id="contacto">
-                      </div>
-                      <div class="form-group col-xs-4">
-                          <label for="uten_tipo">Email</label>
-                          <input type="text" class="form-control widget widget-utente" id="email">
-                      </div>
-                      <div class="form-group col-xs-4">
-                          <label for="uten_tipo">Telefone</label>
-                          <input type="text" class="form-control widget widget-utente" id="telefone">
+              <div class="row">
+                <div class="col-xs-offset-1 col-xs-10">
+                  <div class="panel panel-info">
+                    <div class="panel-heading">
+                      <h3 class="panel-title"><strong>Dados de contacto</strong></h3>
+                    </div>
+                    <div class="panel-body">
+                      <div class="row">
+                        <div class="form-group col-xs-4">
+                            <label for="uten_tipo">Pessoa de contacto</label>
+                            <input type="text" class="form-control widget widget-utente" id="contacto">
+                        </div>
+                        <div class="form-group col-xs-4">
+                            <label for="uten_tipo">Email</label>
+                            <input type="text" class="form-control widget widget-utente" id="email">
+                        </div>
+                        <div class="form-group col-xs-4">
+                            <label for="uten_tipo">Telefone</label>
+                            <input type="text" class="form-control widget widget-utente" id="telefone">
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div class="row">
-              <div class="col-xs-offset-1 col-xs-6">
-                <div class="panel panel-info">
-                  <div class="panel-heading">
-                    <h3 class="panel-title"><strong>Localização</strong></h3>
-                  </div>
-                  <div class="panel-body">
-                    <div class="row">
-                      <div class="col-xs-6">
-                        <div class="form-group">
-                          <label for="loc_provin">Província</label>
-                          <select class="form-control widget widget-utente" id="loc_provin"></select>
-                        </div>
-                      </div>
-                      <div class="col-xs-6">
-                          <div class="form-group">
-                              <label for="loc_distri">Distrito</label>
-                              <select class="form-control widget widget-utente" id="loc_distri"></select>
-                          </div>
-                      </div>
+              <div class="row">
+                <div class="col-xs-offset-1 col-xs-6">
+                  <div class="panel panel-info">
+                    <div class="panel-heading">
+                      <h3 class="panel-title"><strong>Localização</strong></h3>
                     </div>
-                    <div class="row">
-                      <div class="col-xs-6">
-                        <div class="form-group">
-                          <label for="loc_posto">Posto administrativo</label>
-                          <select class="form-control widget widget-utente" id="loc_posto"></select>
-                        </div>
-                      </div>
-                      <div class="col-xs-6">
+                    <div class="panel-body">
+                      <div class="row">
+                        <div class="col-xs-6">
                           <div class="form-group">
-                              <label for="loc_nucleo">Bairro</label>
-                              <input type="text" class="form-control widget widget-utente" id="loc_nucleo">
+                            <label for="loc_provin">Província</label>
+                            <select class="form-control widget widget-utente" id="loc_provin"></select>
                           </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12">
+                        </div>
+                        <div class="col-xs-6">
                             <div class="form-group">
-                                <label for="loc_endere">Endereço</label>
-                                <textarea class="form-control widget widget-utente" id="loc_endere" rows="4"></textarea>
+                                <label for="loc_distri">Distrito</label>
+                                <select class="form-control widget widget-utente" id="loc_distri"></select>
                             </div>
                         </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-xs-6">
+                          <div class="form-group">
+                            <label for="loc_posto">Posto administrativo</label>
+                            <select class="form-control widget widget-utente" id="loc_posto"></select>
+                          </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label for="loc_nucleo">Bairro</label>
+                                <input type="text" class="form-control widget widget-utente" id="loc_nucleo">
+                            </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-xs-12">
+                              <div class="form-group">
+                                  <label for="loc_endere">Endereço</label>
+                                  <textarea class="form-control widget widget-utente" id="loc_endere" rows="4"></textarea>
+                              </div>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-xs-4">
+                  <div class="panel panel-info">
+                    <div class="panel-heading">
+                      <h3 class="panel-title"><strong>Outros</strong></h3>
+                    </div>
+                    <div class="panel-body" id="panel-body-outros">
+                      <div class="row">
+                        <div class="col-xs-12">
+                          <div class="form-group">
+                            <label for="reg_comerc">Nro registo comercial</label>
+                            <input type="text" class="form-control widget widget-utente" id="reg_comerc">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-xs-12">
+                          <div class="form-group">
+                            <label for="reg_zona">Registado em</label>
+                            <input type="text" class="form-control widget widget-utente" id="reg_zona">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-xs-12">
+                          <div class="form-group">
+                            <label for="observacio">Observaçôes</label>
+                            <textarea class="form-control widget widget-utente" id="observacio" rows="4"></textarea>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div class="col-xs-4">
-                <div class="panel panel-info">
-                  <div class="panel-heading">
-                    <h3 class="panel-title"><strong>Outros</strong></h3>
-                  </div>
-                  <div class="panel-body" id="panel-body-outros">
-                    <div class="row">
-                      <div class="col-xs-12">
-                        <div class="form-group">
-                          <label for="reg_comerc">Nro registo comercial</label>
-                          <input type="text" class="form-control widget widget-utente" id="reg_comerc">
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-xs-12">
-                        <div class="form-group">
-                          <label for="reg_zona">Registado em</label>
-                          <input type="text" class="form-control widget widget-utente" id="reg_zona">
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-xs-12">
-                        <div class="form-group">
-                          <label for="observacio">Observaçôes</label>
-                          <textarea class="form-control widget widget-utente" id="observacio" rows="4"></textarea>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
-
-          </div>
-          <div class="modal-footer">
-            <div class="row">
-              <div class="col-xs-offset-1 col-xs-10">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary" id="okButton">Aceitar</button>
+            <div class="modal-footer">
+              <div class="row">
+                <div class="col-xs-offset-1 col-xs-10">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                  <button type="button" class="btn btn-primary" id="okButton">Aceitar</button>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </script>
+    </script>
+{% endblock main_block %}
 
-  {% include 'set-ara-variable.jinja2' %}
+{% block js_assets %}
+    <!-- javascri/static/pt -->
+    {% assets
+      "node-interaction.js",
 
-  <!-- javascri/static/pt -->
-  {% assets
-  "node-interaction.js",
+      "lib/jquery/jquery-1.12.0.min.js",
+      "lib/bootstrap/js/bootstrap.min.js",
+      "lib/bootbox.min.js",
+      "lib/underscore/underscore-min.js",
+      "lib/backbone/backbone.js",
+      "lib/moment-2.11.2/moment-with-locales.js",
+      "lib/numeral-js-1.5.3/min/languages.min.js",
+      "lib/numeral-js-1.5.3/min/numeral.min.js",
+      "lib/DataTables/DataTables-1.10.11/js/jquery.dataTables.js",
+      "lib/DataTables/DataTables-1.10.11/js/dataTables.bootstrap.js",
+      "lib/DataTables/FixedHeader-3.1.1/js/dataTables.fixedHeader.js",
+      "lib/DataTables/Responsive-2.0.2/js/dataTables.responsive.js",
+      "lib/locale-sort.js",
 
-  "lib/jquery/jquery-1.12.0.min.js",
-  "lib/bootstrap/js/bootstrap.min.js",
-  "lib/bootbox.min.js",
-  "lib/underscore/underscore-min.js",
-  "lib/backbone/backbone.js",
-  "lib/moment-2.11.2/moment-with-locales.js",
-  "lib/numeral-js-1.5.3/min/languages.min.js",
-  "lib/numeral-js-1.5.3/min/numeral.min.js",
-  "lib/DataTables/DataTables-1.10.11/js/jquery.dataTables.js",
-  "lib/DataTables/DataTables-1.10.11/js/dataTables.bootstrap.js",
-  "lib/DataTables/FixedHeader-3.1.1/js/dataTables.fixedHeader.js",
-  "lib/DataTables/Responsive-2.0.2/js/dataTables.responsive.js",
-  "lib/locale-sort.js",
+      "monkey-patching/index.js",
+      "tenant-custom-code.js",
 
-  "monkey-patching/index.js",
-  "tenant-custom-code.js",
+      "lib/schema-validator/validator.js",
+      "lib/formatter/formatter.js",
+      "lib/backbone-geojson/Feature.js",
+      "lib/backbone-geojson/FeatureCollection.js",
+      "lib/backbone-uilib/models/Domain.js",
+      "lib/backbone-uilib/models/DomainCollection.js",
+      "lib/backbone-uilib/views/OptionView.js",
+      "lib/backbone-uilib/views/SelectView.js",
+      "lib/backbone-uilib/views/WidgetsView.js",
+      "lib/backbone-uilib/views/BaseView.js",
+      "lib/backbone-uilib/views/ModalView.js",
+      "views/common/NavBarView.js",
+      "views/common/ConfigModalView.js",
+      "Config.js",
+      "models/Estado.js",
+      "models/Setting.js",
+      "models/UtenteSchema.js",
+      "models/Utente.js",
+      "models/UtenteCollection.js",
+      "views/common/SelectLocationView.js",
+      "views/utentes/TableUtentes.js",
+      "MyWorkflow.js",
+      "utentes.js",
 
-  "lib/schema-validator/validator.js",
-  "lib/formatter/formatter.js",
-  "lib/backbone-geojson/Feature.js",
-  "lib/backbone-geojson/FeatureCollection.js",
-  "lib/backbone-uilib/models/Domain.js",
-  "lib/backbone-uilib/models/DomainCollection.js",
-  "lib/backbone-uilib/views/OptionView.js",
-  "lib/backbone-uilib/views/SelectView.js",
-  "lib/backbone-uilib/views/WidgetsView.js",
-  "lib/backbone-uilib/views/BaseView.js",
-  "lib/backbone-uilib/views/ModalView.js",
-  "views/common/NavBarView.js",
-  "views/common/ConfigModalView.js",
-  "Config.js",
-  "models/Estado.js",
-  "models/Setting.js",
-  "models/UtenteSchema.js",
-  "models/Utente.js",
-  "models/UtenteCollection.js",
-  "views/common/SelectLocationView.js",
-  "views/utentes/TableUtentes.js",
-  "MyWorkflow.js",
-  "utentes.js",
+      output="dist/utentes.js", filters="rjsmin" %}
+          <script src="{{ ASSET_URL }}"></script>
+      {% endassets %}
 
-  output="dist/utentes.js", filters="rjsmin" %}
-      <script src="{{ ASSET_URL }}"></script>
-  {% endassets %}
-
-</body>
-</html>
+  {% endblock js_assets %}

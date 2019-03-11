@@ -1,147 +1,131 @@
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-  <title>Gestão de Utentes</title>
-
-  {% assets
-  "lib/bootstrap/css/bootstrap.css",
-  "lib/leaflet/leaflet.css",
-  "lib/leaflet/leaflet.label.css",
-  "offline/sixhiara-labels.css",
-  "css/exploracao-search.css",
-  "css/exploracao-filter.css",
-  "css/alert-system.css",
-  "css/exploracao-projects-header.css",
-  "css/base.css",
-  output="dist/exploracao-search.css", filters="cssrewrite,cssutils" %}
-        <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}">
-  {% endassets %}
-
-  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
-
-</head>
-<body class="container-fluid">
-
-  <menu class="row">
-  </menu>
-
-  <main class="main-content row">
-
-  {% include 'exploracao-filter.jinja2' %}
-
-  <section id="projects" class="col-xs-3">
-
-    {% include 'exploracao-projects-header.jinja2' %}
-
-    <ul id="project_list" class="list-unstyled">
-    </ul>
-
-  </section>
-
-  <section id="map-container" class="col-xs-7">
-    <div id="map" class="row"></div>
-  </section>
-
-</main>
-
-{% if 'em_processo' in request.params %}
-    {% include 'em_proceso_list.jinja2' %}
-{% else %}
-    {% include 'exploracaos_list.jinja2' %}
-{% endif %}
-
-{% include 'set-ara-variable.jinja2' %}
-
-<!-- javascript -->
+{% extends "base.jinja2" %}
+{% block css_assets %}
 {% assets
-"node-interaction.js",
-
-"lib/jquery/jquery-1.12.0.min.js",
-"lib/bootstrap/js/bootstrap.min.js",
-"lib/bootbox.min.js",
-"lib/underscore/underscore-min.js",
-"lib/backbone/backbone.js",
-"lib/moment-2.11.2/moment-with-locales.js",
-"lib/leaflet/leaflet-src.js",
-"lib/leaflet/leaflet.label-src.js",
-
-"monkey-patching/index.js",
-"tenant-custom-code.js",
-
-
-"lib/formatter/formatter.js",
-"lib/backbone-geojson/Feature.js",
-"lib/backbone-geojson/FeatureCollection.js",
-"lib/backbone-uilib/models/Domain.js",
-"lib/backbone-uilib/models/DomainCollection.js",
-"lib/backbone-uilib/views/OptionView.js",
-"lib/backbone-uilib/views/SelectView.js",
-"lib/backbone-uilib/views/WidgetsView.js",
-"lib/backbone-uilib/views/ItemView.js",
-"lib/backbone-uilib/views/ListView.js",
-"lib/backbone-uilib/views/BaseView.js",
-"Config.js",
-"views/common/NavBarView.js",
-"views/common/ConfigModalView.js",
-"models/Estado.js",
-"models/EstadoCollection.js",
-"models/TanquePiscicola.js",
-"models/TanquePiscicolaCollection.js",
-"models/ActividadeNull.js",
-"models/ActividadeCultivo.js",
-"models/CultivoCollection.js",
-"models/ActividadeRes.js",
-"models/ResCollection.js",
-"models/ActividadeAbastecimento.js",
-"models/ActividadeEnergia.js",
-"models/ActividadeIndustria.js",
-"models/ActividadePecuaria.js",
-"models/ActividadePiscicultura.js",
-"models/ActividadeRegadia.js",
-"models/ActividadeSaneamento.js",
-"models/ActividadesSchema.js",
-"models/Where.js",
-"models/Fonte.js",
-"models/FonteCollection.js",
-"models/Licencia.js",
-"models/LicenciaCollection.js",
-"models/Utente.js",
-"models/Exploracao.js",
-"models/ExploracaoCollection.js",
-"models/Setting.js",
-"views/common/SelectLocationView.js",
-"views/search/MapView.js",
-"views/search/FiltersView.js",
-"views/search/NumberOfResultsView.js",
-"views/search/ButtonExportXLSView.js",
-"views/search/ButtonExportSHPView.js",
-
-"offline/MapConfig.js",
-"offline/LayerStyle.js",
-"offline/config-layers.js",
-"offline/FitToBounds.js",
-"offline/offline.js",
-"offline/LayerConfig.js",
-
-"utils/MyLeafletEvent.js",
-"MyWorkflow.js",
-"exploracao-search.js",
-
-output="dist/exploracao-search.js", filters="rjsmin" %}
-    <script src="{{ ASSET_URL }}"></script>
+"lib/bootstrap/css/bootstrap.css",
+"lib/leaflet/leaflet.css",
+"lib/leaflet/leaflet.label.css",
+"offline/sixhiara-labels.css",
+"css/exploracao-search.css",
+"css/exploracao-filter.css",
+"css/alert-system.css",
+"css/exploracao-projects-header.css",
+"css/base.css",
+output="dist/exploracao-search.css", filters="cssrewrite,cssutils" %}
+      <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}">
 {% endassets %}
+{% endblock css_assets %}
 
-{% assets
-"lib/shpwrite.js",
-"lib/excel-libs/xlsx.core.min.js",
-"lib/excel-libs/jszip.min.js",
-"lib/excel-libs/FileSaver.js",
-output="dist/export.js", filters="rjsmin" %}
-    <script src="{{ ASSET_URL }}"></script>
-{% endassets %}
+{% block main_block %}
 
-</body>
-</html>
+    <main class="main-content row">
+      {% include 'exploracao-filter.jinja2' %}
+
+      <section id="projects" class="col-xs-3">
+        {% include 'exploracao-projects-header.jinja2' %}
+
+        <ul id="project_list" class="list-unstyled">
+          {% if 'em_processo' in request.params %}
+          {% include 'em_proceso_list.jinja2' %}
+          {% else %}
+          {% include 'exploracaos_list.jinja2' %}
+          {% endif %}
+        </ul>
+
+      </section>
+
+      <section id="map-container" class="col-xs-7">
+        <div id="map" class="row"></div>
+      </section>
+    </main>
+{% endblock main_block %}
+
+{% block js_assets %}
+    <!-- javascript -->
+    {% assets
+    "node-interaction.js",
+
+    "lib/jquery/jquery-1.12.0.min.js",
+    "lib/bootstrap/js/bootstrap.min.js",
+    "lib/bootbox.min.js",
+    "lib/underscore/underscore-min.js",
+    "lib/backbone/backbone.js",
+    "lib/moment-2.11.2/moment-with-locales.js",
+    "lib/leaflet/leaflet-src.js",
+    "lib/leaflet/leaflet.label-src.js",
+
+    "monkey-patching/index.js",
+    "tenant-custom-code.js",
+
+
+    "lib/formatter/formatter.js",
+    "lib/backbone-geojson/Feature.js",
+    "lib/backbone-geojson/FeatureCollection.js",
+    "lib/backbone-uilib/models/Domain.js",
+    "lib/backbone-uilib/models/DomainCollection.js",
+    "lib/backbone-uilib/views/OptionView.js",
+    "lib/backbone-uilib/views/SelectView.js",
+    "lib/backbone-uilib/views/WidgetsView.js",
+    "lib/backbone-uilib/views/ItemView.js",
+    "lib/backbone-uilib/views/ListView.js",
+    "lib/backbone-uilib/views/BaseView.js",
+    "Config.js",
+    "views/common/NavBarView.js",
+    "views/common/ConfigModalView.js",
+    "models/Estado.js",
+    "models/EstadoCollection.js",
+    "models/TanquePiscicola.js",
+    "models/TanquePiscicolaCollection.js",
+    "models/ActividadeNull.js",
+    "models/ActividadeCultivo.js",
+    "models/CultivoCollection.js",
+    "models/ActividadeRes.js",
+    "models/ResCollection.js",
+    "models/ActividadeAbastecimento.js",
+    "models/ActividadeEnergia.js",
+    "models/ActividadeIndustria.js",
+    "models/ActividadePecuaria.js",
+    "models/ActividadePiscicultura.js",
+    "models/ActividadeRegadia.js",
+    "models/ActividadeSaneamento.js",
+    "models/ActividadesSchema.js",
+    "models/Where.js",
+    "models/Fonte.js",
+    "models/FonteCollection.js",
+    "models/Licencia.js",
+    "models/LicenciaCollection.js",
+    "models/Utente.js",
+    "models/Exploracao.js",
+    "models/ExploracaoCollection.js",
+    "models/Setting.js",
+    "views/common/SelectLocationView.js",
+    "views/search/MapView.js",
+    "views/search/FiltersView.js",
+    "views/search/NumberOfResultsView.js",
+    "views/search/ButtonExportXLSView.js",
+    "views/search/ButtonExportSHPView.js",
+
+    "offline/MapConfig.js",
+    "offline/LayerStyle.js",
+    "offline/config-layers.js",
+    "offline/FitToBounds.js",
+    "offline/offline.js",
+    "offline/LayerConfig.js",
+
+    "utils/MyLeafletEvent.js",
+    "MyWorkflow.js",
+    "exploracao-search.js",
+
+    output="dist/exploracao-search.js", filters="rjsmin" %}
+        <script src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+
+    {% assets
+    "lib/shpwrite.js",
+    "lib/excel-libs/xlsx.core.min.js",
+    "lib/excel-libs/jszip.min.js",
+    "lib/excel-libs/FileSaver.js",
+    output="dist/export.js", filters="rjsmin" %}
+        <script src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+
+{% endblock js_assets %}

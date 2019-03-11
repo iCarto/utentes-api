@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-  <title>Administração de utilizadores</title>
+{% extends "base.jinja2" %}
+{% set title = 'Administração de utilizadores' %}
+{% block css_assets %}
   {% assets
   "lib/bootstrap/css/bootstrap.css",
   "lib/font-awesome/css/font-awesome.css",
@@ -12,14 +8,8 @@
   output="dist/users.css", filters="cssrewrite,cssutils" %}
         <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}">
   {% endassets %}
-  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
-</head>
-
-<body class="container-fluid">
-
-  <menu class="row">
-  </menu>
-
+{% endblock css_assets %}
+{% block main_block %}
   <div id="section-users" class="row">
     <div class="col-xs-offset-3 col-xs-6">
 
@@ -108,48 +98,48 @@
       </div>
     </div>
   </script>
+{% endblock main_block %}
 
-{% include 'set-ara-variable.jinja2' %}
+{% block js_assets %}
+    <!-- javascript -->
+    {% assets
+    "node-interaction.js",
 
-{% assets
-"node-interaction.js",
+    "lib/jquery/jquery-1.12.0.min.js",
+    "lib/bootstrap/js/bootstrap.min.js",
+    "lib/bootbox.min.js",
+    "lib/underscore/underscore-min.js",
+    "lib/backbone/backbone.js",
+    "lib/moment-2.11.2/moment-with-locales.js",
 
-"lib/jquery/jquery-1.12.0.min.js",
-"lib/bootstrap/js/bootstrap.min.js",
-"lib/bootbox.min.js",
-"lib/underscore/underscore-min.js",
-"lib/backbone/backbone.js",
-"lib/moment-2.11.2/moment-with-locales.js",
+    "monkey-patching/index.js",
+    "tenant-custom-code.js",
 
-"monkey-patching/index.js",
-"tenant-custom-code.js",
+    "lib/schema-validator/validator.js",
+    "lib/formatter/formatter.js",
+    "lib/backbone-uilib/models/Domain.js",
+    "lib/backbone-uilib/models/DomainCollection.js",
+    "lib/backbone-uilib/views/OptionView.js",
+    "lib/backbone-uilib/views/SelectView.js",
+    "lib/backbone-uilib/views/WidgetsView.js",
+    "views/common/NavBarView.js",
+    "views/common/ConfigModalView.js",
+    "views/show/ModalView.js",
+    "views/users/UserModalView.js",
+    "Config.js",
+    "views/common/RowDeleteButtonView.js",
+    "views/show/TableRowShowView.js",
+    "views/common/TableView.js",
+    "views/show/EditableTableView.js",
+    "models/User.js",
+    "models/UserCollection.js",
+    "lib/backbone-uilib/views/ModalView.js",
+    "models/Setting.js",
+    "MyWorkflow.js",
+    "users.js",
 
-"lib/schema-validator/validator.js",
-"lib/formatter/formatter.js",
-"lib/backbone-uilib/models/Domain.js",
-"lib/backbone-uilib/models/DomainCollection.js",
-"lib/backbone-uilib/views/OptionView.js",
-"lib/backbone-uilib/views/SelectView.js",
-"lib/backbone-uilib/views/WidgetsView.js",
-"views/common/NavBarView.js",
-"views/common/ConfigModalView.js",
-"views/show/ModalView.js",
-"views/users/UserModalView.js",
-"Config.js",
-"views/common/RowDeleteButtonView.js",
-"views/show/TableRowShowView.js",
-"views/common/TableView.js",
-"views/show/EditableTableView.js",
-"models/User.js",
-"models/UserCollection.js",
-"lib/backbone-uilib/views/ModalView.js",
-"models/Setting.js",
-"MyWorkflow.js",
-"users.js",
+    output="dist/users.js", filters="rjsmin" %}
+        <script src="{{ ASSET_URL }}"></script>
+    {% endassets %}
 
-output="dist/users.js", filters="rjsmin" %}
-    <script src="{{ ASSET_URL }}"></script>
-{% endassets %}
-
-</body>
-</html>
+{% endblock js_assets %}

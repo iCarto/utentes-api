@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-  <title>Novo requerimento de solicitação de licen</title>
+{% extends "base.jinja2" %}
+{% block title %}Novo requerimento de solicitação de licença{% endblock %}
+{% block css_assets %}
     {% assets
     "lib/bootstrap/css/bootstrap.css",
     "lib/font-awesome/css/font-awesome.css",
@@ -13,238 +9,223 @@
     output="dist/requerimento-new.css", filters="cssrewrite,cssutils" %}
           <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}">
     {% endassets %}
-  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
-</head>
-<body>
+{% endblock css_assets %}
 
-  <div class="container-fluid">
-
-    <menu class="row">
-    </menu>
-
-
-    <div class="row">
-
-      <form class="col-xs-offset-3 col-xs-6">
-
-        <div class="row text-center">
-          <h1>Novo requerimento de solicitação de licença</h1>
-        </div>
-
-        <div id="form-exp_name-warning-message" class="alert alert-warning alert-dismissible" style="display:none;">
-          <strong>Atenção!</strong> Existe outro requerimento com o mesmo <strong>Nome da exploração</strong>.
-        </div>
-
-        <div id="bt-toolbar" class="row">
-          <div class="col-xs-12">
-            <div class="btn-group btn-group-justified" role="group">
-                <div class="btn-group" role="group">
-                    <button id="file-modal" type="button" class="btn btn-default btn-sm">Documentaçao</button>
-                </div>
-            </div>
+{% block main_block %}
+<main class="row">
+  <form class="col-xs-offset-3 col-xs-6">
+    <div class="row text-center">
+      <h1>Novo requerimento de solicitação de licença</h1>
+    </div>
+    <div id="form-exp_name-warning-message" class="alert alert-warning alert-dismissible" style="display:none;">
+      <strong>Atenção!</strong> Existe outro requerimento com o mesmo <strong>Nome da exploração</strong>.
+    </div>
+    <div id="bt-toolbar" class="row">
+      <div class="col-xs-12">
+        <div class="btn-group btn-group-justified" role="group">
+          <div class="btn-group" role="group">
+            <button id="file-modal" type="button" class="btn btn-default btn-sm">Documentaçao</button>
           </div>
         </div>
-
-        <div class="row panel-equal-height">
-
-          <div class="col-xs-6">
-            <div class="panel">
-            <div class="row">
-              <div class="col-xs-12">
+      </div>
+    </div>
+    <div class="row panel-equal-height">
+      <div class="col-xs-6">
+        <div class="panel">
+          <div class="row">
+            <div class="col-xs-12">
               <div class="form-group">
                 <label for="exp_name">Nome <i class="fa fa-question-circle" data-toggle="tooltip" title="Debe escribir un nome de al menos 3 caracteres"></i></label>
                 <input type="text" id="exp_name" class="form-control widget" autofocus required>
               </div>
               <div class="form-group">
-                  <label class="" for="exp_name">Data de solicitação</label>
-                  <input type="text" class="form-control widget-date" id="d_soli" placeholder="dd/mm/yyyy" required>
-              </div>
-            </div>
-            </div>
-            <div class="row">
-              <div class="col-xs-12">
-                <table class="table table-bordered table-checks">
-                  <thead>
-                    <tr><th>Tipo de Documento</th><th>Entrega</th></tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Carta de requerimento de solicitação</td>
-                      <td><input id="carta_re" type="checkbox" required></td>
-                    </tr>
-                    <tr>
-                      <td>Ficha de pedido preenchida</td>
-                      <td><input id="ficha_pe" type="checkbox" required></td>
-                    </tr>
-                    <tr>
-                      <td>Identificação do proprietário</td>
-                      <td><input id="ident_pro" type="checkbox" required></td>
-                    </tr>
-                    <tr>
-                      <td>Certificado de registo comercial</td>
-                      <td><input id="certi_reg" type="checkbox"></td>
-                    </tr>
-                    <tr>
-                      <td>DUAT ou declaração das estructuras locais (bairro)</td>
-                      <td><input id="duat" type="checkbox"></td>
-                    </tr>
-                    <tr>
-                      <td>Mapa de localização</td>
-                      <td><input id="mapa" type="checkbox"></td>
-                    </tr>
-                    <tr>
-                      <td>Boletim de análise de água</td>
-                      <td><input id="b_a_agua" type="checkbox"></td>
-                    </tr>
-                    <tr>
-                      <td>Licença Ambiental (Se é preciso)</td>
-                      <td><input id="licen_am" type="checkbox"></td>
-                    </tr>
-
-                    <tr>
-                      <td>Autorização de apertura de poço/furo (Se é preciso)</td>
-                      <td><input id="licen_fu" type="checkbox"></td>
-                    </tr>
-                    <tr>
-                      <td>Relatório técnico de perforação (Se é preciso)</td>
-                      <td><input id="r_perf" type="checkbox"></td>
-                    </tr>
-                  </tbody>
-                </table>
+                <label class="" for="exp_name">Data de solicitação</label>
+                <input type="text" class="form-control widget-date" id="d_soli" placeholder="dd/mm/yyyy" required>
               </div>
             </div>
           </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <table class="table table-bordered table-checks">
+                <thead>
+                  <tr>
+                    <th>Tipo de Documento</th>
+                    <th>Entrega</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Carta de requerimento de solicitação</td>
+                    <td><input id="carta_re" type="checkbox" required></td>
+                  </tr>
+                  <tr>
+                    <td>Ficha de pedido preenchida</td>
+                    <td><input id="ficha_pe" type="checkbox" required></td>
+                  </tr>
+                  <tr>
+                    <td>Identificação do proprietário</td>
+                    <td><input id="ident_pro" type="checkbox" required></td>
+                  </tr>
+                  <tr>
+                    <td>Certificado de registo comercial</td>
+                    <td><input id="certi_reg" type="checkbox"></td>
+                  </tr>
+                  <tr>
+                    <td>DUAT ou declaração das estructuras locais (bairro)</td>
+                    <td><input id="duat" type="checkbox"></td>
+                  </tr>
+                  <tr>
+                    <td>Mapa de localização</td>
+                    <td><input id="mapa" type="checkbox"></td>
+                  </tr>
+                  <tr>
+                    <td>Boletim de análise de água</td>
+                    <td><input id="b_a_agua" type="checkbox"></td>
+                  </tr>
+                  <tr>
+                    <td>Licença Ambiental (Se é preciso)</td>
+                    <td><input id="licen_am" type="checkbox"></td>
+                  </tr>
+                  <tr>
+                    <td>Autorização de apertura de poço/furo (Se é preciso)</td>
+                    <td><input id="licen_fu" type="checkbox"></td>
+                  </tr>
+                  <tr>
+                    <td>Relatório técnico de perforação (Se é preciso)</td>
+                    <td><input id="r_perf" type="checkbox"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
-
-          <div class="col-xs-6 panel-observacio">
-            <div class="panel">
-              <div class="form-group">
-                <label for="observacio">
-                  <div style="display:inline-block; width: 29%">
-                  Observações
-                  </div>
-                  <div id="js-btns-next">
-                    <!-- TODO. Los "siguientes estados" disponibles no deberían estar harcodeados en el html
-                    o bien, todos los botones deberían ser generados en otra parte, o de los dominios se deberían decidir que botones
-                    se pueden usar en el modo combo o algo así
-                    -->
-                    <button id="bt-ok" type="button" class="btn btn-default">Completa</button>
-                    <button id="bt-no" type="button" class="btn btn-primary">Incompleta</button>
-                  </div>
-                </label>
-                <textarea id="observacio" class="form-control widget"></textarea>
-              </div>
-            </div>
-            </div>
-
         </div>
-      </form>
+      </div>
+      <div class="col-xs-6 panel-observacio">
+        <div class="panel">
+          <div class="form-group">
+            <label for="observacio">
+              <div style="display:inline-block; width: 29%">
+                Observações
+              </div>
+              <div id="js-btns-next">
+                <!-- TODO. Los "siguientes estados" disponibles no deberían estar harcodeados en el html
+                  o bien, todos los botones deberían ser generados en otra parte, o de los dominios se deberían decidir que botones
+                  se pueden usar en el modo combo o algo así
+                  -->
+                <button id="bt-ok" type="button" class="btn btn-default">Completa</button>
+                <button id="bt-no" type="button" class="btn btn-primary">Incompleta</button>
+              </div>
+            </label>
+            <textarea id="observacio" class="form-control widget"></textarea>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
+  </form>
+</main>
+{% endblock main_block %}
 
-{% include 'set-ara-variable.jinja2' %}
+{% block js_assets %}
+    <!-- javascript -->
+    {% assets
+    "node-interaction.js",
 
-<!-- javascript -->
-{% assets
-"node-interaction.js",
+    "lib/jquery/jquery-1.12.0.min.js",
+    "lib/bootstrap/js/bootstrap.min.js",
+    "lib/bootbox.min.js",
+    "lib/underscore/underscore-min.js",
+    "lib/backbone/backbone.js",
+    "lib/moment-2.11.2/moment-with-locales.js",
+    "lib/numeral-js-1.5.3/min/languages.min.js",
+    "lib/numeral-js-1.5.3/min/numeral.min.js",
+    "lib/jquery-ui/jquery-ui.min.js",
+    "lib/jquery-fileupload/jquery.iframe-transport.js",
+    "lib/jquery-fileupload/jquery.fileupload.js",
 
-"lib/jquery/jquery-1.12.0.min.js",
-"lib/bootstrap/js/bootstrap.min.js",
-"lib/bootbox.min.js",
-"lib/underscore/underscore-min.js",
-"lib/backbone/backbone.js",
-"lib/moment-2.11.2/moment-with-locales.js",
-"lib/numeral-js-1.5.3/min/languages.min.js",
-"lib/numeral-js-1.5.3/min/numeral.min.js",
-"lib/jquery-ui/jquery-ui.min.js",
-"lib/jquery-fileupload/jquery.iframe-transport.js",
-"lib/jquery-fileupload/jquery.fileupload.js",
+    "monkey-patching/index.js",
+    "tenant-custom-code.js",
 
-"monkey-patching/index.js",
-"tenant-custom-code.js",
+    "lib/schema-validator/validator.js",
+    "lib/formatter/formatter.js",
+    "lib/backbone-geojson/Feature.js",
+    "lib/backbone-geojson/FeatureCollection.js",
+    "lib/backbone-dms/Config.js",
+    "lib/backbone-dms/util/Util.js",
+    "lib/backbone-dms/models/File.js",
+    "lib/backbone-dms/models/FileCollection.js",
+    "lib/backbone-dms/models/Folder.js",
+    "lib/backbone-dms/models/FolderCollection.js",
+    "lib/backbone-dms/models/FilePending.js",
+    "lib/backbone-dms/models/FileUpload.js",
+    "lib/backbone-dms/views/FileSummaryView.js",
+    "lib/backbone-dms/views/FolderSummaryView.js",
+    "lib/backbone-dms/views/FolderView.js",
+    "lib/backbone-dms/views/FileModalView.js",
+    "lib/backbone-dms/views/FileUploadView.js",
+    "lib/backbone-dms/views/FileUploadingCollectionView.js",
+    "lib/backbone-dms/views/FileUploadingView.js",
+    "lib/backbone-dms/views/FileCollectionView.js",
+    "lib/backbone-dms/views/FolderZipDownloadView.js",
+    "lib/backbone-dms/views/PathFolderView.js",
+    "lib/backbone-dms/views/BreadcrumbView.js",
 
-"lib/schema-validator/validator.js",
-"lib/formatter/formatter.js",
-"lib/backbone-geojson/Feature.js",
-"lib/backbone-geojson/FeatureCollection.js",
-"lib/backbone-dms/Config.js",
-"lib/backbone-dms/util/Util.js",
-"lib/backbone-dms/models/File.js",
-"lib/backbone-dms/models/FileCollection.js",
-"lib/backbone-dms/models/Folder.js",
-"lib/backbone-dms/models/FolderCollection.js",
-"lib/backbone-dms/models/FilePending.js",
-"lib/backbone-dms/models/FileUpload.js",
-"lib/backbone-dms/views/FileSummaryView.js",
-"lib/backbone-dms/views/FolderSummaryView.js",
-"lib/backbone-dms/views/FolderView.js",
-"lib/backbone-dms/views/FileModalView.js",
-"lib/backbone-dms/views/FileUploadView.js",
-"lib/backbone-dms/views/FileUploadingCollectionView.js",
-"lib/backbone-dms/views/FileUploadingView.js",
-"lib/backbone-dms/views/FileCollectionView.js",
-"lib/backbone-dms/views/FolderZipDownloadView.js",
-"lib/backbone-dms/views/PathFolderView.js",
-"lib/backbone-dms/views/BreadcrumbView.js",
+    "lib/backbone-uilib/models/Domain.js",
+    "lib/backbone-uilib/models/DomainCollection.js",
+    "lib/backbone-uilib/views/OptionView.js",
+    "lib/backbone-uilib/views/SelectView.js",
+    "lib/backbone-uilib/views/WidgetsView.js",
+    "lib/backbone-uilib/views/BaseView.js",
+    "lib/backbone-uilib/views/ModalView.js",
+    "utils/accentNeutralise.js",
+    "Config.js",
+    "views/common/NavBarView.js",
+    "views/common/ConfigModalView.js",
+    "models/Estado.js",
+    "models/Fonte.js",
+    "models/FonteSchema.js",
+    "models/FonteCollection.js",
+    "models/TanquePiscicola.js",
+    "models/TanquePiscicolaCollection.js",
+    "models/Licencia.js",
+    "models/LicenciaSchema.js",
+    "models/LicenciaCollection.js",
+    "models/Utente.js",
+    "models/UtenteSchema.js",
+    "models/UtenteCollection.js",
+    "models/ActividadeRes.js",
+    "models/ResCollection.js",
+    "models/ActividadeNull.js",
+    "models/ActividadeCultivo.js",
+    "models/CultivoCollection.js",
+    "models/ActividadeNull.js",
+    "models/ActividadeAbastecimento.js",
+    "models/ActividadeEnergia.js",
+    "models/ActividadeIndustria.js",
+    "models/ActividadePecuaria.js",
+    "models/ActividadePiscicultura.js",
+    "models/CultivoCollection.js",
+    "models/ActividadeRegadia.js",
+    "models/ActividadeSaneamento.js",
+    "models/ActividadesSchema.js",
+    "models/Exploracao.js",
+    "models/ExploracaoSchema.js",
+    "models/ExploracaoCollection.js",
+    "models/Expediente.js",
 
-"lib/backbone-uilib/models/Domain.js",
-"lib/backbone-uilib/models/DomainCollection.js",
-"lib/backbone-uilib/views/OptionView.js",
-"lib/backbone-uilib/views/SelectView.js",
-"lib/backbone-uilib/views/WidgetsView.js",
-"lib/backbone-uilib/views/BaseView.js",
-"lib/backbone-uilib/views/ModalView.js",
-"utils/accentNeutralise.js",
-"Config.js",
-"views/common/NavBarView.js",
-"views/common/ConfigModalView.js",
-"models/Estado.js",
-"models/Fonte.js",
-"models/FonteSchema.js",
-"models/FonteCollection.js",
-"models/TanquePiscicola.js",
-"models/TanquePiscicolaCollection.js",
-"models/Licencia.js",
-"models/LicenciaSchema.js",
-"models/LicenciaCollection.js",
-"models/Utente.js",
-"models/UtenteSchema.js",
-"models/UtenteCollection.js",
-"models/ActividadeRes.js",
-"models/ResCollection.js",
-"models/ActividadeNull.js",
-"models/ActividadeCultivo.js",
-"models/CultivoCollection.js",
-"models/ActividadeNull.js",
-"models/ActividadeAbastecimento.js",
-"models/ActividadeEnergia.js",
-"models/ActividadeIndustria.js",
-"models/ActividadePecuaria.js",
-"models/ActividadePiscicultura.js",
-"models/CultivoCollection.js",
-"models/ActividadeRegadia.js",
-"models/ActividadeSaneamento.js",
-"models/ActividadesSchema.js",
-"models/Exploracao.js",
-"models/ExploracaoSchema.js",
-"models/ExploracaoCollection.js",
-"models/Expediente.js",
+    "views/common/ButtonSaveView.js",
+    "views/common/SelectActividadeView.js",
+    "views/common/SelectUtenteView.js",
+    "views/common/RowDeleteButtonView.js",
+    "views/new/RowFonteView.js",
+    "views/common/TableView.js",
+    "views/new/LicenseView.js",
 
-"views/common/ButtonSaveView.js",
-"views/common/SelectActividadeView.js",
-"views/common/SelectUtenteView.js",
-"views/common/RowDeleteButtonView.js",
-"views/new/RowFonteView.js",
-"views/common/TableView.js",
-"views/new/LicenseView.js",
+    "models/Setting.js",
 
-"models/Setting.js",
+    "MyWorkflow.js",
+    "requerimento-new.js",
+    output="dist/requerimento-new.js", filters="rjsmin" %}
+        <script src="{{ ASSET_URL }}"></script>
+    {% endassets %}
 
-"MyWorkflow.js",
-"requerimento-new.js",
-output="dist/requerimento-new.js", filters="rjsmin" %}
-    <script src="{{ ASSET_URL }}"></script>
-{% endassets %}
-
-</body>
-</html>
+{% endblock js_assets %}

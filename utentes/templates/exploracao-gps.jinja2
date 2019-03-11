@@ -1,32 +1,23 @@
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-  <title>Gestão de Utentes</title>
-  <link rel="stylesheet" type="text/css" href="/static/lib/bootstrap/css/bootstrap.css" />
-  <link rel="stylesheet" type="text/css" href="/static/lib/font-awesome/css/font-awesome.css">
-  <link rel="stylesheet" type="text/css" href="/static/lib/leaflet/leaflet.css">
-  <link rel="stylesheet" type="text/css" href="/static/lib/leaflet-table/src/leaflet-table.css">
-  <link rel="stylesheet" type="text/css" href="/static/lib/leaflet-table/lib/leaflet-toolbar/leaflet.toolbar.css">
-  <link rel="stylesheet" type="text/css" href="/static/lib/leaflet/leaflet.label.css"/>
-  <link rel="stylesheet" type="text/css" href="/static/offline/sixhiara-labels.css" />
-  <link rel="stylesheet" type="text/css" href="/static/css/exploracao-gps.css">
-  <link rel="stylesheet" type="text/css" href="/static/css/base.css">
-  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
-</head>
-<body class="container-fluid">
+{% extends "base.jinja2" %}
+{% block css_assets %}
+<link rel="stylesheet" type="text/css" href="/static/lib/bootstrap/css/bootstrap.css" />
+<link rel="stylesheet" type="text/css" href="/static/lib/font-awesome/css/font-awesome.css">
+<link rel="stylesheet" type="text/css" href="/static/lib/leaflet/leaflet.css">
+<link rel="stylesheet" type="text/css" href="/static/lib/leaflet-table/src/leaflet-table.css">
+<link rel="stylesheet" type="text/css" href="/static/lib/leaflet-table/lib/leaflet-toolbar/leaflet.toolbar.css">
+<link rel="stylesheet" type="text/css" href="/static/lib/leaflet/leaflet.label.css"/>
+<link rel="stylesheet" type="text/css" href="/static/offline/sixhiara-labels.css" />
+<link rel="stylesheet" type="text/css" href="/static/css/exploracao-gps.css">
+<link rel="stylesheet" type="text/css" href="/static/css/base.css">
+{% endblock css_assets %}
 
-  <menu class="row">
-  </menu>
-
+{% block main_block %}
+<main>
   <section class="row">
     <div id="map-pane" class="col-xs-12">
       <input id="input-importgpx" type="file" accept=".gpx, .GPX" />
     </div>
   </section>
-
   <script type="text/template" id="modal-gps-tmpl">
     <div class="modal fade" id="gpsModalView" tabindex="-1" role="dialog" aria-labelledby="editInfoModalLabel">
       <div class="modal-dialog" role="document">
@@ -60,99 +51,98 @@
       </div>
     </div>
   </script>
+</main>
+{% endblock main_block %}
 
-  {% include 'set-ara-variable.jinja2' %}
+{% block js_assets %}
+    <!-- javascript -->
+    <script src="/static/node-interaction.js"></script>
 
-  <script src="/static/node-interaction.js"></script>
+    <script src="/static/lib/jquery/jquery-1.12.0.min.js"></script>
+    <script src="/static/lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/lib/bootbox.min.js"></script>
+    <script src="/static/lib/underscore/underscore-min.js"></script>
+    <script src="/static/lib/backbone/backbone.js"></script>
+    <script src="/static/lib/moment-2.11.2/moment-with-locales.js"></script>
+    <script src="/static/lib/leaflet/leaflet-src.js"></script>
+    <script src="/static/lib/leaflet/leaflet.label-src.js"></script>
 
-  <script src="/static/lib/jquery/jquery-1.12.0.min.js"></script>
-  <script src="/static/lib/bootstrap/js/bootstrap.min.js"></script>
-  <script src="/static/lib/bootbox.min.js"></script>
-  <script src="/static/lib/underscore/underscore-min.js"></script>
-  <script src="/static/lib/backbone/backbone.js"></script>
-  <script src="/static/lib/moment-2.11.2/moment-with-locales.js"></script>
-  <script src="/static/lib/leaflet/leaflet-src.js"></script>
-  <script src="/static/lib/leaflet/leaflet.label-src.js"></script>
-
-  <script src="/static/monkey-patching/index.js"></script>
-  <script src="/static/tenant-custom-code.js"></script>
-
-
-  <script src="/static/lib/leaflet-table/lib/togeojson/togeojson.js"></script>
-  <script src="/static/lib/leaflet-table/lib/leaflet-toolbar/leaflet.toolbar.js"></script>
-  <script src='/static/lib/leaflet-table/src/leaflet-table.js'></script>
-  <script src='/static/lib/leaflet-table/src/actions/importgpx.js'></script>
-  <script src='/static/lib/leaflet-table/src/actions/clear.js'></script>
-  <script src='/static/lib/leaflet-table/src/actions/delete.js'></script>
-  <script src='/static/lib/leaflet-table/src/actions/makepolygon.js'></script>
-  <script src='/static/lib/leaflet-table/src/actions/endSession.js'></script>
-  <script src='/static/lib/leaflet-table/src/actions/movetotop.js'></script>
-  <script src='/static/lib/leaflet-table/src/actions/savetoapi.js'></script>
-
-  <script src="/static/lib/schema-validator/validator.js"></script>
-
-  <script src="/static/lib/formatter/formatter.js"></script>
-
-  <script src="/static/lib/backbone-geojson/Feature.js"></script>
-  <script src="/static/lib/backbone-geojson/FeatureCollection.js"></script>
-
-  <script src="/static/lib/backbone-uilib/models/Domain.js"></script>
-  <script src="/static/lib/backbone-uilib/models/DomainCollection.js"></script>
-  <script src="/static/lib/backbone-uilib/views/OptionView.js"></script>
-  <script src="/static/lib/backbone-uilib/views/SelectView.js"></script>
-  <script src="/static/lib/backbone-uilib/views/WidgetsView.js"></script>
-
-  <script src="/static/Config.js"></script>
-  <script src="/static/views/common/NavBarView.js"></script>
-  <script src="/static/views/common/ConfigModalView.js"></script>
-
-  <script src="/static/models/Estado.js"></script>
-  <script src="/static/models/EstadoCollection.js"></script>
-
-  <script src="/static/lib/backbone-uilib/views/ModalView.js"></script>
-
-  <script src="/static/models/TanquePiscicola.js"></script>
-  <script src="/static/models/TanquePiscicolaCollection.js"></script>
-  <script src="/static/models/ActividadeNull.js"></script>
-  <script src="/static/models/ActividadeCultivo.js"></script>
-  <script src="/static/models/CultivoCollection.js"></script>
-  <script src="/static/models/ActividadeRes.js"></script>
-  <script src="/static/models/ResCollection.js"></script>
-  <script src="/static/models/ActividadeAbastecimento.js"></script>
-  <script src="/static/models/ActividadeEnergia.js"></script>
-  <script src="/static/models/ActividadeIndustria.js"></script>
-  <script src="/static/models/ActividadePecuaria.js"></script>
-  <script src="/static/models/ActividadePiscicultura.js"></script>
-  <script src="/static/models/ActividadeRegadia.js"></script>
-  <script src="/static/models/ActividadeSaneamento.js"></script>
-  <script src="/static/models/ActividadesSchema.js"></script>
-
-  <script src="/static/models/Fonte.js"></script>
-  <script src="/static/models/FonteSchema.js"></script>
-  <script src="/static/models/FonteCollection.js"></script>
-  <script src="/static/models/Licencia.js"></script>
-  <script src="/static/models/LicenciaSchema.js"></script>
-  <script src="/static/models/LicenciaCollection.js"></script>
-  <script src="/static/models/Utente.js"></script>
-  <script src="/static/models/UtenteSchema.js"></script>
-  <script src="/static/models/Exploracao.js"></script>
-  <script src="/static/models/ExploracaoSchema.js"></script>
-  <script src="/static/models/ExploracaoCollection.js"></script>
-  <script src="/static/models/ActividadeCultivo.js"></script>
-  <script src="/static/models/CultivoCollection.js"></script>
-
-  <script src="/static/models/Setting.js"></script>
-  <script src="/static/views/gps/GPSModalView.js"></script>
-
-  <script src="/static/offline/MapConfig.js"></script>
-  <script src="/static/offline/LayerStyle.js"></script>
-  <script src="/static/offline/config-layers.js"></script>
-  <script src="/static/offline/offline.js"></script>
-  <script src="/static/offline/LayerConfig.js"></script>
-
-  <script src="/static/MyWorkflow.js"></script>
-  <script src="/static/exploracao-gps.js"></script>
+    <script src="/static/monkey-patching/index.js"></script>
+    <script src="/static/tenant-custom-code.js"></script>
 
 
-</body>
-</html>
+    <script src="/static/lib/leaflet-table/lib/togeojson/togeojson.js"></script>
+    <script src="/static/lib/leaflet-table/lib/leaflet-toolbar/leaflet.toolbar.js"></script>
+    <script src='/static/lib/leaflet-table/src/leaflet-table.js'></script>
+    <script src='/static/lib/leaflet-table/src/actions/importgpx.js'></script>
+    <script src='/static/lib/leaflet-table/src/actions/clear.js'></script>
+    <script src='/static/lib/leaflet-table/src/actions/delete.js'></script>
+    <script src='/static/lib/leaflet-table/src/actions/makepolygon.js'></script>
+    <script src='/static/lib/leaflet-table/src/actions/endSession.js'></script>
+    <script src='/static/lib/leaflet-table/src/actions/movetotop.js'></script>
+    <script src='/static/lib/leaflet-table/src/actions/savetoapi.js'></script>
+
+    <script src="/static/lib/schema-validator/validator.js"></script>
+
+    <script src="/static/lib/formatter/formatter.js"></script>
+
+    <script src="/static/lib/backbone-geojson/Feature.js"></script>
+    <script src="/static/lib/backbone-geojson/FeatureCollection.js"></script>
+
+    <script src="/static/lib/backbone-uilib/models/Domain.js"></script>
+    <script src="/static/lib/backbone-uilib/models/DomainCollection.js"></script>
+    <script src="/static/lib/backbone-uilib/views/OptionView.js"></script>
+    <script src="/static/lib/backbone-uilib/views/SelectView.js"></script>
+    <script src="/static/lib/backbone-uilib/views/WidgetsView.js"></script>
+
+    <script src="/static/Config.js"></script>
+    <script src="/static/views/common/ConfigModalView.js"></script>
+
+    <script src="/static/models/Estado.js"></script>
+    <script src="/static/models/EstadoCollection.js"></script>
+
+    <script src="/static/lib/backbone-uilib/views/ModalView.js"></script>
+
+    <script src="/static/models/TanquePiscicola.js"></script>
+    <script src="/static/models/TanquePiscicolaCollection.js"></script>
+    <script src="/static/models/ActividadeNull.js"></script>
+    <script src="/static/models/ActividadeCultivo.js"></script>
+    <script src="/static/models/CultivoCollection.js"></script>
+    <script src="/static/models/ActividadeRes.js"></script>
+    <script src="/static/models/ResCollection.js"></script>
+    <script src="/static/models/ActividadeAbastecimento.js"></script>
+    <script src="/static/models/ActividadeEnergia.js"></script>
+    <script src="/static/models/ActividadeIndustria.js"></script>
+    <script src="/static/models/ActividadePecuaria.js"></script>
+    <script src="/static/models/ActividadePiscicultura.js"></script>
+    <script src="/static/models/ActividadeRegadia.js"></script>
+    <script src="/static/models/ActividadeSaneamento.js"></script>
+    <script src="/static/models/ActividadesSchema.js"></script>
+
+    <script src="/static/models/Fonte.js"></script>
+    <script src="/static/models/FonteSchema.js"></script>
+    <script src="/static/models/FonteCollection.js"></script>
+    <script src="/static/models/Licencia.js"></script>
+    <script src="/static/models/LicenciaSchema.js"></script>
+    <script src="/static/models/LicenciaCollection.js"></script>
+    <script src="/static/models/Utente.js"></script>
+    <script src="/static/models/UtenteSchema.js"></script>
+    <script src="/static/models/Exploracao.js"></script>
+    <script src="/static/models/ExploracaoSchema.js"></script>
+    <script src="/static/models/ExploracaoCollection.js"></script>
+    <script src="/static/models/ActividadeCultivo.js"></script>
+    <script src="/static/models/CultivoCollection.js"></script>
+
+    <script src="/static/models/Setting.js"></script>
+    <script src="/static/views/gps/GPSModalView.js"></script>
+
+    <script src="/static/offline/MapConfig.js"></script>
+    <script src="/static/offline/LayerStyle.js"></script>
+    <script src="/static/offline/config-layers.js"></script>
+    <script src="/static/offline/offline.js"></script>
+    <script src="/static/offline/LayerConfig.js"></script>
+
+    <script src="/static/MyWorkflow.js"></script>
+    <script src="/static/exploracao-gps.js"></script>
+
+{% endblock js_assets %}
