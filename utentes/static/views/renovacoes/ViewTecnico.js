@@ -114,7 +114,7 @@ Backbone.SIXHIARA.ViewTecnico = Backbone.SIXHIARA.View1.extend({
         });
 
         var defaultDepartamento = wfr.isAdmin() ? 'root' : wfr.getRole();
-        var defaultUrlBase = Backbone.SIXHIARA.Config.apiRenovacoes + '/' + this.model.get('renovacao').get('id') + '/documentos'
+        var defaultUrlBase = Backbone.SIXHIARA.Config.apiExploracaos + '/' + this.model.get('id') + '/documentos'
         var fileModalView = new Backbone.DMS.FileModalView({
             openElementId: '#file-modal',
             title: 'Arquivo Electr&oacute;nico',
