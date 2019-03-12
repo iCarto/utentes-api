@@ -35,7 +35,7 @@ var MyWorkflow = {
             roles.push(ROL_SINGLE_SAFE);
         }
         if (roles.indexOf('unidade') !== -1) {
-            roles.push(ROL_OBSERVADOR.toLowerCase());
+            roles.push(this.getMainRolSafe(ROL_OBSERVADOR));
         }
         return roles;
     },
