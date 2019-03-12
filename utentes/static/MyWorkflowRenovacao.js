@@ -19,7 +19,7 @@ var MyWorkflowRenovacao = {
         }
         return role;
     },
-    
+
     getRoles: function(safeRoleFormat) {
         safeRoleFormat = safeRoleFormat || 'safe';
         switch (safeRoleFormat) {
@@ -29,7 +29,7 @@ var MyWorkflowRenovacao = {
                 return this.getAllRolesNotSafe();
             default:
                 throw Error('This should never happen');
-        }  
+        }
     },
 
     /*
@@ -52,7 +52,7 @@ var MyWorkflowRenovacao = {
         }
         return roles;
     },
-    
+
     getAllRolesNotSafe: function() {
         var roles = [this.getMainRole()];
         if (this.getUser() === this.SINGLE_USER) {
@@ -108,49 +108,12 @@ var MyWorkflowRenovacao = {
         }
         return role === ROL_OBSERVADOR;
     },
-    
+
     hasRoleObservador: function(roles) {
         if(!roles) {
             var roles = this.getRoles('not-safe');
         }
         return roles.includes(ROL_OBSERVADOR);
-    },
-    
-    fixMenu: function() {
-        var user = this.getMainRole();
-
-        if (wfr.user_roles_not_in([ROL_ADMIN, ROL_ADMINISTRATIVO], 'not-safe')) {
-            document.getElementById('requerimento-new').parentNode.remove();
-        }
-
-        if (wfr.user_roles_not_in([ROL_ADMIN, ROL_TECNICO], 'not-safe')) {
-            document.getElementById('new').parentNode.remove();
-            document.getElementById('gps').parentNode.remove();
-        }
-
-        if (wfr.user_roles_not_in([ROL_ADMIN, ROL_OBSERVADOR, ROL_TECNICO, ROL_UNIDAD_DELEGACION, ROL_FINANCIERO], 'not-safe')) {
-            document.getElementById('facturacao').parentNode.remove();
-        }
-
-        if (ROL_FINANCIERO === user) {
-            document.getElementById('requerimento-pendente').parentNode.remove();
-        }
-
-        if (ROL_OBSERVADOR === user) {
-            document.getElementById('search-all').parentNode.remove();
-        }
-
-        document.getElementById('user-info').innerHTML = this.getUser();
-
-        if (this.getUser() === this.SINGLE_USER) {
-            document.getElementById('requerimento-new').parentNode.remove();
-            document.getElementById('facturacao').parentNode.remove();
-            document.getElementById('requerimento-pendente').parentNode.remove();
-            document.getElementById('search-all').parentNode.remove();
-            var navAdmin = document.getElementById('nav-admin');
-            var settings = document.getElementById('settings');
-            navAdmin.replaceWith(settings);
-        }
     },
 
     init: function() {
@@ -505,15 +468,15 @@ var MyWorkflowRenovacao = {
     },
 
     user_roles_in: function(roles, safeRoleFormat) {
-        /* roles is an array of roles. 
-           safeRoleFormat defines if the `roles` array contains the roles in 
+        /* roles is an array of roles.
+           safeRoleFormat defines if the `roles` array contains the roles in
            'safe' format mode or in 'not-safe' mode
         */
 
         var userRoles = this.getRoles(safeRoleFormat);
         return _.intersection(userRoles, roles).length > 0;
     },
-    
+
     user_roles_not_in: function(roles, safeRoleFormat) {
         return !this.user_roles_in(roles, safeRoleFormat);
     },
@@ -525,6 +488,5 @@ var MyWorkflowRenovacao = {
 
 window['wfr'] = Object.create(MyWorkflowRenovacao);
 $(document).ready(function() {
-    wfr.fixMenu();
     wfr.disabledWidgets('menu');
 });

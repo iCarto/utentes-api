@@ -38,10 +38,6 @@ Backbone.SIXHIARA.MSG = {
 };
 
 $(document).ready(function() {
-    var navBar = new Backbone.SIXHIARA.NavBarView({
-        model: new Backbone.Model(),
-        el: $('menu'),
-    }).render();
 
     $('#settings').on('click', function(e){
         e.preventDefault();
