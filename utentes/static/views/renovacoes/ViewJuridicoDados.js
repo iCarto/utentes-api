@@ -176,7 +176,7 @@ Backbone.SIXHIARA.ViewJuridicoDados = Backbone.SIXHIARA.View1.extend({
                              o bien, todos los botones deberían ser generados en otra parte, o de los dominios se deberían decidir que botones
                              se pueden usar en el modo combo o algo así
                              -->
-                          <button id="bt-ok" type="button" class="btn btn-default btn-sm uilib-enability uilib-hide-role-observador" disabled>Seguinte</button>
+                          <button id="bt-ok" type="button" class="btn btn-default btn-sm uilib-enability uilib-hide-role-observador" disabled>Completa</button>
                           <button id="bt-noaprobada" type="button" class="btn btn-primary btn-sm uilib-enability uilib-hide-role-observador" style="padding-left:7px; padding-right: 7px;">Não aprovada</button>
                        </div>
                     </label>

@@ -55,7 +55,7 @@ Backbone.SIXHIARA.View1 = Backbone.View.extend({
                         var dateId = 'd_ultima_entrega_doc';
                         var dateWidget = document.getElementById(dateId);
                         var dateObj = formatter().unformatDate(dateWidget.value);
-                        self.model.set(dateId, dateObj);
+                        self.model.get('renovacao').set(dateId, dateObj);
                         self.model.save({ wait: true });
                         this.$('.modal').modal('hide');
                         self.fillRenovacao(e);

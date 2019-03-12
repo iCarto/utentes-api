@@ -16,8 +16,8 @@ Backbone.SIXHIARA.ModalHistoricoLicencias = Backbone.View.extend({
                 <tr>
                     <th>Código histórico</th>
                     <th>Tipo de licença</th>
-                    <th>Fecha de emissão</th>
-                    <th>Fecha de validade</th>
+                    <th>Data Emissão</th>
+                    <th>Data validade</th>
                     <th>Caudal licenciado</th>
                     <th>Último caudad facturado</th>
                 </tr>
@@ -30,8 +30,8 @@ Backbone.SIXHIARA.ModalHistoricoLicencias = Backbone.View.extend({
                 <tr>
                     <td><%- item.exp_id %></td>
                     <td><%- item.tipo_lic %></td>
-                    <td><%- formatter().formatDate(item.d_validade) %></td>
                     <td><%- formatter().formatDate(item.d_emissao) %></td>
+                    <td><%- formatter().formatDate(item.d_validade) %></td>
                     <td><%- item.c_licencia %></td>
                     <td><%- item.consumo_fact %></td>
                 </tr>

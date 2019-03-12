@@ -40,15 +40,15 @@ Backbone.SIXHIARA.ViewSecretaria1 = Backbone.SIXHIARA.View1.extend({
                              </tr>
                              <tr>
                                 <td>Identificação do proprietário</td>
-                                <td><input id="ident_pro" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- renovacao.ident_pro ? 'checked=""' : '' %> required></td>
+                                <td><input id="ident_pro" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- renovacao.ident_pro ? 'checked=""' : '' %>></td>
                              </tr>
                              <tr>
                                 <td>Certificado de registo comercial</td>
-                                <td><input id="certi_reg" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- renovacao.certi_reg ? 'checked=""' : '' %> required></td>
+                                <td><input id="certi_reg" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- renovacao.certi_reg ? 'checked=""' : '' %>></td>
                              </tr>
                              <tr>
                                 <td>DUAT ou declaração das estructuras locais&nbsp;(bairro)</td>
-                                <td><input id="duat" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- renovacao.duat ? 'checked=""' : '' %> required></td>
+                                <td><input id="duat" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- renovacao.duat ? 'checked=""' : '' %>></td>
                              </tr>
                           </tbody>
                        </table>

@@ -28,7 +28,8 @@ Backbone.SIXHIARA.ViewSecretaria0 = Backbone.SIXHIARA.View1.extend({
                     <div class="col-xs-12">
                        <div class="form-group">
                           <label for="d_soli">Data de solicitação</label>
-                          <input type="text" class="form-control widget widget-date uilib-enability uilib-disable-role-observador" id="d_soli" placeholder="dd/mm/yyyy" pattern="^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\\d\\d$" value="<%- formatter().formatDate(renovacao.d_soli) %>">
+                          <input type="text" class="form-control widget widget-date uilib-enability uilib-disable-role-observador" id="d_soli" placeholder="dd/mm/yyyy" pattern="^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\\d\\d$" value="<%- formatter().formatDate(renovacao.d_soli) %>" required>
+                          <span id="helpBlock_d_soli" class="help-block" style="padding-top: 2px;">&nbsp;</span>
                        </div>
                        <table class="table table-bordered table-checks">
                           <thead>
@@ -44,15 +45,15 @@ Backbone.SIXHIARA.ViewSecretaria0 = Backbone.SIXHIARA.View1.extend({
                              </tr>
                              <tr>
                                 <td>Identificação do proprietário</td>
-                                <td><input id="ident_pro" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- renovacao.ident_pro ? 'checked=""' : '' %> required></td>
+                                <td><input id="ident_pro" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- renovacao.ident_pro ? 'checked=""' : '' %>></td>
                              </tr>
                              <tr>
                                 <td>Certificado de registo comercial</td>
-                                <td><input id="certi_reg" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- renovacao.certi_reg ? 'checked=""' : '' %> required></td>
+                                <td><input id="certi_reg" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- renovacao.certi_reg ? 'checked=""' : '' %>></td>
                              </tr>
                              <tr>
                                 <td>DUAT ou declaração das estructuras locais&nbsp;(bairro)</td>
-                                <td><input id="duat" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- renovacao.duat ? 'checked=""' : '' %> required></td>
+                                <td><input id="duat" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- renovacao.duat ? 'checked=""' : '' %>></td>
                              </tr>
                           </tbody>
                        </table>
@@ -92,19 +93,15 @@ Backbone.SIXHIARA.ViewSecretaria0 = Backbone.SIXHIARA.View1.extend({
             input.addEventListener('change', self.enableBts.bind(self), false);
         });
         document.getElementById('d_soli').addEventListener('input', self.enableBts.bind(self), false);
-        document.getElementById('d_soli').addEventListener('input', function(){
-            if(self.isValidDate(this.value)){
+        document.getElementById('d_soli').addEventListener('input', function(e){
+            if(self.isValidDate(this)){
                 self.parseDate(this.value)
                 self.autosave(self)
             }
         });
+
         if (self.model.get('renovacao').get('lic_time_info')) {
             document.getElementById('time-renovacao-info').style.display = 'block';
-        }
-
-        // Disable input of data solicitação if the time has ended
-        if (this.model.get('renovacao').get('lic_time_info') ==  'Prazo esgotado') {
-            document.getElementById('d_soli').readOnly = true;
         }
 
         this.enableBts();
@@ -125,7 +122,7 @@ Backbone.SIXHIARA.ViewSecretaria0 = Backbone.SIXHIARA.View1.extend({
     },
 
     enableBts: function() {
-        var validDate = this.isValidDate(document.getElementById("d_soli").value)
+        var validDate = this.isValidDate(document.getElementById("d_soli"))
         var enable = validDate && Array.from(
             document.querySelectorAll('table input[type="checkbox"]')
         ).every(input => {
@@ -145,10 +142,27 @@ Backbone.SIXHIARA.ViewSecretaria0 = Backbone.SIXHIARA.View1.extend({
         this.model.get("renovacao").set('d_ultima_entrega_doc', initialDate);
     },
 
-    isValidDate: function(date){
-        if (this.isValidFormatDate(date) && moment(date, 'DD/MM/YYYY').isValid()) {
-            return true
+    isValidDate: function(dateWidget){
+        if (!dateWidget.value) return
+        var dateObj = formatter().unformatDate(dateWidget.value);
+        var validDate = dateObj && formatter().validDateFormat(dateWidget.value) && !formatter().isFuture(dateObj);
+        if (validDate) {
+            dateWidget.setCustomValidity('');
+        } else {
+            dateWidget.setCustomValidity('A data deve ter o formato correto, ser posterior à data da solicitação e não ser posterior a hoje.');
         }
-        return false
+
+        var helpBlock = document.getElementById('helpBlock_d_soli');
+        if (validDate) {
+            helpBlock.innerText = '';
+            helpBlock.style.color = null;
+            helpBlock.style.display = 'none';
+            return true
+        } else {
+            helpBlock.innerText = 'A data deve ter o formato correto, ser posterior à data da solicitação e não ser posterior a hoje.';
+            helpBlock.style.color = 'red';
+            helpBlock.style.display = 'block';
+            return false
+        }
     },
 });

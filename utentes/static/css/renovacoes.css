@@ -64,10 +64,8 @@ input#d_soli {
 }
 .panel-observacio.renovacao .form-group label:nth-child(3) {
     margin-top: 23px;
-#historico {
-    overflow-y: scroll;
-    max-height: 637px;
 }
-#historico ul {
-    margin-bottom: 10px;
+#helpBlock_d_soli.help-block {
+    display: none;
+    transition: display .3s linear;
 }

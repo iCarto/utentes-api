@@ -46,17 +46,17 @@ Backbone.SIXHIARA.ViewJuridico1 = Backbone.SIXHIARA.View1.extend({
                              <tr>
                                 <td>Identificação do proprietário</td>
                                 <td><input id="ident_pro" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- renovacao.ident_pro ? 'checked=""' : '' %>></td>
-                                <td><input id="ident_pro_v" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- renovacao.ident_pro_v ? 'checked=""' : '' %> required></td>
+                                <td><input id="ident_pro_v" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- renovacao.ident_pro_v ? 'checked=""' : '' %>></td>
                              </tr>
                              <tr>
                                 <td>Certificado de registo comercial</td>
                                 <td><input id="certi_reg" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- renovacao.certi_reg ? 'checked=""' : '' %>></td>
-                                <td><input id="certi_reg_v" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- renovacao.certi_reg_v ? 'checked=""' : '' %> required></td>
+                                <td><input id="certi_reg_v" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- renovacao.certi_reg_v ? 'checked=""' : '' %>></td>
                              </tr>
                              <tr>
                                 <td>DUAT ou declaração das estructuras locais&nbsp;(bairro)</td>
                                 <td><input id="duat" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- renovacao.duat ? 'checked=""' : '' %>></td>
-                                <td><input id="duat_v" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- renovacao.duat_v ? 'checked=""' : '' %> required></td>
+                                <td><input id="duat_v" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- renovacao.duat_v ? 'checked=""' : '' %>></td>
                              </tr>
                           </tbody>
                        </table>
