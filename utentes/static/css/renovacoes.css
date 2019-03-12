@@ -1,10 +1,8 @@
 input#d_soli {
     text-align: right;
 }
-#lic-sub-old .panel,
-#lic-sub     .panel,
-#lic-sup-old .panel,
-#lic-sup     .panel {
+#lic-sub-old.panel,
+#lic-sup-old.panel {
     margin-bottom: 5px;
 }
 #lic-sub-old .form-group,
@@ -48,6 +46,9 @@ input#d_soli {
 }
 #time-renovacao-info.info-pill.label-default {
     color: #777777;
+}
+#renovacao-block.panel-equal-height {
+    margin-bottom: 10px;
 }
 #renovacao-block + .panel-equal-height #observacio {
     margin-top: 5px;
