@@ -65,7 +65,3 @@ input#d_soli {
 .panel-observacio.renovacao .form-group label:nth-child(3) {
     margin-top: 23px;
 }
-#helpBlock_d_soli.help-block {
-    display: none;
-    transition: display .3s linear;
-}

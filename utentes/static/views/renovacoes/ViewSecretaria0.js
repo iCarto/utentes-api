@@ -29,7 +29,7 @@ Backbone.SIXHIARA.ViewSecretaria0 = Backbone.SIXHIARA.View1.extend({
                        <div class="form-group">
                           <label for="d_soli">Data de solicitação</label>
                           <input type="text" class="form-control widget widget-date uilib-enability uilib-disable-role-observador" id="d_soli" placeholder="dd/mm/yyyy" pattern="^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\\d\\d$" value="<%- formatter().formatDate(renovacao.d_soli) %>" required>
-                          <span id="helpBlock_d_soli" class="help-block" style="padding-top: 2px;">&nbsp;</span>
+                          <span id="helpBlock_d_soli" class="help-block" style="padding-top: 2px; display: none;">&nbsp;</span>
                        </div>
                        <table class="table table-bordered table-checks">
                           <thead>
@@ -143,7 +143,7 @@ Backbone.SIXHIARA.ViewSecretaria0 = Backbone.SIXHIARA.View1.extend({
     },
 
     isValidDate: function(dateWidget){
-        if (!dateWidget.value) return
+        if (!dateWidget.value) return false;
         var dateObj = formatter().unformatDate(dateWidget.value);
         var validDate = dateObj && formatter().validDateFormat(dateWidget.value) && !formatter().isFuture(dateObj);
         if (validDate) {
