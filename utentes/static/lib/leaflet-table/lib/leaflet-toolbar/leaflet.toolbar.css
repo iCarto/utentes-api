@@ -113,3 +113,10 @@
     pointer-events: none;
     color: #ccc;
 }
+svg#coordinates {
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    vertical-align: sub;
+    fill: #0078A8;
+}

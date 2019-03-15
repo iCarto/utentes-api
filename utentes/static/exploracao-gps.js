@@ -103,6 +103,27 @@ var MyMoveToTop = MoveToTop.extend({
     }
 });
 
+var MyAddCoordinates = AddCoordinates.extend({
+    initialize: function() {
+        this.options.toolbarIcon.tooltip = 'Adicionar coordenadas';
+    },
+    addHooks: function(){
+        var crss = new Backbone.UILib.DomainCollection([
+            {text: 'WGS84', alias: '4326'},
+            {text: 'UTM 36S', alias: '32736'},
+            {text: 'UTM 37S', alias: '32737'},
+        ]);
+
+        var modalView = new Backbone.SIXHIARA.AddCoordinatesView({
+            model: new Backbone.Model(),
+            map: map,
+            crss: crss,
+            geoJsonLayer: geoJsonLayer,
+            selectorTmpl: '#modal-gps-add-coordinates-tmpl'
+        }).render();
+    }
+});
+
 var MyDeleteSelected = DeleteSelected.extend({
     initialize: function() {
         this.options.toolbarIcon.tooltip = 'Eliminar selecionados';
@@ -128,7 +149,7 @@ var MyDeleteSession = EndSession.extend({
 
 var actionsToolbar = new L.Toolbar.Control({
     position: 'topright',
-    actions: [MyImportGPX, MyMakePolygon, MyClear, MyMoveToTop, MyDeleteSelected, MySaveToAPI, MyDeleteSession],
+    actions: [MyImportGPX, MyMakePolygon, MyClear, MyMoveToTop, MyDeleteSelected, MySaveToAPI, MyAddCoordinates, MyDeleteSession],
     className: 'gps-toolbar',
 }).addTo(map);
 

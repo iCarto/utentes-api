@@ -33,3 +33,6 @@ input[type="button"] {
     position: fixed;
     top: -1000px;
 }
+.remove-field {
+    cursor: pointer;
+}

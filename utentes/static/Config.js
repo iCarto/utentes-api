@@ -17,6 +17,7 @@ Backbone.SIXHIARA.Config = {
     apiCultivos: '/api/cultivos',
     apiTanquesPiscicolas: '/api/tanques_piscicolas',
     apiDocumentos: '/api/documentos',
+    api_transform_coordinates: '/api/transform'
 };
 
 Backbone.SIXHIARA.formatter = formatter();

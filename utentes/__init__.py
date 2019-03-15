@@ -187,3 +187,5 @@ def add_routes_api(config):
 
     config.add_route('api_users', '/api/users')
     config.add_route('api_users_id', '/api/users/{id}')
+
+    config.add_route('api_transform_coordinates', '/api/transform')

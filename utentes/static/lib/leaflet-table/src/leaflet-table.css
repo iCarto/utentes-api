@@ -83,3 +83,27 @@ table tr th, table tr td {
     display: block;
     flex: 1 auto;
 }
+#addCoordinatesModal {
+    margin-top: 20px;
+}
+.leaflet-popup-content-wrapper {
+      border-radius: 1px;
+      max-width: 200px;
+}
+.leaflet-popup-content-wrapper div {
+      text-align: center;
+}
+.add-coordinates-icon{
+    vertical-align: text-bottom;
+}
+
+#helpBlock_coordinates {
+    display: block;
+}
+
+#helpBlock_coordinates.non-visible {
+    display: none;
+    transition-property: opacity, visibility;
+    transition-duration: 1s, 0s;
+    transition-delay: 0s, 0.1s;
+}
