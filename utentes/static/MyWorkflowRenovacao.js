@@ -19,6 +19,18 @@ var MyWorkflowRenovacao = {
         }
         return role;
     },
+    
+    getRoles: function(safeRoleFormat) {
+        safeRoleFormat = safeRoleFormat || 'safe';
+        switch (safeRoleFormat) {
+            case 'safe':
+                return this.getAllRolesSafe();
+            case 'not-safe':
+                return this.getAllRolesNotSafe();
+            default:
+                throw Error('This should never happen');
+        }  
+    },
 
     /*
     Un usuario debería poder tener varios roles. Por razones históricas se ha
@@ -35,12 +47,22 @@ var MyWorkflowRenovacao = {
         if (this.getUser() === this.SINGLE_USER) {
             roles.push(ROL_SINGLE_SAFE);
         }
-        if (roles.indexOf('unidade') !== -1) {
-            roles.push(this.getMainRolSafe(ROL_OBSERVADOR));
+        if (roles.includes(this.getMainRoleSafe(ROL_UNIDAD_DELEGACION))) {
+            roles.push(this.getMainRoleSafe(ROL_OBSERVADOR));
         }
         return roles;
     },
-
+    
+    getAllRolesNotSafe: function() {
+        var roles = [this.getMainRole()];
+        if (this.getUser() === this.SINGLE_USER) {
+            roles.push(ROL_SINGLE_SAFE);
+        }
+        if (roles.includes(ROL_UNIDAD_DELEGACION)) {
+            roles.push(ROL_OBSERVADOR);
+        }
+        return roles;
+    },
 
     getMainRoleSafe: function(role) {
         if (!role){
@@ -86,20 +108,27 @@ var MyWorkflowRenovacao = {
         }
         return role === ROL_OBSERVADOR;
     },
-
+    
+    hasRoleObservador: function(roles) {
+        if(!roles) {
+            var roles = this.getRoles('not-safe');
+        }
+        return roles.includes(ROL_OBSERVADOR);
+    },
+    
     fixMenu: function() {
         var user = this.getMainRole();
 
-        if (wfr.user_roles_in([ROL_ADMIN, ROL_ADMINISTRATIVO]) === -1) {
+        if (wfr.user_roles_not_in([ROL_ADMIN, ROL_ADMINISTRATIVO], 'not-safe')) {
             document.getElementById('requerimento-new').parentNode.remove();
         }
 
-        if (wfr.user_roles_in([ROL_ADMIN, ROL_TECNICO, ROL_UNIDAD_DELEGACION]) === -1) {
+        if (wfr.user_roles_not_in([ROL_ADMIN, ROL_TECNICO], 'not-safe')) {
             document.getElementById('new').parentNode.remove();
             document.getElementById('gps').parentNode.remove();
         }
 
-        if (wfr.user_roles_in([ROL_ADMIN, ROL_OBSERVADOR, ROL_TECNICO, ROL_UNIDAD_DELEGACION, ROL_FINANCIERO]) === -1) {
+        if (wfr.user_roles_not_in([ROL_ADMIN, ROL_OBSERVADOR, ROL_TECNICO, ROL_UNIDAD_DELEGACION, ROL_FINANCIERO], 'not-safe')) {
             document.getElementById('facturacao').parentNode.remove();
         }
 
@@ -172,26 +201,26 @@ var MyWorkflowRenovacao = {
                 return Backbone.SIXHIARA.ViewJuridico2;
             }
 
-            if (role === ROL_JURIDICO || role === ROL_ADMIN || role === ROL_OBSERVADOR || role === ROL_UNIDAD_DELEGACION) {
+            if (role === ROL_JURIDICO || role === ROL_ADMIN || role === ROL_OBSERVADOR) {
                 return Backbone.SIXHIARA.ViewJuridico1;
             };
-            if (role === ROL_TECNICO) {
+            if (role === ROL_TECNICO || role == ROL_UNIDAD_DELEGACION) {
                 return Backbone.SIXHIARA.ViewJuridicoNotEditable;
             };
         case LIC_ST.PENDING_REVIEW_DIR:
             return Backbone.SIXHIARA.ViewSecretaria1;
         case LIC_ST.PENDING_REVIEW_DJ:
-            if (role === ROL_JURIDICO || role === ROL_ADMIN || role === ROL_OBSERVADOR || role === ROL_UNIDAD_DELEGACION) {
+            if (role === ROL_JURIDICO || role === ROL_ADMIN || role === ROL_OBSERVADOR) {
                 return Backbone.SIXHIARA.ViewJuridico1;
             };
-            if (role === ROL_TECNICO) {
+            if (role === ROL_TECNICO || role == ROL_UNIDAD_DELEGACION) {
                 return Backbone.SIXHIARA.ViewJuridicoNotEditable;
             };
         case LIC_ST.INCOMPLETE_DT:
         case LIC_ST.PENDING_FIELD_VISIT:
         case LIC_ST.PENDING_TECH_DECISION:
             /*
-             admin, tecnico. Hay que ponerlo. Si no, si por ejemplo jurídico
+             admin, tecnico, unidad. Hay que ponerlo. Si no, si por ejemplo jurídico
              pudiera ver este estado se le estaría renderizando esto.
             */
             return Backbone.SIXHIARA.ViewTecnico;
@@ -475,9 +504,18 @@ var MyWorkflowRenovacao = {
                nextState == LIC_ST.INCOMPLETE_DA;
     },
 
-    user_roles_in: function(roles) {
-        var userRoles = wfr.getAllRolesSafe();
+    user_roles_in: function(roles, safeRoleFormat) {
+        /* roles is an array of roles. 
+           safeRoleFormat defines if the `roles` array contains the roles in 
+           'safe' format mode or in 'not-safe' mode
+        */
+
+        var userRoles = this.getRoles(safeRoleFormat);
         return _.intersection(userRoles, roles).length > 0;
+    },
+    
+    user_roles_not_in: function(roles, safeRoleFormat) {
+        return !this.user_roles_in(roles, safeRoleFormat);
     },
 
     canDraw: function() {

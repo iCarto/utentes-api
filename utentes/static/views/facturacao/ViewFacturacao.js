@@ -300,7 +300,7 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
 
     widgetsToBeUsed: function() {
         var self = this;
-        if (wf.isObservador()) {
+        if (wf.hasRoleObservador()) {
             this.widgets = [];
             return;
         }

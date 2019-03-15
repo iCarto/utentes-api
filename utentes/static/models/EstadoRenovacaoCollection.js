@@ -26,11 +26,11 @@ Backbone.SIXHIARA.EstadoRenovacaoCollection = Backbone.UILib.DomainCollection.ex
             },
             {
                 'key': Backbone.SIXHIARA.EstadoRenovacao.INCOMPLETE_DJ,
-                'roles': [ROL_ADMIN, ROL_OBSERVADOR, ROL_JURIDICO, ROL_TECNICO]
+                'roles': [ROL_ADMIN, ROL_OBSERVADOR, ROL_JURIDICO, ROL_TECNICO, ROL_UNIDAD_DELEGACION]
             },
             {
                 'key': Backbone.SIXHIARA.EstadoRenovacao.INCOMPLETE_DT,
-                'roles': [ROL_ADMIN, ROL_OBSERVADOR, ROL_TECNICO]
+                'roles': [ROL_ADMIN, ROL_OBSERVADOR, ROL_TECNICO, ROL_UNIDAD_DELEGACION]
             },
             {
                 'key': Backbone.SIXHIARA.EstadoRenovacao.PENDING_RENOV_LICENSE,
@@ -42,11 +42,11 @@ Backbone.SIXHIARA.EstadoRenovacaoCollection = Backbone.UILib.DomainCollection.ex
             },
             {
                 'key': Backbone.SIXHIARA.EstadoRenovacao.PENDING_REVIEW_DJ,
-                'roles': [ROL_ADMIN, ROL_OBSERVADOR, ROL_TECNICO, ROL_JURIDICO]
+                'roles': [ROL_ADMIN, ROL_OBSERVADOR, ROL_TECNICO, ROL_JURIDICO, ROL_UNIDAD_DELEGACION]
             },
             {
                 'key': Backbone.SIXHIARA.EstadoRenovacao.PENDING_TECH_DECISION,
-                'roles': [ROL_ADMIN, ROL_OBSERVADOR, ROL_TECNICO]
+                'roles': [ROL_ADMIN, ROL_OBSERVADOR, ROL_TECNICO, ROL_UNIDAD_DELEGACION]
             },
             {
                 'key': Backbone.SIXHIARA.EstadoRenovacao.PENDING_EMIT_LICENSE,

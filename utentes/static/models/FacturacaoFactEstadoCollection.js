@@ -93,6 +93,6 @@ FACTURACAO_ESTADOS.splice(0, 0,
     },
     {
         'key': FACTURACAO_ESTADOS.PENDING_M3,
-        'roles': [ROL_ADMIN, ROL_OBSERVADOR, ROL_TECNICO]
+        'roles': [ROL_ADMIN, ROL_OBSERVADOR, ROL_TECNICO, ROL_UNIDAD_DELEGACION]
     }
 );

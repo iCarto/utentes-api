@@ -121,7 +121,7 @@ var ESTADOS_PENDENTES = [
     },
     {
         'key': Backbone.SIXHIARA.Estado.PENDING_FIELD_VISIT,
-        'roles': [ROL_ADMIN, ROL_OBSERVADOR, ROL_TECNICO]
+        'roles': [ROL_ADMIN, ROL_OBSERVADOR, ROL_TECNICO, ROL_UNIDAD_DELEGACION]
     },
     {
         'key': Backbone.SIXHIARA.Estado.PENDING_TECH_DECISION,
