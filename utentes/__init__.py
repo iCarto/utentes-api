@@ -86,6 +86,7 @@ def main(global_config, **settings):
     assets_env = config.get_webassets_env()
     jinja2_env = config.get_jinja2_environment()
     jinja2_env.assets_environment = assets_env
+    jinja2_env.globals['is_single_user_mode'] = is_single_user_mode
 
     config.add_static_view('static', 'static', cache_max_age=3600)
 
