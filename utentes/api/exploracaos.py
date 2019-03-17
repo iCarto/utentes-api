@@ -21,7 +21,7 @@ from utentes.models.licencia import Licencia
 from utentes.models.licencia_schema import LICENCIA_SCHEMA
 from utentes.models.utente import Utente
 from utentes.models.utente_schema import UTENTE_SCHEMA
-from utentes.user_utils import PERM_ADMIN, PERM_EXPLORACAO, PERM_GET
+from utentes.user_utils import PERM_ADMIN, PERM_CREATE_EXPLORACAO, PERM_UPDATE_EXPLORACAO, PERM_GET
 
 log = logging.getLogger(__name__)
 
@@ -93,7 +93,7 @@ def upsert_utente(request, body):
     return u
 
 
-@view_config(route_name='api_exploracaos_id', permission=PERM_EXPLORACAO, request_method='PUT', renderer='json')
+@view_config(route_name='api_exploracaos_id', permission=PERM_UPDATE_EXPLORACAO, request_method='PUT', renderer='json')
 def exploracaos_update(request):
     gid = request.matchdict['id']
     if not gid:
@@ -145,7 +145,7 @@ def _tipo_actividade_changes(e, json):
     return e.actividade and json.get('actividade') and (e.actividade.tipo != json.get('actividade').get('tipo'))
 
 
-@view_config(route_name='api_exploracaos', permission=PERM_EXPLORACAO, request_method='POST', renderer='json')
+@view_config(route_name='api_exploracaos', permission=PERM_CREATE_EXPLORACAO, request_method='POST', renderer='json')
 def exploracaos_create(request):
     try:
         body = request.json_body

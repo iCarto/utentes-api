@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from pyramid.view import view_config
-from utentes.user_utils import PERM_GET, PERM_UPDATE_CULTIVO_TANQUE, PERM_EXPLORACAO, PERM_FACTURACAO, PERM_CREATE_REQUERIMENTO, PERM_REQUERIMENTO, PERM_RENOVACAO
+from utentes.user_utils import PERM_GET, PERM_UPDATE_CULTIVO_TANQUE, PERM_CREATE_EXPLORACAO, PERM_FACTURACAO, PERM_CREATE_REQUERIMENTO, PERM_REQUERIMENTO, PERM_RENOVACAO
 
 
 @view_config(route_name='exploracao-gps', permission=PERM_UPDATE_CULTIVO_TANQUE, renderer='utentes:templates/exploracao-gps.jinja2')
@@ -9,7 +9,7 @@ def exploracao_gps(request):
     return {}
 
 
-@view_config(route_name='exploracao-new', permission=PERM_EXPLORACAO, renderer='utentes:templates/exploracao-new.jinja2')
+@view_config(route_name='exploracao-new', permission=PERM_CREATE_EXPLORACAO, renderer='utentes:templates/exploracao-new.jinja2')
 def exploracao_new(request):
     return {}
 

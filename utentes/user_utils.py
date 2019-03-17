@@ -25,10 +25,12 @@ PERM_ADMIN = 'admin'
 PERM_UTENTES = 'create_update_utente'
 PERM_UPDATE_CULTIVO_TANQUE = 'update_cultivo_tanque'
 PERM_GET = 'get'
-PERM_EXPLORACAO = 'create_update_exploracao'
+PERM_UPDATE_EXPLORACAO = 'update_exploracao'
+PERM_CREATE_EXPLORACAO = 'create_exploracao'
 PERM_FACTURACAO = 'get_facturacao'
 PERM_RENOVACAO = 'get_renovacao'
 PERM_REQUERIMENTO = 'get_requerimento'
+PERM_EM_PROCESSO = 'get_em_processo'
 PERM_CREATE_REQUERIMENTO = 'create_requerimento'
 PERM_CREATE_DOCUMENTO = 'create_documento'
 PERM_UPDATE_CREATE_FACTURACAO = 'update_facturacao'
@@ -43,7 +45,8 @@ class RootFactory(object):
 
                (Allow, ROL_ADMIN, PERM_ADMIN),
                (Allow, ROL_ADMIN, PERM_UTENTES),
-               (Allow, ROL_ADMIN, PERM_EXPLORACAO),
+               (Allow, ROL_ADMIN, PERM_CREATE_EXPLORACAO),
+               (Allow, ROL_ADMIN, PERM_UPDATE_EXPLORACAO),
                (Allow, ROL_ADMIN, PERM_FACTURACAO),
                (Allow, ROL_ADMIN, PERM_UPDATE_CREATE_FACTURACAO),
                (Allow, ROL_ADMIN, PERM_UPDATE_CULTIVO_TANQUE),
@@ -54,14 +57,18 @@ class RootFactory(object):
                (Allow, ROL_ADMIN, PERM_DELETE_DOCUMENTO),
                (Allow, ROL_ADMIN, PERM_RENOVACAO),
                (Allow, ROL_ADMIN, PERM_UPDATE_RENOVACAO),
+               (Allow, ROL_ADMIN, PERM_EM_PROCESSO),
 
                (Allow, ROL_ADMINISTRATIVO, PERM_REQUERIMENTO),
                (Allow, ROL_ADMINISTRATIVO, PERM_CREATE_REQUERIMENTO),
                (Allow, ROL_ADMINISTRATIVO, PERM_UPDATE_REQUERIMENTO),
+               (Allow, ROL_ADMINISTRATIVO, PERM_CREATE_EXPLORACAO),
+               (Allow, ROL_ADMINISTRATIVO, PERM_UPDATE_EXPLORACAO),
                (Allow, ROL_ADMINISTRATIVO, PERM_CREATE_DOCUMENTO),
                (Allow, ROL_ADMINISTRATIVO, PERM_DELETE_DOCUMENTO),
                (Allow, ROL_ADMINISTRATIVO, PERM_RENOVACAO),
                (Allow, ROL_ADMINISTRATIVO, PERM_UPDATE_RENOVACAO),
+               (Allow, ROL_ADMINISTRATIVO, PERM_EM_PROCESSO),
 
                (Allow, ROL_FINANCIERO, PERM_FACTURACAO),
                (Allow, ROL_FINANCIERO, PERM_UPDATE_CREATE_FACTURACAO),
@@ -69,14 +76,16 @@ class RootFactory(object):
                (Allow, ROL_FINANCIERO, PERM_DELETE_DOCUMENTO),
                (Allow, ROL_FINANCIERO, PERM_RENOVACAO),
                (Allow, ROL_FINANCIERO, PERM_UPDATE_RENOVACAO),
+               (Allow, ROL_FINANCIERO, PERM_EM_PROCESSO),
 
                (Allow, ROL_DIRECCION, PERM_REQUERIMENTO),
                (Allow, ROL_DIRECCION, PERM_UPDATE_REQUERIMENTO),
                (Allow, ROL_DIRECCION, PERM_RENOVACAO),
                (Allow, ROL_DIRECCION, PERM_UPDATE_RENOVACAO),
+               (Allow, ROL_DIRECCION, PERM_EM_PROCESSO),
 
                (Allow, ROL_TECNICO, PERM_UTENTES),
-               (Allow, ROL_TECNICO, PERM_EXPLORACAO),
+               (Allow, ROL_TECNICO, PERM_UPDATE_EXPLORACAO),
                (Allow, ROL_TECNICO, PERM_FACTURACAO),
                (Allow, ROL_TECNICO, PERM_UPDATE_CREATE_FACTURACAO),
                (Allow, ROL_TECNICO, PERM_UPDATE_CULTIVO_TANQUE),
@@ -86,14 +95,16 @@ class RootFactory(object):
                (Allow, ROL_TECNICO, PERM_DELETE_DOCUMENTO),
                (Allow, ROL_TECNICO, PERM_RENOVACAO),
                (Allow, ROL_TECNICO, PERM_UPDATE_RENOVACAO),
+               (Allow, ROL_TECNICO, PERM_EM_PROCESSO),
 
-               (Allow, ROL_JURIDICO, PERM_EXPLORACAO),
+               (Allow, ROL_JURIDICO, PERM_UPDATE_EXPLORACAO),
                (Allow, ROL_JURIDICO, PERM_REQUERIMENTO),
                (Allow, ROL_JURIDICO, PERM_UPDATE_REQUERIMENTO),
                (Allow, ROL_JURIDICO, PERM_CREATE_DOCUMENTO),
                (Allow, ROL_JURIDICO, PERM_DELETE_DOCUMENTO),
                (Allow, ROL_JURIDICO, PERM_RENOVACAO),
                (Allow, ROL_JURIDICO, PERM_UPDATE_RENOVACAO),
+               (Allow, ROL_JURIDICO, PERM_EM_PROCESSO),
 
                (Allow, ROL_OBSERVADOR, PERM_FACTURACAO),
                (Allow, ROL_OBSERVADOR, PERM_REQUERIMENTO),
@@ -104,6 +115,7 @@ class RootFactory(object):
                (Allow, ROL_UNIDAD_DELEGACION, PERM_RENOVACAO),
                (Allow, ROL_UNIDAD_DELEGACION, PERM_CREATE_DOCUMENTO),
                (Allow, ROL_UNIDAD_DELEGACION, PERM_DELETE_DOCUMENTO),
+               (Allow, ROL_UNIDAD_DELEGACION, PERM_EM_PROCESSO),
 
                ]
 
