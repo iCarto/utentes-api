@@ -15,7 +15,7 @@ var formatValue = function(k, v, rowData) {
             return '<a href="' + urlShow + e.gid + '" >' + e.exp_id + ' ' + e.exp_name + '</a>: ' + e.actividade.tipo;
         }).join('<br>');
     } else if (k === 'edit') {
-        v = '<i class="edit fa fa-pencil-square-o uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"></i>';
+        v = '<i class="edit fa fa-pencil-square-o uilib-enability uilib-show-role-administrador uilib-show-role-tecnico uilib-show-role-juridico"></i>';
     } else if (k === 'delete'){
         v = '<i class="delete fa fa-trash uilib-enability uilib-show-role-administrador"></i>';
     } else if (k === 'registo'){

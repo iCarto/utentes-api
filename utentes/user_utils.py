@@ -100,6 +100,7 @@ class RootFactory(object):
 
                (Allow, ROL_JURIDICO, PERM_UPDATE_EXPLORACAO),
                (Allow, ROL_JURIDICO, PERM_REQUERIMENTO),
+               (Allow, ROL_JURIDICO, PERM_UTENTES),
                (Allow, ROL_JURIDICO, PERM_UPDATE_REQUERIMENTO),
                (Allow, ROL_JURIDICO, PERM_CREATE_DOCUMENTO),
                (Allow, ROL_JURIDICO, PERM_DELETE_DOCUMENTO),

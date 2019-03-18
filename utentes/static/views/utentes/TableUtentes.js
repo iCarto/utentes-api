@@ -200,6 +200,9 @@ Backbone.SIXHIARA.TableUtentes = Backbone.View.extend({
                         }
                     }
                 });
+            },
+            customConfiguration: function(){
+                wf.disabledWidgets('#editUtenteModal');
             }
         });
 

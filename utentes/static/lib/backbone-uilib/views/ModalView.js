@@ -43,6 +43,7 @@ Backbone.UILib.ModalView = Backbone.View.extend({
             model: this.draftModel,
         }).render();
         this.addAuxView(widgetsView);
+        this.customConfiguration();
 
         this.$('.modal').modal('show');
         this.$('.modal').find('.widget-date').toArray().forEach(function(widget){
@@ -87,6 +88,9 @@ Backbone.UILib.ModalView = Backbone.View.extend({
             }
         });
         return someInvalid;
+    },
+    customConfiguration: function() {
+        // To be implemented by child classes
     },
 
 });
