@@ -85,6 +85,7 @@ class RootFactory(object):
                (Allow, ROL_DIRECCION, PERM_EM_PROCESSO),
 
                (Allow, ROL_TECNICO, PERM_UTENTES),
+               (Allow, ROL_TECNICO, PERM_CREATE_EXPLORACAO),
                (Allow, ROL_TECNICO, PERM_UPDATE_EXPLORACAO),
                (Allow, ROL_TECNICO, PERM_FACTURACAO),
                (Allow, ROL_TECNICO, PERM_UPDATE_CREATE_FACTURACAO),
