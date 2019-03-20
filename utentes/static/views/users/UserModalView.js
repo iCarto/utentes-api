@@ -6,17 +6,31 @@ Backbone.SIXHIARA.UserModalView = Backbone.SIXHIARA.ModalView.extend({
         var domains = new Backbone.UILib.DomainCollection();
         domains.fetch({
             success: function(collection, response, options) {
-                var unidades = collection.byCategory('unidade');
-                unidades.shift();
-                self.unidades = unidades.pluck('text');
 
-                var concatenated = self.options.domains.byCategory('groups').toJSON().concat(unidades.toJSON());
-                var newCollection = new Backbone.Collection(concatenated);
+                var byDepartamento = self.options.domains.byCategory('groups');
+                var byUnidades = collection.byCategory('unidade');
 
                 new Backbone.UILib.SelectView({
-                    el: self.$('#usergroup'),
-                    collection: newCollection,
+                    el: this.$('#usergroup'),
+                    collection: self.options.domains,
                 }).render();
+
+                document.getElementById('usergroup').addEventListener('change', function(e){
+                    var selected = this.options[this.options.selectedIndex].text;
+                    if (selected == ROL_UNIDAD_DELEGACION) {
+                        new Backbone.UILib.SelectView({
+                            el: self.$('#unidade'),
+                            collection: byUnidades,
+                        }).render();
+                        self.$('#unidade-form').removeClass('hidden');
+                    }else {
+                        self.$('#unidade-form').addClass('hidden');
+                    }
+                }, this);
+
+                document.getElementById('unidade').addEventListener('change', function(e){
+                    self.checkIfUnidadWidgetIsValid();
+                }, this);
 
                 if (self.options.editing) {
                     self.$('#password')[0].required = false;
@@ -31,18 +45,13 @@ Backbone.SIXHIARA.UserModalView = Backbone.SIXHIARA.ModalView.extend({
 
     okButtonClicked: function() {
         if(this.isSomeWidgetInvalid()) return;
+
         if (this.options.editing) {
             var widgets = this.$('.modal').find('.widget, .widget-number, .widget-date, .widget-boolean, .widget-external');
             var widgetsId = _.map(widgets, function(w){return w.id;});
             var attrs = this.widgetModel.pick(widgetsId);
             this.model.set(attrs);
         } else {
-            var usergroup = this.model.get('usergroup');
-            if(this.unidades.indexOf(usergroup) != -1){
-                this.model.set('unidade', usergroup);
-                this.model.set('usergroup', ROL_UNIDAD_DELEGACION);
-            }
-
             this.collection.add(this.model);
         }
 
@@ -69,6 +78,7 @@ Backbone.SIXHIARA.UserModalView = Backbone.SIXHIARA.ModalView.extend({
     },
 
     isSomeWidgetInvalid: function () {
+        this.checkIfUnidadWidgetIsValid();
         // we only use Constraint API with input elements, so check only those
         var widgets = this.$('.modal').find('input.widget, input.widget-number, input.widget-date, select.widget');
         var someInvalid = false;
@@ -79,5 +89,21 @@ Backbone.SIXHIARA.UserModalView = Backbone.SIXHIARA.ModalView.extend({
         });
         return someInvalid;
     },
+
+    checkIfUnidadWidgetIsValid: function(){
+        var unidadeSelect = document.getElementById('unidade');
+        var unidadeSelectHelpBlock = document.getElementById('helpBlock_unidade');
+
+        if(this.$('#unidade').is(':visible') && !this.$('#unidade').val()){
+            var errorMsg = 'O campo "Unidade" é obrigatório para o tipo de usuário "Unidade ou Delegação"';
+            unidadeSelect.setCustomValidity(errorMsg);
+            unidadeSelectHelpBlock.innerHTML = errorMsg;
+            unidadeSelectHelpBlock.style.display = 'block';
+        }else {
+            unidadeSelect.setCustomValidity('');
+            unidadeSelectHelpBlock.innerHTML = '';
+            unidadeSelectHelpBlock.style.display = 'none';
+        }
+    }
 
 });

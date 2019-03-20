@@ -279,3 +279,8 @@ with or whithout another 'observacio-anteriores' textarea
 #perfil_usuario .lead {
     margin-top: 20px;
 }
+#helpBlock_unidade {
+    margin-top: 5px;
+    display: none;
+    color: red;
+}

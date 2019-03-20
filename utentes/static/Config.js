@@ -103,6 +103,11 @@ var role_domains_collection = new Backbone.UILib.DomainCollection([
         'text': ROL_OBSERVADOR,
         'order': 7,
     },
+    {
+        'category': 'groups',
+        'text': ROL_UNIDAD_DELEGACION,
+        'order': 7,
+    },
 ]);
 
 Backbone.SIXHIARA.tiemposRenovacion = {
