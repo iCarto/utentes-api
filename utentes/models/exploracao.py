@@ -48,14 +48,13 @@ class ExploracaoBase(Base):
                               uselist=False)
 
     def __json__(self, request):
+        # Workaround #1645
+        actividade = self.actividade or {'id': None, 'tipo': 'Actividade non declarada'}
         return {
             'gid': self.gid,
             'exp_name': self.exp_name,
             'exp_id': self.exp_id,
-            'actividade': {
-                'id': self.actividade.gid,
-                'tipo': self.actividade.tipo,
-            }
+            'actividade': actividade
         }
 
 
