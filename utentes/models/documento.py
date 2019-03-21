@@ -2,6 +2,7 @@
 import shutil
 import os
 import sys
+import logging
 
 from sqlalchemy import Column, ForeignKey, text
 from sqlalchemy import Boolean, Integer, Text, DateTime
@@ -86,10 +87,14 @@ class Documento(Base):
             return self.get_file_path_upload()
 
     def upload_file(self, content):
-        filename = self.get_file_path_upload()
-        filehandler = FileHandler()
-        filehandler.save(filename, content)
-        self.save_file()
+        try:
+            filename = self.get_file_path_upload()
+            filehandler = FileHandler()
+            filehandler.save(filename, content)
+            self.save_file()
+        except:
+            logging.exception('Error saving file in uploads folder: ' + self.name)
+            raise
 
     def delete_file(self):
         # TODO: connect this method to SQLAlchemy delete process
@@ -99,13 +104,13 @@ class Documento(Base):
 
     def save_file(self):
         if not self.saved:
+            src = self.get_file_path_upload()
+            dst = self.get_file_path_save()
             try:
-                src = self.get_file_path_upload()
-                dst = self.get_file_path_save()
                 filehandler = FileHandler()
                 filehandler.rename(src, dst)
                 self.saved = True
-                return True
-            except Exception:
-                return False
-        return False
+            except:
+                logging.exception('Error renaming file from ' + src + ' to ' + dst)
+                raise
+ 

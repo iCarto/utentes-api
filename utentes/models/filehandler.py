@@ -7,7 +7,7 @@ class FileHandler():
 
     def save(self, filename, content):
         if filename is None:
-            return False
+            raise Exception("No filename was provided in save method")
 
         if not os.path.exists(os.path.dirname(filename)):
             os.makedirs(os.path.dirname(filename))
@@ -24,7 +24,7 @@ class FileHandler():
 
     def delete(self, filename):
         if filename is None:
-            return False
+            raise Exception("No filename was provided in delete method")
 
         os.remove(filename)
         return True
