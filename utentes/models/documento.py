@@ -69,7 +69,6 @@ class Documento(Base):
         # by default: packagedir/utentes/static/files/uploads/{id}/{name}
         return os.path.join(self.defaults['path_root'],
                             'uploads',
-                            str(self.gid),
                             self.name).encode(sys.getfilesystemencoding())
 
     def get_file_path_save(self):
