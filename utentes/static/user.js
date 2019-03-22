@@ -10,6 +10,16 @@ user.fetch({
             collection: role_domains_collection.byCategory('groups'),
         }).render();
         document.getElementById('usergroup').disabled = true;
+
+        if (user.get('usergroup') == ROL_UNIDAD_DELEGACION) {
+            new Backbone.UILib.SelectView({
+                el: this.$('#unidade'),
+                collection: new Backbone.Collection(new Backbone.Model({text: user.get('unidade')})),
+            }).render();
+            document.getElementById('unidade').disabled = true;
+            this.$('#unidade-form').removeClass('hidden');
+        }
+
         new Backbone.UILib.WidgetsView({
             el: document.getElementById('perfil_usuario'),
             model: user,

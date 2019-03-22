@@ -7,21 +7,25 @@ Backbone.SIXHIARA.UserModalView = Backbone.SIXHIARA.ModalView.extend({
         domains.fetch({
             success: function(collection, response, options) {
 
-                var byDepartamento = self.options.domains.byCategory('groups');
-                var byUnidades = collection.byCategory('unidade');
-
                 new Backbone.UILib.SelectView({
-                    el: this.$('#usergroup'),
-                    collection: self.options.domains,
+                    el: self.$('#usergroup'),
+                    collection: self.options.domains.byCategory('groups'),
                 }).render();
 
+                new Backbone.UILib.SelectView({
+                    el: self.$('#unidade'),
+                    collection: collection.byCategory('unidade'),
+                }).render();
+
+                if (self.model.get('usergroup') == ROL_UNIDAD_DELEGACION) {
+                    self.$('#unidade-form').removeClass('hidden');
+                }
+
                 document.getElementById('usergroup').addEventListener('change', function(e){
+                    document.getElementById('unidade').selectedIndex = 0;
+                    self.model.set('unidade', null);
                     var selected = this.options[this.options.selectedIndex].text;
                     if (selected == ROL_UNIDAD_DELEGACION) {
-                        new Backbone.UILib.SelectView({
-                            el: self.$('#unidade'),
-                            collection: byUnidades,
-                        }).render();
                         self.$('#unidade-form').removeClass('hidden');
                     }else {
                         self.$('#unidade-form').addClass('hidden');
@@ -35,6 +39,8 @@ Backbone.SIXHIARA.UserModalView = Backbone.SIXHIARA.ModalView.extend({
                 if (self.options.editing) {
                     self.$('#password')[0].required = false;
                 }
+
+                self.fillSelects();
             },
             error: function() {
                 bootbox.alert('<span style="color: red;">Produziu-se um erro. Informe ao administrador.</strong>');
@@ -45,7 +51,6 @@ Backbone.SIXHIARA.UserModalView = Backbone.SIXHIARA.ModalView.extend({
 
     okButtonClicked: function() {
         if(this.isSomeWidgetInvalid()) return;
-
         if (this.options.editing) {
             var widgets = this.$('.modal').find('.widget, .widget-number, .widget-date, .widget-boolean, .widget-external');
             var widgetsId = _.map(widgets, function(w){return w.id;});
@@ -77,7 +82,20 @@ Backbone.SIXHIARA.UserModalView = Backbone.SIXHIARA.ModalView.extend({
         this.$('.modal').modal('hide');
     },
 
+    fillSelects: function () {
+        var self = this;
+        this.$('select.widget').each(function(index, widget){
+            $(widget).find('option:selected').removeAttr('selected');
+            $(widget.options).each(function(index, option){
+                if(self.model.get(widget.id) === option.text){
+                    $(option).attr('selected', 'selected');
+                }
+            });
+        });
+    },
+
     isSomeWidgetInvalid: function () {
+
         this.checkIfUnidadWidgetIsValid();
         // we only use Constraint API with input elements, so check only those
         var widgets = this.$('.modal').find('input.widget, input.widget-number, input.widget-date, select.widget');
