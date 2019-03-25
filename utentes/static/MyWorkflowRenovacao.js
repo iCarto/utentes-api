@@ -20,6 +20,12 @@ var MyWorkflowRenovacao = {
         return role;
     },
 
+    getUnidade: function() {
+        var unidade = document.cookie.replace(/(?:(?:^|.*;\s*)utentes_stub_unidade\s*\=\s*([^;]*).*$)|^.*$/, '$1');
+        unidade = decodeURIComponent(unidade);
+        return unidade;
+    },
+
     getRoles: function(safeRoleFormat) {
         safeRoleFormat = safeRoleFormat || 'safe';
         switch (safeRoleFormat) {
@@ -483,6 +489,23 @@ var MyWorkflowRenovacao = {
 
     canDraw: function() {
         return [ROL_TECNICO, ROL_ADMIN].includes(this.getMainRole());
+    },
+
+    getDefaultDataForFileModal(exp_id) {
+        var data = {
+            defaultUrlBase:  Backbone.SIXHIARA.Config.apiDocumentos,
+            defaultFolderId: exp_id
+        }
+        if(!this.isAdmin() && !this.isObservador()) {
+            if(this.getMainRole() == ROL_UNIDAD_DELEGACION) {
+                data.defaultUrlBase = Backbone.SIXHIARA.Config.apiDocumentos + '/' + exp_id + '/' + this.getMainRole();
+                data.defaultFolderId = this.getUnidade();
+            }else{
+                data.defaultUrlBase = Backbone.SIXHIARA.Config.apiDocumentos + '/' + exp_id;
+                data.defaultFolderId = this.getMainRole();
+            }
+        }
+        return data;
     }
 };
 

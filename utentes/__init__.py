@@ -124,15 +124,16 @@ def add_routes_api(config):
     config.add_route('api_exploracaos', '/api/exploracaos')
     config.add_route('api_exploracaos_id', '/api/exploracaos/{id}')
 
-    # GET    /api/exploracaos/{id}/documentos/{departamento} = Return all documentos for a departamento
-    # POST   /api/exploracaos/{id}/documentos/{departamento} = Create a new documento
+    # exploracao_id*/departamento?/unidade? conforms the subpath part of the url
+    # GET    /api/documentos/exploracao_id*/departamento?/unidade? = Return all info and routes to files and path for an exploracao, departamento or unidade
+    # POST   /api/documentos/exploracao_id*/departamento?/unidade? = Creates a new documento 
     # GET    /api/exploracaos/{id}/documentos/{departamento}/{filename} = Return individual documento
     # DELETE /api/exploracaos/{id}/documentos/{departamento}/{filename} = Delete documento
-    config.add_route('api_exploracao_documentos_departamento', '/api/exploracaos/{id}/documentos/{departamento}')
-    config.add_route('api_exploracao_documentos_departamento_files', '/api/exploracaos/{id}/documentos/{departamento}/files')
-    config.add_route('api_exploracao_documentos_departamento_path', '/api/exploracaos/{id}/documentos/{departamento}/path')
-    config.add_route('api_exploracao_documentos_departamento_zip', '/api/exploracaos/{id}/documentos/{departamento}/zip')
-    config.add_route('api_exploracao_documentos_departamento_file', '/api/exploracaos/{id}/documentos/{departamento}/files/{name}')
+    config.add_route('api_exploracao_documentacao_files', '/api/documentos/files/*subpath')
+    config.add_route('api_exploracao_documentacao_path', '/api/documentos/path/*subpath')
+    config.add_route('api_exploracao_documentacao_zip', '/api/zip/*subpath')
+    config.add_route('api_exploracao_documentacao', '/api/documentos/*subpath')
+    config.add_route('api_exploracao_file', '/api/file/*subpath')
 
     # GET    /api/utentes      = Return all utentes
     # POST   /api/utentes      = Create a new utente, 'nome' in body

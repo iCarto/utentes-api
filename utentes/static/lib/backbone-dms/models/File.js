@@ -10,6 +10,10 @@ Backbone.DMS.File = Backbone.Model.extend({
         'permissions': null
     },
 
+    url: function() {
+        return this.get('url');
+    },
+
     navigateTrigger: function() {
         this.trigger('navigate', this)
     }

@@ -40,6 +40,7 @@ class Documento(Base):
     name = Column(Text)
     size = Column(Text)
     departamento = Column(Text)
+    unidade = Column(Text)
     saved = Column(Boolean, default=False)
     user = Column(Text, unique=True)
     created_at = Column(DateTime, nullable=False, server_default=text('now()'))
@@ -54,7 +55,11 @@ class Documento(Base):
     def __json__(self, request):
         url = ''
         if request:
-            url = request.route_url('api_exploracao_documentos_departamento_file', id=self.exploracao, departamento=self.departamento, name=self.name)
+            subpath = [self.exploracao, self.departamento]
+            if self.unidade is not None:
+                subpath.append(self.unidade)
+            subpath.append(self.name)
+            url = request.route_url('api_exploracao_file', subpath=subpath)
         return {
             'id': self.name,
             'gid': self.gid,
@@ -62,6 +67,7 @@ class Documento(Base):
             'name': self.name,
             'size': self.size,
             'departamento': self.departamento,
+            'unidade': self.unidade,
             'date': self.created_at
         }
 
@@ -73,11 +79,15 @@ class Documento(Base):
 
     def get_file_path_save(self):
         # by default: packagedir/utentes/static/files/attachments/{exploracao_id}/{departamento}/{name}
-        return os.path.join(self.defaults['path_root'],
+        path = os.path.join(self.defaults['path_root'],
                             'documentos',
                             str(self.exploracao),
-                            self.departamento,
-                            self.name).encode(sys.getfilesystemencoding())
+                            self.departamento)
+        if self.unidade is not None:
+            path = os.path.join(path, self.unidade)
+        path = os.path.join(path, self.name)
+
+        return path.encode(sys.getfilesystemencoding())
 
     def get_file_path(self):
         if self.saved:

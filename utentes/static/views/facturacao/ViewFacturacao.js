@@ -287,13 +287,12 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
         this.initSelects()
         document.getElementById('observacio').addEventListener('input', self.autosave.bind(self), false);
 
-        var defaultDepartamento = wf.isAdmin() ? 'root' : wf.getMainRole();
-        var defaultUrlBase = Backbone.SIXHIARA.Config.apiExploracaos + '/' + this.model.get('id') + '/documentos'
+        var defaultDataForFileModal = wf.getDefaultDataForFileModal(this.model.get('id'));
         var fileModalView = new Backbone.DMS.FileModalView({
             openElementId: '#file-modal',
             title: 'Arquivo Electr&oacute;nico',
-            urlBase: defaultUrlBase,
-            id: defaultDepartamento
+            urlBase: defaultDataForFileModal.defaultUrlBase,
+            id: defaultDataForFileModal.defaultFolderId
         });
 
     },

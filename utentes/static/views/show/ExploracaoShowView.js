@@ -54,12 +54,12 @@ Backbone.SIXHIARA.ExploracaoShowView = Backbone.View.extend({
                     })
                 });
 
-                var defaultUrlBase = Backbone.SIXHIARA.Config.apiExploracaos + '/' + exploracao.get('id') + '/documentos'
+                var defaultUrlBase = Backbone.SIXHIARA.Config.apiDocumentos
                 var fileModalView = new Backbone.DMS.FileModalView({
                     openElementId: '#file-modal',
                     title: 'Arquivo Electr&oacute;nico',
                     urlBase: defaultUrlBase,
-                    id: 'root'
+                    id: exploracao.get('id')
                 });
 
                 /** Buttons View are here, because after the domains are loaded,

@@ -213,15 +213,14 @@ Backbone.SIXHIARA.ViewJuridicoDados = Backbone.SIXHIARA.View1.extend({
             })
         });
 
-        var defaultDepartamento = wfr.isAdmin() ? 'root' : wfr.getMainRole();
-        var defaultUrlBase = Backbone.SIXHIARA.Config.apiExploracaos + '/' + this.model.get('id') + '/documentos'
+        var defaultDataForFileModal = wfr.getDefaultDataForFileModal(this.model.get('id'));
         var fileModalView = new Backbone.DMS.FileModalView({
             openElementId: '#file-modal',
             title: 'Arquivo Electr&oacute;nico',
-            urlBase: defaultUrlBase,
-            id: defaultDepartamento
+            urlBase: defaultDataForFileModal.defaultUrlBase,
+            id: defaultDataForFileModal.defaultFolderId
         });
-
+        
         var json = self.model.toJSON();
         var historico = new Backbone.SIXHIARA.HistoricoLicencias(this.model);
         historico.fetch({

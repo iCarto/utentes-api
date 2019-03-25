@@ -153,9 +153,8 @@ function fillExploracao(e, autosave) {
                     var exp_name = model.get('exp_name');
 
                     if(fileModalView.hasPendingFiles()) {
-                        console.log('hasPendingFiles')
                         var departamento = wf.isAdmin() ? ROL_ADMINISTRATIVO : wf.getMainRole();
-                        var url = Backbone.SIXHIARA.Config.apiExploracaos + '/' + model.get('id') + '/documentos';
+                        var url = Backbone.SIXHIARA.Config.apiDocumentos + '/' + model.get('id');
                         fileModalView.show();
                         fileModalView.setUrlBase(url);
                         fileModalView.setId(departamento);

@@ -36,6 +36,7 @@ Para utilizar el plugin debemos añadir en alguna de las vistas del proyecto una
 ```
 this.fileModalView = new Backbone.DMS.FileModalView({
     openElementId: '#file_modal',
+    title: 'Documentación',
     urlBase: 'http://localhost:6543/folder',
     id: 1,
     permissions: [PERMISSION_UPLOAD, PERMISSION_DOWNLOAD, PERMISSION_DELETE]
@@ -43,9 +44,10 @@ this.fileModalView = new Backbone.DMS.FileModalView({
 ```
 Como parámetros, de momento, debemos pasarle:
 - *openElementId*: Identificador del elemento del DOM en el que haciendo click abriremos el diálogo.
-- *urlBase*: URL del backend para acceder a la estructura de directorios
-- *id*: Identificador del directorio inicial en el que se deberá abrir el diálogo
-- *permissions*: Permisos por defecto sobre las acciones que permite el plugin (se pueden cambiar para cada directorio o archivo a través de la respuesta de la API)
+- *title*: Título del diálogo.
+- *urlBase*: URL del backend para acceder a la estructura de directorios.
+- *id*: Identificador del directorio inicial en el que se deberá abrir el diálogo.
+- *permissions*: Permisos por defecto sobre las acciones que permite el plugin (se pueden cambiar para cada directorio o archivo a través de la respuesta de la API).
 
 ### API de backend
 La idea del plugin es trabajar con una API REST en el backend que nos restrinja al dominio de Folders y Files que se ha definido para su utilización.
@@ -60,11 +62,15 @@ Por ejemplo http://localhost:6543/folder/8 nos debería devolver algo como lo si
    "type": "folder",
    "name": "Directorio Raíz",
    "size": 3
+   "url": "http://localhost:6543/folder/8",
+   "zip_url": "http://localhost:6543/folder/8/zip",
    "path": "http://localhost:6543/folder/8/path",
    "files": "http://localhost:6543/folder/8/files",
 }
 ```
-Son importantes las url's que devuelve en los campos *path* y *files*, puesto que se utilizarán para cargar el breadcrumb y el listado de archivos que se mostrarán dentro de una carpeta.
+Es importante el valor de *url* ya que se utiliza para determinar a qué url se envían los archivos cuando se suban en este directorio. También tenemos el valor de *zip_url*, que nos debe devolver el endpoint donde se pueden descargar todo el contenido del directorio en un zip.
+
+Y también son importantes las url's que devuelve en los campos *path* y *files*, puesto que se utilizarán para cargar el breadcrumb y el listado de archivos que se mostrarán dentro de una carpeta.
 
 Por ejemplo http://localhost:6543/folder/8/path nos debería devolver algo como esto:
 ```
@@ -73,7 +79,9 @@ Por ejemplo http://localhost:6543/folder/8/path nos debería devolver algo como 
       "id": 1,
       "type": "folder",
       "name": "Directorio Raíz",
-      "size": 5
+      "size": 5,
+      "url": "http://localhost:6543/folder/1",
+      "zip_url": "http://localhost:6543/folder/1/zip",
       "path": "http://localhost:6543/folder/1/path",
       "files": "http://localhost:6543/folder/1/files",
    },
@@ -81,7 +89,9 @@ Por ejemplo http://localhost:6543/folder/8/path nos debería devolver algo como 
       "id": 3,
       "type": "folder",
       "name": "Directorio Nivel 1",
-      "size": 1
+      "size": 1,
+      "url": "http://localhost:6543/folder/3",
+      "zip_url": "http://localhost:6543/folder/3/zip",
       "files": "http://localhost:6543/folder/3/files",
       "path": "http://localhost:6543/folder/3/path",
    }
@@ -121,7 +131,6 @@ Manteniendo esta definición en la API, el plugin podrá realizar todas las acci
 
 ### Puntos a finalizar
 - Eliminar dependencia de FontAwesome
-- Eliminar dependendie de Bootbox
 - Configuración de textos o multidioma
 - Revisar funcionalidad de subida asíncrona (refactorizar, utilizar parámetros de configuración más acordes, visualización, etc)
 - Empaquetarlo como plugin en un único archivo

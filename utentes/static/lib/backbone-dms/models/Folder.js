@@ -25,13 +25,16 @@ _.extend(Backbone.DMS.Folder.prototype, Backbone.DMS.File.prototype, {
             'type': folderResponse['type'],
             'size': folderResponse['size'],
             'url': folderResponse['url'],
+            'zip_url': folderResponse['zip_url'],
             'date': new Date(folderResponse['date']),
             'permissions': folderResponse['permissions']
         }
     },
 
     url: function() {
-        if(this.urlRoot && this.get('id')) {
+        if(this.get('url')) {
+            return this.get('url');
+        }else if(this.urlRoot && this.get('id')) {
             return this.urlRoot + '/' + this.get('id');
         }else{
             return '';

@@ -21,6 +21,9 @@ def login(request):
         import urllib
         usergroup = urllib.quote(user.usergroup.encode('utf-8'))
         response.set_cookie('utentes_stub_role', value=usergroup)
+        if user.unidade is not None:
+            unidade = urllib.quote(user.unidade.encode('utf-8'))
+            response.set_cookie('utentes_stub_unidade', value=unidade)
         return response
 
     login_url = request.route_url('login')
@@ -53,6 +56,9 @@ def login(request):
             import urllib
             usergroup = urllib.quote(user.usergroup.encode('utf-8'))
             response.set_cookie('utentes_stub_role', value=usergroup)
+            if user.unidade is not None:
+                unidade = urllib.quote(user.unidade.encode('utf-8'))
+                response.set_cookie('utentes_stub_unidade', value=unidade)
             return response
 
     return {'title': 'SIRHAS: Utentes', 'next': next}

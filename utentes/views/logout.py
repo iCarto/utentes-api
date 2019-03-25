@@ -15,5 +15,6 @@ def logout(request):
 
     response.delete_cookie('utentes_stub_user')
     response.delete_cookie('utentes_stub_role')
+    response.delete_cookie('utentes_stub_unidade')
 
     return response
