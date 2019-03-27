@@ -70,7 +70,7 @@ Backbone.SIXHIARA.ActividadePiscicultura = Backbone.SIXHIARA.ActividadeNull.exte
                 var label = L.marker(layer.getBounds().getCenter(), {
                     icon: L.divIcon({
                         className: 'label',
-                        html: feature.properties.tanque_id,
+                        html: feature.properties.tanque_id.slice(-3),
                         iconSize: [100, 40]
                     })
                 }).addTo(map);
