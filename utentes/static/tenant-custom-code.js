@@ -172,7 +172,52 @@ if (window.SIRHA.getARA() === 'DPMAIP') {
         {'header': 'Nuit', 'value': 'utente.nuit'},
         {'header': 'Tipo de utente', 'value': 'utente.uten_tipo'},
         {'header': 'Nro registo comercial', 'value': 'utente.reg_comerc'},
+        {
+            'header': 'Tipo de água',
+            'value': function (exp) {
+                var licSubterranea = exp.licencias.filter( lic => lic.tipo_agua == 'Subterrânea' ).length;
+                var licSuperficial = exp.licencias.filter( lic => lic.tipo_agua == 'Superficial' ).length;
+                if(licSubterranea && licSuperficial) {
+                    return 'Ambas';
+                } else if(licSubterranea) {
+                    return 'Subterrânea';
+                } else if(licSuperficial) {
+                    return 'Superficial';
+                } else {
+                    return '';
+                }
+            }
+        },
+        { 
+            'header': 'Estado lic. subterrânea',
+            'value': function (exp) {
+                var lic = exp.licencias.filter( lic => lic.tipo_agua == 'Subterrânea' );
+                return (lic[0] && lic[0].estado) || null;
+            }
+        },
+        { 
+            'header': 'Tipo lic. subterrânea',
+            'value': function (exp) {
+                var lic = exp.licencias.filter( lic => lic.tipo_agua == 'Subterrânea' );
+                return (lic[0] && lic[0].tipo_lic) || null;
+            }
+        },
+        { 
+            'header': 'Estado lic. superficial',
+            'value': function (exp) {
+                var lic = exp.licencias.filter( lic => lic.tipo_agua == 'Superficial' );
+                return (lic[0] && lic[0].estado) || null;
+            }
+        },
+        { 
+            'header': 'Tipo lic. superficial',
+            'value': function (exp) {
+                var lic = exp.licencias.filter( lic => lic.tipo_agua == 'Superficial' );
+                return (lic[0] && lic[0].tipo_lic) || null;
+            }
+        },
         {'header': 'Registado em', 'value': 'utente.reg_zona'},
+        {'header': 'Unidade', 'value': 'loc_unidad'},
         {'header': 'Provincia', 'value': 'utente.loc_provin'},
         {'header': 'Distrito', 'value': 'utente.loc_distri'},
         {'header': 'Posto', 'value': 'utente.loc_posto'},
