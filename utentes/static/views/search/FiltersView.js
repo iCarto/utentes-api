@@ -59,6 +59,18 @@ Backbone.SIXHIARA.FiltersView = Backbone.UILib.BaseView.extend({
             el: this.$('#actividade'),
             collection: actividades
         }));
+
+        this.yearsView = new Backbone.SIXHIARA.FilterYearsView({
+            model: this.model,
+            domainsKeys: ['provincia', 'distrito', 'posto'],
+            el: this.$el,
+        })
+        this.addView(this.yearsView);
+    },
+
+    setDataFilterFromExploracaos: function(exploracaos) {
+        this.setUtentesFilterFromExploracaos(exploracaos);
+        this.setYearsFilterFromExploracaos(exploracaos);
     },
 
     setUtentesFilterFromExploracaos: function(exploracaos) {
@@ -77,5 +89,17 @@ Backbone.SIXHIARA.FiltersView = Backbone.UILib.BaseView.extend({
 
         this.utentesView.update(filterCollecion);
     },
+
+    setYearsFilterFromExploracaos: function(exploracaos) {
+        var years = _.chain(exploracaos.map(function(exp){
+                return exp.getAnoFromExpId();
+            }))
+            .uniq()
+            .sortBy(function(year) {
+                return year;
+            })
+            .value();
+        this.yearsView.update(years);
+    }
 
 });

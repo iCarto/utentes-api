@@ -10,6 +10,8 @@
 #filters h4{
     border-bottom: 1px solid #CCC;
     font-weight: bold;
+    margin-top: 15px;
+    margin-bottom: 7px;
 }
 
 /* Form */
@@ -18,7 +20,7 @@
     padding: 6px 6px;
     border: 1px solid #CCC;
     box-shadow: none !important;
-    margin-bottom:12px;
+    margin-bottom: 5px;
     white-space: normal;
 }
 
@@ -32,4 +34,18 @@
 #filters p,
 #filters label{
     color: #7d7d7d;
+    margin-top: 4px;
+    margin-bottom: 2px;
+}
+
+#filters .year-widget {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+#filters .year-select-widget {
+    width: 46%;
+    display: inline-block;
+    margin-bottom: 0px !important;
 }

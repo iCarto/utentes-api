@@ -538,7 +538,7 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
     },
 
     contains: function(where){
-        var values = _.omit(where.values(), 'utente', 'estado', 'tipo_lic', 'tipo_agua', 'loc_unidad', 'actividade', 'geometria', 'mapBounds');
+        var values = _.omit(where.values(), 'utente', 'estado', 'tipo_lic', 'tipo_agua', 'loc_unidad', 'actividade', 'geometria', 'mapBounds', 'ano_inicio', 'ano_fim');
         var properties = this.pick(_.keys(values));
         var containsAttrs = _.isEqual(properties, values);
         var containsUtente = true;
@@ -562,6 +562,16 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
         var containsActividade = true;
         if (where.attributes.actividade) {
             containsActividade = (this.get('actividade').get('tipo') === where.attributes.actividade);
+        }
+        var containsAno = true;
+        if (where.attributes.ano_inicio || where.attributes.ano_fim) {
+            var anoFromExpId = Number(this.getAnoFromExpId());
+            if (where.attributes.ano_inicio) {
+                containsAno = containsAno && (Number(where.attributes.ano_inicio) <= anoFromExpId);
+            }
+            if (where.attributes.ano_fim) {
+                containsAno = containsAno && (Number(where.attributes.ano_fim) >= anoFromExpId);
+            }
         }
         var containsGeometria = true;
         if (where.attributes.geometria) {
@@ -591,7 +601,7 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
             }
         }
 
-        return containsAttrs && containsUtente && containsUnidade && containsLic && containsActividade && containsGeometria && containsBounds && containsRenovacao;
+        return containsAttrs && containsUtente && containsUnidade && containsLic && containsActividade && containsAno && containsGeometria && containsBounds && containsRenovacao;
     },
 
 
@@ -849,6 +859,10 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
         this.set("lic_time_enough", endsFirst.get("lic_time_enough"), {silent:true})
         this.set("lic_time_warning", endsFirst.get("lic_time_warning"), {silent:true})
         this.set("lic_time_over", endsFirst.get("lic_time_over"), {silent:true})
+    },
+
+    getAnoFromExpId: function() {
+        return this.get('exp_id').split('/')[2];
     }
 
 });

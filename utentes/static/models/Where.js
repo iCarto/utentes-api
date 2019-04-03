@@ -13,10 +13,12 @@ Backbone.SIXHIARA.Where = Backbone.Model.extend({
         'actividade': null,
         'geometria': null,
         'mapBounds': null,
+        'ano_inicio': null,
+        'ano_fim': null,
     },
 
     initialize: function() {
-        var changes = 'change:utente change:estado change:tipo_licencia change:tipo_agua change:loc_unidad change:loc_provin change:loc_distri change:loc_posto change:actividade change:geometria';
+        var changes = 'change:utente change:estado change:tipo_licencia change:tipo_agua change:loc_unidad change:loc_provin change:loc_distri change:loc_posto change:actividade change:geometria change:ano_inicio change:ano_fim';
         this.on(changes, function(e){
             this.set('mapBounds', null, {silent:true});
         });

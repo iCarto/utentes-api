@@ -26,7 +26,7 @@ var domainsFetched = function(collection, response, options) {
     }).render();
 
     if (filtersView && renovacoes.length) {
-        filtersView.setUtentesFilterFromExploracaos(renovacoes);
+        filtersView.setDataFilterFromExploracaos(renovacoes);
     }
 
     renovacoes.listenTo(where, 'change', function(model, options){
@@ -80,7 +80,7 @@ var renovacoesFetched = function() {
     renovacoesFiltered = new Backbone.SIXHIARA.RenovacaoCollection(renovacoes.models);
 
     if (filtersView && renovacoes.length) {
-        filtersView.setUtentesFilterFromExploracaos(renovacoes);
+        filtersView.setDataFilterFromExploracaos(renovacoes);
     }
 
     listView = new Backbone.UILib.ListView({
