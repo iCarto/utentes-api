@@ -216,6 +216,12 @@ if (window.SIRHA.getARA() === 'DPMAIP') {
                 return (lic[0] && lic[0].tipo_lic) || null;
             }
         },
+        { 
+            'header': 'Ano',
+            'value': function (exp) {
+                return exp.exp_id.split('/')[2];
+            }
+        },
         {'header': 'Registado em', 'value': 'utente.reg_zona'},
         {'header': 'Unidade', 'value': 'loc_unidad'},
         {'header': 'Provincia', 'value': 'utente.loc_provin'},
