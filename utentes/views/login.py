@@ -3,7 +3,7 @@ from pyramid.httpexceptions import HTTPFound
 from pyramid.view import view_config
 from pyramid.security import remember
 
-from utentes.user_utils import get_user_from_db, get_unique_user, ROL_FINANCIERO, is_single_user_mode
+from utentes.user_utils import get_user_from_db, get_unique_user, is_single_user_mode, ROL_FINANCIERO
 
 
 @view_config(route_name='index', renderer='utentes:templates/login.jinja2')

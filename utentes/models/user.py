@@ -10,8 +10,7 @@ from utentes.lib.schema_validator.validation_exception import ValidationExceptio
 
 from user_schema import USER_SCHEMA
 from utentes.models.base import Base, PGSQL_SCHEMA_USERS
-
-ROL_UNIDAD_DELEGACION = u'Unidade ou Delegação'
+from users.user_roles import ROL_UNIDAD_DELEGACION
 
 class User(Base):
     __tablename__ = 'users'
@@ -42,14 +41,15 @@ class User(Base):
     def update_from_json(self, json):
         self.username = json.get('username')
         # self.screen_name = json.get('screen_name')
-        if json.get('unidade') is None and self.usergroup == ROL_UNIDAD_DELEGACION and json.get('usergroup')!= ROL_UNIDAD_DELEGACION:
-            self.unidade = None
-        else:
-            self.unidade = json.get('unidade')
+        previous_group = self.usergroup
         if json.get('usergroup'):
             self.usergroup = json.get('usergroup')
         if json.get('password'):
             self.set_password(json.get('password'))
+        if json.get('unidade'):
+            self.unidade = json.get('unidade')
+        if previous_group == ROL_UNIDAD_DELEGACION and self.usergroup != ROL_UNIDAD_DELEGACION:
+            self.unidade = None
 
     def set_password(self, pw):
         pwhash = bcrypt.hashpw(pw.encode('utf8'), bcrypt.gensalt())
