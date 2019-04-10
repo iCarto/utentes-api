@@ -114,7 +114,7 @@ var MyAddCoordinates = AddCoordinates.extend({
             {text: 'UTM 37S', alias: '32737'},
         ]);
 
-        var modalView = new Backbone.SIXHIARA.AddCoordinatesView({
+        var modalView = new Backbone.SIXHIARA.AddCoordinatesModalView({
             model: new Backbone.Model(),
             map: map,
             crss: crss,

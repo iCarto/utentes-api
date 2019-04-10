@@ -34,7 +34,7 @@
                 <div class="row">
                   <div class="col-xs-3">
                     <div class="form-group">
-                      <label for="org_x">Coordenada X</label>
+                      <label for="org_x">UTM X / Lng</label>
                       <div class="input-group">
                           <input type="text" class="form-control input_coord" id="org_x" value="" required>
                           <div class="input-group-addon remove-field">&times;</div>
@@ -43,7 +43,7 @@
                   </div>
                   <div class="col-xs-3">
                     <div class="form-group">
-                      <label for="org_y">Coordenada Y</label>
+                      <label for="org_y">UTM Y / Lat</label>
                       <div class="input-group">
                           <input type="text" class="form-control input_coord" id="org_y" value="" required>
                           <div class="input-group-addon remove-field">&times;</div>
@@ -101,6 +101,7 @@
             </div>
           </div>
           <div class="modal-footer">
+            <!-- <button id="previous-bounds" type="button" class="btn btn-default" disabled>Zoom Anterior</button> -->
             <button id="zoom_to_point" type="button" class="btn btn-default" disabled>Zoom</button>
             <button id="create_point" type="button" class="btn btn-default" disabled>Criar</button>
           </div>
@@ -225,9 +226,8 @@
     <script src="/static/models/CultivoCollection.js"></script>
 
     <script src="/static/models/Setting.js"></script>
-    <script src="/static/models/TransformCoordinatesModel.js"></script>
     <script src="/static/views/gps/GPSModalView.js"></script>
-    <script src="/static/views/gps/AddCoordinatesView.js"></script>
+    <script src="/static/views/gps/AddCoordinatesModalView.js"></script>
 
     <script src="/static/offline/MapConfig.js"></script>
     <script src="/static/offline/LayerStyle.js"></script>

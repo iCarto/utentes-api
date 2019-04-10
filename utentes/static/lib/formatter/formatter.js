@@ -251,6 +251,33 @@ function formatter(){
         return this.parseValidDate(value);
     }
 
+    function inRange(x, firstBound, secondBound, options) {
+        var defaultOptions = {
+            firstBoundBeforeSecondBound: false, // if 'error', throws an error if firstBound > secondBound. With true, the function always returns false
+            inclusive: undefined, // Equivalent to set inclusiveStart and inclusiveEnd
+            inclusiveFirstBound: true, // if true firstBound limit is included in the comparison
+            inclusiveSecondBound: true,  // if true secondBound limit is included in the comparison
+        };
+        options = Object.assign({}, defaultOptions, options);
+        if (typeof options.inclusive !== 'undefined') {
+            options.inclusiveFirstBound = options.inclusive;
+            options.inclusiveSecondBound = options.inclusive;
+        }
+        if (options.firstBoundBeforeSecondBound && firstBound > secondBound) {
+            if (options.firstBoundBeforeSecondBound === 'error') {
+                throw 'start should be lesser than end';
+            }
+        }
+        if (options.inclusiveFirstBound && x === firstBound) {
+            return true;
+        }
+
+        if (options.inclusiveSecondBound && x === secondBound) {
+            return true;
+        }
+
+        return (x-firstBound) * (x-secondBound) < 0;
+    }
 
     var formatterObj = new Object();
     formatterObj.formatNumber = formatNumber;
@@ -271,6 +298,8 @@ function formatter(){
     formatterObj.validDateFormat = validDateFormat;
     formatterObj.unformatDate = unformatDate;
     formatterObj.formatBoolean = formatBoolean;
+
+    formatterObj.inRange = inRange;
 
     return formatterObj;
 }
