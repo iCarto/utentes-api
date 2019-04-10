@@ -141,7 +141,7 @@ def exploracao_get_unidade_delegacion_folders(request, exploracao_id, departamen
     return unidades_json_array
 
 def init_unidades_json_array(request, exploracao_id):
-    unidades = request.db.query(Domain).filter(Domain.category == 'unidade').all()
+    unidades = request.db.query(Domain).filter(Domain.category == 'unidade', Domain.key != None).all()
 
     unidades_json_array = []
     for unidade in unidades:
@@ -373,7 +373,7 @@ def format_subpath(path_info):
 
 
 def get_folder_permissions(request, departamento, unidade):
-    if departamento is None:
+    if departamento is None or (departamento == ROL_UNIDAD_DELEGACION and unidade is None):
         return ['perm_download']
     if request.user.usergroup == ROL_ADMIN:
         return ['perm_upload', 'perm_download', 'perm_delete']
