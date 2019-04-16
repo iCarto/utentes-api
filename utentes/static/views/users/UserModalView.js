@@ -17,7 +17,7 @@ Backbone.SIXHIARA.UserModalView = Backbone.SIXHIARA.ModalView.extend({
                     collection: collection.byCategory('unidade'),
                 }).render();
 
-                if (self.model.get('usergroup') == ROL_UNIDAD_DELEGACION) {
+                if (self.model.get('usergroup') == SIRHA.ROLE.UNIDAD) {
                     self.$('#unidade-form').removeClass('hidden');
                 }
 
@@ -25,7 +25,7 @@ Backbone.SIXHIARA.UserModalView = Backbone.SIXHIARA.ModalView.extend({
                     document.getElementById('unidade').selectedIndex = 0;
                     self.model.set('unidade', null);
                     var selected = this.options[this.options.selectedIndex].text;
-                    if (selected == ROL_UNIDAD_DELEGACION) {
+                    if (selected == SIRHA.ROLE.UNIDAD) {
                         self.$('#unidade-form').removeClass('hidden');
                     }else {
                         self.$('#unidade-form').addClass('hidden');

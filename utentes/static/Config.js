@@ -54,15 +54,7 @@ Backbone.UILib.DomainCollection = Backbone.UILib.DomainCollection.extend({
 });
 
 
-ROL_ADMIN = 'Administrador';
-ROL_ADMINISTRATIVO = 'Departamento Administrativo'; // DA
-ROL_FINANCIERO = 'Departamento Financeiro'; // DF
-ROL_DIRECCION = 'Direcção';
-ROL_TECNICO = 'Departamento Técnico';  // DT
-ROL_JURIDICO = 'Departamento Jurídico'; // DJ
-ROL_SINGLE_SAFE = 'single'
-ROL_OBSERVADOR = 'Observador';
-ROL_UNIDAD_DELEGACION = 'Unidade ou Delegação';
+
 
 var role_domains_collection = new Backbone.UILib.DomainCollection([
     {
@@ -72,42 +64,42 @@ var role_domains_collection = new Backbone.UILib.DomainCollection([
     },
     {
         'category': 'groups',
-        'text': ROL_ADMIN,
+        'text': SIRHA.ROLE.ADMIN,
         'order': 1,
     },
     {
         'category': 'groups',
-        'text': ROL_ADMINISTRATIVO,
+        'text': SIRHA.ROLE.ADMINISTRATIVO,
         'order': 2,
     },
     {
         'category': 'groups',
-        'text': ROL_DIRECCION,
+        'text': SIRHA.ROLE.DIRECCION,
         'order': 3,
     },
     {
         'category': 'groups',
-        'text': ROL_FINANCIERO,
+        'text': SIRHA.ROLE.FINANCIERO,
         'order': 4,
     },
     {
         'category': 'groups',
-        'text': ROL_JURIDICO,
+        'text': SIRHA.ROLE.JURIDICO,
         'order': 5,
     },
     {
         'category': 'groups',
-        'text': ROL_TECNICO,
+        'text': SIRHA.ROLE.TECNICO,
         'order': 6,
     },
     {
         'category': 'groups',
-        'text': ROL_OBSERVADOR,
+        'text': SIRHA.ROLE.OBSERVADOR,
         'order': 7,
     },
     {
         'category': 'groups',
-        'text': ROL_UNIDAD_DELEGACION,
+        'text': SIRHA.ROLE.UNIDAD,
         'order': 7,
     },
 ]);

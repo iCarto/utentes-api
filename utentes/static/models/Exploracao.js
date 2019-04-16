@@ -64,7 +64,7 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
         'p_rel': false,
         'req_obs': false,
         'created_at': null,
-        'estado_lic': Backbone.SIXHIARA.Estado.UNKNOWN,
+        'estado_lic': SIRHA.ESTADO.UNKNOWN,
         'lic_time_info': null,
         'lic_time_enough': false,
         'lic_time_warning': false,
@@ -746,7 +746,7 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
     },
 
     setLicenseTimeInfo: function() {
-        if(Backbone.SIXHIARA.Estado.CATEGORY_POST_LICENSED.indexOf(this.get('estado_lic')) === -1){
+        if(SIRHA.ESTADO.CATEGORY_POST_LICENSED.indexOf(this.get('estado_lic')) === -1){
             this.setLicenseTimeInfoPendentes();
         }else {
             this.setLicenseTimeInfoExploracaos();
@@ -797,8 +797,8 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
     },
     setLicenseTimeInfoPendentes: function() {
         // Pendentes
-        if (this.get("estado_lic") == Backbone.SIXHIARA.Estado.INCOMPLETE_DA ||
-            this.get("estado_lic") == Backbone.SIXHIARA.Estado.INCOMPLETE_DJ) {
+        if (this.get("estado_lic") == SIRHA.ESTADO.INCOMPLETE_DA ||
+            this.get("estado_lic") == SIRHA.ESTADO.INCOMPLETE_DJ) {
                 this.setDocPendenteUtente();
                 return
         }

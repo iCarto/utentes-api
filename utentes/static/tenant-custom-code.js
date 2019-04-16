@@ -1,45 +1,127 @@
+window.SIXHIARA = {};
+window.SIXHIARA.ESTADOS_PENDENTES = [
+    {
+        'key': SIRHA.ESTADO.NOT_EXISTS,
+        'roles': [],
+    },
+    {
+        'key': SIRHA.ESTADO.NOT_APPROVED,
+        'roles': [],
+    },
+    {
+        'key': SIRHA.ESTADO.IRREGULAR,
+        'roles': []
+    },
+    {
+        'key': SIRHA.ESTADO.LICENSED,
+        'roles': []
+    },
+    {
+        'key': SIRHA.ESTADO.UNKNOWN,
+        'roles': []
+    },
+    {
+        'key': SIRHA.ESTADO.INCOMPLETE_DA,
+        'roles': [SIRHA.ROLE.ADMIN, SIRHA.ROLE.OBSERVADOR, SIRHA.ROLE.ADMINISTRATIVO]
+    },
+    {
+        'key': SIRHA.ESTADO.INCOMPLETE_DIR,
+        'roles': [SIRHA.ROLE.ADMIN, SIRHA.ROLE.OBSERVADOR, SIRHA.ROLE.DIRECCION]
+    },
+    {
+        'key': SIRHA.ESTADO.INCOMPLETE_DJ,
+        'roles': [SIRHA.ROLE.ADMIN, SIRHA.ROLE.OBSERVADOR, SIRHA.ROLE.JURIDICO, SIRHA.ROLE.TECNICO]
+    },
+    {
+        'key': SIRHA.ESTADO.INCOMPLETE_DT,
+        'roles': [SIRHA.ROLE.ADMIN, SIRHA.ROLE.OBSERVADOR, SIRHA.ROLE.TECNICO]
+    },
+    {
+        'key': SIRHA.ESTADO.INCOMPLETE_DF,
+        'roles': [SIRHA.ROLE.ADMIN, SIRHA.ROLE.OBSERVADOR, SIRHA.ROLE.FINANCIERO]
+    },
+    {
+        'key': SIRHA.ESTADO.PENDING_REVIEW_DIR,
+        'roles': [SIRHA.ROLE.ADMIN, SIRHA.ROLE.OBSERVADOR, SIRHA.ROLE.DIRECCION]
+    },
+    {
+        'key': SIRHA.ESTADO.PENDING_REVIEW_DJ,
+        'roles': [SIRHA.ROLE.ADMIN, SIRHA.ROLE.OBSERVADOR, SIRHA.ROLE.TECNICO, SIRHA.ROLE.JURIDICO]
+    },
+    {
+        'key': SIRHA.ESTADO.PENDING_FIELD_VISIT,
+        'roles': [SIRHA.ROLE.ADMIN, SIRHA.ROLE.OBSERVADOR, SIRHA.ROLE.TECNICO, SIRHA.ROLE.UNIDAD]
+    },
+    {
+        'key': SIRHA.ESTADO.PENDING_TECH_DECISION,
+        'roles': [SIRHA.ROLE.ADMIN, SIRHA.ROLE.OBSERVADOR, SIRHA.ROLE.TECNICO]
+    },
+    {
+        'key': SIRHA.ESTADO.PENDING_EMIT_LICENSE,
+        'roles': [SIRHA.ROLE.ADMIN, SIRHA.ROLE.OBSERVADOR, SIRHA.ROLE.JURIDICO]
+    },
+    {
+        'key': SIRHA.ESTADO.PENDING_DIR_SIGN,
+        'roles': [SIRHA.ROLE.ADMIN, SIRHA.ROLE.OBSERVADOR, SIRHA.ROLE.DIRECCION]
+    },
+    {
+        'key': SIRHA.ESTADO.DE_FACTO,
+        'roles': []
+    },
+];
+
+
 if (window.SIRHA.getARA() === 'DPMAIP') {
-    SIXHIARA = window.SIXHIARA || {
+    Object.assign(SIXHIARA, {
         center: [-12.5, 39.0],
         southWest: [-23, 31],
         northEast: [-9, 48],
         search: {
           zoom: 8,
         },
-    };
+    });
 }
 
 if (window.SIRHA.getARA() === 'ARAN') {
-    SIXHIARA = window.SIXHIARA || {
+    Object.assign(SIXHIARA, {
         center: [-13, 38.5050],
         southWest: [-23, 31],
         northEast: [-9, 43],
         search: {
           zoom: 8,
         },
-    };
+    });
 }
 
 if (window.SIRHA.getARA() === 'ARAS') {
-    SIXHIARA = window.SIXHIARA || {
+    Object.assign(SIXHIARA, {
         center: [-22.6, 33.8],
         southWest: [-29, 22],
         northEast: [-8, 48],
         search: {
           zoom: 7,
         },
-    };
+    });
+    var st;
+    st = window.SIXHIARA.ESTADOS_PENDENTES.find(e => e.key === SIRHA.ESTADO.INCOMPLETE_DIR);
+    st.roles.push(SIRHA.ROLE.JURIDICO);
+
+    st = window.SIXHIARA.ESTADOS_PENDENTES.find(e => e.key === SIRHA.ESTADO.PENDING_REVIEW_DIR);
+    st.roles.push(SIRHA.ROLE.JURIDICO);
+
+    st = window.SIXHIARA.ESTADOS_PENDENTES.find(e => e.key === SIRHA.ESTADO.PENDING_DIR_SIGN);
+    st.roles.push(SIRHA.ROLE.JURIDICO);
 }
 
 if (window.SIRHA.getARA() === 'ARAZ') {
-    SIXHIARA = window.SIXHIARA || {
+    Object.assign(SIXHIARA, {
         center: [-16, 34.63],
         southWest: [-28.3, -6.76],
         northEast: [3, 77],
         search: {
           zoom: 7,
         },
-    };
+    });
 }
 
 window.SIXHIARA.xlsFieldsToExport = {};
@@ -158,14 +240,6 @@ if (window.SIRHA.getARA() === 'DPMAIP') {
         {'header': 'prob_prin', 'value': 'actividade.prob_prin'},
     ]
 } else {
-    SIXHIARA = window.SIXHIARA || {
-        center:[-13, 38.5050],
-        southWest:[-23, 31],
-        northEast:[-9, 43],
-        search: {
-          zoom: 8,
-        },
-    };
 
     window.SIXHIARA.xlsFieldsToExport.exploracaos = [
         {'header': 'Nome utente', 'value': 'utente.nome'},
@@ -188,35 +262,35 @@ if (window.SIRHA.getARA() === 'DPMAIP') {
                 }
             }
         },
-        { 
+        {
             'header': 'Estado lic. subterrânea',
             'value': function (exp) {
                 var lic = exp.licencias.filter( lic => lic.tipo_agua == 'Subterrânea' );
                 return (lic[0] && lic[0].estado) || null;
             }
         },
-        { 
+        {
             'header': 'Tipo lic. subterrânea',
             'value': function (exp) {
                 var lic = exp.licencias.filter( lic => lic.tipo_agua == 'Subterrânea' );
                 return (lic[0] && lic[0].tipo_lic) || null;
             }
         },
-        { 
+        {
             'header': 'Estado lic. superficial',
             'value': function (exp) {
                 var lic = exp.licencias.filter( lic => lic.tipo_agua == 'Superficial' );
                 return (lic[0] && lic[0].estado) || null;
             }
         },
-        { 
+        {
             'header': 'Tipo lic. superficial',
             'value': function (exp) {
                 var lic = exp.licencias.filter( lic => lic.tipo_agua == 'Superficial' );
                 return (lic[0] && lic[0].tipo_lic) || null;
             }
         },
-        { 
+        {
             'header': 'Ano',
             'value': function (exp) {
                 return exp.exp_id.split('/')[2];

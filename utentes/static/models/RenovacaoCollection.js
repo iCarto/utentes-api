@@ -29,7 +29,7 @@ Backbone.SIXHIARA.RenovacaoCollection = Backbone.GeoJson.FeatureCollection.exten
     withFicha: function() {
         var a = this.filter(function(exp) {
             var expTest = exp.cloneExploracao();
-            // expTest.setLicState(Backbone.SIXHIARA.Estado.PENDING_FIELD_VISIT);
+            // expTest.setLicState(SIRHA.ESTADO.PENDING_FIELD_VISIT);
             return expTest.isValid();
         });
         return new Backbone.SIXHIARA.RenovacaoCollection(a);

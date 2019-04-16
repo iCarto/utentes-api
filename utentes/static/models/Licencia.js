@@ -74,19 +74,18 @@ Backbone.SIXHIARA.Licencia = Backbone.Model.extend({
     },
 
     impliesValidateActivity: function() {
-        var E = Backbone.SIXHIARA.Estado;
         return ! [
-            E.UNKNOWN,
-            E.IRREGULAR,
-            E.NOT_APPROVED,
-            E.INCOMPLETE_DA,
-            E.INCOMPLETE_DIR,
-            E.INCOMPLETE_DJ,
-            E.INCOMPLETE_DT,
-            E.INCOMPLETE_DF,
-            E.PENDING_REVIEW_DIR,
-            E.PENDING_REVIEW_DJ,
-            E.PENDING_FIELD_VISIT,
+            SIRHA.ESTADO.UNKNOWN,
+            SIRHA.ESTADO.IRREGULAR,
+            SIRHA.ESTADO.NOT_APPROVED,
+            SIRHA.ESTADO.INCOMPLETE_DA,
+            SIRHA.ESTADO.INCOMPLETE_DIR,
+            SIRHA.ESTADO.INCOMPLETE_DJ,
+            SIRHA.ESTADO.INCOMPLETE_DT,
+            SIRHA.ESTADO.INCOMPLETE_DF,
+            SIRHA.ESTADO.PENDING_REVIEW_DIR,
+            SIRHA.ESTADO.PENDING_REVIEW_DJ,
+            SIRHA.ESTADO.PENDING_FIELD_VISIT,
         ].includes(this.get('estado'));
     },
 

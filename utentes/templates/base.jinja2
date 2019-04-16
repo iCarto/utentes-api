@@ -96,18 +96,11 @@
 {% block main_block %}{% endblock%}
 
 {# Useful JavaScript #}
+{% include 'set-ara-variable.jinja2' %}
 <script>
-
-SIRHA = {
-    _ARA: '{{ request.registry.settings['ara'] }}',
-    getARA: function() { return this._ARA; },
-    is_single_user_mode: function() { return ['ARAN', 'DPMAIP'].includes(this._ARA); },
-}
-
-{# Highlight selected menu item #}
-var activeMenuEl = document.querySelector("a[href='{{request.url}}']")
-activeMenuEl && activeMenuEl.classList.add('active');
-
+    {# Highlight selected menu item #}
+    var activeMenuEl = document.querySelector("a[href='{{request.url}}']")
+    activeMenuEl && activeMenuEl.classList.add('active');
 </script>
 
 {% block js_assets %}{% endblock %}

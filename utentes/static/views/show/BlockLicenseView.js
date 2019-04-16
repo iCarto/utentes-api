@@ -35,9 +35,9 @@ Backbone.SIXHIARA.BlockLicenseView = Backbone.View.extend({
                 this.$('#info-license-block').removeClass('hidden');
             }
 
-            if (this.license.get("estado") == Backbone.SIXHIARA.Estado.LICENSED ||
-                this.license.get("estado") == Backbone.SIXHIARA.Estado.PENDING_DIR_SIGN ||
-                this.license.get("estado") == Backbone.SIXHIARA.Estado.PENDING_EMIT_LICENSE ||
+            if (this.license.get("estado") == SIRHA.ESTADO.LICENSED ||
+                this.license.get("estado") == SIRHA.ESTADO.PENDING_DIR_SIGN ||
+                this.license.get("estado") == SIRHA.ESTADO.PENDING_EMIT_LICENSE ||
                 window.SIRHA.is_single_user_mode()) {
                     this.$('#printLicense').removeClass('hidden');
             }
@@ -52,7 +52,7 @@ Backbone.SIXHIARA.BlockLicenseView = Backbone.View.extend({
         } else {
             var lic = new Backbone.SIXHIARA.Licencia({
                 'tipo_agua': this.options.tipo_agua,
-                'lic_nro': Backbone.SIXHIARA.Estado.NOT_EXISTS,
+                'lic_nro': SIRHA.ESTADO.NOT_EXISTS,
             });
 
             /*

@@ -22,7 +22,7 @@ function init() {
     });
 
     var wf_tmp = Object.create(MyWorkflow);
-    var NOT_EXISTS = Backbone.SIXHIARA.Estado.NOT_EXISTS;
+    var NOT_EXISTS = SIRHA.ESTADO.NOT_EXISTS;
     var nextStateOk = wf_tmp.whichNextState(NOT_EXISTS, {target:{id: 'bt-ok'}});
     var nextStateNo = wf_tmp.whichNextState(NOT_EXISTS, {target:{id: 'bt-no'}});
     document.getElementById('bt-ok').title = nextStateOk;
@@ -93,7 +93,7 @@ function savePendingFiles(model) {
 }
 
 function fillExploracao(e, autosave) {
-    var exploracao = new Backbone.SIXHIARA.Exploracao({'estado_lic': Backbone.SIXHIARA.Estado.NOT_EXISTS});
+    var exploracao = new Backbone.SIXHIARA.Exploracao({'estado_lic': SIRHA.ESTADO.NOT_EXISTS});
     exploracao.set('req_obs', [{
         'create_at': null,
         'author': null,
@@ -122,8 +122,8 @@ function fillExploracao(e, autosave) {
 
     exploracao.setLicState(nextState);
 
-    if (exploracao.get("estado_lic") == Backbone.SIXHIARA.Estado.INCOMPLETE_DA ||
-        exploracao.get("estado_lic") == Backbone.SIXHIARA.Estado.INCOMPLETE_DJ) {
+    if (exploracao.get("estado_lic") == SIRHA.ESTADO.INCOMPLETE_DA ||
+        exploracao.get("estado_lic") == SIRHA.ESTADO.INCOMPLETE_DJ) {
             exploracao.setDocPendenteUtente();
     }
 
@@ -153,7 +153,7 @@ function fillExploracao(e, autosave) {
                     var exp_name = model.get('exp_name');
 
                     if(fileModalView.hasPendingFiles()) {
-                        var departamento = wf.isAdmin() ? ROL_ADMINISTRATIVO : wf.getMainRole();
+                        var departamento = wf.isAdmin() ? SIRHA.ROLE.ADMINISTRATIVO : wf.getMainRole();
                         var url = Backbone.SIXHIARA.Config.apiDocumentos + '/' + model.get('id');
                         fileModalView.show();
                         fileModalView.setUrlBase(url);

@@ -13,7 +13,7 @@ var MyWorkflow = {
         // En todo caso los ROLES deberian ser una clase aparte
         var role = document.cookie.replace(/(?:(?:^|.*;\s*)utentes_stub_role\s*\=\s*([^;]*).*$)|^.*$/, '$1');
         role = decodeURIComponent(role);
-        if (![ROL_ADMIN, ROL_OBSERVADOR, ROL_UNIDAD_DELEGACION, ROL_ADMINISTRATIVO, ROL_FINANCIERO, ROL_DIRECCION, ROL_TECNICO, ROL_JURIDICO].includes(role)) {
+        if (![SIRHA.ROLE.ADMIN, SIRHA.ROLE.OBSERVADOR, SIRHA.ROLE.UNIDAD, SIRHA.ROLE.ADMINISTRATIVO, SIRHA.ROLE.FINANCIERO, SIRHA.ROLE.DIRECCION, SIRHA.ROLE.TECNICO, SIRHA.ROLE.JURIDICO].includes(role)) {
             throw Error('Not valid role');
         }
         return role;
@@ -50,10 +50,10 @@ var MyWorkflow = {
         var roles = [this.getMainRoleSafe()];
 
         if (this.getUser() === this.SINGLE_USER) {
-            roles.push(ROL_SINGLE_SAFE);
+            roles.push(SIRHA.ROLE.SINGLE_SAFE);
         }
-        if (roles.includes(this.getMainRoleSafe(ROL_UNIDAD_DELEGACION))) {
-            roles.push(this.getMainRoleSafe(ROL_OBSERVADOR));
+        if (roles.includes(this.getMainRoleSafe(SIRHA.ROLE.UNIDAD))) {
+            roles.push(this.getMainRoleSafe(SIRHA.ROLE.OBSERVADOR));
         }
         return roles;
     },
@@ -61,10 +61,10 @@ var MyWorkflow = {
     getAllRolesNotSafe: function() {
         var roles = [this.getMainRole()];
         if (this.getUser() === this.SINGLE_USER) {
-            roles.push(ROL_SINGLE_SAFE);
+            roles.push(SIRHA.ROLE.SINGLE_SAFE);
         }
-        if (roles.includes(ROL_UNIDAD_DELEGACION)) {
-            roles.push(ROL_OBSERVADOR);
+        if (roles.includes(SIRHA.ROLE.UNIDAD)) {
+            roles.push(SIRHA.ROLE.OBSERVADOR);
         }
         return roles;
     },
@@ -74,21 +74,21 @@ var MyWorkflow = {
             var role = this.getMainRole();
         }
         switch (role) {
-        case ROL_ADMIN:
+        case SIRHA.ROLE.ADMIN:
             return 'administrador';
-        case ROL_OBSERVADOR:
+        case SIRHA.ROLE.OBSERVADOR:
             return 'observador';
-        case ROL_ADMINISTRATIVO:
+        case SIRHA.ROLE.ADMINISTRATIVO:
             return 'administrativo';
-        case ROL_FINANCIERO:
+        case SIRHA.ROLE.FINANCIERO:
             return 'financieiro';
-        case ROL_DIRECCION:
+        case SIRHA.ROLE.DIRECCION:
             return 'direccao';
-        case ROL_TECNICO:
+        case SIRHA.ROLE.TECNICO:
             return 'tecnico';
-        case ROL_UNIDAD_DELEGACION:
+        case SIRHA.ROLE.UNIDAD:
             return 'unidade';
-        case ROL_JURIDICO:
+        case SIRHA.ROLE.JURIDICO:
             return 'juridico';
         }
     },
@@ -97,28 +97,28 @@ var MyWorkflow = {
         if(!role) {
             role = wf.getMainRole();
         }
-        return role === ROL_ADMIN;
+        return role === SIRHA.ROLE.ADMIN;
     },
 
     isDirector: function(role) {
         if(!role) {
             role = wf.getMainRole();
         }
-        return role === ROL_DIRECCION;
+        return role === SIRHA.ROLE.DIRECCION;
     },
 
     isObservador: function(role) {
         if(!role) {
             role = wf.getMainRole();
         }
-        return role === ROL_OBSERVADOR;
+        return role === SIRHA.ROLE.OBSERVADOR;
     },
 
     hasRoleObservador: function(roles) {
         if(!roles) {
             var roles = this.getRoles('not-safe');
         }
-        return roles.includes(ROL_OBSERVADOR);
+        return roles.includes(SIRHA.ROLE.OBSERVADOR);
     },
 
     init: function() {
@@ -146,8 +146,6 @@ var MyWorkflow = {
     },
 
     whichView: function(exp, next) {
-        var LIC_ST = Backbone.SIXHIARA.Estado;
-
         if (!exp) {
             return Backbone.SIXHIARA.ViewNoData;
         }
@@ -155,51 +153,51 @@ var MyWorkflow = {
         var state = this.getCurrentState(exp);
         var role = this.getMainRole();
 
-        if (LIC_ST.CATEGORY_POST_LICENSED.includes(state)) {
+        if (SIRHA.ESTADO.CATEGORY_POST_LICENSED.includes(state)) {
             return this.whichFacturacaoView(exp, next);
         }
 
         switch (state) {
-        case LIC_ST.NOT_EXISTS:
+        case SIRHA.ESTADO.NOT_EXISTS:
             break;
-        case LIC_ST.INCOMPLETE_DA:
+        case SIRHA.ESTADO.INCOMPLETE_DA:
             return Backbone.SIXHIARA.ViewDocIncompletaAdm;
-        case LIC_ST.INCOMPLETE_DIR:
+        case SIRHA.ESTADO.INCOMPLETE_DIR:
             return Backbone.SIXHIARA.ViewSecretaria1;
-        case LIC_ST.INCOMPLETE_DJ:
+        case SIRHA.ESTADO.INCOMPLETE_DJ:
             if (this.isNotCompleteForFirstDJState(exp)) {
                 return Backbone.SIXHIARA.ViewJuridico2;
             }
 
-            if (role === ROL_JURIDICO || role === ROL_ADMIN || role === ROL_OBSERVADOR) {
+            if (role === SIRHA.ROLE.JURIDICO || role === SIRHA.ROLE.ADMIN || role === SIRHA.ROLE.OBSERVADOR) {
                 return Backbone.SIXHIARA.ViewJuridico1;
             };
-            if (role === ROL_TECNICO) {
+            if (role === SIRHA.ROLE.TECNICO) {
                 return Backbone.SIXHIARA.ViewJuridicoNotEditable1;
             };
-        case LIC_ST.INCOMPLETE_DF:
+        case SIRHA.ESTADO.INCOMPLETE_DF:
             return Backbone.SIXHIARA.UpsView;
-        case LIC_ST.PENDING_REVIEW_DIR:
+        case SIRHA.ESTADO.PENDING_REVIEW_DIR:
             return Backbone.SIXHIARA.ViewSecretaria1;
-        case LIC_ST.PENDING_REVIEW_DJ:
-            if (role === ROL_JURIDICO || role === ROL_ADMIN || role === ROL_OBSERVADOR) {
+        case SIRHA.ESTADO.PENDING_REVIEW_DJ:
+            if (role === SIRHA.ROLE.JURIDICO || role === SIRHA.ROLE.ADMIN || role === SIRHA.ROLE.OBSERVADOR) {
                 return Backbone.SIXHIARA.ViewJuridico1;
             };
-            if (role === ROL_TECNICO) {
+            if (role === SIRHA.ROLE.TECNICO) {
                 return Backbone.SIXHIARA.ViewJuridicoNotEditable1;
             };
-        case LIC_ST.INCOMPLETE_DT:
-        case LIC_ST.PENDING_FIELD_VISIT:
-        case LIC_ST.PENDING_TECH_DECISION:
+        case SIRHA.ESTADO.INCOMPLETE_DT:
+        case SIRHA.ESTADO.PENDING_FIELD_VISIT:
+        case SIRHA.ESTADO.PENDING_TECH_DECISION:
             /*
              admin, tecnico, unidad. Hay que ponerlo. Si no, si por ejemplo jurídico
              pudiera ver este estado se le estaría renderizando esto.
             */
             return Backbone.SIXHIARA.ViewTecnico1;
-        case LIC_ST.PENDING_EMIT_LICENSE:
+        case SIRHA.ESTADO.PENDING_EMIT_LICENSE:
             // admin, juridico
             return Backbone.SIXHIARA.ViewJuridico2;
-        case LIC_ST.PENDING_DIR_SIGN:
+        case SIRHA.ESTADO.PENDING_DIR_SIGN:
             // admin, secretaria
             return Backbone.SIXHIARA.ViewSecretaria2;
         default:
@@ -211,21 +209,20 @@ var MyWorkflow = {
 
     isNotCompleteForFirstDJState: function(exp) {
         return exp.get('req_obs').filter(function(o){
-                return o.state === Backbone.SIXHIARA.Estado.PENDING_EMIT_LICENSE;
+                return o.state === SIRHA.ESTADO.PENDING_EMIT_LICENSE;
             }).length > 0
     },
 
     isNeedAskForEnteredDocumentationDate(exp, data) {
-        var LIC_ST = Backbone.SIXHIARA.Estado;
         var estado_lic = exp.get("estado_lic");
         var nextState = this.whichNextState(estado_lic, data)
 
         if (data.target.id == 'bt-ok') {
-            if (estado_lic == LIC_ST.INCOMPLETE_DA) {
+            if (estado_lic == SIRHA.ESTADO.INCOMPLETE_DA) {
                     return true
             }
-            if (estado_lic == LIC_ST.INCOMPLETE_DJ &&
-                nextState == LIC_ST.PENDING_FIELD_VISIT &&
+            if (estado_lic == SIRHA.ESTADO.INCOMPLETE_DJ &&
+                nextState == SIRHA.ESTADO.PENDING_FIELD_VISIT &&
                 !this.isNotCompleteForFirstDJState(exp)) {
                     return true;
             }
@@ -234,12 +231,11 @@ var MyWorkflow = {
     },
 
     whichFacturacaoView: function(exp, next) {
-        var LIC_ST = Backbone.SIXHIARA.Estado;
         var estado_lic = this.getCurrentState(exp);
         var fact_estado = exp.get('fact_estado');
         var role = this.getMainRole();
 
-        if (! LIC_ST.CATEGORY_POST_LICENSED.includes(estado_lic)) {
+        if (! SIRHA.ESTADO.CATEGORY_POST_LICENSED.includes(estado_lic)) {
             return Backbone.SIXHIARA.UpsView;
         }
 
@@ -257,19 +253,17 @@ var MyWorkflow = {
 
     getCurrentState: function(exp) {
         // var lics = exp.get('licencias');
-        // var state1 = (lics.at(0) && lics.at(0).get('estado')) || Backbone.SIXHIARA.Estado.NOT_EXISTS;
-        // var state2 = (lics.at(1) && lics.at(1).get('estado')) || Backbone.SIXHIARA.Estado.NOT_EXISTS;
+        // var state1 = (lics.at(0) && lics.at(0).get('estado')) || SIRHA.ESTADO.NOT_EXISTS;
+        // var state2 = (lics.at(1) && lics.at(1).get('estado')) || SIRHA.ESTADO.NOT_EXISTS;
         //
-        // state1 = state1 !== Backbone.SIXHIARA.Estado.NOT_EXISTS ? state1 : state2;
+        // state1 = state1 !== SIRHA.ESTADO.NOT_EXISTS ? state1 : state2;
 
-        return exp.get('estado_lic') || Backbone.SIXHIARA.Estado.NOT_EXISTS;
+        return exp.get('estado_lic') || SIRHA.ESTADO.NOT_EXISTS;
     },
 
     whichNextState: function(currentState, data, exp) {
         // Igual en lugar de currentState se le puede pasar la explotación
-        var LIC_ST = Backbone.SIXHIARA.Estado;
-
-        if (LIC_ST.CATEGORY_POST_LICENSED.includes(currentState)) {
+        if (SIRHA.ESTADO.CATEGORY_POST_LICENSED.includes(currentState)) {
             return this.whichFacturacaoNextState(currentState, data, exp);
         }
 
@@ -278,29 +272,29 @@ var MyWorkflow = {
         }
 
         switch (currentState) {
-        case LIC_ST.NOT_EXISTS:
+        case SIRHA.ESTADO.NOT_EXISTS:
             return this.nextStateAfterNoExiste(data);
-        case LIC_ST.INCOMPLETE_DA:
+        case SIRHA.ESTADO.INCOMPLETE_DA:
             return this.nextStateAfterNoExiste(data);
-        case LIC_ST.INCOMPLETE_DIR:
+        case SIRHA.ESTADO.INCOMPLETE_DIR:
             return this.nextStateAfterPteRevDir(data);
-        case LIC_ST.INCOMPLETE_DJ:
+        case SIRHA.ESTADO.INCOMPLETE_DJ:
             return this.nextStateAfterPteRevJuri(data);
-        case LIC_ST.INCOMPLETE_DT:
+        case SIRHA.ESTADO.INCOMPLETE_DT:
             return this.nextStateAfterVisitaCampo(data);
-        case LIC_ST.INCOMPLETE_DF:
+        case SIRHA.ESTADO.INCOMPLETE_DF:
             throw 'Error';
-        case LIC_ST.PENDING_REVIEW_DIR:
+        case SIRHA.ESTADO.PENDING_REVIEW_DIR:
             return this.nextStateAfterPteRevDir(data);
-        case LIC_ST.PENDING_REVIEW_DJ:
+        case SIRHA.ESTADO.PENDING_REVIEW_DJ:
             return this.nextStateAfterPteRevJuri(data);
-        case LIC_ST.PENDING_FIELD_VISIT:
+        case SIRHA.ESTADO.PENDING_FIELD_VISIT:
             return this.nextStateAfterVisitaCampo(data);
-        case LIC_ST.PENDING_TECH_DECISION:
+        case SIRHA.ESTADO.PENDING_TECH_DECISION:
             return this.nextStateAfterPteRevDT(data);
-        case LIC_ST.PENDING_EMIT_LICENSE:
+        case SIRHA.ESTADO.PENDING_EMIT_LICENSE:
             return this.nextStatePteEmiJuri(data);
-        case LIC_ST.PENDING_DIR_SIGN:
+        case SIRHA.ESTADO.PENDING_DIR_SIGN:
             return this.nextStatePteFirmaDir(data);
         default:
             throw 'Error';
@@ -308,141 +302,129 @@ var MyWorkflow = {
     },
 
     nextStateAfterNoExiste: function(data) {
-        var LIC_ST = Backbone.SIXHIARA.Estado;
         var nextState = undefined;
         if (data.target.id === 'bt-ok') {
-            nextState = LIC_ST.PENDING_REVIEW_DIR;
+            nextState = SIRHA.ESTADO.PENDING_REVIEW_DIR;
         }
 
         if (data.target.id === 'bt-no') {
-            nextState = LIC_ST.INCOMPLETE_DA;
+            nextState = SIRHA.ESTADO.INCOMPLETE_DA;
         }
         return nextState;
     },
 
     nextStateAfterPteRevDir: function(data) {
-        var LIC_ST = Backbone.SIXHIARA.Estado;
         var nextState = undefined;
         if (data.target.id === 'bt-ok') {
-            nextState = LIC_ST.PENDING_REVIEW_DJ;
+            nextState = SIRHA.ESTADO.PENDING_REVIEW_DJ;
         }
 
         if (data.target.id === 'bt-no') {
-            nextState = LIC_ST.INCOMPLETE_DIR;
+            nextState = SIRHA.ESTADO.INCOMPLETE_DIR;
         }
         return nextState;
     },
 
     nextStateAfterPteRevJuri: function(data) {
-        var LIC_ST = Backbone.SIXHIARA.Estado;
         var nextState = undefined;
         if (data.target.attributes && data.target.attributes['data-foo']) {
             return this.nextStatePteEmiJuri(data);
         }
 
         if (data.target.id === 'bt-ok') {
-            nextState = LIC_ST.PENDING_FIELD_VISIT;
+            nextState = SIRHA.ESTADO.PENDING_FIELD_VISIT;
         }
 
         if (data.target.id === 'bt-no') {
-            nextState = LIC_ST.INCOMPLETE_DJ;
+            nextState = SIRHA.ESTADO.INCOMPLETE_DJ;
         }
 
         if (data.target.id === 'bt-noaprobada') {
-            nextState = LIC_ST.NOT_APPROVED;
+            nextState = SIRHA.ESTADO.NOT_APPROVED;
         }
         return nextState;
     },
 
     nextStateAfterVisitaCampo: function(data) {
-        var LIC_ST = Backbone.SIXHIARA.Estado;
         var nextState = undefined;
         if (data.target.id === 'bt-ok') {
-            nextState = LIC_ST.PENDING_TECH_DECISION;
+            nextState = SIRHA.ESTADO.PENDING_TECH_DECISION;
         }
 
         if (data.target.id === 'bt-no') {
-            nextState = LIC_ST.INCOMPLETE_DT;
+            nextState = SIRHA.ESTADO.INCOMPLETE_DT;
         }
 
         if (data.target.id === 'bt-noaprobada') {
-            nextState = LIC_ST.NOT_APPROVED;
+            nextState = SIRHA.ESTADO.NOT_APPROVED;
         }
 
         if (data.target.id === 'bt-defacto') {
-            nextState = LIC_ST.DE_FACTO;
+            nextState = SIRHA.ESTADO.DE_FACTO;
         }
 
         return nextState;
     },
 
     nextStateAfterPteRevDT: function(data) {
-        var LIC_ST = Backbone.SIXHIARA.Estado;
-
         var nextState = undefined;
         if (data.target.id === 'bt-ok') {
-            nextState = LIC_ST.PENDING_EMIT_LICENSE;
+            nextState = SIRHA.ESTADO.PENDING_EMIT_LICENSE;
         }
 
         if (data.target.id === 'bt-no') {
-            nextState = LIC_ST.INCOMPLETE_DT;
+            nextState = SIRHA.ESTADO.INCOMPLETE_DT;
         }
 
         if (data.target.id === 'bt-noaprobada') {
-            nextState = LIC_ST.NOT_APPROVED;
+            nextState = SIRHA.ESTADO.NOT_APPROVED;
         }
 
         if (data.target.id === 'bt-defacto') {
-            nextState = LIC_ST.DE_FACTO;
+            nextState = SIRHA.ESTADO.DE_FACTO;
         }
 
         return nextState;
     },
 
     nextStatePteEmiJuri: function(data) {
-        var LIC_ST = Backbone.SIXHIARA.Estado;
-
         var nextState = undefined;
         if (data.target.id === 'bt-ok') {
-            nextState = LIC_ST.PENDING_DIR_SIGN;
+            nextState = SIRHA.ESTADO.PENDING_DIR_SIGN;
         }
 
         if (data.target.id === 'bt-no') {
-            nextState = LIC_ST.INCOMPLETE_DJ;
+            nextState = SIRHA.ESTADO.INCOMPLETE_DJ;
         }
 
         if (data.target.id === 'bt-noaprobada') {
-            nextState = LIC_ST.NOT_APPROVED;
+            nextState = SIRHA.ESTADO.NOT_APPROVED;
         }
 
         if (data.target.id === 'bt-defacto') {
-            nextState = LIC_ST.DE_FACTO;
+            nextState = SIRHA.ESTADO.DE_FACTO;
         }
         return nextState;
     },
 
     nextStatePteFirmaDir: function(data) {
-        var LIC_ST = Backbone.SIXHIARA.Estado;
-
         var nextState = undefined;
         if (data.target.id === 'bt-ok') {
-            nextState = LIC_ST.LICENSED;
+            nextState = SIRHA.ESTADO.LICENSED;
         }
 
         if (data.target.id === 'bt-noaprobada') {
-            nextState = LIC_ST.NOT_APPROVED;
+            nextState = SIRHA.ESTADO.NOT_APPROVED;
         }
         return nextState;
     },
 
     whichFacturacaoNextState: function(currentState, data, exp) {
-        var LIC_ST = Backbone.SIXHIARA.Estado;
-
         // puede tener sentido agrupar en whichNextState
         var fact_estado = exp.get('fact_estado');
         var role = this.getMainRole();
 
-        if (! LIC_ST.CATEGORY_POST_LICENSED.includes(currentState)) {
+        if (! SIRHA.ESTADO.CATEGORY_POST_LICENSED.includes(currentState)) {
             throw 'Error';
         }
 
@@ -522,7 +504,7 @@ var MyWorkflow = {
     },
 
     canDraw: function() {
-        return [ROL_TECNICO, ROL_ADMIN].includes(this.getMainRole());
+        return [SIRHA.ROLE.TECNICO, SIRHA.ROLE.ADMIN].includes(this.getMainRole());
     },
 
     getDefaultDataForFileModal(exp_id) {
@@ -531,7 +513,7 @@ var MyWorkflow = {
             defaultFolderId: exp_id
         }
         if(!this.isAdmin() && !this.isObservador()) {
-            if(this.getMainRole() == ROL_UNIDAD_DELEGACION) {
+            if(this.getMainRole() == SIRHA.ROLE.UNIDAD) {
                 data.defaultUrlBase = Backbone.SIXHIARA.Config.apiDocumentos + '/' + exp_id + '/' + this.getMainRole();
                 data.defaultFolderId = this.getUnidade();
             }else{

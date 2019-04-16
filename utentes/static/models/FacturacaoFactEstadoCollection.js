@@ -15,11 +15,11 @@ Backbone.SIXHIARA.FacturacaoFactEstadoCollection = Backbone.UILib.DomainCollecti
             'order': 0,
         },{
             'category': 'licencia_estado',
-            'text': Backbone.SIXHIARA.Estado.LICENSED,
+            'text': SIRHA.ESTADO.LICENSED,
             'order': 2,
         },{
             'category': 'licencia_estado',
-            'text': Backbone.SIXHIARA.Estado.DE_FACTO,
+            'text': SIRHA.ESTADO.DE_FACTO,
             'order': 3,
         }];
         return new Backbone.UILib.DomainCollection(s);
@@ -85,14 +85,14 @@ FACTURACAO_ESTADOS.splice(0, 0,
     },
     {
         'key': FACTURACAO_ESTADOS.PENDING_PAY,
-        'roles': [ROL_ADMIN, ROL_OBSERVADOR, ROL_FINANCIERO]
+        'roles': [SIRHA.ROLE.ADMIN, SIRHA.ROLE.OBSERVADOR, SIRHA.ROLE.FINANCIERO]
     },
     {
         'key': FACTURACAO_ESTADOS.PENDIND_INVOICE,
-        'roles': [ROL_ADMIN, ROL_OBSERVADOR, ROL_FINANCIERO]
+        'roles': [SIRHA.ROLE.ADMIN, SIRHA.ROLE.OBSERVADOR, SIRHA.ROLE.FINANCIERO]
     },
     {
         'key': FACTURACAO_ESTADOS.PENDING_M3,
-        'roles': [ROL_ADMIN, ROL_OBSERVADOR, ROL_TECNICO, ROL_UNIDAD_DELEGACION]
+        'roles': [SIRHA.ROLE.ADMIN, SIRHA.ROLE.OBSERVADOR, SIRHA.ROLE.TECNICO, SIRHA.ROLE.UNIDAD]
     }
 );

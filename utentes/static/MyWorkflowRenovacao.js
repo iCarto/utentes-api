@@ -14,7 +14,7 @@ var MyWorkflowRenovacao = {
         // En todo caso los ROLES deberian ser una clase aparte
         var role = document.cookie.replace(/(?:(?:^|.*;\s*)utentes_stub_role\s*\=\s*([^;]*).*$)|^.*$/, '$1');
         role = decodeURIComponent(role);
-        if (![ROL_ADMIN, ROL_OBSERVADOR, ROL_UNIDAD_DELEGACION, ROL_ADMINISTRATIVO, ROL_FINANCIERO, ROL_DIRECCION, ROL_TECNICO, ROL_JURIDICO].includes(role)) {
+        if (![SIRHA.ROLE.ADMIN, SIRHA.ROLE.OBSERVADOR, SIRHA.ROLE.UNIDAD, SIRHA.ROLE.ADMINISTRATIVO, SIRHA.ROLE.FINANCIERO, SIRHA.ROLE.DIRECCION, SIRHA.ROLE.TECNICO, SIRHA.ROLE.JURIDICO].includes(role)) {
             throw Error('Not valid role');
         }
         return role;
@@ -51,10 +51,10 @@ var MyWorkflowRenovacao = {
         var roles = [this.getMainRoleSafe()];
 
         if (this.getUser() === this.SINGLE_USER) {
-            roles.push(ROL_SINGLE_SAFE);
+            roles.push(SIRHA.ROLE.SINGLE_SAFE);
         }
-        if (roles.includes(this.getMainRoleSafe(ROL_UNIDAD_DELEGACION))) {
-            roles.push(this.getMainRoleSafe(ROL_OBSERVADOR));
+        if (roles.includes(this.getMainRoleSafe(SIRHA.ROLE.UNIDAD))) {
+            roles.push(this.getMainRoleSafe(SIRHA.ROLE.OBSERVADOR));
         }
         return roles;
     },
@@ -62,10 +62,10 @@ var MyWorkflowRenovacao = {
     getAllRolesNotSafe: function() {
         var roles = [this.getMainRole()];
         if (this.getUser() === this.SINGLE_USER) {
-            roles.push(ROL_SINGLE_SAFE);
+            roles.push(SIRHA.ROLE.SINGLE_SAFE);
         }
-        if (roles.includes(ROL_UNIDAD_DELEGACION)) {
-            roles.push(ROL_OBSERVADOR);
+        if (roles.includes(SIRHA.ROLE.UNIDAD)) {
+            roles.push(SIRHA.ROLE.OBSERVADOR);
         }
         return roles;
     },
@@ -75,21 +75,21 @@ var MyWorkflowRenovacao = {
             var role = this.getMainRole();
         }
         switch (role) {
-        case ROL_ADMIN:
+        case SIRHA.ROLE.ADMIN:
             return 'administrador';
-        case ROL_OBSERVADOR:
+        case SIRHA.ROLE.OBSERVADOR:
             return 'observador';
-        case ROL_ADMINISTRATIVO:
+        case SIRHA.ROLE.ADMINISTRATIVO:
             return 'administrativo';
-        case ROL_FINANCIERO:
+        case SIRHA.ROLE.FINANCIERO:
             return 'financieiro';
-        case ROL_DIRECCION:
+        case SIRHA.ROLE.DIRECCION:
             return 'direccao';
-        case ROL_TECNICO:
+        case SIRHA.ROLE.TECNICO:
             return 'tecnico';
-        case ROL_UNIDAD_DELEGACION:
+        case SIRHA.ROLE.UNIDAD:
             return 'unidade';
-        case ROL_JURIDICO:
+        case SIRHA.ROLE.JURIDICO:
             return 'juridico';
         }
     },
@@ -98,28 +98,28 @@ var MyWorkflowRenovacao = {
         if(!role) {
             role = wfr.getMainRole();
         }
-        return role === ROL_ADMIN;
+        return role === SIRHA.ROLE.ADMIN;
     },
 
     isDirector: function(role) {
         if(!role) {
             role = wfr.getMainRole();
         }
-        return role === ROL_DIRECCION;
+        return role === SIRHA.ROLE.DIRECCION;
     },
 
     isObservador: function(role) {
         if(!role) {
             role = wfr.getMainRole();
         }
-        return role === ROL_OBSERVADOR;
+        return role === SIRHA.ROLE.OBSERVADOR;
     },
 
     hasRoleObservador: function(roles) {
         if(!roles) {
             var roles = this.getRoles('not-safe');
         }
-        return roles.includes(ROL_OBSERVADOR);
+        return roles.includes(SIRHA.ROLE.OBSERVADOR);
     },
 
     init: function() {
@@ -170,19 +170,19 @@ var MyWorkflowRenovacao = {
                 return Backbone.SIXHIARA.ViewJuridico2;
             }
 
-            if (role === ROL_JURIDICO || role === ROL_ADMIN || role === ROL_OBSERVADOR) {
+            if (role === SIRHA.ROLE.JURIDICO || role === SIRHA.ROLE.ADMIN || role === SIRHA.ROLE.OBSERVADOR) {
                 return Backbone.SIXHIARA.ViewJuridico1;
             };
-            if (role === ROL_TECNICO || role == ROL_UNIDAD_DELEGACION) {
+            if (role === SIRHA.ROLE.TECNICO || role == SIRHA.ROLE.UNIDAD) {
                 return Backbone.SIXHIARA.ViewJuridicoNotEditable;
             };
         case LIC_ST.PENDING_REVIEW_DIR:
             return Backbone.SIXHIARA.ViewSecretaria1;
         case LIC_ST.PENDING_REVIEW_DJ:
-            if (role === ROL_JURIDICO || role === ROL_ADMIN || role === ROL_OBSERVADOR) {
+            if (role === SIRHA.ROLE.JURIDICO || role === SIRHA.ROLE.ADMIN || role === SIRHA.ROLE.OBSERVADOR) {
                 return Backbone.SIXHIARA.ViewJuridico1;
             };
-            if (role === ROL_TECNICO || role == ROL_UNIDAD_DELEGACION) {
+            if (role === SIRHA.ROLE.TECNICO || role == SIRHA.ROLE.UNIDAD) {
                 return Backbone.SIXHIARA.ViewJuridicoNotEditable;
             };
         case LIC_ST.INCOMPLETE_DT:
@@ -488,7 +488,7 @@ var MyWorkflowRenovacao = {
     },
 
     canDraw: function() {
-        return [ROL_TECNICO, ROL_ADMIN].includes(this.getMainRole());
+        return [SIRHA.ROLE.TECNICO, SIRHA.ROLE.ADMIN].includes(this.getMainRole());
     },
 
     getDefaultDataForFileModal(exp_id) {
@@ -497,7 +497,7 @@ var MyWorkflowRenovacao = {
             defaultFolderId: exp_id
         }
         if(!this.isAdmin() && !this.isObservador()) {
-            if(this.getMainRole() == ROL_UNIDAD_DELEGACION) {
+            if(this.getMainRole() == SIRHA.ROLE.UNIDAD) {
                 data.defaultUrlBase = Backbone.SIXHIARA.Config.apiDocumentos + '/' + exp_id + '/' + this.getMainRole();
                 data.defaultFolderId = this.getUnidade();
             }else{

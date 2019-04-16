@@ -11,7 +11,7 @@ user.fetch({
         }).render();
         document.getElementById('usergroup').disabled = true;
 
-        if (user.get('usergroup') == ROL_UNIDAD_DELEGACION) {
+        if (user.get('usergroup') == SIRHA.ROLE.UNIDAD) {
             new Backbone.UILib.SelectView({
                 el: this.$('#unidade'),
                 collection: new Backbone.Collection(new Backbone.Model({text: user.get('unidade')})),

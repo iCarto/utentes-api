@@ -55,7 +55,6 @@ function validateName() {
 }
 
 
-var LIC_ST = Backbone.SIXHIARA.Estado;
 var params = new URLSearchParams(document.location.search.substring(1));
 var id = params.get('id');
 if (id) {
@@ -67,7 +66,7 @@ if (id) {
             domains.fetch({
                 success: function(collection, response, options) {
                     fillComponentsWithDomains();
-                    if ((exploracao.get('estado_lic') !== LIC_ST.PENDING_FIELD_VISIT) && (exploracao.get('estado_lic') !== LIC_ST.INCOMPLETE_DT)) {
+                    if ((exploracao.get('estado_lic') !== SIRHA.ESTADO.PENDING_FIELD_VISIT) && (exploracao.get('estado_lic') !== SIRHA.ESTADO.INCOMPLETE_DT)) {
                         // To avoid call it twice, for example clicking back browser button
                         window.location = Backbone.SIXHIARA.Config.urlShow + exploracao.get('id');
                     }
@@ -94,7 +93,7 @@ if (id) {
             fillComponentsWithDomains();
             if (! window.SIRHA.is_single_user_mode()) {
                 exploracao.set({
-                    'estado_lic': LIC_ST.PENDING_FIELD_VISIT,
+                    'estado_lic': SIRHA.ESTADO.PENDING_FIELD_VISIT,
                 }, {silent: true});
             }
             exploracao.set('exp_id', expedientes.get('new_exp_id'), {silent: true});
@@ -103,7 +102,7 @@ if (id) {
             if (! window.SIRHA.is_single_user_mode()) {
                 document.querySelectorAll('#licencia-superficial #estado')[0].parentNode.remove();
                 document.querySelectorAll('#licencia-subterranea #estado')[0].parentNode.remove();
-                exploracao.set('state_to_set_after_validation', Backbone.SIXHIARA.Estado.DE_FACTO, {silent: true});
+                exploracao.set('state_to_set_after_validation', SIRHA.ESTADO.DE_FACTO, {silent: true});
                 document.getElementById('save-button').innerHTML = 'Criar Utente de facto';
             }
         },
