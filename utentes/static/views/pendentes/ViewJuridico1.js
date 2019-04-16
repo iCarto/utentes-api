@@ -30,52 +30,52 @@ Backbone.SIXHIARA.ViewJuridico1 = Backbone.SIXHIARA.View1.extend({
             <tr>
               <td>Carta de requerimento de solicitação</td>
               <td><input id="carta_re" type="checkbox" <%- carta_re ? 'checked=""' : '' %> required></td>
-              <td><input id="carta_re_v" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- carta_re_v ? 'checked=""' : '' %> required></td>
+              <td><input id="carta_re_v" class="uilib-enability uilib-disable-role-observador uilib-disable-role-tecnico" type="checkbox" <%- carta_re_v ? 'checked=""' : '' %> required></td>
             </tr>
             <tr>
               <td>Ficha de pedido preenchida</td>
               <td><input id="ficha_pe" type="checkbox" <%- ficha_pe ? 'checked=""' : '' %> required></td>
-              <td><input id="ficha_pe_v" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- ficha_pe_v ? 'checked=""' : '' %> required></td>
+              <td><input id="ficha_pe_v" class="uilib-enability uilib-disable-role-observador uilib-disable-role-tecnico" type="checkbox" <%- ficha_pe_v ? 'checked=""' : '' %> required></td>
             </tr>
             <tr>
               <td>Identificação do proprietário</td>
               <td><input id="ident_pro" type="checkbox" <%- ident_pro ? 'checked=""' : '' %> required></td>
-              <td><input id="ident_pro_v" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- ident_pro_v ? 'checked=""' : '' %> required></td>
+              <td><input id="ident_pro_v" class="uilib-enability uilib-disable-role-observador uilib-disable-role-tecnico" type="checkbox" <%- ident_pro_v ? 'checked=""' : '' %> required></td>
             </tr>
             <tr>
               <td>Certificado de registo comercial</td>
               <td><input id="certi_reg" type="checkbox" <%- certi_reg ? 'checked=""' : '' %>></td>
-              <td><input id="certi_reg_v" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- certi_reg_v ? 'checked=""' : '' %> required></td>
+              <td><input id="certi_reg_v" class="uilib-enability uilib-disable-role-observador uilib-disable-role-tecnico" type="checkbox" <%- certi_reg_v ? 'checked=""' : '' %> required></td>
             </tr>
             <tr>
               <td>DUAT ou declaração das estructuras locais&nbsp;(bairro)</td>
               <td><input id="duat" type="checkbox" <%- duat ? 'checked=""' : '' %>></td>
-              <td><input id="duat_v" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- duat_v ? 'checked=""' : '' %> required></td>
+              <td><input id="duat_v" class="uilib-enability uilib-disable-role-observador uilib-disable-role-tecnico" type="checkbox" <%- duat_v ? 'checked=""' : '' %> required></td>
             </tr>
             <tr>
               <td>Mapa de localização</td>
               <td><input id="mapa" type="checkbox" <%- mapa ? 'checked=""' : '' %>></td>
-              <td><input id="mapa_v" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- mapa_v ? 'checked=""' : '' %> required></td>
+              <td><input id="mapa_v" class="uilib-enability uilib-disable-role-observador uilib-disable-role-tecnico" type="checkbox" <%- mapa_v ? 'checked=""' : '' %> required></td>
             </tr>
             <tr>
               <td>Boletim de análise de água</td>
               <td><input id="b_a_agua" type="checkbox" <%- b_a_agua ? 'checked=""' : '' %>></td>
-              <td><input id="b_a_agua_v" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- b_a_agua_v ? 'checked=""' : '' %>></td>
+              <td><input id="b_a_agua_v" class="uilib-enability uilib-disable-role-observador uilib-disable-role-tecnico" type="checkbox" <%- b_a_agua_v ? 'checked=""' : '' %>></td>
             </tr>
             <tr>
               <td>Licença Ambiental&nbsp;(Se é preciso)</td>
               <td><input id="licen_am" type="checkbox" <%- licen_am ? 'checked=""' : '' %>></td>
-              <td><input id="licen_am_v" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- licen_am_v ? 'checked=""' : '' %>></td>
+              <td><input id="licen_am_v" class="uilib-enability uilib-disable-role-observador uilib-disable-role-tecnico" type="checkbox" <%- licen_am_v ? 'checked=""' : '' %>></td>
             </tr>
             <tr>
               <td>Autorização de apertura de poço/furo&nbsp;(Se é preciso)</td>
               <td><input id="licen_fu" type="checkbox" <%- licen_fu ? 'checked=""' : '' %>></td>
-              <td><input id="licen_fu_v" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- licen_fu_v ? 'checked=""' : '' %>></td>
+              <td><input id="licen_fu_v" class="uilib-enability uilib-disable-role-observador uilib-disable-role-tecnico" type="checkbox" <%- licen_fu_v ? 'checked=""' : '' %>></td>
             </tr>
             <tr>
               <td>Relatório técnico de perforação&nbsp;(Se é preciso)</td>
               <td><input id="r_perf" type="checkbox" <%- r_perf ? 'checked=""' : '' %>></td>
-              <td><input id="r_perf_v" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- r_perf_v ? 'checked=""' : '' %>></td>
+              <td><input id="r_perf_v" class="uilib-enability uilib-disable-role-observador uilib-disable-role-tecnico" type="checkbox" <%- r_perf_v ? 'checked=""' : '' %>></td>
             </tr>
           </tbody>
         </table>
@@ -96,12 +96,12 @@ Backbone.SIXHIARA.ViewJuridico1 = Backbone.SIXHIARA.View1.extend({
             o bien, todos los botones deberían ser generados en otra parte, o de los dominios se deberían decidir que botones
             se pueden usar en el modo combo o algo así
             -->
-            <button id="bt-ok" type="button" class="btn btn-default uilib-enability uilib-hide-role-observador">Completa</button>
-            <button id="bt-no" type="button" class="btn btn-primary uilib-enability uilib-hide-role-observador">Incompleta</button>
-            <button id="bt-noaprobada" type="button" class="btn btn-primary uilib-enability uilib-hide-role-observador">Não aprovada</button>
+            <button id="bt-ok" type="button" class="btn btn-default uilib-enability uilib-hide-role-observador uilib-hide-role-tecnico">Completa</button>
+            <button id="bt-no" type="button" class="btn btn-primary uilib-enability uilib-hide-role-observador uilib-hide-role-tecnico">Incompleta</button>
+            <button id="bt-noaprobada" type="button" class="btn btn-primary uilib-enability uilib-hide-role-observador uilib-hide-role-tecnico">Não aprovada</button>
           </div>
         </label>
-        <textarea id="observacio" class="form-control widget uilib-enability uilib-disable-role-observador"></textarea>
+        <textarea id="observacio" class="form-control widget uilib-enability uilib-disable-role-observador uilib-disable-role-tecnico"></textarea>
 
           <label for="observacio_ant">Observações anteriores</label>
             <textarea class="form-control widget" id="observacio_ant" disabled>
@@ -137,7 +137,7 @@ print('O ' + formatter().formatDate(req_obs[i]['create_at']) + ', ' + req_obs[i]
             input.addEventListener('change', self.autosave.bind(self), false);
         });
 
-        
+
         var defaultDataForFileModal = iAuth.getDefaultDataForFileModal(this.model.get('id'));
         var fileModalView = new Backbone.DMS.FileModalView({
             openElementId: '#file-modal',

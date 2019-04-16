@@ -27,7 +27,6 @@ var MyWorkflowRenovacao = {
         }
 
         var state = this.getCurrentState(exp);
-        var role = this.getMainRole();
 
         switch (state) {
         case SIRHA.ESTADO_RENOVACAO.NOT_EXISTS:
@@ -42,22 +41,11 @@ var MyWorkflowRenovacao = {
             if (this.isNotCompleteForFirstDJState(exp)) {
                 return Backbone.SIXHIARA.ViewJuridico2;
             }
-
-            if (role === SIRHA.ROLE.JURIDICO || role === SIRHA.ROLE.ADMIN || role === SIRHA.ROLE.OBSERVADOR) {
-                return Backbone.SIXHIARA.ViewJuridico1;
-            };
-            if (role === SIRHA.ROLE.TECNICO || role == SIRHA.ROLE.UNIDAD) {
-                return Backbone.SIXHIARA.ViewJuridicoNotEditable;
-            };
+            return Backbone.SIXHIARA.ViewJuridico1;
         case SIRHA.ESTADO_RENOVACAO.PENDING_REVIEW_DIR:
             return Backbone.SIXHIARA.ViewSecretaria1;
         case SIRHA.ESTADO_RENOVACAO.PENDING_REVIEW_DJ:
-            if (role === SIRHA.ROLE.JURIDICO || role === SIRHA.ROLE.ADMIN || role === SIRHA.ROLE.OBSERVADOR) {
-                return Backbone.SIXHIARA.ViewJuridico1;
-            };
-            if (role === SIRHA.ROLE.TECNICO || role == SIRHA.ROLE.UNIDAD) {
-                return Backbone.SIXHIARA.ViewJuridicoNotEditable;
-            };
+            return Backbone.SIXHIARA.ViewJuridico1;
         case SIRHA.ESTADO_RENOVACAO.INCOMPLETE_DT:
         case SIRHA.ESTADO_RENOVACAO.PENDING_FIELD_VISIT:
         case SIRHA.ESTADO_RENOVACAO.PENDING_TECH_DECISION:
@@ -105,7 +93,7 @@ var MyWorkflowRenovacao = {
     },
 
     hasNextStateSameRole: function(exp, estados){
-        var role = wfr.getMainRole();
+        var role = iAuth.getMainRole();
         var estado = exp.get('renovacao').get("estado");
         var nextState = wfr.whichNextState(estado)
         var filtered = estados.filter(function(s) {

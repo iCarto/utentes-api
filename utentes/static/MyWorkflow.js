@@ -27,7 +27,6 @@ var MyWorkflow = {
         }
 
         var state = this.getCurrentState(exp);
-        var role = this.getMainRole();
 
         if (SIRHA.ESTADO.CATEGORY_POST_LICENSED.includes(state)) {
             return this.whichFacturacaoView(exp, next);
@@ -44,24 +43,13 @@ var MyWorkflow = {
             if (this.isNotCompleteForFirstDJState(exp)) {
                 return Backbone.SIXHIARA.ViewJuridico2;
             }
-
-            if (role === SIRHA.ROLE.JURIDICO || role === SIRHA.ROLE.ADMIN || role === SIRHA.ROLE.OBSERVADOR) {
-                return Backbone.SIXHIARA.ViewJuridico1;
-            };
-            if (role === SIRHA.ROLE.TECNICO) {
-                return Backbone.SIXHIARA.ViewJuridicoNotEditable1;
-            };
+            return Backbone.SIXHIARA.ViewJuridico1;
         case SIRHA.ESTADO.INCOMPLETE_DF:
             return Backbone.SIXHIARA.UpsView;
         case SIRHA.ESTADO.PENDING_REVIEW_DIR:
             return Backbone.SIXHIARA.ViewSecretaria1;
         case SIRHA.ESTADO.PENDING_REVIEW_DJ:
-            if (role === SIRHA.ROLE.JURIDICO || role === SIRHA.ROLE.ADMIN || role === SIRHA.ROLE.OBSERVADOR) {
-                return Backbone.SIXHIARA.ViewJuridico1;
-            };
-            if (role === SIRHA.ROLE.TECNICO) {
-                return Backbone.SIXHIARA.ViewJuridicoNotEditable1;
-            };
+            return Backbone.SIXHIARA.ViewJuridico1;
         case SIRHA.ESTADO.INCOMPLETE_DT:
         case SIRHA.ESTADO.PENDING_FIELD_VISIT:
         case SIRHA.ESTADO.PENDING_TECH_DECISION:
