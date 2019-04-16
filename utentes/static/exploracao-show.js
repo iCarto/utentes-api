@@ -3,7 +3,7 @@ $(document).ready(function() {
         parse: true,
         success: function(){
             showView.render();
-            wf.disabledWidgets();
+            iAuth.disabledWidgets();
         },
         error: function(){
             window.location = Backbone.SIXHIARA.Config.urlSearch;

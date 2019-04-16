@@ -49,10 +49,7 @@ Backbone.SIXHIARA.FacturacaoFactEstadoCollection = Backbone.UILib.DomainCollecti
     },
 
     availableFacturacaoStates: function() {
-        // workaround. con los cambios de concatenar el javascript esto se estaba ejeuctando
-        // antes de document.ready
-        var myworkflow = window['wf']  || Object.create(MyWorkflow);
-        var role = myworkflow.getMainRole();
+        var role = iAuth.getMainRole();
         var states = window.SIXHIARA.ESTADOS_FACT.filter(function(s) {
             return s.roles.indexOf(role) !== -1;
         });

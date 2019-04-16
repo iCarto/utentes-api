@@ -97,6 +97,14 @@
 
 {# Useful JavaScript #}
 {% include 'set-ara-variable.jinja2' %}
+
+{% assets
+"iauth.js",
+"tenant-custom-code.js",
+output="dist/commoncode.js", filters="rjsmin" %}
+    <script src="{{ ASSET_URL }}"></script>
+{% endassets %}
+
 <script>
     {# Highlight selected menu item #}
     var activeMenuEl = document.querySelector("a[href='{{request.url}}']")

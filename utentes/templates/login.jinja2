@@ -35,8 +35,6 @@
 
     </div>
 
-    {% include 'set-ara-variable.jinja2' %}
-
     {% assets "lib/jquery/jquery-1.12.0.min.js", "lib/bootstrap/js/bootstrap.min.js", output="dist/login.js", filters="rjsmin" %}
         <script src="{{ ASSET_URL }}"></script>
     {% endassets %}

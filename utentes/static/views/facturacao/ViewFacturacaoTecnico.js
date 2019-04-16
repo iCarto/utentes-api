@@ -5,7 +5,7 @@ Backbone.SIXHIARA.ViewFacturacaoTecnico = Backbone.SIXHIARA.ViewFacturacao.exten
         var self = this;
         this.widgets = [];
 
-        if (wf.hasRoleObservador()) {
+        if (iAuth.hasRoleObservador()) {
             return;
         }
         this.model.get('licencias').forEach(function(lic){

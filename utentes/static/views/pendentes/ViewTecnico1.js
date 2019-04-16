@@ -113,7 +113,7 @@ print('O ' + formatter().formatDate(req_obs[i]['create_at']) + ', ' + req_obs[i]
             input.addEventListener('change', self.autosave.bind(self), false);
         });
 
-        var defaultDataForFileModal = wf.getDefaultDataForFileModal(this.model.get('id'));
+        var defaultDataForFileModal = iAuth.getDefaultDataForFileModal(this.model.get('id'));
         var fileModalView = new Backbone.DMS.FileModalView({
             openElementId: '#file-modal',
             title: 'Arquivo Electr&oacute;nico',
@@ -213,7 +213,7 @@ print('O ' + formatter().formatDate(req_obs[i]['create_at']) + ', ' + req_obs[i]
         var currentComment = exploracao.get('req_obs').slice(-1)[0];
         Object.assign(currentComment, {
             'create_at': new Date(),
-            'author': wf.getUser(),
+            'author': iAuth.getUser(),
             'text': document.getElementById('observacio').value,
             'state': nextState,
         });

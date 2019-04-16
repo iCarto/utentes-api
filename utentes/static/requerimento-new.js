@@ -107,7 +107,7 @@ function fillExploracao(e, autosave) {
     var currentComment = exploracao.get('req_obs').slice(-1)[0];
     Object.assign(currentComment, {
         'create_at': formatter().now(),
-        'author': wf.getUser(),
+        'author': iAuth.getUser(),
         'text': document.getElementById('observacio').value,
         'state': nextState,
     })
@@ -153,7 +153,7 @@ function fillExploracao(e, autosave) {
                     var exp_name = model.get('exp_name');
 
                     if(fileModalView.hasPendingFiles()) {
-                        var departamento = wf.isAdmin() ? SIRHA.ROLE.ADMINISTRATIVO : wf.getMainRole();
+                        var departamento = iAuth.isAdmin() ? SIRHA.ROLE.ADMINISTRATIVO : iAuth.getMainRole();
                         var url = Backbone.SIXHIARA.Config.apiDocumentos + '/' + model.get('id');
                         fileModalView.show();
                         fileModalView.setUrlBase(url);

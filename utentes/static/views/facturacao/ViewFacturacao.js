@@ -287,7 +287,7 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
         this.initSelects()
         document.getElementById('observacio').addEventListener('input', self.autosave.bind(self), false);
 
-        var defaultDataForFileModal = wf.getDefaultDataForFileModal(this.model.get('id'));
+        var defaultDataForFileModal = iAuth.getDefaultDataForFileModal(this.model.get('id'));
         var fileModalView = new Backbone.DMS.FileModalView({
             openElementId: '#file-modal',
             title: 'Arquivo Electr&oacute;nico',
@@ -299,7 +299,7 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
 
     widgetsToBeUsed: function() {
         var self = this;
-        if (wf.hasRoleObservador()) {
+        if (iAuth.hasRoleObservador()) {
             this.widgets = [];
             return;
         }
@@ -423,7 +423,7 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
         var currentComment = fact['observacio'].slice(-1)[0];
         Object.assign(currentComment, {
             'create_at': new Date(),
-            'author': wf.getUser(),
+            'author': iAuth.getUser(),
             'text': document.getElementById('observacio').value,
             'state': nextState,
         });

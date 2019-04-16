@@ -163,7 +163,7 @@ Backbone.SIXHIARA.BlockLicenseView = Backbone.View.extend({
             // Igual se podrían ocualtar con uilib-enability
             modalView.$('#fact_tipo')[0].value = this.model.get('fact_tipo');
         }
-        wf.disabledWidgets('#licenciaModal');
+        iAuth.disabledWidgets('#licenciaModal');
     },
 
     renderAddLicenseModal: function (event) {
@@ -199,7 +199,7 @@ Backbone.SIXHIARA.BlockLicenseView = Backbone.View.extend({
             modalView.$('#fact_tipo')[0].value = this.model.get('fact_tipo');
         }
 
-        wf.disabledWidgets('#licenciaModal');
+        iAuth.disabledWidgets('#licenciaModal');
 
     },
 

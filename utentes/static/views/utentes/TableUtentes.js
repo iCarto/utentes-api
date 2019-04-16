@@ -32,7 +32,7 @@ Backbone.SIXHIARA.TableUtentes = Backbone.View.extend({
         this.createHtmlTable();
         this.createDataTable();
         this.custom();
-        wf.disabledWidgets();
+        iAuth.disabledWidgets();
     },
 
     createHtmlTable: function() {
@@ -202,7 +202,7 @@ Backbone.SIXHIARA.TableUtentes = Backbone.View.extend({
                 });
             },
             customConfiguration: function(){
-                wf.disabledWidgets('#editUtenteModal');
+                iAuth.disabledWidgets('#editUtenteModal');
             }
         });
 

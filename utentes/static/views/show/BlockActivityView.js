@@ -24,7 +24,7 @@ Backbone.SIXHIARA.BlockActivityView = Backbone.View.extend({
 
     render: function () {
         _.invoke(this.subViews, 'render');
-        wf.disabledWidgets();
+        iAuth.disabledWidgets();
         return this;
     },
 

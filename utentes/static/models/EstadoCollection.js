@@ -54,7 +54,7 @@ Backbone.SIXHIARA.EstadoCollection = Backbone.UILib.DomainCollection.extend({
     },
 
     availablePendentesStates: function() {
-        var role = wf.getMainRole();
+        var role = iAuth.getMainRole();
         var states = SIXHIARA.ESTADOS_PENDENTES.filter(function(s) {
             return s.roles.indexOf(role) !== -1;
         });

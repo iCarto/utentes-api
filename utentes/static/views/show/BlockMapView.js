@@ -46,7 +46,7 @@ Backbone.SIXHIARA.BlockMapView = Backbone.View.extend({
             FitToBounds.fit(this.map, 0.1, 16, null, true, this.geoJSONLayer);
         }
 
-        if (wf.canDraw()) {
+        if (iAuth.canDraw()) {
 
             if (L && L.drawLocal) L.drawLocal = Backbone.SIXHIARA.LeafletDrawLocalesPT;
             var drawControl = new L.Control.Draw({

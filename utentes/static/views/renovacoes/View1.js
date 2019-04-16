@@ -156,7 +156,7 @@ Backbone.SIXHIARA.View1 = Backbone.View.extend({
         var currentComment = renovacao.get('obser').slice(-1)[0];
         Object.assign(currentComment, {
             create_at: new Date(),
-            author: wfr.getUser(),
+            author: iAuth.getUser(),
             text: document.getElementById('observacio').value,
             state: nextState
         });
