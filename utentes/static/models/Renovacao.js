@@ -22,7 +22,7 @@ Backbone.SIXHIARA.Renovacao = Backbone.Model.extend({
         d_soli:              null,
         d_ultima_entrega_doc:null,
 
-        estado:              Backbone.SIXHIARA.EstadoRenovacao.NOT_EXISTS,
+        estado:              SIRHA.ESTADO_RENOVACAO.NOT_EXISTS,
 
         carta_ren:           false,
         carta_ren_v:         false,

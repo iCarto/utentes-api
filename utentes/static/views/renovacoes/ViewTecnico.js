@@ -134,19 +134,18 @@ Backbone.SIXHIARA.ViewTecnico = Backbone.SIXHIARA.View1.extend({
             return true;
         });
 
-        var E = Backbone.SIXHIARA.EstadoRenovacao;
         var validState = this.model.get('renovacao').get('estado');
         var expTest = this.model.cloneExploracao();
-        if (expTest.get('renovacao').get('estado') === E.INCOMPLETE_DT) {
+        if (expTest.get('renovacao').get('estado') === SIRHA.ESTADO_RENOVACAO.INCOMPLETE_DT) {
             if (expTest.isValid()) {
-                validState = E.PENDING_TECH_DECISION;
+                validState = SIRHA.ESTADO_RENOVACAO.PENDING_TECH_DECISION;
             }
         }
-        if (validState === E.PENDING_TECH_DECISION) {
-            expTest.setLicState(E.PENDING_TECH_DECISION);
+        if (validState === SIRHA.ESTADO_RENOVACAO.PENDING_TECH_DECISION) {
+            expTest.setLicState(SIRHA.ESTADO_RENOVACAO.PENDING_TECH_DECISION);
             if (expTest.isValid()) {
                 enableState = true;
-                document.getElementById('bt-ok').title = E.PENDING_EMIT_LICENSE;
+                document.getElementById('bt-ok').title = SIRHA.ESTADO_RENOVACAO.PENDING_EMIT_LICENSE;
             } else {
                 enableState = false;
                 document.getElementById('bt-ok').title = "Deve rechear correctamente a 'Ficha' dantes de completar";
@@ -170,10 +169,9 @@ Backbone.SIXHIARA.ViewTecnico = Backbone.SIXHIARA.View1.extend({
         var self = this;
         var exploracao = this.model;
         var renovacao = exploracao.get("renovacao");
-        var E = Backbone.SIXHIARA.EstadoRenovacao;
         var nextState = wfr.whichNextState(renovacao.get('estado'), e);
         if (e && e.target && (e.target.id === 'bt-ok')) {
-            nextState = E.PENDING_EMIT_LICENSE;
+            nextState = SIRHA.ESTADO_RENOVACAO.PENDING_EMIT_LICENSE;
         }
 
         if (autosave) {

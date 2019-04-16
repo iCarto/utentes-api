@@ -758,8 +758,8 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
 
     setLicenseTimeInfoRenovacoes: function() {
         var renovacao = this.get('renovacao')
-        if (renovacao.get('estado') == Backbone.SIXHIARA.EstadoRenovacao.INCOMPLETE_DA ||
-            renovacao.get('estado') == Backbone.SIXHIARA.EstadoRenovacao.INCOMPLETE_DJ) {
+        if (renovacao.get('estado') == SIRHA.ESTADO_RENOVACAO.INCOMPLETE_DA ||
+            renovacao.get('estado') == SIRHA.ESTADO_RENOVACAO.INCOMPLETE_DJ) {
                 this.setDocPendenteUtenteRenovacao();
                 return
         }

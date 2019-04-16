@@ -147,8 +147,6 @@ var MyWorkflowRenovacao = {
     },
 
     whichView: function(exp, next) {
-        var LIC_ST = Backbone.SIXHIARA.EstadoRenovacao;
-
         if (!exp) {
             return Backbone.SIXHIARA.ViewNoData;
         }
@@ -157,15 +155,15 @@ var MyWorkflowRenovacao = {
         var role = this.getMainRole();
 
         switch (state) {
-        case LIC_ST.NOT_EXISTS:
+        case SIRHA.ESTADO_RENOVACAO.NOT_EXISTS:
             break;
-        case LIC_ST.PENDING_RENOV_LICENSE:
+        case SIRHA.ESTADO_RENOVACAO.PENDING_RENOV_LICENSE:
             return Backbone.SIXHIARA.ViewSecretaria0;
-        case LIC_ST.INCOMPLETE_DA:
+        case SIRHA.ESTADO_RENOVACAO.INCOMPLETE_DA:
             return Backbone.SIXHIARA.ViewSecretaria0;
-        case LIC_ST.INCOMPLETE_DIR:
+        case SIRHA.ESTADO_RENOVACAO.INCOMPLETE_DIR:
             return Backbone.SIXHIARA.ViewSecretaria1;
-        case LIC_ST.INCOMPLETE_DJ:
+        case SIRHA.ESTADO_RENOVACAO.INCOMPLETE_DJ:
             if (this.isNotCompleteForFirstDJState(exp)) {
                 return Backbone.SIXHIARA.ViewJuridico2;
             }
@@ -176,30 +174,30 @@ var MyWorkflowRenovacao = {
             if (role === SIRHA.ROLE.TECNICO || role == SIRHA.ROLE.UNIDAD) {
                 return Backbone.SIXHIARA.ViewJuridicoNotEditable;
             };
-        case LIC_ST.PENDING_REVIEW_DIR:
+        case SIRHA.ESTADO_RENOVACAO.PENDING_REVIEW_DIR:
             return Backbone.SIXHIARA.ViewSecretaria1;
-        case LIC_ST.PENDING_REVIEW_DJ:
+        case SIRHA.ESTADO_RENOVACAO.PENDING_REVIEW_DJ:
             if (role === SIRHA.ROLE.JURIDICO || role === SIRHA.ROLE.ADMIN || role === SIRHA.ROLE.OBSERVADOR) {
                 return Backbone.SIXHIARA.ViewJuridico1;
             };
             if (role === SIRHA.ROLE.TECNICO || role == SIRHA.ROLE.UNIDAD) {
                 return Backbone.SIXHIARA.ViewJuridicoNotEditable;
             };
-        case LIC_ST.INCOMPLETE_DT:
-        case LIC_ST.PENDING_FIELD_VISIT:
-        case LIC_ST.PENDING_TECH_DECISION:
+        case SIRHA.ESTADO_RENOVACAO.INCOMPLETE_DT:
+        case SIRHA.ESTADO_RENOVACAO.PENDING_FIELD_VISIT:
+        case SIRHA.ESTADO_RENOVACAO.PENDING_TECH_DECISION:
             /*
              admin, tecnico, unidad. Hay que ponerlo. Si no, si por ejemplo jurídico
              pudiera ver este estado se le estaría renderizando esto.
             */
             return Backbone.SIXHIARA.ViewTecnico;
-        case LIC_ST.PENDING_EMIT_LICENSE:
+        case SIRHA.ESTADO_RENOVACAO.PENDING_EMIT_LICENSE:
             // admin, juridico
             return Backbone.SIXHIARA.ViewJuridico2;
-        case LIC_ST.PENDING_DADOS_LICENSE:
+        case SIRHA.ESTADO_RENOVACAO.PENDING_DADOS_LICENSE:
             // admin, secretaria
             return Backbone.SIXHIARA.ViewJuridicoDados;
-        case LIC_ST.PENDING_DIR_SIGN:
+        case SIRHA.ESTADO_RENOVACAO.PENDING_DIR_SIGN:
             // admin, secretaria
             return Backbone.SIXHIARA.ViewSecretaria2;
         default:
@@ -210,21 +208,20 @@ var MyWorkflowRenovacao = {
 
     isNotCompleteForFirstDJState: function(exp) {
         return exp.get('renovacao').get('obser').filter(function(o){
-                return o.state === Backbone.SIXHIARA.EstadoRenovacao.PENDING_EMIT_LICENSE;
+                return o.state === SIRHA.ESTADO_RENOVACAO.PENDING_EMIT_LICENSE;
             }).length > 0
     },
 
     isNeedAskForEnteredDocumentationDate(exp, data) {
-        var LIC_ST = Backbone.SIXHIARA.EstadoRenovacao;
         var estado = exp.get('renovacao').get("estado");
         var nextState = this.whichNextState(estado, data)
 
         if (data.target.id == 'bt-ok') {
-            if (estado == LIC_ST.INCOMPLETE_DA) {
+            if (estado == SIRHA.ESTADO_RENOVACAO.INCOMPLETE_DA) {
                     return true
             }
-            if (estado == LIC_ST.INCOMPLETE_DJ &&
-                nextState == LIC_ST.PENDING_TECH_DECISION &&
+            if (estado == SIRHA.ESTADO_RENOVACAO.INCOMPLETE_DJ &&
+                nextState == SIRHA.ESTADO_RENOVACAO.PENDING_TECH_DECISION &&
                 !this.isNotCompleteForFirstDJState(exp)) {
                     return true;
             }
@@ -244,42 +241,41 @@ var MyWorkflowRenovacao = {
     },
 
     getCurrentState: function(exp) {
-        return exp.get('renovacao').get("estado") || Backbone.SIXHIARA.EstadoRenovacao.NOT_EXISTS;
+        return exp.get('renovacao').get("estado") || SIRHA.ESTADO_RENOVACAO.NOT_EXISTS;
     },
 
     whichNextState: function(currentState, data, exp) {
         // Igual en lugar de currentState se le puede pasar la explotación
-        var LIC_ST = Backbone.SIXHIARA.EstadoRenovacao;
         if (!data) {
             return currentState;
         }
 
         switch (currentState) {
-        case LIC_ST.NOT_EXISTS:
+        case SIRHA.ESTADO_RENOVACAO.NOT_EXISTS:
             return this.nextStateAfterNoExiste(data);
-        case LIC_ST.PENDING_RENOV_LICENSE:
+        case SIRHA.ESTADO_RENOVACAO.PENDING_RENOV_LICENSE:
             return this.nextStateAfterNoExiste(data);
-        case LIC_ST.INCOMPLETE_DA:
+        case SIRHA.ESTADO_RENOVACAO.INCOMPLETE_DA:
             return this.nextStateAfterNoExiste(data);
-        case LIC_ST.INCOMPLETE_DIR:
+        case SIRHA.ESTADO_RENOVACAO.INCOMPLETE_DIR:
             return this.nextStateAfterPteRevDir(data);
-        case LIC_ST.PENDING_DADOS_LICENSE:
+        case SIRHA.ESTADO_RENOVACAO.PENDING_DADOS_LICENSE:
             return this.nextStateAfterPteDadosLic(data);
-        case LIC_ST.INCOMPLETE_DJ:
+        case SIRHA.ESTADO_RENOVACAO.INCOMPLETE_DJ:
             return this.nextStateAfterPteRevJuri(data);
-        case LIC_ST.INCOMPLETE_DT:
+        case SIRHA.ESTADO_RENOVACAO.INCOMPLETE_DT:
             return this.nextStateAfterVisitaCampo(data);
-        case LIC_ST.PENDING_REVIEW_DIR:
+        case SIRHA.ESTADO_RENOVACAO.PENDING_REVIEW_DIR:
             return this.nextStateAfterPteRevDir(data);
-        case LIC_ST.PENDING_REVIEW_DJ:
+        case SIRHA.ESTADO_RENOVACAO.PENDING_REVIEW_DJ:
             return this.nextStateAfterPteRevJuri(data);
-        case LIC_ST.PENDING_FIELD_VISIT:
+        case SIRHA.ESTADO_RENOVACAO.PENDING_FIELD_VISIT:
             return this.nextStateAfterVisitaCampo(data);
-        case LIC_ST.PENDING_TECH_DECISION:
+        case SIRHA.ESTADO_RENOVACAO.PENDING_TECH_DECISION:
             return this.nextStateAfterPteRevDT(data);
-        case LIC_ST.PENDING_EMIT_LICENSE:
+        case SIRHA.ESTADO_RENOVACAO.PENDING_EMIT_LICENSE:
             return this.nextStatePteEmiJuri(data);
-        case LIC_ST.PENDING_DIR_SIGN:
+        case SIRHA.ESTADO_RENOVACAO.PENDING_DIR_SIGN:
             return this.nextStatePteFirmaDir(data);
         default:
             throw 'Error';
@@ -287,142 +283,131 @@ var MyWorkflowRenovacao = {
     },
 
     nextStateAfterNoExiste: function(data) {
-        var LIC_ST = Backbone.SIXHIARA.EstadoRenovacao;
         var nextState = undefined;
         if (data.target.id === 'bt-ok') {
-            nextState = LIC_ST.PENDING_REVIEW_DIR;
+            nextState = SIRHA.ESTADO_RENOVACAO.PENDING_REVIEW_DIR;
         }
         if (data.target.id === 'bt-no') {
-            nextState = LIC_ST.INCOMPLETE_DA;
+            nextState = SIRHA.ESTADO_RENOVACAO.INCOMPLETE_DA;
         }
         return nextState;
     },
 
     nextStateAfterPteRevDir: function(data) {
-        var LIC_ST = Backbone.SIXHIARA.EstadoRenovacao;
         var nextState = undefined;
         if (data.target.id === 'bt-ok') {
-            nextState = LIC_ST.PENDING_REVIEW_DJ;
+            nextState = SIRHA.ESTADO_RENOVACAO.PENDING_REVIEW_DJ;
         }
 
         if (data.target.id === 'bt-no') {
-            nextState = LIC_ST.INCOMPLETE_DIR;
+            nextState = SIRHA.ESTADO_RENOVACAO.INCOMPLETE_DIR;
         }
         return nextState;
     },
 
     nextStateAfterPteRevJuri: function(data) {
-        var LIC_ST = Backbone.SIXHIARA.EstadoRenovacao;
         var nextState = undefined;
         if (data.target.attributes && data.target.attributes['data-foo']) {
             return this.nextStatePteEmiJuri(data);
         }
 
         if (data.target.id === 'bt-ok') {
-            nextState = LIC_ST.PENDING_TECH_DECISION;
+            nextState = SIRHA.ESTADO_RENOVACAO.PENDING_TECH_DECISION;
         }
 
         if (data.target.id === 'bt-no') {
-            nextState = LIC_ST.INCOMPLETE_DJ;
+            nextState = SIRHA.ESTADO_RENOVACAO.INCOMPLETE_DJ;
         }
 
         if (data.target.id === 'bt-noaprobada') {
-            nextState = LIC_ST.NOT_APPROVED;
+            nextState = SIRHA.ESTADO_RENOVACAO.NOT_APPROVED;
         }
         return nextState;
     },
 
     nextStateAfterVisitaCampo: function(data) {
-        var LIC_ST = Backbone.SIXHIARA.EstadoRenovacao;
         var nextState = undefined;
         if (data.target.id === 'bt-ok') {
-            nextState = LIC_ST.PENDING_TECH_DECISION;
+            nextState = SIRHA.ESTADO_RENOVACAO.PENDING_TECH_DECISION;
         }
 
         if (data.target.id === 'bt-no') {
-            nextState = LIC_ST.INCOMPLETE_DT;
+            nextState = SIRHA.ESTADO_RENOVACAO.INCOMPLETE_DT;
         }
 
         if (data.target.id === 'bt-noaprobada') {
-            nextState = LIC_ST.NOT_APPROVED;
+            nextState = SIRHA.ESTADO_RENOVACAO.NOT_APPROVED;
         }
 
         if (data.target.id === 'bt-defacto') {
-            nextState = LIC_ST.DE_FACTO;
+            nextState = SIRHA.ESTADO_RENOVACAO.DE_FACTO;
         }
 
         return nextState;
     },
 
     nextStateAfterPteRevDT: function(data) {
-        var LIC_ST = Backbone.SIXHIARA.EstadoRenovacao;
-
         var nextState = undefined;
         if (data.target.id === 'bt-ok') {
-            nextState = LIC_ST.PENDING_EMIT_LICENSE;
+            nextState = SIRHA.ESTADO_RENOVACAO.PENDING_EMIT_LICENSE;
         }
 
         if (data.target.id === 'bt-no') {
-            nextState = LIC_ST.INCOMPLETE_DT;
+            nextState = SIRHA.ESTADO_RENOVACAO.INCOMPLETE_DT;
         }
 
         if (data.target.id === 'bt-noaprobada') {
-            nextState = LIC_ST.NOT_APPROVED;
+            nextState = SIRHA.ESTADO_RENOVACAO.NOT_APPROVED;
         }
 
         if (data.target.id === 'bt-defacto') {
-            nextState = LIC_ST.DE_FACTO;
+            nextState = SIRHA.ESTADO_RENOVACAO.DE_FACTO;
         }
 
         return nextState;
     },
 
     nextStatePteEmiJuri: function(data) {
-        var LIC_ST = Backbone.SIXHIARA.EstadoRenovacao;
         var id = data.target.id;
 
         var nextState = undefined;
         if (data.target.id === 'bt-ok') {
-            nextState = LIC_ST.PENDING_DADOS_LICENSE;
+            nextState = SIRHA.ESTADO_RENOVACAO.PENDING_DADOS_LICENSE;
         }
 
         if (data.target.id === 'bt-no') {
-            nextState = LIC_ST.INCOMPLETE_DJ;
+            nextState = SIRHA.ESTADO_RENOVACAO.INCOMPLETE_DJ;
         }
 
         if (data.target.id === 'bt-noaprobada') {
-            nextState = LIC_ST.NOT_APPROVED;
+            nextState = SIRHA.ESTADO_RENOVACAO.NOT_APPROVED;
         }
 
         if (data.target.id === 'bt-defacto') {
-            nextState = LIC_ST.DE_FACTO;
+            nextState = SIRHA.ESTADO_RENOVACAO.DE_FACTO;
         }
         return nextState;
     },
 
     nextStatePteFirmaDir: function(data) {
-        var LIC_ST = Backbone.SIXHIARA.EstadoRenovacao;
-
         var nextState = undefined;
         if (data.target.id === 'bt-ok') {
-            nextState = LIC_ST.LICENSED;
+            nextState = SIRHA.ESTADO_RENOVACAO.LICENSED;
         }
 
         if (data.target.id === 'bt-noaprobada') {
-            nextState = LIC_ST.NOT_APPROVED;
+            nextState = SIRHA.ESTADO_RENOVACAO.NOT_APPROVED;
         }
         return nextState;
     },
     nextStateAfterPteDadosLic: function(data) {
-        var LIC_ST = Backbone.SIXHIARA.EstadoRenovacao;
-
         var nextState = undefined;
         if (data.target.id === 'bt-ok') {
-            nextState = LIC_ST.PENDING_DIR_SIGN;
+            nextState = SIRHA.ESTADO_RENOVACAO.PENDING_DIR_SIGN;
         }
 
         if (data.target.id === 'bt-noaprobada') {
-            nextState = LIC_ST.NOT_APPROVED;
+            nextState = SIRHA.ESTADO_RENOVACAO.NOT_APPROVED;
         }
         return nextState;
     },
@@ -467,10 +452,9 @@ var MyWorkflowRenovacao = {
     },
 
     isFirstState: function(currentState){
-        var LIC_ST = Backbone.SIXHIARA.EstadoRenovacao;
         var nextState = this.whichNextState(currentState)
-        return nextState == LIC_ST.PENDING_RENOV_LICENSE ||
-               nextState == LIC_ST.INCOMPLETE_DA;
+        return nextState == SIRHA.ESTADO_RENOVACAO.PENDING_RENOV_LICENSE ||
+               nextState == SIRHA.ESTADO_RENOVACAO.INCOMPLETE_DA;
     },
 
     user_roles_in: function(roles, safeRoleFormat) {

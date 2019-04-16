@@ -70,6 +70,65 @@ window.SIXHIARA.ESTADOS_PENDENTES = [
     },
 ];
 
+window.SIXHIARA.ESTADOS_RENOVACAO = [
+    {
+        'key': SIRHA.ESTADO_RENOVACAO.NOT_APPROVED,
+        'roles': [],
+    },
+    {
+        'key': SIRHA.ESTADO_RENOVACAO.IRREGULAR,
+        'roles': []
+    },
+    {
+        'key': SIRHA.ESTADO_RENOVACAO.INCOMPLETE_DA,
+        'roles': [SIRHA.ROLE.ADMIN, SIRHA.ROLE.OBSERVADOR, SIRHA.ROLE.ADMINISTRATIVO]
+    },
+    {
+        'key': SIRHA.ESTADO_RENOVACAO.INCOMPLETE_DIR,
+        'roles': [SIRHA.ROLE.ADMIN, SIRHA.ROLE.OBSERVADOR, SIRHA.ROLE.DIRECCION]
+    },
+    {
+        'key': SIRHA.ESTADO_RENOVACAO.INCOMPLETE_DJ,
+        'roles': [SIRHA.ROLE.ADMIN, SIRHA.ROLE.OBSERVADOR, SIRHA.ROLE.JURIDICO, SIRHA.ROLE.TECNICO, SIRHA.ROLE.UNIDAD]
+    },
+    {
+        'key': SIRHA.ESTADO_RENOVACAO.INCOMPLETE_DT,
+        'roles': [SIRHA.ROLE.ADMIN, SIRHA.ROLE.OBSERVADOR, SIRHA.ROLE.TECNICO, SIRHA.ROLE.UNIDAD]
+    },
+    {
+        'key': SIRHA.ESTADO_RENOVACAO.PENDING_RENOV_LICENSE,
+        'roles': [SIRHA.ROLE.ADMIN, SIRHA.ROLE.OBSERVADOR, SIRHA.ROLE.ADMINISTRATIVO]
+    },
+    {
+        'key': SIRHA.ESTADO_RENOVACAO.PENDING_REVIEW_DIR,
+        'roles': [SIRHA.ROLE.ADMIN, SIRHA.ROLE.OBSERVADOR, SIRHA.ROLE.DIRECCION]
+    },
+    {
+        'key': SIRHA.ESTADO_RENOVACAO.PENDING_REVIEW_DJ,
+        'roles': [SIRHA.ROLE.ADMIN, SIRHA.ROLE.OBSERVADOR, SIRHA.ROLE.TECNICO, SIRHA.ROLE.JURIDICO, SIRHA.ROLE.UNIDAD]
+    },
+    {
+        'key': SIRHA.ESTADO_RENOVACAO.PENDING_TECH_DECISION,
+        'roles': [SIRHA.ROLE.ADMIN, SIRHA.ROLE.OBSERVADOR, SIRHA.ROLE.TECNICO, SIRHA.ROLE.UNIDAD]
+    },
+    {
+        'key': SIRHA.ESTADO_RENOVACAO.PENDING_EMIT_LICENSE,
+        'roles': [SIRHA.ROLE.ADMIN, SIRHA.ROLE.OBSERVADOR, SIRHA.ROLE.JURIDICO]
+    },
+    {
+        'key': SIRHA.ESTADO_RENOVACAO.PENDING_DIR_SIGN,
+        'roles': [SIRHA.ROLE.ADMIN, SIRHA.ROLE.OBSERVADOR, SIRHA.ROLE.DIRECCION, SIRHA.ROLE.JURIDICO]
+    },
+    {
+        'key': SIRHA.ESTADO_RENOVACAO.DE_FACTO,
+        'roles': []
+    },
+    {
+        'key': SIRHA.ESTADO_RENOVACAO.PENDING_DADOS_LICENSE,
+        'roles': [SIRHA.ROLE.ADMIN, SIRHA.ROLE.OBSERVADOR, SIRHA.ROLE.JURIDICO]
+    },
+];
+
 
 if (window.SIRHA.getARA() === 'DPMAIP') {
     Object.assign(SIXHIARA, {
@@ -102,15 +161,18 @@ if (window.SIRHA.getARA() === 'ARAS') {
           zoom: 7,
         },
     });
-    var st;
-    st = window.SIXHIARA.ESTADOS_PENDENTES.find(e => e.key === SIRHA.ESTADO.INCOMPLETE_DIR);
-    st.roles.push(SIRHA.ROLE.JURIDICO);
-
-    st = window.SIXHIARA.ESTADOS_PENDENTES.find(e => e.key === SIRHA.ESTADO.PENDING_REVIEW_DIR);
-    st.roles.push(SIRHA.ROLE.JURIDICO);
-
-    st = window.SIXHIARA.ESTADOS_PENDENTES.find(e => e.key === SIRHA.ESTADO.PENDING_DIR_SIGN);
-    st.roles.push(SIRHA.ROLE.JURIDICO);
+    var juridicoExtendedRoles = [SIRHA.ESTADO.INCOMPLETE_DIR, SIRHA.ESTADO.PENDING_REVIEW_DIR, SIRHA.ESTADO.PENDING_DIR_SIGN];
+    window.SIXHIARA.ESTADOS_PENDENTES.forEach(estado => {
+        if (juridicoExtendedRoles.includes(estado.key)) {
+            estado.roles.push(SIRHA.ROLE.JURIDICO);
+        }
+    });
+    juridicoExtendedRoles = [SIRHA.ESTADO_RENOVACAO.INCOMPLETE_DIR, SIRHA.ESTADO_RENOVACAO.PENDING_REVIEW_DIR, SIRHA.ESTADO.PENDING_DIR_SIGN];
+    window.SIXHIARA.ESTADOS_RENOVACAO.forEach(estado => {
+        if (juridicoExtendedRoles.includes(estado.key)) {
+            estado.roles.push(SIRHA.ROLE.JURIDICO);
+        }
+    });
 }
 
 if (window.SIRHA.getARA() === 'ARAZ') {
@@ -121,6 +183,19 @@ if (window.SIRHA.getARA() === 'ARAZ') {
         search: {
           zoom: 7,
         },
+    });
+
+    var juridicoExtendedRoles = [SIRHA.ESTADO.INCOMPLETE_DIR, SIRHA.ESTADO.PENDING_REVIEW_DIR, SIRHA.ESTADO.PENDING_DIR_SIGN, SIRHA.ESTADO.INCOMPLETE_DA];
+    window.SIXHIARA.ESTADOS_PENDENTES.forEach(estado => {
+        if (juridicoExtendedRoles.includes(estado.key)) {
+            estado.roles.push(SIRHA.ROLE.JURIDICO);
+        }
+    });
+    juridicoExtendedRoles = [SIRHA.ESTADO_RENOVACAO.INCOMPLETE_DIR, SIRHA.ESTADO_RENOVACAO.PENDING_REVIEW_DIR, SIRHA.ESTADO.PENDING_DIR_SIGN, SIRHA.ESTADO_RENOVACAO.INCOMPLETE_DA];
+    window.SIXHIARA.ESTADOS_RENOVACAO.forEach(estado => {
+        if (juridicoExtendedRoles.includes(estado.key)) {
+            estado.roles.push(SIRHA.ROLE.JURIDICO);
+        }
     });
 }
 

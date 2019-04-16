@@ -133,7 +133,7 @@ var renovacoesFetched = function() {
             expHandled.add(model.get('exp_id'));
         }
 
-        if (wfr.hasNextStateSameRole(model, estados.ESTADOS_RENOVACAO)) {
+        if (wfr.hasNextStateSameRole(model, window.SIXHIARA.ESTADOS_RENOVACAO)) {
             wfr.renderView(model);
         }else {
             wfr.renderView(nextExpToShow());
