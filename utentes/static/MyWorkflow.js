@@ -240,11 +240,11 @@ var MyWorkflow = {
         }
 
         switch (fact_estado) {
-        case FACTURACAO_ESTADOS.PENDING_M3:
+        case window.SIRHA.ESTADO_FACT.PENDING_M3:
             return Backbone.SIXHIARA.ViewFacturacaoTecnico;
-        case FACTURACAO_ESTADOS.PENDIND_INVOICE:
+        case window.SIRHA.ESTADO_FACT.PENDIND_INVOICE:
             return Backbone.SIXHIARA.ViewFacturacao;
-        case FACTURACAO_ESTADOS.PENDING_PAY:
+        case window.SIRHA.ESTADO_FACT.PENDING_PAY:
             return Backbone.SIXHIARA.ViewFacturacao;
         default:
             return Backbone.SIXHIARA.UpsView;
@@ -438,13 +438,13 @@ var MyWorkflow = {
         }
 
         switch (fact_estado) {
-        case FACTURACAO_ESTADOS.PENDING_M3:
-            return FACTURACAO_ESTADOS.PENDIND_INVOICE;
-        case FACTURACAO_ESTADOS.PENDIND_INVOICE:
-            // return FACTURACAO_ESTADOS.PENDING_PAY;
-            return FACTURACAO_ESTADOS.PAYED;
-        case FACTURACAO_ESTADOS.PENDING_PAY:
-            return FACTURACAO_ESTADOS.PAYED;
+        case window.SIRHA.ESTADO_FACT.PENDING_M3:
+            return window.SIRHA.ESTADO_FACT.PENDIND_INVOICE;
+        case window.SIRHA.ESTADO_FACT.PENDIND_INVOICE:
+            // return window.SIRHA.ESTADO_FACT.PENDING_PAY;
+            return window.SIRHA.ESTADO_FACT.PAYED;
+        case window.SIRHA.ESTADO_FACT.PENDING_PAY:
+            return window.SIRHA.ESTADO_FACT.PAYED;
         default:
             throw 'Error';
         }

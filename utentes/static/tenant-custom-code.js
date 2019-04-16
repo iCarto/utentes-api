@@ -129,6 +129,30 @@ window.SIXHIARA.ESTADOS_RENOVACAO = [
     },
 ];
 
+window.SIXHIARA.ESTADOS_FACT = [
+    {
+        'key': window.SIRHA.ESTADO_FACT.NO,
+        'roles': [],
+    },
+    {
+        'key': window.SIRHA.ESTADO_FACT.PAYED,
+        'roles': [],
+    },
+    {
+        'key': window.SIRHA.ESTADO_FACT.PENDING_PAY,
+        'roles': [SIRHA.ROLE.ADMIN, SIRHA.ROLE.OBSERVADOR, SIRHA.ROLE.FINANCIERO]
+    },
+    {
+        'key': window.SIRHA.ESTADO_FACT.PENDIND_INVOICE,
+        'roles': [SIRHA.ROLE.ADMIN, SIRHA.ROLE.OBSERVADOR, SIRHA.ROLE.FINANCIERO]
+    },
+    {
+        'key': window.SIRHA.ESTADO_FACT.PENDING_M3,
+        'roles': [SIRHA.ROLE.ADMIN, SIRHA.ROLE.OBSERVADOR, SIRHA.ROLE.TECNICO, SIRHA.ROLE.UNIDAD]
+    }
+];
+
+
 
 if (window.SIRHA.getARA() === 'DPMAIP') {
     Object.assign(SIXHIARA, {

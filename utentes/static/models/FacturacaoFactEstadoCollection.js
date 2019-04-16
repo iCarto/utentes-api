@@ -53,7 +53,7 @@ Backbone.SIXHIARA.FacturacaoFactEstadoCollection = Backbone.UILib.DomainCollecti
         // antes de document.ready
         var myworkflow = window['wf']  || Object.create(MyWorkflow);
         var role = myworkflow.getMainRole();
-        var states = FACTURACAO_ESTADOS.filter(function(s) {
+        var states = window.SIXHIARA.ESTADOS_FACT.filter(function(s) {
             return s.roles.indexOf(role) !== -1;
         });
         states = states.map(function(s) {
@@ -67,32 +67,3 @@ Backbone.SIXHIARA.FacturacaoFactEstadoCollection = Backbone.UILib.DomainCollecti
         return this.where({'text': state}).length > 0;
     },
 });
-
-var FACTURACAO_ESTADOS = [];
-FACTURACAO_ESTADOS.NO = 'Não facturable';
-FACTURACAO_ESTADOS.PAYED = 'Pagada';
-FACTURACAO_ESTADOS.PENDING_PAY = 'Pendente Pagamento (Utente)';
-FACTURACAO_ESTADOS.PENDIND_INVOICE = 'Pendente Emisão Factura (D. Fin)';
-FACTURACAO_ESTADOS.PENDING_M3 = 'Pendente Acrescentar Consumo (R. Cad DT)';
-FACTURACAO_ESTADOS.splice(0, 0,
-    {
-        'key': FACTURACAO_ESTADOS.NO,
-        'roles': [],
-    },
-    {
-        'key': FACTURACAO_ESTADOS.PAYED,
-        'roles': [],
-    },
-    {
-        'key': FACTURACAO_ESTADOS.PENDING_PAY,
-        'roles': [SIRHA.ROLE.ADMIN, SIRHA.ROLE.OBSERVADOR, SIRHA.ROLE.FINANCIERO]
-    },
-    {
-        'key': FACTURACAO_ESTADOS.PENDIND_INVOICE,
-        'roles': [SIRHA.ROLE.ADMIN, SIRHA.ROLE.OBSERVADOR, SIRHA.ROLE.FINANCIERO]
-    },
-    {
-        'key': FACTURACAO_ESTADOS.PENDING_M3,
-        'roles': [SIRHA.ROLE.ADMIN, SIRHA.ROLE.OBSERVADOR, SIRHA.ROLE.TECNICO, SIRHA.ROLE.UNIDAD]
-    }
-);
