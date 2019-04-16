@@ -152,7 +152,7 @@ window.SIXHIARA.ESTADOS_FACT = [
     }
 ];
 
-
+window.SIXHIARA.IVA = 17;
 
 if (window.SIRHA.getARA() === 'DPMAIP') {
     Object.assign(SIXHIARA, {
@@ -185,6 +185,7 @@ if (window.SIRHA.getARA() === 'ARAS') {
           zoom: 7,
         },
     });
+    window.SIXHIARA.IVA = 12.75;
     var juridicoExtendedRoles = [SIRHA.ESTADO.INCOMPLETE_DIR, SIRHA.ESTADO.PENDING_REVIEW_DIR, SIRHA.ESTADO.PENDING_DIR_SIGN];
     window.SIXHIARA.ESTADOS_PENDENTES.forEach(estado => {
         if (juridicoExtendedRoles.includes(estado.key)) {
