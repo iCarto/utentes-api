@@ -152,7 +152,7 @@ Backbone.SIXHIARA.View1 = Backbone.View.extend({
                     var exp_id = model.get('exp_id');
                     var exp_name = model.get('exp_name');
                     if (autosave) {
-                        console.log('autosaving');
+                        // console.log('autosaving');
                     } else {
                         bootbox.alert(`A exploração&nbsp;<strong>${exp_id} - ${exp_name}</strong>&nbsp;tem sido gravada correctamente.`, function(){
                             exploracao.trigger('show-next-exp', exploracao);
