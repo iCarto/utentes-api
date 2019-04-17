@@ -4,39 +4,7 @@ Backbone.SIXHIARA.FacturacaoFactEstadoCollection = Backbone.UILib.DomainCollecti
     url: '/api/domains/facturacao_fact_estado',
     model: Backbone.SIXHIARA.FacturacaoFactEstado,
 
-    initialize: function(options) {
-        this.options = options || {};
-    },
-
-    forSearchFilterView: function() {
-        var s = [{
-            'category': 'licencia_estado',
-            'text': null,
-            'order': 0,
-        },{
-            'category': 'licencia_estado',
-            'text': SIRHA.ESTADO.LICENSED,
-            'order': 2,
-        },{
-            'category': 'licencia_estado',
-            'text': SIRHA.ESTADO.DE_FACTO,
-            'order': 3,
-        }];
-        return new Backbone.UILib.DomainCollection(s);
-    },
-
-    forFacturacaoFilterView: function() {
-        if (this.filter((d) => d.get('text') === null).length > 0) {
-            return this;
-        } else {
-            var collection = new Backbone.SIXHIARA.FacturacaoFactEstadoCollection(this.models);
-            collection.unshift(new  Backbone.SIXHIARA.FacturacaoFactEstado());
-            return collection;
-        }
-    },
-
     forFacturacaoView: function() {
-
         if (! window.SIRHA.is_single_user_mode()) {
             var states = this.availableFacturacaoStates();
             var foo = this.filter(function(e){

@@ -4,10 +4,6 @@ Backbone.SIXHIARA.EstadoRenovacaoCollection = Backbone.UILib.DomainCollection.ex
     url: '/api/domains/licencia_estado_renovacao',
     model: Backbone.SIXHIARA.EstadoRenovacao,
 
-    initialize: function(options) {
-        this.options = options || {};
-    },
-
     forRenovacoesFilterView: function() {
         if (this.filter((d) => d.get('text') === null).length > 0) {
             return this;
@@ -19,7 +15,6 @@ Backbone.SIXHIARA.EstadoRenovacaoCollection = Backbone.UILib.DomainCollection.ex
     },
 
     forRenovacoesView: function() {
-
         if (! window.SIRHA.is_single_user_mode()) {
             var states = this.availableRenovacaoStates();
             var foo = this.filter(function(e){

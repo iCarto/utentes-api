@@ -18,11 +18,16 @@ var nextExpToShow = function() {
 
 
 var domainsFetched = function(collection, response, options) {
+    var facturable_states = new Backbone.UILib.DomainCollection(
+        domains.byCategory('licencia_estado').filter(
+            d => SIRHA.ESTADO.CATEGORY_FACTURABLE.includes(d.get('text'))
+        )
+    );
     filtersView = new Backbone.SIXHIARA.FiltersView({
         el: $('#filters'),
         model: where,
         domains: domains,
-        states: estados.forSearchFilterView(),
+        states: facturable_states,
     }).render();
 
     if (filtersView && exploracaos.length) {
@@ -133,7 +138,6 @@ var exploracaosFetched = function() {
         mapView.update(exploracaosFiltered);
         wf.renderView(nextExpToShow());
     });
-
 };
 
 estados.fetch({
@@ -162,7 +166,3 @@ document.getElementById('projects').addEventListener('click', (e) => {
     }
     return false;
 });
-
-// document.getElementById('nuevo-ciclo-facturacion').addEventListener('click', (e) => {
-//     $.post('/api/nuevo_ciclo_facturacion');
-// });

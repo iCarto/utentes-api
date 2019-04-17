@@ -37,7 +37,8 @@ Backbone.SIXHIARA.FiltersView = Backbone.UILib.BaseView.extend({
 
         this.addView(new Backbone.UILib.SelectView({
             el: this.$('#estado'),
-            collection: licenciaEstados
+            collection: licenciaEstados,
+            cloneCollection: true,
         }));
 
         this.addView(new Backbone.UILib.SelectView({

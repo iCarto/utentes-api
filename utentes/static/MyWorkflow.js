@@ -28,13 +28,11 @@ var MyWorkflow = {
 
         var state = this.getCurrentState(exp);
 
-        if (SIRHA.ESTADO.CATEGORY_POST_LICENSED.includes(state)) {
+        if (SIRHA.ESTADO.CATEGORY_FACTURABLE.includes(state)) {
             return this.whichFacturacaoView(exp, next);
         }
 
         switch (state) {
-        case SIRHA.ESTADO.NOT_EXISTS:
-            break;
         case SIRHA.ESTADO.INCOMPLETE_DA:
             return Backbone.SIXHIARA.ViewDocIncompletaAdm;
         case SIRHA.ESTADO.INCOMPLETE_DIR:
@@ -53,16 +51,10 @@ var MyWorkflow = {
         case SIRHA.ESTADO.INCOMPLETE_DT:
         case SIRHA.ESTADO.PENDING_FIELD_VISIT:
         case SIRHA.ESTADO.PENDING_TECH_DECISION:
-            /*
-             admin, tecnico, unidad. Hay que ponerlo. Si no, si por ejemplo jurídico
-             pudiera ver este estado se le estaría renderizando esto.
-            */
             return Backbone.SIXHIARA.ViewTecnico1;
         case SIRHA.ESTADO.PENDING_EMIT_LICENSE:
-            // admin, juridico
             return Backbone.SIXHIARA.ViewJuridico2;
         case SIRHA.ESTADO.PENDING_DIR_SIGN:
-            // admin, secretaria
             return Backbone.SIXHIARA.ViewSecretaria2;
         default:
             return Backbone.SIXHIARA.UpsView;
@@ -98,7 +90,7 @@ var MyWorkflow = {
         var estado_lic = this.getCurrentState(exp);
         var fact_estado = exp.get('fact_estado');
 
-        if (! SIRHA.ESTADO.CATEGORY_POST_LICENSED.includes(estado_lic)) {
+        if (! SIRHA.ESTADO.CATEGORY_FACTURABLE.includes(estado_lic)) {
             return Backbone.SIXHIARA.UpsView;
         }
 
@@ -126,7 +118,7 @@ var MyWorkflow = {
 
     whichNextState: function(currentState, data, exp) {
         // Igual en lugar de currentState se le puede pasar la explotación
-        if (SIRHA.ESTADO.CATEGORY_POST_LICENSED.includes(currentState)) {
+        if (SIRHA.ESTADO.CATEGORY_FACTURABLE.includes(currentState)) {
             return this.whichFacturacaoNextState(currentState, data, exp);
         }
 
@@ -286,7 +278,7 @@ var MyWorkflow = {
         // puede tener sentido agrupar en whichNextState
         var fact_estado = exp.get('fact_estado');
 
-        if (! SIRHA.ESTADO.CATEGORY_POST_LICENSED.includes(currentState)) {
+        if (! SIRHA.ESTADO.CATEGORY_FACTURABLE.includes(currentState)) {
             throw 'Error';
         }
 

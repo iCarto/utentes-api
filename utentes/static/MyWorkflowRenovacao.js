@@ -29,8 +29,6 @@ var MyWorkflowRenovacao = {
         var state = this.getCurrentState(exp);
 
         switch (state) {
-        case SIRHA.ESTADO_RENOVACAO.NOT_EXISTS:
-            break;
         case SIRHA.ESTADO_RENOVACAO.PENDING_RENOV_LICENSE:
             return Backbone.SIXHIARA.ViewSecretaria0;
         case SIRHA.ESTADO_RENOVACAO.INCOMPLETE_DA:
@@ -49,19 +47,12 @@ var MyWorkflowRenovacao = {
         case SIRHA.ESTADO_RENOVACAO.INCOMPLETE_DT:
         case SIRHA.ESTADO_RENOVACAO.PENDING_FIELD_VISIT:
         case SIRHA.ESTADO_RENOVACAO.PENDING_TECH_DECISION:
-            /*
-             admin, tecnico, unidad. Hay que ponerlo. Si no, si por ejemplo jurídico
-             pudiera ver este estado se le estaría renderizando esto.
-            */
             return Backbone.SIXHIARA.ViewTecnico;
         case SIRHA.ESTADO_RENOVACAO.PENDING_EMIT_LICENSE:
-            // admin, juridico
             return Backbone.SIXHIARA.ViewJuridico2;
         case SIRHA.ESTADO_RENOVACAO.PENDING_DADOS_LICENSE:
-            // admin, secretaria
             return Backbone.SIXHIARA.ViewJuridicoDados;
         case SIRHA.ESTADO_RENOVACAO.PENDING_DIR_SIGN:
-            // admin, secretaria
             return Backbone.SIXHIARA.ViewSecretaria2;
         default:
             return Backbone.SIXHIARA.UpsView;;
@@ -71,17 +62,17 @@ var MyWorkflowRenovacao = {
 
     isNotCompleteForFirstDJState: function(exp) {
         return exp.get('renovacao').get('obser').filter(function(o){
-                return o.state === SIRHA.ESTADO_RENOVACAO.PENDING_EMIT_LICENSE;
-            }).length > 0
+            return o.state === SIRHA.ESTADO_RENOVACAO.PENDING_EMIT_LICENSE;
+        }).length > 0;
     },
 
-    isNeedAskForEnteredDocumentationDate(exp, data) {
+    isNeedAskForEnteredDocumentationDate: function(exp, data) {
         var estado = exp.get('renovacao').get("estado");
         var nextState = this.whichNextState(estado, data)
 
         if (data.target.id == 'bt-ok') {
             if (estado == SIRHA.ESTADO_RENOVACAO.INCOMPLETE_DA) {
-                    return true
+                return true
             }
             if (estado == SIRHA.ESTADO_RENOVACAO.INCOMPLETE_DJ &&
                 nextState == SIRHA.ESTADO_RENOVACAO.PENDING_TECH_DECISION &&

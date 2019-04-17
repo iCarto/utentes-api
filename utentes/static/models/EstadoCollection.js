@@ -4,12 +4,7 @@ Backbone.SIXHIARA.EstadoCollection = Backbone.UILib.DomainCollection.extend({
     url: '/api/domains/licencia_estado',
     model: Backbone.SIXHIARA.Estado,
 
-    initialize: function(options) {
-        this.options = options || {};
-    },
-
     forSearchView: function() {
-
         if (! window.SIRHA.is_single_user_mode()) {
             return new Backbone.SIXHIARA.EstadoCollection(this.where({'parent': 'post-licenciada'}));
         } else {
@@ -41,7 +36,6 @@ Backbone.SIXHIARA.EstadoCollection = Backbone.UILib.DomainCollection.extend({
     },
 
     forPendentesView: function() {
-
         if (! window.SIRHA.is_single_user_mode()) {
             var states = this.availablePendentesStates();
             var foo = this.filter(function(e){
