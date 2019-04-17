@@ -5,17 +5,7 @@ var domains = new Backbone.UILib.DomainCollection();
 var estados = new Backbone.SIXHIARA.EstadoRenovacaoCollection();
 var listView, mapView, numberOfResultsView, filtersView;
 
-var expHandled = new Set();
-
-var nextExpToShow = function() {
-    var next = renovacoesFiltered.find(function(e){
-        var exp_id = e.get('exp_id');
-        return !expHandled.has(exp_id);
-    });
-    return next || renovacoesFiltered.at(0);
-};
 renovacoes.url = Backbone.SIXHIARA.Config.apiRenovacoes;
-
 
 var domainsFetched = function(collection, response, options) {
     filtersView = new Backbone.SIXHIARA.FiltersView({
@@ -122,26 +112,15 @@ var renovacoesFetched = function() {
     renovacoes.on('show-next-exp', function(model) {
         var state = model.get('renovacao').get('estado');
         if (estados.where({'text': state}).length === 0) {
-            console.log('length0');
             renovacoes.remove(model);
-            expHandled.delete(model.get('exp_id'));
             where.set('mapBounds', null, {silent:true});
             renovacoesFiltered = renovacoes.filterBy(where);
             listView.listenTo(renovacoesFiltered, 'leaflet', myLeafletEvent);
-
-        } else {
-            expHandled.add(model.get('exp_id'));
         }
-
-        if (wfr.hasNextStateSameRole(model, window.SIXHIARA.ESTADOS_RENOVACAO)) {
-            wfr.renderView(model);
-        }else {
-            wfr.renderView(nextExpToShow());
-        }
-
         listView.update(renovacoesFiltered);
         mapView.update(renovacoesFiltered);
-
+        var nextExp = nextExpToShow(renovacoes, renovacoesFiltered, model.get('exp_id'), state);
+        wfr.renderView(nextExp);
     });
 
 };

@@ -83,17 +83,6 @@ var MyWorkflowRenovacao = {
         return false
     },
 
-    hasNextStateSameRole: function(exp, estados){
-        var role = iAuth.getMainRole();
-        var estado = exp.get('renovacao').get("estado");
-        var nextState = wfr.whichNextState(estado)
-        var filtered = estados.filter(function(s) {
-            return s.key.indexOf(nextState) !== -1;
-        });
-        return filtered.length && filtered[0].roles.indexOf(role) !== -1
-
-    },
-
     getCurrentState: function(exp) {
         return exp.get('renovacao').get("estado") || SIRHA.ESTADO_RENOVACAO.NOT_EXISTS;
     },

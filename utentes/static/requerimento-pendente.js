@@ -5,18 +5,7 @@ var domains = new Backbone.UILib.DomainCollection();
 var estados = new Backbone.SIXHIARA.EstadoCollection();
 var listView, mapView, numberOfResultsView, filtersView;
 
-var expHandled = new Set();
-
-var nextExpToShow = function() {
-    var next = exploracaosFiltered.find(function(e){
-        var exp_id = e.get('exp_id');
-        return !expHandled.has(exp_id);
-    });
-    return next || exploracaosFiltered.at(0);
-};
-
 exploracaos.url = Backbone.SIXHIARA.Config.apiRequerimentos;
-
 
 var domainsFetched = function(collection, response, options) {
     filtersView = new Backbone.SIXHIARA.FiltersView({
@@ -125,17 +114,14 @@ var exploracaosFetched = function() {
         var state = model.get('estado_lic');
         if (estados.where({'text': state}).length === 0) {
             exploracaos.remove(model);
-            expHandled.delete(model.get('exp_id'));
             where.set('mapBounds', null, {silent:true});
             exploracaosFiltered = exploracaos.filterBy(where);
             listView.listenTo(exploracaosFiltered, 'leaflet', myLeafletEvent);
-
-        } else {
-            expHandled.add(model.get('exp_id'));
         }
         listView.update(exploracaosFiltered);
         mapView.update(exploracaosFiltered);
-        wf.renderView(nextExpToShow());
+        var nextExp = nextExpToShow(exploracaos, exploracaosFiltered, model.get('exp_id'), state);
+        wf.renderView(nextExp);
     });
 
 };

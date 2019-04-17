@@ -5,17 +5,7 @@ var domains = new Backbone.UILib.DomainCollection();
 var estados = new Backbone.SIXHIARA.FacturacaoFactEstadoCollection();
 var listView, mapView, numberOfResultsView, filtersView;
 
-var expHandled = new Set();
 exploracaos.url = Backbone.SIXHIARA.Config.apiFacturacao;
-
-var nextExpToShow = function() {
-    var next = exploracaosFiltered.find(function(e){
-        var exp_id = e.get('exp_id');
-        return !expHandled.has(exp_id);
-    });
-    return next || exploracaosFiltered.at(0);
-};
-
 
 var domainsFetched = function(collection, response, options) {
     var facturable_states = new Backbone.UILib.DomainCollection(
@@ -125,18 +115,16 @@ var exploracaosFetched = function() {
     }
 
     exploracaos.on('show-next-exp', function(model) {
-        if (estados.available(model)) {
-            expHandled.add(model.get('exp_id'));
-        } else {
+        if (!estados.available(model)) {
             exploracaos.remove(model);
-            expHandled.delete(model.get('exp_id'));
             where.set('mapBounds', null, {silent:true});
             exploracaosFiltered = exploracaos.filterBy(where);
             listView.listenTo(exploracaosFiltered, 'leaflet', myLeafletEvent);
         }
         listView.update(exploracaosFiltered);
         mapView.update(exploracaosFiltered);
-        wf.renderView(nextExpToShow());
+        var nextExp = nextExpToShow(exploracaos, exploracaosFiltered, model.get('exp_id'), '');
+        wf.renderView(nextExp);
     });
 };
 
