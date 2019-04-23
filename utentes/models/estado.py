@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from sqlalchemy import Column, Integer, Text
+from sqlalchemy.dialects.postgresql import ARRAY
 
 from .base import DeclarativeBase, PGSQL_SCHEMA_DOMAINS
 
@@ -23,6 +24,8 @@ class Estado(DeclarativeBase):
     ordering = Column(Integer)
     parent = Column(Text, primary_key=True)
     tooltip = Column(Text)
+    app = Column(ARRAY(Text), doc='app')
+
 
     def __json__(self, request):
         return {
