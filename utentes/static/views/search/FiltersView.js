@@ -86,7 +86,6 @@ Backbone.SIXHIARA.FiltersView = Backbone.UILib.BaseView.extend({
         });
 
         var filterCollecion = new Backbone.UILib.DomainCollection(filterTextWithoutDuplicates);
-        filterCollecion.unshift({'orden': 0});
 
         this.utentesView.update(filterCollecion);
     },

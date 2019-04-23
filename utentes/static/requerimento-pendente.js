@@ -12,7 +12,7 @@ var domainsFetched = function(collection, response, options) {
         el: $('#filters'),
         model: where,
         domains: domains,
-        states: estados.forPendentesFilterView(),
+        states: estados,
     }).render();
 
     if (filtersView && exploracaos.length) {

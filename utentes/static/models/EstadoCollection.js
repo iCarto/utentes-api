@@ -12,29 +12,6 @@ Backbone.SIXHIARA.EstadoCollection = Backbone.UILib.DomainCollection.extend({
         }
     },
 
-    forSearchFilterView: function() {
-        if (!this.length) {
-            return new Backbone.SIXHIARA.EstadoCollection();
-        }
-        if (this.filter((d) => d.get('text') === null).length > 0) {
-            return this;
-        } else {
-            var collection = new Backbone.SIXHIARA.EstadoCollection(this.models);
-            collection.unshift(new Backbone.SIXHIARA.Estado());
-            return collection;
-        }
-    },
-
-    forPendentesFilterView: function() {
-        if (this.filter((d) => d.get('text') === null).length > 0) {
-            return this;
-        } else {
-            var collection = new Backbone.SIXHIARA.EstadoCollection(this.models);
-            collection.unshift(new  Backbone.SIXHIARA.Estado());
-            return collection;
-        }
-    },
-
     forPendentesView: function() {
         if (! window.SIRHA.is_single_user_mode()) {
             var states = this.availablePendentesStates();

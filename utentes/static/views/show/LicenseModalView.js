@@ -5,14 +5,11 @@ Backbone.SIXHIARA.LicenseModalView = Backbone.SIXHIARA.ModalView.extend({
 
         // connect auxiliary views, which would be removed when the modal is closed
         var estadosLicencia = this.options.domains.byCategory('licencia_estado');
-        if (! estadosLicencia.isEmpty()) {
-            if (estadosLicencia.find(e => e.get('text'))) {
-                estadosLicencia.unshift(new Backbone.UILib.Domain({'category':'licencia_estado', 'order': 0}));
-            }
-        }
+
         var selectView = new Backbone.UILib.SelectView({
             el: this.$('#estado'),
             collection: estadosLicencia,
+            cloneCollection: true,
         }).render();
 
         var consumoTipo = this.options.domains.byCategory('facturacao_consumo_tipo');

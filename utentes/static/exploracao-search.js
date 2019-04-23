@@ -11,7 +11,7 @@ var domainsFetched = function(collection, response, options) {
         el: $('#filters'),
         model: where,
         domains: domains,
-        states: estados.length ? estados.forSearchFilterView() : undefined,
+        states: estados,
     }).render();
 
     if (filtersView && exploracaos.length) {

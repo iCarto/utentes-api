@@ -5,8 +5,8 @@ Backbone.SIXHIARA.Estado = Backbone.UILib.Domain.extend({
 
     defaults: {
         'category': 'licencia_estado',
-        'alias':    '',
-        'text':     '',
+        'alias':    null,
+        'text':     null,
         'order':    0,
         'parent':   'precampo',
     }
