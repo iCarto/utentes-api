@@ -41,32 +41,7 @@ var domainsFetched = function(collection, response, options) {
             mapView.update(exploracaosFiltered);
         }
         numberOfResultsView.update(_.size(exploracaosFiltered));
-
-        var currentModel = wf.activeView && wf.activeView.model;
-        var thereAreAvailableExps = exploracaosFiltered.length > 0;
-        if (currentModel) {
-            // Si se está mostrando una exp y tras el filtrado la exp no está en la lista
-            // hay que mostrar la siguiente que toque
-            var nextExp = exploracaosFiltered.where({'exp_id': wf.activeView.model.get('exp_id')});
-            if (nextExp.length === 0) {
-                wf.renderView(nextExpToShow());
-            }
-        } else if (thereAreAvailableExps) {
-            // Si no se estaba mostrando ninguna pero la lista no está vacía
-            // hay que mostrar la siguiente que toque
-            wf.renderView(nextExpToShow());
-        } else {
-            wf.renderView(null);
-        }
-
-        if (!wf.activeView || !wf.activeView.model) {
-            wf.renderView(null);
-        } else {
-            var nextExp = exploracaosFiltered.where({'exp_id': wf.activeView.model.get('exp_id')});
-            if (nextExp.length === 0) {
-                wf.renderView(nextExpToShow());
-            }
-        }
+        renderNextExpOnFilterChange(wf, exploracaosFiltered);
     });
 };
 
@@ -115,16 +90,8 @@ var exploracaosFetched = function() {
     }
 
     exploracaos.on('show-next-exp', function(model) {
-        if (!estados.available(model)) {
-            exploracaos.remove(model);
-            where.set('mapBounds', null, {silent:true});
-            exploracaosFiltered = exploracaos.filterBy(where);
-            listView.listenTo(exploracaosFiltered, 'leaflet', myLeafletEvent);
-        }
-        listView.update(exploracaosFiltered);
-        mapView.update(exploracaosFiltered);
-        var nextExp = nextExpToShow(exploracaos, exploracaosFiltered, model.get('exp_id'), '');
-        wf.renderView(nextExp);
+        var state = model.get('fact_estado');
+        onShowNextExp(model, state, estados, exploracaos, exploracaosFiltered, where, wf, listView, mapView);
     });
 };
 

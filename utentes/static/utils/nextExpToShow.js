@@ -1,3 +1,18 @@
+var onShowNextExp = function(model, state, estados, fullList, filteredList, where, wf, listView, mapView) {
+    if (estados.where({'text': state}).length === 0) {
+        fullList.remove(model);
+        where.set('mapBounds', null, {silent:true});
+    }
+    filteredList = fullList.filterBy(where);
+    listView.listenTo(filteredList, 'leaflet', myLeafletEvent);
+    listView.update(filteredList);
+    mapView.update(filteredList);
+
+    var nextExp = nextExpToShow(fullList, filteredList, model.get('exp_id'), state);
+    wf.renderView(nextExp);
+};
+
+
 var expHandled = new Set();
 var nextExpToShow = function(fullList, filteredList, currentExpId, currentState) {
     /*
@@ -34,4 +49,28 @@ var nextExpToShow = function(fullList, filteredList, currentExpId, currentState)
     });
     // .at(x) devuelve undefined si el índice x no existe
     return next || filteredList.at(0);
+};
+
+var renderNextExpOnFilterChange = function(wf, filteredList) {
+    var currentModel = wf.activeView && wf.activeView.model;
+    var currentExpId = currentModel && currentModel.get('exp_id');
+    var inFilteredList = filteredList.findWhere({'exp_id': currentExpId});
+    if (inFilteredList) {
+        // Si se está mostrando una exp y tras el filtrado sigue en la lista
+        // no es necesario hacer nada
+        return;
+    }
+
+    // Busco una exp que todavía no se haya gestionadp
+    var nextExp = filteredList.find(function(e){
+        var exp_id = e.get('exp_id');
+        return !expHandled.has(exp_id);
+    });
+
+    // Si todas han sido gestionadas me quedo con la primera de la lista, Si la
+    // lista está vacía obtendré un `undefined` que se traduce en NoDataView
+    nextExp = nextExp || filteredList.at(0);
+
+    // y muestro la que toque
+    wf.renderView(nextExp);
 };

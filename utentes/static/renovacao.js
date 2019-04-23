@@ -36,32 +36,7 @@ var domainsFetched = function(collection, response, options) {
             mapView.update(renovacoesFiltered);
         }
         numberOfResultsView.update(_.size(renovacoesFiltered));
-        var currentModel = wfr.activeView && wfr.activeView.model;
-        var thereAreAvailableExps = renovacoesFiltered.length > 0;
-        if (currentModel) {
-            // Si se está mostrando una exp y tras el filtrado la exp no está en la lista
-            // hay que mostrar la siguiente que toque
-            var nextExp = renovacoesFiltered.where({'exp_id': wfr.activeView.model.get('exp_id')});
-            if (nextExp.length === 0) {
-                wfr.renderView(nextExpToShow());
-            }
-        } else if (thereAreAvailableExps) {
-            // Si no se estaba mostrando ninguna pero la lista no está vacía
-            // hay que mostrar la siguiente que toque
-            wfr.renderView(nextExpToShow());
-        } else {
-            wfr.renderView(null);
-        }
-
-        if (!wfr.activeView || !wfr.activeView.model) {
-            wfr.renderView(null);
-        } else {
-            var nextExp = renovacoesFiltered.where({'exp_id': wfr.activeView.model.get('exp_id')});
-            if (nextExp.length === 0) {
-                wfr.renderView(nextExpToShow());
-            }
-        }
-
+        renderNextExpOnFilterChange(wfr, renovacoesFiltered);
     });
 };
 
@@ -111,16 +86,7 @@ var renovacoesFetched = function() {
 
     renovacoes.on('show-next-exp', function(model) {
         var state = model.get('renovacao').get('estado');
-        if (estados.where({'text': state}).length === 0) {
-            renovacoes.remove(model);
-            where.set('mapBounds', null, {silent:true});
-            renovacoesFiltered = renovacoes.filterBy(where);
-            listView.listenTo(renovacoesFiltered, 'leaflet', myLeafletEvent);
-        }
-        listView.update(renovacoesFiltered);
-        mapView.update(renovacoesFiltered);
-        var nextExp = nextExpToShow(renovacoes, renovacoesFiltered, model.get('exp_id'), state);
-        wfr.renderView(nextExp);
+        onShowNextExp(model, state, estados, renovacoes, renovacoesFiltered, where, wfr, listView, mapView);
     });
 
 };
