@@ -7,7 +7,11 @@ from pyramid.security import (
     Authenticated,
 )
 from pyramid.threadlocal import get_current_registry
-from users.user_roles import *
+from users.user_roles import (
+    ROL_ADMIN, ROL_ADMINISTRATIVO, ROL_FINANCIERO, ROL_DIRECCION, ROL_TECNICO,
+    ROL_JURIDICO, ROL_OBSERVADOR, ROL_UNIDAD_DELEGACION, ROL_SINGLE,
+    SINGLE_USER
+)
 from utentes.models.user import User
 
 
@@ -121,11 +125,28 @@ def is_single_user_mode(settings=None):
 
 
 def get_user_role(username, request):
+    GROUPS_TO_ROLES = {
+        ROL_SINGLE: [ROL_SINGLE, ROL_ADMIN],
+        ROL_ADMIN: [ROL_ADMIN],
+        ROL_ADMINISTRATIVO: [ROL_ADMINISTRATIVO],
+        ROL_FINANCIERO: [ROL_FINANCIERO],
+        ROL_DIRECCION: [ROL_DIRECCION],
+        ROL_TECNICO: [ROL_TECNICO],
+        ROL_JURIDICO: [ROL_JURIDICO],
+        ROL_OBSERVADOR: [ROL_OBSERVADOR],
+        ROL_UNIDAD_DELEGACION: [ROL_UNIDAD_DELEGACION],
+    }
+    ara = request.registry.settings.get('ara')
+    if ara == 'ARAS':
+        GROUPS_TO_ROLES[ROL_JURIDICO] = [ROL_JURIDICO, ROL_DIRECCION]
+    if ara == 'ARAZ':
+        GROUPS_TO_ROLES[ROL_JURIDICO] = [ROL_JURIDICO, ROL_DIRECCION, ROL_ADMINISTRATIVO]
+
     if is_single_user_mode():
-        return [get_unique_user().usergroup]
+        return GROUPS_TO_ROLES[get_unique_user().usergroup]
     try:
         user = request.db.query(User).filter(User.username == username).one()
-        return [user.usergroup]
+        return GROUPS_TO_ROLES[user.usergroup]
     except(MultipleResultsFound, NoResultFound):
         return []
 
@@ -142,7 +163,6 @@ def get_user_from_request(request):
             return None
     else:
         return None
-
 
 def get_user_from_db(request):
     if is_single_user_mode():
@@ -171,12 +191,13 @@ VALID_LOGINS = {
     'tecnico': ROL_TECNICO,
     'juridico': ROL_JURIDICO,
     'observador': ROL_OBSERVADOR,
+    'unidade': ROL_UNIDAD_DELEGACION,
 }
 
 def get_unique_user():
     return User.create_from_json({
         'username': SINGLE_USER,
-        'usergroup': ROL_ADMIN,
+        'usergroup': ROL_SINGLE,
         'password': SINGLE_USER
         })
 

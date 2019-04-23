@@ -1,4 +1,17 @@
 window.SIXHIARA = {};
+
+window.SIXHIARA.GROUPS_TO_ROLES = {};
+window.SIXHIARA.GROUPS_TO_ROLES[SIRHA.ROLE.SINGLE] = [SIRHA.ROLE.SINGLE, SIRHA.ROLE.ADMIN];
+window.SIXHIARA.GROUPS_TO_ROLES[SIRHA.ROLE.ADMIN] = [SIRHA.ROLE.ADMIN];
+window.SIXHIARA.GROUPS_TO_ROLES[SIRHA.ROLE.ADMINISTRATIVO] = [SIRHA.ROLE.ADMINISTRATIVO];
+window.SIXHIARA.GROUPS_TO_ROLES[SIRHA.ROLE.FINANCIERO] = [SIRHA.ROLE.FINANCIERO];
+window.SIXHIARA.GROUPS_TO_ROLES[SIRHA.ROLE.DIRECCION] = [SIRHA.ROLE.DIRECCION];
+window.SIXHIARA.GROUPS_TO_ROLES[SIRHA.ROLE.TECNICO] = [SIRHA.ROLE.TECNICO];
+window.SIXHIARA.GROUPS_TO_ROLES[SIRHA.ROLE.JURIDICO] = [SIRHA.ROLE.JURIDICO];
+window.SIXHIARA.GROUPS_TO_ROLES[SIRHA.ROLE.OBSERVADOR] = [SIRHA.ROLE.OBSERVADOR];
+window.SIXHIARA.GROUPS_TO_ROLES[SIRHA.ROLE.UNIDAD] = [SIRHA.ROLE.UNIDAD, SIRHA.ROLE.OBSERVADOR];
+
+
 window.SIXHIARA.ESTADOS_PENDENTES = [
     {
         'key': SIRHA.ESTADO.NOT_EXISTS,
@@ -73,11 +86,11 @@ window.SIXHIARA.ESTADOS_PENDENTES = [
 window.SIXHIARA.ESTADOS_RENOVACAO = [
     {
         'key': SIRHA.ESTADO_RENOVACAO.NOT_APPROVED,
-        'roles': [],
+        'roles': [SIRHA.ROLE.SINGLE],
     },
     {
         'key': SIRHA.ESTADO_RENOVACAO.IRREGULAR,
-        'roles': []
+        'roles': [SIRHA.ROLE.SINGLE]
     },
     {
         'key': SIRHA.ESTADO_RENOVACAO.INCOMPLETE_DA,
@@ -186,18 +199,7 @@ if (window.SIRHA.getARA() === 'ARAS') {
         },
     });
     window.SIXHIARA.IVA = 12.75;
-    var juridicoExtendedRoles = [SIRHA.ESTADO.INCOMPLETE_DIR, SIRHA.ESTADO.PENDING_REVIEW_DIR, SIRHA.ESTADO.PENDING_DIR_SIGN];
-    window.SIXHIARA.ESTADOS_PENDENTES.forEach(estado => {
-        if (juridicoExtendedRoles.includes(estado.key)) {
-            estado.roles.push(SIRHA.ROLE.JURIDICO);
-        }
-    });
-    juridicoExtendedRoles = [SIRHA.ESTADO_RENOVACAO.INCOMPLETE_DIR, SIRHA.ESTADO_RENOVACAO.PENDING_REVIEW_DIR, SIRHA.ESTADO.PENDING_DIR_SIGN];
-    window.SIXHIARA.ESTADOS_RENOVACAO.forEach(estado => {
-        if (juridicoExtendedRoles.includes(estado.key)) {
-            estado.roles.push(SIRHA.ROLE.JURIDICO);
-        }
-    });
+    window.SIXHIARA.GROUPS_TO_ROLES[SIRHA.ROLE.JURIDICO] = [SIRHA.ROLE.JURIDICO, SIRHA.ROLE.DIRECCION];
 }
 
 if (window.SIRHA.getARA() === 'ARAZ') {
@@ -210,18 +212,7 @@ if (window.SIRHA.getARA() === 'ARAZ') {
         },
     });
 
-    var juridicoExtendedRoles = [SIRHA.ESTADO.INCOMPLETE_DIR, SIRHA.ESTADO.PENDING_REVIEW_DIR, SIRHA.ESTADO.PENDING_DIR_SIGN, SIRHA.ESTADO.INCOMPLETE_DA];
-    window.SIXHIARA.ESTADOS_PENDENTES.forEach(estado => {
-        if (juridicoExtendedRoles.includes(estado.key)) {
-            estado.roles.push(SIRHA.ROLE.JURIDICO);
-        }
-    });
-    juridicoExtendedRoles = [SIRHA.ESTADO_RENOVACAO.INCOMPLETE_DIR, SIRHA.ESTADO_RENOVACAO.PENDING_REVIEW_DIR, SIRHA.ESTADO.PENDING_DIR_SIGN, SIRHA.ESTADO_RENOVACAO.INCOMPLETE_DA];
-    window.SIXHIARA.ESTADOS_RENOVACAO.forEach(estado => {
-        if (juridicoExtendedRoles.includes(estado.key)) {
-            estado.roles.push(SIRHA.ROLE.JURIDICO);
-        }
-    });
+    window.SIXHIARA.GROUPS_TO_ROLES[SIRHA.ROLE.JURIDICO] = [SIRHA.ROLE.JURIDICO, SIRHA.ROLE.ADMINISTRATIVO, SIRHA.ROLE.DIRECCION];
 }
 
 window.SIXHIARA.xlsFieldsToExport = {};

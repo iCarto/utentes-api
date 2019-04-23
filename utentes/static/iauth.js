@@ -1,7 +1,15 @@
-//iCarto Authentication and Authorization
+/*
+iCarto Authentication and Authorization
+
+* Esta funcionalidad no contempla ahora mismo algunas situaciones de interés:
+
+* Herencia de roles
+* Orden de aplicación de roles (si hay permisos contradictorios)
+* Usar permisos en lugar de usar roles para la autorización final
+* **Ahora no gestionamos grupos vs roles**
+*/
+
 var IAuth = {
-    SINGLE_USER: 'SINGLE_USER',
-    USER_COOKIE_KEY: 'utentes_stub_user',
 
     getUser: function() {
         var user = document.cookie.replace(/(?:(?:^|.*;\s*)utentes_stub_user\s*\=\s*([^;]*).*$)|^.*$/, '$1');
@@ -9,11 +17,9 @@ var IAuth = {
     },
 
     getMainRole: function() {
-        // Usar además del ROL el ARA o tener un ROL_SINGLE_USER
-        // En todo caso los ROLES deberian ser una clase aparte
         var role = document.cookie.replace(/(?:(?:^|.*;\s*)utentes_stub_role\s*\=\s*([^;]*).*$)|^.*$/, '$1');
         role = decodeURIComponent(role);
-        if (![SIRHA.ROLE.ADMIN, SIRHA.ROLE.OBSERVADOR, SIRHA.ROLE.UNIDAD, SIRHA.ROLE.ADMINISTRATIVO, SIRHA.ROLE.FINANCIERO, SIRHA.ROLE.DIRECCION, SIRHA.ROLE.TECNICO, SIRHA.ROLE.JURIDICO].includes(role)) {
+        if (![SIRHA.ROLE.SINGLE, SIRHA.ROLE.ADMIN, SIRHA.ROLE.OBSERVADOR, SIRHA.ROLE.UNIDAD, SIRHA.ROLE.ADMINISTRATIVO, SIRHA.ROLE.FINANCIERO, SIRHA.ROLE.DIRECCION, SIRHA.ROLE.TECNICO, SIRHA.ROLE.JURIDICO].includes(role)) {
             throw Error('Not valid role');
         }
         return role;
@@ -47,25 +53,13 @@ var IAuth = {
     que se haga la petición
     */
     getAllRolesSafe: function() {
-        var roles = [this.getMainRoleSafe()];
-
-        if (this.getUser() === this.SINGLE_USER) {
-            roles.push(SIRHA.ROLE.SINGLE_SAFE);
-        }
-        if (roles.includes(this.getMainRoleSafe(SIRHA.ROLE.UNIDAD))) {
-            roles.push(this.getMainRoleSafe(SIRHA.ROLE.OBSERVADOR));
-        }
+        var notSafeRoles = iAuth.getAllRolesNotSafe();
+        var roles = notSafeRoles.map(r => iAuth.getMainRoleSafe(r));
         return roles;
     },
 
     getAllRolesNotSafe: function() {
-        var roles = [this.getMainRole()];
-        if (this.getUser() === this.SINGLE_USER) {
-            roles.push(SIRHA.ROLE.SINGLE_SAFE);
-        }
-        if (roles.includes(SIRHA.ROLE.UNIDAD)) {
-            roles.push(SIRHA.ROLE.OBSERVADOR);
-        }
+        var roles = window.SIXHIARA.GROUPS_TO_ROLES[this.getMainRole()];
         return roles;
     },
 
@@ -90,6 +84,8 @@ var IAuth = {
             return 'unidade';
         case SIRHA.ROLE.JURIDICO:
             return 'juridico';
+        case SIRHA.ROLE.SINGLE:
+            return 'single';
         }
     },
 

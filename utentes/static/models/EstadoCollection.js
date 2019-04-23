@@ -25,18 +25,12 @@ Backbone.SIXHIARA.EstadoCollection = Backbone.UILib.DomainCollection.extend({
     },
 
     availablePendentesStates: function() {
-        var role = iAuth.getMainRole();
         var states = SIXHIARA.ESTADOS_PENDENTES.filter(function(s) {
-            return s.roles.indexOf(role) !== -1;
+            return iAuth.user_roles_in(s.roles, 'not-safe');
         });
         states = states.map(function(s) {
             return s.key;
         })
         return states;
-    },
-
-    available: function(data) {
-        var state = model.get('estado_lic');
-        return this.where({'text': state}).length > 0;
     },
 });

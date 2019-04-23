@@ -5,31 +5,20 @@ Backbone.SIXHIARA.EstadoRenovacaoCollection = Backbone.UILib.DomainCollection.ex
     model: Backbone.SIXHIARA.EstadoRenovacao,
 
     forRenovacoesView: function() {
-        if (! window.SIRHA.is_single_user_mode()) {
-            var states = this.availableRenovacaoStates();
-            var foo = this.filter(function(e){
-                return states.indexOf(e.get('text')) !== -1
-            })
-            return new Backbone.SIXHIARA.EstadoRenovacaoCollection(foo);
-        } else {
-            return new Backbone.SIXHIARA.EstadoRenovacaoCollection(this.models);
-        }
+        var states = this.availableRenovacaoStates();
+        var foo = this.filter(function(e){
+            return states.indexOf(e.get('text')) !== -1
+        })
+        return new Backbone.SIXHIARA.EstadoRenovacaoCollection(foo);
     },
 
     availableRenovacaoStates: function() {
-        var role = iAuth.getMainRole();
         var states = window.SIXHIARA.ESTADOS_RENOVACAO.filter(function(s) {
-            return s.roles.indexOf(role) !== -1;
+            return iAuth.user_roles_in(s.roles, 'not-safe');
         });
         states = states.map(function(s) {
             return s.key;
         })
         return states;
     },
-
-    available: function(data) {
-        var state = model.get('estado_lic');
-        return this.where({'text': state}).length > 0;
-    }
-
 });

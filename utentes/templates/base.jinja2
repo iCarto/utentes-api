@@ -30,7 +30,7 @@
                             <strong>FACTURAÇÃO</strong>
                         </a></li>
                         {% endif %}
-                        {% if request.has_permission('create_exploracao') %}
+                        {% if request.has_permission('create_requerimento') %}
                         <li><a id="requerimento-new" href="{{request.route_url('requerimento-new')}}">
                             <strong>CRIAR</strong>
                         </a></li>
