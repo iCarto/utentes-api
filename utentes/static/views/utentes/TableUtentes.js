@@ -30,9 +30,9 @@ Backbone.SIXHIARA.TableUtentes = Backbone.View.extend({
 
     render: function() {
         this.createHtmlTable();
+        iAuth.disabledWidgets();
         this.createDataTable();
         this.custom();
-        iAuth.disabledWidgets();
     },
 
     createHtmlTable: function() {
