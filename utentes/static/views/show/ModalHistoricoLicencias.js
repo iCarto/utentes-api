@@ -14,7 +14,8 @@ Backbone.SIXHIARA.ModalHistoricoLicencias = Backbone.View.extend({
             <table class="table">
             <thead>
                 <tr>
-                    <th>Código histórico</th>
+                    <th>Nro de licença histórico</th>
+                    <th>Nro de exploração</th>
                     <th>Tipo de licença</th>
                     <th>Data Emissão</th>
                     <th>Data validade</th>
@@ -28,6 +29,7 @@ Backbone.SIXHIARA.ModalHistoricoLicencias = Backbone.View.extend({
             _.each(renovacoes,function(item){
                 %>
                 <tr>
+                    <td><%- n_licen_a %></td>
                     <td><%- item.exp_id %></td>
                     <td><%- item.tipo_lic %></td>
                     <td><%- formatter().formatDate(item.d_emissao) %></td>
@@ -55,9 +57,12 @@ Backbone.SIXHIARA.ModalHistoricoLicencias = Backbone.View.extend({
 
     render: function() {
         var prefix     = this.options.tipo_agua.substring(0, 3).toLowerCase();
+        var licencia = this.model.get('licencias').findWhere({'tipo_agua': this.options.tipo_agua});
+
         this.$el.html(this.template({
-            lic_nro: this.options.lic_nro,
-            exp_name: this.options.exp_name,
+            lic_nro: licencia.get('lic_nro'),
+            exp_name: this.model.get('exp_name'),
+            n_licen_a: licencia.get('n_licen_a'),
             renovacoes: this.options.renovacoes.map(function(d){
                 return {
                     exp_id :      d['exp_id'],

@@ -212,16 +212,12 @@ Backbone.SIXHIARA.BlockLicenseView = Backbone.View.extend({
 
     renderHistoricLicenseModal: function(){
         var self = this;
-        var licencia = this.model.get('licencias').where({'tipo_agua': this.options.tipo_agua});
         var historico = new Backbone.SIXHIARA.HistoricoLicencias(this.model);
-        var self = this;
         historico.fetch({
             success: function(model, resp, options){
                 var modal = new Backbone.SIXHIARA.ModalHistoricoLicencias({
-                    lic_nro: licencia[0].get('lic_nro'),
-                    tipo_agua: licencia[0].get('tipo_agua'),
-                    exp_id: self.model.get('exp_id'),
-                    exp_name: self.model.get('exp_name'),
+                    model: self.model,
+                    tipo_agua: self.options.tipo_agua,
                     renovacoes: resp
                 }).show();
             },
