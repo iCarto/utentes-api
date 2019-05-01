@@ -333,10 +333,23 @@ if (window.SIRHA.getARA() === 'DPMAIP') {
 } else {
 
     window.SIXHIARA.xlsFieldsToExport.exploracaos = [
-        {'header': 'Nome utente', 'value': 'utente.nome'},
-        {'header': 'Nuit', 'value': 'utente.nuit'},
-        {'header': 'Tipo de utente', 'value': 'utente.uten_tipo'},
-        {'header': 'Nro registo comercial', 'value': 'utente.reg_comerc'},
+        {'header': 'Nome Utente', 'value': 'utente.nome'},
+        {'header': 'Tipo Utente', 'value': 'utente.uten_tipo'},
+        {'header': 'Email Utente', 'value': 'utente.email'},
+        {'header': 'Telefone Utente', 'value': 'utente.telefone'},
+        {'header': 'Nro Exploração', 'value': 'exp_id'},
+        {'header': 'Nome Exploração', 'value': 'exp_name'},
+        {
+            'header': 'Ano',
+            'value': function (exp) {
+                return exp.exp_id.split('/')[2];
+            }
+        },
+        {'header': 'Província', 'value': 'utente.loc_provin'},
+        {'header': 'Distrito', 'value': 'utente.loc_distri'},
+        {'header': 'Posto administrativo', 'value': 'utente.loc_posto'},
+        {'header': 'Unidade', 'value': 'loc_unidad'},
+        {'header': 'Bacia', 'value': 'loc_bacia' },
         {
             'header': 'Tipo de água',
             'value': function (exp) {
@@ -354,60 +367,64 @@ if (window.SIRHA.getARA() === 'DPMAIP') {
             }
         },
         {
-            'header': 'Estado lic. subterrânea',
+            'header': 'Nro Licença Sub.',
+            'value': function (exp) {
+                var lic = exp.licencias.filter( lic => lic.tipo_agua == 'Subterrânea' );
+                return (lic[0] && lic[0].lic_nro) || null;
+            }
+        },
+        {
+            'header': 'Estado Licencia Sub.',
             'value': function (exp) {
                 var lic = exp.licencias.filter( lic => lic.tipo_agua == 'Subterrânea' );
                 return (lic[0] && lic[0].estado) || null;
             }
         },
         {
-            'header': 'Tipo lic. subterrânea',
+            'header': 'Tipo Licença Sub.',
             'value': function (exp) {
                 var lic = exp.licencias.filter( lic => lic.tipo_agua == 'Subterrânea' );
                 return (lic[0] && lic[0].tipo_lic) || null;
             }
         },
         {
-            'header': 'Estado lic. superficial',
+            'header': 'Nro Licença Sup.',
+            'value': function (exp) {
+                var lic = exp.licencias.filter( lic => lic.tipo_agua == 'Superficial' );
+                return (lic[0] && lic[0].lic_nro) || null;
+            }
+        },
+        {
+            'header': 'Estado Licencia Sup.',
             'value': function (exp) {
                 var lic = exp.licencias.filter( lic => lic.tipo_agua == 'Superficial' );
                 return (lic[0] && lic[0].estado) || null;
             }
         },
         {
-            'header': 'Tipo lic. superficial',
+            'header': 'Tipo Licença Sup.',
             'value': function (exp) {
                 var lic = exp.licencias.filter( lic => lic.tipo_agua == 'Superficial' );
                 return (lic[0] && lic[0].tipo_lic) || null;
             }
         },
+        {'header': 'Consumo licenciado (m3/mês)', 'value': 'c_licencia'},
         {
-            'header': 'Ano',
-            'value': function (exp) {
-                return exp.exp_id.split('/')[2];
+            'header': 'Consumo facturado (m3/mês)',
+            'value': function(exp) {
+                return exp.licencias.reduce(
+                    (accumulator, lic) => accumulator + lic.consumo_fact,
+                0);
             }
         },
-        {'header': 'Registado em', 'value': 'utente.reg_zona'},
-        {'header': 'Unidade', 'value': 'loc_unidad'},
-        {'header': 'Provincia', 'value': 'utente.loc_provin'},
-        {'header': 'Distrito', 'value': 'utente.loc_distri'},
-        {'header': 'Posto', 'value': 'utente.loc_posto'},
-        {'header': 'Bairro', 'value': 'utente.loc_nucleo'},
-        {'header': 'Endereço', 'value': 'utente.loc_endere'},
-        {'header': 'Observações', 'value': 'utente.observacio'},
-        {'header': 'Id Exp', 'value': 'exp_id'},
-        {'header': 'Nome da exploração', 'value': 'exp_name'},
-        {'header': 'Actividade', 'value': 'actividade.tipo'},
-        {'header': 'Consumo licenciado', 'value': 'c_licencia'},
-        {'header': 'Consumo solicitado', 'value': 'c_soli'},
-        {'header': 'Consumo real', 'value': 'c_real'},
-        {'header': 'Consumo estimado', 'value': 'c_estimado'},
-        {'header': 'Valor com IVA (MZN/mês)',
-         'value': function(exp) {
-             return exp.licencias.reduce(
-                 (accumulator, lic) => accumulator + lic.pago_iva,
-             0);
-         }},
+        {
+            'header': 'Valor com IVA (MZN/mês)',
+            'value': function(exp) {
+                return exp.licencias.reduce(
+                    (accumulator, lic) => accumulator + lic.pago_iva,
+                0);
+            }
+        },
     ];
 
     window.SIXHIARA.shpFieldsToExport = [
