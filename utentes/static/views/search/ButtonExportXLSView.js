@@ -54,6 +54,7 @@ Backbone.SIXHIARA.ButtonExportXLSView = Backbone.View.extend({
 
         var wb = new Workbook();
         var wsExploracaos = this.sheet_from_array_of_arrays(dataExploracaos);
+        this.setColumnsWidthFromHeaderRow(wsExploracaos, dataExploracaos)
 
         /* add ranges to worksheet */
         /* ws['!merges'] = ranges; */
@@ -121,6 +122,13 @@ Backbone.SIXHIARA.ButtonExportXLSView = Backbone.View.extend({
         }
         if(range.s.c < 10000000) ws['!ref'] = XLSX.utils.encode_range(range);
         return ws;
+    },
+
+    setColumnsWidthFromHeaderRow(ws, data) {
+        var wscols = data[0].map(headerCell => {
+            return { wch: Math.max(headerCell.length, 5) };
+        })
+        ws['!cols'] = wscols;
     },
 
     datenum: function(v, date1904) {
