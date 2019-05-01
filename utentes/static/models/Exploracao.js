@@ -549,15 +549,24 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
         if (where.attributes.loc_unidad) {
             containsUnidade = (this.get('loc_unidad') === where.attributes.loc_unidad);
         }
+        var containsEstado = true;
+        if (where.attributes.estado){
+            containsEstado = false;
+            var whereEstado = _.pick(where.values(), 'estado');
+            var lics = this.get('licencias').where(whereEstado);
+            if (lics.length > 0) {
+                containsEstado = true;
+            }
+            containsEstado = containsEstado || (where.attributes.estado === this.get('estado_lic'));
+        }
         var containsLic = true;
-        if(where.attributes.tipo_lic || where.attributes.tipo_agua || where.attributes.estado){
+        if (where.attributes.tipo_lic || where.attributes.tipo_agua){
             containsLic = false;
-            var whereLic = _.pick(where.values(), 'tipo_lic', 'tipo_agua', 'estado');
+            var whereLic = _.pick(where.values(), 'tipo_lic', 'tipo_agua');
             var lics = this.get('licencias').where(whereLic);
             if (lics.length > 0) {
                 containsLic = true;
             }
-            containsLic = containsLic || (where.attributes.estado === this.get('estado_lic'));
         }
         var containsActividade = true;
         if (where.attributes.actividade) {
@@ -601,7 +610,7 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
             }
         }
 
-        return containsAttrs && containsUtente && containsUnidade && containsLic && containsActividade && containsAno && containsGeometria && containsBounds && containsRenovacao;
+        return containsAttrs && containsUtente && containsUnidade && containsEstado && containsLic && containsActividade && containsAno && containsGeometria && containsBounds && containsRenovacao;
     },
 
 
