@@ -32,6 +32,7 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
         'utente':     new Backbone.SIXHIARA.Utente(),
         'licencias':  new Backbone.SIXHIARA.LicenciaCollection(),
         'fontes':     new Backbone.SIXHIARA.FonteCollection(),
+        'facturacao':  new Backbone.SIXHIARA.FacturaCollection(),
         'geometry':   new Backbone.Model(),
         'geometry_edited': false,
         'summary_pago_iva': null,
@@ -395,7 +396,19 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
         if (_.has(response, 'renovacao')) {
             response.renovacao = new Backbone.SIXHIARA.Renovacao(response.renovacao, {parse:true});
         }
-
+        if (_.has(response, 'facturacao')) {
+            if(!this.get('facturacao')) {
+                // si el objeto es nuevo entonces creamos una nueva colección
+                response.facturacao = new Backbone.SIXHIARA.FacturaCollection(response.facturacao, {parse:true})
+            }else{
+                // si el objeto ya es antiguo (es decir, viene de un "save"), entonces actualizamos la colección antigua
+                // para poder seguir trabajando con ella en la vista
+                var oldCollection = this.get('facturacao');
+                var updatedFacturaArray = response.facturacao.map(factura => new Backbone.SIXHIARA.Factura(factura));
+                oldCollection.set(updatedFacturaArray, {silent: true});
+                response.facturacao = oldCollection;
+            }
+        }
         if (_.has(response, 'actividade')) {
             if (response.actividade) {
                 response.actividade = new Backbone.SIXHIARA.ActividadesFactory[response.actividade.tipo](response.actividade, {parse:true});

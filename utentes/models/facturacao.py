@@ -50,6 +50,7 @@ class Facturacao(Base):
     pago_iva_sub = Column(Numeric(10, 2))
     iva_sub = Column(Numeric(10, 2))
     iva = Column(Numeric(10, 2))
+    juro = Column(Numeric(10, 2))
     pago_mes = Column(Numeric(10, 2))
     pago_iva = Column(Numeric(10, 2))
 

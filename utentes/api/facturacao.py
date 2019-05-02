@@ -20,7 +20,7 @@ log = logging.getLogger(__name__)
     request_method='GET',
     renderer='json')
 @view_config(
-    route_name='api_facturacao_id',
+    route_name='api_facturacao_exploracao_id',
     permission=PERM_GET,
     request_method='GET',
     renderer='json')
@@ -49,6 +49,11 @@ def facturacao_get(request):
         fact_estado = request.GET.getall('fact_estado[]')
         if fact_estado:
             query = query.filter(Exploracao.fact_estado.in_(fact_estado))
+
+
+
+
+            query = query.filter(Exploracao.gid.in_([2315, 2317]))
 
         features = query.all()
         return {'type': 'FeatureCollection', 'features': features}
@@ -129,16 +134,16 @@ def num_factura_get(request):
 
 
 @view_config(
-    route_name='api_facturacao_id',
+    route_name='api_facturacao_exploracao_id',
     permission=PERM_UPDATE_CREATE_FACTURACAO,
     request_method='PATCH',
     renderer='json')
 @view_config(
-    route_name='api_facturacao_id',
+    route_name='api_facturacao_exploracao_id',
     permission=PERM_UPDATE_CREATE_FACTURACAO,
     request_method='PUT',
     renderer='json')
-def facturacao_update(request):
+def facturacao_exploracao_update(request):
     id = request.matchdict['id']
     body = request.json_body
     e = request.db.query(Exploracao).filter(Exploracao.gid == id).one()

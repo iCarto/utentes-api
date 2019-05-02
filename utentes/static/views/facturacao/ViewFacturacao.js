@@ -6,10 +6,6 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
     // this property like so: 'container homepage'
     className: 'myclass',
 
-    events: {
-        'click #bt-consumo': 'newPrinter',
-    },
-
     // Note: When declaring a View, options, el, tagName, id and className
     // may be defined as functions, if you want their values to be determined
     // at runtime.
@@ -27,24 +23,16 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
                 <div class="btn-group uilib-enability uilib-hide-role-observador" role="group">
                     <button id="bt-emision" type="button" class="btn btn-default" disabled>Factura&nbsp;(emissão licença)</button>
                 </div>
-                <div class="btn-group uilib-enability uilib-hide-role-observador" role="group">
-                    <button id="bt-consumo" type="button" class="btn btn-default">Factura&nbsp;(consumo)</button>
-                </div>
             </div>
         </div>
     </div>
 
 
 <h4 style="margin-bottom: 10px;">
-<span style="color:#00a2da"><%- exp_id + ' '%> <%- exp_name %></span> <span style="color: grey"><%= ' (' + (actividade && actividade.tipo || 'Não declarada') + ') ' %></span>
-<div class="licencias">
-    <%- Backbone.SIXHIARA.formatter.formatTipoLicencias(licencias)[0] %> / <%- Backbone.SIXHIARA.formatter.formatTipoLicencias(licencias)[1] %>
-</div>
-<br>
-<small style="font-size: 50%;" class="label <%- summary_licencia_val ? 'label-success' : 'label-danger' %>" id="summary_licencia"><%- summary_licencia_msg.charAt(0) %></small>
-&nbsp;<small style="font-size: 50%;" class="label <%- summary_consumo_val ? 'label-success' : 'label-danger' %>" id="summary_consumo"><%- summary_consumo_msg.charAt(0) %></small>
-&nbsp;<small style="font-size: 50%;" class="label <%- summary_pagos_val === null ? 'label-default' : (summary_pagos_val ? 'label-success' : 'label-danger') %>" id="summary_pagos"><%- summary_pagos_msg.charAt(0) %></small>
-&nbsp;<small style="font-size: 65%;" ><%- utente['nome'] %></small>
+    <span style="color:#00a2da"><%- exp_id + ' '%> <%- exp_name %></span> <span style="color: grey"><%= ' (' + (actividade && actividade.tipo || 'Não declarada') + ') ' %></span>
+    <div class="licencias">
+        <%- Backbone.SIXHIARA.formatter.formatTipoLicencias(licencias)[0] %> / <%- Backbone.SIXHIARA.formatter.formatTipoLicencias(licencias)[1] %>
+    </div>
 </h4>
 
     <div class="row form-horizontal" style="margin-top: 10px">
@@ -53,7 +41,7 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
             <div class="form-group" style="margin-left: 0px; margin-right: 0px">
                 <label for="pago_lic" class="control-label col-xs-9" style="text-align: left">Pagamento emissão licença</label>
                 <div class="col-xs-3" style="padding-left: 10px; padding-right: 10px;">
-                    <select class="form-control" style="padding: 3px 5px;" id="pago_lic" disabled>
+                    <select class="form-control" style="padding: 3px 5px;" id="pago_lic">
                         <option>Sim</option>
                         <option selected>Não</option>
                     </select>
@@ -63,21 +51,9 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
 
         <div class="col-xs-4">
             <div class="form-group" style="margin-left: 0px; margin-right: 0px">
-                <label for="pagos" class="control-label col-xs-9" style="text-align: left">Pagamento consumos</label>
-                <div class="col-xs-3" style="padding-left: 10px; padding-right: 10px;">
-                    <select class="form-control" style="padding: 3px 5px;" id="pagos" disabled>
-                        <option>Sim</option>
-                        <option selected>Não</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group col-xs-4">
-            <div class="form-group" style="margin-left: 0px; margin-right: 0px">
                 <label for="fact_tipo" class="control-label col-xs-7" style="text-align: left">Tipo de facturação</label>
                 <div class="col-xs-5" style="padding-left: 10px; padding-right: 10px;">
-                    <select class="form-control" style="padding: 3px 3px;" id="fact_tipo" disabled>
+                    <select class="form-control" style="padding: 3px 3px;" id="fact_tipo">
                         <option selected>Mensal</option>
                         <option>Trimestral</option>
                         <option>Anual</option>
@@ -90,155 +66,36 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
 
     <div class="row panel-equal-height">
 
-        <div class="col-xs-4">
-            <div id="lic-sub" class="panel panel-info panel-disabled">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><strong>Licença Subterrânea</strong></h3>
-                </div>
-                <div class="panel-body row">
-                    <div class="form-group col-xs-12">
-                        <label for="consumo_tipo_sub"><strong>Tipo de consumo</strong></label>
-                        <select class="form-control" id="consumo_tipo_sub" disabled >
-                            <option selected>Fixo</option>
-                            <option>Variável</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group col-xs-12">
-                        <label for="c_licencia_sub">Consumo licenciado&nbsp;<i class="units">(m<sup>3</sup>/mês)</i></label>
-                        <input type="text" class="form-control widget-number" id="c_licencia_sub" pattern="[0-9]{1,8}([,][0-9]{1,2})?" value="<%- formatter().formatNumber(c_licencia_sub, '0[.]00') %>" disabled>
-                    </div>
-
-                    <div class="form-group col-xs-12">
-                        <label for="consumo_fact_sub">Consumo facturado&nbsp;<i class="units">(m<sup>3</sup>/mês)</i></label>
-                        <input type="text" class="form-control widget-number" id="consumo_fact_sub" pattern="[0-9]{1,8}([,][0-9]{1,2})?" value="<%- formatter().formatNumber(facturacao[facturacao.length - 1].consumo_fact_sub, '0[.]00') %>" disabled>
-                    </div>
-
-                    <div class="form-group col-xs-12">
-                        <label for="taxa_fixa_sub">Taxa fixa&nbsp;<i class="units">(MZN/mês)</i></label>
-                        <input type="text" class="form-control widget-number" id="taxa_fixa_sub" pattern="[0-9]{1,8}([,][0-9]{1,2})?" value="<%- formatter().formatNumber(facturacao[facturacao.length - 1].taxa_fixa_sub, '0[.]00') %>" disabled>
-                    </div>
-
-                    <div class="form-group col-xs-12">
-                        <label for="taxa_uso_sub">Taxa de uso&nbsp;<i class="units">(MZN/m<sup>3</sup>)</i></label>
-                        <input type="text" class="form-control widget-number" id="taxa_uso_sub" pattern="[0-9]{1,8}([,][0-9]{1,2})?" value="<%- formatter().formatNumber(facturacao[facturacao.length - 1].taxa_uso_sub, '0[.]00') %>" disabled>
-                    </div>
-
-                    <div class="form-group col-xs-12">
-                        <label for="pago_mes_sub">Valor pago mês&nbsp;<i class="units">(MZN/més)</i></label>
-                        <input type="text" class="form-control widget-number" id="pago_mes_sub" pattern="[0-9]{1,8}([,][0-9]{1,2})?" value="<%- formatter().formatNumber(facturacao[facturacao.length - 1].pago_mes_sub, '0[.]00') %>" disabled>
-                    </div>
-                </div>
-            </div>
+        <div id="facturacao-historico-view" class="col-xs-4" style="border-right: 1px solid #337ab7">
         </div>
 
-        <div class="col-xs-4">
-            <div id="lic-sup" class="panel panel-info panel-disabled">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><strong>Licença Superficial</strong></h3>
-                </div>
-                <div class="panel-body row">
-                    <div class="form-group col-xs-12">
-                        <label for="consumo_tipo_sup"><strong>Tipo de consumo</strong></label>
-                        <select class="form-control" id="consumo_tipo_sup" disabled >
-                            <option selected>Fixo</option>
-                            <option>Variável</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group col-xs-12">
-                        <label for="c_licencia_sup">Consumo licenciado&nbsp;<i class="units">(m<sup>3</sup>/mês)</i></label>
-                        <input type="text" class="form-control widget-number" id="c_licencia_sup" pattern="[0-9]{1,8}([,][0-9]{1,2})?" value="<%- formatter().formatNumber(c_licencia_sup, '0[.]00') %>" disabled>
-                    </div>
-
-                    <div class="form-group col-xs-12">
-                        <label for="consumo_fact_sup">Consumo facturado&nbsp;<i class="units">(m<sup>3</sup>/mês)</i></label>
-                        <input type="text" class="form-control widget-number" id="consumo_fact_sup" pattern="[0-9]{1,8}([,][0-9]{1,2})?" value="<%- formatter().formatNumber(facturacao[facturacao.length - 1].consumo_fact_sup, '0[.]00') %>" disabled>
-                    </div>
-
-                    <div class="form-group col-xs-12">
-                        <label for="taxa_fixa_sup">Taxa fixa&nbsp;<i class="units">(MZN/mês)</i></label>
-                        <input type="text" class="form-control widget-number" id="taxa_fixa_sup" pattern="[0-9]{1,8}([,][0-9]{1,2})?" value="<%- formatter().formatNumber(facturacao[facturacao.length - 1].taxa_fixa_sup, '0[.]00') %>" disabled>
-                    </div>
-
-                    <div class="form-group col-xs-12">
-                        <label for="taxa_uso_sup">Taxa de uso&nbsp;<i class="units">(MZN/m<sup>3</sup>)</i></label>
-                        <input type="text" class="form-control widget-number" id="taxa_uso_sup" pattern="[0-9]{1,8}([,][0-9]{1,2})?" value="<%- formatter().formatNumber(facturacao[facturacao.length - 1].taxa_uso_sup, '0[.]00') %>" disabled>
-                    </div>
-
-                    <div class="form-group col-xs-12">
-                        <label for="pago_mes_sup">Valor pago mês&nbsp;<i class="units">(MZN/més)</i></label>
-                        <input type="text" class="form-control widget-number" id="pago_mes_sup" pattern="[0-9]{1,8}([,][0-9]{1,2})?" disabled value="<%- formatter().formatNumber(facturacao[facturacao.length - 1].pago_mes_sup, '0[.]00') %>" disabled>
-                    </div>
-                </div>
-            </div>
+        <div id="factura-view" class="col-xs-8">
         </div>
-
-        <div class="col-xs-4" style="border-left: 1px solid #337ab7">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><strong>Histórico</strong></h3>
-                </div>
-                <div class="panel-body row">
-                    <ul id="historico">
-                    <% for (var i=0; i < facturacao.length ; i+=1) {
-                        print('<li><strong>' + facturacao[i].mes + '/' + facturacao[i].ano + '</strong>. Valor com IVA: ' + (formatter().formatNumber(facturacao[i].pago_iva, '0[.]00') || '-') + ' MZN </li>')
-                        print('<ul><li>Subterrânea: ' + (formatter().formatNumber(facturacao[i].consumo_fact_sub, '0[.]00') || '-') + ' m<sup>3</sup></li><li>Superficial: ' + (formatter().formatNumber(facturacao[i].consumo_fact_sup, '0[.]00') || '-') +  ' m<sup>3</sup></li></ul>')
-                    }
-                    %>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-    </div> <!-- /panel-equal-height -->
-
-    <div class="row panel-equal-height">
-      <div class="col-xs-8">
-          <div class="panel panel-info">
-              <div class="panel-heading">
-                  <h3 class="panel-title"><strong>Facturação</strong></h3>
-              </div>
-              <div class="panel-body row">
-
-                  <div class="form-group col-xs-6">
-                      <label for="iva">IVA&nbsp;<i class="units">(%)</i></label>
-                      <input type="text" class="form-control widget-number" id="iva" pattern="[0-9]{1,8}([,][0-9]{1,2})?" value="<%- formatter().formatNumber(facturacao[facturacao.length - 1].iva, '0[.]00') %>" disabled>
-                  </div>
-
-                  <div class="form-group col-xs-6">
-                      <label for="pago_iva">Valor com IVA&nbsp;<i class="units">(MZN/mês)</i></label>
-                      <input type="text" class="form-control widget-number" id="pago_iva" pattern="[0-9]{1,8}([,][0-9]{1,2})?" value="<%- formatter().formatNumber(facturacao[facturacao.length - 1].pago_iva, '0[.]00') %>" disabled>
-                  </div>
-              </div>
-          </div>
-      </div>
-
-      <div class="col-xs-4 panel-observacio">
-      <div class="panel">
-        <div class="form-group">
-            <label for="observacio">
-                <div style="display:inline-block; width: 24%">
-                    Observações
-                </div>
-                <div id="js-btns-next">
-                    <!-- TODO. Los "siguientes estados" disponibles no deberían estar harcodeados en el html
-                    o bien, todos los botones deberían ser generados en otra parte, o de los dominios se deberían decidir que botones
-                    se pueden usar en el modo combo o algo así
-                    -->
-                    <button id="bt-ok" type="button" class="btn btn-default btn-sm uilib-enability uilib-hide-role-observador">Diferida</button>
-                </div>
-            </label>
-            <textarea id="observacio" class="form-control widget uilib-enability uilib-disable-role-observador"></textarea>
-        </div>
-      </div>
-      </div>
 
     </div>
     `),
 
     initialize: function (options) {
         this.options = options || {};
+
+        var tiposLicencia = [];
+        this.model.get('licencias').forEach(function(lic){
+            var tipo = lic.get('tipo_agua').substring(0, 3).toLowerCase();
+            tiposLicencia.push(tipo);
+        });
+
+        this.facturacaoHistoricoView = new Backbone.SIXHIARA.ViewFacturacaoHistorico({
+            model: this.model.get('facturacao')
+        });
+
+        this.facturaSelected = this.model.get('facturacao').at(0).id;
+        this.facturaView = new Backbone.SIXHIARA.ViewFacturacaoModal({
+            model: this.model.get('facturacao').findWhere({id: this.facturaSelected}),
+            tiposLicencia: tiposLicencia,
+            exploracao: this.model
+        });
+
+        this.listenTo(this.model.get('facturacao'), 'change', this.facturacaoUpdated);
     },
 
     render: function() {
@@ -246,7 +103,30 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
         json.c_licencia_sup = this.model.getLicencia('sup').get('c_licencia');
         json.c_licencia_sub = this.model.getLicencia('sub').get('c_licencia');
         this.$el.html(this.template(json));
+        
+        this.renderFacturacaoHistorico();
+        this.renderFactura();
         return this;
+    },
+
+    renderFacturacaoHistorico: function () {
+        this.$el.find('#facturacao-historico-view').empty().append(this.facturacaoHistoricoView.render().el);
+    },
+
+    renderFactura: function (event) {
+        if(event) {
+            event.preventDefault();
+        }
+        this.$el.find('#factura-view').empty().append(this.facturaView.render().el);
+    },
+
+    facturacaoUpdated: function(changedModel) {
+        console.log('facturacaoUpdated', changedModel)
+        if(changedModel.changed['fact_estado'] && changedModel.changed['fact_estado'] == window.SIRHA.ESTADO_FACT.PENDIND_INVOICE) {
+            this.saveExploracao(this.model, false);
+        }else{
+            this.autosave(this.model);
+        }
     },
 
     /*
@@ -256,14 +136,17 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
     */
     init: function() {
         self = this;
-        var fact = this.model.get('facturacao').slice(-1)[0];
-        var currentComment = fact['observacio'].slice(-1)[0];
-        if (currentComment.text) {
-            document.getElementById('observacio').value = currentComment.text;
-        }
 
-        document.getElementById('js-btns-next').addEventListener('click', function(e){
-            self.fillExploracao(e);
+        document.querySelectorAll('.js-btns-next').forEach(function(bt) {
+            bt.addEventListener('click', function(e){
+                var exploracao = self.model;
+                var fact_estado = exploracao.get('fact_estado');
+                if ((fact_estado == window.SIRHA.ESTADO_FACT.PENDIND_INVOICE && e.target.id !== 'bt-consumo') || 
+                    (fact_estado == window.SIRHA.ESTADO_FACT.PENDING_PAY && e.target.id !== 'bt-recibo')) {
+                    return;
+                }
+                self.fillExploracao(e);
+            });
         });
 
         // var wf_tmp = Object.create(MyWorkflow);
@@ -273,19 +156,18 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
         //     bt.title = nextBtState;
         // });
 
-        this.widgetsToBeUsed();
-        this.enabledWidgets();
-        this.enableBts();
+        //this.enableBts();
 
         $('[data-toggle="tooltip"]').tooltip();
 
-        $('#historico li a').click(function(){
-            var i = $(this).parent().index();
-            self.renderModal(i);
+        this.facturaView.updateWidgets();
+        this.facturacaoHistoricoView.setSelected(this.facturaSelected);
+        this.facturacaoHistoricoView.on('factura-selected', function(id) {
+            self.facturaSelected = id;
+            self.facturaView.updateModel(self.model.get('facturacao').findWhere({id}));
         });
 
-        this.initSelects()
-        document.getElementById('observacio').addEventListener('input', self.autosave.bind(self), false);
+        this.initSelects();
 
         var defaultDataForFileModal = iAuth.getDefaultDataForFileModal(this.model.get('id'));
         var fileModalView = new Backbone.DMS.FileModalView({
@@ -297,71 +179,12 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
 
     },
 
-    widgetsToBeUsed: function() {
-        var self = this;
-        if (iAuth.hasRoleObservador()) {
-            this.widgets = [];
-            return;
-        }
-        this.widgets = ['pago_lic', 'pagos', 'fact_tipo', 'iva'];
-        this.model.get('licencias').forEach(function(lic){
-            var tipo = lic.get('tipo_agua').substring(0, 3).toLowerCase();
-            document.getElementById('lic-' + tipo).classList.remove('panel-disabled');
-            ['taxa_fixa_sup', 'taxa_fixa_sub', 'taxa_uso_sup', 'taxa_uso_sub', 'consumo_fact_sup', 'consumo_fact_sub'].forEach(function(w){
-                if (w.endsWith(tipo)) {
-                    self.widgets.push(w);
-                }
-            });
-        });
-    },
-
-    enabledWidgets: function() {
-        this.widgets.forEach(function(w){
-            var input = document.querySelectorAll('#myid #' + w)[0];
-            input.disabled = false;
-            input.required = true;
-            input.addEventListener('input', self.enableBts.bind(self), false);
-            input.addEventListener('input', self.autosave.bind(self), false);
-        });
-    },
-
-    enableBts: function() {
-        var enable = this.widgets.every(function(w){
-            var input = document.querySelectorAll('#myid #' + w)[0];
-            var e = input.value === 0 || input.value.trim();
-            e = e && input.validity.valid;
-            return e;
-        });
-
-        document.getElementById('bt-ok').disabled = !enable;
-        document.getElementById('bt-consumo').disabled = !enable;
-        return enable
-    },
-
-    updatePagoMes: function(lic) {
-        var taxa_fixa = formatter().unformatNumber(document.getElementById('taxa_fixa_' + lic).value);
-        var taxa_uso = formatter().unformatNumber(document.getElementById('taxa_uso_' + lic).value);
-        var consumo_fact = formatter().unformatNumber(document.getElementById('consumo_fact_' + lic).value);
-        var pago_mes = taxa_fixa + (taxa_uso * consumo_fact);
-        document.getElementById('pago_mes_' + lic).value = formatter().formatNumber(pago_mes, '0[.]00');
-        return pago_mes
-    },
-
-    updateAutomatic: function() {
-        var pago_mes_sup = this.updatePagoMes('sup') || 0;
-        var pago_mes_sub = this.updatePagoMes('sub') || 0;
-
-        var iva = formatter().unformatNumber(document.getElementById('iva').value);
-        var pago_iva = (pago_mes_sup + pago_mes_sub) * (1 + iva / 100);
-        document.getElementById('pago_iva').value = formatter().formatNumber(pago_iva, '0[.]00');
-    },
-
     autosave: function(e) {
         // http://codetunnel.io/how-to-implement-autosave-in-your-web-app/
-        this.updateAutomatic();
-        if (! this.isSaveable(e)) {
+        //this.updateAutomatic();
+        /*if (! this.isSaveable(e)) {
             return;
-        }
+        }*/
         var self = this;
         var autosaveInfo = document.getElementById('autosave-info');
         autosaveInfo.innerHTML = 'Modificações pendentes'
@@ -373,27 +196,13 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
             clearTimeout(this.autosaveInputTimeOutId);
         }
         this.timeoutId = setTimeout(function () {
-            self.fillExploracao(null, true);
+            self.doFillExploracao(null, true);
             autosaveInfo.innerHTML = 'Modificações gravadas'
             autosaveInfo.style.color = 'green';
             self.autosaveInputTimeOutId = setTimeout(function() {
                 autosaveInfo.innerHTML = '';
             }, 1500)
         }, 750);
-    },
-
-    isSaveable: function(e) {
-        if (['pagos', 'pago_lic', 'fact_tipo'].indexOf(e.currentTarget.id) !== -1) {
-            return true;
-        }
-        if (document.getElementById('observacio').value) {
-            return true;
-        }
-        var enable = this.widgets.some(function(w){
-            var input = document.querySelectorAll('#myid input#' + w)[0];
-            return input && input.validity.valid;
-        });
-        return enable;
     },
 
     fillExploracao: function(e, autosave) {
@@ -403,9 +212,9 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
         var nextState = wf.whichNextState(exploracao.get('estado_lic'), e, exploracao);
 
         if (autosave) {
-            this.doFillExploracao(e, autosave);
+            this.saveExploracao(e, autosave);
         } else {
-            bootbox.confirm(`A exploração vai mudar o seu a: <br> <strong>${nextState}</strong>`, function(result){
+            bootbox.confirm(`A exploração vai mudar o seu estado a: <br> <strong>${nextState}</strong>`, function(result){
                 if (result) {
                     self.doFillExploracao(e, autosave);
                 }
@@ -419,8 +228,9 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
 
         var nextState = wf.whichNextState(exploracao.get('estado_lic'), e, exploracao);
 
-        var fact = exploracao.get('facturacao').slice(-1)[0];
-        var currentComment = fact['observacio'].slice(-1)[0];
+        var fact = this.facturaView.model;
+        console.log('fact' , fact);
+        var currentComment = fact.get('observacio').slice(-1)[0];
         Object.assign(currentComment, {
             'create_at': new Date(),
             'author': iAuth.getUser(),
@@ -429,7 +239,7 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
         });
 
         if (!autosave) {
-            fact['observacio'].push({
+            fact.get('observacio').push({
                 'create_at': null,
                 'author': null,
                 'text': null,
@@ -437,27 +247,22 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
             });
         }
 
-        document.querySelectorAll('#myid input').forEach(function(input) {
-            if (input.validity.valid) {
-                fact[input.id] = formatter().unformatNumber(input.value);
-            }
-        });
-        document.querySelectorAll('#myid select').forEach(function(select){
-            fact[select.id] = select.options[select.selectedIndex].text;
-            if (select.id === 'pagos' || select.id === 'pago_lic') {
-                fact[select.id] = fact[select.id] === 'Não' ? false : true;
-            }
-        });
-        fact['fact_estado'] = nextState;
+        this.saveExploracao(exploracao, autosave);
+    },
 
-        exploracao.set('fact_estado', nextState);
-        exploracao.set('fact_tipo', fact['fact_tipo'])
-        exploracao.set('pagos', fact['pagos'])
-        exploracao.set('pago_lic', fact['pago_lic'])
-        exploracao.getLicencia('sup').set('consumo_tipo', fact['consumo_tipo_sup'])
-        exploracao.getLicencia('sub').set('consumo_tipo', fact['consumo_tipo_sub'])
+    saveExploracao: function(exploracao, autosave) {
+        var self = this;
 
-        exploracao.urlRoot = Backbone.SIXHIARA.Config.apiFacturacao;
+        //fact.set('pago_lic', document.getElementById('pago_lic').value === 'Não' ? false : true);
+        //fact.set('fact_tipo', document.getElementById('fact_tipo').value);
+        //fact.set('fact_estado', nextState);
+
+        //exploracao.set('fact_estado', nextState);
+        //exploracao.set('fact_tipo', fact.get('fact_tipo'))
+        //exploracao.set('pagos', fact.get('pagos'))
+        //exploracao.set('pago_lic', fact.get('pago_lic'))
+
+        exploracao.urlRoot = Backbone.SIXHIARA.Config.apiFacturacaoExploracao;
         exploracao.save(
             null,
             {
@@ -473,6 +278,11 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
                             exploracao.trigger('show-next-exp', exploracao);
                         });
                     }
+                    if(model.get('fact_estado') == window.SIRHA.ESTADO_FACT.PAYED) {
+                        bootbox.alert(`A exploração&nbsp;<strong>${exp_id} - ${exp_name}</strong>&nbsp;tem todas as facturas pagas.`, function(){
+                            exploracao.trigger('show-next-exp', exploracao);
+                        });
+                    }
                 },
                 'error': function() {
                     bootbox.alert('<span style="color: red;">Produziu-se um erro. Informe ao administrador.</strong>');
@@ -482,9 +292,9 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
     },
 
     initSelects: function() {
-        var fact = this.model.get('facturacao').slice(-1)[0]
+        var fact = this.model.get('facturacao').at(0)
         document.querySelectorAll('#myid select').forEach(function(s){
-            var text = fact[s.id]
+            var text = fact.get(s.id)
             if (text === false) text = 'Não';
             if (text === true)  text = 'Sim';
             for (var i = 0; i< s.options.length; i+=1) {
@@ -502,61 +312,4 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
         return s.options[s.selectedIndex].text;
     },
 
-    newPrinter: function(){
-        var json = this.model.toJSON();
-
-        if (!json.loc_unidad) {
-            bootbox.alert("A exploração tem que ter uma Unidade de Gestão.");
-            return;
-        }
-        // Create a copy of the model and remove nulls
-        var data = JSON.parse(JSON.stringify(json, function(key, value) {
-            if(value === null) {
-                return "";
-            }
-            return value;
-        }));
-
-        data.jura = "0,00";
-
-        var date = moment(new Date());
-        data.dateFactura = formatter().formatDate(date);
-        data.vencimento = formatter().formatDate(date.add(1, 'M'));
-
-        data.nameFile = data.exp_id.concat("_")
-                                   .concat(date.month())
-                                   .concat('_')
-                                   .concat(date.year())
-                                   .concat('.docx');
-
-        data.urlTemplate = Backbone.SIXHIARA.tipoTemplates['Factura'];
-        data.pago_iva = formatter().formatNumber(json.facturacao[json.facturacao.length - 1].pago_iva, '0[.]00') || 0;
-
-        var self = this;
-
-        var factura = new Backbone.SIXHIARA.NewFactura({id: json.facturacao[json.facturacao.length - 1].id});
-        var datosAra = new Backbone.SIXHIARA.AraGetData();
-        datosAra.fetch({
-            success: function(model, resp, options) {
-                data.ara = resp
-                data.ara.logoUrl = 'static/print-templates/images/' + window.SIRHA.getARA() + '_factura.png';
-                factura.fetch({
-                    success: function(model, resp, options) {
-                        data.numFactura = resp;
-                        var docxGenerator = new Backbone.SIXHIARA.DocxGeneratorView({
-                            model: self.model,
-                            data: data
-                        });
-                    },
-                    error: function(){
-                        bootbox.alert("Erro ao gerar a factura.");
-                        return;
-                    }
-                });
-            },
-            error: function() {
-                bootbox.alert(`Erro ao imprimir factura`);
-            }
-        });
-    },
 });

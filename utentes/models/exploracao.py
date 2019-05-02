@@ -21,6 +21,10 @@ from utentes.models.fonte import Fonte
 from utentes.models.licencia import Licencia
 from utentes.models.actividade import Actividade
 
+from utentes.models.facturacao_fact_estado import (
+    NOT_INVOIZABLE, PENDING_CONSUMPTION, PENDING_INVOICE, PENDING_PAYMENT, PAYED
+)
+
 
 class ST_Multi(GenericFunction):
     name = 'ST_Multi'
@@ -146,7 +150,8 @@ class Exploracao(ExploracaoBase):
     facturacao = relationship(u'Facturacao',
                               cascade='all, delete-orphan',
                               lazy='joined',
-                              passive_deletes=True)
+                              passive_deletes=True,
+                              order_by='Facturacao.created_at')
 
 
     def get_licencia(self, tipo):
@@ -166,11 +171,10 @@ class Exploracao(ExploracaoBase):
 
 
     def update_from_json_facturacao(self, json):
-        self.fact_estado = json['fact_estado']
+        self.fact_estado = self.get_lower_state(json['facturacao'])
         self.fact_tipo = json['fact_tipo']
-        self.pagos = json['pagos']
         self.pago_lic = json['pago_lic']
-        json_fact = json['facturacao'][-1]
+        json_fact = json['facturacao'][0]
 
         lic_sup = self.get_licencia('sup')
         lic_sup.consumo_tipo = json_fact['consumo_tipo_sup']
@@ -186,12 +190,31 @@ class Exploracao(ExploracaoBase):
         lic_sub.consumo_fact = json_fact['consumo_fact_sub']
         lic_sub.iva = json_fact['iva']
 
-        fact = self.facturacao[-1]
-        for c in json_fact.keys():
-            setattr(fact, c, json_fact.get(c))
-        fact.pago_mes = ((fact.pago_mes_sup or 0) + (fact.pago_mes_sub or 0)) or None
-        fact.pago_iva_sup = ((fact.pago_mes_sup or 0) * (1 + (fact.iva_sup or 0)/100)) or None
-        fact.pago_iva_sub = ((fact.pago_mes_sub or 0) * (1 + (fact.iva_sub or 0)/100)) or None
+        # update all facturacao elements
+        for index, json_fact in enumerate(json['facturacao']):
+            fact = next((factura for factura in self.facturacao if factura.gid == json_fact['id']), None)
+            for c in json_fact.keys():
+                setattr(fact, c, json_fact.get(c))
+            fact.pago_mes = ((fact.pago_mes_sup or 0) + (fact.pago_mes_sub or 0)) or None
+            fact.pago_iva_sup = ((fact.pago_mes_sup or 0) * (1 + (float(fact.iva_sup or 0))/100)) or None
+            fact.pago_iva_sub = ((fact.pago_mes_sub or 0) * (1 + (float(fact.iva_sub or 0))/100)) or None
+
+    def get_lower_state(self, facturas):
+        status_weight = {
+            PENDING_CONSUMPTION: 0,
+            PENDING_INVOICE: 1,
+            PENDING_PAYMENT: 2,
+            PAYED: 3
+        }
+        lower_state = None
+        for factura in facturas:
+            if lower_state is None:
+                lower_state = factura['fact_estado']
+                continue
+            if status_weight[factura['fact_estado']] < status_weight[lower_state]:
+                lower_state = factura['fact_estado']
+        return lower_state
+            
 
     def update_from_json(self, json):
         self.gid = json.get('id')

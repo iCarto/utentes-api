@@ -61,7 +61,6 @@
     <span class="col-xs-12">
       <small class="label <%- summary_licencia_val ? 'label-success' : 'label-danger' %>" id="summary_licencia"><%- summary_licencia_msg.charAt(0) %></small>
       <small class="label <%- summary_consumo_val ? 'label-success' : 'label-danger' %>" id="summary_consumo"><%- summary_consumo_msg.charAt(0) %></small>
-      <small class="label <%- summary_pagos_val === null ? 'label-default' : (summary_pagos_val ? 'label-success' : 'label-danger') %>" id="summary_pagos"><%- summary_pagos_msg.charAt(0) %></small>
       <small style="color: grey; font-size: 75%"><%- utente['nome'] %></small>
     </span>
     </li>
@@ -129,6 +128,7 @@
     "lib/backbone-uilib/views/ItemView.js",
     "lib/backbone-uilib/views/ListView.js",
     "lib/backbone-uilib/views/BaseView.js",
+    "lib/backbone-uilib/views/ModalView.js",
 
     "Config.js",
     "views/common/ConfigModalView.js",
@@ -162,6 +162,8 @@
     "models/ActividadeRegadia.js",
     "models/ActividadeSaneamento.js",
     "models/ActividadesSchema.js",
+    "models/Factura.js",
+    "models/FacturaCollection.js",
     "models/Exploracao.js",
     "models/ExploracaoSchema.js",
     "models/Where.js",
@@ -171,7 +173,6 @@
     "models/Licencia.js",
     "models/LicenciaCollection.js",
     "models/Utente.js",
-    "models/Exploracao.js",
     "models/ExploracaoCollection.js",
     "models/Setting.js",
     "models/AraGetData.js",
@@ -194,8 +195,10 @@
     "MyWorkflow.js",
     "views/pendentes/ViewNoData.js",
     "views/pendentes/UpsView.js",
+    "views/facturacao/ViewFacturaHistorico.js",
+    "views/facturacao/ViewFacturacaoHistorico.js",
     "views/facturacao/ViewFacturacao.js",
-    "views/facturacao/ViewFacturacaoTecnico.js",
+    "views/facturacao/ViewFacturacaoModal.js",
     "utils/MyLeafletEvent.js",
     "utils/nextExpToShow.js",
     "facturacao.js",

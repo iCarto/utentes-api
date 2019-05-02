@@ -52,6 +52,7 @@ def nuevo_ciclo_facturacion(request):
         else:
             f.fact_estado = PENDING_CONSUMPTION
 
+        f.juro = 0
         f.c_licencia_sup = lic_sup.c_licencia
         f.c_licencia_sub = lic_sub.c_licencia
         f.consumo_tipo_sup = lic_sup.consumo_tipo

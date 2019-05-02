@@ -96,7 +96,7 @@ var MyWorkflow = {
 
         switch (fact_estado) {
         case window.SIRHA.ESTADO_FACT.PENDING_M3:
-            return Backbone.SIXHIARA.ViewFacturacaoTecnico;
+            return Backbone.SIXHIARA.ViewFacturacao;
         case window.SIRHA.ESTADO_FACT.PENDIND_INVOICE:
             return Backbone.SIXHIARA.ViewFacturacao;
         case window.SIRHA.ESTADO_FACT.PENDING_PAY:
@@ -118,9 +118,9 @@ var MyWorkflow = {
 
     whichNextState: function(currentState, data, exp) {
         // Igual en lugar de currentState se le puede pasar la explotación
-        if (SIRHA.ESTADO.CATEGORY_FACTURABLE.includes(currentState)) {
-            return this.whichFacturacaoNextState(currentState, data, exp);
-        }
+        /*if (SIRHA.ESTADO.CATEGORY_FACTURABLE.includes(currentState)) {
+            return this.whichFacturacaoNextState(currentState, data, exp.get('fact_estado'));
+        }*/
 
         if (!data) {
             return currentState;
@@ -274,33 +274,16 @@ var MyWorkflow = {
         return nextState;
     },
 
-    whichFacturacaoNextState: function(currentState, data, exp) {
-        // puede tener sentido agrupar en whichNextState
-        var fact_estado = exp.get('fact_estado');
-
-        if (! SIRHA.ESTADO.CATEGORY_FACTURABLE.includes(currentState)) {
-            throw 'Error';
-        }
-
-        var nextState = undefined;
-        if (!data) {
-            return fact_estado;
-        }
-
-        if (data.target.id !== 'bt-ok') {
-            throw 'Error';
-        }
-
-        switch (fact_estado) {
-        case window.SIRHA.ESTADO_FACT.PENDING_M3:
-            return window.SIRHA.ESTADO_FACT.PENDIND_INVOICE;
-        case window.SIRHA.ESTADO_FACT.PENDIND_INVOICE:
-            // return window.SIRHA.ESTADO_FACT.PENDING_PAY;
-            return window.SIRHA.ESTADO_FACT.PAYED;
-        case window.SIRHA.ESTADO_FACT.PENDING_PAY:
-            return window.SIRHA.ESTADO_FACT.PAYED;
-        default:
-            throw 'Error';
+    whichFacturacaoNextState: function(currentState) {
+        switch (currentState) {
+            case window.SIRHA.ESTADO_FACT.PENDING_M3:
+                return window.SIRHA.ESTADO_FACT.PENDIND_INVOICE;
+            case window.SIRHA.ESTADO_FACT.PENDIND_INVOICE:
+                return window.SIRHA.ESTADO_FACT.PENDING_PAY;
+            case window.SIRHA.ESTADO_FACT.PENDING_PAY:
+                return window.SIRHA.ESTADO_FACT.PAYED;
+            default:
+                throw 'Error';
         }
     },
 };

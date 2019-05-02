@@ -10,6 +10,7 @@ Backbone.SIXHIARA.Config = {
     apiDomains: '/api/domains',
     apiExploracaos: '/api/exploracaos',
     apiRequerimentos: '/api/requerimento',
+    apiFacturacaoExploracao: '/api/facturacao_exploracao',
     apiFacturacao: '/api/facturacao',
     apiRenovacoes: '/api/renovacao',
     apiHistoricoRenovacoes: '/api/renovacao_historico',
@@ -120,6 +121,7 @@ Backbone.SIXHIARA.tipoTemplates = {
     Autorização: 'static/print-templates/Modelo_Licenca_Autorizacion_SIRHA.docx',
     Concessão: 'static/print-templates/Modelo_Concesao_SIRHA.docx',
     Factura: 'static/print-templates/Modelo_Factura_SIRHAS_desarrollo.docx',
+    Recibo: 'static/print-templates/Modelo_Recibo_SIRHAZ.docx',
 };
 
 window.bootbox && bootbox.addLocale('pt-mz', {
