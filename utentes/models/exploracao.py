@@ -20,6 +20,7 @@ from utentes.models.base import (
 from utentes.models.fonte import Fonte
 from utentes.models.licencia import Licencia
 from utentes.models.actividade import Actividade
+from utentes.models.facturacao import Facturacao
 
 from utentes.models.facturacao_fact_estado import (
     NOT_INVOIZABLE, PENDING_CONSUMPTION, PENDING_INVOICE, PENDING_PAYMENT, PAYED
@@ -168,13 +169,16 @@ class Exploracao(ExploracaoBase):
         self.fact_tipo = 'Mensal'
         self.pago_lic = False
 
-
     def update_from_json_facturacao(self, json):
         self.fact_estado = self.get_lower_state(json['facturacao'])
         self.fact_tipo = json['fact_tipo']
         self.pago_lic = json['pago_lic']
+
+        # get last factura emited order by date desc
+        json['facturacao'] = sorted(json['facturacao'], key=Facturacao.json_fact_order_key, reverse=True)
         json_fact = json['facturacao'][0]
 
+        # complete licenca data with last factura values
         lic_sup = self.get_licencia('sup')
         lic_sup.consumo_tipo = json_fact['consumo_tipo_sup']
         lic_sup.taxa_fixa = json_fact['taxa_fixa_sup']

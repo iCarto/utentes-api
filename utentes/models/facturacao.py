@@ -58,3 +58,7 @@ class Facturacao(Base):
         del json['gid']
         json['id'] = self.gid
         return json
+
+    @staticmethod
+    def json_fact_order_key(factura):
+        return factura['ano'] + factura['mes']

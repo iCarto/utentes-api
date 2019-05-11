@@ -16,9 +16,13 @@ Backbone.SIXHIARA.FacturaCollection = Backbone.Collection.extend({
         var mes_b = b.get('mes');
         var ano_b = b.get('ano');
 
-        if(mes_a > mes_b) return -1;
-        else if(mes_a < mes_b) return 1;
-        else return 0;
+        if(ano_a != ano_b) {
+            return ano_b.localeCompare(ano_a);
+        }else if(mes_a != mes_b) {
+            return mes_b.localeCompare(mes_a);
+        }else{
+            return 0;
+        }
     }
 
 });
