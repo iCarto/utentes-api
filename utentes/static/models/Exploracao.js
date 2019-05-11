@@ -21,7 +21,6 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
         'loc_subaci': null,
         'loc_rio':    null,
         'cadastro_uni':    null,
-        'pagos':      null,
         'c_soli':     null,
         'c_licencia': null,
         'c_real':     null,
@@ -78,8 +77,6 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
         this.set('summary_licencia_msg', 'Licença');
         this.set('summary_consumo_val',  this.updateSummaryConsumo());
         this.set('summary_consumo_msg',  'Consumo');
-        this.set('summary_pagos_val',    this.updateSummaryPagos());
-        this.set('summary_pagos_msg',    'Pagamentos');
 
         this.setLicenseTimeInfo();
         this.setListeners();
@@ -87,7 +84,6 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
             // TODO: on sync, how to off old listeners for licenses, if any?
             this.set('summary_licencia_val', this.updateSummaryEstado());
             this.set('summary_consumo_val', this.updateSummaryConsumo());
-            this.set('summary_pagos_val', this.updateSummaryPagos());
             this.set('summary_pago_iva', this.updateSummaryPagoIva());
             this.setLicenseTimeInfo();
             this.setListeners();
@@ -250,7 +246,6 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
         this.get('licencias').once('change', app.aChangeHappens, app);
 
         this.on('change:c_licencia change:c_real change:c_estimado', app.updateSummaryConsumo)
-        this.on('change:pagos:', app.updateSummaryPagos);
     },
 
     changedActivity: function() {
@@ -369,11 +364,6 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
         });
         this.set('summary_pago_iva', summary_pago_iva);
         return summary_pago_iva;
-    },
-
-    updateSummaryPagos: function(){
-        this.set('summary_pagos_val', this.get('pagos'));
-        return this.get('pagos');
     },
 
     urlShow: function() {

@@ -70,12 +70,11 @@ class Exploracao(ExploracaoBase):
         'lic_imp', 'd_soli', 'd_ultima_entrega_doc'
     ]
 
-    FACTURACAO_FIELDS = ['fact_estado', 'fact_tipo', 'pago_lic', 'pagos']
+    FACTURACAO_FIELDS = ['fact_estado', 'fact_tipo', 'pago_lic']
 
     READ_ONLY = ['created_at']
     d_soli = Column(Date, nullable=False, server_default=text('now()'), doc='Data da solicitação')
     d_ultima_entrega_doc = Column(Date, nullable=False, server_default=text('now()'), doc='Data de entrega da última documentação')
-    pagos = Column(Boolean, doc='Utente ao corrente dos pagamaneto')
     observacio = Column(Text, doc='Observações')
     loc_provin = Column(Text, doc='Província')  # NOT NULL after some estado_lic
     loc_distri = Column(Text, doc='Distrito')   # NOT NULL after some estado_lic
@@ -220,7 +219,6 @@ class Exploracao(ExploracaoBase):
         self.gid = json.get('id')
         self.exp_id = json.get('exp_id')
         # self.exp_name = json.get('exp_name')
-        self.pagos = json.get('pagos')
         self.observacio = json.get('observacio')
         self.loc_provin = json.get('loc_provin')
         self.loc_distri = json.get('loc_distri')
@@ -302,7 +300,6 @@ class Exploracao(ExploracaoBase):
                 'id': self.gid,
                 'exp_id': self.exp_id,
                 # 'exp_name': self.exp_name,
-                'pagos': self.pagos,
                 'observacio': self.observacio,
                 'loc_provin': self.loc_provin,
                 'loc_distri': self.loc_distri,

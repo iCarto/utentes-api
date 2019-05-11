@@ -32,7 +32,6 @@ class Facturacao(Base):
     fact_tipo = Column(Text, nullable=False, server_default=text("'Mensal'::text"))
     fact_id = Column(Text, unique=True)
     pago_lic = Column(Boolean)
-    pagos = Column(Boolean)
     c_licencia_sup = Column(Numeric(10, 2))
     c_licencia_sub = Column(Numeric(10, 2))
     consumo_tipo_sup = Column(Text, nullable=False, server_default=text("'Fixo'::text"))
@@ -50,7 +49,7 @@ class Facturacao(Base):
     pago_iva_sub = Column(Numeric(10, 2))
     iva_sub = Column(Numeric(10, 2))
     iva = Column(Numeric(10, 2))
-    juro = Column(Numeric(10, 2))
+    juros = Column(Numeric(10, 2))
     pago_mes = Column(Numeric(10, 2))
     pago_iva = Column(Numeric(10, 2))
 

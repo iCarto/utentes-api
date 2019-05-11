@@ -55,7 +55,6 @@ class ExploracaoUpdateTests(DBIntegrationTest):
         self.request.matchdict.update(dict(id=gid))
         expected_json = build_json(self.request, expected)
         expected_json['exp_name'] = 'new name'
-        expected_json['pagos'] = None
         expected_json['d_soli'] = '2001-01-01'
         expected_json['observacio'] = 'new observ'
         expected_json['loc_provin'] = 'Niassa'
@@ -74,7 +73,6 @@ class ExploracaoUpdateTests(DBIntegrationTest):
         exploracaos_update(self.request)
         actual = self.request.db.query(Exploracao).filter(Exploracao.gid == gid).first()
         self.assertEquals('new name', actual.exp_name)
-        self.assertEquals(None, actual.pagos)
         self.assertEquals('2001-01-01', actual.d_soli.isoformat())
         self.assertEquals('new observ', actual.observacio)
         self.assertEquals('Niassa', actual.loc_provin)

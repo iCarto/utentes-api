@@ -120,7 +120,7 @@ Backbone.SIXHIARA.ViewFacturacaoModal = Backbone.View.extend({
 
                     <div class="form-group col-xs-3">
                     <label for="iva">Juros&nbsp;<i class="units">(%)</i></label>
-                    <input type="text" class="form-control widget-number" id="juro" pattern="[0-9]{1,8}([,][0-9]{1,2})?" value="<%- formatter().formatNumber(juro, '0[.]00') %>" disabled>    
+                    <input type="text" class="form-control widget-number" id="juros" pattern="[0-9]{1,8}([,][0-9]{1,2})?" value="<%- formatter().formatNumber(juros, '0[.]00') %>" disabled>    
                     </div>
 
                     <div class="form-group col-xs-6">
@@ -187,7 +187,7 @@ Backbone.SIXHIARA.ViewFacturacaoModal = Backbone.View.extend({
 
     setListeners: function() {
         console.log('listeners para', this.model.cid);
-        this.listenTo(this.model, 'change:fact_estado change:iva change:juro change:taxa_fixa_sub change:taxa_uso_sub change:consumo_fact_sub change:taxa_fixa_sup change:taxa_uso_sup change:consumo_fact_sup', this.modelChanged)
+        this.listenTo(this.model, 'change:fact_estado change:iva change:juros change:taxa_fixa_sub change:taxa_uso_sub change:consumo_fact_sub change:taxa_fixa_sup change:taxa_uso_sup change:consumo_fact_sup', this.modelChanged)
     },
 
     updateWidgets: function() {
@@ -202,7 +202,7 @@ Backbone.SIXHIARA.ViewFacturacaoModal = Backbone.View.extend({
             this.widgets = [];
             return;
         }
-        this.widgets = ['iva', 'juro'];
+        this.widgets = ['iva', 'juros'];
         this.options.tiposLicencia.forEach(function(tipo){
             this.$('#lic-' + tipo).removeClass('panel-disabled');
             ['taxa_fixa_sup', 'taxa_fixa_sub', 'taxa_uso_sup', 'taxa_uso_sub', 'consumo_fact_sup', 'consumo_fact_sub'].forEach(function(w){
@@ -283,9 +283,9 @@ Backbone.SIXHIARA.ViewFacturacaoModal = Backbone.View.extend({
         var pago_mes_sup = formatter().unformatNumber(document.getElementById('pago_mes_sup').value) || 0;
         var pago_mes_sub = formatter().unformatNumber(document.getElementById('pago_mes_sub').value) || 0;
 
-        var juro = formatter().unformatNumber(document.getElementById('juro').value) || 0;
+        var juros = formatter().unformatNumber(document.getElementById('juros').value) || 0;
         var iva = formatter().unformatNumber(document.getElementById('iva').value) || 0;
-        var pago_iva = ((pago_mes_sup + pago_mes_sub) * (1 + iva / 100) * (1 + juro / 100));
+        var pago_iva = ((pago_mes_sup + pago_mes_sub) * (1 + iva / 100) * (1 + juros / 100));
         this.model.set({'pago_iva': pago_iva});
         document.getElementById('pago_iva').value = formatter().formatNumber(pago_iva, '0[.]00');
     },

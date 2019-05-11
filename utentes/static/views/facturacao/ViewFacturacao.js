@@ -262,15 +262,6 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
     saveExploracao: function(exploracao, autosave) {
         var self = this;
 
-        //fact.set('pago_lic', document.getElementById('pago_lic').value === 'Não' ? false : true);
-        //fact.set('fact_tipo', document.getElementById('fact_tipo').value);
-        //fact.set('fact_estado', nextState);
-
-        //exploracao.set('fact_estado', nextState);
-        //exploracao.set('fact_tipo', fact.get('fact_tipo'))
-        //exploracao.set('pagos', fact.get('pagos'))
-        //exploracao.set('pago_lic', fact.get('pago_lic'))
-
         exploracao.urlRoot = Backbone.SIXHIARA.Config.apiFacturacaoExploracao;
         exploracao.save(
             null,

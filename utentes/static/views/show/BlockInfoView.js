@@ -32,12 +32,6 @@ Backbone.SIXHIARA.BlockInfoView = Backbone.View.extend({
         });
         this.subViews.push(summaryConsumoView);
 
-        var summaryPagosView = new Backbone.SIXHIARA.SummaryPagosView({
-            el: $('#summary_pagos_msg'),
-            model: exploracao
-        });
-        this.subViews.push(summaryPagosView);
-
         this.domainsFilled = false;
         options.domains.on('sync', this.setDomainsFilled, this);
 

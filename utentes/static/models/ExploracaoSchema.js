@@ -34,10 +34,6 @@ var EXPLORACAO_SCHEMA = [{
     'fieldname': 'area',
     'message':   'Área não tem o formato correto',
     'rules':     ['IS_NUMERIC', 'INT_LESS_THAN_8']
-}, {
-    'fieldname': 'pagos',
-    'message':   'Pagamentos não tem o formato correto',
-    'rules':     ['IS_BOOLEAN']
 }];
 
 EXPLORACAO_SCHEMA_CON_FICHA = [{

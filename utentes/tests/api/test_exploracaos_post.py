@@ -18,7 +18,6 @@ class ExploracaoCreateTests(DBIntegrationTest):
         expected_json = {}
         expected_json['exp_id'] = self.EXP_ID
         expected_json['exp_name'] = 'new name'
-        expected_json['pagos'] = None
         expected_json['d_soli'] = '2001-01-01'
         expected_json['observacio'] = 'new observ'
         expected_json['loc_provin'] = 'Niassa'
@@ -87,7 +86,6 @@ class ExploracaoCreateTests(DBIntegrationTest):
         licencia = actual.licencias[0]
         fonte = actual.fontes[0]
         self.assertEquals('new name', actual.exp_name)
-        self.assertEquals(None, actual.pagos)
         self.assertEquals('2001-01-01', actual.d_soli.isoformat())
         self.assertEquals('new observ', actual.observacio)
         self.assertEquals('Niassa', actual.loc_provin)
