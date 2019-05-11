@@ -183,20 +183,27 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
     },
 
     defineWidgetsToBeUsed: function() {
+        this.widgets = [];
         var self = this;
         if (iAuth.hasRoleObservador() || (iAuth.hasRoleTecnico() && this.model.get('fact_estado') != window.SIRHA.ESTADO_FACT.PENDING_M3)) {
-            this.widgets = [];
             return;
         }
-        this.widgets = ['iva', 'juros'];
+        var licenseWidgets = [];
+        if(this.model.get('fact_estado') != window.SIRHA.ESTADO_FACT.PENDING_M3) {
+            this.widgets = ['iva', 'juros'];
+            licenseWidgets = ['taxa_fixa_sup', 'taxa_fixa_sub', 'taxa_uso_sup', 'taxa_uso_sub', 'consumo_fact_sup', 'consumo_fact_sub'];
+        }else{
+            licenseWidgets = ['consumo_tipo_sup', 'consumo_tipo_sub', 'consumo_fact_sup', 'consumo_fact_sub'];
+        }
         this.options.tiposLicencia.forEach(function(tipo){
             this.$('#lic-' + tipo).removeClass('panel-disabled');
-            ['taxa_fixa_sup', 'taxa_fixa_sub', 'taxa_uso_sup', 'taxa_uso_sub', 'consumo_fact_sup', 'consumo_fact_sub'].forEach(function(w){
+            licenseWidgets.forEach(function(w){
                 if (w.endsWith(tipo)) {
                     self.widgets.push(w);
                 }
             });
         });
+        console.log(this.widgets)
     },
 
     enabledWidgets: function() {

@@ -156,7 +156,7 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
 
     defineWidgetsToBeUsed: function() {
         var self = this;
-        if (iAuth.hasRoleObservador()) {
+        if (iAuth.hasRoleObservador() || iAuth.hasRoleTecnico()) {
             this.widgets = [];
             return;
         }
@@ -190,11 +190,7 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
 
     facturacaoUpdated: function(changedModel) {
         console.log('facturacaoUpdated', changedModel)
-        if(changedModel.changed['fact_estado'] && changedModel.changed['fact_estado'] == window.SIRHA.ESTADO_FACT.PENDING_INVOICE) {
-            this.saveExploracao(this.model, false);
-        }else{
-            this.autosave(this.model);
-        }
+        this.autosave(this.model);
     },
 
     autosave: function(e) {
@@ -282,12 +278,12 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
                     var exp_name = model.get('exp_name');
                     if (autosave) {
                         console.log('autosaving');
-                    } else {
+                    }
+                    if(iAuth.hasRoleTecnico() && model.get('fact_estado') != window.SIRHA.ESTADO_FACT.PENDING_M3) {
                         bootbox.alert(`A exploração&nbsp;<strong>${exp_id} - ${exp_name}</strong>&nbsp;tem sido gravada correctamente.`, function(){
                             exploracao.trigger('show-next-exp', exploracao);
                         });
-                    }
-                    if(model.get('fact_estado') == window.SIRHA.ESTADO_FACT.PAID) {
+                    } else if(model.get('fact_estado') == window.SIRHA.ESTADO_FACT.PAID) {
                         bootbox.alert(`A exploração&nbsp;<strong>${exp_id} - ${exp_name}</strong>&nbsp;tem todas as facturas pagas.`, function(){
                             exploracao.trigger('show-next-exp', exploracao);
                         });
