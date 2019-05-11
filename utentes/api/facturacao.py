@@ -50,11 +50,6 @@ def facturacao_get(request):
         if fact_estado:
             query = query.filter(Exploracao.fact_estado.in_(fact_estado))
 
-
-
-
-            query = query.filter(Exploracao.gid.in_([2315, 2317]))
-
         features = query.all()
         return {'type': 'FeatureCollection', 'features': features}
 
