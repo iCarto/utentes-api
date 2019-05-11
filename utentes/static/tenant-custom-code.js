@@ -502,9 +502,9 @@ if (window.SIRHA.getARA() === 'DPMAIP') {
         { 'header': 'pagamento',
         'value': function (exp) {
             var pagamento = 'No';
-            if (_.isNull(exp.pagos)){
+            if (_.isNull(exp.fact_estado)){
                 pagamento = null;
-            } else if (exp.pagos === true) {
+            } else if (exp.fact_estado === window.SIRHA.ESTADO_FACT.PAID) {
                 pagamento = 'Si';
             }
             return pagamento;
