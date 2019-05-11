@@ -97,7 +97,7 @@ var MyWorkflow = {
         switch (fact_estado) {
         case window.SIRHA.ESTADO_FACT.PENDING_M3:
             return Backbone.SIXHIARA.ViewFacturacao;
-        case window.SIRHA.ESTADO_FACT.PENDIND_INVOICE:
+        case window.SIRHA.ESTADO_FACT.PENDING_INVOICE:
             return Backbone.SIXHIARA.ViewFacturacao;
         case window.SIRHA.ESTADO_FACT.PENDING_PAY:
             return Backbone.SIXHIARA.ViewFacturacao;
@@ -277,12 +277,12 @@ var MyWorkflow = {
     isFacturacaoNewStateValid: function(currentState, nextState) {
         switch (currentState) {
             case window.SIRHA.ESTADO_FACT.PENDING_M3:
-                return nextState == window.SIRHA.ESTADO_FACT.PENDIND_INVOICE;
-            case window.SIRHA.ESTADO_FACT.PENDIND_INVOICE:
+                return nextState == window.SIRHA.ESTADO_FACT.PENDING_INVOICE;
+            case window.SIRHA.ESTADO_FACT.PENDING_INVOICE:
                 return nextState == window.SIRHA.ESTADO_FACT.PENDING_PAY;
             case window.SIRHA.ESTADO_FACT.PENDING_PAY:
-                return nextState == window.SIRHA.ESTADO_FACT.PAYED;
-            case window.SIRHA.ESTADO_FACT.PAYED:
+                return nextState == window.SIRHA.ESTADO_FACT.PAID;
+            case window.SIRHA.ESTADO_FACT.PAID:
                 return false;
             default:
                 throw false;
@@ -292,11 +292,11 @@ var MyWorkflow = {
     whichFacturacaoNextState: function(currentState) {
         switch (currentState) {
             case window.SIRHA.ESTADO_FACT.PENDING_M3:
-                return window.SIRHA.ESTADO_FACT.PENDIND_INVOICE;
-            case window.SIRHA.ESTADO_FACT.PENDIND_INVOICE:
+                return window.SIRHA.ESTADO_FACT.PENDING_INVOICE;
+            case window.SIRHA.ESTADO_FACT.PENDING_INVOICE:
                 return window.SIRHA.ESTADO_FACT.PENDING_PAY;
             case window.SIRHA.ESTADO_FACT.PENDING_PAY:
-                return window.SIRHA.ESTADO_FACT.PAYED;
+                return window.SIRHA.ESTADO_FACT.PAID;
             default:
                 throw 'Error';
         }

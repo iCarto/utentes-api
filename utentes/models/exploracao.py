@@ -23,7 +23,7 @@ from utentes.models.actividade import Actividade
 from utentes.models.facturacao import Facturacao
 
 from utentes.models.facturacao_fact_estado import (
-    NOT_INVOIZABLE, PENDING_CONSUMPTION, PENDING_INVOICE, PENDING_PAYMENT, PAYED
+    NOT_INVOIZABLE, PENDING_CONSUMPTION, PENDING_INVOICE, PENDING_PAYMENT, PAID
 )
 
 
@@ -207,7 +207,7 @@ class Exploracao(ExploracaoBase):
             PENDING_CONSUMPTION: 0,
             PENDING_INVOICE: 1,
             PENDING_PAYMENT: 2,
-            PAYED: 3
+            PAID: 3
         }
         lower_state = None
         for factura in facturas:

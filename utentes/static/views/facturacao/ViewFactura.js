@@ -1,25 +1,10 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
-Backbone.SIXHIARA.ViewFacturacaoModal = Backbone.View.extend({
+Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
 
     className: 'view-facturacao',
 
     id: 'edit-facturacao-modal',
     template: _.template(`
-    <h4 class="
-    <%
-        if(fact_estado === "Pendente Acrescentar Consumo (R. Cad DT)") {
-            print('text-label-pdt-consumo');
-        }else if(fact_estado === "Pendente Emisão Factura (D. Fin)"){
-            print('text-label-pdt-factura');
-        }else if(fact_estado === "Pendente Pagamento (Utente)"){
-            print('text-label-pdt-pagamento');
-        }else if(fact_estado === "Pagada"){
-            print('text-label-pagada');
-        }
-    %>
-    ">
-        <%- mes %>/<%- ano %> (<%- fact_estado %>)
-    </h4>
     <div class="row panel-equal-height">
         <div class="col-xs-6">
             <div id="lic-sub" class="panel panel-info panel-disabled">
@@ -248,7 +233,7 @@ Backbone.SIXHIARA.ViewFacturacaoModal = Backbone.View.extend({
     },
 
     isReciboBtnEnabled() {
-        return this.model.get('fact_estado') != window.SIRHA.ESTADO_FACT.PENDIND_INVOICE;
+        return this.model.get('fact_estado') != window.SIRHA.ESTADO_FACT.PENDING_INVOICE;
     },
 
     facturaUpdated: function(evt) {
@@ -297,11 +282,15 @@ Backbone.SIXHIARA.ViewFacturacaoModal = Backbone.View.extend({
         }
     },
 
+    updateFactId: function(factId) {
+        this.model.set('fact_id', factId)
+    },
+
     changeStateToPdteFactura: function() {
         var self = this;
-        bootbox.confirm(`A factura vai mudar o seu estado a: <br> <strong>${window.SIRHA.ESTADO_FACT.PENDIND_INVOICE}</strong>`, function(result){
+        bootbox.confirm(`A factura vai mudar o seu estado a: <br> <strong>${window.SIRHA.ESTADO_FACT.PENDING_INVOICE}</strong>`, function(result){
             if (result) {
-                self.updateToState(window.SIRHA.ESTADO_FACT.PENDIND_INVOICE);
+                self.updateToState(window.SIRHA.ESTADO_FACT.PENDING_INVOICE);
             }
         });
     },
@@ -315,7 +304,7 @@ Backbone.SIXHIARA.ViewFacturacaoModal = Backbone.View.extend({
     printRecibo: function(){
         var data = this.getDataForRecibo();
         data.urlTemplate = Backbone.SIXHIARA.tipoTemplates['Recibo'];
-        this.printDocument(data, window.SIRHA.ESTADO_FACT.PAYED);
+        this.printDocument(data, window.SIRHA.ESTADO_FACT.PAID);
     },
 
     getDataForFactura: function() {
@@ -413,11 +402,13 @@ Backbone.SIXHIARA.ViewFacturacaoModal = Backbone.View.extend({
                 data.ara.logoUrl = 'static/print-templates/images/' + window.SIRHA.getARA() + '_factura.png';
                 factura.fetch({
                     success: function(model, resp, options) {
+                        console.log(model)
                         data.numFactura = resp;
                         var docxGenerator = new Backbone.SIXHIARA.DocxGeneratorView({
                             model: self.model,
                             data: data
                         });
+                        self.updateFactId(data.numFactura);
                         if(nextState) {
                             self.updateToState(nextState);
                         }

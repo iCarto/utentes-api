@@ -8,7 +8,7 @@ from .estado import LICENSED, DE_FACTO
 PENDING_CONSUMPTION = u'Pendente Acrescentar Consumo (R. Cad DT)'
 PENDING_INVOICE = u'Pendente Emisão Factura (D. Fin)'
 PENDING_PAYMENT = u'Pendente Pagamento (Utente)'
-PAYED = u'Pagada'
+PAID = u'Pagada'
 NOT_INVOIZABLE = u'Não facturable'
 
 

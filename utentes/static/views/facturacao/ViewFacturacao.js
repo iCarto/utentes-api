@@ -3,6 +3,7 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
     tagName:  'div',
 
     id: 'view-facturacao', // optional
+    className: 'myclass',
     template: _.template(`
     <div id="bt-toolbar" class="row" style="margin-bottom: 10px; margin-top: 10px">
         <div class="col-xs-12">
@@ -29,6 +30,9 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
 </h4>
 
     <div class="row form-horizontal" style="margin-top: 10px">
+
+        <div id="factura-header" class="col-xs-4">
+        </div>
 
         <div class="col-xs-4">
             <div class="form-group" style="margin-left: 0px; margin-right: 0px">
@@ -82,10 +86,13 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
         });
 
         this.facturaSelected = this.model.get('facturacao').at(0).id;
-        this.facturaView = new Backbone.SIXHIARA.ViewFacturacaoModal({
+        this.facturaView = new Backbone.SIXHIARA.ViewFactura({
             model: this.model.get('facturacao').findWhere({id: this.facturaSelected}),
             tiposLicencia: tiposLicencia,
             exploracao: this.model
+        });
+        this.facturaHeader = new Backbone.SIXHIARA.ViewFacturaHeader({
+            model: this.model.get('facturacao').findWhere({id: this.facturaSelected})
         });
 
         this.listenTo(this.model.get('facturacao'), 'change', this.facturacaoUpdated);
@@ -111,6 +118,7 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
             event.preventDefault();
         }
         this.$el.find('#factura-view').empty().append(this.facturaView.render().el);
+        this.$el.find('#factura-header').empty().append(this.facturaHeader.render().el);
     },
 
     /*
@@ -126,6 +134,7 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
         this.facturacaoHistoricoView.on('factura-selected', function(id) {
             self.facturaSelected = id;
             self.facturaView.updateModel(self.model.get('facturacao').findWhere({id}));
+            self.facturaHeader.updateModel(self.model.get('facturacao').findWhere({id}));
         });
 
         this.updateWidgets();
@@ -181,7 +190,7 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
 
     facturacaoUpdated: function(changedModel) {
         console.log('facturacaoUpdated', changedModel)
-        if(changedModel.changed['fact_estado'] && changedModel.changed['fact_estado'] == window.SIRHA.ESTADO_FACT.PENDIND_INVOICE) {
+        if(changedModel.changed['fact_estado'] && changedModel.changed['fact_estado'] == window.SIRHA.ESTADO_FACT.PENDING_INVOICE) {
             this.saveExploracao(this.model, false);
         }else{
             this.autosave(this.model);
@@ -278,7 +287,7 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
                             exploracao.trigger('show-next-exp', exploracao);
                         });
                     }
-                    if(model.get('fact_estado') == window.SIRHA.ESTADO_FACT.PAYED) {
+                    if(model.get('fact_estado') == window.SIRHA.ESTADO_FACT.PAID) {
                         bootbox.alert(`A exploração&nbsp;<strong>${exp_id} - ${exp_name}</strong>&nbsp;tem todas as facturas pagas.`, function(){
                             exploracao.trigger('show-next-exp', exploracao);
                         });

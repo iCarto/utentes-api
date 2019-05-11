@@ -6,7 +6,7 @@ Backbone.SIXHIARA.FacturaCollection = Backbone.Collection.extend({
     initialize: function(models, options) {
         options || (options = {});
         this.completed = !(models && models.some(function(model) {
-            return model.fact_estado != window.SIRHA.ESTADO_FACT.PAYED;
+            return model.fact_estado != window.SIRHA.ESTADO_FACT.PAID;
         }));
     },
 
