@@ -30,8 +30,8 @@ Backbone.SIXHIARA.ViewFacturacaoModal = Backbone.View.extend({
                     <div class="form-group col-xs-12">
                         <label for="consumo_tipo_sub"><strong>Tipo de consumo</strong></label>
                         <select class="form-control" id="consumo_tipo_sub" disabled >
-                            <option selected>Fixo</option>
-                            <option>Variável</option>
+                            <option <% print(consumo_tipo_sub == 'Fixo' ? 'selected' : '') %>>Fixo</option>
+                            <option <% print(consumo_tipo_sub == 'Variável' ? 'selected' : '') %>>Variável</option>
                         </select>
                     </div>
 
@@ -71,9 +71,9 @@ Backbone.SIXHIARA.ViewFacturacaoModal = Backbone.View.extend({
                 <div class="panel-body row">
                     <div class="form-group col-xs-12">
                         <label for="consumo_tipo_sup"><strong>Tipo de consumo</strong></label>
-                        <select class="form-control" id="consumo_tipo_sup" disabled >
-                            <option selected>Fixo</option>
-                            <option>Variável</option>
+                        <select class="form-control" id="consumo_tipo_sup" disabled>
+                            <option <% print(consumo_tipo_sup == 'Fixo' ? 'selected' : '') %>>Fixo</option>
+                            <option <% print(consumo_tipo_sup == 'Variável' ? 'selected' : '') %>>Variável</option>
                         </select>
                     </div>
 
@@ -143,8 +143,8 @@ Backbone.SIXHIARA.ViewFacturacaoModal = Backbone.View.extend({
                         se pueden usar en el modo combo o algo así
                         -->
                         <button id="bt-diferida" type="button" class="btn btn-default btn-sm uilib-enability uilib-hide-role-observador">Diferida</button>
-                        <button id="bt-factura" type="button" class="btn btn-sm btn-primary js-btns-next uilib-enability uilib-hide-role-observador">Factura</button>
-                        <button id="bt-recibo" type="button" class="btn btn-sm btn-primary js-btns-next uilib-enability uilib-hide-role-observador">Recibo</button>
+                        <button id="bt-factura" type="button" class="btn btn-sm btn-primary uilib-enability uilib-hide-role-observador">Factura</button>
+                        <button id="bt-recibo" type="button" class="btn btn-sm btn-primary uilib-enability uilib-hide-role-observador">Recibo</button>
                     </div>
                 </label>
                 <textarea id="observacio" value="<%- observacio.slice(-1)[0].text %>" class="form-control widget uilib-enability uilib-disable-role-observador"></textarea>
@@ -198,7 +198,7 @@ Backbone.SIXHIARA.ViewFacturacaoModal = Backbone.View.extend({
 
     defineWidgetsToBeUsed: function() {
         var self = this;
-        if (iAuth.hasRoleObservador()) {
+        if (iAuth.hasRoleObservador() || (iAuth.hasRoleTecnico() && this.model.get('fact_estado') != window.SIRHA.ESTADO_FACT.PENDING_M3)) {
             this.widgets = [];
             return;
         }
@@ -231,7 +231,11 @@ Backbone.SIXHIARA.ViewFacturacaoModal = Backbone.View.extend({
             e = e && input.validity.valid;
             return e;
         });
-        if(this.model.get('fact_estado') == window.SIRHA.ESTADO_FACT.PENDING_M3) {
+        if(iAuth.hasRoleTecnico() && this.model.get('fact_estado') != window.SIRHA.ESTADO_FACT.PENDING_M3) {
+            this.$('#bt-diferida').hide();
+            this.$('#bt-factura').hide();
+            this.$('#bt-recibo').hide();
+        }else if(this.model.get('fact_estado') == window.SIRHA.ESTADO_FACT.PENDING_M3) {
             this.$('#bt-diferida').attr('disabled', !enable).show();
             this.$('#bt-factura').hide();
             this.$('#bt-recibo').hide();

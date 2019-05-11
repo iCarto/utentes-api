@@ -2,14 +2,7 @@ Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
     tagName:  'div',
 
-    // optional, you can assign multiple classes to
-    // this property like so: 'container homepage'
-    className: 'myclass',
-
-    // Note: When declaring a View, options, el, tagName, id and className
-    // may be defined as functions, if you want their values to be determined
-    // at runtime.
-    id: 'myid', // optional
+    id: 'view-facturacao', // optional
     template: _.template(`
     <div id="bt-toolbar" class="row" style="margin-bottom: 10px; margin-top: 10px">
         <div class="col-xs-12">
@@ -41,9 +34,9 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
             <div class="form-group" style="margin-left: 0px; margin-right: 0px">
                 <label for="pago_lic" class="control-label col-xs-9" style="text-align: left">Pagamento emissão licença</label>
                 <div class="col-xs-3" style="padding-left: 10px; padding-right: 10px;">
-                    <select class="form-control" style="padding: 3px 5px;" id="pago_lic">
-                        <option>Sim</option>
-                        <option selected>Não</option>
+                    <select class="form-control" style="padding: 3px 5px;" id="pago_lic" disabled>
+                        <option <% print(pago_lic == true ? 'selected' : '') %> value="true">Sim</option>
+                        <option <% print(pago_lic == false ? 'selected' : '') %> value="false">Não</option>
                     </select>
                 </div>
             </div>
@@ -52,11 +45,11 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
         <div class="col-xs-4">
             <div class="form-group" style="margin-left: 0px; margin-right: 0px">
                 <label for="fact_tipo" class="control-label col-xs-7" style="text-align: left">Tipo de facturação</label>
-                <div class="col-xs-5" style="padding-left: 10px; padding-right: 10px;">
+                <div class="col-xs-5" style="padding-left: 10px; padding-right: 10px;" disabled>
                     <select class="form-control" style="padding: 3px 3px;" id="fact_tipo">
-                        <option selected>Mensal</option>
-                        <option>Trimestral</option>
-                        <option>Anual</option>
+                        <option <% print(fact_tipo == 'Mensal' ? 'selected' : '') %>>Mensal</option>
+                        <option <% print(fact_tipo == 'Trimestral' ? 'selected' : '') %>>Trimestral</option>
+                        <option <% print(fact_tipo == 'Anual' ? 'selected' : '') %>>Anual</option>
                     </select>
                 </div>
             </div>
@@ -120,15 +113,6 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
         this.$el.find('#factura-view').empty().append(this.facturaView.render().el);
     },
 
-    facturacaoUpdated: function(changedModel) {
-        console.log('facturacaoUpdated', changedModel)
-        if(changedModel.changed['fact_estado'] && changedModel.changed['fact_estado'] == window.SIRHA.ESTADO_FACT.PENDIND_INVOICE) {
-            this.saveExploracao(this.model, false);
-        }else{
-            this.autosave(this.model);
-        }
-    },
-
     /*
     Esto en realidad está por no  usar jquery. Si se hace en render todavía no están en el
     DOM los elementos y no se puede usar document ¿?. Con jquery en cambio se quedan
@@ -137,29 +121,6 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
     init: function() {
         self = this;
 
-        document.querySelectorAll('.js-btns-next').forEach(function(bt) {
-            bt.addEventListener('click', function(e){
-                var exploracao = self.model;
-                var fact_estado = exploracao.get('fact_estado');
-                if ((fact_estado == window.SIRHA.ESTADO_FACT.PENDIND_INVOICE && e.target.id !== 'bt-consumo') || 
-                    (fact_estado == window.SIRHA.ESTADO_FACT.PENDING_PAY && e.target.id !== 'bt-recibo')) {
-                    return;
-                }
-                self.fillExploracao(e);
-            });
-        });
-
-        // var wf_tmp = Object.create(MyWorkflow);
-        // var currentState = this.model.get('estado_lic');
-        // document.querySelectorAll('#js-btns-next > button').forEach(function(bt) {
-        //     var nextBtState = wf_tmp.whichNextState(currentState, {target:{id: bt.id}}, self.model);
-        //     bt.title = nextBtState;
-        // });
-
-        //this.enableBts();
-
-        $('[data-toggle="tooltip"]').tooltip();
-
         this.facturaView.updateWidgets();
         this.facturacaoHistoricoView.setSelected(this.facturaSelected);
         this.facturacaoHistoricoView.on('factura-selected', function(id) {
@@ -167,7 +128,7 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
             self.facturaView.updateModel(self.model.get('facturacao').findWhere({id}));
         });
 
-        this.initSelects();
+        this.updateWidgets();
 
         var defaultDataForFileModal = iAuth.getDefaultDataForFileModal(this.model.get('id'));
         var fileModalView = new Backbone.DMS.FileModalView({
@@ -177,6 +138,54 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
             id: defaultDataForFileModal.defaultFolderId
         });
 
+    },
+
+    updateWidgets: function() {
+        this.defineWidgetsToBeUsed();
+        this.enabledWidgets();
+    },
+
+    defineWidgetsToBeUsed: function() {
+        var self = this;
+        if (iAuth.hasRoleObservador()) {
+            this.widgets = [];
+            return;
+        }
+        this.widgets = ['pago_lic', 'fact_tipo'];
+    },
+
+    enabledWidgets: function() {
+        var self = this;
+        this.widgets.forEach(function(w){
+            var input = this.$('#view-facturacao #' + w);
+            input.prop('disabled', false);
+            input.prop('required', true);
+            input.on('input', self.facturacaoFormFieldsUpdated.bind(self));
+        });
+    },
+
+    facturacaoFormFieldsUpdated: function(evt) {
+        var target = evt.currentTarget;
+        console.log('facturacaoFormFieldsUpdated', target.nodeName, target.id, target.value, target.validity.valid)
+        if (target.validity.valid) {
+            var modifiedAttributes = {};
+            if(target.nodeName == "INPUT") {
+                modifiedAttributes[target.id] = formatter().unformatNumber(target.value);
+            } else if(target.nodeName == "SELECT") {
+                modifiedAttributes[target.id] = target.value;
+            }
+            this.model.set(modifiedAttributes);
+            this.facturacaoUpdated(this.model);
+        }
+    },
+
+    facturacaoUpdated: function(changedModel) {
+        console.log('facturacaoUpdated', changedModel)
+        if(changedModel.changed['fact_estado'] && changedModel.changed['fact_estado'] == window.SIRHA.ESTADO_FACT.PENDIND_INVOICE) {
+            this.saveExploracao(this.model, false);
+        }else{
+            this.autosave(this.model);
+        }
     },
 
     autosave: function(e) {
@@ -289,27 +298,6 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
                 },
             }
         );
-    },
-
-    initSelects: function() {
-        var fact = this.model.get('facturacao').at(0)
-        document.querySelectorAll('#myid select').forEach(function(s){
-            var text = fact.get(s.id)
-            if (text === false) text = 'Não';
-            if (text === true)  text = 'Sim';
-            for (var i = 0; i< s.options.length; i+=1) {
-                if (s.options[i].text !== text) {
-                    s.options[i].selected = false;
-                } else {
-                    s.options[i].selected = true;
-                }
-            }
-        });
-    },
-
-    getSelectText: function(selectId) {
-        var s = document.querySelectorAll('#myid selectId')[0]
-        return s.options[s.selectedIndex].text;
     },
 
 });

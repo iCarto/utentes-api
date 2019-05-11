@@ -117,6 +117,13 @@ var IAuth = {
         return roles.includes(SIRHA.ROLE.OBSERVADOR);
     },
 
+    hasRoleTecnico: function(roles) {
+        if(!roles) {
+            var roles = this.getRoles('not-safe');
+        }
+        return roles.includes(SIRHA.ROLE.TECNICO);
+    },
+
     disabledWidgets: function(selector) {
         var baseElement = document;
         if (selector) {
