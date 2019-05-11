@@ -274,6 +274,21 @@ var MyWorkflow = {
         return nextState;
     },
 
+    isFacturacaoNewStateValid: function(currentState, nextState) {
+        switch (currentState) {
+            case window.SIRHA.ESTADO_FACT.PENDING_M3:
+                return nextState == window.SIRHA.ESTADO_FACT.PENDIND_INVOICE;
+            case window.SIRHA.ESTADO_FACT.PENDIND_INVOICE:
+                return nextState == window.SIRHA.ESTADO_FACT.PENDING_PAY;
+            case window.SIRHA.ESTADO_FACT.PENDING_PAY:
+                return nextState == window.SIRHA.ESTADO_FACT.PAYED;
+            case window.SIRHA.ESTADO_FACT.PAYED:
+                return false;
+            default:
+                throw false;
+        }
+    },
+
     whichFacturacaoNextState: function(currentState) {
         switch (currentState) {
             case window.SIRHA.ESTADO_FACT.PENDING_M3:

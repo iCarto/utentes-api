@@ -292,7 +292,9 @@ Backbone.SIXHIARA.ViewFacturacaoModal = Backbone.View.extend({
     },
 
     updateToState: function(state) {
-        this.model.set('fact_estado', state);
+        if(wf.isFacturacaoNewStateValid(this.model.get('fact_estado'), state)) {
+            this.model.set('fact_estado', state);
+        }
     },
 
     changeStateToPdteFactura: function() {
