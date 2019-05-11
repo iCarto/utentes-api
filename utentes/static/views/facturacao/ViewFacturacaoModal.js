@@ -194,6 +194,7 @@ Backbone.SIXHIARA.ViewFacturacaoModal = Backbone.View.extend({
         this.defineWidgetsToBeUsed();
         this.enabledWidgets();
         this.enableBts();
+        iAuth.disabledWidgets();
     },
 
     defineWidgetsToBeUsed: function() {
@@ -231,7 +232,7 @@ Backbone.SIXHIARA.ViewFacturacaoModal = Backbone.View.extend({
             e = e && input.validity.valid;
             return e;
         });
-        if(iAuth.hasRoleTecnico() && this.model.get('fact_estado') != window.SIRHA.ESTADO_FACT.PENDING_M3) {
+        if(iAuth.hasRoleObservador() || (iAuth.hasRoleTecnico() && this.model.get('fact_estado') != window.SIRHA.ESTADO_FACT.PENDING_M3)) {
             this.$('#bt-diferida').hide();
             this.$('#bt-factura').hide();
             this.$('#bt-recibo').hide();

@@ -45,8 +45,8 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
         <div class="col-xs-4">
             <div class="form-group" style="margin-left: 0px; margin-right: 0px">
                 <label for="fact_tipo" class="control-label col-xs-7" style="text-align: left">Tipo de facturação</label>
-                <div class="col-xs-5" style="padding-left: 10px; padding-right: 10px;" disabled>
-                    <select class="form-control" style="padding: 3px 3px;" id="fact_tipo">
+                <div class="col-xs-5" style="padding-left: 10px; padding-right: 10px;">
+                    <select class="form-control" style="padding: 3px 3px;" id="fact_tipo" disabled>
                         <option <% print(fact_tipo == 'Mensal' ? 'selected' : '') %>>Mensal</option>
                         <option <% print(fact_tipo == 'Trimestral' ? 'selected' : '') %>>Trimestral</option>
                         <option <% print(fact_tipo == 'Anual' ? 'selected' : '') %>>Anual</option>
