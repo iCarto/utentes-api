@@ -35,7 +35,12 @@ def nuevo_ciclo_facturacion(request):
     states = FacturacaoFactEstado.ESTADOS_FACTURABLES
     exps = request.db.query(Exploracao).filter(Exploracao.estado_lic.in_(states)).all()
     today = datetime.datetime.now()
+    n_exps_invoizables_total = 0
+    n_exps_invoizables_this_month = 0
+    n_exps_pending_invoice = 0
+    n_exps_pending_consumption = 0
     for e in exps:
+        n_exps_invoizables_total += 1
         if (len(e.facturacao) > 0):
             d_months = diff_month(today, e.facturacao[-1].created_at)
             if (
@@ -45,6 +50,7 @@ def nuevo_ciclo_facturacion(request):
             ):
                 continue
 
+        n_exps_invoizables_this_month += 1
         lic_sup = e.get_licencia('sup')
         lic_sub = e.get_licencia('sub')
         f = Facturacao()
@@ -55,8 +61,10 @@ def nuevo_ciclo_facturacion(request):
             lic_sup.tipo_agua == u'Superficial' or lic_sub.tipo_agua == u'Superficial'
             ):
             f.fact_estado = PENDING_INVOICE
+            n_exps_pending_invoice += 1
         else:
             f.fact_estado = PENDING_CONSUMPTION
+            n_exps_pending_consumption += 1
 
         f.juros = 0
         f.c_licencia_sup = lic_sup.c_licencia
@@ -109,7 +117,12 @@ def nuevo_ciclo_facturacion(request):
         request.db.add(e)
 
     request.db.commit()
-    return {'ok': 'ok'}
+    return {
+        'n_exps_invoizables_total': n_exps_invoizables_total,
+        'n_exps_invoizables_this_month': n_exps_invoizables_this_month,
+        'n_exps_pending_invoice': n_exps_pending_invoice,
+        'n_exps_pending_consumption': n_exps_pending_consumption,
+    }
 
 
 def decimal_adapter(obj):
