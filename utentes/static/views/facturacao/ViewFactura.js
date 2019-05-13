@@ -313,8 +313,15 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
         this.$('#observacio').val('');
     },
 
-    updateFactId: function(factId) {
+    updateFacturaData: function(factId, factDate) {
         this.model.set('fact_id', factId)
+        this.model.set('fact_date', factDate)
+    },
+
+    updateReciboData: function(reciboId, reciboDate) {
+        this.model.set('recibo_id', reciboId)
+        this.model.set('recibo_date', reciboDate)
+        console.log('updateReciboData', this.model)
     },
 
     changeStateToPdteFactura: function() {
@@ -353,11 +360,12 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
             return value;
         }));
 
-        var date = moment(new Date());
-        data.dateFactura = formatter().formatDate(date);
-        data.vencimento = formatter().formatDate(date.add(1, 'M'));
-
         var factura = this.model.toJSON();
+
+        var dateFactura = new moment(factura.fact_date ? new Date(factura.fact_date) : new Date());
+        data.dateFactura = formatter().formatDate(dateFactura);
+        data.vencimento = formatter().formatDate(dateFactura.add(1, 'M'));
+
         factura.licencias = {}
         data.licencias.forEach(function(licencia){
             var tipo = licencia.tipo_agua.substring(0, 3).toLowerCase();
@@ -398,18 +406,19 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
         }));
 
         var factura = this.model.toJSON();
+        console.log(factura)
         data.numFactura = factura.fact_id;
-        data.dateFactura =  formatter().formatDate(moment(new Date(factura.created_at)));
+        var dateRecibo = factura.recibo_date ? new Date(factura.recibo_date) : new Date()
+        console.log(dateRecibo)
+        data.dateRecibo =  formatter().formatDate(moment(dateRecibo));
+        data.dateFactura =  formatter().formatDate(moment(new Date(factura.fact_date)));
         data.tipoFacturacao = factura.fact_tipo;
         data.periodoFactura = factura.mes + '/' + factura.ano;
         data.valorPorRegularizar = factura.pago_iva;
         data.valorRegularizado = factura.pago_iva;
         data.valorAberto = 0;
 
-        var date = moment(new Date());
-        data.dateRecibo = formatter().formatDate(date);
-
-        data.nameFile = data.exp_id.concat("_")
+        data.nameFile = 'Recibo_' + data.exp_id.concat("_")
                                    .concat(factura.mes)
                                    .concat('_')
                                    .concat(factura.ano)
@@ -437,7 +446,7 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
                             model: self.model,
                             data: data
                         });
-                        self.updateFactId(data.numFactura);
+                        self.updateFacturaData(data.numFactura, data.factDate);
                         if(nextState) {
                             self.updateToState(nextState);
                         }
@@ -473,6 +482,7 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
                             model: self.model,
                             data: data
                         });
+                        self.updateReciboData(data.numRecibo, data.reciboDate);
                         if(nextState) {
                             self.updateToState(nextState);
                         }

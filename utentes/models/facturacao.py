@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from sqlalchemy import Boolean, Column, Integer, Numeric, Text, DateTime, UniqueConstraint, text
+from sqlalchemy import Boolean, Column, Integer, Numeric, Text, DateTime, UniqueConstraint, text, Date
 from sqlalchemy import ForeignKey
 from sqlalchemy.dialects.postgresql.json import JSONB
 
@@ -30,8 +30,6 @@ class Facturacao(Base):
     observacio = Column(JSONB)
     fact_estado = Column(Text, nullable=False, server_default=text("'{}'::text".format(PENDING_CONSUMPTION)))
     fact_tipo = Column(Text, nullable=False, server_default=text("'Mensal'::text"))
-    fact_id = Column(Text, unique=True)
-    recibo_id = Column(Text, unique=True)
     pago_lic = Column(Boolean)
     c_licencia_sup = Column(Numeric(10, 2))
     c_licencia_sub = Column(Numeric(10, 2))
@@ -53,6 +51,10 @@ class Facturacao(Base):
     juros = Column(Numeric(10, 2))
     pago_mes = Column(Numeric(10, 2))
     pago_iva = Column(Numeric(10, 2))
+    fact_id = Column(Text, unique=True)
+    recibo_id = Column(Text, unique=True)
+    fact_date = Column(Date)
+    recibo_date = Column(Date)
 
     def __json__(self, request):
         json = {c: getattr(self, c) for c in self.__mapper__.columns.keys()}

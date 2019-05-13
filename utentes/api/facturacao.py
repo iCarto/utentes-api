@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import logging
+import datetime
 
 from pyramid.view import view_config
 
@@ -121,6 +122,7 @@ def num_factura_get(request):
     num_factura = '{next_serial:04d}-{unidad}/{ano}'.format(**params)
 
     facturacao.fact_id = num_factura
+    facturacao.fact_date = datetime.datetime.now()
 
     request.db.add(facturacao)
     request.db.commit()
@@ -184,6 +186,7 @@ def num_recibo_get(request):
     num_recibo = '{next_serial:04d}-{unidad}/{ano}'.format(**params)
 
     facturacao.recibo_id = num_recibo
+    facturacao.recibo_date = datetime.datetime.now()
 
     request.db.add(facturacao)
     request.db.commit()
