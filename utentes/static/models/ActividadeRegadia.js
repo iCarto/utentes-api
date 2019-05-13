@@ -63,9 +63,8 @@ Backbone.SIXHIARA.ActividadeRegadia = Backbone.SIXHIARA.ActividadeNull.extend({
             onEachFeature: function(feature, layer) {
                 var label = L.marker(layer.getBounds().getCenter(), {
                     icon: L.divIcon({
-                        className: 'label',
+                        className: 'leaflet-div-icon-actividade-label',
                         html: feature.properties.cult_id.slice(-3),
-                        iconSize: [100, 40]
                     })
                 }).addTo(map);
             },

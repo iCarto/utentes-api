@@ -99,6 +99,13 @@ input:invalid {
     background-size: 20px 20px;
 }
 
+.leaflet-div-icon-actividade-label {
+    color: #fff;
+    font-size: 70%;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
 .modal:not(.bootbox) .modal-dialog,
 .modal:not(.bootbox) .modal-content {
     width: 80%!important;
