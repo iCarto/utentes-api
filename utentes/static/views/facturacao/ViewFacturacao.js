@@ -95,6 +95,8 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
             model: this.model.get('facturacao').findWhere({id: this.facturaSelected})
         });
 
+        //console.log(this.model)
+        this.listenTo(this.model, 'change:fact_estado', this.estadoUpdated);
         this.listenTo(this.model.get('facturacao'), 'change', this.facturacaoUpdated);
     },
 
@@ -193,6 +195,20 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
         this.autosave(this.model);
     },
 
+    estadoUpdated: function() {
+        var self = this;
+        console.log('estadoUpdated', this.model.get('fact_estado'));
+        if(iAuth.hasRoleTecnico() && this.model.get('fact_estado') != window.SIRHA.ESTADO_FACT.PENDING_M3) {
+            bootbox.alert(`A exploração&nbsp;<strong>${this.model.get('exp_id')} - ${this.model.get('exp_name')}</strong>&nbsp;não tem mais facturas pendentes de acrescentar consumo.`, function(){
+                self.model.trigger('show-next-exp', self.model);
+            });
+        } else if(this.model.get('fact_estado') == window.SIRHA.ESTADO_FACT.PAID) {
+            bootbox.alert(`A exploração&nbsp;<strong>${this.model.get('exp_id')} - ${this.model.get('exp_name')}</strong>&nbsp;tem todas as facturas pagas.`, function(){
+                self.model.trigger('show-next-exp', self.model);
+            });
+        }
+    },
+
     autosave: function(e) {
         // http://codetunnel.io/how-to-implement-autosave-in-your-web-app/
         //this.updateAutomatic();
@@ -217,23 +233,6 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
                 autosaveInfo.innerHTML = '';
             }, 1500)
         }, 750);
-    },
-
-    fillExploracao: function(e, autosave) {
-        var self = this;
-        var exploracao = this.model;
-
-        var nextState = wf.whichNextState(exploracao.get('estado_lic'), e, exploracao);
-
-        if (autosave) {
-            this.saveExploracao(e, autosave);
-        } else {
-            bootbox.confirm(`A exploração vai mudar o seu estado a: <br> <strong>${nextState}</strong>`, function(result){
-                if (result) {
-                    self.doFillExploracao(e, autosave);
-                }
-            });
-        }
     },
 
     doFillExploracao: function(e, autosave) {
@@ -278,15 +277,6 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
                     var exp_name = model.get('exp_name');
                     if (autosave) {
                         console.log('autosaving');
-                    }
-                    if(iAuth.hasRoleTecnico() && model.get('fact_estado') != window.SIRHA.ESTADO_FACT.PENDING_M3) {
-                        bootbox.alert(`A exploração&nbsp;<strong>${exp_id} - ${exp_name}</strong>&nbsp;tem sido gravada correctamente.`, function(){
-                            exploracao.trigger('show-next-exp', exploracao);
-                        });
-                    } else if(model.get('fact_estado') == window.SIRHA.ESTADO_FACT.PAID) {
-                        bootbox.alert(`A exploração&nbsp;<strong>${exp_id} - ${exp_name}</strong>&nbsp;tem todas as facturas pagas.`, function(){
-                            exploracao.trigger('show-next-exp', exploracao);
-                        });
                     }
                 },
                 'error': function() {

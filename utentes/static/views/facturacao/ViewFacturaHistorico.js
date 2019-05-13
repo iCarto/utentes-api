@@ -29,7 +29,7 @@ Backbone.SIXHIARA.ViewFacturaHistorico = Backbone.View.extend({
                 print('P');
             }
         %></small>
-        <a href="#" id="view-link"><strong><%- mes + '/' +  ano %></strong>. Valor com IVA: <%- (formatter().formatNumber(pago_iva, '0[.]00') || '-') %> MZN</a>
+        <a href="#" id="view-link"><strong><%- mes + '/' +  ano %></strong>. Valor: <%- (formatter().formatNumber(pago_iva, '0[.]00') || '-') %> MZN</a>
         <ul>
             <li>Subterrânea: <%- (formatter().formatNumber(consumo_fact_sub, '0[.]00') || '-') %> m<sup>3</sup></li>
             <li>Superficial: <%- (formatter().formatNumber(consumo_fact_sup, '0[.]00') || '-') %> m<sup>3</sup></li>
