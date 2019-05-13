@@ -61,4 +61,4 @@ def login(request):
                 response.set_cookie('utentes_stub_unidade', value=unidade)
             return response
 
-    return {'title': 'SIRHAS: Utentes', 'next': next}
+    return {'title': request.registry.settings.get('ara_app_name'), 'next': next}
