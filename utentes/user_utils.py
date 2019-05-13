@@ -31,6 +31,7 @@ PERM_UPDATE_CREATE_FACTURACAO = 'update_facturacao'
 PERM_UPDATE_REQUERIMENTO = 'update_requerimento'
 PERM_UPDATE_RENOVACAO = 'update_renovacao'
 PERM_DELETE_DOCUMENTO = 'delete_documento'
+PERM_NEW_INVOICE_CYCLE = 'PERM_NEW_INVOICE_CYCLE'
 
 # GESTIONAR UNIQUE USER
 class RootFactory(object):
@@ -52,6 +53,7 @@ class RootFactory(object):
                (Allow, ROL_ADMIN, PERM_RENOVACAO),
                (Allow, ROL_ADMIN, PERM_UPDATE_RENOVACAO),
                (Allow, ROL_ADMIN, PERM_EM_PROCESSO),
+               (Allow, ROL_ADMIN, PERM_NEW_INVOICE_CYCLE),
 
                (Allow, ROL_ADMINISTRATIVO, PERM_REQUERIMENTO),
                (Allow, ROL_ADMINISTRATIVO, PERM_CREATE_REQUERIMENTO),

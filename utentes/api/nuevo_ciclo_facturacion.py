@@ -10,6 +10,7 @@ from utentes.models.facturacao import Facturacao
 from utentes.models.facturacao_fact_estado import (
     PENDING_CONSUMPTION, PENDING_INVOICE, FacturacaoFactEstado,
 )
+from utentes.user_utils import PERM_NEW_INVOICE_CYCLE
 
 log = logging.getLogger(__name__)
 
@@ -23,8 +24,13 @@ def diff_month(d1, d2):
 def nuevo_ciclo_facturacion(request):
     request_token = request.GET.get('token_new_fact_cycle')
     settings_token = request.registry.settings['token_new_fact_cycle']
-    if (request_token != settings_token):
-        return {'NO': 'NO'}
+    authorized_by_token = request_token == settings_token
+    authorized_by_perm = request.has_permission(PERM_NEW_INVOICE_CYCLE)
+    authorized = authorized_by_token or authorized_by_perm
+
+    if not authorized:
+        from utentes.models.base import unauthorized_exception
+        raise unauthorized_exception()
 
     states = FacturacaoFactEstado.ESTADOS_FACTURABLES
     exps = request.db.query(Exploracao).filter(Exploracao.estado_lic.in_(states)).all()
