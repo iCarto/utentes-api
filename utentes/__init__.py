@@ -126,7 +126,7 @@ def add_routes_api(config):
 
     # exploracao_id*/departamento?/unidade? conforms the subpath part of the url
     # GET    /api/documentos/exploracao_id*/departamento?/unidade? = Return all info and routes to files and path for an exploracao, departamento or unidade
-    # POST   /api/documentos/exploracao_id*/departamento?/unidade? = Creates a new documento 
+    # POST   /api/documentos/exploracao_id*/departamento?/unidade? = Creates a new documento
     # GET    /api/exploracaos/{id}/documentos/{departamento}/{filename} = Return individual documento
     # DELETE /api/exploracaos/{id}/documentos/{departamento}/{filename} = Delete documento
     config.add_route('api_exploracao_documentacao_files', '/api/documentos/files/*subpath')
@@ -191,3 +191,6 @@ def add_routes_api(config):
     config.add_route('api_users_id', '/api/users/{id}')
 
     config.add_route('api_transform_coordinates', '/api/transform')
+
+    # utilities for manual testing
+    config.add_route('api_test_fact_substract_month', '/api/test/fact_substract_month')
