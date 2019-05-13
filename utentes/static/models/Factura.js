@@ -9,6 +9,7 @@ Backbone.SIXHIARA.Factura = Backbone.Model.extend({
         'fact_estado':    null,
         'fact_tipo':     null,
         'fact_id':     null,
+        'recibo_id':     null,
         'pago_lic':      null,
         'c_licencia_sup':   null,
         'c_licencia_sub': null,

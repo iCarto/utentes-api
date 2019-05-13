@@ -9,7 +9,7 @@ from utentes.api.error_msgs import error_msgs
 from utentes.models.base import badrequest_exception
 from utentes.models.exploracao import Exploracao
 from utentes.models.facturacao import Facturacao
-from utentes.user_utils import PERM_UPDATE_CREATE_FACTURACAO, PERM_GET
+from utentes.user_utils import PERM_UPDATE_CREATE_FACTURACAO, PERM_FACTURACAO, PERM_GET
 
 log = logging.getLogger(__name__)
 
@@ -126,6 +126,70 @@ def num_factura_get(request):
     request.db.commit()
 
     return num_factura
+
+
+@view_config(
+    route_name='api_facturacao_new_recibo',
+    permission=PERM_FACTURACAO,
+    request_method='GET',
+    renderer='json')
+def num_recibo_get(request):
+
+    gid = None
+    if request.matchdict:
+        gid = request.matchdict['id'] or None
+
+    if not gid:
+        raise badrequest_exception({'error': error_msgs['no_gid'], 'gid': gid})
+
+    try:
+        facturacao = request.db.query(Facturacao).filter(
+            Facturacao.gid == gid).one()
+    except (MultipleResultsFound, NoResultFound):
+        raise badrequest_exception({'error': error_msgs['no_gid'], 'gid': gid})
+
+    exp_id = facturacao.exploracao
+    if facturacao.recibo_id is not None:
+        return facturacao.recibo_id
+
+    try:
+        exploracao = request.db.query(Exploracao).filter(
+            Exploracao.gid == exp_id).one()
+    except (MultipleResultsFound, NoResultFound):
+        raise badrequest_exception({'error': error_msgs['no_gid'], 'gid': gid})
+
+    if not exploracao.loc_unidad:
+        raise badrequest_exception({
+            'error':
+            'A unidade é un campo obligatorio',
+            'exp_id':
+            exp_id
+        })
+
+    params = {
+        'unidad': exploracao.loc_unidad,
+        'ano': facturacao.ano,
+    }
+
+    sql = '''
+        SELECT substring(recibo_id, 0, 5)::int + 1
+        FROM utentes.facturacao
+        WHERE recibo_id ~ '.*-{unidad}/{ano}'
+        ORDER BY recibo_id DESC
+        LIMIT 1;
+        '''.format(**params)
+
+    params['next_serial'] = (request.db.execute(sql).first() or [1])[0]
+
+    num_recibo = '{next_serial:04d}-{unidad}/{ano}'.format(**params)
+
+    facturacao.recibo_id = num_recibo
+
+    request.db.add(facturacao)
+    request.db.commit()
+
+    return num_recibo
+
 
 
 @view_config(

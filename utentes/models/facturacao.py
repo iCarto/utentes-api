@@ -31,6 +31,7 @@ class Facturacao(Base):
     fact_estado = Column(Text, nullable=False, server_default=text("'{}'::text".format(PENDING_CONSUMPTION)))
     fact_tipo = Column(Text, nullable=False, server_default=text("'Mensal'::text"))
     fact_id = Column(Text, unique=True)
+    recibo_id = Column(Text, unique=True)
     pago_lic = Column(Boolean)
     c_licencia_sup = Column(Numeric(10, 2))
     c_licencia_sub = Column(Numeric(10, 2))

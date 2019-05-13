@@ -329,13 +329,13 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
     printFactura: function(){
         var data = this.getDataForFactura();
         data.urlTemplate = Backbone.SIXHIARA.tipoTemplates['Factura'];
-        this.printDocument(data, window.SIRHA.ESTADO_FACT.PENDING_PAY);
+        this.printFacturaDocument(data, window.SIRHA.ESTADO_FACT.PENDING_PAY);
     },
 
     printRecibo: function(){
         var data = this.getDataForRecibo();
         data.urlTemplate = Backbone.SIXHIARA.tipoTemplates['Recibo'];
-        this.printDocument(data, window.SIRHA.ESTADO_FACT.PAID);
+        this.printReciboDocument(data, window.SIRHA.ESTADO_FACT.PAID);
     },
 
     getDataForFactura: function() {
@@ -398,7 +398,6 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
         }));
 
         var factura = this.model.toJSON();
-        data.numRecibo = '001-'+ factura.fact_id;
         data.numFactura = factura.fact_id;
         data.dateFactura =  formatter().formatDate(moment(new Date(factura.created_at)));
         data.tipoFacturacao = factura.fact_tipo;
@@ -419,7 +418,7 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
         return data;
     },
 
-    printDocument: function(data, nextState) {
+    printFacturaDocument: function(data, nextState) {
         if(nextState == this.model.get('fact_estado')) {
             nextState = null;
         }
@@ -433,13 +432,47 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
                 data.ara.logoUrl = 'static/print-templates/images/' + window.SIRHA.getARA() + '_factura.png';
                 factura.fetch({
                     success: function(model, resp, options) {
-                        console.log(model)
                         data.numFactura = resp;
                         var docxGenerator = new Backbone.SIXHIARA.DocxGeneratorView({
                             model: self.model,
                             data: data
                         });
                         self.updateFactId(data.numFactura);
+                        if(nextState) {
+                            self.updateToState(nextState);
+                        }
+                    },
+                    error: function(){
+                        bootbox.alert("Erro ao gerar a factura.");
+                        return;
+                    }
+                });
+            },
+            error: function() {
+                bootbox.alert(`Erro ao imprimir factura`);
+            }
+        });
+    },
+
+    printReciboDocument: function(data, nextState) {
+        if(nextState == this.model.get('fact_estado')) {
+            nextState = null;
+        }
+        var self = this;
+        var factura = new Backbone.SIXHIARA.NewRecibo({id: this.model.id});
+        var datosAra = new Backbone.SIXHIARA.AraGetData();
+        console.log(data)
+        datosAra.fetch({
+            success: function(model, resp, options) {
+                data.ara = resp
+                data.ara.logoUrl = 'static/print-templates/images/' + window.SIRHA.getARA() + '_factura.png';
+                factura.fetch({
+                    success: function(model, resp, options) {
+                        data.numRecibo = resp;
+                        var docxGenerator = new Backbone.SIXHIARA.DocxGeneratorView({
+                            model: self.model,
+                            data: data
+                        });
                         if(nextState) {
                             self.updateToState(nextState);
                         }
