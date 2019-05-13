@@ -95,7 +95,6 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
             model: this.model.get('facturacao').findWhere({id: this.facturaSelected})
         });
 
-        //console.log(this.model)
         this.listenTo(this.model, 'change:fact_estado', this.estadoUpdated);
         this.listenTo(this.model.get('facturacao'), 'change', this.facturacaoUpdated);
     },
@@ -177,7 +176,6 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
 
     facturacaoFormFieldsUpdated: function(evt) {
         var target = evt.currentTarget;
-        console.log('facturacaoFormFieldsUpdated', target.nodeName, target.id, target.value, target.validity.valid)
         if (target.validity.valid) {
             var modifiedAttributes = {};
             if(target.nodeName == "INPUT") {
@@ -191,13 +189,11 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
     },
 
     facturacaoUpdated: function(changedModel) {
-        console.log('facturacaoUpdated', changedModel)
         this.autosave(this.model);
     },
 
     estadoUpdated: function() {
         var self = this;
-        console.log('estadoUpdated', this.model.get('fact_estado'));
         if(iAuth.hasRoleTecnico() && this.model.get('fact_estado') != window.SIRHA.ESTADO_FACT.PENDING_M3) {
             bootbox.alert(`A exploração&nbsp;<strong>${this.model.get('exp_id')} - ${this.model.get('exp_name')}</strong>&nbsp;não tem mais facturas pendentes de acrescentar consumo.`, function(){
                 self.model.trigger('show-next-exp', self.model);

@@ -153,7 +153,6 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
     modelChanged: function() {
         this.updatePagoIva();
         this.enableBts();
-        console.log('modelChanged', this.model);
     },
 
     render: function() {
@@ -163,7 +162,6 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
     },
 
     updateModel: function(newModel) {
-        console.log('updateModel', newModel)
         this.model = newModel;
         this.render();
         this.updateWidgets();
@@ -171,7 +169,6 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
     },
 
     setListeners: function() {
-        console.log('listeners para', this.model.cid);
         this.listenTo(this.model, 'change:fact_estado change:iva change:juros change:observacio change:taxa_fixa_sub change:taxa_uso_sub change:consumo_fact_sub change:taxa_fixa_sup change:taxa_uso_sup change:consumo_fact_sup', this.modelChanged)
     },
 
@@ -203,7 +200,6 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
                 }
             });
         });
-        console.log(this.widgets)
     },
 
     enabledWidgets: function() {
@@ -246,7 +242,6 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
 
     facturaUpdated: function(evt) {
         var target = evt.currentTarget;
-        console.log('facturaUpdated', target.nodeName, target.id, target.value, target.validity.valid)
         if (target.validity.valid) {
             var modifiedAttributes = {};
             var trigger = false;
@@ -321,7 +316,6 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
     updateReciboData: function(reciboId, reciboDate) {
         this.model.set('recibo_id', reciboId)
         this.model.set('recibo_date', reciboDate)
-        console.log('updateReciboData', this.model)
     },
 
     changeStateToPdteFactura: function() {
@@ -390,7 +384,6 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
     },
 
     getDataForRecibo: function() {
-        console.log('getDataForRecibo')
         var json = this.options.exploracao.toJSON();
 
         if (!json.loc_unidad) {
@@ -406,10 +399,8 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
         }));
 
         var factura = this.model.toJSON();
-        console.log(factura)
         data.numFactura = factura.fact_id;
         var dateRecibo = factura.recibo_date ? new Date(factura.recibo_date) : new Date()
-        console.log(dateRecibo)
         data.dateRecibo =  formatter().formatDate(moment(dateRecibo));
         data.dateFactura =  formatter().formatDate(moment(new Date(factura.fact_date)));
         data.tipoFacturacao = factura.fact_tipo;
@@ -434,7 +425,6 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
         var self = this;
         var factura = new Backbone.SIXHIARA.NewFactura({id: this.model.id});
         var datosAra = new Backbone.SIXHIARA.AraGetData();
-        console.log(data)
         datosAra.fetch({
             success: function(model, resp, options) {
                 data.ara = resp
@@ -470,7 +460,6 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
         var self = this;
         var factura = new Backbone.SIXHIARA.NewRecibo({id: this.model.id});
         var datosAra = new Backbone.SIXHIARA.AraGetData();
-        console.log(data)
         datosAra.fetch({
             success: function(model, resp, options) {
                 data.ara = resp

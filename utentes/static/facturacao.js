@@ -91,7 +91,6 @@ var exploracaosFetched = function() {
 
     exploracaos.on('show-next-exp', function(model) {
         var state = model.get('facturacao');
-        console.log('state', state);
         onShowNextExp(model, state, estados, exploracaos, exploracaosFiltered, where, wf, listView, mapView);
     });
 };
