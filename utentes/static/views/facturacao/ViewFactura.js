@@ -132,7 +132,7 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
                         <button id="bt-recibo" type="button" class="btn btn-sm btn-primary uilib-enability uilib-hide-role-observador">Recibo</button>
                     </div>
                 </label>
-                <textarea id="observacio" value="<%- observacio.slice(-1)[0].text %>" class="form-control widget uilib-enability uilib-disable-role-observador"></textarea>
+                <textarea id="observacio" class="form-control widget uilib-enability uilib-disable-role-observador"><%- observacio.slice(-1)[0].text %></textarea>
             </div>
         </div>
 
@@ -172,7 +172,7 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
 
     setListeners: function() {
         console.log('listeners para', this.model.cid);
-        this.listenTo(this.model, 'change:fact_estado change:iva change:juros change:taxa_fixa_sub change:taxa_uso_sub change:consumo_fact_sub change:taxa_fixa_sup change:taxa_uso_sup change:consumo_fact_sup', this.modelChanged)
+        this.listenTo(this.model, 'change:fact_estado change:iva change:juros change:observacio change:taxa_fixa_sub change:taxa_uso_sub change:consumo_fact_sub change:taxa_fixa_sup change:taxa_uso_sup change:consumo_fact_sup', this.modelChanged)
     },
 
     updateWidgets: function() {
@@ -190,7 +190,7 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
         }
         var licenseWidgets = [];
         if(this.model.get('fact_estado') != window.SIRHA.ESTADO_FACT.PENDING_M3) {
-            this.widgets = ['iva', 'juros'];
+            this.widgets.concat(['iva', 'juros']);
             licenseWidgets = ['taxa_fixa_sup', 'taxa_fixa_sub', 'taxa_uso_sup', 'taxa_uso_sub', 'consumo_fact_sup', 'consumo_fact_sub'];
         }else{
             licenseWidgets = ['consumo_tipo_sup', 'consumo_tipo_sub', 'consumo_fact_sup', 'consumo_fact_sub'];
@@ -215,6 +215,7 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
             input.on('input', self.facturaUpdated.bind(self));
             input.on('input', self.enableBts.bind(self));
         });
+        this.$('#observacio').on('input', this.observacioUpdated.bind(self));
     },
 
     enableBts: function() {
@@ -248,6 +249,7 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
         console.log('facturaUpdated', target.nodeName, target.id, target.value, target.validity.valid)
         if (target.validity.valid) {
             var modifiedAttributes = {};
+            var trigger = false;
             if(target.nodeName == "INPUT") {
                 modifiedAttributes[target.id] = formatter().unformatNumber(target.value);
             } else if(target.nodeName == "SELECT") {
@@ -255,6 +257,17 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
             }
             this.model.set(modifiedAttributes);
         }
+    },
+
+    observacioUpdated: function(evt) {
+        var currentComment = this.model.get('observacio').slice(-1)[0];
+        Object.assign(currentComment, {
+            'created_at': new Date(),
+            'autor': iAuth.getUser(),
+            'text': evt.currentTarget.value,
+            'state': this.model.get('fact_estado'),
+        });
+        this.model.trigger('change', this.model)
     },
     
     updatePagoMesLicencia: function(lic) {
@@ -285,8 +298,19 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
 
     updateToState: function(state) {
         if(wf.isFacturacaoNewStateValid(this.model.get('fact_estado'), state)) {
+            this.createNewObseracio();
             this.model.set('fact_estado', state);
         }
+    },
+
+    createNewObseracio: function() {
+        this.model.get('observacio').push({
+            'created_at': null,
+            'autor': null,
+            'text': null,
+            'state': null,
+        });
+        this.$('#observacio').val('');
     },
 
     updateFactId: function(factId) {

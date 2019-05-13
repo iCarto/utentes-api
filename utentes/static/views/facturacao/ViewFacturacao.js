@@ -226,7 +226,7 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
             clearTimeout(this.autosaveInputTimeOutId);
         }
         this.timeoutId = setTimeout(function () {
-            self.doFillExploracao(null, true);
+            self.saveExploracao(true);
             autosaveInfo.innerHTML = 'Modificações gravadas'
             autosaveInfo.style.color = 'green';
             self.autosaveInputTimeOutId = setTimeout(function() {
@@ -235,39 +235,11 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
         }, 750);
     },
 
-    doFillExploracao: function(e, autosave) {
-        var self = this;
-        var exploracao = this.model;
-
-        var nextState = wf.whichNextState(exploracao.get('estado_lic'), e, exploracao);
-
-        var fact = this.facturaView.model;
-        console.log('fact' , fact);
-        var currentComment = fact.get('observacio').slice(-1)[0];
-        Object.assign(currentComment, {
-            'create_at': new Date(),
-            'author': iAuth.getUser(),
-            'text': document.getElementById('observacio').value,
-            'state': nextState,
-        });
-
-        if (!autosave) {
-            fact.get('observacio').push({
-                'create_at': null,
-                'author': null,
-                'text': null,
-                'state': null,
-            });
-        }
-
-        this.saveExploracao(exploracao, autosave);
-    },
-
-    saveExploracao: function(exploracao, autosave) {
+    saveExploracao: function(autosave) {
         var self = this;
 
-        exploracao.urlRoot = Backbone.SIXHIARA.Config.apiFacturacaoExploracao;
-        exploracao.save(
+        this.model.urlRoot = Backbone.SIXHIARA.Config.apiFacturacaoExploracao;
+        this.model.save(
             null,
             {
                 'validate': false,
