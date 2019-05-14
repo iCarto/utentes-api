@@ -33,12 +33,25 @@ def nuevo_ciclo_facturacion(request):
         raise unauthorized_exception()
 
     sql = '''
+        WITH foo AS (
+            SELECT
+                gid AS _gid
+                , created_at - '1 month'::interval as _created_at
+                , to_char(created_at - '1 month'::interval, 'YYYY'::text) as _ano
+                , to_char(created_at - '1 month'::interval, 'MM'::text) as _mes
+                , fact_date - '1 month'::interval as _fact_date
+                , recibo_date - '1 month'::interval as _recibo_date
+            FROM utentes.facturacao
+            ORDER BY created_at ASC
+        )
         UPDATE utentes.facturacao SET
-            created_at = created_at - '1 month'::interval
-            , ano = to_char(created_at - '1 month'::interval, 'YYYY'::text)
-            , mes = to_char(created_at - '1 month'::interval, 'MM'::text)
-            , fact_date = fact_date - '1 month'::interval
-            , recibo_date = recibo_date - '1 month'::interval
+            created_at = _created_at
+            , ano = _ano
+            , mes = _mes
+            , fact_date = _fact_date
+            , recibo_date = _recibo_date
+        FROM foo
+        WHERE gid = _gid
         ;
     '''
 
