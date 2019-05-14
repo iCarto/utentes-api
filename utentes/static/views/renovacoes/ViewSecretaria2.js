@@ -81,7 +81,9 @@ Backbone.SIXHIARA.ViewSecretaria2 = Backbone.SIXHIARA.View1.extend({
             // Use data from facturacao instead of Renovacao in order to be the most updated data available
             model.get('licencias').forEach(function(lic){
                 var tipo = lic.get('tipo_agua').substring(0, 3).toLowerCase();
-                renovacao.set('consumo_fact_' + tipo + '_old', facturacao[facturacao.length - 1]['consumo_fact_' + tipo]);
+                var last_invoice = facturacao.last();
+                var last_consumo = last_invoice.get('consumo_fact_' + tipo);
+                renovacao.set('consumo_fact_' + tipo + '_old', last_consumo);
             });
         }
 
