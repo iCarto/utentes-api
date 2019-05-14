@@ -70,8 +70,6 @@ class RootFactory(object):
                (Allow, ROL_FINANCIERO, PERM_UPDATE_CREATE_FACTURACAO),
                (Allow, ROL_FINANCIERO, PERM_CREATE_DOCUMENTO),
                (Allow, ROL_FINANCIERO, PERM_DELETE_DOCUMENTO),
-               (Allow, ROL_FINANCIERO, PERM_RENOVACAO),
-               (Allow, ROL_FINANCIERO, PERM_UPDATE_RENOVACAO),
                (Allow, ROL_FINANCIERO, PERM_EM_PROCESSO),
 
                (Allow, ROL_DIRECCION, PERM_REQUERIMENTO),
