@@ -15,8 +15,8 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
                     <div class="form-group col-xs-12">
                         <label for="consumo_tipo_sub"><strong>Tipo de consumo</strong></label>
                         <select class="form-control" id="consumo_tipo_sub" disabled >
-                            <option <% print(consumo_tipo_sub == 'Fixo' ? 'selected' : '') %>>Fixo</option>
-                            <option <% print(consumo_tipo_sub == 'Variável' ? 'selected' : '') %>>Variável</option>
+                            <option>Fixo</option>
+                            <option>Variável</option>
                         </select>
                     </div>
 
@@ -57,8 +57,8 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
                     <div class="form-group col-xs-12">
                         <label for="consumo_tipo_sup"><strong>Tipo de consumo</strong></label>
                         <select class="form-control" id="consumo_tipo_sup" disabled>
-                            <option <% print(consumo_tipo_sup == 'Fixo' ? 'selected' : '') %>>Fixo</option>
-                            <option <% print(consumo_tipo_sup == 'Variável' ? 'selected' : '') %>>Variável</option>
+                            <option>Fixo</option>
+                            <option>Variável</option>
                         </select>
                     </div>
 
@@ -155,6 +155,10 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
         this.enableBts();
     },
 
+    estadoChanged: function() {
+        this.updateWidgets();
+    },
+
     render: function() {
         var json = this.model.toJSON();
         this.$el.html(this.template(json));
@@ -169,14 +173,17 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
     },
 
     setListeners: function() {
-        this.listenTo(this.model, 'change:fact_estado change:iva change:juros change:observacio change:taxa_fixa_sub change:taxa_uso_sub change:consumo_fact_sub change:taxa_fixa_sup change:taxa_uso_sup change:consumo_fact_sup', this.modelChanged)
+        this.listenTo(this.model, 'change:change:iva change:juros change:observacio change:taxa_fixa_sub change:taxa_uso_sub change:consumo_fact_sub change:taxa_fixa_sup change:taxa_uso_sup change:consumo_fact_sup', this.modelChanged)
+        this.listenTo(this.model, 'change:fact_estado', this.estadoChanged);
     },
 
     updateWidgets: function() {
+        this.disableWidgets();
         this.defineWidgetsToBeUsed();
         this.enabledWidgets();
         this.enableBts();
         iAuth.disabledWidgets();
+        this.setWidgetsValue();
     },
 
     defineWidgetsToBeUsed: function() {
@@ -187,7 +194,7 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
         }
         var licenseWidgets = [];
         if(this.model.get('fact_estado') != window.SIRHA.ESTADO_FACT.PENDING_M3) {
-            this.widgets.concat(['iva', 'juros']);
+            this.widgets = ['iva', 'juros'];
             licenseWidgets = ['taxa_fixa_sup', 'taxa_fixa_sub', 'taxa_uso_sup', 'taxa_uso_sub', 'consumo_fact_sup', 'consumo_fact_sub'];
         }else{
             licenseWidgets = ['consumo_tipo_sup', 'consumo_tipo_sub', 'consumo_fact_sup', 'consumo_fact_sub'];
@@ -200,6 +207,15 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
                 }
             });
         });
+    },
+
+    disableWidgets: function() {
+        if(this.widgets) {
+            this.widgets.forEach(function(w){
+                var input = this.$('#edit-facturacao-modal #' + w);
+                input.prop('disabled', true);
+            });
+        }
     },
 
     enabledWidgets: function() {
@@ -238,6 +254,11 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
 
     isReciboBtnEnabled() {
         return this.model.get('fact_estado') != window.SIRHA.ESTADO_FACT.PENDING_INVOICE;
+    },
+
+    setWidgetsValue: function() {
+        this.$('#consumo_tipo_sub').val(this.model.get('consumo_tipo_sub'));
+        this.$('#consumo_tipo_sup').val(this.model.get('consumo_tipo_sup'));
     },
 
     facturaUpdated: function(evt) {

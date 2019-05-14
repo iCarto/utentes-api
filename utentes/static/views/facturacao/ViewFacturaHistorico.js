@@ -5,19 +5,7 @@ Backbone.SIXHIARA.ViewFacturaHistorico = Backbone.View.extend({
     tagName: 'li',
 
     template: _.template(`
-        <small class="label 
-        <%
-            if(fact_estado === "Pendente Acrescentar Consumo (R. Cad DT)") {
-                print('factura-label-pdt-consumo');
-            }else if(fact_estado === "Pendente Emisão Factura (D. Fin)"){
-                print('factura-label-pdt-factura');
-            }else if(fact_estado === "Pendente Pagamento (Utente)"){
-                print('factura-label-pdt-pagamento');
-            }else if(fact_estado === "Pagada"){
-                print('factura-label-pagada');
-            }
-        %>
-        " id="summary_pagos">
+        <small class="label" id="summary_pagos">
         <%
             if(fact_estado === "Pendente Acrescentar Consumo (R. Cad DT)") {
                 print('T');
@@ -29,10 +17,10 @@ Backbone.SIXHIARA.ViewFacturaHistorico = Backbone.View.extend({
                 print('P');
             }
         %></small>
-        <a href="#" id="view-link"><strong><%- mes + '/' +  ano %></strong>. Valor: <%- (formatter().formatNumber(pago_iva, '0[.]00') || '-') %> MZN</a>
+        <a href="#" id="view-link"><strong><%- mes + '/' +  ano %></strong>.&nbsp;Valor:&nbsp;<%- (formatter().formatNumber(pago_iva, '0[.]00') || '-') %>&nbsp;MZN</a>
         <ul>
-            <li>Subterrânea: <%- (formatter().formatNumber(consumo_fact_sub, '0[.]00') || '-') %> m<sup>3</sup></li>
-            <li>Superficial: <%- (formatter().formatNumber(consumo_fact_sup, '0[.]00') || '-') %> m<sup>3</sup></li>
+            <li>Subterrânea:&nbsp;<%- (formatter().formatNumber(consumo_fact_sub, '0[.]00') || '-') %>&nbsp;m<sup>3</sup></li>
+            <li>Superficial:&nbsp;<%- (formatter().formatNumber(consumo_fact_sup, '0[.]00') || '-') %>&nbsp;m<sup>3</sup></li>
         </ul>
     `),
 
@@ -49,6 +37,7 @@ Backbone.SIXHIARA.ViewFacturaHistorico = Backbone.View.extend({
         var json = this.model.toJSON();
         this.$el.empty();
         this.$el.html(this.template(json));
+        this.$el.find('#summary_pagos').removeClass().addClass('label ' + this.getStatusClassname());
         return this;
     },
 
@@ -62,6 +51,20 @@ Backbone.SIXHIARA.ViewFacturaHistorico = Backbone.View.extend({
 
     viewFactura: function() {
         this.trigger('factura-selected', this.model.id);
+    },
+
+    getStatusClassname: function(){
+        var fact_estado = this.model.get('fact_estado');
+        if(fact_estado === window.SIRHA.ESTADO_FACT.PENDING_M3) {
+            return 'factura-label-pdt-consumo';
+        }else if(fact_estado === window.SIRHA.ESTADO_FACT.PENDING_INVOICE){
+            return 'factura-label-pdt-factura';
+        }else if(fact_estado === window.SIRHA.ESTADO_FACT.PENDING_PAY){
+            return 'factura-label-pdt-pagamento';
+        }else if(fact_estado === window.SIRHA.ESTADO_FACT.PAID){
+            return 'factura-label-pagada';
+        }
     }
+
 
 });

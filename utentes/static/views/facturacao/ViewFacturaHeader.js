@@ -13,7 +13,7 @@ Backbone.SIXHIARA.ViewFacturaHeader = Backbone.View.extend({
     },
 
     render: function() {
-        this.el.className = 'factura-label ' + this.getHeaderClassname();
+        this.el.className = 'factura-label ' + this.getStatusClassname();
         var json ={
             fact_name: this.model.get('fact_id') ? this.model.get('fact_id') : this.model.get('mes') + '/' + this.model.get('ano'),
             fact_estado: this.model.get('fact_estado')
@@ -33,7 +33,7 @@ Backbone.SIXHIARA.ViewFacturaHeader = Backbone.View.extend({
         this.render();
     },
 
-    getHeaderClassname: function(){
+    getStatusClassname: function(){
         var fact_estado = this.model.get('fact_estado');
         if(fact_estado === window.SIRHA.ESTADO_FACT.PENDING_M3) {
             return 'factura-label-pdt-consumo';
