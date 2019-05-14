@@ -108,16 +108,16 @@ var MyAddCoordinates = AddCoordinates.extend({
         this.options.toolbarIcon.tooltip = 'Adicionar coordenadas';
     },
     addHooks: function(){
-        var crss = new Backbone.UILib.DomainCollection([
-            {text: 'WGS84', alias: '4326'},
-            {text: 'UTM 36S', alias: '32736'},
-            {text: 'UTM 37S', alias: '32737'},
+        var domains = new Backbone.UILib.DomainCollection([
+            {category: 'crs', text: 'WGS84', alias: '4326'},
+            {category: 'crs', text: 'UTM 36S', alias: '32736'},
+            {category: 'crs', text: 'UTM 37S', alias: '32737'},
         ]);
 
         var modalView = new Backbone.SIXHIARA.AddCoordinatesModalView({
             model: new Backbone.Model(),
             map: map,
-            crss: crss,
+            domains: domains,
             geoJsonLayer: geoJsonLayer,
             selectorTmpl: '#modal-gps-add-coordinates-tmpl'
         }).render();

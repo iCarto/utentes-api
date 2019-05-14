@@ -13,8 +13,8 @@ Backbone.SIXHIARA.AddCoordinatesModalView = Backbone.UILib.ModalView.extend({
         var center = map.getCenter();
         this._set_values({dest_x: center.lng, dest_y:center.lat}, 'org', 'placeholder');
         // this._set_values({dest_x: center.lng, dest_y:center.lat}, 'org', 'value');
-// 40,50799 -12,96680
-// 663568,082135983 8566051,91820535
+        // 40,50799 -12,96680
+        // 663568,082135983 8566051,91820535
         var self = this;
 
         this.marker = null;
@@ -23,15 +23,17 @@ Backbone.SIXHIARA.AddCoordinatesModalView = Backbone.UILib.ModalView.extend({
 
         new Backbone.UILib.SelectView({
             el: this.org_srs_widget,
-            collection: this.options.crss
+            collection: this.options.domains.byCategory('crs'),
+            addVoidValue: false,
         }).render();
 
         new Backbone.UILib.SelectView({
             el: this.dest_srs_widget,
-            collection: this.options.crss
+            collection: this.options.domains.byCategory('crs'),
+            addVoidValue: false,
         }).render();
 
-        this.wgs84_stored_coord = null;
+
         this.$('.modal').on('shown.bs.modal', function () {
             document.getElementById('org_x').focus();
         });
@@ -84,18 +86,21 @@ Backbone.SIXHIARA.AddCoordinatesModalView = Backbone.UILib.ModalView.extend({
 
     },
 
-    convert_coordinates: function(){
+    convert_coordinates: function(event, _params){
         if (!this.are_valid_coordinates()){
+            this.set_values({dest_x: '', dest_y: ''});
             return;
         }
-        var params = this.get_values();
+        var params = _params || this.get_values();
         var self = this;
 
         $.getJSON(
             Backbone.SIXHIARA.Config.api_transform_coordinates,
             params
         ).done(function(data) {
-            self.set_values(data);
+            if (!_params) {
+                self.set_values(data);
+            }
             if (data.dest_srs == 4326) { // compares integer and str values
                 self.store_wgs84_and_zoom_and_enable_buttons(data);
             }else {
@@ -136,7 +141,7 @@ Backbone.SIXHIARA.AddCoordinatesModalView = Backbone.UILib.ModalView.extend({
     convert_to_wgs84: function(){
         var params = this.get_values();
         params.dest_srs = '4326';
-        this.convert_coordinates(params);
+        this.convert_coordinates(null, params);
     },
 
     zoom_to_point: function(){
@@ -277,6 +282,7 @@ Backbone.SIXHIARA.AddCoordinatesModalView = Backbone.UILib.ModalView.extend({
             this.display_error(wrongYRange);
             return false;
         }
+        return true;
     },
 
     get_bbox: function(){
