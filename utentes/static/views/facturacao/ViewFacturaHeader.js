@@ -4,7 +4,7 @@ Backbone.SIXHIARA.ViewFacturaHeader = Backbone.View.extend({
     tagName: 'h5',
 
     template: _.template(`
-        <span><%- fact_name %></span> <span>(<%- fact_estado %>)</span>
+        <span><%- fact_name %></span>&nbsp;<span>-&nbsp;<%- fact_estado %></span>
     `),
 
     initialize: function (options) {
