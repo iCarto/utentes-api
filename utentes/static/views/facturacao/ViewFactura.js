@@ -188,17 +188,42 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
 
     defineWidgetsToBeUsed: function() {
         this.widgets = [];
+        var licenseWidgets = [];
         var self = this;
-        if (iAuth.hasRoleObservador() || (iAuth.hasRoleTecnico() && this.model.get('fact_estado') != window.SIRHA.ESTADO_FACT.PENDING_M3)) {
+        // un observador no puede editar ningún campo
+        if (iAuth.hasRoleObservador()) {
             return;
         }
-        var licenseWidgets = [];
+        // un técnico puede editar el consumo y tipo de la licencia subterránea si se trata de una licencia de consumo variable
+        if (iAuth.hasRoleTecnico()) {
+            if(this.model.get('fact_estado') == window.SIRHA.ESTADO_FACT.PENDING_M3 
+                && this.options.tiposLicencia.includes('sub') && this.model.get('consumo_tipo_sub') == 'Variável'){
+                licenseWidgets = ['consumo_tipo_sub', 'consumo_fact_sub'];
+            }else{
+                return;
+            }
+        }
+
+        // campos que se pueden editar
         if(this.model.get('fact_estado') != window.SIRHA.ESTADO_FACT.PENDING_M3) {
+            // si la factura no está pendiente de introducir el consumo se pueden modificar los campos del financiero
             this.widgets = ['iva', 'juros'];
             licenseWidgets = ['taxa_fixa_sup', 'taxa_fixa_sub', 'taxa_uso_sup', 'taxa_uso_sub', 'consumo_fact_sup', 'consumo_fact_sub'];
         }else{
+            // si la factura está pendiente de introducir el consumo se pueden modificar los campos del técnico
             licenseWidgets = ['consumo_tipo_sup', 'consumo_tipo_sub', 'consumo_fact_sup', 'consumo_fact_sub'];
         }
+
+        // pero nadie puede editar los tipos de consumo a menos que se trate de la última factura, por tanto, si no es el caso, los eliminamos de la lista
+        if(this.model.id != this.options.exploracao.get('facturacao').at(0).id) {
+            if(licenseWidgets.includes('consumo_tipo_sup')) {
+                licenseWidgets.splice(licenseWidgets.indexOf('consumo_tipo_sup'), 1);
+            }
+            if(licenseWidgets.includes('consumo_tipo_sub')) {
+                licenseWidgets.splice(licenseWidgets.indexOf('consumo_tipo_sub'), 1);
+            }
+        }
+
         this.options.tiposLicencia.forEach(function(tipo){
             this.$('#lic-' + tipo).removeClass('panel-disabled');
             licenseWidgets.forEach(function(w){
