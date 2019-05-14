@@ -5,18 +5,7 @@ Backbone.SIXHIARA.ViewFacturaHistorico = Backbone.View.extend({
     tagName: 'li',
 
     template: _.template(`
-        <small class="label" id="summary_pagos">
-        <%
-            if(fact_estado === "Pendente Acrescentar Consumo (R. Cad DT)") {
-                print('T');
-            }else if(fact_estado === "Pendente Emisão Factura (D. Fin)"){
-                print('F');
-            }else if(fact_estado === "Pendente Pagamento (Utente)"){
-                print('P');
-            }else if(fact_estado === "Pagada"){
-                print('P');
-            }
-        %></small>
+        <small class="label" id="summary_pagos">P</small>
         <a href="#" id="view-link"><strong><%- mes + '/' +  ano %></strong>.&nbsp;Valor:&nbsp;<%- (formatter().formatNumber(pago_iva, '0[.]00') || '-') %>&nbsp;MZN</a>
         <ul>
             <li>Subterrânea:&nbsp;<%- (formatter().formatNumber(consumo_fact_sub, '0[.]00') || '-') %>&nbsp;m<sup>3</sup></li>
@@ -65,6 +54,5 @@ Backbone.SIXHIARA.ViewFacturaHistorico = Backbone.View.extend({
             return 'factura-label-pagada';
         }
     }
-
 
 });

@@ -5,9 +5,9 @@ from sqlalchemy import Column, Integer, Text
 from .base import DeclarativeBase, PGSQL_SCHEMA_DOMAINS
 from .estado import LICENSED, DE_FACTO
 
-PENDING_CONSUMPTION = u'Pendente Acrescentar Consumo (R. Cad DT)'
-PENDING_INVOICE = u'Pendente Emisão Factura (D. Fin)'
-PENDING_PAYMENT = u'Pendente Pagamento (Utente)'
+PENDING_CONSUMPTION = u'Pendente Acrescentar Consumo (DT)'
+PENDING_INVOICE = u'Pendente Emisão Factura (DF)'
+PENDING_PAYMENT = u'Pendente Pagamento (DF)'
 PAID = u'Pagada'
 NOT_INVOIZABLE = u'Não facturable'
 
