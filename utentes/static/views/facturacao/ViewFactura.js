@@ -98,17 +98,17 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
                     <h3 class="panel-title"><strong>Facturação</strong></h3>
                 </div>
                 <div class="panel-body row">
-                    <div class="form-group col-xs-3">
+                    <div class="form-group col-xs-3" style="padding: 0px 10px;">
                         <label for="iva">IVA&nbsp;<i class="units">(%)</i></label>
                         <input type="text" class="form-control widget-number" id="iva" pattern="[0-9]{1,8}([,][0-9]{1,2})?" value="<%- formatter().formatNumber(iva, '0[.]00') %>" disabled>
                     </div>
 
-                    <div class="form-group col-xs-3">
+                    <div class="form-group col-xs-3" style="padding: 0px 10px;">
                     <label for="iva">Juros&nbsp;<i class="units">(%)</i></label>
                     <input type="text" class="form-control widget-number" id="juros" pattern="[0-9]{1,8}([,][0-9]{1,2})?" value="<%- formatter().formatNumber(juros, '0[.]00') %>" disabled>    
                     </div>
 
-                    <div class="form-group col-xs-6">
+                    <div class="form-group col-xs-6" style="padding: 0px 10px;">
                         <label for="pago_iva">Valor <i class="units">(MZN/mês)</i></label>
                         <input type="text" class="form-control widget-number" id="pago_iva" pattern="[0-9]{1,8}([,][0-9]{1,2})?" value="<%- formatter().formatNumber(pago_iva, '0[.]00') %>" disabled>
                     </div>
