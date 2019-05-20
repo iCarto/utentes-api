@@ -109,6 +109,9 @@ Backbone.UILib.SelectView = Backbone.View.extend({
     // Free old collection to be garbage collected after subviews are removed,
     // as each one has a reference to a model in the collection.
     update: function(newCollection){
+        if (Array.isArray(newCollection)) {
+            newCollection = new Backbone.UILib.DomainCollection(newCollection);
+        }
         this._updateCollection(newCollection);
         this.render();
     },
