@@ -93,7 +93,7 @@ var MyMakePolygon = MakePolygon.extend({
 
 var MyClear = Clear.extend({
     initialize: function() {
-        this.options.toolbarIcon.tooltip = 'Eliminar seleção';
+        this.options.toolbarIcon.tooltip = 'Eliminar polígono';
     }
 });
 
