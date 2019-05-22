@@ -44,3 +44,7 @@ def renovacao(request):
 @view_config(route_name='utentes', permission=PERM_GET, renderer='utentes:templates/utentes.jinja2')
 def utentes(request):
     return {}
+
+@view_config(route_name='facturacao-stats', permission=PERM_GET, renderer='utentes:templates/facturacao-stats.jinja2')
+def facturacao_stats(request):
+    return {}

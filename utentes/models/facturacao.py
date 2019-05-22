@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from sqlalchemy import Boolean, Column, Integer, Numeric, Text, DateTime, UniqueConstraint, text, Date
+from sqlalchemy import Boolean, Column, Integer, Numeric, Text, DateTime, UniqueConstraint, text, Date, func
 from sqlalchemy import ForeignKey
 from sqlalchemy.dialects.postgresql.json import JSONB
+from sqlalchemy.ext.hybrid import hybrid_property
+from sqlalchemy.sql.expression import case, and_, null
 
 from utentes.models.base import (
     Base,
@@ -55,6 +57,22 @@ class Facturacao(Base):
     recibo_id = Column(Text, unique=True)
     fact_date = Column(Date)
     recibo_date = Column(Date)
+
+    @hybrid_property
+    def consumo_lic(self):
+        # es la suma del consumo licenciado para la licencia subterránea y el consumo licenciado para la licencia superficial
+        return func.coalesce(self.c_licencia_sub, 0) + func.coalesce(self.c_licencia_sup, 0)
+
+    @hybrid_property
+    def consumo(self):
+        # es la suma del consumo facturado para la licencia subterránea y el consumo facturado para la licencia superficial
+        # en caso de que no hayan introducido ningún consumo facturado en la factura, entonces el consumo facturado es el consumo licenciado
+        return case(
+            [
+                (and_(self.consumo_fact_sub == null(), self.consumo_fact_sup == null()), self.consumo_lic),
+            ],
+            else_ = func.coalesce(self.consumo_fact_sub, 0) + func.coalesce(self.consumo_fact_sup, 0)
+        )
 
     def __json__(self, request):
         json = {c: getattr(self, c) for c in self.__mapper__.columns.keys()}

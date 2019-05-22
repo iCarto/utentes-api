@@ -1,0 +1,84 @@
+
+#table {
+    margin-top: 25px;
+}
+
+#table .top, #table .bottom {
+    display: flex;
+    align-items: center;
+}
+
+#table .top div:last-child, #table .bottom div:last-child {
+    flex: 1 100%;
+    align-self: flex-end;
+}
+
+#table .top div:first-child {
+    margin-right: 20px;
+}
+
+#table .top div:last-child .btn {
+    float: right;
+}
+
+#table th {
+    vertical-align: middle;
+}
+
+#table th.dt-value {
+    width: 8% !important;
+}
+
+#table td.dt-center {
+    text-align: center;
+    vertical-align: middle;
+}
+
+#chart {
+    margin-top: 20px;
+}
+
+#chart .chart-options {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#view-facturacao-filters{
+    background-color: white;
+    margin-top: 20px;
+}
+
+#view-facturacao-filters .row > div {
+    margin-bottom: 20px;
+}
+
+#view-facturacao-filters p,
+#view-facturacao-filters label{
+    color: #7d7d7d;
+    margin-top: 4px;
+    margin-bottom: 2px;
+}
+
+#view-facturacao-filters .month-widget {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+#view-facturacao-filters .month-label {
+    flex: 1 100%;
+}
+
+#view-facturacao-filters .year-select-widget {
+    flex: 1 50%;
+    display: inline-block;
+    margin-bottom: 0px !important;
+}
+
+#view-facturacao-filters .month-select-widget {
+    width: 46%;
+    display: inline-block;
+    margin-bottom: 0px !important;
+}

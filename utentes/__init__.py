@@ -113,6 +113,7 @@ def add_routes_views(config):
     config.add_route('requerimento-new', 'requerimento-new.html')
     config.add_route('requerimento-pendente', 'requerimento-pendente.html')
     config.add_route('utentes', 'utentes.html')
+    config.add_route('facturacao-stats', 'facturacao-stats.html')
 
 
 def add_routes_api(config):
@@ -174,6 +175,7 @@ def add_routes_api(config):
     config.add_route('api_requerimento_get_datos_ara', '/api/get_datos_ara')
 
     config.add_route('api_facturacao', '/api/facturacao')
+    config.add_route('api_facturacao_stats', '/api/facturacao/stats')
     config.add_route('api_facturacao_id', '/api/facturacao/{id}')
     config.add_route('api_facturacao_exploracao_id', '/api/facturacao_exploracao/{id}')
     config.add_route('api_facturacao_new_factura', '/api/facturacao/{id}/emitir_factura')

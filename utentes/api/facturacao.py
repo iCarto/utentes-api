@@ -5,12 +5,18 @@ import datetime
 
 from pyramid.view import view_config
 
+from sqlalchemy import func, or_
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 from utentes.api.error_msgs import error_msgs
 from utentes.models.base import badrequest_exception
 from utentes.models.exploracao import Exploracao
 from utentes.models.facturacao import Facturacao
+from utentes.models.utente import Utente
+from utentes.models.facturacao_fact_estado import PAID, PENDING_CONSUMPTION, PENDING_INVOICE
+
 from utentes.user_utils import PERM_UPDATE_CREATE_FACTURACAO, PERM_FACTURACAO, PERM_GET
+
+import json
 
 log = logging.getLogger(__name__)
 
@@ -213,6 +219,77 @@ def facturacao_exploracao_update(request):
     request.db.add(e)
     request.db.commit()
     return e
+
+
+@view_config(
+    route_name='api_facturacao_stats',
+    permission=PERM_GET,
+    request_method='GET',
+    renderer='json')
+def facturacao_stats(request):
+    fields = [
+        Facturacao.exploracao.label('exploracao_gid'), 
+        func.count(Facturacao.exploracao).label('numero_facturas'),
+        func.sum(Facturacao.consumo).label('consumo'),
+        func.sum(Facturacao.pago_iva).label('importe')
+    ]
+
+    mes_inicio = request.params.get('mes_inicio', None)
+    ano_inicio = request.params.get('ano_inicio', None)
+    mes_fim = request.params.get('mes_fim', None)
+    ano_fim = request.params.get('ano_fim', None)
+    tipo_agua = request.params.get('tipo_agua')
+    utentes = request.params.getall('utente')
+
+    subquery_esperadas = (request.db.query(*fields).group_by(Facturacao.exploracao))
+
+    subquery_emitidas = (request.db.query(*fields).filter(Facturacao.fact_estado != PENDING_CONSUMPTION, Facturacao.fact_estado != PENDING_INVOICE).group_by(Facturacao.exploracao))
+
+    subquery_cobradas = (request.db.query(*fields).filter(Facturacao.fact_estado == PAID).group_by(Facturacao.exploracao))
+
+    if mes_inicio is not None and ano_inicio is not None:
+        subquery_esperadas = subquery_esperadas.filter(Facturacao.mes >= mes_inicio, Facturacao.ano >= ano_inicio)
+        subquery_emitidas = subquery_emitidas.filter(Facturacao.mes >= mes_inicio, Facturacao.ano >= ano_inicio)
+        subquery_cobradas = subquery_cobradas.filter(Facturacao.mes >= mes_inicio, Facturacao.ano >= ano_inicio)
+    if mes_fim is not None and ano_fim is not None:
+        subquery_esperadas = subquery_esperadas.filter(Facturacao.mes <= mes_fim, Facturacao.ano <= ano_fim)
+        subquery_emitidas = subquery_emitidas.filter(Facturacao.mes <= mes_fim, Facturacao.ano <= ano_fim)
+        subquery_cobradas = subquery_cobradas.filter(Facturacao.mes <= mes_fim, Facturacao.ano <= ano_fim)
+
+    if tipo_agua is not None:
+        if tipo_agua == u'Superficial':
+            subquery_esperadas = subquery_esperadas.filter(Facturacao.c_licencia_sup != None)
+        if tipo_agua == u'Subterrânea':
+            subquery_esperadas = subquery_esperadas.filter(Facturacao.c_licencia_sub != None)
+
+    subquery_esperadas = subquery_esperadas.subquery()
+    subquery_emitidas = subquery_emitidas.subquery()
+    subquery_cobradas = subquery_cobradas.subquery()
+
+    query = request.db.query(
+        Exploracao.gid,
+        Exploracao.exp_id, 
+        Utente.gid.label('utente_id'),
+        Utente.nome.label('utente'),
+        func.coalesce(subquery_esperadas.c.numero_facturas.label('numero_facturas_esperadas'), 0),
+        func.coalesce(subquery_esperadas.c.consumo.label('consumo_facturas_esperadas'), 0),
+        func.coalesce(subquery_esperadas.c.importe.label('importe_facturas_esperadas'), 0),
+        func.coalesce(subquery_emitidas.c.numero_facturas.label('numero_facturas_emitidas'), 0),
+        func.coalesce(subquery_emitidas.c.consumo.label('consumo_facturas_emitidas'), 0),
+        func.coalesce(subquery_emitidas.c.importe.label('importe_facturas_emitidas'), 0),
+        func.coalesce(subquery_cobradas.c.numero_facturas.label('numero_facturas_cobradas'), 0),
+        func.coalesce(subquery_cobradas.c.consumo.label('consumo_facturas_cobradas'), 0),
+        func.coalesce(subquery_cobradas.c.importe.label('importe_facturas_cobradas'), 0),
+    ).join(Utente, Exploracao.utente == Utente.gid).join(subquery_esperadas, subquery_esperadas.c.exploracao_gid == Exploracao.gid).outerjoin(subquery_emitidas, subquery_emitidas.c.exploracao_gid == Exploracao.gid).outerjoin(subquery_cobradas, subquery_cobradas.c.exploracao_gid == Exploracao.gid).order_by(Exploracao.gid)
+
+    if utentes:
+        query = query.filter(or_(*[Utente.gid == int(utente_id) for utente_id in utentes]))
+
+    row_headers = ['gid', 'exp_id', 'utente_id', 'utente', 'numero_facturas_esperadas', 'consumo_facturas_esperadas', 'importe_facturas_esperadas', 'numero_facturas_emitidas', 'consumo_facturas_emitidas', 'importe_facturas_emitidas', 'numero_facturas_cobradas', 'consumo_facturas_cobradas', 'importe_facturas_cobradas']
+    json_data=[]
+    for result in query.all():
+        json_data.append(dict(zip(row_headers,result)))
+    return json_data
 
 
 # @view_config(route_name='api_facturacao', request_method='POST', renderer='json')
