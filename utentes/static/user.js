@@ -25,6 +25,12 @@ user.fetch({
             model: user,
         }).render();
 
+        new Backbone.UILib.PasswordView({
+            el: document.getElementById('password-view'),
+            model: user,
+            required: false
+        }).render();
+
         document.getElementById('okbutton').addEventListener('click', function(){
             user.save(null, {
                 wait: true,
