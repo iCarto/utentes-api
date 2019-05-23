@@ -95,7 +95,10 @@ Backbone.SIXHIARA.ViewSecretaria0 = Backbone.SIXHIARA.View1.extend({
         document.getElementById('d_soli').addEventListener('input', self.enableBts.bind(self), false);
         document.getElementById('d_soli').addEventListener('input', function(e){
             if(self.isValidDate(this)){
-                self.parseDate(this.value)
+                var dateId = 'd_soli';
+                var dateObj = self.parseDate(dateId)
+                self.model.get("renovacao").set(dateId, dateObj);
+                self.model.get("renovacao").set('d_ultima_entrega_doc', dateObj);
                 self.autosave(self)
             }
         });
@@ -130,14 +133,6 @@ Backbone.SIXHIARA.ViewSecretaria0 = Backbone.SIXHIARA.View1.extend({
             return true;
         });
         document.getElementById('bt-ok').disabled = !enable;
-    },
-
-    parseDate: function(e){
-        var d_soliInput = document.getElementById("d_soli").value;
-        var sTokens = d_soliInput.split("/")
-        var initialDate = new Date(sTokens[2], sTokens[1] - 1, sTokens[0], 1, 1, 1)
-        this.model.get("renovacao").set('d_soli', initialDate);
-        this.model.get("renovacao").set('d_ultima_entrega_doc', initialDate);
     },
 
     isValidDate: function(dateWidget){

@@ -137,9 +137,6 @@ Backbone.SIXHIARA.View1 = Backbone.View.extend({
             renovacao.set("d_ultima_entrega_doc", new Date());
         }
 
-        if(!renovacao.get("d_soli") && document.getElementById("d_soli").value){
-            this.parseDate()
-        }
         // which is earlier
         if (renovacao.get("d_soli") && renovacao.get("d_ultima_entrega_doc")) {
             this.updateUltimaEntregaDoc();
@@ -211,6 +208,12 @@ Backbone.SIXHIARA.View1 = Backbone.View.extend({
     remove: function() {
         this.tabBarTitle.remove();
         Backbone.View.prototype.remove.call(this);
+    },
+
+    parseDate: function(dateId){
+        var dateWidget = document.getElementById(dateId);
+        var dateObj = formatter().unformatDate(dateWidget.value);
+        return dateObj
     },
 
     isValidDate: function(date){

@@ -207,7 +207,7 @@ Backbone.SIXHIARA.ViewJuridicoDados = Backbone.SIXHIARA.View1.extend({
         document.querySelectorAll('.widget-date').forEach(function(el){
             el.addEventListener('input', function(){
                 if(this.value && self.isValidDate(this.value)){
-                    self.model.get("renovacao").set(this.id, self.parseDate(this.value, this.id));
+                    self.model.get("renovacao").set(this.id, self.parseDate(this.id));
                     self.autosave(self)
                 }
             })
@@ -282,7 +282,7 @@ Backbone.SIXHIARA.ViewJuridicoDados = Backbone.SIXHIARA.View1.extend({
                 field.placeholder = 'dd/mm/yyyy';
                 field.addEventListener('input', function(){
                     if(self.isValidDate(this.value)){
-                        self.model.get("renovacao").set(this.id, self.parseDate(this.value, this.id));
+                        self.model.get("renovacao").set(this.id, self.parseDate(this.id));
                         self.autosave(self)
                         self.enableBts(self)
                     }
@@ -513,11 +513,6 @@ Backbone.SIXHIARA.ViewJuridicoDados = Backbone.SIXHIARA.View1.extend({
         return lic
     },
 
-    parseDate: function(e, selector){
-        var d_soliInput = document.getElementById(selector).value;
-        var sTokens = d_soliInput.split("/")
-        var initialDate = new Date(sTokens[2], sTokens[1] - 1, sTokens[0], 1, 1, 1)
-        return initialDate
-    },
+
 
 });
