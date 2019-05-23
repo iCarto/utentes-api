@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from sqlalchemy import Column, Integer, Numeric, Text
-from sqlalchemy import ForeignKey, text
+from sqlalchemy import ForeignKey, text, func
+from sqlalchemy.orm import column_property
 
 from geoalchemy2 import Geometry
 
@@ -40,6 +41,7 @@ class ActividadesCultivos(Base):
     area = Column(Numeric(10, 4), nullable=False, doc='Área (ha)')
     observacio = Column(Text, doc='Observações')
     the_geom = Column(Geometry('MULTIPOLYGON', '32737'), index=True)
+    the_geom_as_geojson = column_property(func.coalesce(func.ST_AsGeoJSON(func.ST_Transform(the_geom, 4326)), None))
 
     @staticmethod
     def create_from_json(json):
@@ -74,8 +76,7 @@ class ActividadesCultivos(Base):
         the_geom = None
         if self.the_geom is not None:
             import json
-            the_geom = json.loads(request.db.query(self.the_geom.ST_Transform(4326).ST_AsGeoJSON()).first()[0])
-
+            the_geom = json.loads(self.the_geom_as_geojson)
         return {
             'type': 'Feature',
             'properties': {

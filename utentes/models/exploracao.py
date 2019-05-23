@@ -3,8 +3,8 @@
 from sqlalchemy import Boolean, Column, Integer, Date, Numeric, Text, DateTime
 from sqlalchemy.dialects.postgresql.json import JSONB
 
-from sqlalchemy import ForeignKey, text
-from sqlalchemy.orm import relationship
+from sqlalchemy import ForeignKey, text, func
+from sqlalchemy.orm import relationship, column_property
 from geoalchemy2 import Geometry
 from geoalchemy2.functions import GenericFunction
 
@@ -93,6 +93,7 @@ class Exploracao(ExploracaoBase):
     c_estimado = Column(Numeric(10, 2), doc='Consumo mensal estimado ')
     area = Column(Numeric(10, 4), doc='')
     the_geom = Column(Geometry('MULTIPOLYGON', '32737'), index=True)
+    the_geom_as_geojson = column_property(func.coalesce(func.ST_AsGeoJSON(func.ST_Transform(the_geom, 4326)), None))
 
     estado_lic = Column(Text, nullable=False, doc='Estado')
     created_at = Column(DateTime, nullable=False, server_default=text('now()'), doc='Data creación requerimento')
@@ -297,7 +298,7 @@ class Exploracao(ExploracaoBase):
         the_geom = None
         if self.the_geom is not None:
             import json
-            the_geom = json.loads(request.db.query(self.the_geom.ST_Transform(4326).ST_AsGeoJSON()).first()[0])
+            the_geom = json.loads(self.the_geom_as_geojson)
         payload = {
             'type': 'Feature',
             'properties': {

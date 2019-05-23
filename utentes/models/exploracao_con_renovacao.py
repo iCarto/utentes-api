@@ -41,7 +41,7 @@ class ExpConRenovacao(Exploracao):
         the_geom = None
         if self.the_geom is not None:
             import json
-            the_geom = json.loads(request.db.query(self.the_geom.ST_Transform(4326).ST_AsGeoJSON()).first()[0])
+            the_geom = json.loads(self.the_geom_as_geojson)
 
         renovacao = self.renovacao or {}
         properties = {}

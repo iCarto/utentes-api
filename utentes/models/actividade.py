@@ -37,7 +37,8 @@ class Actividade(Base):
 
     __mapper_args__ = {
         'polymorphic_identity': 'actividades',
-        'polymorphic_on': tipo
+        'polymorphic_on': tipo,
+        'with_polymorphic': '*'
     }
 
     # def validate(self, json):
@@ -119,6 +120,7 @@ class ActividadesAgriculturaRega(Actividade):
     cultivos = relationship('ActividadesCultivos',
                             cascade='all, delete-orphan',
                             order_by='ActividadesCultivos.gid',
+                            lazy='joined',
                             passive_deletes=True)
 
     def __json__(self, request):
@@ -202,6 +204,7 @@ class ActividadesPecuaria(Actividade):
     reses = relationship('ActividadesReses',
                          cascade='all, delete-orphan',
                          order_by='ActividadesReses.gid',
+                         lazy='joined',
                          passive_deletes=True)
 
     def __json__(self, request):
@@ -258,6 +261,7 @@ class ActividadesPiscicultura(Actividade):
     tanques_piscicolas = relationship('ActividadesTanquesPiscicolas',
                                       cascade='all, delete-orphan',
                                       order_by='ActividadesTanquesPiscicolas.gid',
+                                      lazy='joined',
                                       passive_deletes=True)
 
     def __json__(self, request):
