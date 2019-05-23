@@ -21,6 +21,12 @@ Backbone.SIXHIARA.UserModalView = Backbone.SIXHIARA.ModalView.extend({
                     self.$('#unidade-form').removeClass('hidden');
                 }
 
+                new Backbone.UILib.PasswordView({
+                    el: document.getElementById('password-view'),
+                    model: this.model,
+                    required: !self.options.editing
+                }).render();
+
                 document.getElementById('usergroup').addEventListener('change', function(e){
                     document.getElementById('unidade').selectedIndex = 0;
                     self.model.set('unidade', null);
@@ -35,10 +41,6 @@ Backbone.SIXHIARA.UserModalView = Backbone.SIXHIARA.ModalView.extend({
                 document.getElementById('unidade').addEventListener('change', function(e){
                     self.checkIfUnidadWidgetIsValid();
                 }, this);
-
-                if (self.options.editing) {
-                    self.$('#password')[0].required = false;
-                }
 
                 self.fillSelects();
             },
