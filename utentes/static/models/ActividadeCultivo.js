@@ -33,7 +33,7 @@ Backbone.SIXHIARA.ActividadeCultivo = Backbone.GeoJson.Feature.extend({
         case 'Aspersão':
             eficiencia = 0.76;
             break;
-        case 'Goteo':
+        case 'Gota a gota':
             eficiencia = 0.85;
             break;
         case 'Gravidade':
