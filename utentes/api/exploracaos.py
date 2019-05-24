@@ -158,7 +158,7 @@ def exploracaos_create(request):
     if len(msgs) > 0:
         raise badrequest_exception({'error': msgs})
 
-    e = request.db.query(ExploracaoBase).filter(ExploracaoBase.exp_id == exp_id).first()
+    e = request.db.query(ExploracaoBase).filter(ExploracaoBase.exp_id == exp_id).one_or_none()
     if e:
         raise badrequest_exception({'error': error_msgs['exploracao_already_exists']})
 
