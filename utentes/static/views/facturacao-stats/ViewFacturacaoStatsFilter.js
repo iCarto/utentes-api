@@ -37,7 +37,9 @@ Backbone.SIXHIARA.ViewFacturacaoStatsFilter = Backbone.View.extend({
         });
 
         this.domains = this.options.domains || new Backbone.UILib.DomainCollection();
-        this.domains.fetch();
+        this.domains.fetch({
+            success: () => this.updateTiposAgua(),
+        });
     },
 
     updateTiposAgua: function() {
@@ -84,7 +86,6 @@ Backbone.SIXHIARA.ViewFacturacaoStatsFilter = Backbone.View.extend({
         this.$el.html(this.template);
         this.$el.find('#filter-dates-view').html(this.datesView.render().el);
         this.setListeners();
-        this.updateTiposAgua();
         return this;
     },
 
