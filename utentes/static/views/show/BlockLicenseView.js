@@ -155,9 +155,11 @@ Backbone.SIXHIARA.BlockLicenseView = Backbone.View.extend({
             model: this.license,
             domains: this.options.domains,
             editing: true,
+            exploracao: this.model,
         });
-
+        
         modalView.show();
+        
         if (modalView.$('#fact_tipo').length) {
             // En dpmaip no tenemos #fact_tipo
             // Igual se podrían ocualtar con uilib-enability
@@ -179,6 +181,7 @@ Backbone.SIXHIARA.BlockLicenseView = Backbone.View.extend({
                 self.render();
                 this.$('.modal').modal('hide');
                 self.$el.removeClass('disabled');
+                self.model.setLicState(this.model.get('estado'));
             }
         });
 

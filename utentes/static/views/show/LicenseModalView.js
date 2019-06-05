@@ -47,7 +47,14 @@ Backbone.SIXHIARA.LicenseModalView = Backbone.SIXHIARA.ModalView.extend({
 
     okButtonClicked: function(){
         if(this.isSomeWidgetInvalid()) return;
+        var previousState = this.model.get('estado');
         Backbone.SIXHIARA.ModalView.prototype.okButtonClicked.call(this);
+        
+        // See #1685
+        var actualState = this.model.get('estado');
+        if (previousState != actualState) {
+            this.options.exploracao.setLicState(actualState);
+        }
     },
 
     isSomeWidgetInvalid: function () {
