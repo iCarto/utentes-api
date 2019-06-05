@@ -28,7 +28,10 @@ Backbone.SIXHIARA.ExploracaoShowView = Backbone.View.extend({
                 "licenciada"
                 */
                 if (!window.SIRHA.is_single_user_mode()) {
-                    var actualState = domains.where({'text':view.model.get('estado_lic')})[0];
+                    var actualState = domains.where({
+                        'text':view.model.get('estado_lic'),
+                        'category': 'licencia_estado',
+                    })[0];
                     domains.forEach(function(d){
                         if (d.get('category') === 'licencia_estado') {
                             if (actualState.get('parent') === 'post-licenciada') {
