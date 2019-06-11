@@ -52,15 +52,35 @@ Backbone.SIXHIARA.LicenseView = Backbone.UILib.BaseView.extend({
     // remove - Backbone.UILib.BaseView.prototype.remove.call(this);
 
     clickActive: function (e) {
+        var self = this;
         this.$el.toggleClass("panel-disabled");
         if(e.target.checked){
             this.model.get('licencias').add(this.license);
             this.enableWidgets();
+            if (window.SIRHA.is_single_user_mode()) {
+                this.listenTo(this.license, 'change:estado', function() {
+                    exploracao.set({
+                        'estado_lic': this.license.get('estado'),
+                    }, {silent: true});
+                });
+            }
+           
         } else {
             this.model.get('licencias').remove(this.license);
             var fontes = this.model.get('fontes').where({'tipo_agua': this.tipo_agua});
             this.model.get('fontes').remove(fontes);
+            this.stopListening(this.license);
+            if (window.SIRHA.is_single_user_mode()) {
+                var ex_lic = this.model.get('licencias') && this.model.get('licencias').length && this.model.get('licencias').at(0);
+                var ex_state = SIRHA.ESTADO.UNKNOWN;
+                if (ex_lic) {
+                    ex_state = ex_lic.get('estado')
+                }
+                exploracao.set({
+                    'estado_lic': ex_state,
+                }, {silent: true});               
 
+            }
             this.license = new Backbone.SIXHIARA.Licencia({'tipo_agua': this.tipo_agua});
             this.updateModelView.model = this.license;
             this.updateModelView.render();
@@ -68,6 +88,7 @@ Backbone.SIXHIARA.LicenseView = Backbone.UILib.BaseView.extend({
             this.disableWidgets();
         }
     },
+
 
     disableWidgets: function () {
         this.isDisabled = true;
