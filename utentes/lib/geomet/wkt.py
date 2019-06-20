@@ -19,12 +19,13 @@ try:
     import StringIO
 except ImportError:
     import io
+
     StringIO = io
 
 import util
 
 
-INVALID_WKT_FMT = 'Invalid WKT: `%s`'
+INVALID_WKT_FMT = "Invalid WKT: `%s`"
 
 
 def dump(obj, dest_file):
@@ -58,24 +59,24 @@ def dumps(obj, decimals=16):
     Dump a GeoJSON-like `dict` to a WKT string.
     """
     try:
-        geom_type = obj['type']
+        geom_type = obj["type"]
         exporter = _dumps_registry.get(geom_type)
 
         if exporter is None:
             _unsupported_geom_type(geom_type)
 
         # Check for empty cases
-        if geom_type == 'GeometryCollection':
-            if len(obj['geometries']) == 0:
-                return 'GEOMETRYCOLLECTION EMPTY'
+        if geom_type == "GeometryCollection":
+            if len(obj["geometries"]) == 0:
+                return "GEOMETRYCOLLECTION EMPTY"
         else:
             # Geom has no coordinate values at all, and must be empty.
-            if len(list(util.flatten_multi_dim(obj['coordinates']))) == 0:
-                return '%s EMPTY' % geom_type.upper()
+            if len(list(util.flatten_multi_dim(obj["coordinates"]))) == 0:
+                return "%s EMPTY" % geom_type.upper()
     except KeyError:
-        raise geomet.InvalidGeoJSONException('Invalid GeoJSON: %s' % obj)
+        raise geomet.InvalidGeoJSONException("Invalid GeoJSON: %s" % obj)
 
-    fmt = '%%.%df' % decimals
+    fmt = "%%.%df" % decimals
     return exporter(obj, fmt)
 
 
@@ -95,12 +96,11 @@ def loads(string):
         _unsupported_geom_type(geom_type)
 
     peek = six.advance_iterator(tokens)
-    if peek == 'EMPTY':
-        if geom_type == 'GEOMETRYCOLLECTION':
-            return dict(type='GeometryCollection', geometries=[])
+    if peek == "EMPTY":
+        if geom_type == "GEOMETRYCOLLECTION":
+            return dict(type="GeometryCollection", geometries=[])
         else:
-            return dict(type=_type_map_caps_to_mixed[geom_type],
-                        coordinates=[])
+            return dict(type=_type_map_caps_to_mixed[geom_type], coordinates=[])
 
     # Put the peeked element back on the head of the token generator
     tokens = itertools.chain([peek], tokens)
@@ -116,12 +116,12 @@ def _tokenize_wkt(tokens):
     """
     negative = False
     for t in tokens:
-        if t == '-':
+        if t == "-":
             negative = True
             continue
         else:
             if negative:
-                yield '-%s' % t
+                yield "-%s" % t
             else:
                 yield t
             negative = False
@@ -144,8 +144,8 @@ def _dump_point(obj, fmt):
     :returns:
         WKT representation of the input GeoJSON Point ``obj``.
     """
-    coords = obj['coordinates']
-    pt = 'POINT (%s)' % ' '.join(fmt % c for c in coords)
+    coords = obj["coordinates"]
+    pt = "POINT (%s)" % " ".join(fmt % c for c in coords)
     return pt
 
 
@@ -156,9 +156,9 @@ def _dump_linestring(obj, fmt):
     Input parameters and return value are the LINESTRING equivalent to
     :func:`_dump_point`.
     """
-    coords = obj['coordinates']
-    ls = 'LINESTRING (%s)'
-    ls %= ', '.join(' '.join(fmt % c for c in pt) for pt in coords)
+    coords = obj["coordinates"]
+    ls = "LINESTRING (%s)"
+    ls %= ", ".join(" ".join(fmt % c for c in pt) for pt in coords)
     return ls
 
 
@@ -169,12 +169,11 @@ def _dump_polygon(obj, fmt):
     Input parameters and return value are the POLYGON equivalent to
     :func:`_dump_point`.
     """
-    coords = obj['coordinates']
-    poly = 'POLYGON (%s)'
-    rings = (', '.join(' '.join(fmt % c for c in pt) for pt in ring)
-             for ring in coords)
-    rings = ('(%s)' % r for r in rings)
-    poly %= ', '.join(rings)
+    coords = obj["coordinates"]
+    poly = "POLYGON (%s)"
+    rings = (", ".join(" ".join(fmt % c for c in pt) for pt in ring) for ring in coords)
+    rings = ("(%s)" % r for r in rings)
+    poly %= ", ".join(rings)
     return poly
 
 
@@ -185,12 +184,12 @@ def _dump_multipoint(obj, fmt):
     Input parameters and return value are the MULTIPOINT equivalent to
     :func:`_dump_point`.
     """
-    coords = obj['coordinates']
-    mp = 'MULTIPOINT (%s)'
-    points = (' '.join(fmt % c for c in pt) for pt in coords)
+    coords = obj["coordinates"]
+    mp = "MULTIPOINT (%s)"
+    points = (" ".join(fmt % c for c in pt) for pt in coords)
     # Add parens around each point.
-    points = ('(%s)' % pt for pt in points)
-    mp %= ', '.join(points)
+    points = ("(%s)" % pt for pt in points)
+    mp %= ", ".join(points)
     return mp
 
 
@@ -201,11 +200,13 @@ def _dump_multilinestring(obj, fmt):
     Input parameters and return value are the MULTILINESTRING equivalent to
     :func:`_dump_point`.
     """
-    coords = obj['coordinates']
-    mlls = 'MULTILINESTRING (%s)'
-    linestrs = ('(%s)' % ', '.join(' '.join(fmt % c for c in pt)
-                                   for pt in linestr) for linestr in coords)
-    mlls %= ', '.join(ls for ls in linestrs)
+    coords = obj["coordinates"]
+    mlls = "MULTILINESTRING (%s)"
+    linestrs = (
+        "(%s)" % ", ".join(" ".join(fmt % c for c in pt) for pt in linestr)
+        for linestr in coords
+    )
+    mlls %= ", ".join(ls for ls in linestrs)
     return mlls
 
 
@@ -216,23 +217,28 @@ def _dump_multipolygon(obj, fmt):
     Input parameters and return value are the MULTIPOLYGON equivalent to
     :func:`_dump_point`.
     """
-    coords = obj['coordinates']
-    mp = 'MULTIPOLYGON (%s)'
+    coords = obj["coordinates"]
+    mp = "MULTIPOLYGON (%s)"
 
     polys = (
         # join the polygons in the multipolygon
-        ', '.join(
+        ", ".join(
             # join the rings in a polygon,
             # and wrap in parens
-            '(%s)' % ', '.join(
+            "(%s)"
+            % ", ".join(
                 # join the points in a ring,
                 # and wrap in parens
-                '(%s)' % ', '.join(
+                "(%s)"
+                % ", ".join(
                     # join coordinate values of a vertex
-                    ' '.join(fmt % c for c in pt)
-                    for pt in ring)
-                for ring in poly)
-            for poly in coords)
+                    " ".join(fmt % c for c in pt)
+                    for pt in ring
+                )
+                for ring in poly
+            )
+            for poly in coords
+        )
     )
     mp %= polys
     return mp
@@ -248,13 +254,13 @@ def _dump_geometrycollection(obj, fmt):
     The WKT conversions for each geometry in the collection are delegated to
     their respective functions.
     """
-    gc = 'GEOMETRYCOLLECTION (%s)'
-    geoms = obj['geometries']
+    gc = "GEOMETRYCOLLECTION (%s)"
+    geoms = obj["geometries"]
     geoms_wkt = []
     for geom in geoms:
-        geom_type = geom['type']
+        geom_type = geom["type"]
         geoms_wkt.append(_dumps_registry.get(geom_type)(geom, fmt))
-    gc %= ','.join(geoms_wkt)
+    gc %= ",".join(geoms_wkt)
     return gc
 
 
@@ -274,20 +280,20 @@ def _load_point(tokens, string):
     :returns:
         A GeoJSON `dict` Point representation of the WKT ``string``.
     """
-    if not next(tokens) == '(':
+    if not next(tokens) == "(":
         raise ValueError(INVALID_WKT_FMT % string)
 
     coords = []
     try:
         for t in tokens:
-            if t == ')':
+            if t == ")":
                 break
             else:
                 coords.append(float(t))
     except tokenize.TokenError:
         raise ValueError(INVALID_WKT_FMT % string)
 
-    return dict(type='Point', coordinates=coords)
+    return dict(type="Point", coordinates=coords)
 
 
 def _load_linestring(tokens, string):
@@ -298,7 +304,7 @@ def _load_linestring(tokens, string):
     :returns:
         A GeoJSON `dict` LineString representation of the WKT ``string``.
     """
-    if not next(tokens) == '(':
+    if not next(tokens) == "(":
         raise ValueError(INVALID_WKT_FMT % string)
 
     # a list of lists
@@ -307,10 +313,10 @@ def _load_linestring(tokens, string):
     try:
         pt = []
         for t in tokens:
-            if t == ')':
+            if t == ")":
                 coords.append(pt)
                 break
-            elif t == ',':
+            elif t == ",":
                 # it's the end of the point
                 coords.append(pt)
                 pt = []
@@ -319,7 +325,7 @@ def _load_linestring(tokens, string):
     except tokenize.TokenError:
         raise ValueError(INVALID_WKT_FMT % string)
 
-    return dict(type='LineString', coordinates=coords)
+    return dict(type="LineString", coordinates=coords)
 
 
 def _load_polygon(tokens, string):
@@ -331,7 +337,7 @@ def _load_polygon(tokens, string):
         A GeoJSON `dict` Polygon representation of the WKT ``string``.
     """
     open_parens = next(tokens), next(tokens)
-    if not open_parens == ('(', '('):
+    if not open_parens == ("(", "("):
         raise ValueError(INVALID_WKT_FMT % string)
 
     # coords contains a list of rings
@@ -344,24 +350,24 @@ def _load_polygon(tokens, string):
     try:
         pt = []
         for t in tokens:
-            if t == ')' and on_ring:
+            if t == ")" and on_ring:
                 # The ring is finished
                 ring.append(pt)
                 coords.append(ring)
                 on_ring = False
-            elif t == ')' and not on_ring:
+            elif t == ")" and not on_ring:
                 # it's the end of the polygon
                 break
-            elif t == '(':
+            elif t == "(":
                 # it's a new ring
                 ring = []
                 pt = []
                 on_ring = True
-            elif t == ',' and on_ring:
+            elif t == "," and on_ring:
                 # it's the end of a point
                 ring.append(pt)
                 pt = []
-            elif t == ',' and not on_ring:
+            elif t == "," and not on_ring:
                 # there's another ring.
                 # do nothing
                 pass
@@ -370,7 +376,7 @@ def _load_polygon(tokens, string):
     except tokenize.TokenError:
         raise ValueError(INVALID_WKT_FMT % string)
 
-    return dict(type='Polygon', coordinates=coords)
+    return dict(type="Polygon", coordinates=coords)
 
 
 def _load_multipoint(tokens, string):
@@ -382,7 +388,7 @@ def _load_multipoint(tokens, string):
         A GeoJSON `dict` MultiPoint representation of the WKT ``string``.
     """
     open_paren = next(tokens)
-    if not open_paren == '(':
+    if not open_paren == "(":
         raise ValueError(INVALID_WKT_FMT % string)
 
     coords = []
@@ -391,15 +397,15 @@ def _load_multipoint(tokens, string):
     paren_depth = 1
     try:
         for t in tokens:
-            if t == '(':
+            if t == "(":
                 paren_depth += 1
-            elif t == ')':
+            elif t == ")":
                 paren_depth -= 1
                 if paren_depth == 0:
                     break
-            elif t == '':
+            elif t == "":
                 pass
-            elif t == ',':
+            elif t == ",":
                 # the point is done
                 coords.append(pt)
                 pt = []
@@ -413,7 +419,7 @@ def _load_multipoint(tokens, string):
     if len(pt) > 0:
         coords.append(pt)
 
-    return dict(type='MultiPoint', coordinates=coords)
+    return dict(type="MultiPoint", coordinates=coords)
 
 
 def _load_multipolygon(tokens, string):
@@ -425,23 +431,23 @@ def _load_multipolygon(tokens, string):
         A GeoJSON `dict` MultiPolygon representation of the WKT ``string``.
     """
     open_paren = next(tokens)
-    if not open_paren == '(':
+    if not open_paren == "(":
         raise ValueError(INVALID_WKT_FMT % string)
 
     polygons = []
     while True:
         try:
             poly = _load_polygon(tokens, string)
-            polygons.append(poly['coordinates'])
+            polygons.append(poly["coordinates"])
             t = next(tokens)
-            if t == ')':
+            if t == ")":
                 # we're done; no more polygons.
                 break
         except StopIteration:
             # If we reach this, the WKT is not valid.
             raise ValueError(INVALID_WKT_FMT % string)
 
-    return dict(type='MultiPolygon', coordinates=polygons)
+    return dict(type="MultiPolygon", coordinates=polygons)
 
 
 def _load_multilinestring(tokens, string):
@@ -453,23 +459,23 @@ def _load_multilinestring(tokens, string):
         A GeoJSON `dict` MultiLineString representation of the WKT ``string``.
     """
     open_paren = next(tokens)
-    if not open_paren == '(':
+    if not open_paren == "(":
         raise ValueError(INVALID_WKT_FMT % string)
 
     linestrs = []
     while True:
         try:
             linestr = _load_linestring(tokens, string)
-            linestrs.append(linestr['coordinates'])
+            linestrs.append(linestr["coordinates"])
             t = next(tokens)
-            if t == ')':
+            if t == ")":
                 # we're done; no more linestrings.
                 break
         except StopIteration:
             # If we reach this, the WKT is not valid.
             raise ValueError(INVALID_WKT_FMT % string)
 
-    return dict(type='MultiLineString', coordinates=linestrs)
+    return dict(type="MultiLineString", coordinates=linestrs)
 
 
 def _load_geometrycollection(tokens, string):
@@ -484,17 +490,17 @@ def _load_geometrycollection(tokens, string):
         ``string``.
     """
     open_paren = next(tokens)
-    if not open_paren == '(':
+    if not open_paren == "(":
         raise ValueError(INVALID_WKT_FMT % string)
 
     geoms = []
-    result = dict(type='GeometryCollection', geometries=geoms)
+    result = dict(type="GeometryCollection", geometries=geoms)
     while True:
         try:
             t = next(tokens)
-            if t == ')':
+            if t == ")":
                 break
-            elif t == ',':
+            elif t == ",":
                 # another geometry still
                 continue
             else:
@@ -508,32 +514,32 @@ def _load_geometrycollection(tokens, string):
 
 
 _dumps_registry = {
-    'Point': _dump_point,
-    'LineString': _dump_linestring,
-    'Polygon': _dump_polygon,
-    'MultiPoint': _dump_multipoint,
-    'MultiLineString': _dump_multilinestring,
-    'MultiPolygon': _dump_multipolygon,
-    'GeometryCollection': _dump_geometrycollection,
+    "Point": _dump_point,
+    "LineString": _dump_linestring,
+    "Polygon": _dump_polygon,
+    "MultiPoint": _dump_multipoint,
+    "MultiLineString": _dump_multilinestring,
+    "MultiPolygon": _dump_multipolygon,
+    "GeometryCollection": _dump_geometrycollection,
 }
 
 
 _loads_registry = {
-    'POINT': _load_point,
-    'LINESTRING': _load_linestring,
-    'POLYGON': _load_polygon,
-    'MULTIPOINT': _load_multipoint,
-    'MULTILINESTRING': _load_multilinestring,
-    'MULTIPOLYGON': _load_multipolygon,
-    'GEOMETRYCOLLECTION': _load_geometrycollection,
+    "POINT": _load_point,
+    "LINESTRING": _load_linestring,
+    "POLYGON": _load_polygon,
+    "MULTIPOINT": _load_multipoint,
+    "MULTILINESTRING": _load_multilinestring,
+    "MULTIPOLYGON": _load_multipolygon,
+    "GEOMETRYCOLLECTION": _load_geometrycollection,
 }
 
 _type_map_caps_to_mixed = dict(
-    POINT='Point',
-    LINESTRING='LineString',
-    POLYGON='Polygon',
-    MULTIPOINT='MultiPoint',
-    MULTILINESTRING='MultiLineString',
-    MULTIPOLYGON='MultiPolygon',
-    GEOMETRYCOLLECTION='GeometryCollection',
+    POINT="Point",
+    LINESTRING="LineString",
+    POLYGON="Polygon",
+    MULTIPOINT="MultiPoint",
+    MULTILINESTRING="MultiLineString",
+    MULTIPOLYGON="MultiPolygon",
+    GEOMETRYCOLLECTION="GeometryCollection",
 )

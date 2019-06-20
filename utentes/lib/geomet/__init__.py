@@ -14,7 +14,7 @@
 
 # https://github.com/geomet/geomet
 
-__version__ = '0.1.0'
+__version__ = "0.1.0"
 
 
 class InvalidGeoJSONException(Exception):

@@ -4,19 +4,18 @@ import dateutil.parser
 import math
 
 
-class IsNotNull():
-
+class IsNotNull:
     def fails(self, value):
         if value is None:
             return True
         return False
 
 
-class IsDate():
-    '''
+class IsDate:
+    """
     The received value is a valid datetime.date object or can be parsed with
     dateutil.parser. This allows strings in ISO8601 or RFC3329 or others
-    '''
+    """
 
     def fails(self, value):
         if not value:
@@ -29,11 +28,11 @@ class IsDate():
         return False
 
 
-class IsNumeric():
-    '''
+class IsNumeric:
+    """
     The received value is the representation of a number.
     So '5' is considered valid
-    '''
+    """
 
     def fails(self, value):
         if not value:
@@ -45,11 +44,11 @@ class IsNumeric():
         return False
 
 
-class IntLessThan8():
-    '''
+class IntLessThan8:
+    """
     The int part of the received number has less that
     8 digits
-    '''
+    """
 
     def fails(self, value):
         if not value:
@@ -58,34 +57,33 @@ class IntLessThan8():
         return intLength > 8
 
 
-class IsBoolean():
-    '''
+class IsBoolean:
+    """
     Value is a proper boolean.
-    '''
+    """
 
     def fails(self, value):
         return value not in [True, False, None]
 
 
-class IsArrayNotVoid():
+class IsArrayNotVoid:
     def fails(self, value):
         if isinstance(value, list) and (len(value) > 0):
             return False
         return True
 
 
-class Validator():
-
+class Validator:
     def __init__(self, schemaValidateFrom):
         self.messages = []
         self.schema = schemaValidateFrom
         self.rules = {
-            'NOT_NULL': IsNotNull(),
-            'IS_DATE': IsDate(),
-            'IS_NUMERIC': IsNumeric(),
-            'IS_BOOLEAN': IsBoolean(),
-            'ARRAY_NOT_VOID': IsArrayNotVoid(),
-            'INT_LESS_THAN_8': IntLessThan8()
+            "NOT_NULL": IsNotNull(),
+            "IS_DATE": IsDate(),
+            "IS_NUMERIC": IsNumeric(),
+            "IS_BOOLEAN": IsBoolean(),
+            "ARRAY_NOT_VOID": IsArrayNotVoid(),
+            "INT_LESS_THAN_8": IntLessThan8(),
         }
 
     def appendSchema(self, schema):
@@ -95,14 +93,14 @@ class Validator():
         self.messages = []
 
         for definition in self.schema:
-            for rulename in definition['rules']:
+            for rulename in definition["rules"]:
                 rule = self.get_rule(rulename)
                 if isinstance(rule, dict):
-                    if rule['fails'](model.get(definition['fieldname'])):
-                        self.messages.append(definition['message'])
+                    if rule["fails"](model.get(definition["fieldname"])):
+                        self.messages.append(definition["message"])
                 else:
-                    if rule.fails(model.get(definition['fieldname'])):
-                        self.messages.append(definition['message'])
+                    if rule.fails(model.get(definition["fieldname"])):
+                        self.messages.append(definition["message"])
 
         return self.messages
 

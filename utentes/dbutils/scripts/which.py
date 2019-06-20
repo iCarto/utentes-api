@@ -26,12 +26,21 @@ _IS_CASE_SENSITIVE_FILESYSTEM = is_case_sensitive_filesystem()
 def which(program, case_sensitive=_IS_CASE_SENSITIVE_FILESYSTEM):
     # https://stackoverflow.com/a/18547150/930271
     """ Simulates unix `which` command. Returns absolute path if program found """
+
     def is_exe(fpath):
         """ Return true if fpath is a file we have access to that is executable """
         accessmode = os.F_OK | os.X_OK
-        if os.path.exists(fpath) and os.access(fpath, accessmode) and not os.path.isdir(fpath):
+        if (
+            os.path.exists(fpath)
+            and os.access(fpath, accessmode)
+            and not os.path.isdir(fpath)
+        ):
             filemode = os.stat(fpath).st_mode
-            ret = bool(filemode & stat.S_IXUSR or filemode & stat.S_IXGRP or filemode & stat.S_IXOTH)
+            ret = bool(
+                filemode & stat.S_IXUSR
+                or filemode & stat.S_IXGRP
+                or filemode & stat.S_IXOTH
+            )
             return ret
 
     def list_file_exts(directory, search_filename=None, ignore_case=True):
@@ -53,13 +62,13 @@ def which(program, case_sensitive=_IS_CASE_SENSITIVE_FILESYSTEM):
     if fpath:
         if is_exe(program):
             return program
-    elif 'win' in sys.platform:
+    elif "win" in sys.platform:
         # isnt a path: try fname in current directory on windows
         if is_exe(fname):
             return program
 
-    paths = [path.strip('"') for path in os.environ.get('PATH', '').split(os.pathsep)]
-    exe_exts = [ext for ext in os.environ.get('PATHEXT', '').split(os.pathsep)]
+    paths = [path.strip('"') for path in os.environ.get("PATH", "").split(os.pathsep)]
+    exe_exts = [ext for ext in os.environ.get("PATHEXT", "").split(os.pathsep)]
     if not case_sensitive:
         exe_exts = map(str.lower, exe_exts)
 
@@ -82,7 +91,7 @@ def which(program, case_sensitive=_IS_CASE_SENSITIVE_FILESYSTEM):
         for path in paths:
             file_exts = list_file_exts(path, fname, not case_sensitive)
             for file_ext in file_exts:
-                filename = ''.join(file_ext)
+                filename = "".join(file_ext)
                 exe_file = os.path.join(path, filename)
                 if is_exe(exe_file):
                     return exe_file
@@ -90,5 +99,5 @@ def which(program, case_sensitive=_IS_CASE_SENSITIVE_FILESYSTEM):
     return None
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(which(sys.argv[1]))

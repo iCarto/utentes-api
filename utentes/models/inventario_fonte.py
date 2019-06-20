@@ -8,20 +8,18 @@ from utentes.lib.geomet import wkt
 from geoalchemy2.elements import WKTElement
 
 from utentes.lib.formatter.formatter import to_decimal, to_date
-from utentes.models.base import (
-    Base,
-    PGSQL_SCHEMA_UTENTES
-)
+from utentes.models.base import Base, PGSQL_SCHEMA_UTENTES
 
 
 class InventarioFonte(Base):
-    __tablename__ = 'inventario_fontes'
-    __table_args__ = {u'schema': PGSQL_SCHEMA_UTENTES}
+    __tablename__ = "inventario_fontes"
+    __table_args__ = {"schema": PGSQL_SCHEMA_UTENTES}
 
     gid = Column(
         Integer,
         primary_key=True,
-        server_default=text("nextval('utentes.inventario_fontes_gid_seq'::regclass)"))
+        server_default=text("nextval('utentes.inventario_fontes_gid_seq'::regclass)"),
+    )
     fonte = Column(Text)
     cod_fonte = Column(Text, nullable=False, unique=True)
     tip_fonte = Column(Text)
@@ -70,14 +68,16 @@ class InventarioFonte(Base):
     coment = Column(Text)
     metodo = Column(Text)
     n_limpeza = Column(Integer)
-    geom = Column(Geometry('POINT', '32737'), index=True)
+    geom = Column(Geometry("POINT", "32737"), index=True)
 
     def update_from_json(self, json):
         for c in self.__mapper__.columns:
             name = c.name
-            jsonValue = json['properties'].get(name) or json['properties'].get(name.upper())
-            if name == 'geom':
-                jsonValue = json['geometry']
+            jsonValue = json["properties"].get(name) or json["properties"].get(
+                name.upper()
+            )
+            if name == "geom":
+                jsonValue = json["geometry"]
 
             if jsonValue is None:
                 continue
@@ -103,11 +103,12 @@ class InventarioFonte(Base):
         geom = None
         if self.geom is not None:
             import json
-            geom = json.loads(request.db.query(self.geom.ST_Transform(4326).ST_AsGeoJSON()).first()[0])
+
+            geom = json.loads(
+                request.db.query(self.geom.ST_Transform(4326).ST_AsGeoJSON()).first()[0]
+            )
         return {
-            'type': 'Feature',
-            'properties': {
-                'red_monit': self.red_monit,
-            },
-            'geometry': geom
+            "type": "Feature",
+            "properties": {"red_monit": self.red_monit},
+            "geometry": geom,
         }

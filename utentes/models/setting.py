@@ -6,8 +6,8 @@ from .base import DeclarativeBase, PGSQL_SCHEMA_UTENTES
 
 
 class Setting(DeclarativeBase):
-    __tablename__ = 'settings'
-    __table_args__ = {u'schema': PGSQL_SCHEMA_UTENTES}
+    __tablename__ = "settings"
+    __table_args__ = {"schema": PGSQL_SCHEMA_UTENTES}
 
     property = Column(Text, nullable=False, primary_key=True)
     value = Column(Text, nullable=False)
@@ -23,7 +23,4 @@ class Setting(DeclarativeBase):
         self.value = json.get(property)
 
     def __json__(self, request):
-        return {
-            'property': self.property,
-            'value': self.value
-        }
+        return {"property": self.property, "value": self.value}

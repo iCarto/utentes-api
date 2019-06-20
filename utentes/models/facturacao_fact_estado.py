@@ -5,19 +5,17 @@ from sqlalchemy import Column, Integer, Text
 from .base import DeclarativeBase, PGSQL_SCHEMA_DOMAINS
 from .estado import LICENSED, DE_FACTO
 
-PENDING_CONSUMPTION = u'Pendente Acrescentar Consumo (DT)'
-PENDING_INVOICE = u'Pendente Emisão Factura (DF)'
-PENDING_PAYMENT = u'Pendente Pagamento (DF)'
-PAID = u'Pagada'
-NOT_INVOIZABLE = u'Não facturable'
+PENDING_CONSUMPTION = u"Pendente Acrescentar Consumo (DT)"
+PENDING_INVOICE = u"Pendente Emisão Factura (DF)"
+PENDING_PAYMENT = u"Pendente Pagamento (DF)"
+PAID = u"Pagada"
+NOT_INVOIZABLE = u"Não facturable"
 
 
 class FacturacaoFactEstado(DeclarativeBase):
-    __tablename__ = 'facturacao_fact_estado'
-    __table_args__ = {u'schema': PGSQL_SCHEMA_DOMAINS}
-    __mapper_args__ = {
-        'order_by': ['category', 'ordering', 'key']
-    }
+    __tablename__ = "facturacao_fact_estado"
+    __table_args__ = {"schema": PGSQL_SCHEMA_DOMAINS}
+    __mapper_args__ = {"order_by": ["category", "ordering", "key"]}
 
     ESTADOS_FACTURABLES = [LICENSED, DE_FACTO]
 
@@ -30,10 +28,10 @@ class FacturacaoFactEstado(DeclarativeBase):
 
     def __json__(self, request):
         return {
-            'category': self.category,
-            'text': self.key,
-            'alias': self.value,
-            'order': self.ordering,
-            'parent': self.parent,
-            'tooltip': self.tooltip
+            "category": self.category,
+            "text": self.key,
+            "alias": self.value,
+            "order": self.ordering,
+            "parent": self.parent,
+            "tooltip": self.tooltip,
         }

@@ -7,18 +7,17 @@ import logging
 from sqlalchemy import Column, ForeignKey, text
 from sqlalchemy import Boolean, Integer, Text, DateTime
 from utentes.models.filehandler import FileHandler
-from utentes.models.base import (
-    PGSQL_SCHEMA_UTENTES,
-    Base
-)
+from utentes.models.base import PGSQL_SCHEMA_UTENTES, Base
 
 
 def delete_exploracao_documentos(request, exploracao_gid):
     # Maybe this should be in a class that handles all exploracao documents
-    documentos = request.db.query(Documento).filter(Documento.exploracao == exploracao_gid).all()
+    documentos = (
+        request.db.query(Documento).filter(Documento.exploracao == exploracao_gid).all()
+    )
     exploracao_folder = None
     for documento in documentos:
-        documento.set_path_root(request.registry.settings['media_root'])
+        documento.set_path_root(request.registry.settings["media_root"])
         exploracao_folder = documento.get_documento_entity_folder()
         documento.delete_file()
         request.db.delete(documento)
@@ -27,62 +26,64 @@ def delete_exploracao_documentos(request, exploracao_gid):
 
 class Documento(Base):
 
-    __tablename__ = 'documentos'
-    __table_args__ = {u'schema': PGSQL_SCHEMA_UTENTES}
+    __tablename__ = "documentos"
+    __table_args__ = {"schema": PGSQL_SCHEMA_UTENTES}
 
-    gid = Column(Integer, primary_key=True, server_default=text("nextval('utentes.documentos_gid_seq'::regclass)"))
+    gid = Column(
+        Integer,
+        primary_key=True,
+        server_default=text("nextval('utentes.documentos_gid_seq'::regclass)"),
+    )
     exploracao = Column(
-        ForeignKey(
-            u'utentes.exploracaos.gid',
-            ondelete=u'CASCADE',
-            onupdate=u'CASCADE'),
-        nullable=False)
+        ForeignKey("utentes.exploracaos.gid", ondelete="CASCADE", onupdate="CASCADE"),
+        nullable=False,
+    )
     name = Column(Text)
     size = Column(Text)
     departamento = Column(Text)
     unidade = Column(Text)
     saved = Column(Boolean, default=False)
     user = Column(Text, unique=True)
-    created_at = Column(DateTime, nullable=False, server_default=text('now()'))
+    created_at = Column(DateTime, nullable=False, server_default=text("now()"))
 
-    defaults = {
-        'path_root': ''
-    }
+    defaults = {"path_root": ""}
 
     def set_path_root(self, path_root):
-        self.defaults['path_root'] = path_root
+        self.defaults["path_root"] = path_root
 
     def __json__(self, request):
-        url = ''
+        url = ""
         if request:
             subpath = [self.exploracao, self.departamento]
             if self.unidade is not None:
                 subpath.append(self.unidade)
             subpath.append(self.name)
-            url = request.route_url('api_exploracao_file', subpath=subpath)
+            url = request.route_url("api_exploracao_file", subpath=subpath)
         return {
-            'id': self.name,
-            'gid': self.gid,
-            'url': url,
-            'name': self.name,
-            'size': self.size,
-            'departamento': self.departamento,
-            'unidade': self.unidade,
-            'date': self.created_at
+            "id": self.name,
+            "gid": self.gid,
+            "url": url,
+            "name": self.name,
+            "size": self.size,
+            "departamento": self.departamento,
+            "unidade": self.unidade,
+            "date": self.created_at,
         }
 
     def get_file_path_upload(self):
         # by default: packagedir/utentes/static/files/uploads/{id}/{name}
-        return os.path.join(self.defaults['path_root'],
-                            'uploads',
-                            self.name).encode(sys.getfilesystemencoding())
+        return os.path.join(self.defaults["path_root"], "uploads", self.name).encode(
+            sys.getfilesystemencoding()
+        )
 
     def get_file_path_save(self):
         # by default: packagedir/utentes/static/files/attachments/{exploracao_id}/{departamento}/{name}
-        path = os.path.join(self.defaults['path_root'],
-                            'documentos',
-                            str(self.exploracao),
-                            self.departamento)
+        path = os.path.join(
+            self.defaults["path_root"],
+            "documentos",
+            str(self.exploracao),
+            self.departamento,
+        )
         if self.unidade is not None:
             path = os.path.join(path, self.unidade)
         path = os.path.join(path, self.name)
@@ -102,7 +103,7 @@ class Documento(Base):
             filehandler.save(filename, content)
             self.save_file()
         except:
-            logging.exception('Error saving file in uploads folder: ' + self.name)
+            logging.exception("Error saving file in uploads folder: " + self.name)
             raise
 
     def delete_file(self):
@@ -120,6 +121,5 @@ class Documento(Base):
                 filehandler.rename(src, dst)
                 self.saved = True
             except:
-                logging.exception('Error renaming file from ' + src + ' to ' + dst)
+                logging.exception("Error renaming file from " + src + " to " + dst)
                 raise
- 

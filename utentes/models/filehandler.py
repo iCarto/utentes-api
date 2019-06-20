@@ -3,8 +3,7 @@
 import os
 
 
-class FileHandler():
-
+class FileHandler:
     def save(self, filename, content):
         if filename is None:
             raise Exception("No filename was provided in save method")
@@ -12,7 +11,7 @@ class FileHandler():
         if not os.path.exists(os.path.dirname(filename)):
             os.makedirs(os.path.dirname(filename))
 
-        output = open(filename, 'wb')
+        output = open(filename, "wb")
         content.seek(0)
         while True:
             data = content.read(2 << 16)

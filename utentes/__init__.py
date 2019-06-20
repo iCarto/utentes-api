@@ -17,13 +17,13 @@ from pyramid.authorization import ACLAuthorizationPolicy
 from .user_utils import get_user_role, get_user_from_request, is_single_user_mode
 from utentes.dbutils.scripts.utils import home_directory
 
-class RequestWithDB(Request):
 
+class RequestWithDB(Request):
     @reify
     def db(self):
-        '''Return a session. Only called once per request,
-        thanks to @reify decorator'''
-        session_factory = self.registry.settings['db.session_factory']
+        """Return a session. Only called once per request,
+        thanks to @reify decorator"""
+        session_factory = self.registry.settings["db.session_factory"]
         self.add_finished_callback(self.close_db_connection)
         return session_factory()
 
@@ -43,77 +43,74 @@ def decimal_adapter(obj, request):
 
 def main(global_config, **settings):
     if is_single_user_mode(settings):
-        media_root = os.path.join(home_directory(), settings['ara'], 'media')
+        media_root = os.path.join(home_directory(), settings["ara"], "media")
         media_root = media_root.decode(sys.getfilesystemencoding())
-        settings['media_root'] = media_root
+        settings["media_root"] = media_root
 
-    engine = engine_from_config(settings, 'sqlalchemy.')
+    engine = engine_from_config(settings, "sqlalchemy.")
     session_factory = sessionmaker(bind=engine)
-    settings['db.session_factory'] = session_factory
+    settings["db.session_factory"] = session_factory
 
     config = Configurator(
         settings=settings,
         request_factory=RequestWithDB,
-        root_factory='utentes.user_utils.RootFactory'
+        root_factory="utentes.user_utils.RootFactory",
     )
-    config.set_request_property(get_user_from_request, 'user', reify=True)
+    config.set_request_property(get_user_from_request, "user", reify=True)
 
     json_renderer = JSON()
     json_renderer.add_adapter(datetime.date, date_adapter)
     json_renderer.add_adapter(decimal.Decimal, decimal_adapter)
-    config.add_renderer('json', json_renderer)
+    config.add_renderer("json", json_renderer)
 
     # auth
     authn_policy = AuthTktAuthenticationPolicy(
-        'utentes',
-        callback=get_user_role,
-        cookie_name='utentes',
-        hashalg='sha512'
+        "utentes", callback=get_user_role, cookie_name="utentes", hashalg="sha512"
     )
     authz_policy = ACLAuthorizationPolicy()
     config.set_authentication_policy(authn_policy)
     config.set_authorization_policy(authz_policy)
 
-    config.include('pyramid_jinja2')
-    config.include('pyramid_webassets')
-    config.include('utentes.dbutils')
+    config.include("pyramid_jinja2")
+    config.include("pyramid_webassets")
+    config.include("utentes.dbutils")
     # https://github.com/Pylons/pyramid_jinja2/issues/111
     config.commit()
 
-    config.add_jinja2_renderer('.html')
+    config.add_jinja2_renderer(".html")
 
-    config.add_jinja2_extension('webassets.ext.jinja2.AssetsExtension')
+    config.add_jinja2_extension("webassets.ext.jinja2.AssetsExtension")
     assets_env = config.get_webassets_env()
     jinja2_env = config.get_jinja2_environment()
     jinja2_env.assets_environment = assets_env
-    jinja2_env.globals['is_single_user_mode'] = is_single_user_mode
+    jinja2_env.globals["is_single_user_mode"] = is_single_user_mode
 
-    config.add_static_view('static', 'static', cache_max_age=3600)
+    config.add_static_view("static", "static", cache_max_age=3600)
 
     add_routes_views(config)
     add_routes_api(config)
 
-    config.scan(ignore=['utentes.test', 'utentes.dbutils'])
+    config.scan(ignore=["utentes.test", "utentes.dbutils"])
     return config.make_wsgi_app()
 
 
 def add_routes_views(config):
-    config.add_route('index', '/')
-    config.add_route('login', '/login')
-    config.add_route('logout', '/logout')
-    config.add_route('user', '/utilizador')
-    config.add_route('user_id', '/utilizador/{id}')
-    config.add_route('users', '/utilizadores')
-    config.add_route('exploracao-gps', 'exploracao-gps.html')
-    config.add_route('exploracao-new', 'exploracao-new.html')
-    config.add_route('exploracao-search', 'exploracao-search.html')
-    config.add_route('exploracao-show', 'exploracao-show.html')
-    config.add_route('facturacao', 'facturacao.html')
-    config.add_route('renovacao', 'renovacao.html')
-    config.add_route('requerimento-new', 'requerimento-new.html')
-    config.add_route('requerimento-pendente', 'requerimento-pendente.html')
-    config.add_route('utentes', 'utentes.html')
-    config.add_route('facturacao-stats', 'facturacao-stats.html')
+    config.add_route("index", "/")
+    config.add_route("login", "/login")
+    config.add_route("logout", "/logout")
+    config.add_route("user", "/utilizador")
+    config.add_route("user_id", "/utilizador/{id}")
+    config.add_route("users", "/utilizadores")
+    config.add_route("exploracao-gps", "exploracao-gps.html")
+    config.add_route("exploracao-new", "exploracao-new.html")
+    config.add_route("exploracao-search", "exploracao-search.html")
+    config.add_route("exploracao-show", "exploracao-show.html")
+    config.add_route("facturacao", "facturacao.html")
+    config.add_route("renovacao", "renovacao.html")
+    config.add_route("requerimento-new", "requerimento-new.html")
+    config.add_route("requerimento-pendente", "requerimento-pendente.html")
+    config.add_route("utentes", "utentes.html")
+    config.add_route("facturacao-stats", "facturacao-stats.html")
 
 
 def add_routes_api(config):
@@ -122,77 +119,88 @@ def add_routes_api(config):
     # GET    /api/exploracaos/{id} = Return individual exploracao
     # PUT    /api/exploracaos/{id} = Update exploracao
     # DELETE /api/exploracaos/{id} = Delete exploracao
-    config.add_route('api_exploracaos', '/api/exploracaos')
-    config.add_route('api_exploracaos_id', '/api/exploracaos/{id}')
+    config.add_route("api_exploracaos", "/api/exploracaos")
+    config.add_route("api_exploracaos_id", "/api/exploracaos/{id}")
 
     # exploracao_id*/departamento?/unidade? conforms the subpath part of the url
     # GET    /api/documentos/exploracao_id*/departamento?/unidade? = Return all info and routes to files and path for an exploracao, departamento or unidade
     # POST   /api/documentos/exploracao_id*/departamento?/unidade? = Creates a new documento
     # GET    /api/exploracaos/{id}/documentos/{departamento}/{filename} = Return individual documento
     # DELETE /api/exploracaos/{id}/documentos/{departamento}/{filename} = Delete documento
-    config.add_route('api_exploracao_documentacao_files', '/api/documentos/files/*subpath')
-    config.add_route('api_exploracao_documentacao_path', '/api/documentos/path/*subpath')
-    config.add_route('api_exploracao_documentacao_zip', '/api/zip/*subpath')
-    config.add_route('api_exploracao_documentacao', '/api/documentos/*subpath')
-    config.add_route('api_exploracao_file', '/api/file/*subpath')
+    config.add_route(
+        "api_exploracao_documentacao_files", "/api/documentos/files/*subpath"
+    )
+    config.add_route(
+        "api_exploracao_documentacao_path", "/api/documentos/path/*subpath"
+    )
+    config.add_route("api_exploracao_documentacao_zip", "/api/zip/*subpath")
+    config.add_route("api_exploracao_documentacao", "/api/documentos/*subpath")
+    config.add_route("api_exploracao_file", "/api/file/*subpath")
 
     # GET    /api/utentes      = Return all utentes
     # POST   /api/utentes      = Create a new utente, 'nome' in body
     # GET    /api/utentes/{id} = Return individual utente
     # PUT    /api/utentes/{id} = Update utente
     # DELETE /api/utentes/{id} = Delete utente
-    config.add_route('api_utentes', '/api/utentes')
-    config.add_route('api_utentes_id', '/api/utentes/{id}')
+    config.add_route("api_utentes", "/api/utentes")
+    config.add_route("api_utentes_id", "/api/utentes/{id}")
 
     # GET    /api/cultivos      = Return all cultivos
     # PUT    /api/utentes/{id} = Update cultivo
-    config.add_route('api_cultivos', '/api/cultivos')
-    config.add_route('api_cultivos_id', '/api/cultivos/{id}')
+    config.add_route("api_cultivos", "/api/cultivos")
+    config.add_route("api_cultivos_id", "/api/cultivos/{id}")
 
     # GET    /api/tanques_piscicolas = Return all tanks
     # PUT    /api/tanques_piscicolas/{id} = Update a tank (geometry most of the times)
-    config.add_route('api_tanques_piscicolas', '/api/tanques_piscicolas')
-    config.add_route('api_tanques_piscicolas_id', '/api/tanques_piscicolas/{id}')
+    config.add_route("api_tanques_piscicolas", "/api/tanques_piscicolas")
+    config.add_route("api_tanques_piscicolas_id", "/api/tanques_piscicolas/{id}")
 
     # GET    /api/settings      = Return all settings
     # PUT    /api/settings/{property} = Update property
-    config.add_route('api_settings', '/api/settings')
-    config.add_route('api_settings_property', '/api/settings/{property}')
+    config.add_route("api_settings", "/api/settings")
+    config.add_route("api_settings_property", "/api/settings/{property}")
 
     # GET /domains = Return all domains (utentes included)
-    config.add_route('api_domains', '/api/domains')
-    config.add_route('api_domains_licencia_estado', '/api/domains/licencia_estado')
-    config.add_route('api_domains_facturacao_fact_estado', '/api/domains/facturacao_fact_estado')
+    config.add_route("api_domains", "/api/domains")
+    config.add_route("api_domains_licencia_estado", "/api/domains/licencia_estado")
+    config.add_route(
+        "api_domains_facturacao_fact_estado", "/api/domains/facturacao_fact_estado"
+    )
 
-    config.add_route('api_domains_licencia_estado_renovacao', '/api/domains/licencia_estado_renovacao')
+    config.add_route(
+        "api_domains_licencia_estado_renovacao",
+        "/api/domains/licencia_estado_renovacao",
+    )
 
     # GET /api/base/fountains = Return a GeoJSON
     # POST /api/base/fountains = DELETE the table and insert the features in the zip
-    config.add_route('api_base_fountains', '/api/base/fountains')
+    config.add_route("api_base_fountains", "/api/base/fountains")
 
-    config.add_route('api_requerimento', '/api/requerimento')
-    config.add_route('api_requerimento_id', '/api/requerimento/{id}')
-    config.add_route('api_requerimento_get_datos_ara', '/api/get_datos_ara')
+    config.add_route("api_requerimento", "/api/requerimento")
+    config.add_route("api_requerimento_id", "/api/requerimento/{id}")
+    config.add_route("api_requerimento_get_datos_ara", "/api/get_datos_ara")
 
-    config.add_route('api_facturacao', '/api/facturacao')
-    config.add_route('api_facturacao_stats', '/api/facturacao/stats')
-    config.add_route('api_facturacao_id', '/api/facturacao/{id}')
-    config.add_route('api_facturacao_exploracao_id', '/api/facturacao_exploracao/{id}')
-    config.add_route('api_facturacao_new_factura', '/api/facturacao/{id}/emitir_factura')
-    config.add_route('api_facturacao_new_recibo', '/api/facturacao/{id}/emitir_recibo')
+    config.add_route("api_facturacao", "/api/facturacao")
+    config.add_route("api_facturacao_stats", "/api/facturacao/stats")
+    config.add_route("api_facturacao_id", "/api/facturacao/{id}")
+    config.add_route("api_facturacao_exploracao_id", "/api/facturacao_exploracao/{id}")
+    config.add_route(
+        "api_facturacao_new_factura", "/api/facturacao/{id}/emitir_factura"
+    )
+    config.add_route("api_facturacao_new_recibo", "/api/facturacao/{id}/emitir_recibo")
 
-    config.add_route('api_renovacao', '/api/renovacao')
-    config.add_route('api_renovacao_id', '/api/renovacao/{id}')
-    config.add_route('api_renovacao_historico_id', '/api/renovacao_historico/{id}')
+    config.add_route("api_renovacao", "/api/renovacao")
+    config.add_route("api_renovacao_id", "/api/renovacao/{id}")
+    config.add_route("api_renovacao_historico_id", "/api/renovacao_historico/{id}")
 
-    config.add_route('nuevo_ciclo_facturacion', '/api/nuevo_ciclo_facturacion')
+    config.add_route("nuevo_ciclo_facturacion", "/api/nuevo_ciclo_facturacion")
 
-    config.add_route('api_expedientes', '/api/expedientes')
+    config.add_route("api_expedientes", "/api/expedientes")
 
-    config.add_route('api_users', '/api/users')
-    config.add_route('api_users_id', '/api/users/{id}')
+    config.add_route("api_users", "/api/users")
+    config.add_route("api_users_id", "/api/users/{id}")
 
-    config.add_route('api_transform_coordinates', '/api/transform')
+    config.add_route("api_transform_coordinates", "/api/transform")
 
     # utilities for manual testing
-    config.add_route('api_test_fact_substract_month', '/api/test/fact_substract_month')
+    config.add_route("api_test_fact_substract_month", "/api/test/fact_substract_month")
