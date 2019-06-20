@@ -3,17 +3,17 @@
 import datetime
 import os
 
+from find_pg_executable import find_pg_restore_path
 from utils import (
     DBUtilsException,
-    execute_quitely,
+    clone_database,
     connection_parameters,
     ensure_connection_is_available,
-    get_custom_enviroment_with_password,
     execute_query_quitely,
+    execute_quitely,
+    get_custom_enviroment_with_password,
     terminate_database_connections,
-    clone_database,
 )
-from find_pg_executable import find_pg_restore_path
 
 
 def restore(session, dumpfile):

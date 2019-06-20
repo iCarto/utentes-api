@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 
 from pyramid.view import view_config
+
 from utentes.user_utils import (
-    PERM_GET,
-    PERM_UPDATE_CULTIVO_TANQUE,
     PERM_CREATE_EXPLORACAO,
-    PERM_FACTURACAO,
     PERM_CREATE_REQUERIMENTO,
-    PERM_REQUERIMENTO,
+    PERM_FACTURACAO,
+    PERM_GET,
     PERM_RENOVACAO,
+    PERM_REQUERIMENTO,
+    PERM_UPDATE_CULTIVO_TANQUE,
 )
 
 

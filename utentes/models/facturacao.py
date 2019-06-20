@@ -3,21 +3,21 @@
 from sqlalchemy import (
     Boolean,
     Column,
+    Date,
+    DateTime,
+    ForeignKey,
     Integer,
     Numeric,
     Text,
-    DateTime,
     UniqueConstraint,
-    text,
-    Date,
     func,
+    text,
 )
-from sqlalchemy import ForeignKey
 from sqlalchemy.dialects.postgresql.json import JSONB
 from sqlalchemy.ext.hybrid import hybrid_property
-from sqlalchemy.sql.expression import case, and_, null
+from sqlalchemy.sql.expression import and_, case, null
 
-from utentes.models.base import Base, PGSQL_SCHEMA_UTENTES
+from utentes.models.base import PGSQL_SCHEMA_UTENTES, Base
 from utentes.models.facturacao_fact_estado import PENDING_CONSUMPTION
 
 

@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
 
+import logging
+
 from pyramid.view import view_config
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
+from error_msgs import error_msgs
 from utentes.lib.schema_validator.validator import Validator
 from utentes.models.base import badrequest_exception
-from utentes.models.utente_schema import UTENTE_SCHEMA
-from utentes.models.utente import Utente
 from utentes.models.documento import delete_exploracao_documentos
-from error_msgs import error_msgs
+from utentes.models.utente import Utente
+from utentes.models.utente_schema import UTENTE_SCHEMA
+from utentes.user_utils import PERM_ADMIN, PERM_GET, PERM_UTENTES
 
-from utentes.user_utils import PERM_ADMIN, PERM_UTENTES, PERM_GET
-
-import logging
 
 log = logging.getLogger(__name__)
 

@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 
-import os
 import datetime
+import os
 
 from find_pg_executable import find_pg_dump_path
 from utils import (
     DBUtilsException,
-    execute_quitely,
     connection_parameters,
     ensure_connection_is_available,
+    execute_quitely,
     get_custom_enviroment_with_password,
     home_directory,
 )

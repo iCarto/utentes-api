@@ -12,14 +12,13 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 import binascii
-import six
 import struct
-
-from .util import block_splitter
-from .util import take
-from .util import as_bin_str
-from .util import flatten_multi_dim
 from itertools import chain
+
+import six
+
+from .util import as_bin_str, block_splitter, flatten_multi_dim, take
+
 
 #: '\x00': The first byte of any WKB string. Indicates big endian byte
 #: ordering for the data.

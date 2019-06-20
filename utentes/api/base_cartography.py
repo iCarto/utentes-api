@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 
+import json
+import logging
+
 from pyramid.view import view_config
-from utentes.models.inventario_fonte import InventarioFonte
+
 from error_msgs import error_msgs
 from utentes.models.base import badrequest_exception
+from utentes.models.inventario_fonte import InventarioFonte
 from utentes.user_utils import PERM_ADMIN, PERM_GET
 
-import json
-
-import logging
 
 log = logging.getLogger(__name__)
 

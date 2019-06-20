@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from pyramid.view import view_config
+
 from utentes.models.estado import Estado
 from utentes.user_utils import PERM_GET
 

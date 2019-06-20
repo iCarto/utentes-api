@@ -2,13 +2,13 @@
 
 import unittest
 
-from utentes.tests.api import DBIntegrationTest
-from utentes.models.exploracao import Exploracao
-from utentes.models.utente import Utente
-from utentes.models.actividade import Actividade
-from utentes.models.licencia import Licencia
-from utentes.models.fonte import Fonte
 from utentes.api.exploracaos import exploracaos_delete
+from utentes.models.actividade import Actividade
+from utentes.models.exploracao import Exploracao
+from utentes.models.fonte import Fonte
+from utentes.models.licencia import Licencia
+from utentes.models.utente import Utente
+from utentes.tests.api import DBIntegrationTest
 
 
 class ExploracaosDeleteTests(DBIntegrationTest):

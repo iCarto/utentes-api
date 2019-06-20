@@ -3,7 +3,7 @@
 from sqlalchemy import Column, Integer, Text, text
 from sqlalchemy.orm import relationship
 
-from utentes.models.base import Base, PGSQL_SCHEMA_UTENTES
+from utentes.models.base import PGSQL_SCHEMA_UTENTES, Base
 
 
 class Utente(Base):

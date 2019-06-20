@@ -4,18 +4,19 @@ import datetime
 import decimal
 import os
 import sys
-from pyramid.config import Configurator
-from pyramid.request import Request
-from pyramid.decorator import reify
-from pyramid.renderers import JSON
-from sqlalchemy import engine_from_config
-from sqlalchemy.orm import sessionmaker
 
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
+from pyramid.config import Configurator
+from pyramid.decorator import reify
+from pyramid.renderers import JSON
+from pyramid.request import Request
+from sqlalchemy import engine_from_config
+from sqlalchemy.orm import sessionmaker
 
-from .user_utils import get_user_role, get_user_from_request, is_single_user_mode
 from utentes.dbutils.scripts.utils import home_directory
+
+from .user_utils import get_user_from_request, get_user_role, is_single_user_mode
 
 
 class RequestWithDB(Request):

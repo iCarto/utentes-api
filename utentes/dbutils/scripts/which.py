@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import os
-import sys
 import stat
+import sys
 import tempfile
+
 
 # other options
 # * https://stackoverflow.com/a/1738907/930271

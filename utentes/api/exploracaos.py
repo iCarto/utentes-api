@@ -23,9 +23,10 @@ from utentes.models.utente_schema import UTENTE_SCHEMA
 from utentes.user_utils import (
     PERM_ADMIN,
     PERM_CREATE_EXPLORACAO,
-    PERM_UPDATE_EXPLORACAO,
     PERM_GET,
+    PERM_UPDATE_EXPLORACAO,
 )
+
 
 log = logging.getLogger(__name__)
 

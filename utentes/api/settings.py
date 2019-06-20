@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 
-from pyramid.view import view_config
+import logging
 
-from utentes.models.setting import Setting
+from pyramid.view import view_config
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
-from utentes.models.base import badrequest_exception
-from utentes.user_utils import PERM_ADMIN, PERM_GET
 
 import error_msgs
-import logging
+from utentes.models.base import badrequest_exception
+from utentes.models.setting import Setting
+from utentes.user_utils import PERM_ADMIN, PERM_GET
+
 
 logger = logging.getLogger(__name__)
 

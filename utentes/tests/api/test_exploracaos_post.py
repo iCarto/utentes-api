@@ -2,12 +2,13 @@
 
 
 import unittest
+
 from pyramid.httpexceptions import HTTPBadRequest
 
-from utentes.tests.api import DBIntegrationTest
 from utentes.api.exploracaos import exploracaos_create
 from utentes.models.exploracao import Exploracao
 from utentes.models.utente import Utente
+from utentes.tests.api import DBIntegrationTest
 
 
 class ExploracaoCreateTests(DBIntegrationTest):

@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
-import shutil
-import os
-import sys
 import logging
+import os
+import shutil
+import sys
 
-from sqlalchemy import Column, ForeignKey, text
-from sqlalchemy import Boolean, Integer, Text, DateTime
-from utentes.models.filehandler import FileHandler
+from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, Text, text
+
 from utentes.models.base import PGSQL_SCHEMA_UTENTES, Base
+from utentes.models.filehandler import FileHandler
 
 
 def delete_exploracao_documentos(request, exploracao_gid):

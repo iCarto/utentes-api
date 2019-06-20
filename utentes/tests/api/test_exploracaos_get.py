@@ -2,8 +2,9 @@
 
 
 import unittest
-from utentes.tests.api import DBIntegrationTest
+
 from utentes.models.exploracao import Exploracao
+from utentes.tests.api import DBIntegrationTest
 
 
 class ExploracaosGET_IntegrationTests(DBIntegrationTest):

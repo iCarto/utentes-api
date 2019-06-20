@@ -4,8 +4,8 @@ import datetime
 import logging
 
 from pyramid.view import view_config
-
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
+
 from utentes.api.error_msgs import error_msgs
 from utentes.models.ara import Ara
 from utentes.models.base import badrequest_exception
@@ -15,6 +15,7 @@ from utentes.user_utils import (
     PERM_GET,
     PERM_UPDATE_REQUERIMENTO,
 )
+
 
 log = logging.getLogger(__name__)
 

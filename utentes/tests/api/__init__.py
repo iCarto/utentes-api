@@ -8,6 +8,7 @@ from sqlalchemy import engine_from_config
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
+
 settings = get_appsettings("development.ini", "main")
 settings["sqlalchemy.url"] = "postgresql://postgres@localhost:5432/aranorte_test"
 engine = engine_from_config(settings, "sqlalchemy.")

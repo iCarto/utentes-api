@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import os
-from find_pg_executable import find_psql_path, find_createdb_path, find_dropdb_path
+
+from find_pg_executable import find_createdb_path, find_dropdb_path, find_psql_path
 
 
 class DBUtilsException(Exception):

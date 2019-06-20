@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 
-from sqlalchemy import Boolean, Column, Date, Integer, Numeric, Text
-from sqlalchemy import text
-
 from geoalchemy2 import Geometry
-from utentes.lib.geomet import wkt
 from geoalchemy2.elements import WKTElement
+from sqlalchemy import Boolean, Column, Date, Integer, Numeric, Text, text
 
-from utentes.lib.formatter.formatter import to_decimal, to_date
-from utentes.models.base import Base, PGSQL_SCHEMA_UTENTES
+from utentes.lib.formatter.formatter import to_date, to_decimal
+from utentes.lib.geomet import wkt
+from utentes.models.base import PGSQL_SCHEMA_UTENTES, Base
 
 
 class InventarioFonte(Base):

@@ -14,6 +14,7 @@ from utentes.models.facturacao_fact_estado import (
 )
 from utentes.user_utils import PERM_NEW_INVOICE_CYCLE
 
+
 log = logging.getLogger(__name__)
 
 

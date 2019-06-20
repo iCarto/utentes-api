@@ -2,11 +2,12 @@
 
 
 import unittest
+
 from pyramid.httpexceptions import HTTPBadRequest
 
-from utentes.tests.api import DBIntegrationTest
-from utentes.models.tanques_piscicolas import ActividadesTanquesPiscicolas as Entity
 from utentes.api.tanques_piscicolas import tanques_piscicolas_update
+from utentes.models.tanques_piscicolas import ActividadesTanquesPiscicolas as Entity
+from utentes.tests.api import DBIntegrationTest
 
 
 def build_json(request, entity):

@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
 
-from sqlalchemy import Column, Integer, Numeric, Text
-from sqlalchemy import ForeignKey, text, func
-from sqlalchemy.orm import column_property
-from sqlalchemy.dialects.postgresql import ARRAY
-
 from geoalchemy2 import Geometry
+from sqlalchemy import Column, ForeignKey, Integer, Numeric, Text, func, text
+from sqlalchemy.dialects.postgresql import ARRAY
+from sqlalchemy.orm import column_property
 
-from utentes.lib.schema_validator.validator import Validator
-from utentes.models.base import Base, PGSQL_SCHEMA_UTENTES, update_geom, update_area
 from actividades_schema import ActividadeSchema
+from utentes.lib.schema_validator.validator import Validator
+from utentes.models.base import PGSQL_SCHEMA_UTENTES, Base, update_area, update_geom
 
 
 class ActividadesTanquesPiscicolas(Base):

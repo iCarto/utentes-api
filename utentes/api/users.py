@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
 
-from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
-from pyramid.view import view_config
-from utentes.models.user import User
-from utentes.lib.schema_validator.validation_exception import ValidationException
+import logging
 
-from utentes.models.base import badrequest_exception, unauthorized_exception
+from pyramid.view import view_config
+from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
+
 from utentes.api.error_msgs import error_msgs
+from utentes.lib.schema_validator.validation_exception import ValidationException
+from utentes.models.base import badrequest_exception, unauthorized_exception
+from utentes.models.user import User
 from utentes.user_utils import PERM_ADMIN, PERM_GET
 
-import logging
 
 log = logging.getLogger(__name__)
 

@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 
+import json
+
 from pyramid.view import view_config
 
-from utentes.models.base import badrequest_exception
 from utentes.api.error_msgs import error_msgs
-
+from utentes.models.base import badrequest_exception
 from utentes.user_utils import PERM_GET
-
-import json
 
 
 @view_config(

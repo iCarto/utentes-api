@@ -2,7 +2,8 @@
 
 from sqlalchemy import Column, Integer, Text
 
-from .base import DeclarativeBase, PGSQL_SCHEMA_DOMAINS
+from .base import PGSQL_SCHEMA_DOMAINS, DeclarativeBase
+
 
 LICENSED = u"Licenciada"
 DE_FACTO = u"Utente de facto"

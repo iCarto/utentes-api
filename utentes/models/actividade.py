@@ -1,18 +1,17 @@
 # -*- coding: utf-8 -*-
 
-from sqlalchemy import Boolean, Column, Integer, Numeric, Text
-from sqlalchemy.dialects.postgresql import ARRAY
-from sqlalchemy import ForeignKey, text
-from sqlalchemy.orm import relationship
-from sqlalchemy.dialects.postgresql import ARRAY
-
-from utentes.models.base import Base, PGSQL_SCHEMA_UTENTES, update_array
-from utentes.lib.schema_validator.validator import Validator
-import actividades_schema
-from utentes.models.reses import ActividadesReses
-from utentes.models.cultivo import ActividadesCultivos
-from utentes.models.tanques_piscicolas import ActividadesTanquesPiscicolas
 from functools import reduce
+
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, Numeric, Text, text
+from sqlalchemy.dialects.postgresql import ARRAY
+from sqlalchemy.orm import relationship
+
+import actividades_schema
+from utentes.lib.schema_validator.validator import Validator
+from utentes.models.base import PGSQL_SCHEMA_UTENTES, Base, update_array
+from utentes.models.cultivo import ActividadesCultivos
+from utentes.models.reses import ActividadesReses
+from utentes.models.tanques_piscicolas import ActividadesTanquesPiscicolas
 
 
 class Actividade(Base):

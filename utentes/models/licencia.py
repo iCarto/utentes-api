@@ -2,15 +2,16 @@
 
 from sqlalchemy import Column, Date, ForeignKey, Integer, Numeric, Text, text
 
-from utentes.lib.formatter.formatter import to_decimal, to_date
-from utentes.models.base import Base, PGSQL_SCHEMA_UTENTES
+from utentes.lib.formatter.formatter import to_date, to_decimal
+from utentes.models.base import PGSQL_SCHEMA_UTENTES, Base
+
 from .estado import (
-    LICENSED,
-    IRREGULAR,
     DE_FACTO,
+    IRREGULAR,
+    LICENSED,
     PENDING_DIR_SIGN,
-    PENDING_FIELD_VISIT,
     PENDING_EMIT_LICENSE,
+    PENDING_FIELD_VISIT,
     PENDING_TECH_DECISION,
 )
 

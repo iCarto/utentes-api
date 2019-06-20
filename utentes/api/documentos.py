@@ -1,22 +1,22 @@
 # -*- coding: utf-8 -*-
 
-from pyramid.view import view_config
-from pyramid.response import FileResponse
+import json
 
-from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
+from pyramid.response import FileResponse
+from pyramid.view import view_config
 from sqlalchemy import func
+from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 from sqlalchemy.sql import label
 
+from utentes.api.error_msgs import error_msgs
 from utentes.models.base import badrequest_exception
-from utentes.models.exploracao import Exploracao
 from utentes.models.documento import Documento
 from utentes.models.domain import Domain
-from utentes.api.error_msgs import error_msgs
-
+from utentes.models.exploracao import Exploracao
 from utentes.user_utils import (
-    PERM_GET,
     PERM_CREATE_DOCUMENTO,
     PERM_DELETE_DOCUMENTO,
+    PERM_GET,
     ROL_ADMIN,
     ROL_ADMINISTRATIVO,
     ROL_FINANCIERO,
@@ -24,8 +24,6 @@ from utentes.user_utils import (
     ROL_TECNICO,
     ROL_UNIDAD_DELEGACION,
 )
-
-import json
 
 
 @view_config(

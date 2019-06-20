@@ -2,15 +2,17 @@
 
 
 import unittest
+
 from pyramid.httpexceptions import HTTPBadRequest
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
-from utentes.tests.api import DBIntegrationTest
-from utentes.models.exploracao import Exploracao
-from utentes.models.utente import Utente
+
+from utentes.api.exploracaos import exploracaos_update
 from utentes.models.actividade import Actividade
+from utentes.models.exploracao import Exploracao
 from utentes.models.fonte import Fonte
 from utentes.models.licencia import Licencia
-from utentes.api.exploracaos import exploracaos_update
+from utentes.models.utente import Utente
+from utentes.tests.api import DBIntegrationTest
 
 
 def build_json(request, exploracao):

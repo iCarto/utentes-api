@@ -1,23 +1,19 @@
 # -*- coding: utf-8 -*-
 
-from pyramid.view import view_config
+import datetime
+import logging
 
+from dateutil.relativedelta import relativedelta
+from pyramid.view import view_config
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
+from utentes.api.error_msgs import error_msgs
 from utentes.models.base import badrequest_exception
+from utentes.models.estado_renovacao import LICENSED, NOT_VALID, PENDING_RENOV_LICENSE
 from utentes.models.exploracao_con_renovacao import ExpConRenovacao
 from utentes.models.renovacao import Renovacao
-from utentes.models.estado_renovacao import NOT_VALID, LICENSED
-from utentes.api.error_msgs import error_msgs
-
 from utentes.user_utils import PERM_GET, PERM_UPDATE_RENOVACAO
 
-import datetime
-from dateutil.relativedelta import relativedelta
-
-from utentes.models.estado_renovacao import PENDING_RENOV_LICENSE
-
-import logging
 
 log = logging.getLogger(__name__)
 

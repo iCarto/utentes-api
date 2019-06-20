@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 from pyramid.httpexceptions import HTTPFound
-from pyramid.view import view_config
 from pyramid.security import remember
+from pyramid.view import view_config
 
 from utentes.user_utils import (
-    get_user_from_db,
-    get_unique_user,
-    is_single_user_mode,
     ROL_FINANCIERO,
+    get_unique_user,
+    get_user_from_db,
+    is_single_user_mode,
 )
 
 

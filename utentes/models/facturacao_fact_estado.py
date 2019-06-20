@@ -2,8 +2,9 @@
 
 from sqlalchemy import Column, Integer, Text
 
-from .base import DeclarativeBase, PGSQL_SCHEMA_DOMAINS
-from .estado import LICENSED, DE_FACTO
+from .base import PGSQL_SCHEMA_DOMAINS, DeclarativeBase
+from .estado import DE_FACTO, LICENSED
+
 
 PENDING_CONSUMPTION = u"Pendente Acrescentar Consumo (DT)"
 PENDING_INVOICE = u"Pendente Emisão Factura (DF)"

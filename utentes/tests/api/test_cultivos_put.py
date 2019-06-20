@@ -2,11 +2,12 @@
 
 
 import unittest
+
 from pyramid.httpexceptions import HTTPBadRequest
 
-from utentes.tests.api import DBIntegrationTest
-from utentes.models.cultivo import ActividadesCultivos
 from utentes.api.cultivos import cultivos_update
+from utentes.models.cultivo import ActividadesCultivos
+from utentes.tests.api import DBIntegrationTest
 
 
 def build_json(request, cultivo):

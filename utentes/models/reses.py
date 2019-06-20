@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from sqlalchemy import Column, Integer, Numeric, Text
-from sqlalchemy import ForeignKey, text
+from sqlalchemy import Column, ForeignKey, Integer, Numeric, Text, text
 
-from .base import Base, PGSQL_SCHEMA_UTENTES
-from utentes.lib.schema_validator.validator import Validator
 import actividades_schema
+from utentes.lib.schema_validator.validator import Validator
+
+from .base import PGSQL_SCHEMA_UTENTES, Base
 
 
 class ActividadesReses(Base):

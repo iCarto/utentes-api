@@ -1,16 +1,13 @@
 # -*- coding: utf-8 -*-
 
 import bcrypt
-
-from sqlalchemy import Column, Integer, Text, DateTime, text, TIMESTAMP
-from sqlalchemy import func
-
-from utentes.lib.schema_validator.validator import Validator
-from utentes.lib.schema_validator.validation_exception import ValidationException
+from sqlalchemy import TIMESTAMP, Column, DateTime, Integer, Text, func, text
 
 from user_schema import USER_SCHEMA
-from utentes.models.base import Base, PGSQL_SCHEMA_USERS
 from users.user_roles import ROL_UNIDAD_DELEGACION
+from utentes.lib.schema_validator.validation_exception import ValidationException
+from utentes.lib.schema_validator.validator import Validator
+from utentes.models.base import PGSQL_SCHEMA_USERS, Base
 
 
 class User(Base):

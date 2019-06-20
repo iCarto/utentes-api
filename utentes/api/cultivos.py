@@ -1,20 +1,19 @@
 # -*- coding: utf-8 -*-
 
+import logging
+
 from pyramid.view import view_config
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
-from utentes.lib.schema_validator.validator import Validator
-from utentes.models.base import badrequest_exception
-from utentes.models.actividades_schema import ActividadeSchema
-from utentes.models.cultivo import ActividadesCultivos
-from utentes.models.actividade import Actividade
-from utentes.models.exploracao import Exploracao
-from utentes.user_utils import PERM_UPDATE_CULTIVO_TANQUE, PERM_GET
-
-
 from error_msgs import error_msgs
+from utentes.lib.schema_validator.validator import Validator
+from utentes.models.actividade import Actividade
+from utentes.models.actividades_schema import ActividadeSchema
+from utentes.models.base import badrequest_exception
+from utentes.models.cultivo import ActividadesCultivos
+from utentes.models.exploracao import Exploracao
+from utentes.user_utils import PERM_GET, PERM_UPDATE_CULTIVO_TANQUE
 
-import logging
 
 log = logging.getLogger(__name__)
 

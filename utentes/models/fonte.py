@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from sqlalchemy import Column, Date, Integer, Numeric, Text
-from sqlalchemy import ForeignKey, text
+from sqlalchemy import Column, Date, ForeignKey, Integer, Numeric, Text, text
 
-from utentes.lib.formatter.formatter import to_decimal, to_date
-from utentes.models.base import Base, PGSQL_SCHEMA_UTENTES
+from utentes.lib.formatter.formatter import to_date, to_decimal
+from utentes.models.base import PGSQL_SCHEMA_UTENTES, Base
 
 
 class Fonte(Base):

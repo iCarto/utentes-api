@@ -1,18 +1,16 @@
 # -*- coding: utf-8 -*-
 
+import json
+import logging
+
 from pyramid.view import view_config
 
+from utentes.dbutils.scripts.dump import dump
+from utentes.dbutils.scripts.restore import restore
+from utentes.dbutils.scripts.utils import DBUtilsException
 from utentes.models.base import badrequest_exception
 from utentes.user_utils import PERM_ADMIN
 
-from utentes.dbutils.scripts.utils import DBUtilsException
-from utentes.dbutils.scripts.dump import dump
-from utentes.dbutils.scripts.restore import restore
-
-
-# import error_msgs
-import logging
-import json
 
 logger = logging.getLogger(__name__)
 

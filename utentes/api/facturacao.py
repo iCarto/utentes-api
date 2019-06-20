@@ -1,26 +1,25 @@
 # -*- coding: utf-8 -*-
 
-import logging
 import datetime
+import json
+import logging
 
 from pyramid.view import view_config
-
 from sqlalchemy import func, or_
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
+
 from utentes.api.error_msgs import error_msgs
 from utentes.models.base import badrequest_exception
 from utentes.models.exploracao import Exploracao
 from utentes.models.facturacao import Facturacao
-from utentes.models.utente import Utente
 from utentes.models.facturacao_fact_estado import (
     PAID,
     PENDING_CONSUMPTION,
     PENDING_INVOICE,
 )
+from utentes.models.utente import Utente
+from utentes.user_utils import PERM_FACTURACAO, PERM_GET, PERM_UPDATE_CREATE_FACTURACAO
 
-from utentes.user_utils import PERM_UPDATE_CREATE_FACTURACAO, PERM_FACTURACAO, PERM_GET
-
-import json
 
 log = logging.getLogger(__name__)
 

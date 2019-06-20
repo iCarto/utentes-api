@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from sqlalchemy import Column, Text
-from sqlalchemy.dialects.postgresql.json import JSONB
 from sqlalchemy.dialects.postgresql import ARRAY
+from sqlalchemy.dialects.postgresql.json import JSONB
 
-from utentes.models.base import Base, PGSQL_SCHEMA_DOMAINS
+from utentes.models.base import PGSQL_SCHEMA_DOMAINS, Base
 
 
 class Ara(Base):

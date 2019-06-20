@@ -1,10 +1,11 @@
+import logging
+
 from pyramid.view import view_config
 
-from utentes.models.exploracao import Exploracao
 from utentes.api.requerimentos import calculate_new_exp_id
+from utentes.models.exploracao import Exploracao
 from utentes.user_utils import PERM_GET
 
-import logging
 
 log = logging.getLogger(__name__)
 

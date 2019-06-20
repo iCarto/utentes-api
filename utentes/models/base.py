@@ -2,12 +2,14 @@
 
 import json
 
-from pyramid.httpexceptions import HTTPBadRequest
-from pyramid.httpexceptions import HTTPMethodNotAllowed
-from pyramid.httpexceptions import HTTPNotFound
-from pyramid.httpexceptions import HTTPUnauthorized
-from sqlalchemy.ext.declarative import declarative_base
 from geoalchemy2.elements import WKTElement
+from pyramid.httpexceptions import (
+    HTTPBadRequest,
+    HTTPMethodNotAllowed,
+    HTTPNotFound,
+    HTTPUnauthorized,
+)
+from sqlalchemy.ext.declarative import declarative_base
 
 from utentes.lib.geomet import wkt
 from utentes.lib.schema_validator.validation_exception import ValidationException

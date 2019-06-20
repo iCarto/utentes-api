@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
-import dateutil.parser
 import math
+
+import dateutil.parser
 
 
 class IsNotNull:

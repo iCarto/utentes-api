@@ -1,18 +1,19 @@
 # -*- coding: utf-8 -*-
 
-from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
-from pyramid.security import authenticated_userid, Allow, Authenticated
+from pyramid.security import Allow, Authenticated, authenticated_userid
 from pyramid.threadlocal import get_current_registry
+from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
+
 from users.user_roles import (
     ROL_ADMIN,
     ROL_ADMINISTRATIVO,
-    ROL_FINANCIERO,
     ROL_DIRECCION,
-    ROL_TECNICO,
+    ROL_FINANCIERO,
     ROL_JURIDICO,
     ROL_OBSERVADOR,
-    ROL_UNIDAD_DELEGACION,
     ROL_SINGLE,
+    ROL_TECNICO,
+    ROL_UNIDAD_DELEGACION,
     SINGLE_USER,
 )
 from utentes.models.user import User

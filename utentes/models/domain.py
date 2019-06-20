@@ -2,7 +2,7 @@
 
 from sqlalchemy import Column, Integer, Text
 
-from .base import DeclarativeBase, PGSQL_SCHEMA_DOMAINS
+from .base import PGSQL_SCHEMA_DOMAINS, DeclarativeBase
 
 
 class Domain(DeclarativeBase):

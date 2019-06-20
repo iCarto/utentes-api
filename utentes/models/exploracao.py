@@ -1,34 +1,42 @@
 # -*- coding: utf-8 -*-
 
-from sqlalchemy import Boolean, Column, Integer, Date, Numeric, Text, DateTime
-from sqlalchemy.dialects.postgresql.json import JSONB
-
-from sqlalchemy import ForeignKey, text, func
-from sqlalchemy.orm import relationship, column_property
 from geoalchemy2 import Geometry
 from geoalchemy2.functions import GenericFunction
+from sqlalchemy import (
+    Boolean,
+    Column,
+    Date,
+    DateTime,
+    ForeignKey,
+    Integer,
+    Numeric,
+    Text,
+    func,
+    text,
+)
+from sqlalchemy.dialects.postgresql.json import JSONB
+from sqlalchemy.orm import column_property, relationship
 
+from utentes.lib.formatter.formatter import to_date, to_decimal
 from utentes.lib.schema_validator.validation_exception import ValidationException
-from utentes.lib.formatter.formatter import to_decimal, to_date
+from utentes.models.actividade import Actividade
 from utentes.models.base import (
-    Base,
     PGSQL_SCHEMA_UTENTES,
+    Base,
+    update_area,
     update_array,
     update_geom,
-    update_area,
 )
-from utentes.models.fonte import Fonte
-from utentes.models.licencia import Licencia
-from utentes.models.actividade import Actividade
 from utentes.models.facturacao import Facturacao
-
 from utentes.models.facturacao_fact_estado import (
     NOT_INVOIZABLE,
+    PAID,
     PENDING_CONSUMPTION,
     PENDING_INVOICE,
     PENDING_PAYMENT,
-    PAID,
 )
+from utentes.models.fonte import Fonte
+from utentes.models.licencia import Licencia
 
 
 class ST_Multi(GenericFunction):

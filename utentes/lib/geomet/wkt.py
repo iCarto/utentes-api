@@ -12,8 +12,12 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 import itertools
-import six
 import tokenize
+
+import six
+
+import util
+
 
 try:
     import StringIO
@@ -21,8 +25,6 @@ except ImportError:
     import io
 
     StringIO = io
-
-import util
 
 
 INVALID_WKT_FMT = "Invalid WKT: `%s`"

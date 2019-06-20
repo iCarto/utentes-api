@@ -2,7 +2,7 @@
 
 from sqlalchemy import Column, Text
 
-from .base import DeclarativeBase, PGSQL_SCHEMA_UTENTES
+from .base import PGSQL_SCHEMA_UTENTES, DeclarativeBase
 
 
 class Setting(DeclarativeBase):
