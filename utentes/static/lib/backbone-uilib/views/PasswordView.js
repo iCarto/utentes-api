@@ -1,6 +1,5 @@
 Backbone.UILib = Backbone.UILib || {};
 Backbone.UILib.PasswordView = Backbone.View.extend({
-
     template: `
         <div class="form-group">
             <label for="password">Senha</label>
@@ -13,30 +12,29 @@ Backbone.UILib.PasswordView = Backbone.View.extend({
     `,
 
     events: {
-        'click #mostrar-senha-check': "toggle"
+        "click #mostrar-senha-check": "toggle",
     },
 
-    initialize: function(options){
+    initialize: function(options) {
         this.options = options || {};
     },
 
-    render: function(){
+    render: function() {
         this.$el.html(this.template);
         this.setRequired(this.options.required);
         return this;
     },
 
     setRequired: function(required) {
-        this.$el.find('#password').attr('required', required);
+        this.$el.find("#password").attr("required", required);
     },
 
     toggle: function() {
-        var input = this.$el.find('#password');
+        var input = this.$el.find("#password");
         if (input.attr("type") == "password") {
             input.attr("type", "text");
         } else {
             input.attr("type", "password");
         }
-    }
-
+    },
 });

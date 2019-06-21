@@ -1,7 +1,6 @@
 Backbone.UILib = Backbone.UILib || {};
 Backbone.UILib.SelectView = Backbone.View.extend({
-
-    initialize: function(options){
+    initialize: function(options) {
         var defaultOptions = {
             /* Adds an `option` like
             {
@@ -23,7 +22,7 @@ Backbone.UILib.SelectView = Backbone.View.extend({
         };
         this.options = Object.assign({}, defaultOptions, options);
         this._subviews = [];
-        this._updateCollection(this.collection)
+        this._updateCollection(this.collection);
     },
 
     _updateCollection: function(newCollection) {
@@ -34,7 +33,7 @@ Backbone.UILib.SelectView = Backbone.View.extend({
         }
     },
 
-    render: function(){
+    render: function() {
         var subviews = [];
         var content = document.createDocumentFragment();
         if (this.collection.length === 0) {
@@ -43,17 +42,17 @@ Backbone.UILib.SelectView = Backbone.View.extend({
         }
 
         if (this.isVoidNeed()) {
-            var emptyModel = new  Backbone.UILib.Domain({
-                'category': this.collection.at(0).get('category'),
-                'text': null,
-                'order': 0,
+            var emptyModel = new Backbone.UILib.Domain({
+                category: this.collection.at(0).get("category"),
+                text: null,
+                order: 0,
             });
             if (this.cloneCollection) {
                 this.collection.unshift(emptyModel);
             } else {
                 var option = new Backbone.UILib.OptionView({
                     model: emptyModel,
-                    text:  'text',
+                    text: "text",
                     attributes: null,
                 });
                 content.appendChild(option.render().el);
@@ -61,12 +60,12 @@ Backbone.UILib.SelectView = Backbone.View.extend({
             }
         }
 
-        this.collection.forEach(function(model){
-            var alias = model.get('alias');
+        this.collection.forEach(function(model) {
+            var alias = model.get("alias");
             var option = new Backbone.UILib.OptionView({
                 model: model,
-                text:  'text',
-                attributes: alias ? {'value': model.get('alias')} : null
+                text: "text",
+                attributes: alias ? {value: model.get("alias")} : null,
             });
             content.appendChild(option.render().el);
             subviews.push(option);
@@ -80,27 +79,27 @@ Backbone.UILib.SelectView = Backbone.View.extend({
     _updateDOMAndNotify: function(content, subviews) {
         // Update DOM and _subviews array at once.
         // This would minimize reflows to only 1 instead of one per subview.
-        if(this.collection.length === 0) {
-            this.$el.prop('disabled', true);
+        if (this.collection.length === 0) {
+            this.$el.prop("disabled", true);
             this.$el.empty();
         } else {
-            this.$el.prop('disabled', false);
+            this.$el.prop("disabled", false);
             this.$el.html(content);
         }
-        _.invoke(this._subviews, 'remove');
+        _.invoke(this._subviews, "remove");
         this._subviews = subviews;
 
         // Trigger a change event on this component.
         // Some views, as Widgets.js, are listening to this event
         // to update the model.
-        this.$el.trigger('change');
+        this.$el.trigger("change");
     },
 
     isVoidNeed: function() {
         if (!this.options.addVoidValue) {
             return false;
         }
-        if (this.collection.filter((d) => d.get('text') === null).length > 0) {
+        if (this.collection.filter(d => d.get("text") === null).length > 0) {
             return false;
         }
         return true;
@@ -108,7 +107,7 @@ Backbone.UILib.SelectView = Backbone.View.extend({
 
     // Free old collection to be garbage collected after subviews are removed,
     // as each one has a reference to a model in the collection.
-    update: function(newCollection){
+    update: function(newCollection) {
         if (Array.isArray(newCollection)) {
             newCollection = new Backbone.UILib.DomainCollection(newCollection);
         }
@@ -118,9 +117,8 @@ Backbone.UILib.SelectView = Backbone.View.extend({
 
     // Remove the container element and then clean up its managed subviews
     // as to minimize document reflows.
-    remove: function(){
+    remove: function() {
         Backbone.View.prototype.remove.call(this);
-        _.invoke(this._subviews, 'remove');
+        _.invoke(this._subviews, "remove");
     },
-
 });

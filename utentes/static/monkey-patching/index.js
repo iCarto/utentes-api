@@ -18,21 +18,29 @@ Backbone.Model.prototype.parse = function(resp, options) {
     Take care: `this.constructor.__super__` does not work when there is more
     than one level in the hierarchy
     */
-    return _.mapObject(resp, function(value, key) {
-        if (value && this.dateFields.includes(key)) {
-            var sTokens = value.split('-');
-            return new Date(Date.UTC(sTokens[0], sTokens[1] - 1, sTokens[2]));
-        }
-        return value;
-    }, this);
+    return _.mapObject(
+        resp,
+        function(value, key) {
+            if (value && this.dateFields.includes(key)) {
+                var sTokens = value.split("-");
+                return new Date(Date.UTC(sTokens[0], sTokens[1] - 1, sTokens[2]));
+            }
+            return value;
+        },
+        this
+    );
 };
 
 Backbone.Model.prototype.toJSON = function(options) {
-    var attrs =  _.clone(this.attributes);
-    return _.mapObject(attrs, function(value, key) {
-        if (value && this.dateFields.includes(key)) {
-            return value.toISOString().substring(0, 10);
-        }
-        return value;
-    }, this);
+    var attrs = _.clone(this.attributes);
+    return _.mapObject(
+        attrs,
+        function(value, key) {
+            if (value && this.dateFields.includes(key)) {
+                return value.toISOString().substring(0, 10);
+            }
+            return value;
+        },
+        this
+    );
 };

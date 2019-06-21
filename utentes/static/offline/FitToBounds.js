@@ -20,14 +20,14 @@ var FitToBounds = {
         // si no intenta hacer un _panInsideMaxBounds y puede
         // entrar en un bucle infinito
         var bounds = map.getBounds().pad(0.15);
-        map.setMaxBounds(bounds)
+        map.setMaxBounds(bounds);
     },
 
     fit: function(map, boundsPadding, maxZoom, minZoom, maxBounds, layers) {
         var layers = Array.isArray(layers) ? layers : [layers];
-        var bounds = layers.reduce(function(totalBounds, layer){
+        var bounds = layers.reduce(function(totalBounds, layer) {
             var layerBounds = layer && layer.getBounds();
-            return totalBounds.extend(layerBounds)
+            return totalBounds.extend(layerBounds);
         }, new L.LatLngBounds());
 
         FitToBounds.fitToBounds(map, bounds, boundsPadding, maxZoom, minZoom);
@@ -35,4 +35,4 @@ var FitToBounds = {
             FitToBounds.setThisAsMaxBounds(map);
         }
     },
-}
+};

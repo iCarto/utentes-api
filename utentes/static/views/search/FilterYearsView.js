@@ -1,23 +1,24 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.SelectYearView = Backbone.UILib.BaseView.extend({
-
-    tagName: 'select',
+    tagName: "select",
 
     template: _.template(
         '<option value=""></option>' +
-        '<% _.each(years, function(year) { %>' +
-            '<option value="<%= year %>"><%= year %></option>'  +
-        '<% }); %>'
+            "<% _.each(years, function(year) { %>" +
+            '<option value="<%= year %>"><%= year %></option>' +
+            "<% }); %>"
     ),
 
-    initialize: function(){
+    initialize: function() {
         this.years = [];
     },
 
-    render: function(){
-        this.$el.html(this.template({
-            years: this.years
-        }));
+    render: function() {
+        this.$el.html(
+            this.template({
+                years: this.years,
+            })
+        );
         return this;
     },
 
@@ -36,27 +37,30 @@ Backbone.SIXHIARA.SelectYearView = Backbone.UILib.BaseView.extend({
 
     hasSelected: function() {
         return this.$el.val() && this.$el.val() != "";
-    }
+    },
 });
 
 Backbone.SIXHIARA.FilterYearsView = Backbone.UILib.BaseView.extend({
-
-    initialize: function(options){
+    initialize: function(options) {
         Backbone.UILib.BaseView.prototype.initialize.call(this);
-        _.bindAll(this, 'yearInitChange');
+        _.bindAll(this, "yearInitChange");
 
         this.years = options.years;
 
         this.selectYearInit = new Backbone.SIXHIARA.SelectYearView({
-            el: this.$('#ano_inicio'),
-            years: this.years
+            el: this.$("#ano_inicio"),
+            years: this.years,
         });
         this.addView(this.selectYearInit);
-        this.selectYearInit.listenTo(this.model, 'change:ano_inicio', this.yearInitChange);
+        this.selectYearInit.listenTo(
+            this.model,
+            "change:ano_inicio",
+            this.yearInitChange
+        );
 
         this.selectYearEnd = new Backbone.SIXHIARA.SelectYearView({
-            el: this.$('#ano_fim'),
-            years: this.years
+            el: this.$("#ano_fim"),
+            years: this.years,
         });
         this.addView(this.selectYearEnd);
     },
@@ -67,12 +71,12 @@ Backbone.SIXHIARA.FilterYearsView = Backbone.UILib.BaseView.extend({
     },
 
     yearInitChange: function(model, value, options) {
-        if(!this.selectYearInit.hasSelected()) {
+        if (!this.selectYearInit.hasSelected()) {
             this.selectYearEnd.setSelected(null);
-            model.set('ano_fim', null);
-        } else if( !this.selectYearEnd.hasSelected()) {
+            model.set("ano_fim", null);
+        } else if (!this.selectYearEnd.hasSelected()) {
             this.selectYearEnd.setSelected(this.selectYearInit.getSelected());
-            model.set('ano_fim', this.selectYearInit.getSelected());
+            model.set("ano_fim", this.selectYearInit.getSelected());
         }
-    }
+    },
 });

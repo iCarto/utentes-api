@@ -1,9 +1,8 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.ViewFacturacaoHistorico = Backbone.View.extend({
+    className: "view-facturacao",
 
-    className: 'view-facturacao',
-
-    id: 'facturacao-historico-view',
+    id: "facturacao-historico-view",
     template: _.template(`
         <div class="panel panel-info">
             <div class="panel-heading">
@@ -16,7 +15,7 @@ Backbone.SIXHIARA.ViewFacturacaoHistorico = Backbone.View.extend({
         </div>
     `),
 
-    initialize: function (options) {
+    initialize: function(options) {
         this.options = options || {};
     },
 
@@ -29,33 +28,35 @@ Backbone.SIXHIARA.ViewFacturacaoHistorico = Backbone.View.extend({
 
     renderFacturaCollection() {
         var self = this;
-        if(this.model) {
+        if (this.model) {
             var container = document.createDocumentFragment();
             this.facturasViews = this.model.map(this.createFacturaHistoricoView);
-            this.facturasViews.forEach(function(facturaView){
-                facturaView.on('factura-selected', function(id) {
-                    self.trigger('factura-selected', id);
+            this.facturasViews.forEach(function(facturaView) {
+                facturaView.on("factura-selected", function(id) {
+                    self.trigger("factura-selected", id);
                     self.setSelected(id);
-                })
-                container.appendChild(facturaView.render().el)
+                });
+                container.appendChild(facturaView.render().el);
             });
-            this.$el.find("#historico").empty().append(container);
+            this.$el
+                .find("#historico")
+                .empty()
+                .append(container);
         }
     },
 
     createFacturaHistoricoView: function(factura) {
-        return new Backbone.SIXHIARA.ViewFacturaHistorico({ model: factura });
+        return new Backbone.SIXHIARA.ViewFacturaHistorico({model: factura});
     },
 
     setSelected: function(id) {
-        for(var i=0; i<this.facturasViews.length; i++) {
+        for (var i = 0; i < this.facturasViews.length; i++) {
             var facturaModel = this.facturasViews[i].model;
-            if(facturaModel.id == id) {
+            if (facturaModel.id == id) {
                 this.facturasViews[i].setSelected();
-            }else{
+            } else {
                 this.facturasViews[i].removeSelected();
             }
         }
-    }
-
+    },
 });

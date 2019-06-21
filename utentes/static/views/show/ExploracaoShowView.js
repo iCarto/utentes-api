@@ -1,26 +1,22 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.ExploracaoShowView = Backbone.View.extend({
-
-    initialize: function(){
-
+    initialize: function() {
         // in this view, all WidgetsView would display '-' as nullValues,
         // unless it is set otherwise in a specific WidgetsView
-        Backbone.UILib.WidgetsView.prototype.displayNull = function(name){
-            return '-';
-        }
+        Backbone.UILib.WidgetsView.prototype.displayNull = function(name) {
+            return "-";
+        };
 
         this.subViews = [];
     },
 
-    render: function(){
-
+    render: function() {
         var view = this;
         var exploracao = this.model;
 
         var domains = new Backbone.UILib.DomainCollection();
         domains.fetch({
             success: function(collection, response, options) {
-
                 // TODO. Do not hide this here
                 /* En el modo no-escritorio, el combo de estado en la ficha de la licencia
                 sólo puede mostrar o bien el estado actual de la licencia, cuando todavía está
@@ -29,40 +25,43 @@ Backbone.SIXHIARA.ExploracaoShowView = Backbone.View.extend({
                 */
                 if (!window.SIRHA.is_single_user_mode()) {
                     var actualState = domains.where({
-                        'text':view.model.get('estado_lic'),
-                        'category': 'licencia_estado',
+                        text: view.model.get("estado_lic"),
+                        category: "licencia_estado",
                     })[0];
-                    domains.forEach(function(d){
-                        if (d.get('category') === 'licencia_estado') {
-                            if (actualState.get('parent') === 'post-licenciada') {
-                                if (d.get('parent') !== 'post-licenciada') {
-                                    d.set('category', 'ignore', {silent: true});
+                    domains.forEach(function(d) {
+                        if (d.get("category") === "licencia_estado") {
+                            if (actualState.get("parent") === "post-licenciada") {
+                                if (d.get("parent") !== "post-licenciada") {
+                                    d.set("category", "ignore", {silent: true});
                                 }
                             } else {
-                                if (d.get('text') !== actualState.get('text')) {
-                                    d.set('category', 'ignore', {silent: true});
+                                if (d.get("text") !== actualState.get("text")) {
+                                    d.set("category", "ignore", {silent: true});
                                 }
                             }
                         }
                     });
                 }
 
-
-                view.listenTo(exploracao, 'aChangeHappens', function(){
-                    this.$('menu a').not('.dropdown-toggle').on('click', function(evt){
-                        var refreshConfirmation = confirm('Hai mudanzas sem gravar. ¿Deseja sair igualmente?');
-                        if (!refreshConfirmation) {
-                            evt.preventDefault();
-                        }
-                    })
+                view.listenTo(exploracao, "aChangeHappens", function() {
+                    this.$("menu a")
+                        .not(".dropdown-toggle")
+                        .on("click", function(evt) {
+                            var refreshConfirmation = confirm(
+                                "Hai mudanzas sem gravar. ¿Deseja sair igualmente?"
+                            );
+                            if (!refreshConfirmation) {
+                                evt.preventDefault();
+                            }
+                        });
                 });
 
-                var defaultUrlBase = Backbone.SIXHIARA.Config.apiDocumentos
+                var defaultUrlBase = Backbone.SIXHIARA.Config.apiDocumentos;
                 var fileModalView = new Backbone.DMS.FileModalView({
-                    openElementId: '#file-modal',
-                    title: 'Arquivo Electr&oacute;nico',
+                    openElementId: "#file-modal",
+                    title: "Arquivo Electr&oacute;nico",
                     urlBase: defaultUrlBase,
-                    id: exploracao.get('id')
+                    id: exploracao.get("id"),
                 });
 
                 /** Buttons View are here, because after the domains are loaded,
@@ -71,94 +70,98 @@ Backbone.SIXHIARA.ExploracaoShowView = Backbone.View.extend({
 
                 // TODO: do not listen to events if button is disabled
                 var buttonSaveView = new Backbone.SIXHIARA.ButtonSaveView({
-                    el: $('#save-button'),
-                    model: exploracao
+                    el: $("#save-button"),
+                    model: exploracao,
                 });
                 view.subViews.push(buttonSaveView);
 
                 var buttonDeleteView = new Backbone.SIXHIARA.ButtonDeleteView({
-                    el: $('#delete-button'),
-                    model: exploracao
+                    el: $("#delete-button"),
+                    model: exploracao,
                 });
                 view.subViews.push(buttonDeleteView);
 
                 var buttonRefreshView = new Backbone.SIXHIARA.ButtonRefreshView({
-                    el: $('#refresh-button'),
-                    model: exploracao
+                    el: $("#refresh-button"),
+                    model: exploracao,
                 });
                 view.subViews.push(buttonRefreshView);
 
                 var blockInfoLicenseView = new Backbone.SIXHIARA.BlockInfoLicenseView({
-                    el: $('#license-info'),
-                    model: exploracao
+                    el: $("#license-info"),
+                    model: exploracao,
                 });
                 view.subViews.push(blockInfoLicenseView);
             },
-            error: function () {
+            error: function() {
                 // TODO: show message to user
-                console.error('could not get domains from API');
-            }
+                console.error("could not get domains from API");
+            },
         });
 
         var blockMapView = new Backbone.SIXHIARA.BlockMapView({
-            model: exploracao
+            model: exploracao,
         });
         this.subViews.push(blockMapView);
 
         var blockInfoView = new Backbone.SIXHIARA.BlockInfoView({
-            el: $('#block-info'),
+            el: $("#block-info"),
             model: exploracao,
             domains: domains,
         }).render();
         this.subViews.push(blockInfoView);
 
         var blockLocationView = new Backbone.SIXHIARA.BlockLocationView({
-            el: $('#block-location'),
+            el: $("#block-location"),
             model: exploracao,
             domains: domains,
         }).render();
         this.subViews.push(blockLocationView);
 
         var blockUtenteView = new Backbone.SIXHIARA.BlockUtenteView({
-            el: $('#block-utente'),
+            el: $("#block-utente"),
             model: exploracao,
         }).render();
         this.subViews.push(blockUtenteView);
 
         var blockActivityView = new Backbone.SIXHIARA.BlockActivityView({
-            el: $('#block-activity'),
+            el: $("#block-activity"),
             model: exploracao,
             domains: domains,
         }).render();
         this.subViews.push(blockActivityView);
 
         var blockConsumosView = new Backbone.UILib.WidgetsView({
-            el: $('#block-consumos'),
-            model: exploracao
+            el: $("#block-consumos"),
+            model: exploracao,
         }).render();
-        blockConsumosView.listenTo(exploracao.get('fontes'), 'add destroy', blockConsumosView.render);
-        blockConsumosView.listenTo(exploracao, 'change', blockConsumosView.render);
+        blockConsumosView.listenTo(
+            exploracao.get("fontes"),
+            "add destroy",
+            blockConsumosView.render
+        );
+        blockConsumosView.listenTo(exploracao, "change", blockConsumosView.render);
         this.subViews.push(blockConsumosView);
 
         var blockSuperficialView = new Backbone.SIXHIARA.BlockLicenseView({
-            el: $('#block-superficial'),
+            el: $("#block-superficial"),
             model: exploracao,
             domains: domains,
-            tipo_agua: 'Superficial',
+            tipo_agua: "Superficial",
         }).render();
         this.subViews.push(blockSuperficialView);
 
         var blockSubterraneaView = new Backbone.SIXHIARA.BlockLicenseView({
-            el: $('#block-subterranea'),
+            el: $("#block-subterranea"),
             model: exploracao,
             domains: domains,
-            tipo_agua: 'Subterrânea',
+            tipo_agua: "Subterrânea",
         }).render();
         this.subViews.push(blockSubterraneaView);
 
         var blockFontesView = new Backbone.SIXHIARA.BlockFontesView({
-            el: $('#block-fontes'),
-            collection: exploracao.get('fontes'),
+            el: $("#block-fontes"),
+            collection: exploracao.get("fontes"),
             domains: domains,
         }).render();
         this.subViews.push(blockFontesView);
@@ -166,9 +169,8 @@ Backbone.SIXHIARA.ExploracaoShowView = Backbone.View.extend({
         return this;
     },
 
-    remove: function () {
+    remove: function() {
         Backbone.View.prototype.remove.call(this);
-        _.invoke(this.subViews, 'remove');
-    }
-
+        _.invoke(this.subViews, "remove");
+    },
 });

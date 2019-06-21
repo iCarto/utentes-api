@@ -1,24 +1,22 @@
 Backbone.GeoJson = Backbone.GeoJson || {};
 Backbone.GeoJson.FeatureCollection = Backbone.Collection.extend({
-
     model: Backbone.GeoJson.Feature,
 
-    parse: function(response){
+    parse: function(response) {
         return response.features;
     },
 
-    toGeoJSON: function(){
+    toGeoJSON: function() {
         var features = [];
-        this.models.forEach(function(model){
+        this.models.forEach(function(model) {
             var feature = model.toGeoJSON();
-            if (! _.isEmpty(feature.geometry)) {
+            if (!_.isEmpty(feature.geometry)) {
                 features.push(feature);
             }
         });
         return {
-            'type': 'FeatureCollection',
-            'features': features
+            type: "FeatureCollection",
+            features: features,
         };
     },
-
 });

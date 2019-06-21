@@ -1,6 +1,5 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.ViewJuridico2 = Backbone.SIXHIARA.View1.extend({
-
     template: _.template(`
         <div id="bt-toolbar" class="row">
            <div class="col-xs-12">
@@ -88,41 +87,47 @@ Backbone.SIXHIARA.ViewJuridico2 = Backbone.SIXHIARA.View1.extend({
         </div>
     `),
 
-
     init: function() {
         Backbone.SIXHIARA.View1.prototype.init.call(this);
 
-        document.getElementById('bt-ok').setAttribute('data-foo', 'juridico2');
+        document.getElementById("bt-ok").setAttribute("data-foo", "juridico2");
 
         var self = this;
 
-        document.querySelectorAll('table input[type="checkbox"]').forEach(function(input){
-            input.addEventListener('change', self.enableBts.bind(self), false);
-        });
+        document
+            .querySelectorAll('table input[type="checkbox"]')
+            .forEach(function(input) {
+                input.addEventListener("change", self.enableBts.bind(self), false);
+            });
 
         // Para gestionar los dos estados de doc incompleta
         var wfr_tmp = Object.create(MyWorkflowRenovacao);
-        var currentState = this.model.get('renovacao').get('estado');
-        document.getElementById('bt-ok').setAttribute('data-foo', 'juridico2');
-        var nextBtState = wfr_tmp.whichNextState(currentState, {target:{id: 'bt-ok',
-        attributes: {'data-foo': 'juridico2'}}});
-        document.getElementById('bt-ok').title = nextBtState;
+        var currentState = this.model.get("renovacao").get("estado");
+        document.getElementById("bt-ok").setAttribute("data-foo", "juridico2");
+        var nextBtState = wfr_tmp.whichNextState(currentState, {
+            target: {id: "bt-ok", attributes: {"data-foo": "juridico2"}},
+        });
+        document.getElementById("bt-ok").title = nextBtState;
 
-        if (self.model.get('renovacao').get('lic_time_info')) {
-            document.getElementById('time-renovacao-info').style.display = 'block';
+        if (self.model.get("renovacao").get("lic_time_info")) {
+            document.getElementById("time-renovacao-info").style.display = "block";
         }
 
         this.enableBts();
-        document.querySelectorAll('table input[type="checkbox"]').forEach(function(input){
-            input.addEventListener('change', self.autosave.bind(self), false);
-        });
+        document
+            .querySelectorAll('table input[type="checkbox"]')
+            .forEach(function(input) {
+                input.addEventListener("change", self.autosave.bind(self), false);
+            });
 
-        var defaultDataForFileModal = iAuth.getDefaultDataForFileModal(this.model.get('id'));
+        var defaultDataForFileModal = iAuth.getDefaultDataForFileModal(
+            this.model.get("id")
+        );
         var fileModalView = new Backbone.DMS.FileModalView({
-            openElementId: '#file-modal',
-            title: 'Arquivo Electr&oacute;nico',
+            openElementId: "#file-modal",
+            title: "Arquivo Electr&oacute;nico",
             urlBase: defaultDataForFileModal.defaultUrlBase,
-            id: defaultDataForFileModal.defaultFolderId
+            id: defaultDataForFileModal.defaultFolderId,
         });
     },
 
@@ -136,7 +141,6 @@ Backbone.SIXHIARA.ViewJuridico2 = Backbone.SIXHIARA.View1.extend({
             return true;
         });
 
-        document.getElementById('bt-ok').disabled = !enable;
-    }
-
+        document.getElementById("bt-ok").disabled = !enable;
+    },
 });

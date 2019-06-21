@@ -1,6 +1,5 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.ViewSecretaria1 = Backbone.SIXHIARA.View1.extend({
-
     template: _.template(`
         <div id="bt-toolbar" class="row">
   <div class="col-xs-12">
@@ -112,24 +111,32 @@ print('O ' + formatter().formatDate(req_obs[i]['create_at']) + ', ' + req_obs[i]
         Backbone.SIXHIARA.View1.prototype.init.call(this);
 
         var self = this;
-        this.$('input').prop('disabled', function() {return true;});
-
-        document.querySelectorAll('table input[type="checkbox"]').forEach(function(input){
-            input.addEventListener('change', self.enableBts);
+        this.$("input").prop("disabled", function() {
+            return true;
         });
+
+        document
+            .querySelectorAll('table input[type="checkbox"]')
+            .forEach(function(input) {
+                input.addEventListener("change", self.enableBts);
+            });
 
         this.enableBts();
 
-        document.querySelectorAll('table input[type="checkbox"]').forEach(function(input){
-            input.addEventListener('change', self.autosave.bind(self), false);
-        });
+        document
+            .querySelectorAll('table input[type="checkbox"]')
+            .forEach(function(input) {
+                input.addEventListener("change", self.autosave.bind(self), false);
+            });
 
-        var defaultDataForFileModal = iAuth.getDefaultDataForFileModal(this.model.get('id'));
+        var defaultDataForFileModal = iAuth.getDefaultDataForFileModal(
+            this.model.get("id")
+        );
         var fileModalView = new Backbone.DMS.FileModalView({
-            openElementId: '#file-modal',
-            title: 'Arquivo Electr&oacute;nico',
+            openElementId: "#file-modal",
+            title: "Arquivo Electr&oacute;nico",
             urlBase: defaultDataForFileModal.defaultUrlBase,
-            id: defaultDataForFileModal.defaultFolderId
+            id: defaultDataForFileModal.defaultFolderId,
         });
     },
 
@@ -142,6 +149,6 @@ print('O ' + formatter().formatDate(req_obs[i]['create_at']) + ', ' + req_obs[i]
             }
             return true;
         });
-        document.getElementById('bt-ok').disabled = !enable;
+        document.getElementById("bt-ok").disabled = !enable;
     },
 });

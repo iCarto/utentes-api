@@ -1,66 +1,66 @@
 var allLayers = [
     {
-        id: 'Albufeiras',
+        id: "Albufeiras",
         initialOrder: 7,
         farZoom: 11, // 500.000
     },
     {
-        id: 'CidadesVilas',
+        id: "CidadesVilas",
         pointToLayer: Backbone.SIXHIARA.LayerStyle.doPointToLayerCidadesVilas,
         initialOrder: 6,
     },
     {
-        id: 'Estradas',
+        id: "Estradas",
         initialOrder: 5,
         farZoom: 11, // 500.000
     },
     {
-        id: 'Lagos',
+        id: "Lagos",
         initialOrder: 4,
     },
     {
-        id: 'Oceano',
+        id: "Oceano",
         initialOrder: 0,
     },
     {
-        id: 'Pais',
+        id: "Pais",
         initialOrder: 1,
     },
     {
-        id: 'Postos',
+        id: "Postos",
         initialOrder: 2,
     },
     {
-        id: 'Provincias',
+        id: "Provincias",
         initialOrder: 3,
     },
     {
-        id: 'Rios',
+        id: "Rios",
         initialOrder: 8,
         farZoom: 11, // 500.000
     },
     {
-        id: 'Fontes',
+        id: "Fontes",
         initialOrder: 9,
         farZoom: 13, // 150.000
-    // onEachFeature: pop_Fontes4,
+        // onEachFeature: pop_Fontes4,
         pointToLayer: Backbone.SIXHIARA.LayerStyle.doPointToLayerFontes,
         almostOver: true,
     },
     {
-        id: 'PaisesPunto',
+        id: "PaisesPunto",
         pointToLayer: Backbone.SIXHIARA.LayerStyle.doPointToLayerPaisesPunto,
         initialOrder: 10,
     },
     {
-        id: 'PostosPunto',
+        id: "PostosPunto",
         pointToLayer: Backbone.SIXHIARA.LayerStyle.doPointToLayerPostosPunto,
         initialOrder: 11,
         farZoom: 9, // 1.000.000
     },
     {
-        id: 'ProvinciasPunto',
+        id: "ProvinciasPunto",
         pointToLayer: Backbone.SIXHIARA.LayerStyle.doPointToLayerProvinciasPunto,
         initialOrder: 12,
     },
-]
+];

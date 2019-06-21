@@ -1,14 +1,12 @@
 var DeleteSelected = L.ToolbarAction.extend({
-
     options: {
         toolbarIcon: {
             html: '<i class="fa fa-trash-o"></i>',
-            tooltip: 'Borrar seleccionados'
-        }
+            tooltip: "Borrar seleccionados",
+        },
     },
 
-    addHooks: function () {
+    addHooks: function() {
         table.deleteSelected();
-    }
-
+    },
 });

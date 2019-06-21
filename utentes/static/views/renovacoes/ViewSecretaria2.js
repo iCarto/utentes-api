@@ -1,6 +1,5 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.ViewSecretaria2 = Backbone.SIXHIARA.View1.extend({
-
     template: _.template(`
         <div id="bt-toolbar" class="row">
            <div class="col-xs-12">
@@ -55,54 +54,59 @@ Backbone.SIXHIARA.ViewSecretaria2 = Backbone.SIXHIARA.View1.extend({
         Backbone.SIXHIARA.View1.prototype.init.call(this);
         this.enableBts();
 
-        if (this.model.get('renovacao').get('lic_time_info')) {
-            document.getElementById('time-renovacao-info').style.display = 'block';
+        if (this.model.get("renovacao").get("lic_time_info")) {
+            document.getElementById("time-renovacao-info").style.display = "block";
         }
 
-        var defaultDataForFileModal = iAuth.getDefaultDataForFileModal(this.model.get('id'));
+        var defaultDataForFileModal = iAuth.getDefaultDataForFileModal(
+            this.model.get("id")
+        );
         var fileModalView = new Backbone.DMS.FileModalView({
-            openElementId: '#file-modal',
-            title: 'Arquivo Electr&oacute;nico',
+            openElementId: "#file-modal",
+            title: "Arquivo Electr&oacute;nico",
             urlBase: defaultDataForFileModal.defaultUrlBase,
-            id: defaultDataForFileModal.defaultFolderId
+            id: defaultDataForFileModal.defaultFolderId,
         });
     },
 
     enableBts: function() {
         var enable = true;
-        document.getElementById('bt-ok').disabled = !enable;
+        document.getElementById("bt-ok").disabled = !enable;
     },
 
     updateRenovacaoConsumoFact: function(model) {
-        var renovacao  = this.model.get('renovacao');
-        var facturacao = this.model.get('facturacao');
+        var renovacao = this.model.get("renovacao");
+        var facturacao = this.model.get("facturacao");
 
         if (!_.isEmpty(facturacao)) {
             // Use data from facturacao instead of Renovacao in order to be the most updated data available
-            model.get('licencias').forEach(function(lic){
-                var tipo = lic.get('tipo_agua').substring(0, 3).toLowerCase();
+            model.get("licencias").forEach(function(lic) {
+                var tipo = lic
+                    .get("tipo_agua")
+                    .substring(0, 3)
+                    .toLowerCase();
                 var last_invoice = facturacao.last();
-                var last_consumo = last_invoice.get('consumo_fact_' + tipo);
-                renovacao.set('consumo_fact_' + tipo + '_old', last_consumo);
+                var last_consumo = last_invoice.get("consumo_fact_" + tipo);
+                renovacao.set("consumo_fact_" + tipo + "_old", last_consumo);
             });
         }
-
     },
 
-    fillExploracaoFromRenovacao: function(){
-        var renovacao = this.model.get('renovacao')
-        this.model.get('licencias').forEach(function(lic){
-            var tipo = lic.get('tipo_agua').substring(0, 3).toLowerCase();
-            lic.set('tipo_lic', renovacao.get('tipo_lic_' + tipo))
-            lic.set('d_emissao', renovacao.get('d_emissao_' + tipo))
-            lic.set('d_validade', renovacao.get('d_validade_' + tipo))
-            lic.set('c_licencia', renovacao.get('c_licencia_' + tipo))
-            lic.set('estado', renovacao.get('estado'))
-
-        })
-        this.model.set('d_soli', renovacao.get('d_soli'))
-        this.model.set('d_ultima_entrega_doc', renovacao.get('d_ultima_entrega_doc'))
-
+    fillExploracaoFromRenovacao: function() {
+        var renovacao = this.model.get("renovacao");
+        this.model.get("licencias").forEach(function(lic) {
+            var tipo = lic
+                .get("tipo_agua")
+                .substring(0, 3)
+                .toLowerCase();
+            lic.set("tipo_lic", renovacao.get("tipo_lic_" + tipo));
+            lic.set("d_emissao", renovacao.get("d_emissao_" + tipo));
+            lic.set("d_validade", renovacao.get("d_validade_" + tipo));
+            lic.set("c_licencia", renovacao.get("c_licencia_" + tipo));
+            lic.set("estado", renovacao.get("estado"));
+        });
+        this.model.set("d_soli", renovacao.get("d_soli"));
+        this.model.set("d_ultima_entrega_doc", renovacao.get("d_ultima_entrega_doc"));
     },
 
     fillRenovacao: function(e, autosave) {
@@ -110,7 +114,7 @@ Backbone.SIXHIARA.ViewSecretaria2 = Backbone.SIXHIARA.View1.extend({
         var exploracao = this.model;
         var renovacao = this.model.get("renovacao");
 
-        var nextState = wfr.whichNextState(renovacao.get('estado'), e);
+        var nextState = wfr.whichNextState(renovacao.get("estado"), e);
 
         if (autosave) {
             this.doFillRenovacao(e, autosave);
@@ -130,22 +134,22 @@ Backbone.SIXHIARA.ViewSecretaria2 = Backbone.SIXHIARA.View1.extend({
         var exploracao = this.model;
         var renovacao = this.model.get("renovacao");
 
-        var nextState = wfr.whichNextState(renovacao.get('estado'), e);
+        var nextState = wfr.whichNextState(renovacao.get("estado"), e);
 
-        var currentComment = renovacao.get('obser').slice(-1)[0];
+        var currentComment = renovacao.get("obser").slice(-1)[0];
         Object.assign(currentComment, {
             create_at: new Date(),
             author: iAuth.getUser(),
-            text: document.getElementById('observacio').value,
-            state: nextState
+            text: document.getElementById("observacio").value,
+            state: nextState,
         });
 
         if (!autosave) {
-            renovacao.get('obser').push({
+            renovacao.get("obser").push({
                 create_at: null,
                 author: null,
                 text: null,
-                state: null
+                state: null,
             });
         }
 
@@ -161,24 +165,27 @@ Backbone.SIXHIARA.ViewSecretaria2 = Backbone.SIXHIARA.View1.extend({
             validate: false,
             wait: true,
             success: function(model) {
-                var exp_id = model.get('exp_id');
-                var exp_name = model.get('exp_name');
+                var exp_id = model.get("exp_id");
+                var exp_name = model.get("exp_name");
                 if (autosave) {
-                    console.log('autosaving');
+                    console.log("autosaving");
                 } else {
-                    bootbox.alert(`A exploração&nbsp;<strong>${exp_id} - ${exp_name}</strong>&nbsp;tem sido gravada correctamente.`, function(){
-                        exploracao.trigger('show-next-exp', exploracao);
-                        exploracao.urlRoot = Backbone.SIXHIARA.Config.apiExploracaos;
-                        exploracao.save({ wait: true });
-                    });
+                    bootbox.alert(
+                        `A exploração&nbsp;<strong>${exp_id} - ${exp_name}</strong>&nbsp;tem sido gravada correctamente.`,
+                        function() {
+                            exploracao.trigger("show-next-exp", exploracao);
+                            exploracao.urlRoot =
+                                Backbone.SIXHIARA.Config.apiExploracaos;
+                            exploracao.save({wait: true});
+                        }
+                    );
                 }
             },
             error: function() {
                 bootbox.alert(
                     '<span style="color: red;">Produziu-se um erro. Informe ao administrador.</strong>'
                 );
-            }
+            },
         });
     },
-
 });

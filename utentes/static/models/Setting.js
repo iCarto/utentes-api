@@ -1,11 +1,9 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.Setting = Backbone.Model.extend({
-
-    urlRoot: '/api/settings',
+    urlRoot: "/api/settings",
 
     parse: function(response) {
-        response.id = 'docPath'; //FIXME
+        response.id = "docPath"; //FIXME
         return response;
     },
-
 });

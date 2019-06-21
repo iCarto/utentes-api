@@ -1,8 +1,7 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.ViewJuridicoDados = Backbone.SIXHIARA.View1.extend({
-
     events: {
-        "click #bt-imprimir-licencia" : "printLicense"
+        "click #bt-imprimir-licencia": "printLicense",
     },
 
     templateHistorico: _.template(`
@@ -192,63 +191,70 @@ Backbone.SIXHIARA.ViewJuridicoDados = Backbone.SIXHIARA.View1.extend({
         Backbone.SIXHIARA.View1.prototype.init.call(this);
         var self = this;
 
-        if (self.model.get('renovacao').get('lic_time_info')) {
-            document.getElementById('time-renovacao-info').style.display = 'block';
+        if (self.model.get("renovacao").get("lic_time_info")) {
+            document.getElementById("time-renovacao-info").style.display = "block";
         }
 
-        document.getElementById("lic_imp").addEventListener('change', self.autosave.bind(self), false);
-        document.getElementById("lic_imp").addEventListener('change', self.enableBts.bind(self), false);
+        document
+            .getElementById("lic_imp")
+            .addEventListener("change", self.autosave.bind(self), false);
+        document
+            .getElementById("lic_imp")
+            .addEventListener("change", self.enableBts.bind(self), false);
 
         this.widgetsToBeUsed();
         this.enabledWidgets();
         this.fillSelects();
         this.enableBts();
 
-        document.querySelectorAll('.widget-date').forEach(function(el){
-            el.addEventListener('input', function(){
-                if(this.value && self.isValidDate(this.value)){
+        document.querySelectorAll(".widget-date").forEach(function(el) {
+            el.addEventListener("input", function() {
+                if (this.value && self.isValidDate(this.value)) {
                     self.model.get("renovacao").set(this.id, self.parseDate(this.id));
-                    self.autosave(self)
+                    self.autosave(self);
                 }
-            })
+            });
         });
 
-        var defaultDataForFileModal = iAuth.getDefaultDataForFileModal(this.model.get('id'));
+        var defaultDataForFileModal = iAuth.getDefaultDataForFileModal(
+            this.model.get("id")
+        );
         var fileModalView = new Backbone.DMS.FileModalView({
-            openElementId: '#file-modal',
-            title: 'Arquivo Electr&oacute;nico',
+            openElementId: "#file-modal",
+            title: "Arquivo Electr&oacute;nico",
             urlBase: defaultDataForFileModal.defaultUrlBase,
-            id: defaultDataForFileModal.defaultFolderId
+            id: defaultDataForFileModal.defaultFolderId,
         });
 
         var json = self.model.toJSON();
         var historico = new Backbone.SIXHIARA.HistoricoLicencias(this.model);
         historico.fetch({
             wait: true,
-            success: function(model, resp, options){
-                var data = []
-                json.licencias.forEach(function(lic){
-                    var prefix = lic.tipo_agua.substring(0, 3).toLowerCase()
-                    resp.forEach(function(h){
+            success: function(model, resp, options) {
+                var data = [];
+                json.licencias.forEach(function(lic) {
+                    var prefix = lic.tipo_agua.substring(0, 3).toLowerCase();
+                    resp.forEach(function(h) {
                         data.push({
-                                tipo_agua : lic.tipo_agua,
-                                d_emissao : h['d_emissao_' + prefix + '_old'],
-                                d_validade: h['d_validade_' + prefix + '_old'],
-                                c_licencia: h['c_licencia_' + prefix + '_old'],
-                                tipo_lic:   h['tipo_lic_' + prefix + '_old']
-                            });
+                            tipo_agua: lic.tipo_agua,
+                            d_emissao: h["d_emissao_" + prefix + "_old"],
+                            d_validade: h["d_validade_" + prefix + "_old"],
+                            c_licencia: h["c_licencia_" + prefix + "_old"],
+                            tipo_lic: h["tipo_lic_" + prefix + "_old"],
+                        });
                     });
                 });
-                self.$el.find('#historico').append(self.templateHistorico({
-                    renovacao: data
-                }));
+                self.$el.find("#historico").append(
+                    self.templateHistorico({
+                        renovacao: data,
+                    })
+                );
             },
-            error: function(){
-                bootbox.alert('Erro ao carregar dados históricos da licença.');
+            error: function() {
+                bootbox.alert("Erro ao carregar dados históricos da licença.");
                 return;
-            }
+            },
         });
-
     },
 
     widgetsToBeUsed: function() {
@@ -256,15 +262,33 @@ Backbone.SIXHIARA.ViewJuridicoDados = Backbone.SIXHIARA.View1.extend({
         if (iAuth.isObservador()) {
             return;
         }
-        this.model.get('licencias').forEach(function(lic){
-            var tipo = lic.get('tipo_agua').substring(0, 3).toLowerCase();
-            document.getElementById('lic-' + tipo + "-old").classList.remove('panel-disabled');
-            document.getElementById('lic-' + tipo).classList.remove('panel-disabled');
-            ['tipo_lic_sub_old', 'd_emissao_sub_old', 'd_validade_sub_old', 'c_licencia_sub_old',
-             'tipo_lic_sup_old', 'd_emissao_sup_old', 'd_validade_sup_old', 'c_licencia_sup_old',
-             'tipo_lic_sub', 'd_emissao_sub', 'd_validade_sub', 'c_licencia_sub',
-             'tipo_lic_sup', 'd_emissao_sup', 'd_validade_sup', 'c_licencia_sup',
-             ].forEach(function(w){
+        this.model.get("licencias").forEach(function(lic) {
+            var tipo = lic
+                .get("tipo_agua")
+                .substring(0, 3)
+                .toLowerCase();
+            document
+                .getElementById("lic-" + tipo + "-old")
+                .classList.remove("panel-disabled");
+            document.getElementById("lic-" + tipo).classList.remove("panel-disabled");
+            [
+                "tipo_lic_sub_old",
+                "d_emissao_sub_old",
+                "d_validade_sub_old",
+                "c_licencia_sub_old",
+                "tipo_lic_sup_old",
+                "d_emissao_sup_old",
+                "d_validade_sup_old",
+                "c_licencia_sup_old",
+                "tipo_lic_sub",
+                "d_emissao_sub",
+                "d_validade_sub",
+                "c_licencia_sub",
+                "tipo_lic_sup",
+                "d_emissao_sup",
+                "d_validade_sup",
+                "c_licencia_sup",
+            ].forEach(function(w) {
                 if (w.endsWith(tipo)) {
                     this.widgets.push(w);
                 }
@@ -274,92 +298,93 @@ Backbone.SIXHIARA.ViewJuridicoDados = Backbone.SIXHIARA.View1.extend({
 
     enabledWidgets: function() {
         var self = this;
-        self.widgets.forEach(function(w){
-            var field = document.querySelectorAll('#myid #' + w)[0];
+        self.widgets.forEach(function(w) {
+            var field = document.querySelectorAll("#myid #" + w)[0];
             field.disabled = false;
             field.required = true;
-            if (w.startsWith("d_")){
-                field.placeholder = 'dd/mm/yyyy';
-                field.addEventListener('input', function(){
-                    if(self.isValidDate(this.value)){
-                        self.model.get("renovacao").set(this.id, self.parseDate(this.id));
-                        self.autosave(self)
-                        self.enableBts(self)
+            if (w.startsWith("d_")) {
+                field.placeholder = "dd/mm/yyyy";
+                field.addEventListener("input", function() {
+                    if (self.isValidDate(this.value)) {
+                        self.model
+                            .get("renovacao")
+                            .set(this.id, self.parseDate(this.id));
+                        self.autosave(self);
+                        self.enableBts(self);
                     }
-                })
-            // Use this function to fill default value for selects
-            // If previous type of Licença was Consessao it will be filled as it was
-            } else if(field.nodeName == 'SELECT'){
-                var tipo_lic_old = self.model.get("renovacao").get(field.id)
+                });
+                // Use this function to fill default value for selects
+                // If previous type of Licença was Consessao it will be filled as it was
+            } else if (field.nodeName == "SELECT") {
+                var tipo_lic_old = self.model.get("renovacao").get(field.id);
                 for (var i = 0; i < field.options.length; i++) {
                     if (field.options[i].text == tipo_lic_old) {
-                        field.options[i].selected = 'selected'
+                        field.options[i].selected = "selected";
                     }
                 }
-                field.addEventListener('change', self.enableBts.bind(self), false);
-                field.addEventListener('change', self.autosave.bind(self), false);
+                field.addEventListener("change", self.enableBts.bind(self), false);
+                field.addEventListener("change", self.autosave.bind(self), false);
             } else {
-                field.addEventListener('input', function(){
+                field.addEventListener("input", function() {
                     if (formatter().unformatNumber(this.value)) {
-                        self.autosave(self)
-                        self.enableBts(self)
+                        self.autosave(self);
+                        self.enableBts(self);
                     }
-                })
+                });
             }
         });
     },
 
     fillSelects: function() {
         var self = this;
-        self.widgets.forEach(function(w){
+        self.widgets.forEach(function(w) {
             if (w.includes("tipo_lic")) {
-                var renovacao = self.model.get("renovacao")
-                var field = document.querySelectorAll('#myid #' + w)[0],
-                    field_old = document.querySelectorAll('#myid #' + w + "_old")[0];
+                var renovacao = self.model.get("renovacao");
+                var field = document.querySelectorAll("#myid #" + w)[0],
+                    field_old = document.querySelectorAll("#myid #" + w + "_old")[0];
                 for (var i = 0; i < field.options.length; i++) {
-                    var foo = renovacao.get(w) || renovacao.get(w + "_old")
+                    var foo = renovacao.get(w) || renovacao.get(w + "_old");
                     if (field.options[i].text == foo) {
-                        field.options[i].selected = 'selected'
-                        field_old.options[i].selected = 'selected'
+                        field.options[i].selected = "selected";
+                        field_old.options[i].selected = "selected";
                     }
                 }
             }
-        })
+        });
     },
 
     enableBts: function() {
-        document.getElementById('bt-ok').disabled = true;
-        document.getElementById('bt-imprimir-licencia').disabled = true;
+        document.getElementById("bt-ok").disabled = true;
+        document.getElementById("bt-imprimir-licencia").disabled = true;
         var lic_imp = document.getElementById("lic_imp").checked;
-        var enable = this.widgets.every(function(w){
-
-            var input = document.querySelectorAll('#myid #' + w)[0];
+        var enable = this.widgets.every(function(w) {
+            var input = document.querySelectorAll("#myid #" + w)[0];
             var e = input.value === 0 || input.value.trim();
             e = e && input.validity.valid;
             return e;
         });
 
         if (enable) {
-            document.getElementById('bt-imprimir-licencia').disabled = !enable;
+            document.getElementById("bt-imprimir-licencia").disabled = !enable;
         }
         if (enable && lic_imp) {
-            document.getElementById('bt-ok').disabled = !enable;
+            document.getElementById("bt-ok").disabled = !enable;
         }
-        return enable
+        return enable;
     },
 
     fillRenovacaoFromForm: function() {
-        var renovacao = this.model.get("renovacao")
-        this.widgets.forEach(function(w){
-            var field = document.querySelectorAll('#myid #' + w)[0];
+        var renovacao = this.model.get("renovacao");
+        this.widgets.forEach(function(w) {
+            var field = document.querySelectorAll("#myid #" + w)[0];
             value = field.value;
             if (value) {
-                renovacao.set(w, value)
+                renovacao.set(w, value);
                 if (field.id.startsWith("d_")) {
-                    renovacao.set(w, formatter().unformatDate(value))
+                    renovacao.set(w, formatter().unformatDate(value));
                 }
                 if (field.id.startsWith("c_")) {
-                    renovacao.set(w, formatter().unformatNumber(value))
+                    renovacao.set(w, formatter().unformatNumber(value));
                 }
             }
         });
@@ -370,7 +395,7 @@ Backbone.SIXHIARA.ViewJuridicoDados = Backbone.SIXHIARA.View1.extend({
         var exploracao = this.model;
         var renovacao = this.model.get("renovacao");
 
-        var nextState = wfr.whichNextState(renovacao.get('estado'), e);
+        var nextState = wfr.whichNextState(renovacao.get("estado"), e);
 
         if (autosave) {
             this.doFillRenovacao(e, autosave);
@@ -391,24 +416,24 @@ Backbone.SIXHIARA.ViewJuridicoDados = Backbone.SIXHIARA.View1.extend({
         var exploracao = this.model;
         var renovacao = this.model.get("renovacao");
 
-        renovacao.set("lic_imp", document.getElementById("lic_imp").checked)
+        renovacao.set("lic_imp", document.getElementById("lic_imp").checked);
 
-        var nextState = wfr.whichNextState(renovacao.get('estado'), e);
+        var nextState = wfr.whichNextState(renovacao.get("estado"), e);
 
-        var currentComment = renovacao.get('obser').slice(-1)[0];
+        var currentComment = renovacao.get("obser").slice(-1)[0];
         Object.assign(currentComment, {
             create_at: new Date(),
             author: iAuth.getUser(),
-            text: document.getElementById('observacio').value,
-            state: nextState
+            text: document.getElementById("observacio").value,
+            state: nextState,
         });
 
         if (!autosave) {
-            renovacao.get('obser').push({
+            renovacao.get("obser").push({
                 create_at: null,
                 author: null,
                 text: null,
-                state: null
+                state: null,
             });
         }
 
@@ -422,15 +447,15 @@ Backbone.SIXHIARA.ViewJuridicoDados = Backbone.SIXHIARA.View1.extend({
             validate: false,
             wait: true,
             success: function(model) {
-                var exp_id = model.get('exp_id');
-                var exp_name = model.get('exp_name');
+                var exp_id = model.get("exp_id");
+                var exp_name = model.get("exp_name");
                 if (autosave) {
-                    console.log('autosaving');
+                    console.log("autosaving");
                 } else {
                     bootbox.alert(
                         `A exploração&nbsp;<strong>${exp_id} - ${exp_name}</strong>&nbsp;tem sido gravada correctamente.`,
                         function() {
-                            exploracao.trigger('show-next-exp', exploracao);
+                            exploracao.trigger("show-next-exp", exploracao);
                         }
                     );
                 }
@@ -439,19 +464,19 @@ Backbone.SIXHIARA.ViewJuridicoDados = Backbone.SIXHIARA.View1.extend({
                 bootbox.alert(
                     '<span style="color: red;">Produziu-se um erro. Informe ao administrador.</strong>'
                 );
-            }
+            },
         });
     },
 
-    printLicense: function(){
+    printLicense: function() {
         // It has to print one document for each kind of tipo licencia (Subterránea / Superficial)
         // We iterate through licenses:
-        this.model.get('licencias').forEach(function(licencia, index){
+        this.model.get("licencias").forEach(function(licencia, index) {
             this.newPrinter(index);
         }, this);
     },
 
-    newPrinter: function(i){
+    newPrinter: function(i) {
         var json = this.model.toJSON();
 
         if (!json.licencias[i].tipo_lic) {
@@ -459,60 +484,71 @@ Backbone.SIXHIARA.ViewJuridicoDados = Backbone.SIXHIARA.View1.extend({
             return;
         }
         // Create a copy of the main object since both types of licenses share fields
-        var data = JSON.parse(JSON.stringify(json, function(key, value) {
-            if(value === null) {
-                return "";
-            }
-            return value;
-        }));
-        data.licencia = this.fillLicenseDataFromRenovacao(data.licencias[i], data.renovacao);
+        var data = JSON.parse(
+            JSON.stringify(json, function(key, value) {
+                if (value === null) {
+                    return "";
+                }
+                return value;
+            })
+        );
+        data.licencia = this.fillLicenseDataFromRenovacao(
+            data.licencias[i],
+            data.renovacao
+        );
 
         // We filter fontes by tipo_agua (Subterrânea / Superficial)
-        data.fontes = data.fontes.filter(function(fonte){
+        data.fontes = data.fontes.filter(function(fonte) {
             return fonte.tipo_agua == data.licencia.tipo_agua;
         });
 
         var licenseSortName = /(\d{4}\/)(\w{3})/.exec(data.licencia.lic_nro)[2];
 
-        data.licencia.d_emissao  = formatter().formatDate(data.licencia.d_emissao)   || "";
-        data.licencia.d_validade = formatter().formatDate(data.licencia.d_validade)  || "";
+        data.licencia.d_emissao = formatter().formatDate(data.licencia.d_emissao) || "";
+        data.licencia.d_validade =
+            formatter().formatDate(data.licencia.d_validade) || "";
         data.urlTemplate = Backbone.SIXHIARA.tipoTemplates[data.licencia.tipo_lic];
-        data.licencia.duration = Backbone.SIXHIARA.duracionLicencias[data.licencia.tipo_lic];
-        data.nameFile = data.licencia.tipo_lic.concat("_")
-                                              .concat(data.licencia.lic_nro)
-                                              .concat("_")
-                                              .concat(data.exp_name)
-                                              .concat('.docx');
+        data.licencia.duration =
+            Backbone.SIXHIARA.duracionLicencias[data.licencia.tipo_lic];
+        data.nameFile = data.licencia.tipo_lic
+            .concat("_")
+            .concat(data.licencia.lic_nro)
+            .concat("_")
+            .concat(data.exp_name)
+            .concat(".docx");
         var self = this;
         var datosAra = new Backbone.SIXHIARA.AraGetData();
         datosAra.fetch({
             success: function(model, resp, options) {
-                data.ara = resp
-                data.ara.logoUrl = 'static/print-templates/images/' + window.SIRHA.getARA() + '_cabecera.png';
-                data.ara.portadaUrl = 'static/print-templates/images/' + window.SIRHA.getARA() + '_portada.png';
+                data.ara = resp;
+                data.ara.logoUrl =
+                    "static/print-templates/images/" +
+                    window.SIRHA.getARA() +
+                    "_cabecera.png";
+                data.ara.portadaUrl =
+                    "static/print-templates/images/" +
+                    window.SIRHA.getARA() +
+                    "_portada.png";
                 var docxGenerator = new Backbone.SIXHIARA.DocxGeneratorView({
                     model: self.model,
-                    data: data
+                    data: data,
                 });
-                var lic_imp = document.getElementById('lic_imp');
-                lic_imp.checked = true
-                lic_imp.dispatchEvent(new Event('change'));
+                var lic_imp = document.getElementById("lic_imp");
+                lic_imp.checked = true;
+                lic_imp.dispatchEvent(new Event("change"));
             },
             error: function() {
                 bootbox.alert(`Erro ao imprimir licença`);
-            }
+            },
         });
     },
 
-    fillLicenseDataFromRenovacao: function(lic, renovacao){
+    fillLicenseDataFromRenovacao: function(lic, renovacao) {
         var prefix = lic.tipo_agua.substring(0, 3).toLowerCase();
-        lic.d_emissao  = renovacao['d_emissao_' + prefix];
-        lic.d_validade = renovacao['d_validade_' + prefix];
-        lic.c_licencia = renovacao['c_licencia_' + prefix];
-        lic.tipo_lic   = renovacao['tipo_lic_' + prefix];
-        return lic
+        lic.d_emissao = renovacao["d_emissao_" + prefix];
+        lic.d_validade = renovacao["d_validade_" + prefix];
+        lic.c_licencia = renovacao["c_licencia_" + prefix];
+        lic.tipo_lic = renovacao["tipo_lic_" + prefix];
+        return lic;
     },
-
-
-
 });

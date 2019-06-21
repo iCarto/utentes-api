@@ -1,10 +1,8 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.NewFactura = Backbone.Model.extend({
+    urlRoot: "/api/facturacao/",
 
-    urlRoot: '/api/facturacao/',
-
-    url: function(){
-        return this.urlRoot + this.get("id") + '/emitir_factura';
-    }
-
+    url: function() {
+        return this.urlRoot + this.get("id") + "/emitir_factura";
+    },
 });

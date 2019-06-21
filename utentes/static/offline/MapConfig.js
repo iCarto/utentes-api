@@ -10,12 +10,13 @@ Backbone.SIXHIARA.mapConfig = function(mapId, initOptions) {
         trackResize: false,
     };
 
-    var mapOptions = _.defaults(_.extend({}, defaultMapOptions, options.mapOptions || {}), defaultMapOptions);
-
-
+    var mapOptions = _.defaults(
+        _.extend({}, defaultMapOptions, options.mapOptions || {}),
+        defaultMapOptions
+    );
 
     if (options.mapBackground) {
-        $('#'+ mapId).css('background-color', options.mapBackground);
+        $("#" + mapId).css("background-color", options.mapBackground);
     }
 
     var map = L.map(mapId, mapOptions);
@@ -32,40 +33,45 @@ Backbone.SIXHIARA.mapConfig = function(mapId, initOptions) {
     }
 
     if (options.online || true) {
-        var mapBoxApi = window.localStorage.getItem('mapBoxApi');
+        var mapBoxApi = window.localStorage.getItem("mapBoxApi");
 
-        var hotLayer = L.tileLayer('http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        });
+        var hotLayer = L.tileLayer(
+            "http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png",
+            {
+                attribution:
+                    '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            }
+        );
 
-        var iCartoLayer = L.tileLayer('https://api.mapbox.com/styles/v1/fpuga/ciyeq8j4m00362slesun9tw70/tiles/256/{z}/{x}/{y}?access_token=' + mapBoxApi, {
-            attribution:'© <a href= "http://icarto.es">iCarto</a>, © <a href= "https://www.mapbox.com/map-feedback/">Mapbox</a>, © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        })
-
+        var iCartoLayer = L.tileLayer(
+            "https://api.mapbox.com/styles/v1/fpuga/ciyeq8j4m00362slesun9tw70/tiles/256/{z}/{x}/{y}?access_token=" +
+                mapBoxApi,
+            {
+                attribution:
+                    '© <a href= "http://icarto.es">iCarto</a>, © <a href= "https://www.mapbox.com/map-feedback/">Mapbox</a>, © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+            }
+        );
     }
 
-    var baseMap = window.localStorage.getItem('baseMap') || 'Sem rede';
-    if (baseMap === 'Sem rede') {
+    var baseMap = window.localStorage.getItem("baseMap") || "Sem rede";
+    if (baseMap === "Sem rede") {
         offBaseLayer.loadOffline(true);
-    } else if (baseMap === 'OSM-HOT') {
+    } else if (baseMap === "OSM-HOT") {
         hotLayer.addTo(map);
         offBaseLayer.loadOffline(false);
-    } else if (baseMap === 'OSM-Mapbox') {
+    } else if (baseMap === "OSM-Mapbox") {
         iCartoLayer.addTo(map);
         offBaseLayer.loadOffline(false);
     }
 
-
-    var control = L.control.layers({}, {}, {position:'topleft'}).addTo(map);
-    control.addBaseLayer(offBaseLayer, 'Sem rede');
+    var control = L.control.layers({}, {}, {position: "topleft"}).addTo(map);
+    control.addBaseLayer(offBaseLayer, "Sem rede");
     control.addBaseLayer(hotLayer, "OSM-HOT");
     control.addBaseLayer(iCartoLayer, "OSM-Mapbox");
 
-
-
-    map.on('baselayerchange', function(e) {
-        window.localStorage.setItem('baseMap', e.name);
+    map.on("baselayerchange", function(e) {
+        window.localStorage.setItem("baseMap", e.name);
     });
 
     return map;
-}
+};

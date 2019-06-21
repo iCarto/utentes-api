@@ -1,6 +1,5 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.ViewTecnico = Backbone.SIXHIARA.View1.extend({
-
     template: _.template(`
         <div id="bt-toolbar" class="row">
            <div class="col-xs-12">
@@ -99,28 +98,33 @@ Backbone.SIXHIARA.ViewTecnico = Backbone.SIXHIARA.View1.extend({
         Backbone.SIXHIARA.View1.prototype.init.call(this);
         var self = this;
 
-        document.querySelectorAll('table input[type="checkbox"]').forEach(function(input){
-            input.addEventListener('change', self.enableBts.bind(self), false);
-        });
+        document
+            .querySelectorAll('table input[type="checkbox"]')
+            .forEach(function(input) {
+                input.addEventListener("change", self.enableBts.bind(self), false);
+            });
 
-        if (self.model.get('renovacao').get('lic_time_info')) {
-            document.getElementById('time-renovacao-info').style.display = 'block';
+        if (self.model.get("renovacao").get("lic_time_info")) {
+            document.getElementById("time-renovacao-info").style.display = "block";
         }
 
         this.enableBts();
 
-        document.querySelectorAll('table input[type="checkbox"]').forEach(function(input){
-            input.addEventListener('change', self.autosave.bind(self), false);
-        });
+        document
+            .querySelectorAll('table input[type="checkbox"]')
+            .forEach(function(input) {
+                input.addEventListener("change", self.autosave.bind(self), false);
+            });
 
-        var defaultDataForFileModal = iAuth.getDefaultDataForFileModal(this.model.get('id'));
+        var defaultDataForFileModal = iAuth.getDefaultDataForFileModal(
+            this.model.get("id")
+        );
         var fileModalView = new Backbone.DMS.FileModalView({
-            openElementId: '#file-modal',
-            title: 'Arquivo Electr&oacute;nico',
+            openElementId: "#file-modal",
+            title: "Arquivo Electr&oacute;nico",
             urlBase: defaultDataForFileModal.defaultUrlBase,
-            id: defaultDataForFileModal.defaultFolderId
+            id: defaultDataForFileModal.defaultFolderId,
         });
-
     },
 
     enableBts: function() {
@@ -134,9 +138,12 @@ Backbone.SIXHIARA.ViewTecnico = Backbone.SIXHIARA.View1.extend({
             return true;
         });
 
-        var validState = this.model.get('renovacao').get('estado');
+        var validState = this.model.get("renovacao").get("estado");
         var expTest = this.model.cloneExploracao();
-        if (expTest.get('renovacao').get('estado') === SIRHA.ESTADO_RENOVACAO.INCOMPLETE_DT) {
+        if (
+            expTest.get("renovacao").get("estado") ===
+            SIRHA.ESTADO_RENOVACAO.INCOMPLETE_DT
+        ) {
             if (expTest.isValid()) {
                 validState = SIRHA.ESTADO_RENOVACAO.PENDING_TECH_DECISION;
             }
@@ -145,43 +152,48 @@ Backbone.SIXHIARA.ViewTecnico = Backbone.SIXHIARA.View1.extend({
             expTest.setLicState(SIRHA.ESTADO_RENOVACAO.PENDING_TECH_DECISION);
             if (expTest.isValid()) {
                 enableState = true;
-                document.getElementById('bt-ok').title = SIRHA.ESTADO_RENOVACAO.PENDING_EMIT_LICENSE;
+                document.getElementById("bt-ok").title =
+                    SIRHA.ESTADO_RENOVACAO.PENDING_EMIT_LICENSE;
             } else {
                 enableState = false;
-                document.getElementById('bt-ok').title = "Deve rechear correctamente a 'Ficha' dantes de completar";
+                document.getElementById("bt-ok").title =
+                    "Deve rechear correctamente a 'Ficha' dantes de completar";
             }
-            document.getElementById('bt-ficha').classList.remove('disabled');
-            document.getElementById('bt-ficha').removeAttribute('aria-disabled');
-            document.getElementById('bt-geometria').classList.remove('disabled');
-            document.getElementById('bt-geometria').removeAttribute('aria-disabled');
-            document.getElementById('bt-defacto').classList.remove('disabled');
-            document.getElementById('bt-defacto').removeAttribute('aria-disabled');
-            document.getElementById('p_unid').disabled = false;
-            document.getElementById('p_tec').disabled = false;
+            document.getElementById("bt-ficha").classList.remove("disabled");
+            document.getElementById("bt-ficha").removeAttribute("aria-disabled");
+            document.getElementById("bt-geometria").classList.remove("disabled");
+            document.getElementById("bt-geometria").removeAttribute("aria-disabled");
+            document.getElementById("bt-defacto").classList.remove("disabled");
+            document.getElementById("bt-defacto").removeAttribute("aria-disabled");
+            document.getElementById("p_unid").disabled = false;
+            document.getElementById("p_tec").disabled = false;
         } else {
-            throw 'Error';
+            throw "Error";
         }
 
-        document.getElementById('bt-ok').disabled = ! (enableChb && enableState);
+        document.getElementById("bt-ok").disabled = !(enableChb && enableState);
     },
 
     fillRenovacao: function(e, autosave) {
         var self = this;
         var exploracao = this.model;
         var renovacao = exploracao.get("renovacao");
-        var nextState = wfr.whichNextState(renovacao.get('estado'), e);
-        if (e && e.target && (e.target.id === 'bt-ok')) {
+        var nextState = wfr.whichNextState(renovacao.get("estado"), e);
+        if (e && e.target && e.target.id === "bt-ok") {
             nextState = SIRHA.ESTADO_RENOVACAO.PENDING_EMIT_LICENSE;
         }
 
         if (autosave) {
             this.dofillRenovacao(e, autosave);
         } else {
-            bootbox.confirm(`A exploração vai mudar o seu a: <br> <strong>${nextState}</strong>`, function(result){
-                if (result) {
-                    self.dofillRenovacao(e, autosave);
+            bootbox.confirm(
+                `A exploração vai mudar o seu a: <br> <strong>${nextState}</strong>`,
+                function(result) {
+                    if (result) {
+                        self.dofillRenovacao(e, autosave);
+                    }
                 }
-            });
+            );
         }
     },
 
@@ -190,54 +202,57 @@ Backbone.SIXHIARA.ViewTecnico = Backbone.SIXHIARA.View1.extend({
         var exploracao = this.model;
         var renovacao = this.model.get("renovacao");
 
-        var nextState = wfr.whichNextState(renovacao.get('estado'), e);
+        var nextState = wfr.whichNextState(renovacao.get("estado"), e);
 
-        var currentComment = renovacao.get('obser').slice(-1)[0];
+        var currentComment = renovacao.get("obser").slice(-1)[0];
         Object.assign(currentComment, {
-            'create_at': new Date(),
-            'author': iAuth.getUser(),
-            'text': document.getElementById('observacio').value,
-            'state': nextState,
+            create_at: new Date(),
+            author: iAuth.getUser(),
+            text: document.getElementById("observacio").value,
+            state: nextState,
         });
 
         if (!autosave) {
-            renovacao.get('obser').push({
-                'create_at': null,
-                'author': null,
-                'text': null,
-                'state': null,
+            renovacao.get("obser").push({
+                create_at: null,
+                author: null,
+                text: null,
+                state: null,
             });
         }
 
         renovacao.setLicState(nextState);
 
-        document.querySelectorAll('table input[type="checkbox"]').forEach(function(input){
-            renovacao.set(input.id, input.checked);
-        });
+        document
+            .querySelectorAll('table input[type="checkbox"]')
+            .forEach(function(input) {
+                renovacao.set(input.id, input.checked);
+            });
 
         exploracao.urlRoot = Backbone.SIXHIARA.Config.apiRenovacoes;
-        exploracao.save(
-            null,
-            {
-                'patch': true,
-                'validate': false,
-                'wait': true,
-                'success': function(model) {
-                    var exp_id = model.get('exp_id');
-                    var exp_name = model.get('exp_name');
-                    if (autosave) {
-                        console.log('autosaving');
-                    } else {
-                        bootbox.alert(`A exploração&nbsp;<strong>${exp_id} - ${exp_name}</strong>&nbsp;tem sido gravada correctamente.`, function(){
-                            exploracao.trigger('show-next-exp', exploracao);
-                        });
-                    }
-                },
-                'error': function() {
-                    bootbox.alert('<span style="color: red;">Produziu-se um erro. Informe ao administrador.</strong>');
-                },
-            }
-        );
+        exploracao.save(null, {
+            patch: true,
+            validate: false,
+            wait: true,
+            success: function(model) {
+                var exp_id = model.get("exp_id");
+                var exp_name = model.get("exp_name");
+                if (autosave) {
+                    console.log("autosaving");
+                } else {
+                    bootbox.alert(
+                        `A exploração&nbsp;<strong>${exp_id} - ${exp_name}</strong>&nbsp;tem sido gravada correctamente.`,
+                        function() {
+                            exploracao.trigger("show-next-exp", exploracao);
+                        }
+                    );
+                }
+            },
+            error: function() {
+                bootbox.alert(
+                    '<span style="color: red;">Produziu-se um erro. Informe ao administrador.</strong>'
+                );
+            },
+        });
     },
-
 });

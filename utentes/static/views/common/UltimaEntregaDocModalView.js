@@ -1,8 +1,7 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.UltimaEntregaDocModalView = Backbone.View.extend({
-
     events: {
-        'click #okbutton': 'okButtonClicked'
+        "click #okbutton": "okButtonClicked",
     },
 
     html: `
@@ -54,51 +53,62 @@ Backbone.SIXHIARA.UltimaEntregaDocModalView = Backbone.View.extend({
     },
 
     render: function() {
-        this.$el.html(this.template())
+        this.$el.html(this.template());
         return this;
     },
 
-    isBeforeSolicitacao: function(value){
+    isBeforeSolicitacao: function(value) {
         return formatter().isFirstDateBeforeSecondDate(value, this.model.get("d_soli"));
     },
 
     show: function() {
         var self = this;
         $(document.body).append(this.render().el);
-        document.getElementById('d_ultima_entrega_doc').addEventListener('input', function(e) {
-            var dateWidget = e.target;
-            var dateObj = formatter().unformatDate(dateWidget.value);
-            var validDate = dateObj && formatter().validDateFormat(dateWidget.value) && !formatter().isFuture(dateObj) && !self.isBeforeSolicitacao(dateObj);
-            if (validDate) {
-                dateWidget.setCustomValidity('');
-            } else {
-                dateWidget.setCustomValidity('A data deve ter o formato correto, ser posterior à data da solicitação e não ser posterior a hoje.');
-            }
+        document.getElementById("d_ultima_entrega_doc").addEventListener(
+            "input",
+            function(e) {
+                var dateWidget = e.target;
+                var dateObj = formatter().unformatDate(dateWidget.value);
+                var validDate =
+                    dateObj &&
+                    formatter().validDateFormat(dateWidget.value) &&
+                    !formatter().isFuture(dateObj) &&
+                    !self.isBeforeSolicitacao(dateObj);
+                if (validDate) {
+                    dateWidget.setCustomValidity("");
+                } else {
+                    dateWidget.setCustomValidity(
+                        "A data deve ter o formato correto, ser posterior à data da solicitação e não ser posterior a hoje."
+                    );
+                }
 
-            var helpBlock = document.getElementById('helpBlock_d_ultima_entrega_doc');
-            if (validDate) {
-                helpBlock.innerText = '';
-                helpBlock.style.color = null;
-            } else {
-                helpBlock.innerText = 'A data deve ter o formato correto, ser posterior à data da solicitação e não ser posterior a hoje.';
-                helpBlock.style.color = 'red';
-            }
+                var helpBlock = document.getElementById(
+                    "helpBlock_d_ultima_entrega_doc"
+                );
+                if (validDate) {
+                    helpBlock.innerText = "";
+                    helpBlock.style.color = null;
+                } else {
+                    helpBlock.innerText =
+                        "A data deve ter o formato correto, ser posterior à data da solicitação e não ser posterior a hoje.";
+                    helpBlock.style.color = "red";
+                }
 
-            document.getElementById('okbutton').disabled = !validDate;
-        }, false);
+                document.getElementById("okbutton").disabled = !validDate;
+            },
+            false
+        );
 
-
-        this.$('.modal').on('hidden.bs.modal', function(){
+        this.$(".modal").on("hidden.bs.modal", function() {
             self._close();
         });
 
-        this.$('.modal').modal('show');
+        this.$(".modal").modal("show");
     },
 
     _close: function() {
-        this.$('.modal').unbind();
-        this.$('.modal').remove();
+        this.$(".modal").unbind();
+        this.$(".modal").remove();
         this.remove();
     },
-
 });

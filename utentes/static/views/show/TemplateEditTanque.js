@@ -1,6 +1,5 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.TemplateEditTanque = Backbone.View.extend({
-
     html: `<!-- modal engadir tanque -->
     <script type="text/template" id="tanqueModalTpl">
     <div class="modal fade" id="tanqueModal" tabindex="-1" role="dialog" aria-labelledby="tanqueModalLabel">
@@ -201,10 +200,9 @@ Backbone.SIXHIARA.TemplateEditTanque = Backbone.View.extend({
     },
 
     render: function() {
-        $('body').append(_.template(this.html))
+        $("body").append(_.template(this.html));
         return this;
     },
-
 });
 
 new Backbone.SIXHIARA.TemplateEditTanque().render();

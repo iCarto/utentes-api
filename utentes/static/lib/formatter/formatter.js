@@ -1,84 +1,82 @@
-function formatter(){
-
+function formatter() {
     // TODO: make formats configurable
 
-    function isNumber(field){
+    function isNumber(field) {
         // http://stackoverflow.com/a/1830844/854308
         return !isNaN(parseFloat(field)) && isFinite(field);
     }
 
-    function formatNumber(value, number_format){
-        if(!isNumber(value)) return null;
+    function formatNumber(value, number_format) {
+        if (!isNumber(value)) return null;
 
-        var NUMBER_FORMAT = number_format || '0[,]000[.]00';
+        var NUMBER_FORMAT = number_format || "0[,]000[.]00";
         // load a language
-        numeral.language('pt-mz', {
+        numeral.language("pt-mz", {
             delimiters: {
-                thousands: ' ',
-                decimal: ','
+                thousands: " ",
+                decimal: ",",
             },
             abbreviations: {
-                thousand: 'k',
-                million:  'm',
-                billion:  'b',
-                trillion: 't'
+                thousand: "k",
+                million: "m",
+                billion: "b",
+                trillion: "t",
             },
-            ordinal : function (number) {
-                return number === 1 ? 'er' : 'ème';
+            ordinal: function(number) {
+                return number === 1 ? "er" : "ème";
             },
             currency: {
-                symbol: 'MZN'
-            }
+                symbol: "MZN",
+            },
         });
-        numeral.language('pt-mz');
+        numeral.language("pt-mz");
         return numeral(value).format(NUMBER_FORMAT);
     }
 
-    function formatEditionNumber(value, number_format){
-        if(!isNumber(value)) return null;
+    function formatEditionNumber(value, number_format) {
+        if (!isNumber(value)) return null;
 
-        var NUMBER_FORMAT = number_format || '0[,]000[.]00';
+        var NUMBER_FORMAT = number_format || "0[,]000[.]00";
         // load a language
-        numeral.language('pt-mz', {
+        numeral.language("pt-mz", {
             delimiters: {
-                thousands: '',
-                decimal: ','
+                thousands: "",
+                decimal: ",",
             },
             abbreviations: {
-                thousand: 'k',
-                million:  'm',
-                billion:  'b',
-                trillion: 't'
+                thousand: "k",
+                million: "m",
+                billion: "b",
+                trillion: "t",
             },
-            ordinal : function (number) {
-                return number === 1 ? 'er' : 'ème';
+            ordinal: function(number) {
+                return number === 1 ? "er" : "ème";
             },
             currency: {
-                symbol: 'MZN'
-            }
+                symbol: "MZN",
+            },
         });
-        numeral.language('pt-mz');
+        numeral.language("pt-mz");
         return numeral(value).format(NUMBER_FORMAT);
     }
 
-    function unformatNumber(value){
+    function unformatNumber(value) {
         // TODO: review
-        if (value && value.indexOf('.') !== -1) return null;
-        var val = $.trim(value.replace('\,', '\.'));
-        if (isNumber(val)){
+        if (value && value.indexOf(".") !== -1) return null;
+        var val = $.trim(value.replace(",", "."));
+        if (isNumber(val)) {
             return +val;
         }
         return null;
     }
 
-    function formatBoolean(value){
+    function formatBoolean(value) {
         // TODO let user inject their own formatter
         // to cover use cases like this
-        if(value) return "Existe";
+        if (value) return "Existe";
         else if (value === false) return "Não existe";
         return "";
     }
-
 
     /*
     We use `Date` in the function name for dates that take into account year, month and day. Also `today`.
@@ -115,7 +113,7 @@ function formatter(){
 
     function today() {
         var today = new Date(Date.now());
-        today.setHours(0,0,0,0);
+        today.setHours(0, 0, 0, 0);
         return today;
     }
 
@@ -159,8 +157,6 @@ function formatter(){
         return this.isFirstDateBeforeSecondDate(d, this.today());
     }
 
-
-
     function trimTime(d) {
         /* input value must be a Date like object
            returns a new Date object
@@ -175,17 +171,17 @@ function formatter(){
         return new Date(d.getTime());
     }
 
-    function formatDate(value){
-        var FORMAT_DATE = 'DD/MM/YYYY';
+    function formatDate(value) {
+        var FORMAT_DATE = "DD/MM/YYYY";
         // moment(undefined) returns current day, ouch!
-        if(moment(value).isValid() && value != undefined){
+        if (moment(value).isValid() && value != undefined) {
             return moment(value).format(FORMAT_DATE);
         }
         return null;
     }
 
     function parseValidDate(value) {
-        var tokens = value.trim().split('/');
+        var tokens = value.trim().split("/");
         return new Date(Date.UTC(tokens[2], tokens[1] - 1, tokens[0]));
     }
 
@@ -202,12 +198,16 @@ function formatter(){
         }
 
         // Devuelve true con null, undefined , '', o cadenas de texto con sólo espacios
-        if (_.isUndefined(value) || _.isNull(value) || (_.isString(value) && _.isEmpty(value.trim()))) {
+        if (
+            _.isUndefined(value) ||
+            _.isNull(value) ||
+            (_.isString(value) && _.isEmpty(value.trim()))
+        ) {
             return true;
         }
 
         // Si no es un String
-        if (!_.isString(value)){
+        if (!_.isString(value)) {
             return false;
         }
 
@@ -215,15 +215,20 @@ function formatter(){
 
         // Usa '/' como separador, los tokens son numéricos, y de forma gruesa
         // tienen los rangos adecuados
-        var validDate = /^(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20|21)\d\d$/.test(value);
+        var validDate = /^(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20|21)\d\d$/.test(
+            value
+        );
         if (!validDate) {
             return false;
         }
-        var tokens = value.split('/');
+        var tokens = value.split("/");
         var d = new Date(Date.UTC(tokens[2], tokens[1] - 1, tokens[0]));
 
         // Chequemos que las fechas están en rango. No usamos !== para poder comparar strings y enteros
-        if (d.getFullYear() != tokens[2] || d.getMonth != tokens[1] - 1 && d.getDate() != tokens[0]) {
+        if (
+            d.getFullYear() != tokens[2] ||
+            (d.getMonth != tokens[1] - 1 && d.getDate() != tokens[0])
+        ) {
             return false;
         }
         return true;
@@ -245,7 +250,11 @@ function formatter(){
             return value;
         }
 
-        if (_.isUndefined(value) || _.isNull(value) || (_.isString(value) && _.isEmpty(value.trim()))) {
+        if (
+            _.isUndefined(value) ||
+            _.isNull(value) ||
+            (_.isString(value) && _.isEmpty(value.trim()))
+        ) {
             return null;
         }
         return this.parseValidDate(value);
@@ -256,16 +265,16 @@ function formatter(){
             firstBoundBeforeSecondBound: false, // if 'error', throws an error if firstBound > secondBound. With true, the function always returns false
             inclusive: undefined, // Equivalent to set inclusiveStart and inclusiveEnd
             inclusiveFirstBound: true, // if true firstBound limit is included in the comparison
-            inclusiveSecondBound: true,  // if true secondBound limit is included in the comparison
+            inclusiveSecondBound: true, // if true secondBound limit is included in the comparison
         };
         options = Object.assign({}, defaultOptions, options);
-        if (typeof options.inclusive !== 'undefined') {
+        if (typeof options.inclusive !== "undefined") {
             options.inclusiveFirstBound = options.inclusive;
             options.inclusiveSecondBound = options.inclusive;
         }
         if (options.firstBoundBeforeSecondBound && firstBound > secondBound) {
-            if (options.firstBoundBeforeSecondBound === 'error') {
-                throw 'start should be lesser than end';
+            if (options.firstBoundBeforeSecondBound === "error") {
+                throw "start should be lesser than end";
             }
         }
         if (options.inclusiveFirstBound && x === firstBound) {
@@ -276,7 +285,7 @@ function formatter(){
             return true;
         }
 
-        return (x-firstBound) * (x-secondBound) < 0;
+        return (x - firstBound) * (x - secondBound) < 0;
     }
 
     var formatterObj = new Object();
@@ -292,7 +301,7 @@ function formatter(){
     formatterObj.isFuture = isFuture;
     formatterObj.isPast = isPast;
     formatterObj.trimTime = trimTime;
-    formatterObj.cloneDate = cloneDate ;
+    formatterObj.cloneDate = cloneDate;
     formatterObj.formatDate = formatDate;
     formatterObj.parseValidDate = parseValidDate;
     formatterObj.validDateFormat = validDateFormat;

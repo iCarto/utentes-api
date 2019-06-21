@@ -1,17 +1,17 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.View1 = Backbone.View.extend({
-    tagName:  'div',
+    tagName: "div",
 
     // optional, you can assign multiple classes to
     // this property like so: 'container homepage'
-    className: 'myclass',
+    className: "myclass",
 
     // Note: When declaring a View, options, el, tagName, id and className
     // may be defined as functions, if you want their values to be determined
     // at runtime.
-    id: 'myid', // optional
+    id: "myid", // optional
 
-    initialize: function (options) {
+    initialize: function(options) {
         this.options = options || {};
     },
 
@@ -28,70 +28,74 @@ Backbone.SIXHIARA.View1 = Backbone.View.extend({
     */
     init: function() {
         var self = this;
-        var currentComment = this.model.get('req_obs').slice(-1)[0];
+        var currentComment = this.model.get("req_obs").slice(-1)[0];
         if (currentComment.text) {
-            document.getElementById('observacio').value = currentComment.text;
+            document.getElementById("observacio").value = currentComment.text;
         }
 
-        document.getElementById('observacio').addEventListener('input', self.autosave.bind(self), false);
+        document
+            .getElementById("observacio")
+            .addEventListener("input", self.autosave.bind(self), false);
 
         var wf_tmp = Object.create(MyWorkflow);
-        var currentState = this.model.get('estado_lic');
-        document.querySelectorAll('#js-btns-next > button').forEach(function(bt) {
-            var nextBtState = wf_tmp.whichNextState(currentState, {target:{id: bt.id}});
+        var currentState = this.model.get("estado_lic");
+        document.querySelectorAll("#js-btns-next > button").forEach(function(bt) {
+            var nextBtState = wf_tmp.whichNextState(currentState, {
+                target: {id: bt.id},
+            });
             bt.title = nextBtState;
         });
 
         $('[data-toggle="tooltip"]').tooltip();
 
-        document.getElementById('js-btns-next').addEventListener('click', function(e){
-            if(wf.isNeedAskForEnteredDocumentationDate(self.model, e)){
-                    var ModalUltimaEntregaDoc = Backbone.SIXHIARA.UltimaEntregaDocModalView.extend({
+        document.getElementById("js-btns-next").addEventListener("click", function(e) {
+            if (wf.isNeedAskForEnteredDocumentationDate(self.model, e)) {
+                var ModalUltimaEntregaDoc = Backbone.SIXHIARA.UltimaEntregaDocModalView.extend(
+                    {
                         okButtonClicked: function() {
-                            var dateId = 'd_ultima_entrega_doc';
+                            var dateId = "d_ultima_entrega_doc";
                             var dateWidget = document.getElementById(dateId);
                             var dateObj = formatter().unformatDate(dateWidget.value);
                             self.model.set(dateId, dateObj);
-                            self.model.save({ wait: true });
-                            this.$('.modal').modal('hide');
-                            self.fillExploracao(e)
-                        }
-                    });
-                    var modalView = new ModalUltimaEntregaDoc({
-                        model: self.model
-                    })
-                    modalView.show();
-
-            }else {
+                            self.model.save({wait: true});
+                            this.$(".modal").modal("hide");
+                            self.fillExploracao(e);
+                        },
+                    }
+                );
+                var modalView = new ModalUltimaEntregaDoc({
+                    model: self.model,
+                });
+                modalView.show();
+            } else {
                 self.fillExploracao(e);
             }
         });
 
         this.tabBarTitle = new Backbone.SIXHIARA.TabBarTitle({
-            el: document.querySelector('#map-container ul.nav.nav-tabs'),
+            el: document.querySelector("#map-container ul.nav.nav-tabs"),
             model: currentState,
         }).render();
     },
 
-
     autosave: function() {
         // http://codetunnel.io/how-to-implement-autosave-in-your-web-app/
         var self = this;
-        var autosaveInfo = document.getElementById('autosave-info');
-        autosaveInfo.innerHTML = 'Modificações pendentes.';
-        autosaveInfo.style.color = 'red';
+        var autosaveInfo = document.getElementById("autosave-info");
+        autosaveInfo.innerHTML = "Modificações pendentes.";
+        autosaveInfo.style.color = "red";
         if (this.timeoutId) {
             clearTimeout(this.timeoutId);
         }
         if (this.autosaveInputTimeOutId) {
             clearTimeout(this.autosaveInputTimeOutId);
         }
-        this.timeoutId = setTimeout(function () {
+        this.timeoutId = setTimeout(function() {
             self.fillExploracao(null, true);
-            autosaveInfo.innerHTML = 'Modificações gravadas';
-            autosaveInfo.style.color = 'green';
+            autosaveInfo.innerHTML = "Modificações gravadas";
+            autosaveInfo.style.color = "green";
             self.autosaveInputTimeOutId = setTimeout(function() {
-                autosaveInfo.innerHTML = '';
+                autosaveInfo.innerHTML = "";
             }, 1000);
         }, 750);
     },
@@ -100,75 +104,81 @@ Backbone.SIXHIARA.View1 = Backbone.View.extend({
         var self = this;
         var exploracao = this.model;
 
-        var nextState = wf.whichNextState(exploracao.get('estado_lic'), e);
+        var nextState = wf.whichNextState(exploracao.get("estado_lic"), e);
 
         if (autosave) {
             this.doFillExploracao(e, autosave);
         } else {
-            bootbox.confirm(`A exploração vai mudar o seu a: <br> <strong>${nextState}</strong>`, function(result){
-                if (result) {
-                    self.doFillExploracao(e, autosave);
+            bootbox.confirm(
+                `A exploração vai mudar o seu a: <br> <strong>${nextState}</strong>`,
+                function(result) {
+                    if (result) {
+                        self.doFillExploracao(e, autosave);
+                    }
                 }
-            });
+            );
         }
     },
 
     doFillExploracao: function(e, autosave) {
         var exploracao = this.model;
 
-        var nextState = wf.whichNextState(exploracao.get('estado_lic'), e);
+        var nextState = wf.whichNextState(exploracao.get("estado_lic"), e);
 
-        var currentComment = exploracao.get('req_obs').slice(-1)[0];
+        var currentComment = exploracao.get("req_obs").slice(-1)[0];
         Object.assign(currentComment, {
-            'create_at': formatter().now(),
-            'author': iAuth.getUser(),
-            'text': document.getElementById('observacio').value,
-            'state': nextState,
+            create_at: formatter().now(),
+            author: iAuth.getUser(),
+            text: document.getElementById("observacio").value,
+            state: nextState,
         });
 
         if (!autosave) {
-            exploracao.get('req_obs').push({
-                'create_at': null,
-                'author': null,
-                'text': null,
-                'state': null,
+            exploracao.get("req_obs").push({
+                create_at: null,
+                author: null,
+                text: null,
+                state: null,
             });
         }
 
         exploracao.setLicState(nextState);
 
-        document.querySelectorAll('table input[type="checkbox"]').forEach(function(input){
-            exploracao.set(input.id, input.checked);
-        });
+        document
+            .querySelectorAll('table input[type="checkbox"]')
+            .forEach(function(input) {
+                exploracao.set(input.id, input.checked);
+            });
 
         exploracao.urlRoot = Backbone.SIXHIARA.Config.apiRequerimentos;
-        exploracao.save(
-            null,
-            {
-                'patch': true,
-                'validate': false,
-                'wait': true,
-                'success': function(model) {
-                    var exp_id = model.get('exp_id');
-                    var exp_name = model.get('exp_name');
-                    if (autosave) {
-                        // console.log('autosaving');
-                    } else {
-                        bootbox.alert(`A exploração&nbsp;<strong>${exp_id} - ${exp_name}</strong>&nbsp;tem sido gravada correctamente.`, function(){
-                            exploracao.trigger('show-next-exp', exploracao);
-                        });
-                    }
-                },
-                'error': function() {
-                    bootbox.alert('<span style="color: red;">Produziu-se um erro. Informe ao administrador.</strong>');
-                },
-            }
-        );
+        exploracao.save(null, {
+            patch: true,
+            validate: false,
+            wait: true,
+            success: function(model) {
+                var exp_id = model.get("exp_id");
+                var exp_name = model.get("exp_name");
+                if (autosave) {
+                    // console.log('autosaving');
+                } else {
+                    bootbox.alert(
+                        `A exploração&nbsp;<strong>${exp_id} - ${exp_name}</strong>&nbsp;tem sido gravada correctamente.`,
+                        function() {
+                            exploracao.trigger("show-next-exp", exploracao);
+                        }
+                    );
+                }
+            },
+            error: function() {
+                bootbox.alert(
+                    '<span style="color: red;">Produziu-se um erro. Informe ao administrador.</strong>'
+                );
+            },
+        });
     },
 
     remove: function() {
         this.tabBarTitle.remove();
         Backbone.View.prototype.remove.call(this);
-    }
-
+    },
 });

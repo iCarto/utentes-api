@@ -1,8 +1,6 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.NumberOfResultsView = Backbone.View.extend({
-
-    events: {
-    },
+    events: {},
 
     initialize: function(options) {
         this.options = options || {};
@@ -11,13 +9,15 @@ Backbone.SIXHIARA.NumberOfResultsView = Backbone.View.extend({
     },
 
     render: function(size) {
-        if(!size) {
+        if (!size) {
             size = 0;
         }
-        this.$el.html('(<span class="filtered">' + size + '</span> de ' + this.totalResults + ')');
+        this.$el.html(
+            '(<span class="filtered">' + size + "</span> de " + this.totalResults + ")"
+        );
     },
 
-    update: function(size){
+    update: function(size) {
         this.render(size);
     },
 });

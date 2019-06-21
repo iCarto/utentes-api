@@ -1,8 +1,7 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.ViewFacturaHistorico = Backbone.View.extend({
-
-    className: 'factura-historico',
-    tagName: 'li',
+    className: "factura-historico",
+    tagName: "li",
 
     template: _.template(`
         <small class="label" id="summary_pagos">P</small>
@@ -14,45 +13,47 @@ Backbone.SIXHIARA.ViewFacturaHistorico = Backbone.View.extend({
     `),
 
     events: {
-        'click #view-link': 'viewFactura',
+        "click #view-link": "viewFactura",
     },
 
-    initialize: function (options) {
+    initialize: function(options) {
         this.options = options || {};
-        this.listenTo(this.model, 'change', this.render)
+        this.listenTo(this.model, "change", this.render);
     },
 
     render: function() {
         var json = this.model.toJSON();
         this.$el.empty();
         this.$el.html(this.template(json));
-        this.$el.find('#summary_pagos').removeClass().addClass('label ' + this.getStatusClassname());
+        this.$el
+            .find("#summary_pagos")
+            .removeClass()
+            .addClass("label " + this.getStatusClassname());
         return this;
     },
 
     setSelected: function() {
-        this.$el.addClass('factura-selected');
+        this.$el.addClass("factura-selected");
     },
 
     removeSelected: function() {
-        this.$el.removeClass('factura-selected');
+        this.$el.removeClass("factura-selected");
     },
 
     viewFactura: function() {
-        this.trigger('factura-selected', this.model.id);
+        this.trigger("factura-selected", this.model.id);
     },
 
-    getStatusClassname: function(){
-        var fact_estado = this.model.get('fact_estado');
-        if(fact_estado === window.SIRHA.ESTADO_FACT.PENDING_M3) {
-            return 'factura-label-pdt-consumo';
-        }else if(fact_estado === window.SIRHA.ESTADO_FACT.PENDING_INVOICE){
-            return 'factura-label-pdt-factura';
-        }else if(fact_estado === window.SIRHA.ESTADO_FACT.PENDING_PAY){
-            return 'factura-label-pdt-pagamento';
-        }else if(fact_estado === window.SIRHA.ESTADO_FACT.PAID){
-            return 'factura-label-pagada';
+    getStatusClassname: function() {
+        var fact_estado = this.model.get("fact_estado");
+        if (fact_estado === window.SIRHA.ESTADO_FACT.PENDING_M3) {
+            return "factura-label-pdt-consumo";
+        } else if (fact_estado === window.SIRHA.ESTADO_FACT.PENDING_INVOICE) {
+            return "factura-label-pdt-factura";
+        } else if (fact_estado === window.SIRHA.ESTADO_FACT.PENDING_PAY) {
+            return "factura-label-pdt-pagamento";
+        } else if (fact_estado === window.SIRHA.ESTADO_FACT.PAID) {
+            return "factura-label-pagada";
         }
-    }
-
+    },
 });

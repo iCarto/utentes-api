@@ -1,14 +1,14 @@
 var myLeafletEvent = function(e) {
-    var item = document.getElementById('exp_id-' + e.exp_id);
+    var item = document.getElementById("exp_id-" + e.exp_id);
     if (item) {
         item = item.parentNode;
     } else {
         return;
     }
-    if (e.type === 'mouseover') {
+    if (e.type === "mouseover") {
         e.notscroll || item.scrollIntoView();
-        item.classList.add('leaflet-mouseover');
+        item.classList.add("leaflet-mouseover");
     } else {
-        item.classList.remove('leaflet-mouseover');
+        item.classList.remove("leaflet-mouseover");
     }
 };

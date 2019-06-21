@@ -1,9 +1,9 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
-    tagName:  'div',
+    tagName: "div",
 
-    id: 'view-facturacao', // optional
-    className: 'myclass',
+    id: "view-facturacao", // optional
+    className: "myclass",
     template: _.template(`
     <div id="bt-toolbar" class="row" style="margin-bottom: 10px; margin-top: 10px">
         <div class="col-xs-12">
@@ -72,54 +72,66 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
     </div>
     `),
 
-    initialize: function (options) {
+    initialize: function(options) {
         this.options = options || {};
 
         var tiposLicencia = [];
-        this.model.get('licencias').forEach(function(lic){
-            var tipo = lic.get('tipo_agua').substring(0, 3).toLowerCase();
+        this.model.get("licencias").forEach(function(lic) {
+            var tipo = lic
+                .get("tipo_agua")
+                .substring(0, 3)
+                .toLowerCase();
             tiposLicencia.push(tipo);
         });
 
         this.facturacaoHistoricoView = new Backbone.SIXHIARA.ViewFacturacaoHistorico({
-            model: this.model.get('facturacao')
+            model: this.model.get("facturacao"),
         });
 
-        this.facturaSelected = this.model.get('facturacao').at(0).id;
+        this.facturaSelected = this.model.get("facturacao").at(0).id;
         this.facturaView = new Backbone.SIXHIARA.ViewFactura({
-            model: this.model.get('facturacao').findWhere({id: this.facturaSelected}),
+            model: this.model.get("facturacao").findWhere({id: this.facturaSelected}),
             tiposLicencia: tiposLicencia,
-            exploracao: this.model
+            exploracao: this.model,
         });
         this.facturaHeader = new Backbone.SIXHIARA.ViewFacturaHeader({
-            model: this.model.get('facturacao').findWhere({id: this.facturaSelected})
+            model: this.model.get("facturacao").findWhere({id: this.facturaSelected}),
         });
 
-        this.listenTo(this.model, 'change:fact_estado', this.estadoUpdated);
-        this.listenTo(this.model.get('facturacao'), 'change', this.facturacaoUpdated);
+        this.listenTo(this.model, "change:fact_estado", this.estadoUpdated);
+        this.listenTo(this.model.get("facturacao"), "change", this.facturacaoUpdated);
     },
 
     render: function() {
         var json = this.model.toJSON();
-        json.c_licencia_sup = this.model.getLicencia('sup').get('c_licencia');
-        json.c_licencia_sub = this.model.getLicencia('sub').get('c_licencia');
+        json.c_licencia_sup = this.model.getLicencia("sup").get("c_licencia");
+        json.c_licencia_sub = this.model.getLicencia("sub").get("c_licencia");
         this.$el.html(this.template(json));
-        
+
         this.renderFacturacaoHistorico();
         this.renderFactura();
         return this;
     },
 
-    renderFacturacaoHistorico: function () {
-        this.$el.find('#facturacao-historico-view').empty().append(this.facturacaoHistoricoView.render().el);
+    renderFacturacaoHistorico: function() {
+        this.$el
+            .find("#facturacao-historico-view")
+            .empty()
+            .append(this.facturacaoHistoricoView.render().el);
     },
 
-    renderFactura: function (event) {
-        if(event) {
+    renderFactura: function(event) {
+        if (event) {
             event.preventDefault();
         }
-        this.$el.find('#factura-view').empty().append(this.facturaView.render().el);
-        this.$el.find('#factura-header').empty().append(this.facturaHeader.render().el);
+        this.$el
+            .find("#factura-view")
+            .empty()
+            .append(this.facturaView.render().el);
+        this.$el
+            .find("#factura-header")
+            .empty()
+            .append(this.facturaHeader.render().el);
     },
 
     /*
@@ -132,22 +144,25 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
 
         this.facturaView.updateWidgets();
         this.facturacaoHistoricoView.setSelected(this.facturaSelected);
-        this.facturacaoHistoricoView.on('factura-selected', function(id) {
+        this.facturacaoHistoricoView.on("factura-selected", function(id) {
             self.facturaSelected = id;
-            self.facturaView.updateModel(self.model.get('facturacao').findWhere({id}));
-            self.facturaHeader.updateModel(self.model.get('facturacao').findWhere({id}));
+            self.facturaView.updateModel(self.model.get("facturacao").findWhere({id}));
+            self.facturaHeader.updateModel(
+                self.model.get("facturacao").findWhere({id})
+            );
         });
 
         this.updateWidgets();
 
-        var defaultDataForFileModal = iAuth.getDefaultDataForFileModal(this.model.get('id'));
+        var defaultDataForFileModal = iAuth.getDefaultDataForFileModal(
+            this.model.get("id")
+        );
         var fileModalView = new Backbone.DMS.FileModalView({
-            openElementId: '#file-modal',
-            title: 'Arquivo Electr&oacute;nico',
+            openElementId: "#file-modal",
+            title: "Arquivo Electr&oacute;nico",
             urlBase: defaultDataForFileModal.defaultUrlBase,
-            id: defaultDataForFileModal.defaultFolderId
+            id: defaultDataForFileModal.defaultFolderId,
         });
-
     },
 
     updateWidgets: function() {
@@ -161,16 +176,16 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
             this.widgets = [];
             return;
         }
-        this.widgets = ['pago_lic', 'fact_tipo'];
+        this.widgets = ["pago_lic", "fact_tipo"];
     },
 
     enabledWidgets: function() {
         var self = this;
-        this.widgets.forEach(function(w){
-            var input = this.$('#view-facturacao #' + w);
-            input.prop('disabled', false);
-            input.prop('required', true);
-            input.on('input', self.facturacaoFormFieldsUpdated.bind(self));
+        this.widgets.forEach(function(w) {
+            var input = this.$("#view-facturacao #" + w);
+            input.prop("disabled", false);
+            input.prop("required", true);
+            input.on("input", self.facturacaoFormFieldsUpdated.bind(self));
         });
     },
 
@@ -178,9 +193,11 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
         var target = evt.currentTarget;
         if (target.validity.valid) {
             var modifiedAttributes = {};
-            if(target.nodeName == "INPUT") {
-                modifiedAttributes[target.id] = formatter().unformatNumber(target.value);
-            } else if(target.nodeName == "SELECT") {
+            if (target.nodeName == "INPUT") {
+                modifiedAttributes[target.id] = formatter().unformatNumber(
+                    target.value
+                );
+            } else if (target.nodeName == "SELECT") {
                 modifiedAttributes[target.id] = target.value;
             }
             this.model.set(modifiedAttributes);
@@ -194,14 +211,31 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
 
     estadoUpdated: function() {
         var self = this;
-        if(iAuth.hasRoleTecnico() && this.model.get('fact_estado') != window.SIRHA.ESTADO_FACT.PENDING_M3) {
-            bootbox.alert(`A exploração&nbsp;<strong>${this.model.get('exp_id')} - ${this.model.get('exp_name')}</strong>&nbsp;não tem mais facturas pendentes de acrescentar consumo.`, function(){
-                self.model.trigger('show-next-exp', self.model);
-            });
-        } else if(this.model.get('fact_estado') == window.SIRHA.ESTADO_FACT.PAID) {
-            bootbox.alert(`A exploração&nbsp;<strong>${this.model.get('exp_id')} - ${this.model.get('exp_name')}</strong>&nbsp;tem todas as facturas pagas.`, function(){
-                self.model.trigger('show-next-exp', self.model);
-            });
+        if (
+            iAuth.hasRoleTecnico() &&
+            this.model.get("fact_estado") != window.SIRHA.ESTADO_FACT.PENDING_M3
+        ) {
+            bootbox.alert(
+                `A exploração&nbsp;<strong>${this.model.get(
+                    "exp_id"
+                )} - ${this.model.get(
+                    "exp_name"
+                )}</strong>&nbsp;não tem mais facturas pendentes de acrescentar consumo.`,
+                function() {
+                    self.model.trigger("show-next-exp", self.model);
+                }
+            );
+        } else if (this.model.get("fact_estado") == window.SIRHA.ESTADO_FACT.PAID) {
+            bootbox.alert(
+                `A exploração&nbsp;<strong>${this.model.get(
+                    "exp_id"
+                )} - ${this.model.get(
+                    "exp_name"
+                )}</strong>&nbsp;tem todas as facturas pagas.`,
+                function() {
+                    self.model.trigger("show-next-exp", self.model);
+                }
+            );
         }
     },
 
@@ -212,22 +246,22 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
             return;
         }*/
         var self = this;
-        var autosaveInfo = document.getElementById('autosave-info');
-        autosaveInfo.innerHTML = 'Modificações pendentes'
-        autosaveInfo.style.color = 'red';
+        var autosaveInfo = document.getElementById("autosave-info");
+        autosaveInfo.innerHTML = "Modificações pendentes";
+        autosaveInfo.style.color = "red";
         if (this.timeoutId) {
             clearTimeout(this.timeoutId);
         }
         if (this.autosaveInputTimeOutId) {
             clearTimeout(this.autosaveInputTimeOutId);
         }
-        this.timeoutId = setTimeout(function () {
+        this.timeoutId = setTimeout(function() {
             self.saveExploracao(true);
-            autosaveInfo.innerHTML = 'Modificações gravadas'
-            autosaveInfo.style.color = 'green';
+            autosaveInfo.innerHTML = "Modificações gravadas";
+            autosaveInfo.style.color = "green";
             self.autosaveInputTimeOutId = setTimeout(function() {
-                autosaveInfo.innerHTML = '';
-            }, 1500)
+                autosaveInfo.innerHTML = "";
+            }, 1500);
         }, 750);
     },
 
@@ -235,23 +269,21 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
         var self = this;
 
         this.model.urlRoot = Backbone.SIXHIARA.Config.apiFacturacaoExploracao;
-        this.model.save(
-            null,
-            {
-                'validate': false,
-                'wait': true,
-                'success': function(model) {
-                    var exp_id = model.get('exp_id');
-                    var exp_name = model.get('exp_name');
-                    if (autosave) {
-                        console.log('autosaving');
-                    }
-                },
-                'error': function() {
-                    bootbox.alert('<span style="color: red;">Produziu-se um erro. Informe ao administrador.</strong>');
-                },
-            }
-        );
+        this.model.save(null, {
+            validate: false,
+            wait: true,
+            success: function(model) {
+                var exp_id = model.get("exp_id");
+                var exp_name = model.get("exp_name");
+                if (autosave) {
+                    console.log("autosaving");
+                }
+            },
+            error: function() {
+                bootbox.alert(
+                    '<span style="color: red;">Produziu-se um erro. Informe ao administrador.</strong>'
+                );
+            },
+        });
     },
-
 });

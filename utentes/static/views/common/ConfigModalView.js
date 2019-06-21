@@ -1,7 +1,5 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.ConfigModalView = Backbone.View.extend({
-
-
     html: `
       <div class="modal fade" id="configModalView" tabindex="-1" role="dialog" aria-labelledby="modalViewLabel">
         <div class="modal-dialog" role="document">
@@ -89,10 +87,10 @@ Backbone.SIXHIARA.ConfigModalView = Backbone.View.extend({
 
     events: {
         // 'click #openFile': 'openFile',
-        'change #import-fountains': 'importFountains',
-        'click #import-fountains-bt': 'importFountainsBt',
-        'click #restore': 'restore',
-        'click #dump': 'dump',
+        "change #import-fountains": "importFountains",
+        "click #import-fountains-bt": "importFountainsBt",
+        "click #restore": "restore",
+        "click #dump": "dump",
     },
 
     initialize: function(options) {
@@ -109,29 +107,29 @@ Backbone.SIXHIARA.ConfigModalView = Backbone.View.extend({
         $(document.body).append(this.render().el);
 
         var self = this;
-        this.$('.modal').on('hide.bs.modal', function(){
+        this.$(".modal").on("hide.bs.modal", function() {
             self.s.save(null);
         });
-        this.$('.modal').on('hidden.bs.modal', function(){
+        this.$(".modal").on("hidden.bs.modal", function() {
             self._close();
         });
         this.s = new Backbone.SIXHIARA.Setting();
         this.s.fetch({
             success: function() {
                 self.setValue();
-                self.$('.modal').modal('show');
-            }
+                self.$(".modal").modal("show");
+            },
         });
     },
 
     _close: function() {
-        this.$('.modal').unbind();
-        this.$('.modal').remove();
+        this.$(".modal").unbind();
+        this.$(".modal").remove();
         this.remove();
     },
 
     // openFile: function() {
-     //    const {dialog} = nodeRequire('electron').remote;
+    //    const {dialog} = nodeRequire('electron').remote;
     //     var file = dialog.showOpenDialog({
     //         properties: [ 'openDirectory' ],
     //         defaultPath: this.s.get('docPath'),
@@ -149,23 +147,23 @@ Backbone.SIXHIARA.ConfigModalView = Backbone.View.extend({
     },
 
     importFountainsBt: function() {
-      document.getElementById("import-fountains").click();
+        document.getElementById("import-fountains").click();
     },
 
     importFountains: function(e) {
         var file = e.currentTarget.files[0];
-        this.$('.modal').modal('hide');
+        this.$(".modal").modal("hide");
         this.handleFile(file);
     },
 
     handleFile: function(file) {
-        if (file.name.slice(-3) !== 'zip') {
-            this.$('.modal').modal('hide');
-            bootbox.alert('O arquivo deve ter uma extensão .zip');
+        if (file.name.slice(-3) !== "zip") {
+            this.$(".modal").modal("hide");
+            bootbox.alert("O arquivo deve ter uma extensão .zip");
             return;
         }
         var self = this;
-        $.getScript("/static/lib/shp.js", function(){
+        $.getScript("/static/lib/shp.js", function() {
             var reader = new FileReader();
             reader.onload = self.readerLoad;
             reader.readAsArrayBuffer(file);
@@ -177,66 +175,72 @@ Backbone.SIXHIARA.ConfigModalView = Backbone.View.extend({
             bootbox.alert("Error carregando ficheiro");
             return;
         } else {
-            shp(this.result).then(function(geojson){
+            shp(this.result).then(function(geojson) {
                 $.ajax({
-                    url: '/api/base/fountains',
+                    url: "/api/base/fountains",
                     type: "POST",
                     data: JSON.stringify(geojson),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
-                    success: function(data){
-                        alert(data['msg']);
+                    success: function(data) {
+                        alert(data["msg"]);
                         window.location.reload(true);
                     },
                     error: function(err) {
-                        var msg = JSON.parse(err.responseText)['error'];
-                        alert('Error: ' + msg);
-                    }
+                        var msg = JSON.parse(err.responseText)["error"];
+                        alert("Error: " + msg);
+                    },
                 });
             });
         }
     },
 
     restore: function() {
-        const {dialog} = nodeRequire('electron').remote;
+        const {dialog} = nodeRequire("electron").remote;
 
         var file = dialog.showOpenDialog({
-            filters: [{'name': '.dump', 'extensions': ['dump']}],
-            properties: [ 'openFile' ],
+            filters: [{name: ".dump", extensions: ["dump"]}],
+            properties: ["openFile"],
         });
 
         if (file && file.length) {
-            if (file[0].slice(-4) !== 'dump') {
-                this.$('.modal').modal('hide');
-                bootbox.alert('O arquivo deve ter uma extensão .dump');
+            if (file[0].slice(-4) !== "dump") {
+                this.$(".modal").modal("hide");
+                bootbox.alert("O arquivo deve ter uma extensão .dump");
                 return;
             }
-            document.body.style.cursor = 'wait';
-            $.getJSON('/api/db/restore', {'file': file[0]})
+            document.body.style.cursor = "wait";
+            $.getJSON("/api/db/restore", {file: file[0]})
                 .done(function(data) {
-                    bootbox.alert('Banco de dados restaurado com sucesso');
+                    bootbox.alert("Banco de dados restaurado com sucesso");
                     window.location.reload(true);
                 })
                 .fail(function(data) {
-                    bootbox.alert('<h1 style="color:red">Erro</h1><br><br>' + JSON.stringify(data.responseJSON.error));
+                    bootbox.alert(
+                        '<h1 style="color:red">Erro</h1><br><br>' +
+                            JSON.stringify(data.responseJSON.error)
+                    );
                 })
-                .always(function(){
-                    document.body.style.cursor = 'default';
-                })
+                .always(function() {
+                    document.body.style.cursor = "default";
+                });
         }
     },
 
     dump: function() {
-        document.body.style.cursor = 'wait';
-        $.getJSON('/api/db/dump')
+        document.body.style.cursor = "wait";
+        $.getJSON("/api/db/dump")
             .done(function(data) {
-                bootbox.alert('O arquivo está em:<br><br>' + data.file);
+                bootbox.alert("O arquivo está em:<br><br>" + data.file);
             })
             .fail(function(data) {
-                bootbox.alert('<h1 style="color:red">Erro</h1><br><br>' + JSON.stringify(data.responseJSON.error));
+                bootbox.alert(
+                    '<h1 style="color:red">Erro</h1><br><br>' +
+                        JSON.stringify(data.responseJSON.error)
+                );
             })
             .always(function() {
-                document.body.style.cursor = 'default';
+                document.body.style.cursor = "default";
             });
     },
 });

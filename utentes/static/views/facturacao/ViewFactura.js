@@ -1,9 +1,8 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
+    className: "view-facturacao",
 
-    className: 'view-facturacao',
-
-    id: 'edit-facturacao-modal',
+    id: "edit-facturacao-modal",
     template: _.template(`
     <div class="row panel-equal-height">
         <div class="col-xs-6">
@@ -140,12 +139,12 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
     `),
 
     events: {
-        'click #bt-diferida': 'changeStateToPdteFactura',
-        'click #bt-factura': 'printFactura',
-        'click #bt-recibo': 'printRecibo',
+        "click #bt-diferida": "changeStateToPdteFactura",
+        "click #bt-factura": "printFactura",
+        "click #bt-recibo": "printRecibo",
     },
 
-    initialize: function (options) {
+    initialize: function(options) {
         this.options = options || {};
         this.setListeners();
     },
@@ -173,8 +172,12 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
     },
 
     setListeners: function() {
-        this.listenTo(this.model, 'change:change:iva change:juros change:observacio change:taxa_fixa_sub change:taxa_uso_sub change:consumo_fact_sub change:taxa_fixa_sup change:taxa_uso_sup change:consumo_fact_sup', this.modelChanged)
-        this.listenTo(this.model, 'change:fact_estado', this.estadoChanged);
+        this.listenTo(
+            this.model,
+            "change:change:iva change:juros change:observacio change:taxa_fixa_sub change:taxa_uso_sub change:consumo_fact_sub change:taxa_fixa_sup change:taxa_uso_sup change:consumo_fact_sup",
+            this.modelChanged
+        );
+        this.listenTo(this.model, "change:fact_estado", this.estadoChanged);
     },
 
     updateWidgets: function() {
@@ -196,37 +199,52 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
         }
         // un técnico puede editar el consumo y tipo de la licencia subterránea si se trata de una licencia de consumo variable
         if (iAuth.hasRoleTecnico()) {
-            if(this.model.get('fact_estado') == window.SIRHA.ESTADO_FACT.PENDING_M3 
-                && this.options.tiposLicencia.includes('sub') && this.model.get('consumo_tipo_sub') == 'Variável'){
-                licenseWidgets = ['consumo_tipo_sub', 'consumo_fact_sub'];
-            }else{
+            if (
+                this.model.get("fact_estado") == window.SIRHA.ESTADO_FACT.PENDING_M3 &&
+                this.options.tiposLicencia.includes("sub") &&
+                this.model.get("consumo_tipo_sub") == "Variável"
+            ) {
+                licenseWidgets = ["consumo_tipo_sub", "consumo_fact_sub"];
+            } else {
                 return;
             }
         }
 
         // campos que se pueden editar
-        if(this.model.get('fact_estado') != window.SIRHA.ESTADO_FACT.PENDING_M3) {
+        if (this.model.get("fact_estado") != window.SIRHA.ESTADO_FACT.PENDING_M3) {
             // si la factura no está pendiente de introducir el consumo se pueden modificar los campos del financiero
-            this.widgets = ['iva', 'juros'];
-            licenseWidgets = ['taxa_fixa_sup', 'taxa_fixa_sub', 'taxa_uso_sup', 'taxa_uso_sub', 'consumo_fact_sup', 'consumo_fact_sub'];
-        }else{
+            this.widgets = ["iva", "juros"];
+            licenseWidgets = [
+                "taxa_fixa_sup",
+                "taxa_fixa_sub",
+                "taxa_uso_sup",
+                "taxa_uso_sub",
+                "consumo_fact_sup",
+                "consumo_fact_sub",
+            ];
+        } else {
             // si la factura está pendiente de introducir el consumo se pueden modificar los campos del técnico
-            licenseWidgets = ['consumo_tipo_sup', 'consumo_tipo_sub', 'consumo_fact_sup', 'consumo_fact_sub'];
+            licenseWidgets = [
+                "consumo_tipo_sup",
+                "consumo_tipo_sub",
+                "consumo_fact_sup",
+                "consumo_fact_sub",
+            ];
         }
 
         // pero nadie puede editar los tipos de consumo a menos que se trate de la última factura, por tanto, si no es el caso, los eliminamos de la lista
-        if(this.model.id != this.options.exploracao.get('facturacao').at(0).id) {
-            if(licenseWidgets.includes('consumo_tipo_sup')) {
-                licenseWidgets.splice(licenseWidgets.indexOf('consumo_tipo_sup'), 1);
+        if (this.model.id != this.options.exploracao.get("facturacao").at(0).id) {
+            if (licenseWidgets.includes("consumo_tipo_sup")) {
+                licenseWidgets.splice(licenseWidgets.indexOf("consumo_tipo_sup"), 1);
             }
-            if(licenseWidgets.includes('consumo_tipo_sub')) {
-                licenseWidgets.splice(licenseWidgets.indexOf('consumo_tipo_sub'), 1);
+            if (licenseWidgets.includes("consumo_tipo_sub")) {
+                licenseWidgets.splice(licenseWidgets.indexOf("consumo_tipo_sub"), 1);
             }
         }
 
-        this.options.tiposLicencia.forEach(function(tipo){
-            this.$('#lic-' + tipo).removeClass('panel-disabled');
-            licenseWidgets.forEach(function(w){
+        this.options.tiposLicencia.forEach(function(tipo) {
+            this.$("#lic-" + tipo).removeClass("panel-disabled");
+            licenseWidgets.forEach(function(w) {
                 if (w.endsWith(tipo)) {
                     self.widgets.push(w);
                 }
@@ -235,55 +253,69 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
     },
 
     disableWidgets: function() {
-        if(this.widgets) {
-            this.widgets.forEach(function(w){
-                var input = this.$('#edit-facturacao-modal #' + w);
-                input.prop('disabled', true);
+        if (this.widgets) {
+            this.widgets.forEach(function(w) {
+                var input = this.$("#edit-facturacao-modal #" + w);
+                input.prop("disabled", true);
             });
         }
     },
 
     enabledWidgets: function() {
         var self = this;
-        this.widgets.forEach(function(w){
-            var input = this.$('#edit-facturacao-modal #' + w);
-            input.prop('disabled', false);
-            input.prop('required', true);
-            input.on('input', self.facturaUpdated.bind(self));
-            input.on('input', self.enableBts.bind(self));
+        this.widgets.forEach(function(w) {
+            var input = this.$("#edit-facturacao-modal #" + w);
+            input.prop("disabled", false);
+            input.prop("required", true);
+            input.on("input", self.facturaUpdated.bind(self));
+            input.on("input", self.enableBts.bind(self));
         });
-        this.$('#observacio').on('input', this.observacioUpdated.bind(self));
+        this.$("#observacio").on("input", this.observacioUpdated.bind(self));
     },
 
     enableBts: function() {
-        var enable = this.widgets.every(function(w){
-            var input = this.$('#edit-facturacao-modal #' + w)[0];
+        var enable = this.widgets.every(function(w) {
+            var input = this.$("#edit-facturacao-modal #" + w)[0];
             var e = input.value === 0 || input.value.trim();
             e = e && input.validity.valid;
             return e;
         });
-        if(iAuth.hasRoleObservador() || (iAuth.hasRoleTecnico() && this.model.get('fact_estado') != window.SIRHA.ESTADO_FACT.PENDING_M3)) {
-            this.$('#bt-diferida').hide();
-            this.$('#bt-factura').hide();
-            this.$('#bt-recibo').hide();
-        }else if(this.model.get('fact_estado') == window.SIRHA.ESTADO_FACT.PENDING_M3) {
-            this.$('#bt-diferida').attr('disabled', !enable).show();
-            this.$('#bt-factura').hide();
-            this.$('#bt-recibo').hide();
-        }else{
-            this.$('#bt-diferida').hide();
-            this.$('#bt-factura').attr('disabled', !enable).show();
-            this.$('#bt-recibo').attr('disabled', !this.isReciboBtnEnabled() || !enable).show();
+        if (
+            iAuth.hasRoleObservador() ||
+            (iAuth.hasRoleTecnico() &&
+                this.model.get("fact_estado") != window.SIRHA.ESTADO_FACT.PENDING_M3)
+        ) {
+            this.$("#bt-diferida").hide();
+            this.$("#bt-factura").hide();
+            this.$("#bt-recibo").hide();
+        } else if (
+            this.model.get("fact_estado") == window.SIRHA.ESTADO_FACT.PENDING_M3
+        ) {
+            this.$("#bt-diferida")
+                .attr("disabled", !enable)
+                .show();
+            this.$("#bt-factura").hide();
+            this.$("#bt-recibo").hide();
+        } else {
+            this.$("#bt-diferida").hide();
+            this.$("#bt-factura")
+                .attr("disabled", !enable)
+                .show();
+            this.$("#bt-recibo")
+                .attr("disabled", !this.isReciboBtnEnabled() || !enable)
+                .show();
         }
     },
 
     isReciboBtnEnabled() {
-        return this.model.get('fact_estado') != window.SIRHA.ESTADO_FACT.PENDING_INVOICE;
+        return (
+            this.model.get("fact_estado") != window.SIRHA.ESTADO_FACT.PENDING_INVOICE
+        );
     },
 
     setWidgetsValue: function() {
-        this.$('#consumo_tipo_sub').val(this.model.get('consumo_tipo_sub'));
-        this.$('#consumo_tipo_sup').val(this.model.get('consumo_tipo_sup'));
+        this.$("#consumo_tipo_sub").val(this.model.get("consumo_tipo_sub"));
+        this.$("#consumo_tipo_sup").val(this.model.get("consumo_tipo_sup"));
     },
 
     facturaUpdated: function(evt) {
@@ -291,9 +323,11 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
         if (target.validity.valid) {
             var modifiedAttributes = {};
             var trigger = false;
-            if(target.nodeName == "INPUT") {
-                modifiedAttributes[target.id] = formatter().unformatNumber(target.value);
-            } else if(target.nodeName == "SELECT") {
+            if (target.nodeName == "INPUT") {
+                modifiedAttributes[target.id] = formatter().unformatNumber(
+                    target.value
+                );
+            } else if (target.nodeName == "SELECT") {
                 modifiedAttributes[target.id] = target.value;
             }
             this.model.set(modifiedAttributes);
@@ -301,87 +335,108 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
     },
 
     observacioUpdated: function(evt) {
-        var currentComment = this.model.get('observacio').slice(-1)[0];
+        var currentComment = this.model.get("observacio").slice(-1)[0];
         Object.assign(currentComment, {
-            'created_at': new Date(),
-            'autor': iAuth.getUser(),
-            'text': evt.currentTarget.value,
-            'state': this.model.get('fact_estado'),
+            created_at: new Date(),
+            autor: iAuth.getUser(),
+            text: evt.currentTarget.value,
+            state: this.model.get("fact_estado"),
         });
-        this.model.trigger('change', this.model)
+        this.model.trigger("change", this.model);
     },
-    
+
     updatePagoMesLicencia: function(lic) {
-        var taxa_fixa = formatter().unformatNumber(document.getElementById('taxa_fixa_' + lic).value);
-        var taxa_uso = formatter().unformatNumber(document.getElementById('taxa_uso_' + lic).value);
-        var consumo_fact = formatter().unformatNumber(document.getElementById('consumo_fact_' + lic).value);
-        var pago_mes = taxa_fixa + (taxa_uso * consumo_fact);
-        var iva = formatter().unformatNumber(document.getElementById('iva').value) || 0;
+        var taxa_fixa = formatter().unformatNumber(
+            document.getElementById("taxa_fixa_" + lic).value
+        );
+        var taxa_uso = formatter().unformatNumber(
+            document.getElementById("taxa_uso_" + lic).value
+        );
+        var consumo_fact = formatter().unformatNumber(
+            document.getElementById("consumo_fact_" + lic).value
+        );
+        var pago_mes = taxa_fixa + taxa_uso * consumo_fact;
+        var iva = formatter().unformatNumber(document.getElementById("iva").value) || 0;
         var pago_mes_iva = pago_mes * (1 + iva / 100);
-        this.model.set('pago_mes_' + lic, pago_mes);
-        this.model.set('pago_iva_' + lic, pago_mes_iva);
-        this.model.set('iva_' + lic, iva);
-        document.getElementById('pago_mes_' + lic).value = formatter().formatNumber(pago_mes, '0[.]00');
+        this.model.set("pago_mes_" + lic, pago_mes);
+        this.model.set("pago_iva_" + lic, pago_mes_iva);
+        this.model.set("iva_" + lic, iva);
+        document.getElementById("pago_mes_" + lic).value = formatter().formatNumber(
+            pago_mes,
+            "0[.]00"
+        );
     },
 
     updatePagoIva: function() {
-        this.updatePagoMesLicencia('sup');
-        this.updatePagoMesLicencia('sub');
-        var pago_mes_sup = formatter().unformatNumber(document.getElementById('pago_mes_sup').value) || 0;
-        var pago_mes_sub = formatter().unformatNumber(document.getElementById('pago_mes_sub').value) || 0;
+        this.updatePagoMesLicencia("sup");
+        this.updatePagoMesLicencia("sub");
+        var pago_mes_sup =
+            formatter().unformatNumber(document.getElementById("pago_mes_sup").value) ||
+            0;
+        var pago_mes_sub =
+            formatter().unformatNumber(document.getElementById("pago_mes_sub").value) ||
+            0;
 
-        var juros = formatter().unformatNumber(document.getElementById('juros').value) || 0;
-        var iva = formatter().unformatNumber(document.getElementById('iva').value) || 0;
-        var pago_iva = ((pago_mes_sup + pago_mes_sub) * (1 + iva / 100) * (1 + juros / 100));
-        this.model.set({'pago_iva': pago_iva});
-        document.getElementById('pago_iva').value = formatter().formatNumber(pago_iva, '0[.]00');
+        var juros =
+            formatter().unformatNumber(document.getElementById("juros").value) || 0;
+        var iva = formatter().unformatNumber(document.getElementById("iva").value) || 0;
+        var pago_iva =
+            (pago_mes_sup + pago_mes_sub) * (1 + iva / 100) * (1 + juros / 100);
+        this.model.set({pago_iva: pago_iva});
+        document.getElementById("pago_iva").value = formatter().formatNumber(
+            pago_iva,
+            "0[.]00"
+        );
     },
 
     updateToState: function(state) {
-        if(wf.isFacturacaoNewStateValid(this.model.get('fact_estado'), state)) {
+        if (wf.isFacturacaoNewStateValid(this.model.get("fact_estado"), state)) {
             this.createNewObseracio();
-            this.model.set('fact_estado', state);
+            this.model.set("fact_estado", state);
         }
     },
 
     createNewObseracio: function() {
-        this.model.get('observacio').push({
-            'created_at': null,
-            'autor': null,
-            'text': null,
-            'state': null,
+        this.model.get("observacio").push({
+            created_at: null,
+            autor: null,
+            text: null,
+            state: null,
         });
-        this.$('#observacio').val('');
+        this.$("#observacio").val("");
     },
 
     updateFacturaData: function(factId, factDate) {
-        this.model.set('fact_id', factId)
-        this.model.set('fact_date', factDate)
+        this.model.set("fact_id", factId);
+        this.model.set("fact_date", factDate);
     },
 
     updateReciboData: function(reciboId, reciboDate) {
-        this.model.set('recibo_id', reciboId)
-        this.model.set('recibo_date', reciboDate)
+        this.model.set("recibo_id", reciboId);
+        this.model.set("recibo_date", reciboDate);
     },
 
     changeStateToPdteFactura: function() {
         var self = this;
-        bootbox.confirm(`A factura vai mudar o seu estado a: <br> <strong>${window.SIRHA.ESTADO_FACT.PENDING_INVOICE}</strong>`, function(result){
-            if (result) {
-                self.updateToState(window.SIRHA.ESTADO_FACT.PENDING_INVOICE);
+        bootbox.confirm(
+            `A factura vai mudar o seu estado a: <br> <strong>${window.SIRHA.ESTADO_FACT.PENDING_INVOICE}</strong>`,
+            function(result) {
+                if (result) {
+                    self.updateToState(window.SIRHA.ESTADO_FACT.PENDING_INVOICE);
+                }
             }
-        });
+        );
     },
 
-    printFactura: function(){
+    printFactura: function() {
         var data = this.getDataForFactura();
-        data.urlTemplate = Backbone.SIXHIARA.tipoTemplates['Factura'];
+        data.urlTemplate = Backbone.SIXHIARA.tipoTemplates["Factura"];
         this.printFacturaDocument(data, window.SIRHA.ESTADO_FACT.PENDING_PAY);
     },
 
-    printRecibo: function(){
+    printRecibo: function() {
         var data = this.getDataForRecibo();
-        data.urlTemplate = Backbone.SIXHIARA.tipoTemplates['Recibo'];
+        data.urlTemplate = Backbone.SIXHIARA.tipoTemplates["Recibo"];
         this.printReciboDocument(data, window.SIRHA.ESTADO_FACT.PAID);
     },
 
@@ -393,38 +448,43 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
             return;
         }
         // Create a copy of the model and remove nulls
-        var data = JSON.parse(JSON.stringify(json, function(key, value) {
-            if(value === null) {
-                return "";
-            }
-            return value;
-        }));
+        var data = JSON.parse(
+            JSON.stringify(json, function(key, value) {
+                if (value === null) {
+                    return "";
+                }
+                return value;
+            })
+        );
 
         var factura = this.model.toJSON();
 
-        var dateFactura = new moment(factura.fact_date ? new Date(factura.fact_date) : new Date());
+        var dateFactura = new moment(
+            factura.fact_date ? new Date(factura.fact_date) : new Date()
+        );
         data.dateFactura = formatter().formatDate(dateFactura);
-        data.vencimento = formatter().formatDate(dateFactura.add(1, 'M'));
+        data.vencimento = formatter().formatDate(dateFactura.add(1, "M"));
 
-        factura.licencias = {}
-        data.licencias.forEach(function(licencia){
+        factura.licencias = {};
+        data.licencias.forEach(function(licencia) {
             var tipo = licencia.tipo_agua.substring(0, 3).toLowerCase();
             factura.licencias[tipo] = {};
             factura.licencias[tipo].tipo = tipo;
-            factura.licencias[tipo].consumo_fact = factura['consumo_fact_' + tipo];
-            factura.licencias[tipo].taxa_fixa = factura['taxa_fixa_' + tipo];
-            factura.licencias[tipo].taxa_uso = factura['taxa_uso_' + tipo];
-            factura.licencias[tipo].pago_mes = factura['pago_mes_' + tipo];
-            factura.licencias[tipo].iva = factura['iva_' + tipo];
-            factura.licencias[tipo].pago_iva = factura['pago_iva_' + tipo];
+            factura.licencias[tipo].consumo_fact = factura["consumo_fact_" + tipo];
+            factura.licencias[tipo].taxa_fixa = factura["taxa_fixa_" + tipo];
+            factura.licencias[tipo].taxa_uso = factura["taxa_uso_" + tipo];
+            factura.licencias[tipo].pago_mes = factura["pago_mes_" + tipo];
+            factura.licencias[tipo].iva = factura["iva_" + tipo];
+            factura.licencias[tipo].pago_iva = factura["pago_iva_" + tipo];
         });
         data.factura = factura;
 
-        data.nameFile = data.exp_id.concat("_")
-                                   .concat(factura.mes)
-                                   .concat('_')
-                                   .concat(factura.ano)
-                                   .concat('.docx');
+        data.nameFile = data.exp_id
+            .concat("_")
+            .concat(factura.mes)
+            .concat("_")
+            .concat(factura.ano)
+            .concat(".docx");
 
         return data;
     },
@@ -437,35 +497,42 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
             return;
         }
         // Create a copy of the model and remove nulls
-        var data = JSON.parse(JSON.stringify(json, function(key, value) {
-            if(value === null) {
-                return "";
-            }
-            return value;
-        }));
+        var data = JSON.parse(
+            JSON.stringify(json, function(key, value) {
+                if (value === null) {
+                    return "";
+                }
+                return value;
+            })
+        );
 
         var factura = this.model.toJSON();
         data.numFactura = factura.fact_id;
-        var dateRecibo = factura.recibo_date ? new Date(factura.recibo_date) : new Date()
-        data.dateRecibo =  formatter().formatDate(moment(dateRecibo));
-        data.dateFactura =  formatter().formatDate(moment(new Date(factura.fact_date)));
+        var dateRecibo = factura.recibo_date
+            ? new Date(factura.recibo_date)
+            : new Date();
+        data.dateRecibo = formatter().formatDate(moment(dateRecibo));
+        data.dateFactura = formatter().formatDate(moment(new Date(factura.fact_date)));
         data.tipoFacturacao = factura.fact_tipo;
-        data.periodoFactura = factura.mes + '/' + factura.ano;
+        data.periodoFactura = factura.mes + "/" + factura.ano;
         data.valorPorRegularizar = factura.pago_iva;
         data.valorRegularizado = factura.pago_iva;
         data.valorAberto = 0;
 
-        data.nameFile = 'Recibo_' + data.exp_id.concat("_")
-                                   .concat(factura.mes)
-                                   .concat('_')
-                                   .concat(factura.ano)
-                                   .concat('.docx');
+        data.nameFile =
+            "Recibo_" +
+            data.exp_id
+                .concat("_")
+                .concat(factura.mes)
+                .concat("_")
+                .concat(factura.ano)
+                .concat(".docx");
 
         return data;
     },
 
     printFacturaDocument: function(data, nextState) {
-        if(nextState == this.model.get('fact_estado')) {
+        if (nextState == this.model.get("fact_estado")) {
             nextState = null;
         }
         var self = this;
@@ -473,34 +540,37 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
         var datosAra = new Backbone.SIXHIARA.AraGetData();
         datosAra.fetch({
             success: function(model, resp, options) {
-                data.ara = resp
-                data.ara.logoUrl = 'static/print-templates/images/' + window.SIRHA.getARA() + '_factura.png';
+                data.ara = resp;
+                data.ara.logoUrl =
+                    "static/print-templates/images/" +
+                    window.SIRHA.getARA() +
+                    "_factura.png";
                 factura.fetch({
                     success: function(model, resp, options) {
                         data.numFactura = resp;
                         var docxGenerator = new Backbone.SIXHIARA.DocxGeneratorView({
                             model: self.model,
-                            data: data
+                            data: data,
                         });
                         self.updateFacturaData(data.numFactura, data.factDate);
-                        if(nextState) {
+                        if (nextState) {
                             self.updateToState(nextState);
                         }
                     },
-                    error: function(){
+                    error: function() {
                         bootbox.alert("Erro ao gerar a factura.");
                         return;
-                    }
+                    },
                 });
             },
             error: function() {
                 bootbox.alert(`Erro ao imprimir factura`);
-            }
+            },
         });
     },
 
     printReciboDocument: function(data, nextState) {
-        if(nextState == this.model.get('fact_estado')) {
+        if (nextState == this.model.get("fact_estado")) {
             nextState = null;
         }
         var self = this;
@@ -508,30 +578,32 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
         var datosAra = new Backbone.SIXHIARA.AraGetData();
         datosAra.fetch({
             success: function(model, resp, options) {
-                data.ara = resp
-                data.ara.logoUrl = 'static/print-templates/images/' + window.SIRHA.getARA() + '_factura.png';
+                data.ara = resp;
+                data.ara.logoUrl =
+                    "static/print-templates/images/" +
+                    window.SIRHA.getARA() +
+                    "_factura.png";
                 factura.fetch({
                     success: function(model, resp, options) {
                         data.numRecibo = resp;
                         var docxGenerator = new Backbone.SIXHIARA.DocxGeneratorView({
                             model: self.model,
-                            data: data
+                            data: data,
                         });
                         self.updateReciboData(data.numRecibo, data.reciboDate);
-                        if(nextState) {
+                        if (nextState) {
                             self.updateToState(nextState);
                         }
                     },
-                    error: function(){
+                    error: function() {
                         bootbox.alert("Erro ao gerar a factura.");
                         return;
-                    }
+                    },
                 });
             },
             error: function() {
                 bootbox.alert(`Erro ao imprimir factura`);
-            }
+            },
         });
-    }
-
+    },
 });

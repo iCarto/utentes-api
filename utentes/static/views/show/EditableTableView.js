@@ -1,18 +1,17 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.EditableTableView = Backbone.View.extend({
-
     initialize: function(options) {
         this.options = options || {};
         this._subviews = [];
         var self = this;
-        $(this.options.newRowBtSelector || '#newRow').on('click', function(e){
+        $(this.options.newRowBtSelector || "#newRow").on("click", function(e) {
             e.preventDefault();
 
             var MyModalView = Backbone.SIXHIARA.CultivoResModalView;
-            if (self.options.modalSelectorTpl === '#tanqueModalTpl') {
+            if (self.options.modalSelectorTpl === "#tanqueModalTpl") {
                 MyModalView = Backbone.SIXHIARA.TanquePiscicolaModalView;
             }
-            if (self.options.modalSelectorTpl === '#user-edit') {
+            if (self.options.modalSelectorTpl === "#user-edit") {
                 MyModalView = Backbone.SIXHIARA.UserModalView;
             }
             new MyModalView({
@@ -25,7 +24,6 @@ Backbone.SIXHIARA.EditableTableView = Backbone.View.extend({
             }).show();
         });
 
-
         var tableView = new Backbone.SIXHIARA.TableView({
             el: $(this.options.tableSelector),
             collection: this.collection,
@@ -37,35 +35,43 @@ Backbone.SIXHIARA.EditableTableView = Backbone.View.extend({
 
         this._subviews.push(tableView);
 
-        tableView.listenTo(this.collection, 'add', function(model, collection, options){
+        tableView.listenTo(this.collection, "add", function(
+            model,
+            collection,
+            options
+        ) {
             this.update(this.collection);
         });
-        tableView.listenTo(this.collection, 'destroy', function(model, collection, options){
+        tableView.listenTo(this.collection, "destroy", function(
+            model,
+            collection,
+            options
+        ) {
             this.update(this.collection);
         });
-        tableView.listenTo(this.collection, 'change', function(model, collection, options){
+        tableView.listenTo(this.collection, "change", function(
+            model,
+            collection,
+            options
+        ) {
             this.update(this.collection);
         });
     },
 
-    remove: function(){
+    remove: function() {
         this.off();
-        _.invoke(this._subviews, 'off');
-        _.invoke(this._subviews, 'remove');
+        _.invoke(this._subviews, "off");
+        _.invoke(this._subviews, "remove");
         Backbone.View.prototype.remove.call(this);
     },
-
 });
-
-
 
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.RowView = Backbone.View.extend({
+    tagName: "tr",
 
-    tagName: 'tr',
-
-    events:{
-        'click .edit': 'modelEdit',
+    events: {
+        "click .edit": "modelEdit",
     },
 
     initialize: function(options) {
@@ -73,23 +79,23 @@ Backbone.SIXHIARA.RowView = Backbone.View.extend({
         this.template = _.template(options.rowTemplate);
     },
 
-    render: function(){
+    render: function() {
         this.$el.append(this.template(this.model.toJSON()));
         new Backbone.SIXHIARA.RowDeleteButtonView({
             model: this.model,
-            el: this.$('.delete'),
-            question: 'Tem certeza de que deseja excluir',
+            el: this.$(".delete"),
+            question: "Tem certeza de que deseja excluir",
             deleteFromServer: this.options.deleteFromServer,
         });
         return this;
     },
 
-    modelEdit: function(){
+    modelEdit: function() {
         var MyModalView = Backbone.SIXHIARA.CultivoResModalView;
-        if (this.options.modalSelectorTpl === '#tanqueModalTpl') {
+        if (this.options.modalSelectorTpl === "#tanqueModalTpl") {
             MyModalView = Backbone.SIXHIARA.TanquePiscicolaModalView;
         }
-        if (self.options.modalSelectorTpl === '#user-edit') {
+        if (self.options.modalSelectorTpl === "#user-edit") {
             MyModalView = Backbone.SIXHIARA.UserModalView;
         }
         new MyModalView({
@@ -102,5 +108,4 @@ Backbone.SIXHIARA.RowView = Backbone.View.extend({
             deleteFromServer: self.options.deleteFromServer,
         }).show();
     },
-
 });

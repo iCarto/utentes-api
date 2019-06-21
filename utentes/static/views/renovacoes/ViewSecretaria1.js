@@ -1,6 +1,5 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.ViewSecretaria1 = Backbone.SIXHIARA.View1.extend({
-
     template: _.template(`
         <div id="bt-toolbar" class="row">
            <div class="col-xs-12">
@@ -95,28 +94,36 @@ Backbone.SIXHIARA.ViewSecretaria1 = Backbone.SIXHIARA.View1.extend({
         Backbone.SIXHIARA.View1.prototype.init.call(this);
 
         var self = this;
-        this.$('input').prop('disabled', function() {return true;});
-
-        document.querySelectorAll('table input[type="checkbox"]').forEach(function(input){
-            input.addEventListener('change', self.enableBts);
+        this.$("input").prop("disabled", function() {
+            return true;
         });
 
-        if (self.model.get('renovacao').get('lic_time_info')) {
-            document.getElementById('time-renovacao-info').style.display = 'block';
+        document
+            .querySelectorAll('table input[type="checkbox"]')
+            .forEach(function(input) {
+                input.addEventListener("change", self.enableBts);
+            });
+
+        if (self.model.get("renovacao").get("lic_time_info")) {
+            document.getElementById("time-renovacao-info").style.display = "block";
         }
 
         this.enableBts();
 
-        document.querySelectorAll('table input[type="checkbox"]').forEach(function(input){
-            input.addEventListener('change', self.autosave.bind(self), false);
-        });
+        document
+            .querySelectorAll('table input[type="checkbox"]')
+            .forEach(function(input) {
+                input.addEventListener("change", self.autosave.bind(self), false);
+            });
 
-        var defaultDataForFileModal = iAuth.getDefaultDataForFileModal(this.model.get('id'));
+        var defaultDataForFileModal = iAuth.getDefaultDataForFileModal(
+            this.model.get("id")
+        );
         var fileModalView = new Backbone.DMS.FileModalView({
-            openElementId: '#file-modal',
-            title: 'Arquivo Electr&oacute;nico',
+            openElementId: "#file-modal",
+            title: "Arquivo Electr&oacute;nico",
             urlBase: defaultDataForFileModal.defaultUrlBase,
-            id: defaultDataForFileModal.defaultFolderId
+            id: defaultDataForFileModal.defaultFolderId,
         });
     },
 
@@ -129,6 +136,6 @@ Backbone.SIXHIARA.ViewSecretaria1 = Backbone.SIXHIARA.View1.extend({
             }
             return true;
         });
-        document.getElementById('bt-ok').disabled = !enable;
+        document.getElementById("bt-ok").disabled = !enable;
     },
 });

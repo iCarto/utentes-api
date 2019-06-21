@@ -1,6 +1,6 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.ModalTooltipEstadoLicenciaView = Backbone.View.extend({
-  /*
+    /*
   new Backbone.SIXHIARA.ModalTooltipEstadoLicenciaView({
     model: domains.byCategory('licencia_estado'),
     estado: exploracao.get('licencia').get('estado') || null
@@ -50,33 +50,34 @@ Backbone.SIXHIARA.ModalTooltipEstadoLicenciaView = Backbone.View.extend({
     },
 
     render: function() {
-        var t = _.reject(this.collection.toJSON(), function(e) { return e.order === 0});
-        this.$el.html(this.template({
-            estados: t,
-            actual_state: this.options.actual_state,
-        }));
+        var t = _.reject(this.collection.toJSON(), function(e) {
+            return e.order === 0;
+        });
+        this.$el.html(
+            this.template({
+                estados: t,
+                actual_state: this.options.actual_state,
+            })
+        );
         return this;
     },
 
     show: function() {
-
         $(document.body).append(this.render().el);
-        this.$('.modal-dialog').css('margin', '30px 10px');
+        this.$(".modal-dialog").css("margin", "30px 10px");
 
         var self = this;
 
-        this.$('.modal').on('hidden.bs.modal', function(){
+        this.$(".modal").on("hidden.bs.modal", function() {
             self._close();
         });
 
-        this.$('.modal').modal('show');
+        this.$(".modal").modal("show");
     },
-
 
     _close: function() {
-        this.$('.modal').unbind();
-        this.$('.modal').remove();
+        this.$(".modal").unbind();
+        this.$(".modal").remove();
         this.remove();
     },
-
 });

@@ -1,7 +1,6 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.TableRowShowView = Backbone.View.extend({
-
-    tagName: 'tr',
+    tagName: "tr",
 
     template: _.template(`
         <td class="tipo_agua"><%- tipo_agua %></td>
@@ -17,77 +16,78 @@ Backbone.SIXHIARA.TableRowShowView = Backbone.View.extend({
     `),
 
     events: {
-        'click .edit': 'modelUpdate',
+        "click .edit": "modelUpdate",
     },
 
-    initialize: function(options){
+    initialize: function(options) {
         this.options = options || {};
 
-        this.model.on('remove', this.remove, this);
-        this.model.on('change', this.update, this);
+        this.model.on("remove", this.remove, this);
+        this.model.on("change", this.update, this);
     },
 
     render: function() {
         this.$el.append(this.template(this.model.toJSON()));
         new Backbone.SIXHIARA.RowDeleteButtonView({
-             model: this.model,
-             el: this.$('.delete'),
-             question: 'Tem certeza de que deseja excluir',
+            model: this.model,
+            el: this.$(".delete"),
+            question: "Tem certeza de que deseja excluir",
         });
         return this;
     },
 
-    update: function(){
+    update: function() {
         var fonte = this.model;
-        var displayNull = '';
-        this.$('td.tipo_agua').text(fonte.get('tipo_agua') || displayNull);
-        this.$('td.tipo_fonte').text(fonte.get('tipo_fonte') || displayNull);
-        this.$('td.cadastro').text(fonte.get('cadastro') || displayNull);
-        this.$('td.disp_a').text(fonte.get('disp_a') || displayNull);
-        this.$('td.lat_lon').text(fonte.get('lat_lon') || displayNull);
-        var c_soli = formatter().formatNumber(fonte.get('c_soli'));
-        this.$('td.c_soli').text(c_soli || displayNull);
-        var c_max = formatter().formatNumber(fonte.get('c_max'));
-        this.$('td.c_max').text(c_max || displayNull);
-        var c_real = formatter().formatNumber(fonte.get('c_real'));
-        this.$('td.c_real').text(c_real || displayNull);
-        var d_dado = formatter().formatDate(fonte.get('d_dado'));
-        this.$('td.d_dado').text( d_dado || displayNull);
-        this.$('td.sist_med').text(fonte.get('sist_med') || displayNull);
-        this.$('td.metodo_est').text(fonte.get('metodo_est') || displayNull);
-        this.$('td.observacio').text(fonte.get('observacio') || displayNull);
+        var displayNull = "";
+        this.$("td.tipo_agua").text(fonte.get("tipo_agua") || displayNull);
+        this.$("td.tipo_fonte").text(fonte.get("tipo_fonte") || displayNull);
+        this.$("td.cadastro").text(fonte.get("cadastro") || displayNull);
+        this.$("td.disp_a").text(fonte.get("disp_a") || displayNull);
+        this.$("td.lat_lon").text(fonte.get("lat_lon") || displayNull);
+        var c_soli = formatter().formatNumber(fonte.get("c_soli"));
+        this.$("td.c_soli").text(c_soli || displayNull);
+        var c_max = formatter().formatNumber(fonte.get("c_max"));
+        this.$("td.c_max").text(c_max || displayNull);
+        var c_real = formatter().formatNumber(fonte.get("c_real"));
+        this.$("td.c_real").text(c_real || displayNull);
+        var d_dado = formatter().formatDate(fonte.get("d_dado"));
+        this.$("td.d_dado").text(d_dado || displayNull);
+        this.$("td.sist_med").text(fonte.get("sist_med") || displayNull);
+        this.$("td.metodo_est").text(fonte.get("metodo_est") || displayNull);
+        this.$("td.observacio").text(fonte.get("observacio") || displayNull);
     },
 
-    modelUpdate: function(e){
+    modelUpdate: function(e) {
         e.preventDefault();
 
         var fonte = this.model;
         var modalView = new Backbone.UILib.ModalView({
             model: this.model,
-            selectorTmpl: '#block-fonte-modal-tmpl'
+            selectorTmpl: "#block-fonte-modal-tmpl",
         });
-        modalView.$('#tipo_agua').prop('disabled', true)
+        modalView.$("#tipo_agua").prop("disabled", true);
 
         // connect auxiliary views
         var fonteTipoView = new Backbone.UILib.SelectView({
-            el: modalView.$('#tipo_fonte'),
-            collection: this.options.domains.byCategory('fonte_tipo').byParent(fonte.get('tipo_agua'))
+            el: modalView.$("#tipo_fonte"),
+            collection: this.options.domains
+                .byCategory("fonte_tipo")
+                .byParent(fonte.get("tipo_agua")),
         }).render();
         modalView.addAuxView(fonteTipoView);
 
         var sistMedView = new Backbone.UILib.SelectView({
-            el: modalView.$('#sist_med'),
-            collection: this.options.domains.byCategory('sistema_medicao')
+            el: modalView.$("#sist_med"),
+            collection: this.options.domains.byCategory("sistema_medicao"),
         }).render();
         modalView.addAuxView(sistMedView);
 
         var dispAgua = new Backbone.UILib.SelectView({
-            el: modalView.$('#disp_a'),
-            collection: this.options.domains.byCategory('piscicultura_fontes_disp_a')
+            el: modalView.$("#disp_a"),
+            collection: this.options.domains.byCategory("piscicultura_fontes_disp_a"),
         }).render();
         modalView.addAuxView(dispAgua);
 
         modalView.render();
     },
-
 });

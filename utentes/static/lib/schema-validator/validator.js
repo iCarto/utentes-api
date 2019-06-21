@@ -1,27 +1,26 @@
-function validator(schemaValidateFrom){
-
+function validator(schemaValidateFrom) {
     var validatorObj = new Object();
 
     var rules = {
-        'NOT_NULL':        isNotNull(),
-        'IS_DATE':         isDate(),
-        'IS_NUMERIC':      isNumeric(),
-        'INT_LESS_THAN_8': isIntLessThan8(),
-        'IS_BOOLEAN':      isBoolean(),
-        'ARRAY_NOT_VOID':  isArrayNotVoid(),
+        NOT_NULL: isNotNull(),
+        IS_DATE: isDate(),
+        IS_NUMERIC: isNumeric(),
+        INT_LESS_THAN_8: isIntLessThan8(),
+        IS_BOOLEAN: isBoolean(),
+        ARRAY_NOT_VOID: isArrayNotVoid(),
     };
 
     var messages = [];
     var schema = schemaValidateFrom;
 
-    function validate(model){
+    function validate(model) {
         messages = [];
         messages.length = 0;
 
-        schema.forEach(function(def){
-            def.rules.forEach(function(ruleName){
+        schema.forEach(function(def) {
+            def.rules.forEach(function(ruleName) {
                 var rule = getRule(ruleName);
-                if(rule.fails(model[def.fieldname])){
+                if (rule.fails(model[def.fieldname])) {
                     messages.push(def.message);
                 }
             });
@@ -30,7 +29,7 @@ function validator(schemaValidateFrom){
         return messages;
     }
 
-    function getRule(ruleName){
+    function getRule(ruleName) {
         return rules[ruleName];
     }
 
@@ -39,15 +38,15 @@ function validator(schemaValidateFrom){
     }
 
     function appendSchema(aSchema) {
-        aSchema.forEach(function(e){
+        aSchema.forEach(function(e) {
             schema.push(e);
         });
     }
 
-    function isNotNull(){
+    function isNotNull() {
         var ruleObj = new Object();
-        function fails(value){
-            if((value === '') || (value === undefined) || (value === null)) {
+        function fails(value) {
+            if (value === "" || value === undefined || value === null) {
                 return true;
             }
             return false;
@@ -57,12 +56,13 @@ function validator(schemaValidateFrom){
         return ruleObj;
     }
 
-    function isDate(){
+    function isDate() {
         var ruleObj = new Object();
         var isoFormat = /^\d{4}-\d{2}-\d{2}$/;
 
-        function fails(value){
-            var valid = (value instanceof Date) || (value === null) || isoFormat.test(value);
+        function fails(value) {
+            var valid =
+                value instanceof Date || value === null || isoFormat.test(value);
             return !valid;
         }
 
@@ -75,8 +75,8 @@ function validator(schemaValidateFrom){
     function isNumeric() {
         var ruleObj = new Object();
 
-        function fails(value){
-            return value && ! (!isNaN(parseFloat(value)) && isFinite(value));
+        function fails(value) {
+            return value && !(!isNaN(parseFloat(value)) && isFinite(value));
         }
 
         ruleObj.fails = fails;
@@ -86,8 +86,8 @@ function validator(schemaValidateFrom){
     function isIntLessThan8() {
         var ruleObj = new Object();
 
-        function fails(value){
-            if (value && (value > 99999999.99)){
+        function fails(value) {
+            if (value && value > 99999999.99) {
                 return true;
             }
             return false;
@@ -97,10 +97,10 @@ function validator(schemaValidateFrom){
         return ruleObj;
     }
 
-    function isBoolean(){
+    function isBoolean() {
         var ruleObj = new Object();
 
-        function fails(value){
+        function fails(value) {
             return value != true && value != false && value != null;
         }
 
@@ -108,11 +108,11 @@ function validator(schemaValidateFrom){
         return ruleObj;
     }
 
-    function isArrayNotVoid(){
+    function isArrayNotVoid() {
         var ruleObj = new Object();
 
-        function fails(value){
-            return !Array.isArray(value) || (value.length === 0);
+        function fails(value) {
+            return !Array.isArray(value) || value.length === 0;
         }
 
         ruleObj.fails = fails;
@@ -124,5 +124,4 @@ function validator(schemaValidateFrom){
     validatorObj.addRule = addRule;
     validatorObj.appendSchema = appendSchema;
     return validatorObj;
-
-};
+}

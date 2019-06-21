@@ -1,6 +1,5 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.ViewTecnico1 = Backbone.SIXHIARA.View1.extend({
-
     template: _.template(`
         <div id="bt-toolbar" class="row">
   <div class="col-xs-12">
@@ -103,22 +102,28 @@ print('O ' + formatter().formatDate(req_obs[i]['create_at']) + ', ' + req_obs[i]
         Backbone.SIXHIARA.View1.prototype.init.call(this);
         var self = this;
 
-        document.querySelectorAll('table input[type="checkbox"]').forEach(function(input){
-            input.addEventListener('change', self.enableBts.bind(self), false);
-        });
+        document
+            .querySelectorAll('table input[type="checkbox"]')
+            .forEach(function(input) {
+                input.addEventListener("change", self.enableBts.bind(self), false);
+            });
 
         this.enableBts();
 
-        document.querySelectorAll('table input[type="checkbox"]').forEach(function(input){
-            input.addEventListener('change', self.autosave.bind(self), false);
-        });
+        document
+            .querySelectorAll('table input[type="checkbox"]')
+            .forEach(function(input) {
+                input.addEventListener("change", self.autosave.bind(self), false);
+            });
 
-        var defaultDataForFileModal = iAuth.getDefaultDataForFileModal(this.model.get('id'));
+        var defaultDataForFileModal = iAuth.getDefaultDataForFileModal(
+            this.model.get("id")
+        );
         var fileModalView = new Backbone.DMS.FileModalView({
-            openElementId: '#file-modal',
-            title: 'Arquivo Electr&oacute;nico',
+            openElementId: "#file-modal",
+            title: "Arquivo Electr&oacute;nico",
             urlBase: defaultDataForFileModal.defaultUrlBase,
-            id: defaultDataForFileModal.defaultFolderId
+            id: defaultDataForFileModal.defaultFolderId,
         });
     },
 
@@ -133,9 +138,9 @@ print('O ' + formatter().formatDate(req_obs[i]['create_at']) + ', ' + req_obs[i]
             return true;
         });
 
-        var validState = this.model.get('estado_lic');
+        var validState = this.model.get("estado_lic");
         var expTest = this.model.cloneExploracao();
-        if (expTest.get('estado_lic') === SIRHA.ESTADO.INCOMPLETE_DT) {
+        if (expTest.get("estado_lic") === SIRHA.ESTADO.INCOMPLETE_DT) {
             expTest.setLicState(SIRHA.ESTADO.PENDING_FIELD_VISIT);
             if (expTest.isValid()) {
                 validState = SIRHA.ESTADO.PENDING_TECH_DECISION;
@@ -144,63 +149,73 @@ print('O ' + formatter().formatDate(req_obs[i]['create_at']) + ', ' + req_obs[i]
             }
         }
         if (validState === SIRHA.ESTADO.PENDING_FIELD_VISIT) {
-            document.getElementById('bt-adicionar').classList.remove('disabled');
-            document.getElementById('bt-adicionar').removeAttribute('aria-disabled');
-            document.getElementById('bt-ficha').classList.add('disabled');
-            document.getElementById('bt-ficha').setAttribute('aria-disabled', 'true');
-            document.getElementById('bt-geometria').classList.add('disabled');
-            document.getElementById('bt-geometria').setAttribute('aria-disabled', 'true');
-            document.getElementById('bt-defacto').classList.add('disabled');
-            document.getElementById('bt-defacto').setAttribute('aria-disabled', 'true');
-            document.getElementById('p_unid').disabled = true;
-            document.getElementById('p_tec').disabled = true;
+            document.getElementById("bt-adicionar").classList.remove("disabled");
+            document.getElementById("bt-adicionar").removeAttribute("aria-disabled");
+            document.getElementById("bt-ficha").classList.add("disabled");
+            document.getElementById("bt-ficha").setAttribute("aria-disabled", "true");
+            document.getElementById("bt-geometria").classList.add("disabled");
+            document
+                .getElementById("bt-geometria")
+                .setAttribute("aria-disabled", "true");
+            document.getElementById("bt-defacto").classList.add("disabled");
+            document.getElementById("bt-defacto").setAttribute("aria-disabled", "true");
+            document.getElementById("p_unid").disabled = true;
+            document.getElementById("p_tec").disabled = true;
 
             enableState = false;
-            document.getElementById('bt-ok').title = "Deve 'Adicionar' dantes de poder completar";
-            document.getElementById('bt-defacto').title = "Deve 'Adicionar' dantes de poder criar uma 'Utente de facto'";
-
+            document.getElementById("bt-ok").title =
+                "Deve 'Adicionar' dantes de poder completar";
+            document.getElementById("bt-defacto").title =
+                "Deve 'Adicionar' dantes de poder criar uma 'Utente de facto'";
         } else if (validState === SIRHA.ESTADO.PENDING_TECH_DECISION) {
             expTest.setLicState(SIRHA.ESTADO.PENDING_TECH_DECISION);
             if (expTest.isValid()) {
                 enableState = true;
-                document.getElementById('bt-ok').title = SIRHA.ESTADO.PENDING_EMIT_LICENSE;
+                document.getElementById("bt-ok").title =
+                    SIRHA.ESTADO.PENDING_EMIT_LICENSE;
             } else {
                 enableState = false;
-                document.getElementById('bt-ok').title = "Deve rechear correctamente a 'Ficha' dantes de completar";
+                document.getElementById("bt-ok").title =
+                    "Deve rechear correctamente a 'Ficha' dantes de completar";
             }
-            document.getElementById('bt-adicionar').classList.add('disabled');
-            document.getElementById('bt-adicionar').setAttribute('aria-disabled', 'true');
-            document.getElementById('bt-ficha').classList.remove('disabled');
-            document.getElementById('bt-ficha').removeAttribute('aria-disabled');
-            document.getElementById('bt-geometria').classList.remove('disabled');
-            document.getElementById('bt-geometria').removeAttribute('aria-disabled');
-            document.getElementById('bt-defacto').classList.remove('disabled');
-            document.getElementById('bt-defacto').removeAttribute('aria-disabled');
-            document.getElementById('p_unid').disabled = false;
-            document.getElementById('p_tec').disabled = false;
+            document.getElementById("bt-adicionar").classList.add("disabled");
+            document
+                .getElementById("bt-adicionar")
+                .setAttribute("aria-disabled", "true");
+            document.getElementById("bt-ficha").classList.remove("disabled");
+            document.getElementById("bt-ficha").removeAttribute("aria-disabled");
+            document.getElementById("bt-geometria").classList.remove("disabled");
+            document.getElementById("bt-geometria").removeAttribute("aria-disabled");
+            document.getElementById("bt-defacto").classList.remove("disabled");
+            document.getElementById("bt-defacto").removeAttribute("aria-disabled");
+            document.getElementById("p_unid").disabled = false;
+            document.getElementById("p_tec").disabled = false;
         } else {
-            throw 'Error';
+            throw "Error";
         }
 
-        document.getElementById('bt-ok').disabled = ! (enableChb && enableState);
+        document.getElementById("bt-ok").disabled = !(enableChb && enableState);
     },
 
     fillExploracao: function(e, autosave) {
         var self = this;
         var exploracao = this.model;
-        var nextState = wf.whichNextState(exploracao.get('estado_lic'), e);
-        if (e && e.target && (e.target.id === 'bt-ok')) {
+        var nextState = wf.whichNextState(exploracao.get("estado_lic"), e);
+        if (e && e.target && e.target.id === "bt-ok") {
             nextState = SIRHA.ESTADO.PENDING_EMIT_LICENSE;
         }
 
         if (autosave) {
             this.doFillExploracao(e, autosave);
         } else {
-            bootbox.confirm(`A exploração vai mudar o seu a: <br> <strong>${nextState}</strong>`, function(result){
-                if (result) {
-                    self.doFillExploracao(e, autosave);
+            bootbox.confirm(
+                `A exploração vai mudar o seu a: <br> <strong>${nextState}</strong>`,
+                function(result) {
+                    if (result) {
+                        self.doFillExploracao(e, autosave);
+                    }
                 }
-            });
+            );
         }
     },
 
@@ -208,54 +223,57 @@ print('O ' + formatter().formatDate(req_obs[i]['create_at']) + ', ' + req_obs[i]
         var self = this;
         var exploracao = this.model;
 
-        var nextState = wf.whichNextState(exploracao.get('estado_lic'), e);
+        var nextState = wf.whichNextState(exploracao.get("estado_lic"), e);
 
-        var currentComment = exploracao.get('req_obs').slice(-1)[0];
+        var currentComment = exploracao.get("req_obs").slice(-1)[0];
         Object.assign(currentComment, {
-            'create_at': new Date(),
-            'author': iAuth.getUser(),
-            'text': document.getElementById('observacio').value,
-            'state': nextState,
+            create_at: new Date(),
+            author: iAuth.getUser(),
+            text: document.getElementById("observacio").value,
+            state: nextState,
         });
 
         if (!autosave) {
-            exploracao.get('req_obs').push({
-                'create_at': null,
-                'author': null,
-                'text': null,
-                'state': null,
+            exploracao.get("req_obs").push({
+                create_at: null,
+                author: null,
+                text: null,
+                state: null,
             });
         }
 
         exploracao.setLicState(nextState);
 
-        document.querySelectorAll('table input[type="checkbox"]').forEach(function(input){
-            exploracao.set(input.id, input.checked);
-        });
+        document
+            .querySelectorAll('table input[type="checkbox"]')
+            .forEach(function(input) {
+                exploracao.set(input.id, input.checked);
+            });
 
         exploracao.urlRoot = Backbone.SIXHIARA.Config.apiRequerimentos;
-        exploracao.save(
-            null,
-            {
-                'patch': true,
-                'validate': false,
-                'wait': true,
-                'success': function(model) {
-                    var exp_id = model.get('exp_id');
-                    var exp_name = model.get('exp_name');
-                    if (autosave) {
-                        console.log('autosaving');
-                    } else {
-                        bootbox.alert(`A exploração&nbsp;<strong>${exp_id} - ${exp_name}</strong>&nbsp;tem sido gravada correctamente.`, function(){
-                            exploracao.trigger('show-next-exp', exploracao);
-                        });
-                    }
-                },
-                'error': function() {
-                    bootbox.alert('<span style="color: red;">Produziu-se um erro. Informe ao administrador.</strong>');
-                },
-            }
-        );
+        exploracao.save(null, {
+            patch: true,
+            validate: false,
+            wait: true,
+            success: function(model) {
+                var exp_id = model.get("exp_id");
+                var exp_name = model.get("exp_name");
+                if (autosave) {
+                    console.log("autosaving");
+                } else {
+                    bootbox.alert(
+                        `A exploração&nbsp;<strong>${exp_id} - ${exp_name}</strong>&nbsp;tem sido gravada correctamente.`,
+                        function() {
+                            exploracao.trigger("show-next-exp", exploracao);
+                        }
+                    );
+                }
+            },
+            error: function() {
+                bootbox.alert(
+                    '<span style="color: red;">Produziu-se um erro. Informe ao administrador.</strong>'
+                );
+            },
+        });
     },
-
 });

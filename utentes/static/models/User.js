@@ -1,13 +1,12 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.User = Backbone.Model.extend({
-
-    urlRoot: '/api/users',
+    urlRoot: "/api/users",
 
     defaults: {
-        'id': null,
-        'username': null,
-        'usergroup': null,
-        'password': null,
-        'unidade': null,
-    }
+        id: null,
+        username: null,
+        usergroup: null,
+        password: null,
+        unidade: null,
+    },
 });

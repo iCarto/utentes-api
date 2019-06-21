@@ -1,38 +1,44 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.ActividadePiscicultura = Backbone.SIXHIARA.ActividadeNull.extend({
-
     defaults: {
-        'id':         null,
-        'tipo':       'Piscicultura',
-        'c_estimado': null,
-        'area':       null,
-        'ano_i_ati': null,
-        'tipo_aqua': null,
-        'esp_culti': null,
-        'n_tanques': null,
-        'v_reservas': null,
-        'prov_alev': null,
-        'n_ale_pov': null,
-        'produc_pi': null,
-        'tipo_proc': null,
-        'asis_aber': null,
-        'asis_moni': null,
-        'asis_orig': null,
-        'asis_or_o': null,
-        'trat_t_en': null,
-        'trat_a_sa': null,
-        'gaio_subm': null,
-        'problemas': null,
-        'prob_prin': null,
-        'tanques_piscicolas': new Backbone.SIXHIARA.TanquePiscicolaCollection(),
+        id: null,
+        tipo: "Piscicultura",
+        c_estimado: null,
+        area: null,
+        ano_i_ati: null,
+        tipo_aqua: null,
+        esp_culti: null,
+        n_tanques: null,
+        v_reservas: null,
+        prov_alev: null,
+        n_ale_pov: null,
+        produc_pi: null,
+        tipo_proc: null,
+        asis_aber: null,
+        asis_moni: null,
+        asis_orig: null,
+        asis_or_o: null,
+        trat_t_en: null,
+        trat_a_sa: null,
+        gaio_subm: null,
+        problemas: null,
+        prob_prin: null,
+        tanques_piscicolas: new Backbone.SIXHIARA.TanquePiscicolaCollection(),
     },
 
-    initialize: function () {
-        this.get('tanques_piscicolas').on('all', this.updateChildBasedComputations, this);
+    initialize: function() {
+        this.get("tanques_piscicolas").on(
+            "all",
+            this.updateChildBasedComputations,
+            this
+        );
     },
 
     parse: function(response) {
-        response.tanques_piscicolas = new Backbone.SIXHIARA.TanquePiscicolaCollection(response.tanques_piscicolas, {parse: true});
+        response.tanques_piscicolas = new Backbone.SIXHIARA.TanquePiscicolaCollection(
+            response.tanques_piscicolas,
+            {parse: true}
+        );
         return response;
     },
 
@@ -41,44 +47,44 @@ Backbone.SIXHIARA.ActividadePiscicultura = Backbone.SIXHIARA.ActividadeNull.exte
         var v_reservas = 0;
         var n_ale_pov = 0;
         var produc_pi = 0;
-        this.get('tanques_piscicolas').forEach(function(child){
+        this.get("tanques_piscicolas").forEach(function(child) {
             n_tanques += 1;
-            v_reservas += child.get('volume');
-            n_ale_pov += child.get('n_ale_pov');
-            produc_pi += child.get('pro_anual');
-        })
-        this.set('n_tanques', n_tanques);
-        this.set('v_reservas',v_reservas );
-        this.set('n_ale_pov', n_ale_pov);
-        this.set('produc_pi', produc_pi);
-        this.trigger('change', this.model);
+            v_reservas += child.get("volume");
+            n_ale_pov += child.get("n_ale_pov");
+            produc_pi += child.get("pro_anual");
+        });
+        this.set("n_tanques", n_tanques);
+        this.set("v_reservas", v_reservas);
+        this.set("n_ale_pov", n_ale_pov);
+        this.set("produc_pi", produc_pi);
+        this.trigger("change", this.model);
     },
 
-    toJSON: function () {
-        var json      =  _.clone(this.attributes);
-        json.tanques_piscicolas = this.get('tanques_piscicolas').toJSON();
+    toJSON: function() {
+        var json = _.clone(this.attributes);
+        json.tanques_piscicolas = this.get("tanques_piscicolas").toJSON();
         return json;
     },
 
     getActividadeLayer: function(map) {
-        var tanques_piscicolas = this.get('tanques_piscicolas');
-        if (! tanques_piscicolas) return null;
+        var tanques_piscicolas = this.get("tanques_piscicolas");
+        if (!tanques_piscicolas) return null;
         var geojson = tanques_piscicolas.toGeoJSON();
         if (geojson.features.length == 0) return null;
         return L.geoJson(geojson, {
             onEachFeature: function(feature, layer) {
                 var label = L.marker(layer.getBounds().getCenter(), {
                     icon: L.divIcon({
-                        className: 'leaflet-div-icon-actividade-label',
+                        className: "leaflet-div-icon-actividade-label",
                         html: feature.properties.tanque_id.slice(-3),
-                    })
+                    }),
                 }).addTo(map);
             },
             style: this.setStyleFeature,
         });
     },
 
-    setStyleFeature: function(feature){
+    setStyleFeature: function(feature) {
         if (feature.properties.tipo === "Tanque") {
             return {
                 stroke: true,
@@ -102,7 +108,7 @@ Backbone.SIXHIARA.ActividadePiscicultura = Backbone.SIXHIARA.ActividadeNull.exte
 
     validateSubActivity: function() {
         var messages = [];
-        this.get('tanques_piscicolas').forEach(function(tanque){
+        this.get("tanques_piscicolas").forEach(function(tanque) {
             var msgs = tanque.validate();
             if (msgs) {
                 messages = messages.concat(msgs);
@@ -110,9 +116,9 @@ Backbone.SIXHIARA.ActividadePiscicultura = Backbone.SIXHIARA.ActividadeNull.exte
         });
         return messages;
     },
-
 });
 
 // declare activity for dinamic discovery
 Backbone.SIXHIARA.ActividadesFactory = Backbone.SIXHIARA.ActividadesFactory || {};
-Backbone.SIXHIARA.ActividadesFactory['Piscicultura'] = Backbone.SIXHIARA.ActividadePiscicultura;
+Backbone.SIXHIARA.ActividadesFactory["Piscicultura"] =
+    Backbone.SIXHIARA.ActividadePiscicultura;

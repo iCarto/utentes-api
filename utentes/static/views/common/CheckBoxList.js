@@ -1,36 +1,37 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.CheckBoxList = Backbone.View.extend({
-
     events: {
-        'click a': 'toggleAll',
-        'change input[type=checkbox]': "toggle"
+        "click a": "toggleAll",
+        "change input[type=checkbox]": "toggle",
     },
-
 
     initialize: function(options) {
         if (options.domains) {
             this.options = {};
             this.options.domains = options.domains;
         }
-        this.settings = $.extend({
-            select_all: 'Todos',
-            deselect_all: 'Ninguno',
-            model_attr_name: 'items',
-            domain_attr_name: null,
-            render: false,
-            toggleAllBtSel: null,
-            enable_others: false,
-        }, options);
+        this.settings = $.extend(
+            {
+                select_all: "Todos",
+                deselect_all: "Ninguno",
+                model_attr_name: "items",
+                domain_attr_name: null,
+                render: false,
+                toggleAllBtSel: null,
+                enable_others: false,
+            },
+            options
+        );
 
         var items = this.model.get(this.settings.model_attr_name) || [];
         this.chbs = this.$('input[type="checkbox"]');
         _.each(this.chbs, function(chb) {
             var $chb = $(chb);
-            $chb.prop('checked', items.indexOf($chb.val()) !== -1 );
+            $chb.prop("checked", items.indexOf($chb.val()) !== -1);
         });
 
         if (this.settings.toggleAllBtSel) {
-            this.bt = this.$('a');
+            this.bt = this.$("a");
             if (this.areAllChecked()) {
                 this.bt.text(this.settings.deselect_all);
             } else {
@@ -42,16 +43,26 @@ Backbone.SIXHIARA.CheckBoxList = Backbone.View.extend({
             var childId = this.settings.enable_others.childId;
             var child = this.$(`#${childId}`);
             var self = this;
-            this.listenTo(this.model, `change:${this.settings.model_attr_name}`, function(model, value, options){
-                if (value && value.indexOf(self.settings.enable_others.enabledValues) !== -1) {
-                    child.prop("disabled", false);
-                } else {
-                    self.model.set(childId, null);
-                    child[0].value = null;
-                    child.prop("disabled", true);
+            this.listenTo(
+                this.model,
+                `change:${this.settings.model_attr_name}`,
+                function(model, value, options) {
+                    if (
+                        value &&
+                        value.indexOf(self.settings.enable_others.enabledValues) !== -1
+                    ) {
+                        child.prop("disabled", false);
+                    } else {
+                        self.model.set(childId, null);
+                        child[0].value = null;
+                        child.prop("disabled", true);
+                    }
                 }
-            });
-            if (items && items.indexOf(self.settings.enable_others.enabledValues) !== -1) {
+            );
+            if (
+                items &&
+                items.indexOf(self.settings.enable_others.enabledValues) !== -1
+            ) {
                 child.prop("disabled", false);
             }
         }
@@ -79,7 +90,7 @@ Backbone.SIXHIARA.CheckBoxList = Backbone.View.extend({
     // },
 
     areAllChecked: function() {
-        return this.chbs.filter(':checked').length === this.chbs.length
+        return this.chbs.filter(":checked").length === this.chbs.length;
     },
 
     toggleAll: function(event) {
@@ -91,14 +102,14 @@ Backbone.SIXHIARA.CheckBoxList = Backbone.View.extend({
         }
     },
 
-    toggle: function () {
+    toggle: function() {
         var checkedValues = this.getCheckedValues();
         this.model.set(this.settings.model_attr_name, checkedValues);
     },
 
     uncheckAll: function() {
         _.each(this.chbs, function(el) {
-            $(el).prop('checked', false);
+            $(el).prop("checked", false);
         });
         if (this.settings.toggleAllBtSel) {
             this.bt.text(this.settings.select_all);
@@ -109,7 +120,7 @@ Backbone.SIXHIARA.CheckBoxList = Backbone.View.extend({
 
     checkAll: function() {
         _.each(this.chbs, function(el) {
-            $(el).prop('checked', true);
+            $(el).prop("checked", true);
         });
         if (this.settings.toggleAllBtSel) {
             this.bt.text(this.settings.deselect_all);
@@ -119,12 +130,15 @@ Backbone.SIXHIARA.CheckBoxList = Backbone.View.extend({
     },
 
     getCheckedValues: function() {
-        var checkedValues = _.reduce(this.chbs, function(memo, chb) {
-            var $chb = $(chb);
-            if ($chb.prop('checked')) memo.push($chb.val());
-            return memo;
-        }, []);
+        var checkedValues = _.reduce(
+            this.chbs,
+            function(memo, chb) {
+                var $chb = $(chb);
+                if ($chb.prop("checked")) memo.push($chb.val());
+                return memo;
+            },
+            []
+        );
         return checkedValues;
     },
-
-  });
+});

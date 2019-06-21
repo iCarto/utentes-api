@@ -1,6 +1,5 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.ViewFacturacaoStatsChart = Backbone.View.extend({
-
     template: `
         <div class="chart-options">
             <div>
@@ -23,13 +22,13 @@ Backbone.SIXHIARA.ViewFacturacaoStatsChart = Backbone.View.extend({
     `,
 
     events: {
-        "click #export": "exportChart"
+        "click #export": "exportChart",
     },
 
-    initialize: function(options){
+    initialize: function(options) {
         this.options = options || {};
-        
-        this.listenTo(this.model, 'sync reset', this.updateChart)
+
+        this.listenTo(this.model, "sync reset", this.updateChart);
     },
 
     render: function() {
@@ -43,51 +42,53 @@ Backbone.SIXHIARA.ViewFacturacaoStatsChart = Backbone.View.extend({
 
     setListeners: function() {
         var self = this;
-        this.$('input[type=radio][name=chartType]').change(function() {
+        this.$("input[type=radio][name=chartType]").change(function() {
             self.updateChart();
         });
     },
 
     createChart: function() {
-        var ctx = this.$("#stats-chart")[0].getContext('2d');
+        var ctx = this.$("#stats-chart")[0].getContext("2d");
 
         // set background color for chart (to export with background)
-        var backgroundColor = 'white';
+        var backgroundColor = "white";
         Chart.plugins.register({
             beforeDraw: function(c) {
                 var ctx = c.chart.ctx;
                 ctx.fillStyle = backgroundColor;
                 ctx.fillRect(0, 0, c.chart.width, c.chart.height);
-            }
+            },
         });
-        
+
         var options = {
             legend: {
                 display: true,
-                position: 'bottom',
+                position: "bottom",
             },
             scales: {
-                yAxes: [{
-                    display: true,
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
-            }
+                yAxes: [
+                    {
+                        display: true,
+                        ticks: {
+                            beginAtZero: true,
+                        },
+                    },
+                ],
+            },
         };
 
         this.chart = new Chart(ctx, {
             // The type of chart we want to create
-            type: 'bar',
+            type: "bar",
 
             // The data for our dataset
             data: {
                 labels: [],
-                datasets: []
+                datasets: [],
             },
 
             // Configuration options go here
-            options
+            options,
         });
     },
 
@@ -96,7 +97,7 @@ Backbone.SIXHIARA.ViewFacturacaoStatsChart = Backbone.View.extend({
     },
 
     updateChart: function() {
-        var chartType = this.$('input[name=chartType]:checked').val();
+        var chartType = this.$("input[name=chartType]:checked").val();
         this.chart.data.labels = this.getLabels();
         this.chart.data.datasets = this.getDataset(chartType);
         this.chart.update();
@@ -104,7 +105,7 @@ Backbone.SIXHIARA.ViewFacturacaoStatsChart = Backbone.View.extend({
 
     getLabels: function() {
         return this.model.map(function(exploracao) {
-            return exploracao.get('exp_id') + ' (' + exploracao.get('utente') + ')';
+            return exploracao.get("exp_id") + " (" + exploracao.get("utente") + ")";
         });
     },
 
@@ -112,55 +113,57 @@ Backbone.SIXHIARA.ViewFacturacaoStatsChart = Backbone.View.extend({
         return [
             this.getDatasetEsperadas(chartType),
             this.getDatasetEmitidas(chartType),
-            this.getDatasetCobradas(chartType)
-        ]
+            this.getDatasetCobradas(chartType),
+        ];
     },
 
     getDatasetEsperadas: function(tipo) {
         return {
-            label: 'Esperadas',
-            backgroundColor: 'rgb(51, 123, 183)',
-            borderColor: 'rgb(18, 102, 171)',
+            label: "Esperadas",
+            backgroundColor: "rgb(51, 123, 183)",
+            borderColor: "rgb(18, 102, 171)",
             data: this.model.map(function(exploracao) {
-                return exploracao.get(tipo + '_facturas_esperadas')
-            })
-        }
+                return exploracao.get(tipo + "_facturas_esperadas");
+            }),
+        };
     },
 
     getDatasetEmitidas: function(tipo) {
         return {
-            label: 'Emitidas',
-            backgroundColor: 'rgb(83, 147, 200)',
-            borderColor: 'rgb(18, 102, 171)',
+            label: "Emitidas",
+            backgroundColor: "rgb(83, 147, 200)",
+            borderColor: "rgb(18, 102, 171)",
             data: this.model.map(function(exploracao) {
-                return exploracao.get(tipo + '_facturas_emitidas')
-            })
-        }
+                return exploracao.get(tipo + "_facturas_emitidas");
+            }),
+        };
     },
 
     getDatasetCobradas: function(tipo) {
         return {
-            label: 'Cobradas',
-            backgroundColor: 'rgb(126, 177, 220)',
-            borderColor: 'rgb(18, 102, 171)',
+            label: "Cobradas",
+            backgroundColor: "rgb(126, 177, 220)",
+            borderColor: "rgb(18, 102, 171)",
             data: this.model.map(function(exploracao) {
-                return exploracao.get(tipo + '_facturas_cobradas')
-            })
-        }
+                return exploracao.get(tipo + "_facturas_cobradas");
+            }),
+        };
     },
 
     exportChart: function() {
-        this.$el.find("#stats-chart").get(0).toBlob(function(blob) {
-            var blobUrl = URL.createObjectURL(blob);
-            var link = document.createElement("a");
-            link.href = blobUrl;
-            link.download = "chart.png";
-            document.body.appendChild(link);
-            link.click();
-            setTimeout(function() {
-                window.URL.revokeObjectURL(blobUrl);
-            }, 1000);
-        });
-    }
-
+        this.$el
+            .find("#stats-chart")
+            .get(0)
+            .toBlob(function(blob) {
+                var blobUrl = URL.createObjectURL(blob);
+                var link = document.createElement("a");
+                link.href = blobUrl;
+                link.download = "chart.png";
+                document.body.appendChild(link);
+                link.click();
+                setTimeout(function() {
+                    window.URL.revokeObjectURL(blobUrl);
+                }, 1000);
+            });
+    },
 });

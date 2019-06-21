@@ -1,20 +1,20 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.UpsView = Backbone.View.extend({
-    tagName:  'div',
+    tagName: "div",
 
     // optional, you can assign multiple classes to
     // this property like so: 'container homepage'
-    className: 'myclass',
+    className: "myclass",
 
     // Note: When declaring a View, options, el, tagName, id and className
     // may be defined as functions, if you want their values to be determined
     // at runtime.
-    id: 'myid', // optional
+    id: "myid", // optional
     template: _.template(`
         Ocorreu un erro. Informe ao administrador
     `),
 
-    initialize: function (options) {
+    initialize: function(options) {
         this.options = options || {};
     },
 

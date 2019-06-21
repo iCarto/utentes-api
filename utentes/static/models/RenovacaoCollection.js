@@ -1,11 +1,10 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.RenovacaoCollection = Backbone.GeoJson.FeatureCollection.extend({
-
     url: Backbone.SIXHIARA.Config.apiRenovacoes,
     model: Backbone.SIXHIARA.ExpConRenovacao,
-    comparator: 'exp_id',
+    comparator: "exp_id",
 
-    filterBy: function(where){
+    filterBy: function(where) {
         a = this.filter(function(element) {
             return element.contains(where);
         });
@@ -14,15 +13,15 @@ Backbone.SIXHIARA.RenovacaoCollection = Backbone.GeoJson.FeatureCollection.exten
 
     toSHP: function() {
         var features = [];
-        this.models.forEach(function(model){
+        this.models.forEach(function(model) {
             var feature = model.toSHP();
-            if (! _.isEmpty(feature.geometry)) {
+            if (!_.isEmpty(feature.geometry)) {
                 features.push(feature);
             }
         });
         return {
-            'type': 'FeatureCollection',
-            'features': features
+            type: "FeatureCollection",
+            features: features,
         };
     },
 
@@ -34,5 +33,4 @@ Backbone.SIXHIARA.RenovacaoCollection = Backbone.GeoJson.FeatureCollection.exten
         });
         return new Backbone.SIXHIARA.RenovacaoCollection(a);
     },
-
 });

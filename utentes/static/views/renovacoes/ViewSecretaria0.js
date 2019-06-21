@@ -1,6 +1,5 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.ViewSecretaria0 = Backbone.SIXHIARA.View1.extend({
-
     template: _.template(`
         <div id="bt-toolbar" class="row">
            <div class="col-xs-12">
@@ -89,73 +88,89 @@ Backbone.SIXHIARA.ViewSecretaria0 = Backbone.SIXHIARA.View1.extend({
         Backbone.SIXHIARA.View1.prototype.init.call(this);
         var self = this;
 
-        document.querySelectorAll('table input[type="checkbox"]').forEach(function(input){
-            input.addEventListener('change', self.enableBts.bind(self), false);
-        });
-        document.getElementById('d_soli').addEventListener('input', self.enableBts.bind(self), false);
-        document.getElementById('d_soli').addEventListener('input', function(e){
-            if(self.isValidDate(this)){
-                var dateId = 'd_soli';
-                var dateObj = self.parseDate(dateId)
+        document
+            .querySelectorAll('table input[type="checkbox"]')
+            .forEach(function(input) {
+                input.addEventListener("change", self.enableBts.bind(self), false);
+            });
+        document
+            .getElementById("d_soli")
+            .addEventListener("input", self.enableBts.bind(self), false);
+        document.getElementById("d_soli").addEventListener("input", function(e) {
+            if (self.isValidDate(this)) {
+                var dateId = "d_soli";
+                var dateObj = self.parseDate(dateId);
                 self.model.get("renovacao").set(dateId, dateObj);
-                self.model.get("renovacao").set('d_ultima_entrega_doc', dateObj);
-                self.autosave(self)
+                self.model.get("renovacao").set("d_ultima_entrega_doc", dateObj);
+                self.autosave(self);
             }
         });
 
-        if (self.model.get('renovacao').get('lic_time_info')) {
-            document.getElementById('time-renovacao-info').style.display = 'block';
+        if (self.model.get("renovacao").get("lic_time_info")) {
+            document.getElementById("time-renovacao-info").style.display = "block";
         }
 
         this.enableBts();
 
-        document.querySelectorAll('table input[type="checkbox"]').forEach(function(input){
-            input.addEventListener('change', self.autosave.bind(self), false);
-        });
+        document
+            .querySelectorAll('table input[type="checkbox"]')
+            .forEach(function(input) {
+                input.addEventListener("change", self.autosave.bind(self), false);
+            });
 
-        var defaultDataForFileModal = iAuth.getDefaultDataForFileModal(this.model.get('id'));
+        var defaultDataForFileModal = iAuth.getDefaultDataForFileModal(
+            this.model.get("id")
+        );
         var fileModalView = new Backbone.DMS.FileModalView({
-            openElementId: '#file-modal',
-            title: 'Arquivo Electr&oacute;nico',
+            openElementId: "#file-modal",
+            title: "Arquivo Electr&oacute;nico",
             urlBase: defaultDataForFileModal.defaultUrlBase,
-            id: defaultDataForFileModal.defaultFolderId
+            id: defaultDataForFileModal.defaultFolderId,
         });
     },
 
     enableBts: function() {
-        var validDate = this.isValidDate(document.getElementById("d_soli"))
-        var enable = validDate && Array.from(
-            document.querySelectorAll('table input[type="checkbox"]')
-        ).every(input => {
-            if (input.required) {
-                return input.checked;
-            }
-            return true;
-        });
-        document.getElementById('bt-ok').disabled = !enable;
+        var validDate = this.isValidDate(document.getElementById("d_soli"));
+        var enable =
+            validDate &&
+            Array.from(document.querySelectorAll('table input[type="checkbox"]')).every(
+                input => {
+                    if (input.required) {
+                        return input.checked;
+                    }
+                    return true;
+                }
+            );
+        document.getElementById("bt-ok").disabled = !enable;
     },
 
-    isValidDate: function(dateWidget){
+    isValidDate: function(dateWidget) {
         if (!dateWidget.value) return false;
         var dateObj = formatter().unformatDate(dateWidget.value);
-        var validDate = dateObj && formatter().validDateFormat(dateWidget.value) && !formatter().isFuture(dateObj);
+        var validDate =
+            dateObj &&
+            formatter().validDateFormat(dateWidget.value) &&
+            !formatter().isFuture(dateObj);
         if (validDate) {
-            dateWidget.setCustomValidity('');
+            dateWidget.setCustomValidity("");
         } else {
-            dateWidget.setCustomValidity('A data deve ter o formato correto, ser posterior à data da solicitação e não ser posterior a hoje.');
+            dateWidget.setCustomValidity(
+                "A data deve ter o formato correto, ser posterior à data da solicitação e não ser posterior a hoje."
+            );
         }
 
-        var helpBlock = document.getElementById('helpBlock_d_soli');
+        var helpBlock = document.getElementById("helpBlock_d_soli");
         if (validDate) {
-            helpBlock.innerText = '';
+            helpBlock.innerText = "";
             helpBlock.style.color = null;
-            helpBlock.style.display = 'none';
-            return true
+            helpBlock.style.display = "none";
+            return true;
         } else {
-            helpBlock.innerText = 'A data deve ter o formato correto, ser posterior à data da solicitação e não ser posterior a hoje.';
-            helpBlock.style.color = 'red';
-            helpBlock.style.display = 'block';
-            return false
+            helpBlock.innerText =
+                "A data deve ter o formato correto, ser posterior à data da solicitação e não ser posterior a hoje.";
+            helpBlock.style.color = "red";
+            helpBlock.style.display = "block";
+            return false;
         }
     },
 });

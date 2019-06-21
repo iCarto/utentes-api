@@ -1,11 +1,10 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.ExploracaoCollection = Backbone.GeoJson.FeatureCollection.extend({
-
     model: Backbone.SIXHIARA.Exploracao,
     url: Backbone.SIXHIARA.Config.apiExploracaos,
-    comparator: 'exp_id',
+    comparator: "exp_id",
 
-    filterBy: function(where){
+    filterBy: function(where) {
         a = this.filter(function(element) {
             return element.contains(where);
         });
@@ -14,15 +13,15 @@ Backbone.SIXHIARA.ExploracaoCollection = Backbone.GeoJson.FeatureCollection.exte
 
     toSHP: function() {
         var features = [];
-        this.models.forEach(function(model){
+        this.models.forEach(function(model) {
             var feature = model.toSHP();
-            if (! _.isEmpty(feature.geometry)) {
+            if (!_.isEmpty(feature.geometry)) {
                 features.push(feature);
             }
         });
         return {
-            'type': 'FeatureCollection',
-            'features': features
+            type: "FeatureCollection",
+            features: features,
         };
     },
 
@@ -34,5 +33,4 @@ Backbone.SIXHIARA.ExploracaoCollection = Backbone.GeoJson.FeatureCollection.exte
         });
         return new Backbone.SIXHIARA.ExploracaoCollection(a);
     },
-
 });

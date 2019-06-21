@@ -1,10 +1,9 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.Expediente = Backbone.Model.extend({
-
-    urlRoot: '/api/expedientes',
+    urlRoot: "/api/expedientes",
 
     defaults: {
-        'exp_id': '',
-        'exp_name': '',
-    }
+        exp_id: "",
+        exp_name: "",
+    },
 });

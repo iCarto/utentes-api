@@ -1,10 +1,9 @@
 Backbone.DMS = Backbone.DMS || {};
 Backbone.DMS.FileUploadingCollectionView = Backbone.View.extend({
+    id: "file-uploading-collection",
+    className: "uploading",
 
-    id: 'file-uploading-collection',
-    className: 'uploading',
-
-    initialize: function(options){
+    initialize: function(options) {
         options || (options = {});
         this.createListeners();
     },
@@ -15,30 +14,32 @@ Backbone.DMS.FileUploadingCollectionView = Backbone.View.extend({
     },
 
     createListeners: function() {
-        this.listenTo(this.model, 'add', this.renderFileUploadingCollection);
-        this.listenTo(this.model, 'remove', this.removeFileUploading);
+        this.listenTo(this.model, "add", this.renderFileUploadingCollection);
+        this.listenTo(this.model, "remove", this.removeFileUploading);
     },
 
     renderFileUploadingCollection() {
-        if(this.model) {
+        if (this.model) {
             var container = document.createDocumentFragment();
             this.filesUploadingViews = this.model.map(this.createFileUploadingView);
-            this.filesUploadingViews.forEach(function(fileSummaryView){
-                container.appendChild(fileSummaryView.render().el)
+            this.filesUploadingViews.forEach(function(fileSummaryView) {
+                container.appendChild(fileSummaryView.render().el);
             });
             this.$el.empty().append(container);
         }
     },
 
     createFileUploadingView: function(fileUploadData) {
-        return new Backbone.DMS.FileUploadingView({ model: fileUploadData });
+        return new Backbone.DMS.FileUploadingView({model: fileUploadData});
     },
 
-    removeFileUploading: function(fileUploadData){
-        var filename = fileUploadData.get('filename');
-        var fileUploadingViewRemoved = this.filesUploadingViews.find(function(fileUploadingView){
-            return fileUploadingView.model.id == filename
-        })
+    removeFileUploading: function(fileUploadData) {
+        var filename = fileUploadData.get("filename");
+        var fileUploadingViewRemoved = this.filesUploadingViews.find(function(
+            fileUploadingView
+        ) {
+            return fileUploadingView.model.id == filename;
+        });
         fileUploadingViewRemoved.remove();
-    }
+    },
 });
