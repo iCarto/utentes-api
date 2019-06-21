@@ -1,13 +1,13 @@
 fieldset {
-    position: relative;
-    margin: 15px 0;
-    padding: 39px 19px 14px;
-    *padding-top: 19px;
     background-color: #fff;
     border: 1px solid #ddd;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
+    margin: 15px 0;
+    padding: 39px 19px 14px;
+    *padding-top: 19px;
+    position: relative;
 }
 
 fieldset {
@@ -16,18 +16,18 @@ fieldset {
 }
 
 fieldset span {
-    position: absolute;
-    top: -1px;
-    left: -1px;
-    padding: 3px 7px;
-    font-size: 12px;
-    font-weight: bold;
     background-color: #f5f5f5;
     border: 1px solid #ddd;
-    color: #9da0a4;
     -webkit-border-radius: 4px 0 4px 0;
     -moz-border-radius: 4px 0 4px 0;
     border-radius: 4px 0 4px 0;
+    color: #9da0a4;
+    font-size: 12px;
+    font-weight: bold;
+    left: -1px;
+    padding: 3px 7px;
+    position: absolute;
+    top: -1px;
 }
 
 #panel-body-loc-admin {
@@ -35,7 +35,7 @@ fieldset span {
 }
 
 #panel-body-loc-hidro {
-    margin-bottom: 0.0%;
+    margin-bottom: 0%;
     padding-left: 3%;
 }
 
@@ -43,10 +43,12 @@ fieldset span {
 #panel-body-outros-localizacao {
     min-height: 330px;
 }
+
 #panel-body-loc-admin,
 #panel-body-loc-hidro {
     min-height: 320px;
 }
+
 /* @media (max-width: 1200px) {
     #panel-body-loc-admin,
     #panel-body-loc-hidro {
@@ -54,19 +56,18 @@ fieldset span {
     }
 } */
 
-
-
 .panel.panel-disabled,
 .panel.panel-disabled .panel-heading,
 .panel.panel-disabled .panel-heading .panel-title,
 .panel.panel-disabled fieldset {
-    cursor: not-allowed;
     background-color: #eee;
-    color: #777777;
-    border-color: #dddddd;
+    border-color: #ddd;
+    color: #777;
+    cursor: not-allowed;
 }
+
 .panel.panel-disabled fieldset:first-child {
-    color: #333333;
+    color: #333;
 }
 
 .pager {
@@ -74,14 +75,15 @@ fieldset span {
 }
 
 h1 {
-    margin-top: 15px;
     margin-bottom: 5px;
+    margin-top: 15px;
 }
 
 .panel {
     margin-bottom: 15px;
 }
+
 .panel-body {
-    padding-top: 10px;
     padding-bottom: 10px;
+    padding-top: 10px;
 }

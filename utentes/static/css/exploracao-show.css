@@ -4,54 +4,56 @@
     border-top: 1px solid #ddd;
 }
 
-#map{
+#map {
     font-size: 14px;
     height: 36em;
+    margin-bottom: 0.9em;
     margin-left: 1em;
     width: 95%;
-    margin-bottom: 0.9em;
 }
 
-label{ /*override bootstrap settings*/
+label {
+    /* override bootstrap settings */
     font-weight: inherit !important;
 }
 
-.title{
+.title {
     color: #999;
 }
 
-/*override bootstrap settings*/
-.btn-xs{
+/* override bootstrap settings */
+.btn-xs {
     color: #bbb !important;
 }
+
 .disabled .btn-xs {
     color: #333 !important;
 }
 
-
-.label{
+.label {
     font-size: small;
 }
 
 /* blocks: colors, margins, paddings */
 
-#map{
+#map {
     background-color: #eee;
 }
 
-.volume-summary{
+.volume-summary {
     background-color: #d9edf7;
-    padding: 1em 0;
-    margin: 0em;
     border: 1px solid #bce8f1;
+    margin: 0;
+    padding: 1em 0;
 }
+
 .volume-summary h3 {
     margin: 0;
 }
 
 .volume-license,
-.volume-activity{
-    margin: 0 .1em 0 .1em
+.volume-activity {
+    margin: 0 0.1em 0 0.1em;
 }
 
 #tooltipEstadoLicenciaModalView .done {
@@ -69,33 +71,40 @@ label{ /*override bootstrap settings*/
 #block-subterranea.disabled .panel,
 #block-superficial.disabled .panel {
     background-color: #eee;
+    border: none;
     color: gray;
     cursor: not-allowed;
-    border: none;
 }
+
 #block-superficial .panel,
 #block-subterranea .panel {
-    padding-bottom: 10px;
     border: 1px solid #bce8f1;
+    padding-bottom: 10px;
 }
+
 .disabled .lic_nro {
     color: gray;
 }
+
 .lic_nro,
 .exploracao_info {
     color: #00a2da;
 }
+
 #block-fontes thead th,
 #block-fontes tbody td {
     text-align: center;
 }
+
 #block-fontes tbody .observacio {
     text-align: left;
 }
+
 #block-fontes thead .units {
     color: gray;
     font-size: 80%;
 }
+
 #historicoLicenciaModalView .table > tbody > tr > th,
 #historicoLicenciaModalView .table > tbody > tr > td {
     text-align: center;

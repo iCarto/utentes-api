@@ -1,25 +1,28 @@
 .sixhiara-leaflet-label-paises {
-    font: 13px/26px 'Calibri', "Helvetica Neue", Arial, Helvetica, sans-serif;
-    font-weight: bold;
-    font-style: normal;
     color: #000;
+    font: 13px/26px "Calibri", "Helvetica Neue", Arial, Helvetica, sans-serif;
+    font-style: normal;
+    font-weight: bold;
 }
+
 .sixhiara-leaflet-label-postos {
-    font: 9px/18px 'Calibri', "Helvetica Neue", Arial, Helvetica, sans-serif;
-    font-weight: bold;
-    font-style: italic;
     color: #7d7d7d;
-}
-.sixhiara-leaflet-label-provincias {
-    font: 13px/26px 'Calibri', "Helvetica Neue", Arial, Helvetica, sans-serif;
-    font-weight: bold;
-    font-style: normal;
-    color: #000;
-    text-shadow: 0px 0px 4px #ffffff, 0px 0px 4px #ffffff, 0px 0px 4px #ffffff, 0px 0px 4px #ffffff;
-}
-.sixhiara-leaflet-label-cidades {
-    font: 9px/18px 'Calibri', "Helvetica Neue", Arial, Helvetica, sans-serif;
-    font-weight: normal;
-    color: #000;
+    font: 9px/18px "Calibri", "Helvetica Neue", Arial, Helvetica, sans-serif;
     font-style: italic;
+    font-weight: bold;
+}
+
+.sixhiara-leaflet-label-provincias {
+    color: #000;
+    font: 13px/26px "Calibri", "Helvetica Neue", Arial, Helvetica, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-shadow: 0 0 4px #fff, 0 0 4px #fff, 0 0 4px #fff, 0 0 4px #fff;
+}
+
+.sixhiara-leaflet-label-cidades {
+    color: #000;
+    font: 9px/18px "Calibri", "Helvetica Neue", Arial, Helvetica, sans-serif;
+    font-style: italic;
+    font-weight: normal;
 }

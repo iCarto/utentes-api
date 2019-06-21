@@ -1,51 +1,50 @@
-#filters{
+#filters {
     height: 100%;
 }
 
 #filters {
-    border-right: 1px solid #CCC;
-    padding: 0em 2em;
+    border-right: 1px solid #ccc;
+    padding: 0 2em;
 }
 
-#filters h4{
-    border-bottom: 1px solid #CCC;
+#filters h4 {
+    border-bottom: 1px solid #ccc;
     font-weight: bold;
-    margin-top: 11px;
     margin-bottom: 6px;
+    margin-top: 11px;
 }
 
 /* Form */
 
 #filters .form-control {
-    padding: 6px 6px;
-    border: 1px solid #CCC;
+    border: 1px solid #ccc;
     box-shadow: none !important;
     margin-bottom: 5px;
+    padding: 6px 6px;
     white-space: normal;
 }
 
-
 /* ----- COLOR SCHEME ----- */
 
-#filters{
+#filters {
     background-color: white;
 }
 
 #filters p,
-#filters label{
+#filters label {
     color: #7d7d7d;
-    margin-top: 4px;
     margin-bottom: 2px;
+    margin-top: 4px;
 }
 
 #filters .year-widget {
-    display: flex;
     align-items: center;
+    display: flex;
     margin-bottom: 5px;
 }
 
 #filters .year-select-widget {
-    width: 46%;
     display: inline-block;
-    margin-bottom: 0px !important;
+    margin-bottom: 0 !important;
+    width: 46%;
 }

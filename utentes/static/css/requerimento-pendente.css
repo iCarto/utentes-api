@@ -1,10 +1,10 @@
 html,
 body,
-.container-fluid{
+.container-fluid {
     height: 100%;
 }
 
-.main-content{
+.main-content {
     height: 94%;
 }
 
@@ -31,34 +31,35 @@ body,
     background-color: rgba(204, 204, 204, 0.3);
 }
 
-#projects h2{
+#projects h2 {
     margin: 0;
-    padding-bottom: .5em;
+    padding-bottom: 0.5em;
 }
 
-#projects > div{
+#projects > div {
     border-bottom: 1px solid #f3f3f3;
     margin-bottom: 1em;
 }
 
 #projects li {
     border-bottom: 1px solid #f3f3f3;
-    margin-bottom: 0em;
+    margin-bottom: 0;
+
     /* padding-bottom: 0.1em; */
-    padding: 1em 0 .75em 0;
+    padding: 1em 0 0.75em 0;
 }
 
 /* ----- TYPOGRAPHY ----- */
 
-body{
-    font-family: 'Open Sans', sans-serif;
+body {
+    font-family: "Open Sans", sans-serif;
 }
 
-#projects h2{
+#projects h2 {
     text-align: center;
 }
 
-a:hover{
+a:hover {
     text-decoration: none;
 }
 
@@ -83,21 +84,20 @@ a {
 }
 
 a:hover {
-    color: #FE8433;
+    color: #fe8433;
 }
 
-
-#projects h5{
+#projects h5 {
     color: #7d7d7d;
 }
 
-.feature{
-    height:300px;
+.feature {
     background-color: #00a2da;
-    padding:24px;
+    height: 300px;
+    padding: 24px;
 }
 
 .myclass {
-    width: 97%;
     margin: 0 auto;
+    width: 97%;
 }

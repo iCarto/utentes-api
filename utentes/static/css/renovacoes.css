@@ -1,68 +1,82 @@
 input#d_soli {
     text-align: right;
 }
+
 #lic-sub-old.panel,
 #lic-sup-old.panel {
     margin-bottom: 5px;
 }
+
 #lic-sub-old .form-group,
-#lic-sub     .form-group,
+#lic-sub .form-group,
 #lic-sup-old .form-group,
-#lic-sup     .form-group {
+#lic-sup .form-group {
     margin-bottom: 10px;
 }
+
 #renovacao-block #bt-ok,
 #renovacao-block #bt-no,
 #renovacao-block #bt-defacto,
 #renovacao-block #bt-noaprobada {
     margin-bottom: 10px;
 }
+
 .licencias.renovacao {
     margin-top: 3px;
 }
+
 #time-renovacao-info {
-    padding: 0;
     display: none;
     font-size: 18px;
     font-style: italic;
-    text-align: center;
     margin-bottom: 22px;
-
+    padding: 0;
+    text-align: center;
 }
+
 #time-renovacao-info.info-pill.label-warning,
 #time-renovacao-info.info-pill.label-danger,
 #time-renovacao-info.info-pill.label-success,
 #time-renovacao-info.info-pill.label-default {
     background-color: transparent;
 }
+
 #time-renovacao-info.info-pill.label-warning {
     color: #f0ad4e;
 }
+
 #time-renovacao-info.info-pill.label-danger {
     color: #d9534f;
 }
+
 #time-renovacao-info.info-pill.label-success {
     color: #5cb85c;
 }
+
 #time-renovacao-info.info-pill.label-default {
-    color: #777777;
+    color: #777;
 }
+
 #renovacao-block.panel-equal-height {
     margin-bottom: 10px;
 }
+
 #renovacao-block + .panel-equal-height #observacio {
     margin-top: 5px;
 }
+
 #renovacao-block label[for="d_soli"] {
-    padding-top: 15px;
     margin-bottom: 9px;
+    padding-top: 15px;
 }
+
 #renovacao-block + .panel-equal-height label[for="observacio"] div:first-child,
 #renovacao-block .panel-observacio label[for="observacio"] div:first-child,
 #renovacao-block.form-group label[for="observacio"] div:first-child,
 #time-renovacao-info + .panel-equal-height label[for="d_soli"] {
     padding-top: 14px;
 }
+
 .panel-observacio.renovacao .form-group label:nth-child(3) {
     margin-top: 23px;
 }

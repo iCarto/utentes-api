@@ -1,24 +1,24 @@
 html,
-body{
-    width: 100%;
-    height: 100%;
+body {
     background: white;
+    height: 100%;
+    width: 100%;
 }
 
-section.row{
+section.row {
     height: 94%;
 }
 
 #map-pane {
     float: left;
-    width: 100%;
     height: 100%;
     position: absolute;
+    width: 100%;
 }
 
 /* make actions more visually strong */
 
-.gps-toolbar ul{
+.gps-toolbar ul {
     font-size: 1.3em;
 }
 
@@ -33,6 +33,7 @@ input[type="button"] {
     position: fixed;
     top: -1000px;
 }
+
 .remove-field {
     cursor: pointer;
 }

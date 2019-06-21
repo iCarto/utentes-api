@@ -1,13 +1,12 @@
-
 #documents-modal .modal-body {
     display: flex;
     flex-direction: row;
-    padding: 0px;
+    padding: 0;
 }
 
 #documents-modal .content {
-    width: 100%;
     padding: 5px 20px;
+    width: 100%;
 }
 
 #documents-modal #breadcrumb-view {
@@ -18,18 +17,18 @@
 
 #documents-modal #breadcrumb-view .breadcrumb {
     background-color: inherit;
-    padding: 0px;
     font-style: italic;
+    padding: 0;
 }
 
 #documents-modal #file-collection-table {
-    width: 100%;
     padding: 20px;
+    width: 100%;
 }
 
 #documents-modal #file-collection-table .type {
-    width: 5%;
     font-size: 15px;
+    width: 5%;
 }
 
 #documents-modal #file-collection-table .name {
@@ -39,14 +38,14 @@
 
 #documents-modal #file-collection-table .date {
     text-align: center;
-    width: 10%;
     vertical-align: middle;
+    width: 10%;
 }
 
 #documents-modal #file-collection-table .size {
     text-align: center;
-    width: 15%;
     vertical-align: middle;
+    width: 15%;
 }
 
 #documents-modal #file-collection-table .actions {
@@ -57,7 +56,7 @@
 
 #documents-modal #file-collection-table .actions i {
     font-size: 20px;
-    padding: 0px 5px;
+    padding: 0 5px;
 }
 
 #documents-modal #file-collection-table .actions .fa-trash {
@@ -74,12 +73,12 @@
 }
 
 #fileupload-view {
+    align-items: center;
     display: flex;
     flex-flow: column wrap;
     justify-content: center;
-    align-items: center;
-    padding-bottom: 10px;
     margin-bottom: 20px;
+    padding-bottom: 10px;
 }
 
 #fileupload-view input[type="file"] {
@@ -89,16 +88,16 @@
 #fileupload-view .fileupload {
     border: 1px solid #ccc;
     border-radius: 5px;
-    display: inline-block;
-    padding: 20px;
-    width: 200px;
-    min-height: 100px;
-    text-align: center;
     cursor: pointer;
+    display: inline-block;
+    min-height: 100px;
+    padding: 20px;
+    text-align: center;
+    width: 200px;
 }
 
 #fileupload-view .fileupload:hover {
-    background: rgb(245, 255, 235)
+    background: rgb(245, 255, 235);
 }
 
 #fileupload-view .fileupload i {
@@ -111,8 +110,8 @@
 }
 
 #fileupload-view span {
-    margin-left: 10px;
     font-style: italic;
+    margin-left: 10px;
 }
 
 #fileupload-view .uploading .file-uploading {
@@ -129,17 +128,17 @@
 }
 
 #fileupload-view .uploading .bar-container {
-    height: 18px;
     background: #ccc;
     border-radius: 5px;
-    text-align: center;
-    font-size: 9pt;
     color: white;
+    font-size: 9pt;
+    height: 18px;
+    text-align: center;
 }
 
 #fileupload-view .uploading .bar {
-    margin-top: -17px;
-    height: 18px;
     background: rgb(117, 172, 117);
     border-radius: 5px;
+    height: 18px;
+    margin-top: -17px;
 }

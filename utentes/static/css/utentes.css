@@ -1,4 +1,4 @@
-.title{
+.title {
     color: #999;
 }
 
@@ -12,7 +12,7 @@ main {
     padding-top: 1em;
 }
 
-a:hover{
+a:hover {
     text-decoration: none;
 }
 
@@ -21,5 +21,5 @@ a {
 }
 
 a:hover {
-    color: #FE8433;
+    color: #fe8433;
 }
