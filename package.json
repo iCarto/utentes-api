@@ -1,26 +1,29 @@
 {
-  "name": "utentes-api",
-  "version": "1.0.0",
-  "description": "API for utentes project",
-  "author": "iCarto <info@icarto.es>",
-  "license": "AGPL-3.0",
-  "homepage": "https://gitlab.com/icarto/utentes-api",
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@gitlab.com:icarto/utentes-api.git"
-  },
-  
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  
-  "devDependencies": {
-    "eslint": "4.18.1",
-    "stylelint": "9.1.1",
-    "stylelint-config-standard": "18.2.0",
-    "htmllint": "0.7.2"
-  },
-  
-  "dependencies": {}
+    "name": "utentes-api",
+    "version": "1.0.0",
+    "description": "API for utentes project",
+    "author": "iCarto <info@icarto.es>",
+    "license": "AGPL-3.0",
+    "homepage": "https://gitlab.com/icarto/utentes-api",
+    "repository": {
+        "type": "git",
+        "url": "git+ssh://git@gitlab.com:icarto/utentes-api.git"
+    },
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "pretty:python": "black . && isort -rc .",
+        "pretty:css": "npx stylelint --fix --ignore-path .ignore  '**/*.{vue,htm,html,css,sss,less,scss,sass,mak,jinja2}'"
+    },
+    "devDependencies": {
+        "eclint": "2.8.1",
+        "eslint": "4.18.1",
+        "htmllint": "0.7.2",
+        "js-beautify": "1.10.0",
+        "prettier": "1.18.2",
+        "stylelint": "10.1.0",
+        "stylelint-config-standard": "18.3.0",
+        "stylelint-order": "3.0.0"
+    },
+    "dependencies": {}
 }

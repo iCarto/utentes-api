@@ -8,10 +8,15 @@ flake8-builtins
 flake8-comprehensions
 mccabe
 cohesion
-isort
-# pip install isort[requirements,pipfile] para la proxima release de isort
-yapf
 
-# Only works in python3
+
+# Only works in python3 #
+
 # flake8-broken-line
 # flake8-pie
+
+# black
+# isort
+# isort[pyproject]
+# pip install isort[requirements,pipfile] para la proxima release de isort
+

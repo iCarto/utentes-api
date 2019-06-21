@@ -1,0 +1,52 @@
+# Python
+*.egg
+*.egg-info
+__pycache__
+*.pyc
+build/
+# dist/
+
+
+# Javascript
+node_modules/
+
+
+## Unit test / coverage reports
+.coverage
+
+
+# IDEs and Vagrant
+.idea
+.vscode
+.vagrant
+*~
+
+
+# Project
+utentes/static/.webassets-cache/
+utentes/static/dist/
+utentes/media
+
+
+# Formatter & Linters
+utentes/static/lib/DataTables/
+utentes/static/lib/leaflet-draw/
+utentes/static/lib/font-awesome/
+utentes/static/lib/bootstrap/
+utentes/static/lib/leaflet/
+utentes/static/lib/numeral-js-1.5.3/
+utentes/static/lib/moment-2.11.2/
+utentes/static/offline/data/
+utentes/static/lib/backbone/backbone.js
+utentes/static/lib/bootbox.min.js
+utentes/static/lib/chart/chart.js
+utentes/static/lib/docx-templates/docx-templates.js
+utentes/static/lib/excel-libs/
+utentes/static/lib/jquery-fileupload
+utentes/static/lib/jquery-ui/jquery-ui.min.js
+utentes/static/lib/jquery/
+utentes/static/lib/jszip-utils/
+utentes/static/lib/shp.js
+utentes/static/lib/shpwrite.js
+utentes/static/lib/twitter-bootstrap-wizard/
+utentes/static/lib/underscore/
