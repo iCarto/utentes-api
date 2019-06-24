@@ -6,7 +6,6 @@ A plugable utility to help in validating content in plain JavaScript.
 
 Create a schema that defines the rules:
 
-
     var mySchema = [{
         'fieldname': 'myID',
         'message':   'ID cannot be void',
@@ -17,9 +16,7 @@ Create a schema that defines the rules:
         'rules':     ['IS_DATE']
     }];
 
-
 Validate an object :
-
 
     var myBareObject = {
         'myID':   '2016-001',
@@ -28,22 +25,20 @@ Validate an object :
     var myValidator = validator(mySchema);
     var myMessages = myValidator.validate(myBareObject);
 
-
 myMessages is an array containing the messages for the rules that fail.
 
 ## How to create custom rules
 
 The current generic rules the validator supports are:
 
-* NOT_NULL
-* IS_DATE
-* IS_NUMERIC
-* INT_LESS_THAN_8
-* IS_BOOLEAN
-* ARRAY_NOT_VOID
+-   NOT_NULL
+-   IS_DATE
+-   IS_NUMERIC
+-   INT_LESS_THAN_8
+-   IS_BOOLEAN
+-   ARRAY_NOT_VOID
 
 But you can plug your own, like this:
-
 
     var mySchema = [{
         'fieldname': 'myID',

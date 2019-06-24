@@ -4,18 +4,18 @@ Backbone views, models and collections to help in composing UIs that minimize re
 
 Models and Collections:
 
-* [Backbone.UILib.Domain](#backboneuilibdomain)
-* [Backbone.UILib.DomainCollection](#backboneuilibdomaincollection)
+-   [Backbone.UILib.Domain](#backboneuilibdomain)
+-   [Backbone.UILib.DomainCollection](#backboneuilibdomaincollection)
 
 Views:
 
-* [Backbone.UILib.BaseView](#backboneuilibbaseview)
-* [Backbone.UILib.ItemView](#backboneuilibitemview)
-* [Backbone.UILib.ListView](#backboneuiliblistview)
-* [Backbone.UILib.ModalView](#backboneuilibmodalview)
-* [Backbone.UILib.OptionView](#backboneuiliboptionview)
-* [Backbone.UILib.SelectView](#backboneuilibselectview)
-* [Backbone.UILib.WidgetsView](#backboneuilibwidgetsview)
+-   [Backbone.UILib.BaseView](#backboneuilibbaseview)
+-   [Backbone.UILib.ItemView](#backboneuilibitemview)
+-   [Backbone.UILib.ListView](#backboneuiliblistview)
+-   [Backbone.UILib.ModalView](#backboneuilibmodalview)
+-   [Backbone.UILib.OptionView](#backboneuiliboptionview)
+-   [Backbone.UILib.SelectView](#backboneuilibselectview)
+-   [Backbone.UILib.WidgetsView](#backboneuilibwidgetsview)
 
 ## Backbone.UILib.Domain
 
@@ -23,7 +23,7 @@ A Backbone.Model to manage a close set of values for a specific item. We call it
 
 Dependencies:
 
-* Backbone.Model - extends this model.
+-   Backbone.Model - extends this model.
 
 API:
 
@@ -41,8 +41,8 @@ The default properties for this model are:
 
 Dependencies:
 
-* Backbone.Collection - extends this collection.
-* Backbone.UILib.Domain - uses it as its model.
+-   Backbone.Collection - extends this collection.
+-   Backbone.UILib.Domain - uses it as its model.
 
 API:
 
@@ -70,7 +70,7 @@ API:
 
 Dependencies:
 
-* Backbone.View - extends this view.
+-   Backbone.View - extends this view.
 
 API:
 
@@ -101,7 +101,7 @@ API:
 
 Dependencies:
 
-* Backbone.View - extends this view.
+-   Backbone.View - extends this view.
 
 API:
 
@@ -124,8 +124,8 @@ API:
 
 Dependencies:
 
-* Backbone.View - extends this view.
-* Backbone.UILib.ItemView - uses this view to render each model in the collection.
+-   Backbone.View - extends this view.
+-   Backbone.UILib.ItemView - uses this view to render each model in the collection.
 
 API:
 
@@ -171,8 +171,8 @@ API:
 
 Dependencies:
 
-* Backbone.View - extends it.
-* Bootstrap v3 - uses it to manage the modals.
+-   Backbone.View - extends it.
+-   Bootstrap v3 - uses it to manage the modals.
 
 API:
 
@@ -215,7 +215,7 @@ API:
 
 Dependencies:
 
-* Backbone.View - extends it
+-   Backbone.View - extends it
 
 API:
 
@@ -238,8 +238,8 @@ API:
 
 Dependencies:
 
-* Backbone.View - extends it
-* Backbone.OptionView - uses it to render the children
+-   Backbone.View - extends it
+-   Backbone.OptionView - uses it to render the children
 
 API:
 
@@ -282,8 +282,8 @@ API:
 
 Dependencies:
 
-* Backbone.View - extends it
-* [formatter](https://github.com/iCarto/formatter) - uses it to format numbers and dates.
+-   Backbone.View - extends it
+-   [formatter](https://github.com/iCarto/formatter) - uses it to format numbers and dates.
 
 API:
 
