@@ -15,6 +15,7 @@ body,
 }
 
 #projects {
+    background-color: white;
     overflow-y: scroll;
 }
 
@@ -25,6 +26,7 @@ body,
 #projects h2 {
     margin: 0;
     padding-bottom: 0.5em;
+    text-align: center;
 }
 
 #projects li {
@@ -41,14 +43,6 @@ body {
     font-family: "Open Sans", sans-serif;
 }
 
-#projects h2 {
-    text-align: center;
-}
-
-a:hover {
-    text-decoration: none;
-}
-
 /* ----- COLOR SCHEME -----
 
 As the map is the bigger component within the page, it sets the ambient.
@@ -61,10 +55,6 @@ main {
     background-color: #f3f3f3;
 }
 
-#projects {
-    background-color: white;
-}
-
 #map-container {
     background-color: #d8e1ee;
 }
@@ -75,6 +65,7 @@ a {
 
 a:hover {
     color: #fe8433;
+    text-decoration: none;
 }
 
 #projects h5 {

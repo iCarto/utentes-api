@@ -1,9 +1,7 @@
 #filters {
-    height: 100%;
-}
-
-#filters {
+    background-color: white;
     border-right: 1px solid #ccc;
+    height: 100%;
     padding: 0 2em;
 }
 
@@ -25,10 +23,6 @@
 }
 
 /* ----- COLOR SCHEME ----- */
-
-#filters {
-    background-color: white;
-}
 
 #filters p,
 #filters label {

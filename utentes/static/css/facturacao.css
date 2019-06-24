@@ -34,6 +34,7 @@ body,
 #projects h2 {
     margin: 0;
     padding-bottom: 0.5em;
+    text-align: center;
 }
 
 #projects > div {
@@ -53,14 +54,6 @@ body,
 
 body {
     font-family: "Open Sans", sans-serif;
-}
-
-#projects h2 {
-    text-align: center;
-}
-
-a:hover {
-    text-decoration: none;
 }
 
 /* ----- COLOR SCHEME -----
@@ -85,6 +78,7 @@ a {
 
 a:hover {
     color: #fe8433;
+    text-decoration: none;
 }
 
 #projects h5 {

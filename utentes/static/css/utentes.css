@@ -13,13 +13,10 @@ main {
 }
 
 a:hover {
+    color: #fe8433;
     text-decoration: none;
 }
 
 a {
     color: #00a2da;
-}
-
-a:hover {
-    color: #fe8433;
 }

@@ -5,6 +5,7 @@
 }
 
 #map {
+    background-color: #eee;
     font-size: 14px;
     height: 36em;
     margin-bottom: 0.9em;
@@ -35,10 +36,6 @@ label {
 }
 
 /* blocks: colors, margins, paddings */
-
-#map {
-    background-color: #eee;
-}
 
 .volume-summary {
     background-color: #d9edf7;
@@ -108,4 +105,12 @@ label {
 #historicoLicenciaModalView .table > tbody > tr > th,
 #historicoLicenciaModalView .table > tbody > tr > td {
     text-align: center;
+}
+
+#div-summary_pago_iva {
+    border-left: 1px solid grey;
+    color: grey;
+    display: inline-block;
+    margin-left: -1px;
+    padding-left: 5px;
 }

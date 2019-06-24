@@ -24,6 +24,10 @@
     width: 26px;
 }
 
+.leaflet-control-toolbar > li > .leaflet-toolbar-icon {
+    border-bottom: 1px solid #ccc;
+}
+
 .leaflet-toolbar-0 > li > .leaflet-toolbar-icon:hover {
     background-color: #f4f4f4;
 }
@@ -56,10 +60,6 @@
     /* Secondary Toolbar */
 }
 
-.leaflet-control-toolbar > li > .leaflet-toolbar-icon {
-    border-bottom: 1px solid #ccc;
-}
-
 .leaflet-control-toolbar .leaflet-toolbar-1 {
     height: 26px;
     left: 26px;
@@ -81,7 +81,7 @@
     border-left: 1px solid #aaa;
     color: #fff;
     display: block;
-    font: 11px/19px "Helvetica Neue", Arial, Helvetica, sans-serif;
+    font: 11px/19px "Helvetica Neue", "Arial", "Helvetica", sans-serif;
     height: 26px;
     line-height: 26px;
     padding-left: 10px;
