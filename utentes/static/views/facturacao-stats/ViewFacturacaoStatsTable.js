@@ -37,7 +37,7 @@ Backbone.SIXHIARA.ViewFacturacaoStatsTable = Backbone.View.extend({
             },
             {
                 data: "importe_facturas_esperadas",
-                title: "Importe Esperado",
+                title: "Valor Esperado (MT)",
                 searchable: false,
                 className: "dt-center dt-value",
             },
@@ -55,7 +55,7 @@ Backbone.SIXHIARA.ViewFacturacaoStatsTable = Backbone.View.extend({
             },
             {
                 data: "importe_facturas_emitidas",
-                title: "Importe Emitidas",
+                title: "Valor Emitido (MT)",
                 searchable: false,
                 className: "dt-center dt-value",
             },
@@ -73,7 +73,7 @@ Backbone.SIXHIARA.ViewFacturacaoStatsTable = Backbone.View.extend({
             },
             {
                 data: "importe_facturas_cobradas",
-                title: "Importe Cobradas",
+                title: "Valor Cobrado (MT)",
                 searchable: false,
                 className: "dt-center dt-value",
             },

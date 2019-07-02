@@ -496,7 +496,7 @@ if (window.SIRHA.getARA() === "DPMAIP") {
             },
         },
         {
-            header: "Valor com IVA (MZN/mês)",
+            header: "Valor com IVA (MT/mês)",
             value: function(exp) {
                 return exp.licencias.reduce(
                     (accumulator, lic) => accumulator + lic.pago_iva,

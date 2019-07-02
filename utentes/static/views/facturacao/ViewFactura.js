@@ -30,12 +30,12 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
                     </div>
 
                     <div class="form-group col-xs-12">
-                        <label for="taxa_fixa_sub">Taxa fixa&nbsp;<i class="units">(MZN/mês)</i></label>
+                        <label for="taxa_fixa_sub">Taxa fixa&nbsp;<i class="units">(MT/mês)</i></label>
                         <input type="text" class="form-control widget-number" id="taxa_fixa_sub" pattern="[0-9]{1,8}([,][0-9]{1,2})?" value="<%- formatter().formatNumber(taxa_fixa_sub, '0[.]00') %>" disabled>
                     </div>
 
                     <div class="form-group col-xs-12">
-                        <label for="taxa_uso_sub">Taxa de uso&nbsp;<i class="units">(MZN/m<sup>3</sup>)</i></label>
+                        <label for="taxa_uso_sub">Taxa de uso&nbsp;<i class="units">(MT/m<sup>3</sup>)</i></label>
                         <input type="text" class="form-control widget-number" id="taxa_uso_sub" pattern="[0-9]{1,8}([,][0-9]{1,2})?" value="<%- formatter().formatNumber(taxa_uso_sub, '0[.]00') %>" disabled>
                     </div>
 
@@ -72,12 +72,12 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
                     </div>
 
                     <div class="form-group col-xs-12">
-                        <label for="taxa_fixa_sup">Taxa fixa&nbsp;<i class="units">(MZN/mês)</i></label>
+                        <label for="taxa_fixa_sup">Taxa fixa&nbsp;<i class="units">(MT/mês)</i></label>
                         <input type="text" class="form-control widget-number" id="taxa_fixa_sup" pattern="[0-9]{1,8}([,][0-9]{1,2})?" value="<%- formatter().formatNumber(taxa_fixa_sup, '0[.]00') %>" disabled>
                     </div>
 
                     <div class="form-group col-xs-12">
-                        <label for="taxa_uso_sup">Taxa de uso&nbsp;<i class="units">(MZN/m<sup>3</sup>)</i></label>
+                        <label for="taxa_uso_sup">Taxa de uso&nbsp;<i class="units">(MT/m<sup>3</sup>)</i></label>
                         <input type="text" class="form-control widget-number" id="taxa_uso_sup" pattern="[0-9]{1,8}([,][0-9]{1,2})?" value="<%- formatter().formatNumber(taxa_uso_sup, '0[.]00') %>" disabled>
                     </div>
 
@@ -97,19 +97,39 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
                     <h3 class="panel-title"><strong>Facturação</strong></h3>
                 </div>
                 <div class="panel-body row">
-                    <div class="form-group col-xs-3" style="padding: 0px 10px;">
+                    <div class="form-group col-xs-3" style="padding: 0px 5px;">
                         <label for="iva">IVA&nbsp;<i class="units">(%)</i></label>
-                        <input type="text" class="form-control widget-number" id="iva" pattern="[0-9]{1,8}([,][0-9]{1,2})?" value="<%- formatter().formatNumber(iva, '0[.]00') %>" disabled>
+                        <input type="text"
+                               class="form-control widget-number"
+                               id="iva"
+                               pattern="[0-9]{1,8}([,][0-9]{1,2})?"
+                               value="<%- formatter().formatNumber(iva, '0[.]00') %>"
+                               style="padding: 6px 6px;"
+                               disabled
+                        >
                     </div>
 
-                    <div class="form-group col-xs-3" style="padding: 0px 10px;">
-                    <label for="iva">Juros&nbsp;<i class="units">(%)</i></label>
-                    <input type="text" class="form-control widget-number" id="juros" pattern="[0-9]{1,8}([,][0-9]{1,2})?" value="<%- formatter().formatNumber(juros, '0[.]00') %>" disabled>    
+                    <div class="form-group col-xs-3" style="padding: 0px 5px;">
+                        <label for="juros">Multa&nbsp;<i class="units">(%)</i></label>
+                        <input type="text"
+                               class="form-control widget-number"
+                               id="juros"
+                               pattern="[0-9]{1,8}([,][0-9]{1,2})?"
+                               value="<%- formatter().formatNumber(juros, '0[.]00') %>"
+                               style="padding: 6px 6px;"
+                               disabled
+                        >
                     </div>
 
-                    <div class="form-group col-xs-6" style="padding: 0px 10px;">
-                        <label for="pago_iva">Valor <i class="units">(MZN/mês)</i></label>
-                        <input type="text" class="form-control widget-number" id="pago_iva" pattern="[0-9]{1,8}([,][0-9]{1,2})?" value="<%- formatter().formatNumber(pago_iva, '0[.]00') %>" disabled>
+                    <div class="form-group col-xs-6" style="padding: 0px 5px;">
+                        <label for="pago_iva">Valor <i class="units js-change-mes">(MT/mês)</i></label>
+                        <input type="text"
+                               class="form-control widget-number"
+                               id="pago_iva"
+                               pattern="[0-9]{1,8}([,][0-9]{1,2})?"
+                               value="<%- formatter().formatNumber(pago_iva, '0[.]00') %>"
+                               disabled
+                        >
                     </div>
                 </div>
             </div>

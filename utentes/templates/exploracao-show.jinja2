@@ -147,7 +147,7 @@
             <h3>
               <span class="widget-number" id="summary_pago_iva">-</span>
             </h3>
-            <span>MZN/mês com IVA</span>
+            <span>MT/mês com IVA</span>
           </div>
         </div>
         <div class="col-xs-3">
@@ -1628,11 +1628,11 @@
                           <select type="text" id="consumo_tipo" class="form-control widget uilib-enability uilib-enable-role-administrador uilib-enable-role-tecnico"></select>
                         </div>
                         <div class="form-group col-xs-6">
-                          <label for="taxa_fixa">Taxa fixa <i class="units">(MZN/mês)</i></label>
+                          <label for="taxa_fixa">Taxa fixa <i class="units">(MT/mês)</i></label>
                           <input type="text" class="form-control widget-number uilib-enability uilib-enable-role-single" id="taxa_fixa" pattern="[0-9]{1,8}([,][0-9]{1,2})?" required>
                         </div>
                         <div class="form-group col-xs-6">
-                          <label for="taxa_uso">Taxa de uso <i class="units">(MZN/m<sup>3</sup>)</i></label>
+                          <label for="taxa_uso">Taxa de uso <i class="units">(MT/m<sup>3</sup>)</i></label>
                           <input type="text" class="form-control widget-number uilib-enability uilib-enable-role-single" id="taxa_uso" pattern="[0-9]{1,8}([,][0-9]{1,2})?" required>
                         </div>
                         <div class="form-group col-xs-6">
@@ -1640,7 +1640,7 @@
                           <input type="text" id="consumo_fact" class="form-control widget-number uilib-enability uilib-enable-role-single" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
                         </div>
                         <div class="form-group col-xs-6">
-                          <label for="pago_mes">Valor pago mês <i class="units">(MZN/més)</i></label>
+                          <label for="pago_mes">Valor pago mês <i class="units">(MT/mês)</i></label>
                           <input type="text" class="form-control widget-number" id="pago_mes" pattern="[0-9]{1,8}([,][0-9]{1,2})?" disabled>
                         </div>
                         <div class="form-group col-xs-6">
@@ -1648,7 +1648,7 @@
                           <input type="text" class="form-control widget-number uilib-enability uilib-enable-role-single" id="iva" pattern="[0-9]{1,8}([,][0-9]{1,2})?" required>
                         </div>
                         <div class="form-group col-xs-6">
-                          <label for="pago_iva">Valor com IVA <i class="units">(MZN/mês)</i></label>
+                          <label for="pago_iva">Valor com IVA <i class="units">(MT/mês)</i></label>
                           <input type="text" class="form-control widget-number" id="pago_iva" pattern="[0-9]{1,8}([,][0-9]{1,2})?" disabled>
                         </div>
                       </div>
@@ -1863,15 +1863,15 @@
         </div>
         <div class="row">
           <span class="col-xs-offset-1 col-xs-11">
-            <span class="title">Valor pago mês <i class="units">(MZN/més)</i></span> <%- formatter().formatNumber(pago_mes) || '-' %>
+            <span class="title">Valor pago mês <i class="units">(MT/mês)</i></span> <%- formatter().formatNumber(pago_mes) || '-' %>
             <span class="title">IVA <i class="units">(%)</i></span> <%- formatter().formatNumber(iva) || '-' %>
-            <span class="title">Valor com IVA <i class="units">(MZN/més)</i></span> <%- formatter().formatNumber(pago_iva) || '-' %>
+            <span class="title">Valor com IVA <i class="units">(MT/mês)</i></span> <%- formatter().formatNumber(pago_iva) || '-' %>
           </span>
         </div>
         <div class="row">
           <span class="col-xs-offset-1 col-xs-11">
-            <span class="title">Taxa fixa <i class="units">(MZN/més)</i></span> <%- formatter().formatNumber(taxa_fixa) || '-' %>
-            <span class="title">Taxa uso <i class="units">(MZN/m<sup>3</sup>)</i></span> <%- formatter().formatNumber(taxa_uso) || '-' %>
+            <span class="title">Taxa fixa <i class="units">(MT/mês)</i></span> <%- formatter().formatNumber(taxa_fixa) || '-' %>
+            <span class="title">Taxa uso <i class="units">(MT/m<sup>3</sup>)</i></span> <%- formatter().formatNumber(taxa_uso) || '-' %>
           </span>
         </div>
 

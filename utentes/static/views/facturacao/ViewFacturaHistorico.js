@@ -5,7 +5,7 @@ Backbone.SIXHIARA.ViewFacturaHistorico = Backbone.View.extend({
 
     template: _.template(`
         <small class="label" id="summary_pagos">P</small>
-        <a href="#" id="view-link"><strong><%- mes + '/' +  ano %></strong>.&nbsp;Valor:&nbsp;<%- (formatter().formatNumber(pago_iva, '0[.]00') || '-') %>&nbsp;MZN</a>
+        <a href="#" id="view-link"><strong><%- mes + '/' +  ano %></strong>.&nbsp;Valor:&nbsp;<%- (formatter().formatNumber(pago_iva, '0[.]00') || '-') %>&nbsp;MT</a>
         <ul>
             <li>Subterrânea:&nbsp;<%- (formatter().formatNumber(consumo_fact_sub, '0[.]00') || '-') %>&nbsp;m<sup>3</sup></li>
             <li>Superficial:&nbsp;<%- (formatter().formatNumber(consumo_fact_sup, '0[.]00') || '-') %>&nbsp;m<sup>3</sup></li>

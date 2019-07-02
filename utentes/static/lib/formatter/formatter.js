@@ -26,7 +26,7 @@ function formatter() {
                 return number === 1 ? "er" : "ème";
             },
             currency: {
-                symbol: "MZN",
+                symbol: "MT",
             },
         });
         numeral.language("pt-mz");
@@ -53,7 +53,7 @@ function formatter() {
                 return number === 1 ? "er" : "ème";
             },
             currency: {
-                symbol: "MZN",
+                symbol: "MT",
             },
         });
         numeral.language("pt-mz");

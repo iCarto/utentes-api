@@ -14,11 +14,11 @@ Backbone.SIXHIARA.ViewFacturacaoStatsChart = Backbone.View.extend({
                     name = "chartType"
                     id = "chartTypeImporte"
                     value = "importe" />
-                <label for = "chartTypeImporte">Importe</label>
+                <label for = "chartTypeImporte">Valor (MT)</label>
             </div>
             <button id="export" class="btn btn-default btn-sm">PNG</button>
         </div>
-        <canvas id="stats-chart"></canvas>          
+        <canvas id="stats-chart"></canvas>
     `,
 
     events: {
