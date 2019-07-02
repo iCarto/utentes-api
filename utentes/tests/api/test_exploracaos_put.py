@@ -6,6 +6,7 @@ import unittest
 from pyramid.httpexceptions import HTTPBadRequest
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
+import utentes.models.constants as c
 from utentes.api.exploracaos import exploracaos_update
 from utentes.models.actividade import Actividade
 from utentes.models.exploracao import Exploracao
@@ -26,8 +27,8 @@ def build_json(request, exploracao):
     expected_json["actividade"] = expected_json["actividade"].__json__(request)
     if expected_json["actividade"].get("cultivos"):
         cultivos = []
-        for c in expected_json["actividade"]["cultivos"]["features"]:
-            cultivo = c.__json__(request)
+        for cult in expected_json["actividade"]["cultivos"]["features"]:
+            cultivo = cult.__json__(request)
             cultivo.update(cultivo.pop("properties"))
             cultivos.append(cultivo)
         expected_json["actividade"]["cultivos"] = cultivos
@@ -686,7 +687,7 @@ class ExploracaoUpdateActividadeTests(DBIntegrationTest):
         # change from industria to saneamento
         expected_json["actividade"] = {
             "id": None,
-            "tipo": "Saneamento",
+            "tipo": c.K_SANEAMENTO,
             "c_estimado": 23,
             "habitantes": 42,
         }
@@ -699,7 +700,7 @@ class ExploracaoUpdateActividadeTests(DBIntegrationTest):
             .count()
         )
         self.assertEquals(0, count_actividade)  # was deleted
-        self.assertEquals("Saneamento", actual.actividade.tipo)
+        self.assertEquals(c.K_SANEAMENTO, actual.actividade.tipo)
         self.assertEquals(23, actual.actividade.c_estimado)
         self.assertEquals(42, actual.actividade.habitantes)
 

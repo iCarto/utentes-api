@@ -17,6 +17,7 @@ from sqlalchemy import (
 from sqlalchemy.dialects.postgresql.json import JSONB
 from sqlalchemy.orm import column_property, relationship
 
+import utentes.models.constants as c
 from utentes.lib.formatter.formatter import to_date, to_decimal
 from utentes.lib.schema_validator.validation_exception import ValidationException
 from utentes.models.actividade import Actividade
@@ -484,7 +485,7 @@ class Exploracao(ExploracaoBase):
                 raise ValidationException({"error": msgs})
             self.actividade.update_from_json(actividade_json)
 
-        if actividade_json.get("tipo") == "Agricultura de Regadio":
+        if actividade_json.get("tipo") == c.K_AGRICULTURA:
             self.c_estimado = self.actividade.c_estimado
 
     def validate_activity(self, activity, attributes, json):

@@ -5,6 +5,7 @@ import unittest
 
 from pyramid.httpexceptions import HTTPBadRequest
 
+import utentes.models.constants as c
 from utentes.api.exploracaos import exploracaos_create
 from utentes.models.exploracao import Exploracao
 from utentes.models.utente import Utente
@@ -46,7 +47,7 @@ class ExploracaoCreateTests(DBIntegrationTest):
             "observacio": "observacio",
         }
         expected_json["actividade"] = {
-            "tipo": "Saneamento",
+            "tipo": c.K_SANEAMENTO,
             "c_estimado": None,
             "habitantes": 120000,
         }
@@ -120,7 +121,7 @@ class ExploracaoCreateTests(DBIntegrationTest):
         self.assertEquals("Cobue", utente.loc_posto)
         self.assertEquals("loc_nucleo", utente.loc_nucleo)
         self.assertEquals("observacio", utente.observacio)
-        self.assertEquals("Saneamento", actual.actividade.tipo)
+        self.assertEquals(c.K_SANEAMENTO, actual.actividade.tipo)
         self.assertEquals(None, actual.actividade.c_estimado)
         self.assertEquals(120000, actual.actividade.habitantes)
         self.assertEquals(actual.exp_id + "-001", licencia.lic_nro)
@@ -160,9 +161,12 @@ class ExploracaoCreateTests(DBIntegrationTest):
         self.assertRaises(HTTPBadRequest, exploracaos_create, self.request)
 
     def test_create_exploracao_actividade_rega_without_cultivos(self):
-        rega = "Agricultura de Regadio"
         expected_json = self.build_json()
-        expected_json["actividade"] = {"tipo": rega, "c_estimado": None, "cultivos": []}
+        expected_json["actividade"] = {
+            "tipo": c.K_AGRICULTURA,
+            "c_estimado": None,
+            "cultivos": [],
+        }
         self.request.json_body = expected_json
         exploracaos_create(self.request)
         actual = (
@@ -170,14 +174,14 @@ class ExploracaoCreateTests(DBIntegrationTest):
             .filter(Exploracao.exp_id == self.EXP_ID)
             .first()
         )
-        self.assertEquals(rega, actual.actividade.tipo)
+        self.assertEquals(c.K_AGRICULTURA, actual.actividade.tipo)
         self.assertEquals(0, len(actual.actividade.cultivos))
 
     def test_all_activities_can_be_created_without_validations_fails(self):
         expected_json = self.build_json()
 
         exp_id = "9999-999"
-        expected_json["actividade"] = {"tipo": "Abastecimento", "c_estimado": None}
+        expected_json["actividade"] = {"tipo": K_ABASTECIMENTO, "c_estimado": None}
         expected_json["exp_id"] = exp_id
         self.request.json_body = expected_json
         exploracaos_create(self.request)
@@ -187,10 +191,10 @@ class ExploracaoCreateTests(DBIntegrationTest):
             .first()
         )
         self.assertEquals(exp_id, actual.exp_id)
-        self.assertEquals("Abastecimento", actual.actividade.tipo)
+        self.assertEquals(c.K_ABASTECIMENTO, actual.actividade.tipo)
 
         exp_id = "9999-998"
-        expected_json["actividade"] = {"tipo": "Agricultura de Regadio", "cultivos": []}
+        expected_json["actividade"] = {"tipo": c.K_AGRICULTURA, "cultivos": []}
         expected_json["exp_id"] = exp_id
         self.request.json_body = expected_json
         exploracaos_create(self.request)
@@ -200,10 +204,10 @@ class ExploracaoCreateTests(DBIntegrationTest):
             .first()
         )
         self.assertEquals(exp_id, actual.exp_id)
-        self.assertEquals("Agricultura de Regadio", actual.actividade.tipo)
+        self.assertEquals(c.K_AGRICULTURA, actual.actividade.tipo)
 
         exp_id = "9999-997"
-        expected_json["actividade"] = {"tipo": "Indústria"}
+        expected_json["actividade"] = {"tipo": c.K_INDUSTRIA}
         expected_json["exp_id"] = exp_id
         self.request.json_body = expected_json
         exploracaos_create(self.request)
@@ -213,10 +217,10 @@ class ExploracaoCreateTests(DBIntegrationTest):
             .first()
         )
         self.assertEquals(exp_id, actual.exp_id)
-        self.assertEquals("Indústria", actual.actividade.tipo)
+        self.assertEquals(c.K_INDUSTRIA, actual.actividade.tipo)
 
         exp_id = "9999-996"
-        expected_json["actividade"] = {"tipo": "Pecuária", "reses": []}
+        expected_json["actividade"] = {"tipo": c.K_PECUARIA, "reses": []}
         expected_json["exp_id"] = exp_id
         self.request.json_body = expected_json
         exploracaos_create(self.request)
@@ -226,10 +230,10 @@ class ExploracaoCreateTests(DBIntegrationTest):
             .first()
         )
         self.assertEquals(exp_id, actual.exp_id)
-        self.assertEquals("Pecuária", actual.actividade.tipo)
+        self.assertEquals(c.K_PECUARIA, actual.actividade.tipo)
 
         exp_id = "9999-995"
-        expected_json["actividade"] = {"tipo": "Piscicultura"}
+        expected_json["actividade"] = {"tipo": c.K_PISCICULTURA}
         expected_json["exp_id"] = exp_id
         self.request.json_body = expected_json
         exploracaos_create(self.request)
@@ -239,10 +243,10 @@ class ExploracaoCreateTests(DBIntegrationTest):
             .first()
         )
         self.assertEquals(exp_id, actual.exp_id)
-        self.assertEquals("Piscicultura", actual.actividade.tipo)
+        self.assertEquals(c.K_PISCICULTURA, actual.actividade.tipo)
 
         exp_id = "9999-994"
-        expected_json["actividade"] = {"tipo": "Producção de energia"}
+        expected_json["actividade"] = {"tipo": c.K_ENERGIA}
         expected_json["exp_id"] = exp_id
         self.request.json_body = expected_json
         exploracaos_create(self.request)
@@ -252,10 +256,10 @@ class ExploracaoCreateTests(DBIntegrationTest):
             .first()
         )
         self.assertEquals(exp_id, actual.exp_id)
-        self.assertEquals("Producção de energia", actual.actividade.tipo)
+        self.assertEquals(c.K_ENERGIA, actual.actividade.tipo)
 
         exp_id = "9999-993"
-        expected_json["actividade"] = {"tipo": "Saneamento"}
+        expected_json["actividade"] = {"tipo": c.K_SANEAMENTO}
         expected_json["exp_id"] = exp_id
         self.request.json_body = expected_json
         exploracaos_create(self.request)
@@ -265,7 +269,7 @@ class ExploracaoCreateTests(DBIntegrationTest):
             .first()
         )
         self.assertEquals(exp_id, actual.exp_id)
-        self.assertEquals("Saneamento", actual.actividade.tipo)
+        self.assertEquals(c.K_SANEAMENTO, actual.actividade.tipo)
 
 
 if __name__ == "__main__":

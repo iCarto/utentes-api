@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 
+import utentes.models.constants as c
+
+
 ActividadeSchema = {}
 
-ActividadeSchema["Abastecimento"] = [
+ActividadeSchema[c.K_ABASTECIMENTO] = [
     {
         "fieldname": "tipo",
         "message": u"Tipo de actividade não pode estar vazio",
@@ -25,7 +28,7 @@ ActividadeSchema["Abastecimento"] = [
     },
 ]
 
-ActividadeSchema["Agricultura de Regadio"] = [
+ActividadeSchema[c.K_AGRICULTURA] = [
     {
         "fieldname": "tipo",
         "message": u"Tipo de actividade não pode estar vazio",
@@ -86,7 +89,7 @@ ActividadeSchema["Cultivos"] = [
     },
 ]
 
-ActividadeSchema["Indústria"] = [
+ActividadeSchema[c.K_INDUSTRIA] = [
     {
         "fieldname": "tipo",
         "message": u"Tipo de actividade não pode estar vazio",
@@ -104,7 +107,7 @@ ActividadeSchema["Indústria"] = [
     },
 ]
 
-ActividadeSchema["Pecuária"] = [
+ActividadeSchema[c.K_PECUARIA] = [
     {
         "fieldname": "tipo",
         "message": u"Tipo de actividade não pode estar vazio",
@@ -145,7 +148,7 @@ ActividadeSchema["Reses"] = [
     },
 ]
 
-ActividadeSchema["Piscicultura"] = [
+ActividadeSchema[c.K_PISCICULTURA] = [
     {
         "fieldname": "tipo",
         "message": u'"Tipo de actividade" não pode estar vazio',
@@ -252,7 +255,7 @@ ActividadeSchema["TanquesPiscicolas"] = [
     },
 ]
 
-ActividadeSchema["Producção de energia"] = [
+ActividadeSchema[c.K_ENERGIA] = [
     {
         "fieldname": "tipo",
         "message": u"Tipo de actividade não pode estar vazio",
@@ -280,7 +283,7 @@ ActividadeSchema["Producção de energia"] = [
     },
 ]
 
-ActividadeSchema["Saneamento"] = [
+ActividadeSchema[c.K_SANEAMENTO] = [
     {
         "fieldname": "tipo",
         "message": u"Tipo de actividade não pode estar vazio",
