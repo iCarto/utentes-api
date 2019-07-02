@@ -104,8 +104,6 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
 
     render: function() {
         var json = this.model.toJSON();
-        json.c_licencia_sup = this.model.getLicencia("sup").get("c_licencia");
-        json.c_licencia_sub = this.model.getLicencia("sub").get("c_licencia");
         this.$el.html(this.template(json));
 
         this.renderFacturacaoHistorico();

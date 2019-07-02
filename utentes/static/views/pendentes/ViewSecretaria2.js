@@ -38,7 +38,7 @@ Backbone.SIXHIARA.ViewSecretaria2 = Backbone.SIXHIARA.View1.extend({
 
           </div>
         </label>
-        <textarea id="observacio" class="form-control widget btn btn-default uilib-enability uilib-disable-role-observador" rows="7"></textarea>
+        <textarea id="observacio" class="form-control widget uilib-enability uilib-disable-role-observador" rows="7"></textarea>
       </div>
 
  <div class="form-group" style="margin-top: 40px">

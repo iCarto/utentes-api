@@ -171,7 +171,7 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
 
     initFactPeriod: function() {
         let text = undefined;
-        switch (this.options.exploracao.get("fact_tipo")) {
+        switch (this.model.get("fact_tipo")) {
             case "Mensal":
                 text = "mês";
                 break;
@@ -218,7 +218,6 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
             this.modelChanged
         );
         this.listenTo(this.model, "change:fact_estado", this.estadoChanged);
-        this.listenTo(this.options.exploracao, "change:fact_tipo", this.initFactPeriod);
     },
 
     updateWidgets: function() {
@@ -397,7 +396,7 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
         var consumo_fact = formatter().unformatNumber(
             document.getElementById("consumo_fact_" + lic).value
         );
-        var pago_mes = taxa_fixa + taxa_uso * consumo_fact;
+        var pago_mes = (taxa_fixa + taxa_uso * consumo_fact) * this.monthFactor();
         var iva = formatter().unformatNumber(document.getElementById("iva").value) || 0;
         var pago_mes_iva = pago_mes * (1 + iva / 100);
         this.model.set("pago_mes_" + lic, pago_mes);
@@ -407,6 +406,32 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
             pago_mes,
             "0[.]00"
         );
+    },
+
+    monthFactor: function() {
+        let monthsToBeInvoiced = undefined;
+        switch (this.model.get("fact_tipo")) {
+            case "Mensal":
+                monthsToBeInvoiced = 1;
+                break;
+            case "Trimestral":
+                monthsToBeInvoiced = 3;
+                break;
+            case "Anual":
+                monthsToBeInvoiced = 12;
+                break;
+        }
+        let invoices = this.options.exploracao.get("facturacao").sortBy("created_at");
+        let thisId = this.model.id;
+        let thisIdx = invoices.findIndex(i => i.id === thisId);
+        if (thisIdx > 0) {
+            let thatInvoice = invoices[thisIdx - 1];
+            let thisCreatedAt = moment(this.model.get("created_at"));
+            let thatCreatedAt = moment(thatInvoice.get("created_at"));
+            let months = thisCreatedAt.diff(thatCreatedAt, "months");
+            monthsToBeInvoiced = months;
+        }
+        return monthsToBeInvoiced;
     },
 
     updatePagoIva: function() {
@@ -483,29 +508,11 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
     },
 
     getDataForFactura: function() {
-        var json = this.options.exploracao.toJSON();
-
-        if (!json.loc_unidad) {
-            bootbox.alert("A exploração tem que ter uma Unidade de Gestão.");
+        var factura = this.model.toJSON();
+        var data = this.getData(factura);
+        if (!data) {
             return;
         }
-        // Create a copy of the model and remove nulls
-        var data = JSON.parse(
-            JSON.stringify(json, function(key, value) {
-                if (value === null) {
-                    return "";
-                }
-                return value;
-            })
-        );
-
-        var factura = this.model.toJSON();
-
-        var dateFactura = new moment(
-            factura.fact_date ? new Date(factura.fact_date) : new Date()
-        );
-        data.dateFactura = formatter().formatDate(dateFactura);
-        data.vencimento = formatter().formatDate(dateFactura.add(1, "M"));
 
         factura.licencias = {};
         data.licencias.forEach(function(licencia) {
@@ -531,9 +538,9 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
         return data;
     },
 
-    getDataForRecibo: function() {
+    getData: function(factura) {
+        let f = formatter();
         var json = this.options.exploracao.toJSON();
-
         if (!json.loc_unidad) {
             bootbox.alert("A exploração tem que ter uma Unidade de Gestão.");
             return;
@@ -548,15 +555,45 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
             })
         );
 
+        var dateFactura = factura.fact_date ? new Date(factura.fact_date) : new Date();
+        data.dateFactura = f.formatDate(dateFactura);
+        var dateVencimento = moment(dateFactura).add(1, "M");
+        data.vencimento = f.formatDate(dateVencimento);
+
+        if (json.fact_tipo == "Mensal") {
+            data.periodoFactura = factura.mes + "/" + factura.ano;
+        } else if (json.fact_tipo == "Trimestral") {
+            if (factura.mes == 4) {
+                data.periodoFactura = "01/" + factura.ano + " - 03/" + factura.ano;
+            }
+            if (factura.mes == 7) {
+                data.periodoFactura = "04/" + factura.ano + " - 06/" + factura.ano;
+            }
+            if (factura.mes == 10) {
+                data.periodoFactura = "07/" + factura.ano + " - 08/" + factura.ano;
+            }
+            if (factura.mes == 1) {
+                data.periodoFactura =
+                    "10/" + (factura.ano - 1) + " - 12/" + (factura.ano - 1);
+            }
+        } else if (json.fact_tipo == "Anual") {
+            data.periodoFactura = factura.ano - 1;
+        }
+    },
+
+    getDataForRecibo: function() {
         var factura = this.model.toJSON();
+        var data = this.getData(factura);
+        if (!data) {
+            return;
+        }
+
         data.numFactura = factura.fact_id;
         var dateRecibo = factura.recibo_date
             ? new Date(factura.recibo_date)
             : new Date();
-        data.dateRecibo = formatter().formatDate(moment(dateRecibo));
-        data.dateFactura = formatter().formatDate(moment(new Date(factura.fact_date)));
+        data.dateRecibo = formatter().formatDate(dateRecibo);
         data.tipoFacturacao = factura.fact_tipo;
-        data.periodoFactura = factura.mes + "/" + factura.ano;
         data.valorPorRegularizar = factura.pago_iva;
         data.valorRegularizado = factura.pago_iva;
         data.valorAberto = 0;
