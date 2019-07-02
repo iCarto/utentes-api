@@ -194,7 +194,7 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
     setListeners: function() {
         this.listenTo(
             this.model,
-            "change:change:iva change:juros change:observacio change:taxa_fixa_sub change:taxa_uso_sub change:consumo_fact_sub change:taxa_fixa_sup change:taxa_uso_sup change:consumo_fact_sup",
+            "change:iva change:juros change:observacio change:taxa_fixa_sub change:taxa_uso_sub change:consumo_fact_sub change:taxa_fixa_sup change:taxa_uso_sup change:consumo_fact_sup",
             this.modelChanged
         );
         this.listenTo(this.model, "change:fact_estado", this.estadoChanged);
