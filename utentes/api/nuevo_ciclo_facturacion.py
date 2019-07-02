@@ -50,13 +50,14 @@ def nuevo_ciclo_facturacion(request):
         if len(e.facturacao) > 0:
             d_months = diff_month(today, e.facturacao[-1].created_at)
             if (
-                e.fact_tipo == "Mensal"
-                and d_months < 1
-                or e.fact_tipo == "Trimestral"
-                and d_months < 3
-                or e.fact_tipo == "Anual"
-                and d_months < 12
+                (e.fact_tipo == "Mensal" and d_months < 1)
+                or (e.fact_tipo == "Trimestral" and d_months < 3)
+                or (e.fact_tipo == "Anual" and d_months < 12)
             ):
+                continue
+            if e.fact_tipo == "Trimestral" and today.month not in [4, 7, 10, 1]:
+                continue
+            if e.fact_tipo == "Anual" and today.month != 1:
                 continue
 
         n_exps_invoizables_this_month += 1

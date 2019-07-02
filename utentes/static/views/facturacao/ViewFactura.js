@@ -40,7 +40,7 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
                     </div>
 
                     <div class="form-group col-xs-12">
-                        <label for="pago_mes_sub">Valor pago mês&nbsp;<i class="units">(MZN/més)</i></label>
+                        <label for="pago_mes_sub">Valor pago&nbsp;<i class="units js-change-mes">(MT/mês)</i></label>
                         <input type="text" class="form-control widget-number" id="pago_mes_sub" pattern="[0-9]{1,8}([,][0-9]{1,2})?" value="<%- formatter().formatNumber(pago_mes_sub, '0[.]00') %>" disabled>
                     </div>
                 </div>
@@ -82,7 +82,7 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
                     </div>
 
                     <div class="form-group col-xs-12">
-                        <label for="pago_mes_sup">Valor pago mês&nbsp;<i class="units">(MZN/més)</i></label>
+                        <label for="pago_mes_sup">Valor pago&nbsp;<i class="units js-change-mes">(MT/mês)</i></label>
                         <input type="text" class="form-control widget-number" id="pago_mes_sup" pattern="[0-9]{1,8}([,][0-9]{1,2})?" disabled value="<%- formatter().formatNumber(pago_mes_sup, '0[.]00') %>" disabled>
                     </div>
                 </div>
@@ -169,9 +169,29 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
         this.setListeners();
     },
 
+    initFactPeriod: function() {
+        let text = undefined;
+        switch (this.options.exploracao.get("fact_tipo")) {
+            case "Mensal":
+                text = "mês";
+                break;
+            case "Trimestral":
+                text = "trimestre";
+                break;
+            case "Anual":
+                text = "ano";
+                break;
+        }
+        let changeMesWidgets = document.getElementsByClassName("js-change-mes");
+        for (e of changeMesWidgets) {
+            e.innerText = `(MT/${text})`;
+        }
+    },
+
     modelChanged: function() {
         this.updatePagoIva();
         this.enableBts();
+        this.initFactPeriod();
     },
 
     estadoChanged: function() {
@@ -198,6 +218,7 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
             this.modelChanged
         );
         this.listenTo(this.model, "change:fact_estado", this.estadoChanged);
+        this.listenTo(this.options.exploracao, "change:fact_tipo", this.initFactPeriod);
     },
 
     updateWidgets: function() {
@@ -207,6 +228,7 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
         this.enableBts();
         iAuth.disabledWidgets();
         this.setWidgetsValue();
+        this.initFactPeriod();
     },
 
     defineWidgetsToBeUsed: function() {
