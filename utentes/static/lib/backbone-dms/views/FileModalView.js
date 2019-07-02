@@ -18,7 +18,7 @@ Backbone.DMS.FileModalView = function(options) {
             '<div class="modal-footer">' +
             '<div class="row">' +
             '<div class="col-xs-offset-1 col-xs-10">' +
-            '<button type="button" class="close-button btn btn-default" data-dismiss="modal">Cerrar</button>' +
+            '<button type="button" class="close-button btn btn-default" data-dismiss="modal">Fechar</button>' +
             "</div>" +
             "</div>" +
             "</div>" +
