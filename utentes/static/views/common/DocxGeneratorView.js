@@ -16,21 +16,27 @@ Backbone.SIXHIARA.DocxGeneratorView = Backbone.View.extend({
                 cmdDelimiter: "***",
                 additionalJsContext: {
                     // Creates a base64 string with the image data
+
                     imageGenerator: function(url, width, height, outputFormat) {
                         return new Promise(function(resolve) {
-                            var image = new Image(width, height);
-                            image.extension = ".png";
+                            var image = new Image();
+                            // image.extension = ".png";
                             image.onload = function() {
                                 var canvas = document.createElement("CANVAS");
                                 var ctx = canvas.getContext("2d");
+                                const imageDPI = 96;
                                 canvas.height = this.naturalHeight;
                                 canvas.width = this.naturalWidth;
                                 ctx.drawImage(this, 0, 0);
-                                var dataUrl = canvas.toDataURL(outputFormat);
-                                image.data = dataUrl.slice(
-                                    "data:image/png;base64,".length
-                                );
-                                resolve(image);
+                                var dataUrl = canvas.toDataURL("image/png", 1);
+                                resolve({
+                                    height: (this.naturalHeight * 2.54) / imageDPI,
+                                    width: (this.naturalWidth * 2.54) / imageDPI,
+                                    data: dataUrl.slice(
+                                        "data:image/png;base64,".length
+                                    ),
+                                    extension: ".png",
+                                });
                             };
                             image.src = url;
                         });

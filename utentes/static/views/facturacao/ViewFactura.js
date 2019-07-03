@@ -579,6 +579,7 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
         } else if (json.fact_tipo == "Anual") {
             data.periodoFactura = factura.ano - 1;
         }
+        return data;
     },
 
     getDataForRecibo: function() {
