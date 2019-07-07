@@ -15,6 +15,7 @@
         "pretty:python": "black . && isort -rc .",
         "pretty:css": "npx stylelint --fix --ignore-path .ignore  '**/*.{vue,htm,html,css,sss,less,scss,sass,mak,jinja2}'",
         "pretty:js": "npx prettier --ignore-path '.ignore' --write '**/*.js'",
+        "pretty:bash": "shfmt -l -w -i 4 -bn -sr -ci $(shfmt -f . | grep -v node_modules/)",
         "pretty:others": "npx prettier --ignore-path '.ignore' --write '**/*.{md,yml,yaml,json}'"
     },
     "devDependencies": {

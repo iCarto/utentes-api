@@ -44,3 +44,11 @@ repos:
             files: \.(htm|html|mak|mako|jinja2)$
             verbose: true
             stages: [manual]
+
+          - id: shfmt
+            name: shfmt
+            entry: shfmt
+            args: [-l, -w, -i, "4", -bn, -sr, -ci]
+            language: system
+            types: [shell]
+            verbose: true
