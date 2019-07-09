@@ -10,7 +10,7 @@ Backbone.SIXHIARA.GPSModalView = Backbone.UILib.ModalView.extend({
                 text: "Exploracao",
                 order: 1,
             }),
-            new Backbone.UILib.Domain({alias: "Cultivo", text: "Cultivo", order: 2}),
+            new Backbone.UILib.Domain({alias: "Cultura", text: "Cultura", order: 2}),
             new Backbone.UILib.Domain({
                 alias: "Tanque Piscícola",
                 text: "Tanque Piscícola",
@@ -49,7 +49,7 @@ Backbone.SIXHIARA.GPSModalView = Backbone.UILib.ModalView.extend({
             entidades.add(e);
         });
         cultivos.forEach(function(e) {
-            e.set("parent", "Cultivo");
+            e.set("parent", "Cultura");
             e.set("alias", e.get("cult_id"));
             e.set("text", e.get("cult_id"));
             entidades.add(e);
@@ -79,7 +79,7 @@ Backbone.SIXHIARA.GPSModalView = Backbone.UILib.ModalView.extend({
 
         if (entidade === "Exploracao") {
             e = exploracaos.filter({exp_id: identificador});
-        } else if (entidade === "Cultivo") {
+        } else if (entidade === "Cultura") {
             e = cultivos.filter({cult_id: identificador});
         } else {
             e = tanques.filter({tanque_id: identificador});

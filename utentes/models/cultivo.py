@@ -21,7 +21,7 @@ class ActividadesCultivos(Base):
             "nextval('utentes.actividades_cultivos_gid_seq'::regclass)"
         ),
     )
-    cult_id = Column(Text, nullable=False, unique=True, doc="Id de cultivo")
+    cult_id = Column(Text, nullable=False, unique=True, doc="Id de cultura")
     actividade = Column(
         ForeignKey(
             "utentes.actividades_agricultura_rega.gid",
@@ -31,7 +31,7 @@ class ActividadesCultivos(Base):
         nullable=False,
     )
     c_estimado = Column(Numeric(10, 2), nullable=False, doc="Consumo mensal estimado")
-    cultivo = Column(Text, nullable=False, doc="Tipo de cultivo")
+    cultivo = Column(Text, nullable=False, doc="Tipo de cultura")
     rega = Column(Text, nullable=False, doc="Tipo de rega")
     eficiencia = Column(Numeric(10, 2), doc="Eficiencia del riego")
     area = Column(Numeric(10, 4), nullable=False, doc="Área (ha)")

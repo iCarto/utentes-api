@@ -41,7 +41,7 @@ ActividadeSchema[c.K_AGRICULTURA] = [
     },
     {
         "fieldname": "n_cul_tot",
-        "message": u'"Número de cultivos" da actividade não tem o formato correto',
+        "message": u'"Número de culturas" da actividade não tem o formato correto',
         "rules": ["IS_NUMERIC", "INT_LESS_THAN_8"],
     },
     {
@@ -64,12 +64,12 @@ ActividadeSchema[c.K_AGRICULTURA] = [
 ActividadeSchema["Cultivos"] = [
     {
         "fieldname": "c_estimado",
-        "message": u"Consumo estimado do cultivo não tem o formato correto o está vazio",
+        "message": u"Consumo estimado da cultura não tem o formato correto o está vazio",
         "rules": ["NOT_NULL", "IS_NUMERIC", "INT_LESS_THAN_8"],
     },
     {
         "fieldname": "cultivo",
-        "message": u"Tipo de cultivo não pode estar vazio",
+        "message": u"Tipo de cultura não pode estar vazio",
         "rules": ["NOT_NULL"],
     },
     {

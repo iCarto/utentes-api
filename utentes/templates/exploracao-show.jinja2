@@ -705,7 +705,7 @@
                 <span class="title">Área Irrigada:</span> <span><%- formatter().formatNumber(area_irri) || '-' %></span>
               </div>
               <div class="row">
-                <span class="title">Número de cultivos:</span> <span><%- formatter().formatNumber(n_cul_tot) || '-' %></span>
+                <span class="title">Número de culturas:</span> <span><%- formatter().formatNumber(n_cul_tot) || '-' %></span>
               </div>
             </div>
             <div class="col-xs-3">
@@ -721,7 +721,7 @@
         <div class="row">
           <div class="col-xs-12">
             <div class="form-group">
-              <button class="btn btn-default pull-right uilib-enability uilib-show-role-administrador uilib-show-role-tecnico" id="newRow">Novo cultivo</button>
+              <button class="btn btn-default pull-right uilib-enability uilib-show-role-administrador uilib-show-role-tecnico" id="newRow">Nova cultura</button>
             </div>
           </div>
         </div>
@@ -732,7 +732,7 @@
                 <tr>
                   <th style="width:14%">Id</th>
                   <th style="width:14%">Consumo Estimado <i class="units">(m<sup>3</sup>/mês)</i></th>
-                  <th style="width:14%">Tipo de cultivo / rega</th>
+                  <th style="width:14%">Tipo de cultura / rega</th>
                   <th style="width:14%">Eficiencia del riego</th>
                   <th style="width:14%">Área <i class="units">(ha)</i></th>
                   <th>Observações</th>
@@ -774,7 +774,7 @@
               </div>
               <div class="row">
                 <div class="form-group col-xs-4">
-                  <label for="n_cul_tot">Número de cultivos</label>
+                  <label for="n_cul_tot">Número de culturas</label>
                   <input type="text" class="form-control widget-number" id="n_cul_tot" disabled>
                 </div>
               </div>
@@ -806,7 +806,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Pechar"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="cultivoModalLabel">Cultivo</h4>
+              <h4 class="modal-title" id="cultivoModalLabel">Cultura</h4>
             </div>
             <div class="modal-body">
               <div class="row">
@@ -818,7 +818,7 @@
                     <div class="panel-body">
                       <div class="row">
                         <div class="form-group col-xs-6">
-                          <label for="cultivo">Tipo de cultivo</label>
+                          <label for="cultivo">Tipo de cultura</label>
                           <select class="form-control widget" id="cultivo"></select>
                         </div>
                         <div class="form-group col-xs-6">

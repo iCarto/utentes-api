@@ -116,7 +116,7 @@ class ActividadesAgriculturaRega(Actividade):
         primary_key=True,
     )
     c_estimado = Column(Numeric(10, 2), doc="Consumo mensal estimado")
-    n_cul_tot = Column(Integer, doc="Número de cultivos")
+    n_cul_tot = Column(Integer, doc="Número de culturas")
     area_pot = Column(Numeric(10, 4), doc="Área potencial")
     area_irri = Column(Numeric(10, 4), doc="Área Irrigada")
     area_medi = Column(Numeric(10, 4), doc="Área medida")

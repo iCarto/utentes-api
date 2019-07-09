@@ -9,7 +9,7 @@ error_msgs = {
     "body_not_valid": "Os dados recibidos não som um JSON válido",
     "exploracao_already_exists": "A exploracao ja existe",
     "utente_already_exists": "O utente ja existe",
-    "no_cultivo_gid": "Não existe cultivo co gid indicado",
+    "no_cultivo_gid": "Não existe cultura co gid indicado",
     "bad_import_file": "Error carregando ficheiro",
     "user_already_exists": "O utilizador ja existe",
     "user_not_exists": "O utilizador não existe",
