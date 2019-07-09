@@ -38,9 +38,9 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
             <div class="form-group" style="margin-left: 0px; margin-right: 0px">
                 <label for="pago_lic" class="control-label col-xs-9" style="text-align: left">Pagamento emissão licença</label>
                 <div class="col-xs-3" style="padding-left: 10px; padding-right: 10px;">
-                    <select class="form-control" style="padding: 3px 5px;" id="pago_lic" disabled>
-                        <option <% print(pago_lic == true ? 'selected' : '') %> value="true">Sim</option>
-                        <option <% print(pago_lic == false ? 'selected' : '') %> value="false">Não</option>
+                    <select id="pago_lic" class="form-control" style="padding: 3px 5px;" disabled>
+                        <option value="true">Sim</option>
+                        <option value="false">Não</option>
                     </select>
                 </div>
             </div>
@@ -50,10 +50,10 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
             <div class="form-group" style="margin-left: 0px; margin-right: 0px">
                 <label for="fact_tipo" class="control-label col-xs-7" style="text-align: left">Tipo de facturação</label>
                 <div class="col-xs-5" style="padding-left: 10px; padding-right: 10px;">
-                    <select class="form-control" style="padding: 3px 3px;" id="fact_tipo" disabled>
-                        <option <% print(fact_tipo == 'Mensal' ? 'selected' : '') %>>Mensal</option>
-                        <option <% print(fact_tipo == 'Trimestral' ? 'selected' : '') %>>Trimestral</option>
-                        <option <% print(fact_tipo == 'Anual' ? 'selected' : '') %>>Anual</option>
+                    <select id="fact_tipo" class="form-control" style="padding: 3px 3px;" disabled>
+                        <option value="Mensal">Mensal</option>
+                        <option value="Trimestral">Trimestral</option>
+                        <option value="Anual">Anual</option>
                     </select>
                 </div>
             </div>
@@ -108,6 +108,10 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
 
         this.renderFacturacaoHistorico();
         this.renderFactura();
+
+        this.$el.find("#fact_tipo").val(json.fact_tipo);
+        this.$el.find("#pago_lic").val(json.pago_lic + "");
+
         return this;
     },
 
