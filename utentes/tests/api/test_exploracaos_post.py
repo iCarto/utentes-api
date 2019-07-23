@@ -54,7 +54,7 @@ class ExploracaoCreateTests(DBIntegrationTest):
         expected_json["licencias"] = [
             {
                 "lic_nro": None,
-                "tipo_agua": "Subterrânea",
+                "tipo_agua": c.K_SUBTERRANEA,
                 "cadastro": "cadastro",
                 "estado": "Irregular",
                 "d_emissao": "2020-2-2",
@@ -70,7 +70,7 @@ class ExploracaoCreateTests(DBIntegrationTest):
         ]
         expected_json["fontes"] = [
             {
-                "tipo_agua": "Subterrânea",
+                "tipo_agua": c.K_SUBTERRANEA,
                 "tipo_fonte": "Outros",
                 "lat_lon": "23,23 42,21",
                 "d_dado": "2001-01-01",
@@ -125,7 +125,7 @@ class ExploracaoCreateTests(DBIntegrationTest):
         self.assertEquals(None, actual.actividade.c_estimado)
         self.assertEquals(120000, actual.actividade.habitantes)
         self.assertEquals(actual.exp_id + "-001", licencia.lic_nro)
-        self.assertEquals("Subterrânea", licencia.tipo_agua)
+        self.assertEquals(c.K_SUBTERRANEA, licencia.tipo_agua)
         self.assertEquals("cadastro", licencia.cadastro)
         self.assertEquals("Irregular", licencia.estado)
         self.assertEquals("2020-02-02", licencia.d_emissao.isoformat())
@@ -137,7 +137,7 @@ class ExploracaoCreateTests(DBIntegrationTest):
         self.assertEquals(4.3, float(licencia.c_real_tot))
         self.assertEquals(2.3, float(licencia.c_real_int))
         self.assertEquals(2, float(licencia.c_real_fon))
-        self.assertEquals("Subterrânea", fonte.tipo_agua)
+        self.assertEquals(c.K_SUBTERRANEA, fonte.tipo_agua)
         self.assertEquals("Outros", fonte.tipo_fonte)
         self.assertEquals("23,23 42,21", fonte.lat_lon)
         self.assertEquals("2001-01-01", fonte.d_dado.isoformat())

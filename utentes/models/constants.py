@@ -7,3 +7,6 @@ K_PECUARIA = u"Pecuária"
 K_PISCICULTURA = u"Piscicultura"
 K_ENERGIA = u"Producção de energia"
 K_SANEAMENTO = u"Saneamento"
+
+K_SUBTERRANEA = u"Subterrânea"
+K_SUPERFICIAL = u"Superficial"

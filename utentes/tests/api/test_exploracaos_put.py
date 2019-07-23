@@ -180,7 +180,7 @@ class ExploracaoUpdateFonteTests(DBIntegrationTest):
         expected_json = build_json(self.request, expected)
         expected_json["fontes"].append(
             {
-                "tipo_agua": "Subterrânea",
+                "tipo_agua": c.K_SUBTERRANEA,
                 "tipo_fonte": "Outros",
                 "lat_lon": "23,23 42,21",
                 "d_dado": "2001-01-01",
@@ -294,7 +294,7 @@ class ExploracaoUpdateLicenciaTests(DBIntegrationTest):
         expected_json["licencias"].append(
             {
                 "lic_nro": None,
-                "tipo_agua": "Subterrânea",
+                "tipo_agua": c.K_SUBTERRANEA,
                 "cadastro": "cadastro",
                 "estado": "Irregular",
                 "d_emissao": "2020-2-2",
@@ -347,7 +347,7 @@ class ExploracaoUpdateLicenciaTests(DBIntegrationTest):
         expected_json["licencias"].append(
             {
                 "lic_nro": None,
-                "tipo_agua": "Subterrânea",
+                "tipo_agua": c.K_SUBTERRANEA,
                 "cadastro": "cadastro",
                 "estado": "Irregular",
                 "c_soli_tot": 4.3,
@@ -376,7 +376,7 @@ class ExploracaoUpdateLicenciaTests(DBIntegrationTest):
         exploracaos_update(self.request)
         # add new one
         expected_json["licencias"].append(
-            {"lic_nro": None, "tipo_agua": "Superficial", "estado": "Irregular"}
+            {"lic_nro": None, "tipo_agua": c.K_SUPERFICIAL, "estado": "Irregular"}
         )
         self.request.json_body = expected_json
         exploracaos_update(self.request)

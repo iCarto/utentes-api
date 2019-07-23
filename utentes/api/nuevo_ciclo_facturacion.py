@@ -5,6 +5,7 @@ import logging
 
 from pyramid.view import view_config
 
+import utentes.models.constants as c
 from utentes.models.exploracao import Exploracao
 from utentes.models.facturacao import Facturacao
 from utentes.models.facturacao_fact_estado import (
@@ -69,8 +70,8 @@ def nuevo_ciclo_facturacion(request):
         if (
             lic_sup.consumo_tipo == "Fixo"
             or lic_sub.consumo_tipo == "Fixo"
-            or lic_sup.tipo_agua == "Superficial"
-            or lic_sub.tipo_agua == "Superficial"
+            or lic_sup.tipo_agua == c.K_SUPERFICIAL
+            or lic_sub.tipo_agua == c.K_SUPERFICIAL
         ):
             f.fact_estado = PENDING_INVOICE
             n_exps_pending_invoice += 1

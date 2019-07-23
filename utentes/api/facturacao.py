@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 
 import datetime
-import json
 import logging
 
 from pyramid.view import view_config
 from sqlalchemy import func, or_
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
+import utentes.models.constants as c
 from utentes.api.error_msgs import error_msgs
 from utentes.models.base import badrequest_exception
 from utentes.models.exploracao import Exploracao
@@ -274,11 +274,11 @@ def facturacao_stats(request):
         )
 
     if tipo_agua is not None:
-        if tipo_agua == "Superficial":
+        if tipo_agua == c.K_SUPERFICIAL:
             subquery_esperadas = subquery_esperadas.filter(
                 Facturacao.c_licencia_sup != None
             )
-        if tipo_agua == "Subterrânea":
+        if tipo_agua == c.K_SUBTERRANEA:
             subquery_esperadas = subquery_esperadas.filter(
                 Facturacao.c_licencia_sub != None
             )

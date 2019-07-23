@@ -3,10 +3,11 @@
 import datetime
 import logging
 
-from dateutil.relativedelta import relativedelta
 from pyramid.view import view_config
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
+import utentes.models.constants as c
+from dateutil.relativedelta import relativedelta
 from utentes.api.error_msgs import error_msgs
 from utentes.models.base import badrequest_exception
 from utentes.models.estado_renovacao import LICENSED, NOT_VALID, PENDING_RENOV_LICENSE
@@ -70,7 +71,7 @@ def renovacao_get(request):
         else:
             raise badrequest_exception(
                 {
-                    "error": "Há mais de uma renovação em progresso para a exploração selecionada"
+                    "error": u"Há mais de uma renovação em progresso para a exploração selecionada"
                 }
             )
 
@@ -93,12 +94,12 @@ def fill_renovacao_from_exploracao(exp):
     renovacao["estado"] = PENDING_RENOV_LICENSE
 
     for lic in exp["properties"]["licencias"]:
-        if lic["tipo_agua"] == "Subterrânea":
+        if lic["tipo_agua"] == c.K_SUBTERRANEA:
             renovacao["tipo_lic_sub_old"] = lic["tipo_lic"]
             renovacao["d_emissao_sub_old"] = lic["d_emissao"]
             renovacao["d_validade_sub_old"] = lic["d_validade"]
             renovacao["c_licencia_sub_old"] = lic["c_licencia"]
-        if lic["tipo_agua"] == "Superficial":
+        if lic["tipo_agua"] == c.K_SUPERFICIAL:
             renovacao["tipo_lic_sup_old"] = lic["tipo_lic"]
             renovacao["d_emissao_sup_old"] = lic["d_emissao"]
             renovacao["d_validade_sup_old"] = lic["d_validade"]
