@@ -78,7 +78,7 @@ Backbone.SIXHIARA.ViewSecretaria2 = Backbone.SIXHIARA.View1.extend({
         var renovacao = this.model.get("renovacao");
         var facturacao = this.model.get("facturacao");
 
-        if (!_.isEmpty(facturacao)) {
+        if (facturacao.length) {
             // Use data from facturacao instead of Renovacao in order to be the most updated data available
             model.get("licencias").forEach(function(lic) {
                 var tipo = lic
