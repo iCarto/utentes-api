@@ -4,10 +4,4 @@ Thanks for taking time to read this document. Even if finally you don't contribu
 
 This project expects that all contributions follow the rules and use the tools described in this document. Anyway, if you don't follow it we will review your patch, but it can take longer to be integrated.
 
-Editor preferences are available as .editorconfig file for easy use in common text editors. Read more and [download the plugin for your editor](http://editorconfig.org)
-
-Please do not push files to the master branch that not passes the flake8 tests specified in setup.cfg. Just install in your virtualenv the required dev dependencies `pip install -r requirements-dev.txt`, and execute it from within this folder with
-
-```
-flake8
-```
+-   iCarto projects try to ensure a strict code style. The selected code style, the tools used and the rationale behind it are explained [here](https://gitlab.com/icarto/ikdb/blob/master/estilo_codigo). For busy people there is [a summary here](https://gitlab.com/icarto/ikdb/blob/master/estilo_codigo/0.resumen.md) that explains how to configure the tools.
