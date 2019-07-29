@@ -590,7 +590,6 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
             "estado",
             "tipo_lic",
             "tipo_agua",
-            "loc_unidad",
             "actividade",
             "geometria",
             "mapBounds",
@@ -604,21 +603,27 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
             containsUtente =
                 this.getUtenteOrExploracaoName() === where.attributes.utente;
         }
-        var containsUnidade = true;
-        if (where.attributes.loc_unidad) {
-            containsUnidade = this.get("loc_unidad") === where.attributes.loc_unidad;
-        }
+
         var containsEstado = true;
         if (where.attributes.estado) {
             containsEstado = false;
-            var whereEstado = _.pick(where.values(), "estado");
-            var lics = this.get("licencias").where(whereEstado);
-            if (lics.length > 0) {
-                containsEstado = true;
+            if (this.get("renovacao")) {
+                // Workaround. refs 1507#change-10870
+                var renovacaoState = this.get("renovacao").get("estado");
+                containsEstado =
+                    containsEstado || where.attributes.estado === renovacaoState;
+            } else {
+                var whereEstado = _.pick(where.values(), "estado");
+                var lics = this.get("licencias").where(whereEstado);
+                if (lics.length > 0) {
+                    containsEstado = true;
+                }
+                containsEstado =
+                    containsEstado ||
+                    where.attributes.estado === this.get("estado_lic");
             }
-            containsEstado =
-                containsEstado || where.attributes.estado === this.get("estado_lic");
         }
+
         var containsLic = true;
         if (where.attributes.tipo_lic || where.attributes.tipo_agua) {
             containsLic = false;
@@ -665,28 +670,16 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
                 }
             }
         }
-        var containsRenovacao = true;
-        if (!_.isEmpty(this.get("renovacao"))) {
-            // Este 'estado' hace referencia al estado de la renovación
-            // y no al estado de la licencia
-            if (where.attributes.estado) {
-                containsLic = true;
-                containsRenovacao =
-                    this.get("renovacao").get("estado") === where.attributes.estado;
-            }
-        }
 
         return (
             containsAttrs &&
             containsUtente &&
-            containsUnidade &&
             containsEstado &&
             containsLic &&
             containsActividade &&
             containsAno &&
             containsGeometria &&
-            containsBounds &&
-            containsRenovacao
+            containsBounds
         );
     },
 
