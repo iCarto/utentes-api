@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import datetime
 import math
 
 import dateutil.parser
@@ -21,6 +22,8 @@ class IsDate:
     def fails(self, value):
         if not value:
             return False
+        if isinstance(value, datetime.date) or isinstance(value, datetime.datetime):
+            return False
         try:
             dateutil.parser.parse(value)
         except BaseException:
@@ -36,7 +39,7 @@ class IsNumeric:
     """
 
     def fails(self, value):
-        if not value:
+        if not value and value != 0:
             return False
         try:
             float(value)
@@ -52,9 +55,12 @@ class IntLessThan8:
     """
 
     def fails(self, value):
-        if not value:
+        if not value and value != 0:
             return False
-        intLength = len(str(math.trunc(value)))
+        try:
+            intLength = len(str(math.trunc(value)))
+        except BaseException:
+            return True
         return intLength > 8
 
 
