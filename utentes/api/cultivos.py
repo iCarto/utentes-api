@@ -84,7 +84,7 @@ def cultivos_update(request):
         area_medi_actv = 0
         for cultivo in actv.cultivos:
             c_estimado_actv += cultivo.c_estimado
-            area_medi_actv += cultivo.area
+            area_medi_actv += cultivo.area or 0
         actv.c_estimado = c_estimado_actv
         actv.area_medi = area_medi_actv
         request.db.add(actv)
