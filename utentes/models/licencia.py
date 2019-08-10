@@ -127,6 +127,7 @@ class Licencia(Base):
             PENDING_EMIT_LICENSE,
             PENDING_DIR_SIGN,
             DE_FACTO,
+            None,
         ]
 
     @staticmethod
@@ -139,4 +140,5 @@ class Licencia(Base):
             PENDING_EMIT_LICENSE,
             PENDING_DIR_SIGN,
             DE_FACTO,
+            None,
         ]
