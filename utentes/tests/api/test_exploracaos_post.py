@@ -9,16 +9,14 @@ import utentes.models.constants as c
 from utentes.api.exploracaos import exploracaos_create
 from utentes.models.exploracao import Exploracao
 from utentes.models.utente import Utente
+from utentes.services.id_service import calculate_new_exp_id
 from utentes.tests.api import DBIntegrationTest
 
 
 class ExploracaoCreateTests(DBIntegrationTest):
-
-    EXP_ID = "2022-001"
-
     def build_json(self):
         expected_json = {}
-        expected_json["exp_id"] = self.EXP_ID
+        expected_json["exp_id"] = calculate_new_exp_id(self.request)
         expected_json["exp_name"] = "new name"
         expected_json["d_soli"] = "2001-01-01"
         expected_json["observacio"] = "new observ"
@@ -27,6 +25,7 @@ class ExploracaoCreateTests(DBIntegrationTest):
         expected_json["loc_posto"] = "Cobue"
         expected_json["loc_nucleo"] = "new loc_nucleo"
         expected_json["loc_endere"] = "new enderezo"
+        expected_json["loc_unidad"] = "UGBC"
         expected_json["loc_bacia"] = "Megaruma"
         expected_json["loc_subaci"] = "Megaruma"
         expected_json["loc_rio"] = "Megaruma"
@@ -34,29 +33,28 @@ class ExploracaoCreateTests(DBIntegrationTest):
         expected_json["c_licencia"] = 29
         expected_json["c_real"] = 92
         expected_json["c_estimado"] = 42.23
+        expected_json["estado_lic"] = u"Licenciada"
         expected_json["utente"] = {
             "nome": "nome",
             "nuit": "nuit",
-            "uten_tipo": "uten_tipo",
+            "uten_tipo": u"Sociedade",
             "reg_comerc": "reg_comerc",
             "reg_zona": "reg_zona",
             "loc_provin": "Niassa",
             "loc_distri": "Lago",
             "loc_posto": "Cobue",
             "loc_nucleo": "loc_nucleo",
-            "observacio": "observacio",
         }
         expected_json["actividade"] = {
             "tipo": c.K_SANEAMENTO,
-            "c_estimado": None,
+            "c_estimado": 3,
             "habitantes": 120000,
         }
         expected_json["licencias"] = [
             {
                 "lic_nro": None,
                 "tipo_agua": c.K_SUBTERRANEA,
-                "cadastro": "cadastro",
-                "estado": "Irregular",
+                "estado": u"Licenciada",
                 "d_emissao": "2020-2-2",
                 "d_validade": "2010-10-10",
                 "c_soli_tot": 4.3,
@@ -66,6 +64,8 @@ class ExploracaoCreateTests(DBIntegrationTest):
                 "c_real_tot": 4.3,
                 "c_real_int": 2.3,
                 "c_real_fon": 2,
+                "iva": 12.75,
+                "consumo_tipo": u"Fixo",
             }
         ]
         expected_json["fontes"] = [
@@ -86,13 +86,14 @@ class ExploracaoCreateTests(DBIntegrationTest):
 
     def test_create_exploracao(self):
         self.request.json_body = self.build_json()
+        actual_exp_id = self.request.json_body["exp_id"]
         exploracaos_create(self.request)
         actual = (
             self.request.db.query(Exploracao)
-            .filter(Exploracao.exp_id == self.EXP_ID)
-            .first()
+            .filter(Exploracao.exp_id == actual_exp_id)
+            .all()[0]
         )
-        utente = self.request.db.query(Utente).filter(Utente.nome == "nome").first()
+        utente = self.request.db.query(Utente).filter(Utente.nome == "nome").all()[0]
         licencia = actual.licencias[0]
         fonte = actual.fontes[0]
         self.assertEquals("new name", actual.exp_name)
@@ -103,6 +104,7 @@ class ExploracaoCreateTests(DBIntegrationTest):
         self.assertEquals("Cobue", actual.loc_posto)
         self.assertEquals("new loc_nucleo", actual.loc_nucleo)
         self.assertEquals("new enderezo", actual.loc_endere)
+        self.assertEquals("UGBC", actual.loc_unidad)
         self.assertEquals("Megaruma", actual.loc_bacia)
         self.assertEquals("Megaruma", actual.loc_subaci)
         self.assertEquals("Megaruma", actual.loc_rio)
@@ -113,21 +115,19 @@ class ExploracaoCreateTests(DBIntegrationTest):
         self.assertEquals(utente, actual.utente_rel)
         self.assertEquals("nome", utente.nome)
         self.assertEquals("nuit", utente.nuit)
-        self.assertEquals("uten_tipo", utente.uten_tipo)
+        self.assertEquals(u"Sociedade", utente.uten_tipo)
         self.assertEquals("reg_comerc", utente.reg_comerc)
         self.assertEquals("reg_zona", utente.reg_zona)
         self.assertEquals("Niassa", utente.loc_provin)
         self.assertEquals("Lago", utente.loc_distri)
         self.assertEquals("Cobue", utente.loc_posto)
         self.assertEquals("loc_nucleo", utente.loc_nucleo)
-        self.assertEquals("observacio", utente.observacio)
         self.assertEquals(c.K_SANEAMENTO, actual.actividade.tipo)
-        self.assertEquals(None, actual.actividade.c_estimado)
+        self.assertEquals(3, actual.actividade.c_estimado)
         self.assertEquals(120000, actual.actividade.habitantes)
-        self.assertEquals(actual.exp_id + "-001", licencia.lic_nro)
+        self.assertEquals(actual.exp_id + "/Sub", licencia.lic_nro)
         self.assertEquals(c.K_SUBTERRANEA, licencia.tipo_agua)
-        self.assertEquals("cadastro", licencia.cadastro)
-        self.assertEquals("Irregular", licencia.estado)
+        self.assertEquals(u"Licenciada", licencia.estado)
         self.assertEquals("2020-02-02", licencia.d_emissao.isoformat())
         self.assertEquals("2010-10-10", licencia.d_validade.isoformat())
         self.assertEquals(4.3, float(licencia.c_soli_tot))
@@ -164,111 +164,123 @@ class ExploracaoCreateTests(DBIntegrationTest):
         expected_json = self.build_json()
         expected_json["actividade"] = {
             "tipo": c.K_AGRICULTURA,
-            "c_estimado": None,
+            "c_estimado": 5,
             "cultivos": [],
         }
         self.request.json_body = expected_json
+        actual_exp_id = self.request.json_body["exp_id"]
         exploracaos_create(self.request)
         actual = (
             self.request.db.query(Exploracao)
-            .filter(Exploracao.exp_id == self.EXP_ID)
-            .first()
+            .filter(Exploracao.exp_id == actual_exp_id)
+            .all()[0]
         )
         self.assertEquals(c.K_AGRICULTURA, actual.actividade.tipo)
         self.assertEquals(0, len(actual.actividade.cultivos))
 
     def test_all_activities_can_be_created_without_validations_fails(self):
         expected_json = self.build_json()
-
-        exp_id = "9999-999"
-        expected_json["actividade"] = {"tipo": K_ABASTECIMENTO, "c_estimado": None}
-        expected_json["exp_id"] = exp_id
+        expected_exp_id = expected_json["exp_id"]
+        expected_json["actividade"] = {
+            "tipo": c.K_ABASTECIMENTO,
+            "c_estimado": 1,
+            "habitantes": 2,
+            "dotacao": 3,
+        }
         self.request.json_body = expected_json
         exploracaos_create(self.request)
         actual = (
             self.request.db.query(Exploracao)
-            .filter(Exploracao.exp_id == exp_id)
-            .first()
+            .filter(Exploracao.exp_id == expected_exp_id)
+            .all()[0]
         )
-        self.assertEquals(exp_id, actual.exp_id)
+        self.assertEquals(expected_exp_id, actual.exp_id)
         self.assertEquals(c.K_ABASTECIMENTO, actual.actividade.tipo)
 
-        exp_id = "9999-998"
-        expected_json["actividade"] = {"tipo": c.K_AGRICULTURA, "cultivos": []}
-        expected_json["exp_id"] = exp_id
+        expected_json = self.build_json()
+        expected_exp_id = expected_json["exp_id"]
+        expected_json["actividade"] = {
+            "tipo": c.K_AGRICULTURA,
+            "cultivos": [],
+            "c_estimado": 1,
+        }
         self.request.json_body = expected_json
         exploracaos_create(self.request)
         actual = (
             self.request.db.query(Exploracao)
-            .filter(Exploracao.exp_id == exp_id)
-            .first()
+            .filter(Exploracao.exp_id == expected_exp_id)
+            .all()[0]
         )
-        self.assertEquals(exp_id, actual.exp_id)
+        self.assertEquals(expected_exp_id, actual.exp_id)
         self.assertEquals(c.K_AGRICULTURA, actual.actividade.tipo)
 
-        exp_id = "9999-997"
-        expected_json["actividade"] = {"tipo": c.K_INDUSTRIA}
-        expected_json["exp_id"] = exp_id
+        expected_json = self.build_json()
+        expected_exp_id = expected_json["exp_id"]
+        expected_json["actividade"] = {"tipo": c.K_INDUSTRIA, "c_estimado": 1}
         self.request.json_body = expected_json
         exploracaos_create(self.request)
         actual = (
             self.request.db.query(Exploracao)
-            .filter(Exploracao.exp_id == exp_id)
-            .first()
+            .filter(Exploracao.exp_id == expected_exp_id)
+            .all()[0]
         )
-        self.assertEquals(exp_id, actual.exp_id)
+        self.assertEquals(expected_exp_id, actual.exp_id)
         self.assertEquals(c.K_INDUSTRIA, actual.actividade.tipo)
 
-        exp_id = "9999-996"
-        expected_json["actividade"] = {"tipo": c.K_PECUARIA, "reses": []}
-        expected_json["exp_id"] = exp_id
+        expected_json = self.build_json()
+        expected_exp_id = expected_json["exp_id"]
+        expected_json["actividade"] = {
+            "tipo": c.K_PECUARIA,
+            "reses": [],
+            "c_estimado": 1,
+        }
         self.request.json_body = expected_json
         exploracaos_create(self.request)
         actual = (
             self.request.db.query(Exploracao)
-            .filter(Exploracao.exp_id == exp_id)
-            .first()
+            .filter(Exploracao.exp_id == expected_exp_id)
+            .all()[0]
         )
-        self.assertEquals(exp_id, actual.exp_id)
+        self.assertEquals(expected_exp_id, actual.exp_id)
         self.assertEquals(c.K_PECUARIA, actual.actividade.tipo)
 
-        exp_id = "9999-995"
-        expected_json["actividade"] = {"tipo": c.K_PISCICULTURA}
-        expected_json["exp_id"] = exp_id
+        expected_json = self.build_json()
+        expected_exp_id = expected_json["exp_id"]
+        expected_json["actividade"] = {"tipo": c.K_PISCICULTURA, "c_estimado": 1}
         self.request.json_body = expected_json
         exploracaos_create(self.request)
         actual = (
             self.request.db.query(Exploracao)
-            .filter(Exploracao.exp_id == exp_id)
-            .first()
+            .filter(Exploracao.exp_id == expected_exp_id)
+            .all()[0]
         )
-        self.assertEquals(exp_id, actual.exp_id)
+        self.assertEquals(expected_exp_id, actual.exp_id)
         self.assertEquals(c.K_PISCICULTURA, actual.actividade.tipo)
 
-        exp_id = "9999-994"
-        expected_json["actividade"] = {"tipo": c.K_ENERGIA}
-        expected_json["exp_id"] = exp_id
+        expected_json = self.build_json()
+        expected_exp_id = expected_json["exp_id"]
+        expected_json["actividade"] = {"tipo": c.K_ENERGIA, "c_estimado": 1}
         self.request.json_body = expected_json
         exploracaos_create(self.request)
         actual = (
             self.request.db.query(Exploracao)
-            .filter(Exploracao.exp_id == exp_id)
-            .first()
+            .filter(Exploracao.exp_id == expected_exp_id)
+            .all()[0]
         )
-        self.assertEquals(exp_id, actual.exp_id)
+        self.assertEquals(expected_exp_id, actual.exp_id)
         self.assertEquals(c.K_ENERGIA, actual.actividade.tipo)
 
-        exp_id = "9999-993"
-        expected_json["actividade"] = {"tipo": c.K_SANEAMENTO}
-        expected_json["exp_id"] = exp_id
+        expected_json = self.build_json()
+        expected_exp_id = expected_json["exp_id"]
+        expected_json["actividade"] = {"tipo": c.K_SANEAMENTO, "c_estimado": 1}
         self.request.json_body = expected_json
         exploracaos_create(self.request)
         actual = (
             self.request.db.query(Exploracao)
-            .filter(Exploracao.exp_id == exp_id)
-            .first()
+            .filter(Exploracao.exp_id == expected_exp_id)
+            .all()[0]
         )
-        self.assertEquals(exp_id, actual.exp_id)
+        self.assertEquals(expected_exp_id, actual.exp_id)
         self.assertEquals(c.K_SANEAMENTO, actual.actividade.tipo)
 
 

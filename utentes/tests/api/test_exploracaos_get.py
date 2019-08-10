@@ -20,8 +20,8 @@ class ExploracaosGET_IntegrationTests(DBIntegrationTest):
 
         expected = (
             self.request.db.query(Exploracao)
-            .filter(Exploracao.exp_id == "2010-002")
-            .first()
+            .filter(Exploracao.the_geom.isnot(None))
+            .all()[0]
         )
         self.request.matchdict.update(dict(id=expected.gid))
         actual = exploracaos_get(self.request).__json__(self.request)

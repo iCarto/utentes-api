@@ -28,7 +28,7 @@ class CultivosGET_IntegrationTests(DBIntegrationTest):
 
         expected = (
             self.request.db.query(ActividadesCultivos)
-            .filter(ActividadesCultivos.cult_id == "2010-022-01")
+            .filter(ActividadesCultivos.the_geom.isnot(None))
             .first()
         )
         self.request.matchdict.update(dict(id=expected.gid))

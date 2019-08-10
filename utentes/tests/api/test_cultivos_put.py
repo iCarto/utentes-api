@@ -18,11 +18,7 @@ def build_json(request, cultivo):
 
 class CultivosUpdateTests(DBIntegrationTest):
     def test_update_cultivo(self):
-        expected = (
-            self.request.db.query(ActividadesCultivos)
-            .filter(ActividadesCultivos.cult_id == "2010-022-01")
-            .first()
-        )
+        expected = self.request.db.query(ActividadesCultivos).first()
         gid = expected.gid
         self.request.matchdict.update(dict(id=gid))
         expected_json = build_json(self.request, expected)
@@ -32,7 +28,6 @@ class CultivosUpdateTests(DBIntegrationTest):
         expected_json["c_estimado"] = 3
         expected_json["rega"] = "Gravidade"
         expected_json["eficiencia"] = 33
-        # expected_json['area'] = 333 auto update from the_geom
         expected_json["observacio"] = "uma observacio"
         self.request.json_body = expected_json
         cultivos_update(self.request)
@@ -45,16 +40,11 @@ class CultivosUpdateTests(DBIntegrationTest):
         self.assertEquals(3, actual.c_estimado)
         self.assertEquals("Gravidade", actual.rega)
         self.assertEquals(33, actual.eficiencia)
-        self.assertEquals(1, actual.area)
         self.assertEquals("uma observacio", actual.observacio)
         self.assertIsNone(actual.the_geom)
 
     def test_update_cultivo_the_geom(self):
-        expected = (
-            self.request.db.query(ActividadesCultivos)
-            .filter(ActividadesCultivos.cult_id == "2010-022-01")
-            .first()
-        )
+        expected = self.request.db.query(ActividadesCultivos).first()
         gid = expected.gid
         self.request.matchdict.update(dict(id=gid))
         expected_json = build_json(self.request, expected)
@@ -80,14 +70,10 @@ class CultivosUpdateTests(DBIntegrationTest):
             .filter(ActividadesCultivos.gid == gid)
             .first()
         )
-        self.assertAlmostEquals(367.77, float(actual.area))
+        self.assertAlmostEquals(367.77, float(actual.area), 2)
 
     def test_not_update_cultivo_the_geom(self):
-        expected = (
-            self.request.db.query(ActividadesCultivos)
-            .filter(ActividadesCultivos.cult_id == "2010-022-01")
-            .first()
-        )
+        expected = self.request.db.query(ActividadesCultivos).first()
         gid = expected.gid
         self.request.matchdict.update(dict(id=gid))
         expected_json = build_json(self.request, expected)
@@ -116,10 +102,9 @@ class CultivosUpdateTests(DBIntegrationTest):
         self.assertIsNone(actual.the_geom)
 
     def test_update_cultivo_delete_the_geom(self):
-        # TODO. Fixture for this entity should have a geometry
         expected = (
             self.request.db.query(ActividadesCultivos)
-            .filter(ActividadesCultivos.cult_id == "2010-022-01")
+            .filter(ActividadesCultivos.the_geom.isnot(None))
             .first()
         )
         gid = expected.gid
@@ -138,11 +123,7 @@ class CultivosUpdateTests(DBIntegrationTest):
         self.assertIsNone(actual.area)
 
     def test_update_cultivo_validation_fails(self):
-        expected = (
-            self.request.db.query(ActividadesCultivos)
-            .filter(ActividadesCultivos.cult_id == "2010-022-01")
-            .first()
-        )
+        expected = self.request.db.query(ActividadesCultivos).first()
         gid = expected.gid
         self.request.matchdict.update(dict(id=gid))
         expected_json = build_json(self.request, expected)
