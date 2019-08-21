@@ -41,7 +41,7 @@ Backbone.SIXHIARA.MSG = {
 };
 
 $(document).ready(function() {
-    $("#settings").on("click", function(e) {
+    $("#nav-settings").on("click", function(e) {
         e.preventDefault();
         var configModalView = new Backbone.SIXHIARA.ConfigModalView({
             model: new Backbone.Model(),
