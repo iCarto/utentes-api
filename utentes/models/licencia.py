@@ -112,10 +112,6 @@ class Licencia(Base):
     def validate(self, json):
         return []
 
-    def update_lic_nro(self, exp_id):
-        self.lic_nro = "{}/{}".format(exp_id, self.tipo_agua[0:3])
-        return self.lic_nro
-
     @staticmethod
     def implies_validate_activity(estado):
         # En realidad no deberían ser iguales validate_ficha y validate_activity

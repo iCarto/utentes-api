@@ -122,7 +122,6 @@ def exploracaos_update(request):
             raise badrequest_exception({"error": msgs})
 
         e = request.db.query(Exploracao).filter(Exploracao.gid == gid).one()
-
         u = upsert_utente(request, body)
         e.utente_rel = u
 
@@ -229,13 +228,11 @@ def activity_fail(v):
 
 
 def validate_entities(request, body):
-    import re
+    from utentes.services.id_service import is_not_valid_exp_id, is_not_valid_lic_nro
 
     validatorExploracao = Validator(EXPLORACAO_SCHEMA)
-    regexpExpIdFormat = "^\d{3}\/" + request.registry.settings.get("ara") + "\/\d{4}$"
-    validatorExploracao.add_rule(
-        "EXP_ID_FORMAT", {"fails": lambda v: v and (not re.match(regexpExpIdFormat, v))}
-    )
+
+    validatorExploracao.add_rule("EXP_ID_FORMAT", {"fails": is_not_valid_exp_id})
 
     validatorExploracao.add_rule("ACTIVITY_NOT_NULL", {"fails": activity_fail})
     if Licencia.implies_validate_ficha(body.get("estado_lic")):
@@ -249,13 +246,8 @@ def validate_entities(request, body):
 
     if Licencia.implies_validate_ficha(body.get("estado_lic")):
         validatorLicencia = Validator(LICENCIA_SCHEMA)
-        regexpLicNroFormat = (
-            "^\d{3}\/" + request.registry.settings.get("ara") + "\/\d{4}\/(Sup|Sub)$"
-        )
-        validatorLicencia.add_rule(
-            "LIC_NRO_FORMAT",
-            {"fails": lambda v: v and (not re.match(regexpLicNroFormat, v))},
-        )
+
+        validatorLicencia.add_rule("LIC_NRO_FORMAT", {"fails": is_not_valid_lic_nro})
 
         for lic in body.get("licencias"):
             if Licencia.implies_validate_activity(lic.get("estado")):

@@ -38,6 +38,7 @@ from utentes.models.facturacao_fact_estado import (
 )
 from utentes.models.fonte import Fonte
 from utentes.models.licencia import Licencia
+from utentes.services import id_service
 
 
 class ST_Multi(GenericFunction):
@@ -333,7 +334,7 @@ class Exploracao(ExploracaoBase):
         Boolean, nullable=False, server_default=text("false"), doc="Licença impressa"
     )
 
-    utente_rel = relationship("Utente", lazy="joined", passive_deletes=True)
+    utente_rel = relationship("Utente", lazy="joined")
 
     licencias = relationship(
         "Licencia", cascade="all, delete-orphan", lazy="joined", passive_deletes=True
@@ -465,7 +466,7 @@ class Exploracao(ExploracaoBase):
 
         update_array(self.licencias, json.get("licencias"), Licencia.create_from_json)
         for lic in self.licencias:
-            lic.update_lic_nro(self.exp_id)
+            lic.lic_nro = id_service.calculate_new_lic_nro(self.exp_id, lic.tipo_agua)
 
     def update_and_validate_activity(self, json):
         actividade_json = json.get("actividade")

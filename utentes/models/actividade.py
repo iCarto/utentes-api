@@ -13,6 +13,7 @@ from utentes.models.base import PGSQL_SCHEMA_UTENTES, Base, update_array
 from utentes.models.cultivo import ActividadesCultivos
 from utentes.models.reses import ActividadesReses
 from utentes.models.tanques_piscicolas import ActividadesTanquesPiscicolas
+from utentes.services import id_service
 
 
 class Actividade(Base):
@@ -59,18 +60,6 @@ class Actividade(Base):
         a = classes[tipo]()
         a.update_from_json(json)
         return a
-
-    def next_child_id(self, childs, id_name):
-        """For activities that have childs like cultivos, reses, tanques"""
-        id_sequence = [
-            int(getattr(seq, id_name).split("/")[3])
-            for seq in childs
-            if getattr(seq, id_name)
-        ]
-        if len(id_sequence) == 0:
-            return 1
-        else:
-            return max(id_sequence) + 1
 
     def __json__(self, request):
         json = {c: getattr(self, c) for c in self.__mapper__.columns.keys()}
@@ -141,14 +130,14 @@ class ActividadesAgriculturaRega(Actividade):
     def update_from_json(self, json):
         self.gid = json.get("id")
         self.tipo = json.get("tipo")
-        next_cult_id = self.next_child_id(self.cultivos, "cult_id")
         update_array(
             self.cultivos, json.get("cultivos"), ActividadesCultivos.create_from_json
         )
         for cultivo in self.cultivos:
             if not cultivo.cult_id:
-                cultivo.cult_id = json.get("exp_id") + "/{:03d}".format(next_cult_id)
-                next_cult_id += 1
+                cultivo.cult_id = id_service.calculate_new_child_id(
+                    self.cultivos, "cult_id", json.get("exp_id")
+                )
 
         # self.c_estimado = json.get('c_estimado')
         self.c_estimado = reduce(lambda x, y: x + y.c_estimado, self.cultivos, 0)
@@ -288,7 +277,6 @@ class ActividadesPiscicultura(Actividade):
         # actividade - handled by sqlalchemy relationship
         SPECIAL_CASES = ["gid", "tanques_piscicolas"]
         self.gid = json.get("id")
-        next_tanque_id = self.next_child_id(self.tanques_piscicolas, "tanque_id")
         update_array(
             self.tanques_piscicolas,
             json.get("tanques_piscicolas"),
@@ -296,8 +284,9 @@ class ActividadesPiscicultura(Actividade):
         )
         for tanque in self.tanques_piscicolas:
             if not tanque.tanque_id:
-                tanque.tanque_id = json.get("exp_id") + "/{:03d}".format(next_tanque_id)
-                next_tanque_id += 1
+                tanque.tanque_id = id_service.calculate_new_child_id(
+                    self.tanques_piscicolas, "tanque_id", json.get("exp_id")
+                )
 
         for column in self.__mapper__.columns.keys():
             if column in SPECIAL_CASES:

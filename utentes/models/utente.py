@@ -34,7 +34,12 @@ class Utente(Base):
     reg_zona = Column(Text, doc="Registado em")
     observacio = Column(Text, doc="Observações da actividade")
 
-    exploracaos = relationship("ExploracaoBase", lazy="joined", passive_deletes="all")
+    exploracaos = relationship(
+        "ExploracaoBase",
+        lazy="joined",
+        cascade="all, delete-orphan",
+        passive_deletes="True",
+    )
 
     @staticmethod
     def create_from_json(json):

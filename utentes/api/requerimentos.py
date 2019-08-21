@@ -10,6 +10,7 @@ from utentes.api.error_msgs import error_msgs
 from utentes.models.ara import Ara
 from utentes.models.base import badrequest_exception
 from utentes.models.exploracao import Exploracao
+from utentes.services.id_service import calculate_new_exp_id
 from utentes.user_utils import (
     PERM_CREATE_REQUERIMENTO,
     PERM_GET,
@@ -95,29 +96,12 @@ def requerimento_create(request):
 
     e = Exploracao()
     e.update_from_json_requerimento(body)
-    ara = request.registry.settings.get("ara")
-    e.exp_id = calculate_new_exp_id(request, ara)
-    e.ara = ara
+    e.exp_id = calculate_new_exp_id(request)
+    e.ara = request.registry.settings.get("ara")
 
     request.db.add(e)
     request.db.commit()
     return e
-
-
-def calculate_new_exp_id(request, ara):
-    year = datetime.date.today().year
-    sql = """
-    SELECT substring(exp_id, 1, 3)
-    FROM utentes.exploracaos
-    WHERE upper(ara) = '{}' AND substring(exp_id, 10, 14) = '{}'
-    ORDER BY 1 DESC LIMIT 1;
-    """.format(
-        ara, year
-    )
-    next_number = request.db.execute(sql).first() or [0]
-    next_id = "%0*d" % (3, int(next_number[0]) + 1)
-
-    return "{}/{}/{}".format(next_id, ara, year)
 
 
 @view_config(

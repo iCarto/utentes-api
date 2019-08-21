@@ -357,23 +357,3 @@ def facturacao_stats(request):
     for result in query.all():
         json_data.append(dict(zip(row_headers, result)))
     return json_data
-
-
-# @view_config(route_name='api_facturacao', request_method='POST', renderer='json')
-# # admin || administrativo
-# def facturacao_create(request):
-#     try:
-#         body = request.json_body
-#     except ValueError as ve:
-#         log.error(ve)
-#         raise badrequest_exception({'error': error_msgs['body_not_valid']})
-#
-#     e = Exploracao()
-#     e.update_from_json_facturacao(body)
-#     ara = request.registry.settings.get('ara')
-#     # e.exp_id = calculate_new_exp_id(request, ara)
-#     e.ara = ara
-#
-#     request.db.add(e)
-#     request.db.commit()
-#     return e
