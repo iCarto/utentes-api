@@ -14,7 +14,10 @@ Backbone.SIXHIARA.LicenseView = Backbone.UILib.BaseView.extend({
             tipo_agua: this.tipo_agua,
             estado: this.model.get("estado_lic"),
             lic_nro: this.model.get("exp_id")
-                ? this.model.get("exp_id") + "/" + this.tipo_agua.substring(0, 3)
+                ? SIRHA.Services.IdService.calculateNewLicNro(
+                      this.model.get("exp_id"),
+                      this.tipo_agua
+                  )
                 : null,
             taxa_fixa: null,
             taxa_uso: this.tipo_agua === "Subterrânea" ? 0.6 : null,

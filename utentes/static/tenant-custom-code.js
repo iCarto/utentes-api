@@ -415,7 +415,7 @@ if (window.SIRHA.getARA() === "DPMAIP") {
         {
             header: "Ano",
             value: function(exp) {
-                return exp.exp_id.split("/")[2];
+                return SIRHA.Services.IdService.extractYearFromExpId(exp);
             },
         },
         {header: "Província", value: "utente.loc_provin"},

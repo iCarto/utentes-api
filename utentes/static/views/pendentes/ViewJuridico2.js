@@ -184,8 +184,6 @@ print('O ' + formatter().formatDate(req_obs[i]['create_at']) + ', ' + req_obs[i]
             return fonte.tipo_agua == data.licencia.tipo_agua;
         });
 
-        var licenseSortName = /(\d{4}\/)(\w{3})/.exec(data.licencia.lic_nro)[2];
-
         data.licencia.d_emissao = formatter().formatDate(data.licencia.d_emissao) || "";
         data.licencia.d_validade =
             formatter().formatDate(data.licencia.d_validade) || "";

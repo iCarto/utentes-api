@@ -108,9 +108,7 @@ Backbone.SIXHIARA.FiltersView = Backbone.UILib.BaseView.extend({
 
     setYearsFilterFromExploracaos: function(exploracaos) {
         var years = _.chain(
-            exploracaos.map(function(exp) {
-                return exp.getAnoFromExpId();
-            })
+            exploracaos.map(SIRHA.Services.IdService.extractYearFromExpId)
         )
             .uniq()
             .sortBy(function(year) {

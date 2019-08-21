@@ -65,9 +65,7 @@ Backbone.SIXHIARA.BlockInfoView = Backbone.View.extend({
         modalView.render();
         iAuth.disabledWidgets();
 
-        modalView.$(
-            "#exp_id"
-        )[0].pattern = Backbone.SIXHIARA.Exploracao.EXP_ID_REGEXP().source;
+        SIRHA.Services.IdService.setExpIdPatternOnWidget();
     },
 
     remove: function() {

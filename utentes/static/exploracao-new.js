@@ -146,9 +146,7 @@ utentes.fetch({
 });
 
 function doIt() {
-    document.getElementById(
-        "exp_id"
-    ).pattern = Backbone.SIXHIARA.Exploracao.EXP_ID_REGEXP().source;
+    // SIRHA.Services.IdService.setExpIdPatternOnWidget();
 
     // save action
     new Backbone.SIXHIARA.ButtonSaveView({

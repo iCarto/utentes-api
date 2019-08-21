@@ -101,7 +101,10 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
             app.get("licencias").forEach(function(lic) {
                 lic.set(
                     "lic_nro",
-                    app.get("exp_id") + "/" + lic.get("tipo_agua").substring(0, 3)
+                    SIRHA.Services.IdService.calculateNewLicNro(
+                        app.get("exp_id"),
+                        lic.get("tipo_agua")
+                    )
                 );
             });
             if (app.getActividadeTipo() === "Agricultura de Regadio") {
@@ -478,10 +481,7 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
         var expValidator = validator(Object.assign([], EXPLORACAO_SCHEMA));
 
         expValidator.addRule("EXP_ID_FORMAT", {
-            fails: function(value) {
-                var re = Backbone.SIXHIARA.Exploracao.EXP_ID_REGEXP();
-                return value && !re.test(value);
-            },
+            fails: SIRHA.Services.IdService.isNotValidExpId,
         });
 
         expValidator.addRule("ACTIVITY_NOT_NULL", {
@@ -566,12 +566,8 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
         if (toValidate) {
             var licValidator = validator(LICENCIA_SCHEMA);
 
-            var ara = window.SIRHA.getARA();
             licValidator.addRule("LIC_NRO_FORMAT", {
-                fails: function(value) {
-                    var re = RegExp("^\\d{3}/" + ara + "/\\d{4}/(Sup|Sub)$");
-                    return value && !re.test(value);
-                },
+                fails: SIRHA.Services.IdService.isNotValidLicNro,
             });
 
             this.get("licencias").forEach(function(licencia) {
@@ -640,7 +636,9 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
         }
         var containsAno = true;
         if (where.attributes.ano_inicio || where.attributes.ano_fim) {
-            var anoFromExpId = Number(this.getAnoFromExpId());
+            var anoFromExpId = Number(
+                SIRHA.Services.IdService.extractYearFromExpId(this)
+            );
             if (where.attributes.ano_inicio) {
                 containsAno =
                     containsAno && Number(where.attributes.ano_inicio) <= anoFromExpId;
@@ -977,13 +975,4 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
         this.set("lic_time_warning", endsFirst.get("lic_time_warning"), {silent: true});
         this.set("lic_time_over", endsFirst.get("lic_time_over"), {silent: true});
     },
-
-    getAnoFromExpId: function() {
-        return this.get("exp_id").split("/")[2];
-    },
 });
-
-Backbone.SIXHIARA.Exploracao.EXP_ID_REGEXP = function() {
-    var ara = window.SIRHA.getARA();
-    return new RegExp("^\\d{3}/" + ara + "/\\d{4}$");
-};
