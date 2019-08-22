@@ -106,48 +106,25 @@ Backbone.SIXHIARA.BlockLicenseView = Backbone.View.extend({
     renderAddFonteModal: function(event) {
         event.preventDefault();
 
-        // override default action for okButtonClicked
-        var self = this;
-        var AddFonteModalView = Backbone.UILib.ModalView.extend({
-            okButtonClicked: function() {
-                // in this context, this is the backbone modalView
-                if (this.isSomeWidgetInvalid()) return;
-                var atts = this.draftModel.pick(this.getAttsChanged());
-                this.model.set(atts);
-                self.model.get("fontes").add(this.model);
-                this.$(".modal").modal("hide");
+        var tipoAgua = this.options.tipo_agua;
+        var modalView = new Backbone.UILib.ModalView({
+            modalSelectorTpl: "#block-fonte-modal-tmpl",
+            collection: this.model.get("fontes"),
+            collectionModel: Backbone.SIXHIARA.Fonte,
+            model: new Backbone.SIXHIARA.Fonte({tipo_agua: tipoAgua}),
+            domains: this.options.domains,
+            creating: true,
+            editing: false,
+            selectViewWrapper: true,
+            domainMap: {
+                sist_med: "sistema_medicao",
+                disp_a: "piscicultura_fontes_disp_a",
+                tipo_fonte: this.options.domains
+                    .byCategory("fonte_tipo")
+                    .byParent(tipoAgua),
             },
+            textConfirmBt: "Adicionar",
         });
-
-        var fonte = new Backbone.SIXHIARA.Fonte({tipo_agua: this.options.tipo_agua});
-        var modalView = new AddFonteModalView({
-            model: fonte,
-            selectorTmpl: "#block-fonte-modal-tmpl",
-        });
-        modalView.$("#tipo_agua").prop("disabled", true);
-        modalView.$("#okButton").text("Adicionar");
-
-        // connect auxiliary views
-        var fonteTipoView = new Backbone.UILib.SelectView({
-            el: modalView.$("#tipo_fonte"),
-            collection: this.options.domains
-                .byCategory("fonte_tipo")
-                .byParent(fonte.get("tipo_agua")),
-        }).render();
-        modalView.addAuxView(fonteTipoView);
-
-        var sistMedView = new Backbone.UILib.SelectView({
-            el: modalView.$("#sist_med"),
-            collection: this.options.domains.byCategory("sistema_medicao"),
-        }).render();
-        modalView.addAuxView(sistMedView);
-
-        var dispAgua = new Backbone.UILib.SelectView({
-            el: modalView.$("#disp_a"),
-            collection: this.options.domains.byCategory("piscicultura_fontes_disp_a"),
-        }).render();
-        modalView.addAuxView(dispAgua);
-
         modalView.render();
     },
 
@@ -164,7 +141,7 @@ Backbone.SIXHIARA.BlockLicenseView = Backbone.View.extend({
             exploracao: this.model,
         });
 
-        modalView.show();
+        modalView.render();
 
         if (modalView.$("#fact_tipo").length) {
             // En dpmaip no tenemos #fact_tipo
@@ -201,10 +178,11 @@ Backbone.SIXHIARA.BlockLicenseView = Backbone.View.extend({
                 tipo_agua: this.options.tipo_agua,
             }),
             domains: this.options.domains,
+            creating: true,
             editing: false,
         });
 
-        modalView.show();
+        modalView.render();
         if (modalView.$("#fact_tipo").length) {
             // En dpmaip no tenemos #fact_tipo
             modalView.$("#fact_tipo")[0].value = this.model.get("fact_tipo");

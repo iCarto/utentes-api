@@ -53,10 +53,6 @@ Backbone.SIXHIARA.LicenseView = Backbone.UILib.BaseView.extend({
         });
     },
 
-    // render - Backbone.UILib.BaseView.prototype.render.call(this);
-
-    // remove - Backbone.UILib.BaseView.prototype.remove.call(this);
-
     clickActive: function(e) {
         var self = this;
         this.$el.toggleClass("panel-disabled");
@@ -130,30 +126,21 @@ Backbone.SIXHIARA.LicenseView = Backbone.UILib.BaseView.extend({
 
         e.preventDefault();
 
-        // override default action for okButtonClicked
-        var self = this;
-        var AddFonteModal = Backbone.UILib.ModalView.extend({
-            okButtonClicked: function() {
-                if (this.isSomeWidgetInvalid()) return;
-                self.model.get("fontes").add(this.draftModel);
-                this.$(".modal").modal("hide");
-            },
-        });
-
-        var modalView = new AddFonteModal({
+        var modalView = new Backbone.UILib.ModalView({
+            modalSelectorTpl: this.options.selectorModalFonte,
+            collection: this.model.get("fontes"),
+            collectionModel: Backbone.SIXHIARA.Fonte,
             model: new Backbone.SIXHIARA.Fonte({
                 tipo_agua: this.tipo_agua,
             }),
-            selectorTmpl: this.options.selectorModalFonte,
+            domains: this.options.domains
+                .byCategory("fonte_tipo")
+                .byParent(this.tipo_agua),
+            creating: true,
+            editing: false,
+            selectViewWrapper: true,
+            domainMap: {tipo_fonte: "fonte_tipo"},
         });
-
-        var fonteTipos = this.options.domains.byCategory("fonte_tipo");
-        var tipoFontesView = new Backbone.UILib.SelectView({
-            el: modalView.$("#tipo_fonte"),
-            collection: fonteTipos.byParent(this.tipo_agua),
-        }).render();
-        modalView.addAuxView(tipoFontesView);
-
         modalView.render();
     },
 });

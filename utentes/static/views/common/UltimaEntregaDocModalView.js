@@ -1,7 +1,7 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.UltimaEntregaDocModalView = Backbone.View.extend({
     events: {
-        "click #okbutton": "okButtonClicked",
+        "click #okButton": "okButtonClicked",
     },
 
     html: `
@@ -38,7 +38,7 @@ Backbone.SIXHIARA.UltimaEntregaDocModalView = Backbone.View.extend({
                <div class="row">
                   <div class="col-xs-offset-1 col-xs-10">
                      <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                     <button type="button" class="btn btn-primary" id="okbutton" disabled>Aceitar</button>
+                     <button type="button" class="btn btn-primary" id="okButton" disabled>Aceitar</button>
                   </div>
                </div>
             </div>
@@ -94,7 +94,7 @@ Backbone.SIXHIARA.UltimaEntregaDocModalView = Backbone.View.extend({
                     helpBlock.style.color = "red";
                 }
 
-                document.getElementById("okbutton").disabled = !validDate;
+                document.getElementById("okButton").disabled = !validDate;
             },
             false
         );

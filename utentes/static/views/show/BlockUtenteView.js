@@ -4,7 +4,8 @@ Backbone.SIXHIARA.BlockUtenteView = Backbone.View.extend({
         "click #editBlockUtente": "renderModal",
     },
 
-    initialize: function() {
+    initialize: function(options) {
+        this.options = options || {};
         var view = this;
         this.subViews = [];
 
@@ -42,7 +43,6 @@ Backbone.SIXHIARA.BlockUtenteView = Backbone.View.extend({
 
     render: function() {
         _.invoke(this.subViews, "render");
-
         return this;
     },
 
@@ -56,31 +56,37 @@ Backbone.SIXHIARA.BlockUtenteView = Backbone.View.extend({
 
         // override default action for okButtonClicked
         var self = this;
-        var UtenteModalView = Backbone.UILib.ModalView.extend({
+        var UtenteModalView = Backbone.SIXHIARA.UtenteModal.extend({
             okButtonClicked: function() {
                 // in this context, this is the backbone modalView
                 if (this.isSomeWidgetInvalid()) return;
                 var newUtente = self.utentes.findWhere({
-                    nome: this.draftModel.get("nome"),
+                    nome: this.widgetModel.get("nome"),
                 });
                 self.model.set("utente", newUtente);
                 this.$(".modal").modal("hide");
             },
+            customConfiguration: function() {
+                Backbone.SIXHIARA.UtenteModal.prototype.customConfiguration.call(this);
+                this.el.querySelector("#div-select-utente").classList.remove("hide");
+                var selectUtente = new Backbone.SIXHIARA.SelectUtenteView({
+                    el: this.el,
+                    model: exploracao,
+                    collection: self.utentes,
+                    avoidFillInputs: true,
+                }).render();
+                this._addAuxView(selectUtente);
+                this.el.querySelectorAll(".widget-utente").forEach(function(w) {
+                    w.disabled = true;
+                });
+            },
         });
 
         var modalView = new UtenteModalView({
+            modalSelectorTpl: "#block-utente-modal-tmpl",
             model: utente,
-            selectorTmpl: "#block-utente-modal-tmpl",
+            domains: this.options.domains,
         });
-
-        // connect auxiliary views
-        var selectUtente = new Backbone.SIXHIARA.SelectUtenteView({
-            el: modalView.el,
-            model: exploracao,
-            collection: this.utentes,
-        }).render();
-        modalView.addAuxView(selectUtente);
-
         modalView.render();
     },
 

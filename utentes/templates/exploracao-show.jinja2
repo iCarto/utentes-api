@@ -432,180 +432,8 @@
       </div>
     </script>
     <!-- tmpl block utente modal -->
-    <script type="text/template" id="block-utente-modal-tmpl">
-      <div class="modal fade" id="editUtenteModal" tabindex="-1" role="dialog" aria-labelledby="editUtenteModalLabel">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Pechar"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="editUtenteModalLabel">Utente</h4>
-            </div>
-            <div class="modal-body">
-              <div class="row">
-                <div class="form-group col-xs-offset-1 col-xs-10">
-                  <select id="select-utente" class="form-control">
-                  </select>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-xs-offset-1 col-xs-10">
-                  <div class="panel panel-info">
-                    <div class="panel-heading">
-                      <h3 class="panel-title"><strong>Dados gerais</strong></h3>
-                    </div>
-                    <div class="panel-body">
-                      <div class="row">
-                        <div class="form-group col-xs-4">
-                          <label for="nome">Nome do utente</label>
-                          <input type="text" class="form-control widget widget-utente" id="nome" required>
-                        </div>
-                        <div class="form-group col-xs-4">
-                          <label for="uten_tipo">Tipo de utente</label>
-                          <input type="text" class="form-control widget widget-utente" id="uten_tipo">
-                        </div>
-                        <div class="form-group col-xs-4">
-                          <label for="nuit">NUIT</label>
-                          <input type="text" class="form-control widget widget-utente" id="nuit">
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="form-group col-xs-4">
-                          <label for="uten_tipo">Nome do Gerente/Presidente</label>
-                          <input type="text" class="form-control widget widget-utente" id="uten_gere">
-                        </div>
-                        <div class="form-group col-xs-4">
-                          <label for="uten_tipo">Nro Membros</label>
-                          <input type="text" class="form-control widget widget-number widget-utente" id="uten_memb" pattern="[0-9]{1,8}">
-                        </div>
-                        <div class="form-group col-xs-4">
-                          <label for="uten_tipo">Nro Mulheres</label>
-                          <input type="text" class="form-control widget widget-number widget-utente" id="uten_mulh" pattern="[0-9]{1,8}">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-xs-offset-1 col-xs-10">
-                  <div class="panel panel-info">
-                    <div class="panel-heading">
-                      <h3 class="panel-title"><strong>Dados de contacto</strong></h3>
-                    </div>
-                    <div class="panel-body">
-                      <div class="row">
-                        <div class="form-group col-xs-4">
-                            <label for="uten_tipo">Pessoa de contacto</label>
-                            <input type="text" class="form-control widget widget-utente" id="contacto">
-                        </div>
-                        <div class="form-group col-xs-4">
-                            <label for="uten_tipo">Email</label>
-                            <input type="text" class="form-control widget widget-utente" id="email">
-                        </div>
-                        <div class="form-group col-xs-4">
-                            <label for="uten_tipo">Telefone</label>
-                            <input type="text" class="form-control widget widget-utente" id="telefone">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+    {% include 'utente-modal-template.jinja2' %}
 
-              <div class="row">
-                <div class="col-xs-offset-1 col-xs-6">
-                  <div class="panel panel-info">
-                    <div class="panel-heading">
-                      <h3 class="panel-title"><strong>Localização</strong></h3>
-                    </div>
-                    <div class="panel-body">
-                      <div class="row">
-                        <div class="col-xs-6">
-                          <div class="form-group">
-                            <label for="loc_provin">Província</label>
-                            <input type="text" class="form-control widget widget-utente" id="loc_provin">
-                          </div>
-                        </div>
-                        <div class="col-xs-6">
-                            <div class="form-group">
-                                <label for="loc_distri">Distrito</label>
-                                <input type="text" class="form-control widget widget-utente" id="loc_distri">
-                            </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-xs-6">
-                          <div class="form-group">
-                            <label for="loc_posto">Posto administrativo</label>
-                            <input type="text" class="form-control widget widget-utente" id="loc_posto">
-                          </div>
-                        </div>
-                        <div class="col-xs-6">
-                            <div class="form-group">
-                                <label for="loc_nucleo">Bairro</label>
-                                <input type="text" class="form-control widget widget-utente" id="loc_nucleo">
-                            </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-xs-12">
-                          <div class="form-group">
-                            <label for="loc_endere">Endereço</label>
-                            <textarea class="form-control widget widget-utente" id="loc_endere" rows="4"></textarea>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-xs-4">
-                  <div class="panel panel-info">
-                    <div class="panel-heading">
-                      <h3 class="panel-title"><strong>Outros</strong></h3>
-                    </div>
-                    <div class="panel-body" id="panel-body-utente-outros">
-                      <div class="row">
-                        <div class="col-xs-12">
-                          <div class="form-group">
-                            <label for="reg_comerc">Nro registo comercial</label>
-                            <input type="text" class="form-control widget widget-utente" id="reg_comerc">
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-xs-12">
-                          <div class="form-group">
-                            <label for="reg_zona">Registado em</label>
-                            <input type="text" class="form-control widget widget-utente" id="reg_zona">
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-xs-12">
-                          <div class="form-group">
-                            <label for="observacio">Observaçôes</label>
-                            <textarea class="form-control widget widget-utente" id="observacio" rows="4"></textarea>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <div class="row">
-                <div class="col-xs-offset-1 col-xs-10">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                  <button type="button" class="btn btn-primary" id="okButton">Aceitar</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </script>
     <!-- modal for actividades -->
     <script type="text/template" id="modal-actividades">
       <div class="modal fade" id="editActividadeModal" tabindex="-1" role="dialog" aria-labelledby="editActividadeModalLabel">
@@ -851,7 +679,7 @@
               <div class="row">
                 <div class="col-xs-offset-1 col-xs-10">
                   <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                  <button type="button" class="btn btn-primary" id="okbutton">Aceitar</button>
+                  <button type="button" class="btn btn-primary" id="okButton">Aceitar</button>
                 </div>
               </div>
             </div>
@@ -1093,7 +921,7 @@
               <div class="row">
                 <div class="col-xs-offset-1 col-xs-10">
                   <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                  <button type="button" class="btn btn-primary" id="okbutton">Aceitar</button>
+                  <button type="button" class="btn btn-primary" id="okButton">Aceitar</button>
                 </div>
               </div>
             </div>
@@ -1706,7 +1534,7 @@
               <div class="row">
                 <div class="col-xs-offset-1 col-xs-10">
                   <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                  <button type="button" class="btn btn-primary" id="okbutton">Aceitar</button>
+                  <button type="button" class="btn btn-primary" id="okButton">Aceitar</button>
                 </div>
               </div>
             </div>
@@ -1735,7 +1563,7 @@
                       <div class="row">
                         <div class="form-group col-xs-6">
                           <label for="tipo_agua">Tipo de água</label>
-                          <input type="text" class="form-control widget disabled" id="tipo_agua" required>
+                          <input type="text" class="form-control widget disabled" id="tipo_agua" required disabled>
                         </div>
                         <div class="form-group col-xs-6">
                           <label for="tipo_fonte">Tipo de fonte</label>
@@ -1953,6 +1781,7 @@
         "lib/backbone-uilib/models/DomainCollection.js",
         "lib/backbone-uilib/views/OptionView.js",
         "lib/backbone-uilib/views/SelectView.js",
+        "lib/backbone-uilib/views/SelectViewWrapper.js",
         "lib/backbone-uilib/views/WidgetsView.js",
         "lib/backbone-uilib/views/BaseView.js",
         "lib/backbone-uilib/views/ModalView.js",
@@ -2028,17 +1857,18 @@
         "views/show/CEstimadoComputedView.js",
         "views/show/BlockInfoView.js",
         "views/show/BlockMapView.js",
+        "views/show/LocationModalView.js",
         "views/show/BlockLocationView.js",
         "views/common/SelectUtenteView.js",
+        "views/utentes/UtenteModal.js",
         "views/show/BlockUtenteView.js",
         "views/show/ModalHistoricoLicencias.js",
-        "views/show/ModalView.js",
         "views/show/ModalViewActivity.js",
         "views/show/CultivoResModalView.js",
         "views/show/TanquePiscicolaModalView.js",
         "views/show/LicenseModalView.js",
         "views/common/RowDeleteButtonView.js",
-        "views/show/TableRowShowView.js",
+        "views/show/FonteTableRowShowView.js",
         "views/common/TableView.js",
         "views/show/EditableTableView.js",
         "views/show/ActividadeView.js",

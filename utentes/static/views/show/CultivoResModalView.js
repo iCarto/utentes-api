@@ -1,5 +1,5 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
-Backbone.SIXHIARA.CultivoResModalView = Backbone.SIXHIARA.ModalView.extend({
+Backbone.SIXHIARA.CultivoResModalView = Backbone.UILib.ModalView.extend({
     customConfiguration: function() {
         new Backbone.UILib.SelectView({
             el: this.$("#reses_tipo"),
@@ -31,24 +31,5 @@ Backbone.SIXHIARA.CultivoResModalView = Backbone.SIXHIARA.ModalView.extend({
         this.$(".modal")
             .find("#eficiencia")
             .prop("disabled", _.isNull(this.widgetModel.get("eficiencia")));
-    },
-
-    okButtonClicked: function() {
-        if (this.isSomeWidgetInvalid()) return;
-        Backbone.SIXHIARA.ModalView.prototype.okButtonClicked.call(this);
-    },
-
-    isSomeWidgetInvalid: function() {
-        // we only use Constraint API with input elements, so check only those
-        var widgets = this.$(".modal").find(
-            "input.widget, input.widget-number, input.widget-date, select.widget"
-        );
-        var someInvalid = false;
-        widgets.each(function(index, widget) {
-            if (!widget.validity.valid) {
-                someInvalid = true;
-            }
-        });
-        return someInvalid;
     },
 });

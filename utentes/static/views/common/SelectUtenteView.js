@@ -21,7 +21,9 @@ Backbone.SIXHIARA.SelectUtenteView = Backbone.View.extend({
         });
         if (this.model && this.model.get("utente").get("nome") === utente.get("nome")) {
             option.$el.attr("selected", "selected");
-            this.fillInputs(option.model.get("nome"));
+            if (!this.options.avoidFillInputs) {
+                this.fillInputs(option.model.get("nome"));
+            }
         }
         this.$("#select-utente").append(option.render().$el);
     },

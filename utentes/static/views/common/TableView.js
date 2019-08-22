@@ -13,9 +13,9 @@ Backbone.SIXHIARA.TableView = Backbone.View.extend({
         self = this;
         this.collection.forEach(function(model) {
             var rowView = new self.options.rowViewModel({
+                modalSelectorTpl: this.options.modalSelectorTpl,
                 model: model,
                 rowTemplate: this.options.rowTemplate,
-                modalSelectorTpl: this.options.modalSelectorTpl,
                 domains: this.options.domains,
                 deleteFromServer: this.options.deleteFromServer,
             });

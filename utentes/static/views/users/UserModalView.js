@@ -1,5 +1,5 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
-Backbone.SIXHIARA.UserModalView = Backbone.SIXHIARA.ModalView.extend({
+Backbone.SIXHIARA.UserModalView = Backbone.UILib.ModalView.extend({
     customConfiguration: function() {
         var self = this;
         var domains = new Backbone.UILib.DomainCollection();
@@ -115,17 +115,7 @@ Backbone.SIXHIARA.UserModalView = Backbone.SIXHIARA.ModalView.extend({
 
     isSomeWidgetInvalid: function() {
         this.checkIfUnidadWidgetIsValid();
-        // we only use Constraint API with input elements, so check only those
-        var widgets = this.$(".modal").find(
-            "input.widget, input.widget-number, input.widget-date, select.widget"
-        );
-        var someInvalid = false;
-        widgets.each(function(index, widget) {
-            if (!widget.validity.valid) {
-                someInvalid = true;
-            }
-        });
-        return someInvalid;
+        return Backbone.UILib.ModalView.prototype.isSomeWidgetInvalid.call(this);
     },
 
     checkIfUnidadWidgetIsValid: function() {

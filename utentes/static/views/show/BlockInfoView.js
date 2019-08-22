@@ -53,15 +53,10 @@ Backbone.SIXHIARA.BlockInfoView = Backbone.View.extend({
         event.preventDefault();
 
         var modalView = new Backbone.UILib.ModalView({
+            modalSelectorTpl: "#block-info-modal-tmpl",
             model: this.model,
-            selectorTmpl: "#block-info-modal-tmpl",
+            editing: true,
         });
-        var selectView = new Backbone.UILib.SelectView({
-            el: modalView.$("#pagos"),
-            collection: this.options.domains.byCategory("pagamentos"),
-        }).render();
-        modalView.addAuxView(selectView);
-
         modalView.render();
         iAuth.disabledWidgets();
 

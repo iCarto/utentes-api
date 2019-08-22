@@ -52,7 +52,7 @@ var MySaveToAPI = SaveToAPI.extend({
 
         var modalView = new Backbone.SIXHIARA.GPSModalView({
             model: model,
-            selectorTmpl: "#modal-gps-tmpl",
+            modalSelectorTpl: "#modal-gps-tmpl",
         });
         modalView.render();
 
@@ -112,7 +112,7 @@ var MyAddCoordinates = AddCoordinates.extend({
             map: map,
             domains: domains,
             geoJsonLayer: geoJsonLayer,
-            selectorTmpl: "#modal-gps-add-coordinates-tmpl",
+            modalSelectorTpl: "#modal-gps-add-coordinates-tmpl",
         }).render();
     },
 });

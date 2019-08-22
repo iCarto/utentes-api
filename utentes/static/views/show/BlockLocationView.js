@@ -34,29 +34,11 @@ Backbone.SIXHIARA.BlockLocationView = Backbone.View.extend({
 
     renderModal: function(event) {
         if (!this.domainsFilled) return;
-
-        var modalView = new Backbone.UILib.ModalView({
+        new Backbone.SIXHIARA.LocationModalView({
+            modalSelectorTpl: "#block-location-modal-tmpl",
             model: this.model,
-            selectorTmpl: "#block-location-modal-tmpl",
-        });
-
-        // connect auxiliary views
-        var selectLocation = new Backbone.SIXHIARA.SelectLocationView({
-            el: modalView.$("#editLocModal"),
-            model: modalView.draftModel,
-            domains: this.options.domains,
-            domainsKeys: ["provincia", "distrito", "posto"],
-        }).render();
-        modalView.addAuxView(selectLocation);
-
-        var selectBacia = new Backbone.SIXHIARA.SelectBaciaView({
-            el: modalView.$("#editLocModal"),
-            model: modalView.draftModel,
             domains: this.options.domains,
         }).render();
-        modalView.addAuxView(selectBacia);
-
-        modalView.render();
     },
 
     remove: function() {

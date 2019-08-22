@@ -7,7 +7,7 @@ Backbone.SIXHIARA.BlockFontesView = Backbone.View.extend({
             el: this.el,
             collection: this.collection,
             domains: options.domains,
-            rowViewModel: Backbone.SIXHIARA.TableRowShowView,
+            rowViewModel: Backbone.SIXHIARA.FonteTableRowShowView,
             noDataText: "NON HAI FONTES",
         });
         tableFontesView.listenTo(this.collection, "update", function(

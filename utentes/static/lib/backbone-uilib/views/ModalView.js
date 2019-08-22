@@ -5,45 +5,71 @@ Backbone.UILib.ModalView = Backbone.View.extend({
     },
 
     initialize: function(options) {
-        this.options = options || {};
+        this.options = Object.assign({}, {editing: true}, options);
+        if (this.options.editing && this.options.creating) {
+            throw "No permitido";
+        }
         this.auxViews = [];
 
-        // on the modal we work with a draft model until
-        // the user clicks okButton: then, the model is updated
-        this.draftModel = this.model.clone();
-
-        if (!this.options.selectorTmpl) throw "You need to provide a selector template";
-
-        // take the template and append it to DOM
-        var selectorTmpl = this.options.selectorTmpl;
-        this.template = _.template($(selectorTmpl).html());
-        this.$el.html(this.template(this.draftModel.toJSON()));
+        if (this.options.modalSelectorTpl) {
+            this.template = _.template($(this.options.modalSelectorTpl).html());
+        } else if (this.html) {
+            this.template = _.template(this.html);
+        } else {
+            throw "Bad configuration";
+        }
+        this._cloneModelIfNeeded();
+        this.$el.html(this.template(this.widgetModel.toJSON()));
+        if (this.options.textConfirmBt) {
+            this.$("#okButton").text(this.options.textConfirmBt);
+        }
         $(document.body).append(this.el);
-
-        // connect events:
-        // - modal and aux views would be removed from DOM on close
-        var self = this;
-        this.$(".modal").on("hidden.bs.modal", function() {
-            // this is the modal itself
-            $(this).remove();
-            self.remove();
-        });
     },
 
-    addAuxView: function(view) {
+    _cloneModelIfNeeded: function() {
+        // on the modal we work with a draft model until
+        // the user clicks okButton: then, the model is updated
+        this.widgetModel = this.options.editing ? this.model.clone() : this.model;
+    },
+
+    render: function() {
+        this.customConfiguration();
+        this._selectViewWrapper();
+        this._renderWidgetsView();
+        this._renderWidgetDate();
+        var self = this;
+        this.$(".modal").on("hidden.bs.modal", function() {
+            self._close();
+        });
+        this.$(".modal").modal("show");
+    },
+
+    _selectViewWrapper: function() {
+        if (!this.options.selectViewWrapper) {
+            return;
+        }
+        var selectViewWrapper = new Backbone.UILib.SelectViewWrapper({
+            domains: this.options.domains,
+            domainMap: this.options.domainMap,
+            el: this.$el,
+        });
+        this._addAuxView(selectViewWrapper);
+    },
+
+    _renderWidgetsView: function() {
+        var widgetsView = new Backbone.UILib.WidgetsView({
+            el: this.$el,
+            model: this.widgetModel,
+        }).render();
+        this._addAuxView(widgetsView);
+    },
+
+    _addAuxView: function(view) {
         this.auxViews.push(view);
         return view;
     },
 
-    render: function() {
-        var widgetsView = new Backbone.UILib.WidgetsView({
-            el: this.$el,
-            model: this.draftModel,
-        }).render();
-        this.addAuxView(widgetsView);
-        this.customConfiguration();
-
-        this.$(".modal").modal("show");
+    _renderWidgetDate: function() {
         this.$(".modal")
             .find(".widget-date")
             .toArray()
@@ -62,27 +88,18 @@ Backbone.UILib.ModalView = Backbone.View.extend({
             });
     },
 
-    remove: function() {
-        Backbone.View.prototype.remove.call(this);
-        _.invoke(this.auxViews, "remove");
-        this.auxViews = [];
-    },
-
     okButtonClicked: function() {
         if (this.isSomeWidgetInvalid()) return;
-        var atts = this.draftModel.pick(this.getAttsChanged());
-        this.model.set(atts);
+        if (this.options.editing) {
+            var attrs = this.widgetModel.pick(this.getAttsChanged());
+            this.model.set(attrs);
+        } else if (this.options.creating) {
+            this.collection.add(this.model);
+        }
+        if (this.options.deleteFromServer) {
+            this.model.save({wait: true});
+        }
         this.$(".modal").modal("hide");
-    },
-
-    getAttsChanged: function() {
-        var widgets = this.$(".modal").find(
-            ".widget, .widget-number, .widget-date, .widget-boolean"
-        );
-        var widgetsId = _.map(widgets, function(w) {
-            return w.id;
-        });
-        return widgetsId;
     },
 
     isSomeWidgetInvalid: function() {
@@ -98,6 +115,31 @@ Backbone.UILib.ModalView = Backbone.View.extend({
         });
         return someInvalid;
     },
+
+    getAttsChanged: function() {
+        var widgets = this.$(".modal").find(
+            ".widget, .widget-number, .widget-date, .widget-boolean"
+        );
+        var widgetsId = _.map(widgets, function(w) {
+            return w.id;
+        });
+        return widgetsId;
+    },
+
+    _close: function() {
+        this.$(".modal").unbind();
+        this.$(".modal").remove();
+        this.remove();
+    },
+
+    remove: function() {
+        this.$el.unbind();
+        this.off();
+        Backbone.View.prototype.remove.call(this);
+        _.invoke(this.auxViews, "remove");
+        this.auxViews = [];
+    },
+
     customConfiguration: function() {
         // To be implemented by child classes
     },

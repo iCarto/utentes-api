@@ -121,6 +121,7 @@ Backbone.SIXHIARA.ExploracaoShowView = Backbone.View.extend({
         var blockUtenteView = new Backbone.SIXHIARA.BlockUtenteView({
             el: $("#block-utente"),
             model: exploracao,
+            domains: domains,
         }).render();
         this.subViews.push(blockUtenteView);
 

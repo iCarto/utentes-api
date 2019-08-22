@@ -33,7 +33,7 @@ user.fetch({
             required: false,
         }).render();
 
-        document.getElementById("okbutton").addEventListener("click", function() {
+        document.getElementById("okButton").addEventListener("click", function() {
             user.save(null, {
                 wait: true,
                 success: function() {

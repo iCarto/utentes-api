@@ -40,6 +40,11 @@ Backbone.SIXHIARA.AddCoordinatesModalView = Backbone.UILib.ModalView.extend({
             document.getElementById("org_x").focus();
         });
 
+        this.$(".modal").on("hidden.bs.modal", function() {
+            self.marker && self.options.map.removeLayer(self.marker);
+            self._close();
+        });
+
         this.$(".modal").modal("show");
     },
 
@@ -479,13 +484,5 @@ Backbone.SIXHIARA.AddCoordinatesModalView = Backbone.UILib.ModalView.extend({
     disable_buttons: function() {
         document.getElementById("create_point").disabled = true;
         document.getElementById("zoom_to_point").disabled = true;
-    },
-
-    remove: function() {
-        this.marker && this.options.map.removeLayer(this.marker);
-        return Backbone.SIXHIARA.AddCoordinatesModalView.__super__.remove.apply(
-            this,
-            arguments
-        );
     },
 });

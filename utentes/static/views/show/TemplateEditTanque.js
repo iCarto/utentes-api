@@ -186,7 +186,7 @@ Backbone.SIXHIARA.TemplateEditTanque = Backbone.View.extend({
             <div class="row">
             <div class="col-xs-offset-1 col-xs-10">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary" id="okbutton">Aceitar</button>
+                <button type="button" class="btn btn-primary" id="okButton">Aceitar</button>
             </div>
             </div>
         </div>

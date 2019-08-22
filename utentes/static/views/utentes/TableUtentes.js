@@ -199,70 +199,13 @@ Backbone.SIXHIARA.TableUtentes = Backbone.View.extend({
     },
 
     renderModal: function(utente) {
-        // override default action for okButtonClicked
-        var self = this;
-        var UtenteModal = Backbone.UILib.ModalView.extend({
-            okButtonClicked: function() {
-                if (this.isSomeWidgetInvalid()) return;
-                var atts = this.draftModel.pick(this.getAttsChanged());
-                this.model.set(atts);
-                if (!this.model.isValid()) {
-                    bootbox.alert(this.model.validationError);
-                    return;
-                }
-
-                // update in server
-                var selfModal = this;
-                self.collection.create(this.model, {
-                    merge: true,
-                    wait: true,
-                    success: function(model, resp, options) {
-                        selfModal.$(".modal").modal("hide");
-                        self.reset();
-                    },
-                    error: function(xhr, textStatus, errorThrown) {
-                        if (
-                            textStatus &&
-                            textStatus.responseJSON &&
-                            textStatus.responseJSON.error
-                        ) {
-                            var errorMsg = textStatus.responseJSON.error;
-                            if (Array.isArray(errorMsg)) {
-                                errorMsg = errorMsg.join("\n");
-                            }
-                            bootbox.alert(errorMsg);
-                        } else {
-                            bootbox.alert(textStatus.statusText);
-                        }
-                    },
-                });
-            },
-            customConfiguration: function() {
-                iAuth.disabledWidgets("#editUtenteModal");
-            },
-        });
-
-        var modalView = new UtenteModal({
+        var modalView = new Backbone.SIXHIARA.UtenteModal({
+            modalSelectorTpl: "#block-utente-modal-tmpl",
             model: utente,
-            selectorTmpl: "#block-utente-modal-tmpl",
-        });
-
-        // connect auxiliary views
-        var selectLocationView = new Backbone.SIXHIARA.SelectLocationView({
-            el: $("#editUtenteModal"),
-            model: modalView.draftModel,
+            collection: this.collection,
             domains: this.options.domains,
-            domainsKeys: ["utentes-provincia", "utentes-distrito", "utentes-posto"],
+            tableUtentes: this,
         }).render();
-        modalView.addAuxView(selectLocationView);
-
-        var selectUtenteTipo = new Backbone.UILib.SelectView({
-            el: $("#uten_tipo"),
-            collection: this.options.domains.byCategory("utentes_uten_tipo"),
-        }).render();
-        modalView.addAuxView(selectUtenteTipo);
-
-        modalView.render();
     },
 
     language: {

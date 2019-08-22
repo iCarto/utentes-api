@@ -21,7 +21,9 @@ Backbone.SIXHIARA.EditableTableView = Backbone.View.extend({
                 model: new self.options.collectionModel(),
                 domains: self.options.domains,
                 deleteFromServer: self.options.deleteFromServer,
-            }).show();
+                creating: true,
+                editing: false,
+            }).render();
         });
 
         var tableView = new Backbone.SIXHIARA.TableView({
@@ -106,6 +108,6 @@ Backbone.SIXHIARA.RowView = Backbone.View.extend({
             domains: this.options.domains,
             editing: true,
             deleteFromServer: self.options.deleteFromServer,
-        }).show();
+        }).render();
     },
 });

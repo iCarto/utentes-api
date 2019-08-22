@@ -22,19 +22,19 @@ Backbone.SIXHIARA.GPSModalView = Backbone.UILib.ModalView.extend({
             el: $("#gpsModalView"),
             model: this.model,
         }).render();
-        this.addAuxView(widgetsView);
+        this._addAuxView(widgetsView);
 
         var selectEntidade = new Backbone.UILib.SelectView({
             el: $("#entidade"),
             collection: tiposEntidade,
         }).render();
-        this.addAuxView(selectEntidade);
+        this._addAuxView(selectEntidade);
 
         var selectIdentificador = new Backbone.UILib.SelectView({
             el: this.$("#identificador"),
             collection: [],
         });
-        this.addAuxView(selectIdentificador);
+        this._addAuxView(selectIdentificador);
 
         var Entidades = Backbone.Collection.extend({
             modelId: function(attrs) {

@@ -1,5 +1,5 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
-Backbone.SIXHIARA.LicenseModalView = Backbone.SIXHIARA.ModalView.extend({
+Backbone.SIXHIARA.LicenseModalView = Backbone.UILib.ModalView.extend({
     customConfiguration: function() {
         // connect auxiliary views, which would be removed when the modal is closed
         var estadosLicencia = this.options.domains.byCategory("licencia_estado");
@@ -43,28 +43,13 @@ Backbone.SIXHIARA.LicenseModalView = Backbone.SIXHIARA.ModalView.extend({
     },
 
     okButtonClicked: function() {
-        if (this.isSomeWidgetInvalid()) return;
         var previousState = this.model.get("estado");
-        Backbone.SIXHIARA.ModalView.prototype.okButtonClicked.call(this);
+        Backbone.UILib.ModalView.prototype.okButtonClicked.call(this);
 
         // See #1685
         var actualState = this.model.get("estado");
         if (previousState != actualState) {
             this.options.exploracao.setLicState(actualState);
         }
-    },
-
-    isSomeWidgetInvalid: function() {
-        // we only use Constraint API with input elements, so check only those
-        var widgets = this.$(".modal").find(
-            "input.widget, input.widget-number, input.widget-date, select.widget"
-        );
-        var someInvalid = false;
-        widgets.each(function(index, widget) {
-            if (!widget.validity.valid) {
-                someInvalid = true;
-            }
-        });
-        return someInvalid;
     },
 });

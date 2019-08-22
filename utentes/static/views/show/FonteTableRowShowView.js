@@ -1,5 +1,5 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
-Backbone.SIXHIARA.TableRowShowView = Backbone.View.extend({
+Backbone.SIXHIARA.FonteTableRowShowView = Backbone.View.extend({
     tagName: "tr",
 
     template: _.template(`
@@ -60,34 +60,24 @@ Backbone.SIXHIARA.TableRowShowView = Backbone.View.extend({
     modelUpdate: function(e) {
         e.preventDefault();
 
-        var fonte = this.model;
+        var tipoAgua = this.model.get("tipo_agua");
         var modalView = new Backbone.UILib.ModalView({
+            modalSelectorTpl: "#block-fonte-modal-tmpl",
+            collection: this.model.get("fontes"),
+            collectionModel: Backbone.SIXHIARA.Fonte,
             model: this.model,
-            selectorTmpl: "#block-fonte-modal-tmpl",
+            domains: this.options.domains,
+            creating: false,
+            editing: true,
+            selectViewWrapper: true,
+            domainMap: {
+                sist_med: "sistema_medicao",
+                disp_a: "piscicultura_fontes_disp_a",
+                tipo_fonte: this.options.domains
+                    .byCategory("fonte_tipo")
+                    .byParent(tipoAgua),
+            },
         });
-        modalView.$("#tipo_agua").prop("disabled", true);
-
-        // connect auxiliary views
-        var fonteTipoView = new Backbone.UILib.SelectView({
-            el: modalView.$("#tipo_fonte"),
-            collection: this.options.domains
-                .byCategory("fonte_tipo")
-                .byParent(fonte.get("tipo_agua")),
-        }).render();
-        modalView.addAuxView(fonteTipoView);
-
-        var sistMedView = new Backbone.UILib.SelectView({
-            el: modalView.$("#sist_med"),
-            collection: this.options.domains.byCategory("sistema_medicao"),
-        }).render();
-        modalView.addAuxView(sistMedView);
-
-        var dispAgua = new Backbone.UILib.SelectView({
-            el: modalView.$("#disp_a"),
-            collection: this.options.domains.byCategory("piscicultura_fontes_disp_a"),
-        }).render();
-        modalView.addAuxView(dispAgua);
-
         modalView.render();
     },
 });
