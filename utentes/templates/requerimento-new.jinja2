@@ -2,8 +2,6 @@
 {% block title %}Novo requerimento de solicitação de licença{% endblock %}
 {% block css_assets %}
     {% assets
-    "lib/bootstrap/css/bootstrap.css",
-    "lib/font-awesome/css/font-awesome.css",
     "lib/backbone-dms/css/backbone-dms.css",
     "css/base.css",
     output="dist/requerimento-new.css", filters="cssrewrite,cssutils" %}
@@ -35,7 +33,7 @@
           <div class="row">
             <div class="col-xs-12">
               <div class="form-group">
-                <label for="exp_name">Nome <i class="fa fa-question-circle" data-toggle="tooltip" title="Debe escribir un nome de al menos 3 caracteres"></i></label>
+                <label for="exp_name">Nome <i class="fas fa-question-circle" data-toggle="tooltip" title="Debe escribir un nome de al menos 3 caracteres"></i></label>
                 <input type="text" id="exp_name" class="form-control widget" autofocus required>
               </div>
               <div class="form-group">

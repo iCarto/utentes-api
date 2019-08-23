@@ -6,7 +6,7 @@ Backbone.DMS.FileUploadView = Backbone.View.extend({
         '<div id="errors"></div>' +
             '<div class="dropzone">' +
             '<label for="fileupload" class="fileupload">' +
-            '<i class="fa fa-plus-square"></i><br>' +
+            '<i class="fas fa-plus-square"></i><br>' +
             "<span>Arraste cá o documento/arquivo</span>" +
             "</label>" +
             '<input id="fileupload" type="file" name="file" multiple/>' +

@@ -1,7 +1,7 @@
 var Clear = L.ToolbarAction.extend({
     options: {
         toolbarIcon: {
-            html: '<i class="fa fa-refresh"></i>',
+            html: '<i class="fas fa-sync"></i>',
             tooltip: "Borrar selección",
         },
     },

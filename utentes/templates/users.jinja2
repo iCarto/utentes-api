@@ -2,8 +2,6 @@
 {% set title = 'Administração de utilizadores' %}
 {% block css_assets %}
   {% assets
-  "lib/bootstrap/css/bootstrap.css",
-  "lib/font-awesome/css/font-awesome.css",
   "css/base.css",
   output="dist/users.css", filters="cssrewrite,cssutils" %}
         <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}">

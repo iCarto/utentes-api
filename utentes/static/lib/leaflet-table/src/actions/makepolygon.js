@@ -1,7 +1,7 @@
 var MakePolygon = L.ToolbarAction.extend({
     options: {
         toolbarIcon: {
-            html: '<i class="fa fa-square-o"></i>',
+            html: '<i class="fas fa-square"></i>',
             tooltip: "Crear polígono",
         },
     },

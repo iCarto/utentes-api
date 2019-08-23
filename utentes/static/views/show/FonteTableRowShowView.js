@@ -11,8 +11,8 @@ Backbone.SIXHIARA.FonteTableRowShowView = Backbone.View.extend({
         <td class="cadastro"><%- cadastro %></td>
         <td class="lat_lon"><%- lat_lon %></td>
         <td class="observacio"><%- observacio %></td>
-        <td class="edit uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"><i class="fa fa-pencil-square-o"></i></td>
-        <td class="delete uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"><i class="fa fa-trash"></i></td>
+        <td class="edit uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"><i class="fas fa-edit"></i></td>
+        <td class="delete uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"><i class="fas fa-trash-alt"></i></td>
     `),
 
     events: {

@@ -1,7 +1,7 @@
 var SaveToAPI = L.ToolbarAction.extend({
     options: {
         toolbarIcon: {
-            html: '<i class="fa fa-floppy-o"></i>',
+            html: '<i class="fas fa-save"></i>',
             tooltip: "Guardar",
         },
     },

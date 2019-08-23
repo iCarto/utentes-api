@@ -134,10 +134,10 @@ window.bootbox &&
         backdrop: null,
         buttons: {
             cancel: {
-                label: '<i class="fa fa-times"></i> Cancelar',
+                label: '<i class="fas fa-times"></i> Cancelar',
             },
             confirm: {
-                label: '<i class="fa fa-check"></i> Aceitar',
+                label: '<i class="fas fa-check"></i> Aceitar',
             },
         },
     });

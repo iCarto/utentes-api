@@ -1,8 +1,6 @@
 {% extends "base.jinja2" %}
 {% block css_assets %}
     {% assets
-    "lib/bootstrap/css/bootstrap.css",
-    "lib/font-awesome/css/font-awesome.css",
     "lib/leaflet/leaflet.css",
     "lib/leaflet/leaflet.label.css",
     "lib/backbone-dms/css/backbone-dms.css",
@@ -37,7 +35,7 @@
         <section id="info-section" class="col-xs-6">
           <section id="block-info">
             <div class="row">
-              <h3 class="col-xs-1"><i class="fa fa-info"></i></h3>
+              <h3 class="col-xs-1"><i class="fas fa-info"></i></h3>
               <h3 class="col-xs-11 exploracao_info"> <span class="widget" id="exp_id"></span> <span class="widget" id="exp_name"></span>
                 <button type="button" class="btn btn-default btn-xs pull-right uilib-enability uilib-show-role-administrador uilib-show-role-tecnico" id="editBlockInfo">Editar</button>
               </h3>
@@ -66,7 +64,7 @@
           </section>
           <section id="block-location">
             <div class="row">
-              <h3 class="col-xs-1"><i class="fa fa-map-marker"></i></h3>
+              <h3 class="col-xs-1"><i class="fas fa-map-marker-alt"></i></h3>
               <h3 class="col-xs-11"><span class="widget" id="loc_provin"></span> / <span class="widget" id="loc_distri"></span>
                 <button type="button" class="btn btn-default btn-xs pull-right uilib-enability uilib-show-role-administrador uilib-show-role-tecnico" id="editBlockLocation">Editar</button>
               </h3>
@@ -90,7 +88,7 @@
           </section>
           <section id="block-utente">
             <div class="row">
-              <h3 class="col-xs-1"><i class="fa fa-user"></i></h3>
+              <h3 class="col-xs-1"><i class="fas fa-user"></i></h3>
               <h3 class="col-xs-11">
                 <span class="widget" id="nome"></span>
                 <button type="button" class="btn btn-default btn-xs pull-right uilib-enability uilib-show-role-administrador uilib-show-role-tecnico" id="editBlockUtente">Editar</button>
@@ -168,7 +166,7 @@
         <div class="row">
           <div class="col-xs-6">
             <div class="row">
-              <h3 class="col-xs-1"><i class="fa fa-wrench"></i></h3>
+              <h3 class="col-xs-1"><i class="fas fa-wrench"></i></h3>
               <h3 class="col-xs-11">
                 Actividade: <span class="widget" id="actividade">Actividade non declarada</span>
                 <button type="button" class="btn btn-default btn-xs uilib-enability uilib-show-role-administrador uilib-show-role-tecnico" id="editActividade">Editar</button>
@@ -183,7 +181,7 @@
       <section class="row">
         <div class="col-xs-6">
           <div class="row">
-            <h3 class="col-xs-1"><i class="fa fa-tint"></i></h3>
+            <h3 class="col-xs-1"><i class="fas fa-tint"></i></h3>
             {% if request.registry.settings['ara'] != 'DPMAIP' %}
             <h3 class="col-xs-11">Licenças e fontes</h3>
             {% else %}

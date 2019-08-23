@@ -1,7 +1,7 @@
 var DeleteSelected = L.ToolbarAction.extend({
     options: {
         toolbarIcon: {
-            html: '<i class="fa fa-trash-o"></i>',
+            html: '<i class="fas fa-trash-alt"></i>',
             tooltip: "Borrar seleccionados",
         },
     },

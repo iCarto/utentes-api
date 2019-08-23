@@ -7,7 +7,7 @@ Backbone.DMS.FileSummaryView = Backbone.View.extend({
     },
 
     template: _.template(
-        '<td class="type"><i class="fa fa-file"></i></td>' +
+        '<td class="type"><i class="fas fa-file"></i></td>' +
             '<td class="name"><a id="download-button" href="<%=downloadUrl%>" target="_blank"><%=data.name%></a></td>' +
             '<td class="date"><%=formatDate(data.date)%></td>' +
             '<td class="size"><%=formatBytes(data.size, 2)%></td>' +
@@ -15,11 +15,11 @@ Backbone.DMS.FileSummaryView = Backbone.View.extend({
     ),
 
     templateDownloadButton: _.template(
-        '<a id="download-button" href="<%=downloadUrl%>" target="_blank"><i class="fa fa-download"></i></</a>'
+        '<a id="download-button" href="<%=downloadUrl%>" target="_blank"><i class="fas fa-download"></i></</a>'
     ),
 
     templateDeleteButton: _.template(
-        '<a id="delete-button" href="#"><i class="fa fa-trash"></i></</a>'
+        '<a id="delete-button" href="#"><i class="fas fa-trash-alt"></i></</a>'
     ),
 
     initialize: function() {

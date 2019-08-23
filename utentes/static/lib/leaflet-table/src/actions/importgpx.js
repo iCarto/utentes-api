@@ -1,7 +1,7 @@
 var ImportGPX = L.ToolbarAction.extend({
     options: {
         toolbarIcon: {
-            html: '<i class="fa fa-folder-open-o"></i>',
+            html: '<i class="fas fa-folder-open"></i>',
             tooltip: "Importar GPX",
         },
     },

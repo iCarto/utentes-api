@@ -4,13 +4,13 @@ Backbone.DMS.FileUploadingView = Backbone.View.extend({
     className: "file-uploading",
 
     events: {
-        "click .fa-close": "removeFile",
+        "click .fa-times": "removeFile",
     },
 
     template: _.template(
         '<div class="data">' +
             "<span><%=data.name%></span>" +
-            '<i class="fa fa-close"></i>' +
+            '<i class="fas fa-times"></i>' +
             "</div>" +
             '<div class="bar-container" style="width: 100%;">' +
             "<span></span>" +

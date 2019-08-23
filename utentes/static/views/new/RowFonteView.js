@@ -7,7 +7,7 @@ Backbone.SIXHIARA.RowFonteView = Backbone.View.extend({
         <td><%- tipo_fonte %></td>
         <td><% print(formatter().formatNumber(c_soli)) %></td>
         <td><%- observacio %></td>
-        <td class="delete"><i class="fa fa-trash"></i></td>
+        <td class="delete"><i class="fas fa-trash-alt"></i></td>
     `),
 
     render: function() {

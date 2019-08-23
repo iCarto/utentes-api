@@ -10,7 +10,7 @@ Backbone.DMS.BreadcrumbView = Backbone.View.extend({
     template: _.template(
         '<ul id="breadcrumb" class="breadcrumb">' +
             "</ul>" +
-            '<a id="parent-folder-button" class="navigateButton" href="#">Subir n&iacute;vel <i class="fa fa-arrow-up"></i></a>'
+            '<a id="parent-folder-button" class="navigateButton" href="#">Subir n&iacute;vel <i class="fas fa-arrow-up"></i></a>'
     ),
 
     initialize: function(options) {

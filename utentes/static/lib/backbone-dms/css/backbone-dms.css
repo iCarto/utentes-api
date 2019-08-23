@@ -59,7 +59,7 @@
     padding: 0 5px;
 }
 
-#documents-modal #file-collection-table .actions .fa-trash {
+#documents-modal #file-collection-table .actions .fa-trash-alt {
     color: #ccc;
 }
 
@@ -123,7 +123,7 @@
     justify-content: space-between;
 }
 
-#fileupload-view .uploading .file-uploading .data .fa-close {
+#fileupload-view .uploading .file-uploading .data .fa-times {
     cursor: pointer;
 }
 
