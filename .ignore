@@ -30,9 +30,9 @@ utentes/media
 
 
 # Formatter & Linters
+utentes/static/vendor
 utentes/static/lib/DataTables/
 utentes/static/lib/leaflet-draw/
-utentes/static/lib/font-awesome/
 utentes/static/lib/bootstrap/
 utentes/static/lib/leaflet/
 utentes/static/lib/numeral-js-1.5.3/

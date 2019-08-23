@@ -19,6 +19,7 @@ exclude = '''
 
   | \.egg-info
   | node_modules
+  | utentes/static/vendor
   | \.idea
   | \.vscode
   | \.vagrant
