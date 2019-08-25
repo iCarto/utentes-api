@@ -10,3 +10,6 @@ K_SANEAMENTO = u"Saneamento"
 
 K_SUBTERRANEA = u"Subterrânea"
 K_SUPERFICIAL = u"Superficial"
+
+K_UTENTE_FACTO = u"Utente de facto"
+K_USOS_COMUNS = u"Utente de usos comuns"

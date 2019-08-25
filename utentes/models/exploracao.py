@@ -62,6 +62,7 @@ class ExploracaoBase(Base):
     )
     exp_id = Column(Text, nullable=False, unique=True, doc="Número da exploração")
     exp_name = Column(Text, nullable=False, doc="Nome da exploração")
+    estado_lic = Column(Text, nullable=False, doc="Estado")
 
     actividade = relationship(
         "Actividade",
@@ -79,6 +80,7 @@ class ExploracaoBase(Base):
             "exp_name": self.exp_name,
             "exp_id": self.exp_id,
             "actividade": actividade,
+            "estado_lic": self.estado_lic,
         }
 
 
@@ -155,7 +157,6 @@ class Exploracao(ExploracaoBase):
         func.coalesce(func.ST_AsGeoJSON(func.ST_Transform(the_geom, 4326)), None)
     )
 
-    estado_lic = Column(Text, nullable=False, doc="Estado")
     created_at = Column(
         DateTime,
         nullable=False,

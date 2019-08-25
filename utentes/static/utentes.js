@@ -13,25 +13,47 @@ var formatValue = function(k, v, rowData) {
     } else if (k === "exploracaos") {
         v = v
             .map(function(e) {
-                return (
-                    '<a href="' +
-                    urlShow +
-                    e.gid +
-                    '" >' +
-                    e.exp_id +
-                    " " +
-                    e.exp_name +
-                    "</a>: " +
-                    e.actividade.tipo
-                );
+                var url = urlShow + e.gid;
+                var icon;
+                var color;
+                if (e.estado_lic === SIRHA.ESTADO.NOT_APPROVED) {
+                    icon = "fa-ban";
+                    color = "#d9534f";
+                }
+                if (e.estado_lic === SIRHA.ESTADO.USOS_COMUNS) {
+                    icon = "fa-water";
+                    color = "#1f78b4";
+                }
+                if (SIRHA.ESTADO.CATEGORY_IN_PROCESS.includes(e.estado_lic)) {
+                    icon = "fa-hourglass-half";
+                    color = "#787878";
+                }
+                if (e.estado_lic === SIRHA.ESTADO.LICENSED) {
+                    icon = "fa-tint";
+                    color = "#1f78b4";
+                }
+                if (e.estado_lic === SIRHA.ESTADO.IRREGULAR) {
+                    icon = "fa-tint";
+                    color = "#d9534f";
+                }
+                if (e.estado_lic === SIRHA.ESTADO.DE_FACTO) {
+                    icon = "fa-tint";
+                    color = "#d9984f";
+                }
+
+                return `
+                <i class="fas ${icon} fa-fw" style="color: ${color}; margin-right:10px;"></i>
+                <a href="${url}">${e.exp_id}&nbsp;${e.exp_name}</a>:&nbsp;
+                <small style="color: grey; font-size: 75%">(${e.actividade.tipo})</small>
+                `;
             })
             .join("<br>");
     } else if (k === "edit") {
         v =
-            '<i class="edit fa fa-pencil-square-o uilib-enability uilib-show-role-administrador uilib-show-role-tecnico uilib-show-role-juridico"></i>';
+            '<i class="edit fas fa-edit uilib-enability uilib-show-role-administrador uilib-show-role-tecnico uilib-show-role-juridico"></i>';
     } else if (k === "delete") {
         v =
-            '<i class="delete fa fa-trash uilib-enability uilib-show-role-administrador"></i>';
+            '<i class="delete fas fa-trash-alt uilib-enability uilib-show-role-administrador"></i>';
     } else if (k === "registo") {
         var com = rowData.get("reg_comerc"),
             zon = rowData.get("reg_zona");

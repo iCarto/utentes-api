@@ -22,7 +22,7 @@ class ActividadesTanquesPiscicolas(Base):
             "nextval('utentes.actividades_tanques_piscicolas_gid_seq'::regclass)"
         ),
     )
-    tanque_id = Column(Text, nullable=False, unique=True)
+    tanque_id = Column(Text, nullable=False, unique=True, doc="Id de Tanque")
     actividade = Column(
         ForeignKey(
             "utentes.actividades_piscicultura.gid",
