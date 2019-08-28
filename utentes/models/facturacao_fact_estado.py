@@ -2,8 +2,9 @@
 
 from sqlalchemy import Column, Integer, Text
 
+import utentes.models.constants as c
+
 from .base import PGSQL_SCHEMA_DOMAINS, DeclarativeBase
-from .estado import DE_FACTO, LICENSED
 
 
 PENDING_CONSUMPTION = u"Pendente Acrescentar Consumo (DT)"
@@ -18,7 +19,7 @@ class FacturacaoFactEstado(DeclarativeBase):
     __table_args__ = {"schema": PGSQL_SCHEMA_DOMAINS}
     __mapper_args__ = {"order_by": ["category", "ordering", "key"]}
 
-    ESTADOS_FACTURABLES = [LICENSED, DE_FACTO]
+    ESTADOS_FACTURABLES = [c.K_LICENSED, c.K_UTENTE_FACTO]
 
     category = Column(Text, nullable=False, primary_key=True)
     key = Column(Text, nullable=False, primary_key=True)
