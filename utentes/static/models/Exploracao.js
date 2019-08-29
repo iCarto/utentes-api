@@ -734,18 +734,7 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
     },
 
     validateFicha: function() {
-        var E = Backbone.SIXHIARA.Estado;
-        return (
-            [
-                E.IRREGULAR,
-                E.LICENSED,
-                E.PENDING_FIELD_VISIT,
-                E.PENDING_TECH_DECISION,
-                E.PENDING_EMIT_LICENSE,
-                E.PENDING_DIR_SIGN,
-                E.DE_FACTO,
-            ].indexOf(this.get("estado_lic")) !== -1
-        );
+        return SIRHA.ESTADO.CATEGORY_VALIDATE_FICHA.includes(this.get("estado_lic"));
     },
 
     getLicencia: function(tipo) {

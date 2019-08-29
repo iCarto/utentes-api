@@ -54,7 +54,7 @@
                     </a></li>
                     {% endif %}
                     {% if not is_single_user_mode() and request.has_permission('get_usage_common') %}
-                    <li><a href="{{request.route_url('exploracao-search')}}?em_processo">
+                    <li><a href="{{request.route_url('exploracao-search')}}?ambos_usos">
                         <strong>EXPLORAÇÕES</strong>
                     </a></li>
                     {% endif %}

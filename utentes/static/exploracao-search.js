@@ -92,22 +92,10 @@ var estadosFetched = function(estados) {
     });
 };
 
-var qparams = new URLSearchParams(document.location.search.substring(1));
-if (qparams.has("em_processo")) {
-    estados.fetch({
-        success: function() {
-            var estadosFiltered = estados.filter(function(model) {
-                return model.get("parent") !== "post-licenciada";
-            });
-            estados = new Backbone.SIXHIARA.EstadoCollection(estadosFiltered);
-            estadosFetched(estados);
-        },
-    });
-} else {
-    estados.fetch({
-        success: function() {
-            estados = estados.forSearchView();
-            estadosFetched(estados);
-        },
-    });
-}
+estados.fetch({
+    success: function() {
+        var qparams = new URLSearchParams(document.location.search.substring(1));
+        estados = estados.forPage(qparams);
+        estadosFetched(estados);
+    },
+});

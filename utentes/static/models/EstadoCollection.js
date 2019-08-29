@@ -3,11 +3,39 @@ Backbone.SIXHIARA.EstadoCollection = Backbone.UILib.DomainCollection.extend({
     url: "/api/domains/licencia_estado",
     model: Backbone.SIXHIARA.Estado,
 
-    forSearchView: function() {
+    forPage: function(qparams) {
+        if (qparams.has("em_processo")) {
+            return this._forEmProcesoPage();
+        } else if (qparams.has("ambos_usos")) {
+            return this._forExploracaosPage();
+        } else {
+            return this._forLicencasPage();
+        }
+    },
+
+    _forEmProcesoPage: function() {
+        var estadosFiltered = this.filter(function(e) {
+            return e.get("parent") !== "post-licenciada";
+        });
+        return new Backbone.SIXHIARA.EstadoCollection(estadosFiltered);
+    },
+
+    _forExploracaosPage: function() {
+        var estadosFiltered = this.filter(function(e) {
+            return e.get("parent") === "post-licenciada";
+        });
+        return new Backbone.SIXHIARA.EstadoCollection(estadosFiltered);
+    },
+
+    _forLicencasPage: function() {
         if (!window.SIRHA.is_single_user_mode()) {
-            return new Backbone.SIXHIARA.EstadoCollection(
-                this.where({parent: "post-licenciada"})
-            );
+            var estadosFiltered = this.filter(function(e) {
+                return (
+                    e.get("parent") === "post-licenciada" &&
+                    e.get("text") !== SIRHA.ESTADO.USOS_COMUNS
+                );
+            });
+            return new Backbone.SIXHIARA.EstadoCollection(estadosFiltered);
         } else {
             return new Backbone.SIXHIARA.EstadoCollection(this.models);
         }
