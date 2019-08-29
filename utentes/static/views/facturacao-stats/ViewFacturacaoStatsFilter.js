@@ -24,6 +24,13 @@ Backbone.SIXHIARA.ViewFacturacaoStatsFilter = Backbone.View.extend({
                     </select>
                 </div>
             </div>
+            <div class="col-xs-12">
+                <div>
+                    <label for="uso_explotación">Uso</label>
+                    <select class="form-control widget" id="uso_explotacion">
+                    </select>
+                </div>
+            </div>
         </div>
     `),
 
@@ -36,10 +43,20 @@ Backbone.SIXHIARA.ViewFacturacaoStatsFilter = Backbone.View.extend({
             model: this.model,
         });
 
-        this.domains = this.options.domains || new Backbone.UILib.DomainCollection();
-        this.domains.fetch({
-            success: () => this.updateTiposAgua(),
-        });
+        /* Take Care. Necesita Refactoring. Estamos usando una cadena vacía para representar el blanco
+        de este modo cuando se coge el valor $("#tipo_agua").val() devuelve
+        esa cadena vacía y el código que hace la petición a la API si está vacía
+        no le pasa ese query parameter. Con otras opciones puede que acabe enviando
+        un String("null") a la api.
+        */
+        this.domains = new Backbone.UILib.DomainCollection([
+            {category: "licencia_tipo_agua", text: ""},
+            {category: "licencia_tipo_agua", text: "Subterrânea"},
+            {category: "licencia_tipo_agua", text: "Superficial"},
+            {category: "uso_explotacion", text: ""},
+            {category: "uso_explotacion", text: "Usos privativos"},
+            {category: "uso_explotacion", text: "Usos comuns"},
+        ]);
     },
 
     updateTiposAgua: function() {
@@ -52,6 +69,19 @@ Backbone.SIXHIARA.ViewFacturacaoStatsFilter = Backbone.View.extend({
             );
             $(o).html(licenciaTipoAgua.get("text"));
             self.$el.find("#tipo_agua").append(o);
+        });
+    },
+
+    updateUsoExplotacion: function() {
+        var self = this;
+        var licenciasTipoAgua = this.domains.byCategory("uso_explotacion");
+        licenciasTipoAgua.each(function(licenciaTipoAgua) {
+            var o = new Option(
+                licenciaTipoAgua.get("text"),
+                licenciaTipoAgua.get("text")
+            );
+            $(o).html(licenciaTipoAgua.get("text"));
+            self.$el.find("#uso_explotacion").append(o);
         });
     },
 
@@ -82,6 +112,9 @@ Backbone.SIXHIARA.ViewFacturacaoStatsFilter = Backbone.View.extend({
         this.$("#tipo_agua").on("change", function() {
             self.model.set("tipo_agua", self.$("#tipo_agua").val());
         });
+        this.$("#uso_explotacion").on("change", function() {
+            self.model.set("uso_explotacion", self.$("#uso_explotacion").val());
+        });
         this.$("#utente").on("change", function() {
             self.model.set("utente", self.$("#utente").val());
         });
@@ -91,6 +124,8 @@ Backbone.SIXHIARA.ViewFacturacaoStatsFilter = Backbone.View.extend({
         this.removeListeners();
         this.$el.html(this.template);
         this.$el.find("#filter-dates-view").html(this.datesView.render().el);
+        this.updateTiposAgua();
+        this.updateUsoExplotacion();
         this.setListeners();
         return this;
     },

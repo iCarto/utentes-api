@@ -221,20 +221,120 @@ def facturacao_exploracao_update(request):
     renderer="json",
 )
 def facturacao_stats(request):
+    mes_inicio = request.params.get("mes_inicio", None)
+    ano_inicio = request.params.get("ano_inicio", None)
+    mes_fim = request.params.get("mes_fim", None)
+    ano_fim = request.params.get("ano_fim", None)
+    tipo_agua = request.params.get("tipo_agua")
+    uso_explotacion = request.params.get("uso_explotacion")
+    utentes = request.params.getall("utente")
+    json_data = []
+    if not uso_explotacion or uso_explotacion == "Usos privativos":
+        usos_privativos(
+            request,
+            mes_inicio,
+            ano_inicio,
+            mes_fim,
+            ano_fim,
+            tipo_agua,
+            uso_explotacion,
+            utentes,
+            json_data,
+        )
+    if not uso_explotacion or uso_explotacion == "Usos comuns":
+        usos_comuns(
+            request,
+            mes_inicio,
+            ano_inicio,
+            mes_fim,
+            ano_fim,
+            tipo_agua,
+            uso_explotacion,
+            utentes,
+            json_data,
+        )
+
+    return json_data
+
+
+def usos_comuns(
+    request,
+    mes_inicio,
+    ano_inicio,
+    mes_fim,
+    ano_fim,
+    tipo_agua,
+    uso_explotacion,
+    utentes,
+    json_data,
+):
+    # Los datos de estadísticas para las Utentes de usos comuns se generan
+    # al vuelo
+
+    if mes_inicio is not None and ano_inicio is not None:
+        d_inicio = datetime.date(int(ano_inicio), int(mes_inicio), 1)
+    else:
+        d_inicio = datetime.date.min
+    if mes_fim is not None and ano_fim is not None:
+        d_fim = datetime.date(int(ano_fim), int(mes_fim), 1)
+    else:
+        d_fim = datetime.date.today()
+
+    exps = request.db.query(Exploracao).filter(Exploracao.estado_lic == c.K_USOS_COMUNS)
+    for e in exps:
+        if utentes and str(e.utente_rel.gid) not in utentes:
+            continue
+        if tipo_agua and e.get_licencia(tipo_agua[0:3]).gid is None:
+            continue
+
+        d_exp = e.d_soli or e.created_at.date()
+        # Empiezo a contar en lo que sea mayor la fecha seleccionado por el
+        # usuario o la fecha de la explotación
+        new_d_inicio = max(d_inicio, d_exp)
+        if new_d_inicio > d_fim:
+            # Si la fecha para la que puedo empezar a contar es mayor que la
+            # que el usuario escogió como máximo no incluyo la exp
+            continue
+        months = (
+            (d_fim.year - new_d_inicio.year) * 12 + d_fim.month - new_d_inicio.month
+        )
+        json_data.append(
+            {
+                "gid": e.gid,
+                "exp_id": e.exp_id,
+                "utente_id": e.utente_rel.gid,
+                "utente": e.utente_rel.nome,
+                "numero_facturas_esperadas": months,
+                "consumo_facturas_esperadas": months * e.c_real,
+                "importe_facturas_esperadas": 0,
+                "numero_facturas_emitidas": 0,
+                "consumo_facturas_emitidas": 0,
+                "importe_facturas_emitidas": 0,
+                "numero_facturas_cobradas": 0,
+                "consumo_facturas_cobradas": 0,
+                "importe_facturas_cobradas": 0,
+            }
+        )
+
+
+def usos_privativos(
+    request,
+    mes_inicio,
+    ano_inicio,
+    mes_fim,
+    ano_fim,
+    tipo_agua,
+    uso_explotacion,
+    utentes,
+    json_data,
+):
+
     fields = [
         Facturacao.exploracao.label("exploracao_gid"),
         func.count(Facturacao.exploracao).label("numero_facturas"),
         func.sum(Facturacao.consumo).label("consumo"),
         func.sum(Facturacao.pago_iva).label("importe"),
     ]
-
-    mes_inicio = request.params.get("mes_inicio", None)
-    ano_inicio = request.params.get("ano_inicio", None)
-    mes_fim = request.params.get("mes_fim", None)
-    ano_fim = request.params.get("ano_fim", None)
-    tipo_agua = request.params.get("tipo_agua")
-    utentes = request.params.getall("utente")
-
     subquery_esperadas = request.db.query(*fields).group_by(Facturacao.exploracao)
 
     subquery_emitidas = (
@@ -353,7 +453,6 @@ def facturacao_stats(request):
         "consumo_facturas_cobradas",
         "importe_facturas_cobradas",
     ]
-    json_data = []
+
     for result in query.all():
         json_data.append(dict(zip(row_headers, result)))
-    return json_data
