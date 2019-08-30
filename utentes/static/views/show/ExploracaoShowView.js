@@ -10,40 +10,55 @@ Backbone.SIXHIARA.ExploracaoShowView = Backbone.View.extend({
         this.subViews = [];
     },
 
+    workaroundForEstadoCombo: function(domains) {
+        // TODO. Do not hide this here
+        /* En el modo no-escritorio, el combo de estado en la ficha de la licencia
+        sólo puede mostrar o bien el estado actual de la licencia, cuando todavía está
+        en proceso. O bien uno de los posibles estados post-lic "de facto", "irregular",
+        "licenciada"
+
+        Y si es de usos comuns sólo ese estado
+        */
+        if (!window.SIRHA.is_single_user_mode()) {
+            var actualState = domains.where({
+                text: this.model.get("estado_lic"),
+                category: "licencia_estado",
+            })[0];
+            var isUsosComuns = actualState.get("text") === SIRHA.ESTADO.USOS_COMUNS;
+            domains.forEach(function(d) {
+                if (d.get("category") === "licencia_estado") {
+                    if (isUsosComuns) {
+                        if (d.get("text") !== actualState.get("text")) {
+                            d.set("category", "ignore", {silent: true});
+                        }
+                    } else if (actualState.get("parent") === "post-licenciada") {
+                        if (
+                            d.get("parent") !== "post-licenciada" ||
+                            d.get("text") === SIRHA.ESTADO.USOS_COMUNS
+                        ) {
+                            d.set("category", "ignore", {silent: true});
+                        }
+                    } else {
+                        if (d.get("text") !== actualState.get("text")) {
+                            d.set("category", "ignore", {silent: true});
+                        }
+                    }
+                }
+            });
+        }
+    },
+
     render: function() {
-        var view = this;
+        var self = this;
+
         var exploracao = this.model;
 
         var domains = new Backbone.UILib.DomainCollection();
         domains.fetch({
             success: function(collection, response, options) {
-                // TODO. Do not hide this here
-                /* En el modo no-escritorio, el combo de estado en la ficha de la licencia
-                sólo puede mostrar o bien el estado actual de la licencia, cuando todavía está
-                en proceso. O bien uno de los posibles estados post-lic "de facto", "irregular",
-                "licenciada"
-                */
-                if (!window.SIRHA.is_single_user_mode()) {
-                    var actualState = domains.where({
-                        text: view.model.get("estado_lic"),
-                        category: "licencia_estado",
-                    })[0];
-                    domains.forEach(function(d) {
-                        if (d.get("category") === "licencia_estado") {
-                            if (actualState.get("parent") === "post-licenciada") {
-                                if (d.get("parent") !== "post-licenciada") {
-                                    d.set("category", "ignore", {silent: true});
-                                }
-                            } else {
-                                if (d.get("text") !== actualState.get("text")) {
-                                    d.set("category", "ignore", {silent: true});
-                                }
-                            }
-                        }
-                    });
-                }
+                self.workaroundForEstadoCombo(domains);
 
-                view.listenTo(exploracao, "aChangeHappens", function() {
+                self.listenTo(exploracao, "aChangeHappens", function() {
                     this.$("menu a")
                         .not(".dropdown-toggle")
                         .on("click", function(evt) {
@@ -73,25 +88,25 @@ Backbone.SIXHIARA.ExploracaoShowView = Backbone.View.extend({
                     el: $("#save-button"),
                     model: exploracao,
                 });
-                view.subViews.push(buttonSaveView);
+                self.subViews.push(buttonSaveView);
 
                 var buttonDeleteView = new Backbone.SIXHIARA.ButtonDeleteView({
                     el: $("#delete-button"),
                     model: exploracao,
                 });
-                view.subViews.push(buttonDeleteView);
+                self.subViews.push(buttonDeleteView);
 
                 var buttonRefreshView = new Backbone.SIXHIARA.ButtonRefreshView({
                     el: $("#refresh-button"),
                     model: exploracao,
                 });
-                view.subViews.push(buttonRefreshView);
+                self.subViews.push(buttonRefreshView);
 
                 var blockInfoLicenseView = new Backbone.SIXHIARA.BlockInfoLicenseView({
                     el: $("#license-info"),
                     model: exploracao,
                 });
-                view.subViews.push(blockInfoLicenseView);
+                self.subViews.push(blockInfoLicenseView);
             },
             error: function() {
                 // TODO: show message to user

@@ -94,8 +94,8 @@ var estadosFetched = function(estados) {
 
 estados.fetch({
     success: function() {
-        var qparams = new URLSearchParams(document.location.search.substring(1));
-        estados = estados.forPage(qparams);
+        var searchParams = new URLSearchParams(window.location.search);
+        estados = estados.forPage(searchParams);
         estadosFetched(estados);
     },
 });

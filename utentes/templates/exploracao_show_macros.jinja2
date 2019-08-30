@@ -1,0 +1,188 @@
+{% macro modal_footer() -%}
+<div class="modal-footer">
+  <div class="row">
+    <div class="col-xs-offset-1 col-xs-10">
+      <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+      <button type="button" class="btn btn-primary" id="okButton">Aceitar</button>
+    </div>
+  </div>
+</div>
+{%- endmacro %}
+
+
+{% macro modal_licencia_dpmaip() -%}
+<div class="col-xs-offset-2 col-xs-8">
+    <div class="row">
+        <div class="form-group col-xs-12">
+            <label for="c_licencia"><strong>Consumo licenciado <i class="units">(m<sup>3</sup>/mês)</i></strong></label>
+            <input type="text" class="form-control widget-number" id="c_licencia" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-xs-12">
+            <label for="c_soli_int">Consumo solicitado intermedio <i class="units">(m<sup>3</sup>/mês)</i></label>
+            <input type="text" class="form-control widget-number" id="c_soli_int" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
+        </div>
+    </div>
+</div>
+{%- endmacro %}
+
+
+{% macro modal_licencia_usos_comuns() -%}
+<!--
+<div class="row">
+  <div class="col-xs-offset-2 col-xs-8">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title"><strong>Dados gerais</strong></h3>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="form-group col-xs-12">
+            <label for="estado">Estado</label>
+            <select type="text" class="form-control widget" id="estado" disabled></select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+-->
+<div class="row">
+  <div class="col-xs-offset-2 col-xs-8">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title"><strong>Consumos</strong></h3>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="form-group col-xs-12">
+            <label for="c_real_int">Consumo real intermedio <i class="units">(m<sup>3</sup>/mês)</i></label>
+            <input type="text" class="form-control widget-number uilib-enability uilib-enable-role-administrador uilib-enable-role-tecnico" id="c_real_int" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-xs-12">
+            <label for="c_soli_int">Consumo solicitado intermedio <i class="units">(m<sup>3</sup>/mês)</i></label>
+            <input type="text" class="form-control widget-number uilib-enability uilib-enable-role-administrador uilib-enable-role-tecnico" id="c_soli_int" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{%- endmacro %}
+
+
+{% macro modal_licencia_general() -%}
+<div class="row">
+  <div class="col-xs-offset-1 col-xs-10">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title"><strong>Dados gerais</strong></h3>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+
+          <div class="form-group col-xs-4">
+            <label for="estado">Estado</label> <span id="info-estado-licencia" class="fa fa-question-circle" style="cursor: pointer;"></span>
+            <select type="text" class="form-control widget uilib-enability uilib-enable-role-administrador uilib-enable-role-juridico" id="estado" aria-describedby="info-estado-licencia"></select>
+          </div>
+          <div class="form-group col-xs-4">
+            <label for="estado">Tipo de licença</label>
+            <select type="text" class="form-control widget uilib-enability uilib-enable-role-administrador uilib-enable-role-juridico" id="tipo_lic"></select>
+          </div>
+          <div class="form-group col-xs-4">
+            <label for="n_licen_a">Nro de licença histórico</label>
+            <input type="text" class="form-control widget" id="n_licen_a" disabled>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-xs-4">
+            <label for="d_emissao">Data emissão</label>
+            <input type="text" class="form-control widget-date uilib-enability uilib-enable-role-administrador uilib-enable-role-juridico" id="d_emissao" placeholder="dd/mm/yyyy">
+          </div>
+          <div class="form-group col-xs-4">
+            <label for="d_validade">Data validade</label>
+            <input type="text" class="form-control widget-date uilib-enability uilib-enable-role-administrador uilib-enable-role-juridico" id="d_validade" placeholder="dd/mm/yyyy">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row panel-equal-height">
+  <div class="col-xs-offset-1 col-xs-6">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title"><strong>Pagamentos</strong></h3>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="form-group col-xs-6">
+            <label for="fact_tipo">Tipo de facturação</label>
+            <input type="text" id="fact_tipo" class="form-control" disabled>
+          </div>
+          <div class="form-group col-xs-6">
+            <label for="consumo_tipo">Tipo de consumo</label>
+            <select type="text" id="consumo_tipo" class="form-control widget uilib-enability uilib-enable-role-administrador uilib-enable-role-tecnico"></select>
+          </div>
+          <div class="form-group col-xs-6">
+            <label for="taxa_fixa">Taxa fixa <i class="units">(MT/mês)</i></label>
+            <input type="text" class="form-control widget-number uilib-enability uilib-enable-role-single" id="taxa_fixa" pattern="[0-9]{1,8}([,][0-9]{1,2})?" required>
+          </div>
+          <div class="form-group col-xs-6">
+            <label for="taxa_uso">Taxa de uso <i class="units">(MT/m<sup>3</sup>)</i></label>
+            <input type="text" class="form-control widget-number uilib-enability uilib-enable-role-single" id="taxa_uso" pattern="[0-9]{1,8}([,][0-9]{1,2})?" required>
+          </div>
+          <div class="form-group col-xs-6">
+            <label for="consumo_fact">Consumo facturado <i class="units">(m<sup>3</sup>/mês)</i></label>
+            <input type="text" id="consumo_fact" class="form-control widget-number uilib-enability uilib-enable-role-single" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
+          </div>
+          <div class="form-group col-xs-6">
+            <label for="pago_mes">Valor pago mês <i class="units">(MT/mês)</i></label>
+            <input type="text" class="form-control widget-number" id="pago_mes" pattern="[0-9]{1,8}([,][0-9]{1,2})?" disabled>
+          </div>
+          <div class="form-group col-xs-6">
+            <label for="iva">IVA <i class="units">(%)</i></label>
+            <input type="text" class="form-control widget-number uilib-enability uilib-enable-role-single" id="iva" pattern="[0-9]{1,8}([,][0-9]{1,2})?" required>
+          </div>
+          <div class="form-group col-xs-6">
+            <label for="pago_iva">Valor com IVA <i class="units">(MT/mês)</i></label>
+            <input type="text" class="form-control widget-number" id="pago_iva" pattern="[0-9]{1,8}([,][0-9]{1,2})?" disabled>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-4">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title"><strong>Consumos</strong></h3>
+      </div>
+      <div class="panel-body">
+
+        <div class="row">
+          <div class="form-group col-xs-12">
+            <label for="c_licencia"><strong>Consumo licenciado <i class="units">(m<sup>3</sup>/mês)</i></strong></label>
+            <input type="text" class="form-control widget-number uilib-enability uilib-enable-role-administrador uilib-enable-role-tecnico uilib-enable-role-juridico" id="c_licencia" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-xs-12">
+            <label for="c_real_int">Consumo real intermedio <i class="units">(m<sup>3</sup>/mês)</i></label>
+            <input type="text" class="form-control widget-number uilib-enability uilib-enable-role-administrador uilib-enable-role-tecnico" id="c_real_int" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-xs-12">
+            <label for="c_soli_int">Consumo solicitado intermedio <i class="units">(m<sup>3</sup>/mês)</i></label>
+            <input type="text" class="form-control widget-number uilib-enability uilib-enable-role-administrador uilib-enable-role-tecnico" id="c_soli_int" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{%- endmacro %}

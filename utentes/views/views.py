@@ -2,6 +2,7 @@
 
 from pyramid.view import view_config
 
+import utentes.models.constants as c
 from utentes.user_utils import (
     PERM_CREATE_EXPLORACAO,
     PERM_CREATE_REQUERIMENTO,
@@ -46,7 +47,21 @@ def exploracao_search(request):
     renderer="utentes:templates/exploracao-show.jinja2",
 )
 def exploracao_show(request):
-    return {}
+    gid = request.GET.get("id")
+    estado_lic = get_license_state(request, gid)
+    return {
+        "next_state": estado_lic,
+        "d_soli_label": u"Data de cadastramento"
+        if estado_lic == c.K_USOS_COMUNS
+        else u"Data de solicitação",
+    }
+
+
+def get_license_state(request, gid):
+    from utentes.models.exploracao import ExploracaoBase
+
+    q = request.db.query
+    return q(ExploracaoBase.estado_lic).filter_by(gid=gid).scalar()
 
 
 @view_config(

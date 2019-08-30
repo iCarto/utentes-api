@@ -3,10 +3,10 @@ Backbone.SIXHIARA.EstadoCollection = Backbone.UILib.DomainCollection.extend({
     url: "/api/domains/licencia_estado",
     model: Backbone.SIXHIARA.Estado,
 
-    forPage: function(qparams) {
-        if (qparams.has("em_processo")) {
+    forPage: function(searchParams) {
+        if (searchParams.has("em_processo")) {
             return this._forEmProcesoPage();
-        } else if (qparams.has("ambos_usos")) {
+        } else if (searchParams.has("ambos_usos")) {
             return this._forExploracaosPage();
         } else {
             return this._forLicencasPage();
