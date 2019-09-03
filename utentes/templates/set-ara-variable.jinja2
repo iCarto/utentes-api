@@ -1,5 +1,6 @@
 <script>
     SIRHA = {
+        Utils: {},
         _ARA: '{{ request.registry.settings['ara'] }}',
         getARA: function() { return this._ARA; },
         is_single_user_mode: function() { return ['ARAN', 'DPMAIP'].includes(this._ARA); },

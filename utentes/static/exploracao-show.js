@@ -11,19 +11,7 @@ $(document).ready(function() {
     });
 });
 
-function getIdFromSearchParams() {
-    var searchParams = new URLSearchParams(window.location.search);
-    var idParam = searchParams.get("id");
-    var id = parseInt(idParam);
-
-    // Check if the id is in the database?
-    if (String(id).length !== idParam.length) {
-        return NaN;
-    }
-    return id;
-}
-
-var id = getIdFromSearchParams();
+var id = SIRHA.Utils.getIdFromSearchParams();
 if (isNaN(id)) {
     window.location = Backbone.SIXHIARA.Config.urlSearch;
 }
