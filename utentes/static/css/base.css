@@ -47,6 +47,10 @@ menu a.active {
     color: #fff;
 }
 
+menu .dropdown-menu strong {
+    font-size: 75%;
+}
+
 thead th {
     text-align: center;
 }

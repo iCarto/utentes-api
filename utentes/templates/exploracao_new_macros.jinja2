@@ -1,0 +1,92 @@
+{% macro licencias(type, name) -%}
+
+<div class="col-xs-offset-1 col-xs-5">
+  <div class="panel panel-info panel-disabled" id="licencia-{{type}}">
+    <div class="panel-heading">
+      {% if request.registry.settings['ara'] != 'DPMAIP' and next_state != 'Utente de usos comuns' %}
+      <h3 class="panel-title"><strong>{{name.capitalize()}}</strong></h3>
+      {% else %}
+      <h3 class="panel-title"><strong><input type="checkbox"/> Fontes água {{name}}</strong></h3>
+      {% endif %}
+    </div>
+    <div class="panel-body">
+      <fieldset>
+        <input type="hidden" class="widget" id="tipo_agua">
+        <input type="hidden" class="widget" id="lic_nro">
+        <input type="hidden" id="next_state" value="{{next_state}}">
+        {% if request.registry.settings['ara'] != 'DPMAIP' and next_state != 'Utente de usos comuns' %}
+        <div class="form-group">
+          <label><input type="checkbox"/> Licença activa?</label>
+        </div>
+        {% if is_single_user_mode() %}
+        <div class="form-group">
+          <label for="estado" class="text-muted set-enability">Estado </label> <i class="help fa fa-question-circle" style="cursor: pointer;"></i>
+          <select class="form-control widget" id="estado" disabled>
+          </select>
+        </div>
+        {% endif %}
+        {% endif %}
+        <div class="form-group">
+          <label for="c_soli_int" class="text-muted set-enability">Consumo solicitado intermédio <i class="units">(m<sup>3</sup>/mês)</i></label>
+          <input type="text" class="form-control widget-number" id="c_soli_int" pattern="[0-9]{1,8}([,][0-9]{1,2})?" disabled>
+        </div>
+        <div class="form-group">
+          <button type="button" class="btn btn-default pull-right" id="fonte-{{type}}" disabled>
+          Nova fonte
+          </button>
+        </div>
+      </fieldset>
+    </div>
+  </div>
+</div>
+
+{%- endmacro %}
+
+{% macro modal_fontes(type, name, shortname) -%}
+
+<script type="text/template" id="fonte-{{type}}-modal">
+  <!-- modal fonte subterránea -->
+  <div class="modal fade" id="fonte{{shortname}}Modal" tabindex="-1" role="dialog" aria-labelledby="fonte{{shortname}}ModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Pechar"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="fonte{{shortname}}ModalLabel">Fonte {{name}}</h4>
+        </div>
+        <div class="modal-body">
+          <div class="container-fluid">
+            <div class="row">
+              <input type="hidden" id="tipo_agua" value="{{name.capitalize()}}" class="col-xs-12 widget"/>
+            </div>
+            <div class="row">
+              <div class="form-group col-xs-offset-1 col-xs-5">
+                <label for="tipo_fonte">Tipo de fonte</label>
+                <select class="form-control widget" id="tipo_fonte"></select>
+              </div>
+              <div class="form-group col-xs-5">
+                <label for="c_requerid">Consumo solicitado <i class="units">(m<sup>3</sup>/mês)</i></label>
+                <input type="text" class="form-control widget-number" id="c_soli" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-xs-offset-1 col-xs-10">
+                <label for="observacio">Observaçôes</label>
+                <textarea class="form-control widget" id="observacio" rows="4"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="row">
+            <div class="col-xs-offset-1 col-xs-10">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-primary" id="okButton">Aceitar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</script>
+
+{%- endmacro %}

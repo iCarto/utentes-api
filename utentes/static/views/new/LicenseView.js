@@ -36,21 +36,16 @@ Backbone.SIXHIARA.LicenseView = Backbone.UILib.BaseView.extend({
         });
 
         this.isDisabled = true;
-        var app = this;
-        this.domainsFilled = false;
-        this.options.domains.on("sync", function() {
-            app.domainsFilled = true;
-            app.estadosLicencia = app.options.domains
-                .byCategory("licencia_estado")
-                .byParent("precampo");
-            var estadosView = new Backbone.UILib.SelectView({
-                el: app.$("#estado"),
-                collection: app.estadosLicencia,
-            });
-            app.addView(estadosView);
-            app.render();
-            estadosView.$el.prop("disabled", app.isDisabled);
+        this.estadosLicencia = this.options.domains // NO NO NO
+            .byCategory("licencia_estado")
+            .byParent("precampo");
+        var estadosView = new Backbone.UILib.SelectView({
+            el: this.$("#estado"),
+            collection: this.estadosLicencia,
         });
+        this.addView(estadosView);
+        this.render();
+        estadosView.$el.prop("disabled", this.isDisabled);
     },
 
     clickActive: function(e) {
@@ -122,8 +117,6 @@ Backbone.SIXHIARA.LicenseView = Backbone.UILib.BaseView.extend({
     },
 
     renderModal: function(e) {
-        if (!this.domainsFilled) return;
-
         e.preventDefault();
 
         var modalView = new Backbone.UILib.ModalView({

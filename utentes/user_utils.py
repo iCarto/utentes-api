@@ -45,6 +45,8 @@ class RootFactory(object):
         (Allow, ROL_ADMIN, perm.PERM_NEW_INVOICE_CYCLE),
         (Allow, ROL_ADMIN, perm.PERM_GET_USAGE_COMMON),
         (Allow, ROL_ADMIN, perm.PERM_CREATE_USAGE_COMMON),
+        (Allow, ROL_ADMIN, perm.PERM_PAGE_ADICIONAR_UTENTE_FACTO),
+        (Allow, ROL_ADMIN, perm.PERM_PAGE_ADICIONAR_USOS_COMUNS),
         (Allow, ROL_ADMINISTRATIVO, perm.PERM_REQUERIMENTO),
         (Allow, ROL_ADMINISTRATIVO, perm.PERM_CREATE_REQUERIMENTO),
         (Allow, ROL_ADMINISTRATIVO, perm.PERM_UPDATE_REQUERIMENTO),
@@ -80,6 +82,8 @@ class RootFactory(object):
         (Allow, ROL_TECNICO, perm.PERM_EM_PROCESSO),
         (Allow, ROL_TECNICO, perm.PERM_GET_USAGE_COMMON),
         (Allow, ROL_TECNICO, perm.PERM_CREATE_USAGE_COMMON),
+        (Allow, ROL_TECNICO, perm.PERM_PAGE_ADICIONAR_UTENTE_FACTO),
+        (Allow, ROL_TECNICO, perm.PERM_PAGE_ADICIONAR_USOS_COMUNS),
         (Allow, ROL_JURIDICO, perm.PERM_UPDATE_EXPLORACAO),
         (Allow, ROL_JURIDICO, perm.PERM_REQUERIMENTO),
         (Allow, ROL_JURIDICO, perm.PERM_UTENTES),
@@ -98,6 +102,7 @@ class RootFactory(object):
         (Allow, ROL_UNIDAD_DELEGACION, perm.PERM_CREATE_DOCUMENTO),
         (Allow, ROL_UNIDAD_DELEGACION, perm.PERM_DELETE_DOCUMENTO),
         (Allow, ROL_UNIDAD_DELEGACION, perm.PERM_EM_PROCESSO),
+        (Allow, ROL_SINGLE, perm.PERM_PAGE_ADICIONAR_EXPLORACAO),
     ]
 
     def __init__(self, request):

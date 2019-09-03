@@ -8,7 +8,7 @@ Backbone.SIXHIARA.ViewTecnico1 = Backbone.SIXHIARA.View1.extend({
             <button id="file-modal" class="btn btn-default" role="button">Documentaçao</button>
         </div>
         <div class="btn-group uilib-enability uilib-hide-role-observador" role="group">
-            <a id="bt-adicionar" class="btn btn-default" role="button" href="/exploracao-new.html?id=<%- id %>">Adicionar</a>
+            <a id="bt-adicionar" class="btn btn-default" role="button" href="/adicionar_ficha?id=<%- id %>">Adicionar</a>
         </div>
         <div class="btn-group uilib-enability uilib-hide-role-observador" role="group">
             <a id="bt-geometria" class="btn btn-default" role="button" href="/exploracao-gps.html">Geometria</a>

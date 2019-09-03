@@ -4,6 +4,7 @@ from pyramid.view import view_config
 
 import utentes.constants.perms as perm
 import utentes.models.constants as c
+from utentes.services.exp_service import get_license_state
 
 
 @view_config(
@@ -12,15 +13,6 @@ import utentes.models.constants as c
     renderer="utentes:templates/exploracao-gps.jinja2",
 )
 def exploracao_gps(request):
-    return {}
-
-
-@view_config(
-    route_name="exploracao-new",
-    permission=PERM_CREATE_EXPLORACAO,
-    renderer="utentes:templates/exploracao-new.jinja2",
-)
-def exploracao_new(request):
     return {}
 
 

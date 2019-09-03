@@ -62,13 +62,27 @@
                         <strong>UTENTES</strong>
                     </a></li>
 
-                    {% if request.has_permission('update_cultivo_tanque') and request.has_permission('create_exploracao') %}
+                    {% if request.has_permission(perm.PERM_PAGE_ADICIONAR_USOS_COMUNS)
+                          or request.has_permission(perm.PERM_PAGE_ADICIONAR_UTENTE_FACTO)
+                          or request.has_permission(perm.PERM_PAGE_ADICIONAR_EXPLORACAO)
+                          or request.has_permission(perm.PERM_UPDATE_CULTIVO_TANQUE)
+                    %}
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                           aria-expanded="false"><strong>ADICIONAR <span class="caret"></span></strong></a>
                         <ul class="dropdown-menu">
-                          <li><a id="new" href="{{request.route_url('exploracao-new')}}"><strong>EXPLORAÇAO</strong></a></li>
-                          <li><a id="gps" href="{{request.route_url('exploracao-gps')}}"><strong>GEOMETRIA</strong></a></li>
+                          {% if request.has_permission(perm.PERM_PAGE_ADICIONAR_USOS_COMUNS) %}
+                          <li><a href="{{request.route_url('adicionar_usos_comuns')}}"><strong>UTENTE DE USOS COMUNS</strong></a></li>
+                          {% endif %}
+                          {% if request.has_permission(perm.PERM_PAGE_ADICIONAR_UTENTE_FACTO) %}
+                          <li><a href="{{request.route_url('adicionar_utente_facto')}}"><strong>UTENTE DE FACTO</strong></a></li>
+                          {% endif %}
+                          {% if request.has_permission(perm.PERM_PAGE_ADICIONAR_EXPLORACAO) %}
+                          <li><a href="{{request.route_url('adicionar_exploracao')}}"><strong>EXPLORAÇAO</strong></a></li>
+                          {% endif %}
+                          {% if request.has_permission(perm.PERM_UPDATE_CULTIVO_TANQUE) %}
+                          <li><a href="{{request.route_url('exploracao-gps')}}"><strong>GEOMETRIA</strong></a></li>
+                          {% endif %}
                         </ul>
                     </li>
                     {% endif %}
