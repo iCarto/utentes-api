@@ -1,22 +1,18 @@
 # -*- coding: utf-8 -*-
 
-import json
-
 from pyramid.response import FileResponse
 from pyramid.view import view_config
 from sqlalchemy import func
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 from sqlalchemy.sql import label
 
+import utentes.constants.perms as perm
 from utentes.api.error_msgs import error_msgs
 from utentes.models.base import badrequest_exception
 from utentes.models.documento import Documento
 from utentes.models.domain import Domain
 from utentes.models.exploracao import Exploracao
 from utentes.user_utils import (
-    PERM_CREATE_DOCUMENTO,
-    PERM_DELETE_DOCUMENTO,
-    PERM_GET,
     ROL_ADMIN,
     ROL_ADMINISTRATIVO,
     ROL_FINANCIERO,
@@ -29,7 +25,7 @@ from utentes.user_utils import (
 @view_config(
     route_name="api_exploracao_documentacao",
     request_method="GET",
-    permission=PERM_GET,
+    permission=perm.PERM_GET,
     renderer="json",
 )
 def exploracao_documentacao(request):
@@ -57,13 +53,15 @@ def exploracao_documentacao(request):
             ),
         }
     else:
-        raise badrequest_exception({"error": error_msgs["no_document"], "name": name})
+        raise badrequest_exception(
+            {"error": error_msgs["no_document"], "name": path_info}
+        )
 
 
 @view_config(
     route_name="api_exploracao_documentacao_path",
     request_method="GET",
-    permission=PERM_GET,
+    permission=perm.PERM_GET,
     renderer="json",
 )
 def exploracao_documentacao_path(request):
@@ -104,7 +102,7 @@ def get_folder_path(request, folder_id, folder_name, folder_level, subpath):
 @view_config(
     route_name="api_exploracao_documentacao_files",
     request_method="GET",
-    permission=PERM_GET,
+    permission=perm.PERM_GET,
     renderer="json",
 )
 def exploracao_documentacao_files(request):
@@ -298,7 +296,7 @@ def exploracao_get_unidade_files(request, exploracao_id, departamento, unidade):
 @view_config(
     route_name="api_exploracao_documentacao",
     request_method="POST",
-    permission=PERM_CREATE_DOCUMENTO,
+    permission=perm.PERM_CREATE_DOCUMENTO,
     renderer="json",
 )
 def documento_file_create(request):
@@ -352,7 +350,7 @@ def documento_file_upload(request, path_info):
 @view_config(
     route_name="api_exploracao_file",
     request_method="GET",
-    permission=PERM_GET,
+    permission=perm.PERM_GET,
     renderer="json",
 )
 def documento_file_read(request):
@@ -364,13 +362,15 @@ def documento_file_read(request):
         documento = find_documento(request, file_name, path_info)
         return FileResponse(documento.get_file_path())
     except (MultipleResultsFound, NoResultFound):
-        raise badrequest_exception({"error": error_msgs["no_document"], "name": name})
+        raise badrequest_exception(
+            {"error": error_msgs["no_document"], "name": path_info}
+        )
 
 
 @view_config(
     route_name="api_exploracao_file",
     request_method="DELETE",
-    permission=PERM_DELETE_DOCUMENTO,
+    permission=perm.PERM_DELETE_DOCUMENTO,
     renderer="json",
 )
 def documento_file_delete(request):
@@ -393,13 +393,15 @@ def documento_file_delete(request):
         request.db.delete(documento)
         request.db.commit()
     except (MultipleResultsFound, NoResultFound):
-        raise badrequest_exception({"error": error_msgs["no_document"], "name": name})
+        raise badrequest_exception(
+            {"error": error_msgs["no_document"], "name": path_info}
+        )
 
 
 @view_config(
     route_name="api_exploracao_documentacao_zip",
     request_method="GET",
-    permission=PERM_GET,
+    permission=perm.PERM_GET,
     renderer="json",
 )
 def exploracao_documentos_zip(request):

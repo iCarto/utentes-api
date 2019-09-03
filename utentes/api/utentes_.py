@@ -5,24 +5,27 @@ import logging
 from pyramid.view import view_config
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
+import utentes.constants.perms as perm
 from error_msgs import error_msgs
 from utentes.lib.schema_validator.validator import Validator
 from utentes.models.base import badrequest_exception
 from utentes.models.documento import delete_exploracao_documentos
 from utentes.models.utente import Utente
 from utentes.models.utente_schema import UTENTE_SCHEMA
-from utentes.user_utils import PERM_ADMIN, PERM_GET, PERM_UTENTES
 
 
 log = logging.getLogger(__name__)
 
 
 @view_config(
-    route_name="api_utentes", permission=PERM_GET, request_method="GET", renderer="json"
+    route_name="api_utentes",
+    permission=perm.PERM_GET,
+    request_method="GET",
+    renderer="json",
 )
 @view_config(
     route_name="api_utentes_id",
-    permission=PERM_GET,
+    permission=perm.PERM_GET,
     request_method="GET",
     renderer="json",
 )
@@ -42,7 +45,7 @@ def utentes_get(request):
 
 @view_config(
     route_name="api_utentes_id",
-    permission=PERM_ADMIN,
+    permission=perm.PERM_ADMIN,
     request_method="DELETE",
     renderer="json",
 )
@@ -63,7 +66,7 @@ def utentes_delete(request):
 
 @view_config(
     route_name="api_utentes_id",
-    permission=PERM_UTENTES,
+    permission=perm.PERM_UTENTES,
     request_method="PUT",
     renderer="json",
 )
@@ -92,7 +95,7 @@ def utentes_update(request):
 
 @view_config(
     route_name="api_utentes",
-    permission=PERM_UTENTES,
+    permission=perm.PERM_UTENTES,
     request_method="POST",
     renderer="json",
 )
@@ -113,9 +116,8 @@ def utentes_create(request):
         raise badrequest_exception({"error": "nome es um campo obligatorio"})
 
     e = request.db.query(Utente).filter(Utente.nome == nome).all()
-    print(e)
+
     if e:
-        print("excepcion")
         raise badrequest_exception({"error": error_msgs["utente_already_exists"]})
 
     u = Utente.create_from_json(body)

@@ -1,21 +1,16 @@
 # -*- coding: utf-8 -*-
 
-import datetime
 import logging
 
 from pyramid.view import view_config
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
+import utentes.constants.perms as perm
 from utentes.api.error_msgs import error_msgs
 from utentes.models.ara import Ara
 from utentes.models.base import badrequest_exception
 from utentes.models.exploracao import Exploracao
 from utentes.services.id_service import calculate_new_exp_id
-from utentes.user_utils import (
-    PERM_CREATE_REQUERIMENTO,
-    PERM_GET,
-    PERM_UPDATE_REQUERIMENTO,
-)
 
 
 log = logging.getLogger(__name__)
@@ -23,13 +18,13 @@ log = logging.getLogger(__name__)
 
 @view_config(
     route_name="api_requerimento",
-    permission=PERM_GET,
+    permission=perm.PERM_GET,
     request_method="GET",
     renderer="json",
 )
 @view_config(
     route_name="api_requerimento_id",
-    permission=PERM_GET,
+    permission=perm.PERM_GET,
     request_method="GET",
     renderer="json",
 )
@@ -60,13 +55,13 @@ def requerimento_get(request):
 
 @view_config(
     route_name="api_requerimento_id",
-    permission=PERM_UPDATE_REQUERIMENTO,
+    permission=perm.PERM_UPDATE_REQUERIMENTO,
     request_method="PATCH",
     renderer="json",
 )
 @view_config(
     route_name="api_requerimento_id",
-    permission=PERM_UPDATE_REQUERIMENTO,
+    permission=perm.PERM_UPDATE_REQUERIMENTO,
     request_method="PUT",
     renderer="json",
 )
@@ -82,7 +77,7 @@ def requerimento_update(request):
 
 @view_config(
     route_name="api_requerimento",
-    permission=PERM_CREATE_REQUERIMENTO,
+    permission=perm.PERM_CREATE_REQUERIMENTO,
     request_method="POST",
     renderer="json",
 )
@@ -106,7 +101,7 @@ def requerimento_create(request):
 
 @view_config(
     route_name="api_requerimento_get_datos_ara",
-    permission=PERM_GET,
+    permission=perm.PERM_GET,
     request_method="GET",
     renderer="json",
 )

@@ -15,6 +15,7 @@ from sqlalchemy import engine_from_config
 from sqlalchemy.orm import sessionmaker
 from webassets.filter import register_filter
 
+import utentes.constants.perms as perm
 from utentes.dbutils.scripts.utils import home_directory
 from utentes.lib import webassets_filters
 
@@ -88,6 +89,7 @@ def main(global_config, **settings):
     jinja2_env = config.get_jinja2_environment()
     jinja2_env.assets_environment = assets_env
     jinja2_env.globals["is_single_user_mode"] = is_single_user_mode
+    jinja2_env.globals["perm"] = perm
 
     config.add_static_view("static", "static", cache_max_age=3600)
 

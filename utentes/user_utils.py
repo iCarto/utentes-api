@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from pyramid.security import Allow, Authenticated, authenticated_userid
+from pyramid.security import Allow, Authenticated, Deny, authenticated_userid
 from pyramid.threadlocal import get_current_registry
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
@@ -16,101 +16,88 @@ from users.user_roles import (
     ROL_UNIDAD_DELEGACION,
     SINGLE_USER,
 )
+from utentes.constants import perms as perm
 from utentes.models.user import User
 
-
-PERM_ADMIN = "admin"
-PERM_UTENTES = "create_update_utente"
-PERM_UPDATE_CULTIVO_TANQUE = "update_cultivo_tanque"
-PERM_GET = "get"
-PERM_UPDATE_EXPLORACAO = "update_exploracao"
-PERM_CREATE_EXPLORACAO = "create_exploracao"
-PERM_FACTURACAO = "get_facturacao"
-PERM_RENOVACAO = "get_renovacao"
-PERM_REQUERIMENTO = "get_requerimento"
-PERM_EM_PROCESSO = "get_em_processo"
-PERM_CREATE_REQUERIMENTO = "create_requerimento"
-PERM_CREATE_DOCUMENTO = "create_documento"
-PERM_UPDATE_CREATE_FACTURACAO = "update_facturacao"
-PERM_UPDATE_REQUERIMENTO = "update_requerimento"
-PERM_UPDATE_RENOVACAO = "update_renovacao"
-PERM_DELETE_DOCUMENTO = "delete_documento"
-PERM_NEW_INVOICE_CYCLE = "PERM_NEW_INVOICE_CYCLE"
-PERM_GET_USAGE_COMMON = "get_usage_common"
 
 # GESTIONAR UNIQUE USER
 class RootFactory(object):
     __acl__ = [
-        (Allow, Authenticated, PERM_GET),
-        (Allow, ROL_ADMIN, PERM_ADMIN),
-        (Allow, ROL_ADMIN, PERM_UTENTES),
-        (Allow, ROL_ADMIN, PERM_CREATE_EXPLORACAO),
-        (Allow, ROL_ADMIN, PERM_UPDATE_EXPLORACAO),
-        (Allow, ROL_ADMIN, PERM_FACTURACAO),
-        (Allow, ROL_ADMIN, PERM_UPDATE_CREATE_FACTURACAO),
-        (Allow, ROL_ADMIN, PERM_UPDATE_CULTIVO_TANQUE),
-        (Allow, ROL_ADMIN, PERM_REQUERIMENTO),
-        (Allow, ROL_ADMIN, PERM_CREATE_REQUERIMENTO),
-        (Allow, ROL_ADMIN, PERM_UPDATE_REQUERIMENTO),
-        (Allow, ROL_ADMIN, PERM_CREATE_DOCUMENTO),
-        (Allow, ROL_ADMIN, PERM_DELETE_DOCUMENTO),
-        (Allow, ROL_ADMIN, PERM_RENOVACAO),
-        (Allow, ROL_ADMIN, PERM_UPDATE_RENOVACAO),
-        (Allow, ROL_ADMIN, PERM_EM_PROCESSO),
-        (Allow, ROL_ADMIN, PERM_NEW_INVOICE_CYCLE),
-        (Allow, ROL_ADMIN, PERM_GET_USAGE_COMMON),
-        (Allow, ROL_ADMINISTRATIVO, PERM_REQUERIMENTO),
-        (Allow, ROL_ADMINISTRATIVO, PERM_CREATE_REQUERIMENTO),
-        (Allow, ROL_ADMINISTRATIVO, PERM_UPDATE_REQUERIMENTO),
-        (Allow, ROL_ADMINISTRATIVO, PERM_CREATE_EXPLORACAO),
-        (Allow, ROL_ADMINISTRATIVO, PERM_UPDATE_EXPLORACAO),
-        (Allow, ROL_ADMINISTRATIVO, PERM_CREATE_DOCUMENTO),
-        (Allow, ROL_ADMINISTRATIVO, PERM_DELETE_DOCUMENTO),
-        (Allow, ROL_ADMINISTRATIVO, PERM_RENOVACAO),
-        (Allow, ROL_ADMINISTRATIVO, PERM_UPDATE_RENOVACAO),
-        (Allow, ROL_ADMINISTRATIVO, PERM_EM_PROCESSO),
-        (Allow, ROL_FINANCIERO, PERM_FACTURACAO),
-        (Allow, ROL_FINANCIERO, PERM_UPDATE_CREATE_FACTURACAO),
-        (Allow, ROL_FINANCIERO, PERM_CREATE_DOCUMENTO),
-        (Allow, ROL_FINANCIERO, PERM_DELETE_DOCUMENTO),
-        (Allow, ROL_FINANCIERO, PERM_EM_PROCESSO),
-        (Allow, ROL_DIRECCION, PERM_REQUERIMENTO),
-        (Allow, ROL_DIRECCION, PERM_UPDATE_REQUERIMENTO),
-        (Allow, ROL_DIRECCION, PERM_RENOVACAO),
-        (Allow, ROL_DIRECCION, PERM_UPDATE_RENOVACAO),
-        (Allow, ROL_DIRECCION, PERM_EM_PROCESSO),
-        (Allow, ROL_TECNICO, PERM_UTENTES),
-        (Allow, ROL_TECNICO, PERM_CREATE_EXPLORACAO),
-        (Allow, ROL_TECNICO, PERM_UPDATE_EXPLORACAO),
-        (Allow, ROL_TECNICO, PERM_FACTURACAO),
-        (Allow, ROL_TECNICO, PERM_UPDATE_CREATE_FACTURACAO),
-        (Allow, ROL_TECNICO, PERM_UPDATE_CULTIVO_TANQUE),
-        (Allow, ROL_TECNICO, PERM_REQUERIMENTO),
-        (Allow, ROL_TECNICO, PERM_UPDATE_REQUERIMENTO),
-        (Allow, ROL_TECNICO, PERM_CREATE_DOCUMENTO),
-        (Allow, ROL_TECNICO, PERM_DELETE_DOCUMENTO),
-        (Allow, ROL_TECNICO, PERM_RENOVACAO),
-        (Allow, ROL_TECNICO, PERM_UPDATE_RENOVACAO),
-        (Allow, ROL_TECNICO, PERM_EM_PROCESSO),
-        (Allow, ROL_TECNICO, PERM_GET_USAGE_COMMON),
-        (Allow, ROL_JURIDICO, PERM_UPDATE_EXPLORACAO),
-        (Allow, ROL_JURIDICO, PERM_REQUERIMENTO),
-        (Allow, ROL_JURIDICO, PERM_UTENTES),
-        (Allow, ROL_JURIDICO, PERM_UPDATE_REQUERIMENTO),
-        (Allow, ROL_JURIDICO, PERM_CREATE_DOCUMENTO),
-        (Allow, ROL_JURIDICO, PERM_DELETE_DOCUMENTO),
-        (Allow, ROL_JURIDICO, PERM_RENOVACAO),
-        (Allow, ROL_JURIDICO, PERM_UPDATE_RENOVACAO),
-        (Allow, ROL_JURIDICO, PERM_EM_PROCESSO),
-        (Allow, ROL_OBSERVADOR, PERM_FACTURACAO),
-        (Allow, ROL_OBSERVADOR, PERM_REQUERIMENTO),
-        (Allow, ROL_OBSERVADOR, PERM_RENOVACAO),
-        (Allow, ROL_UNIDAD_DELEGACION, PERM_FACTURACAO),
-        (Allow, ROL_UNIDAD_DELEGACION, PERM_REQUERIMENTO),
-        (Allow, ROL_UNIDAD_DELEGACION, PERM_RENOVACAO),
-        (Allow, ROL_UNIDAD_DELEGACION, PERM_CREATE_DOCUMENTO),
-        (Allow, ROL_UNIDAD_DELEGACION, PERM_DELETE_DOCUMENTO),
-        (Allow, ROL_UNIDAD_DELEGACION, PERM_EM_PROCESSO),
+        (Deny, ROL_SINGLE, perm.PERM_PAGE_ADICIONAR_USOS_COMUNS),
+        (Deny, ROL_SINGLE, perm.PERM_PAGE_ADICIONAR_UTENTE_FACTO),
+        (Deny, ROL_SINGLE, perm.PERM_FACTURACAO),
+        (Allow, Authenticated, perm.PERM_GET),
+        (Allow, ROL_ADMIN, perm.PERM_ADMIN),
+        (Allow, ROL_ADMIN, perm.PERM_UTENTES),
+        (Allow, ROL_ADMIN, perm.PERM_CREATE_EXPLORACAO),
+        (Allow, ROL_ADMIN, perm.PERM_UPDATE_EXPLORACAO),
+        (Allow, ROL_ADMIN, perm.PERM_FACTURACAO),
+        (Allow, ROL_ADMIN, perm.PERM_UPDATE_CREATE_FACTURACAO),
+        (Allow, ROL_ADMIN, perm.PERM_UPDATE_CULTIVO_TANQUE),
+        (Allow, ROL_ADMIN, perm.PERM_REQUERIMENTO),
+        (Allow, ROL_ADMIN, perm.PERM_CREATE_REQUERIMENTO),
+        (Allow, ROL_ADMIN, perm.PERM_UPDATE_REQUERIMENTO),
+        (Allow, ROL_ADMIN, perm.PERM_CREATE_DOCUMENTO),
+        (Allow, ROL_ADMIN, perm.PERM_DELETE_DOCUMENTO),
+        (Allow, ROL_ADMIN, perm.PERM_RENOVACAO),
+        (Allow, ROL_ADMIN, perm.PERM_UPDATE_RENOVACAO),
+        (Allow, ROL_ADMIN, perm.PERM_EM_PROCESSO),
+        (Allow, ROL_ADMIN, perm.PERM_NEW_INVOICE_CYCLE),
+        (Allow, ROL_ADMIN, perm.PERM_GET_USAGE_COMMON),
+        (Allow, ROL_ADMIN, perm.PERM_CREATE_USAGE_COMMON),
+        (Allow, ROL_ADMINISTRATIVO, perm.PERM_REQUERIMENTO),
+        (Allow, ROL_ADMINISTRATIVO, perm.PERM_CREATE_REQUERIMENTO),
+        (Allow, ROL_ADMINISTRATIVO, perm.PERM_UPDATE_REQUERIMENTO),
+        (Allow, ROL_ADMINISTRATIVO, perm.PERM_CREATE_EXPLORACAO),
+        (Allow, ROL_ADMINISTRATIVO, perm.PERM_UPDATE_EXPLORACAO),
+        (Allow, ROL_ADMINISTRATIVO, perm.PERM_CREATE_DOCUMENTO),
+        (Allow, ROL_ADMINISTRATIVO, perm.PERM_DELETE_DOCUMENTO),
+        (Allow, ROL_ADMINISTRATIVO, perm.PERM_RENOVACAO),
+        (Allow, ROL_ADMINISTRATIVO, perm.PERM_UPDATE_RENOVACAO),
+        (Allow, ROL_ADMINISTRATIVO, perm.PERM_EM_PROCESSO),
+        (Allow, ROL_FINANCIERO, perm.PERM_FACTURACAO),
+        (Allow, ROL_FINANCIERO, perm.PERM_UPDATE_CREATE_FACTURACAO),
+        (Allow, ROL_FINANCIERO, perm.PERM_CREATE_DOCUMENTO),
+        (Allow, ROL_FINANCIERO, perm.PERM_DELETE_DOCUMENTO),
+        (Allow, ROL_FINANCIERO, perm.PERM_EM_PROCESSO),
+        (Allow, ROL_DIRECCION, perm.PERM_REQUERIMENTO),
+        (Allow, ROL_DIRECCION, perm.PERM_UPDATE_REQUERIMENTO),
+        (Allow, ROL_DIRECCION, perm.PERM_RENOVACAO),
+        (Allow, ROL_DIRECCION, perm.PERM_UPDATE_RENOVACAO),
+        (Allow, ROL_DIRECCION, perm.PERM_EM_PROCESSO),
+        (Allow, ROL_TECNICO, perm.PERM_UTENTES),
+        (Allow, ROL_TECNICO, perm.PERM_CREATE_EXPLORACAO),
+        (Allow, ROL_TECNICO, perm.PERM_UPDATE_EXPLORACAO),
+        (Allow, ROL_TECNICO, perm.PERM_FACTURACAO),
+        (Allow, ROL_TECNICO, perm.PERM_UPDATE_CREATE_FACTURACAO),
+        (Allow, ROL_TECNICO, perm.PERM_UPDATE_CULTIVO_TANQUE),
+        (Allow, ROL_TECNICO, perm.PERM_REQUERIMENTO),
+        (Allow, ROL_TECNICO, perm.PERM_UPDATE_REQUERIMENTO),
+        (Allow, ROL_TECNICO, perm.PERM_CREATE_DOCUMENTO),
+        (Allow, ROL_TECNICO, perm.PERM_DELETE_DOCUMENTO),
+        (Allow, ROL_TECNICO, perm.PERM_RENOVACAO),
+        (Allow, ROL_TECNICO, perm.PERM_UPDATE_RENOVACAO),
+        (Allow, ROL_TECNICO, perm.PERM_EM_PROCESSO),
+        (Allow, ROL_TECNICO, perm.PERM_GET_USAGE_COMMON),
+        (Allow, ROL_TECNICO, perm.PERM_CREATE_USAGE_COMMON),
+        (Allow, ROL_JURIDICO, perm.PERM_UPDATE_EXPLORACAO),
+        (Allow, ROL_JURIDICO, perm.PERM_REQUERIMENTO),
+        (Allow, ROL_JURIDICO, perm.PERM_UTENTES),
+        (Allow, ROL_JURIDICO, perm.PERM_UPDATE_REQUERIMENTO),
+        (Allow, ROL_JURIDICO, perm.PERM_CREATE_DOCUMENTO),
+        (Allow, ROL_JURIDICO, perm.PERM_DELETE_DOCUMENTO),
+        (Allow, ROL_JURIDICO, perm.PERM_RENOVACAO),
+        (Allow, ROL_JURIDICO, perm.PERM_UPDATE_RENOVACAO),
+        (Allow, ROL_JURIDICO, perm.PERM_EM_PROCESSO),
+        (Allow, ROL_OBSERVADOR, perm.PERM_FACTURACAO),
+        (Allow, ROL_OBSERVADOR, perm.PERM_REQUERIMENTO),
+        (Allow, ROL_OBSERVADOR, perm.PERM_RENOVACAO),
+        (Allow, ROL_UNIDAD_DELEGACION, perm.PERM_FACTURACAO),
+        (Allow, ROL_UNIDAD_DELEGACION, perm.PERM_REQUERIMENTO),
+        (Allow, ROL_UNIDAD_DELEGACION, perm.PERM_RENOVACAO),
+        (Allow, ROL_UNIDAD_DELEGACION, perm.PERM_CREATE_DOCUMENTO),
+        (Allow, ROL_UNIDAD_DELEGACION, perm.PERM_DELETE_DOCUMENTO),
+        (Allow, ROL_UNIDAD_DELEGACION, perm.PERM_EM_PROCESSO),
     ]
 
     def __init__(self, request):

@@ -5,10 +5,10 @@ import logging
 
 from pyramid.view import view_config
 
+import utentes.constants.perms as perm
 from error_msgs import error_msgs
 from utentes.models.base import badrequest_exception
 from utentes.models.inventario_fonte import InventarioFonte
-from utentes.user_utils import PERM_ADMIN, PERM_GET
 
 
 log = logging.getLogger(__name__)
@@ -16,7 +16,7 @@ log = logging.getLogger(__name__)
 
 @view_config(
     route_name="api_base_fountains",
-    permission=PERM_ADMIN,
+    permission=perm.PERM_ADMIN,
     request_method="POST",
     renderer="json",
 )
@@ -51,7 +51,7 @@ def base_fountains_post(request):
 
 @view_config(
     route_name="api_base_fountains",
-    permission=PERM_GET,
+    permission=perm.PERM_GET,
     request_method="GET",
     renderer="json",
 )

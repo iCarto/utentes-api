@@ -5,6 +5,7 @@ import logging
 from pyramid.view import view_config
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
+import utentes.constants.perms as perm
 from utentes.api.error_msgs import error_msgs
 from utentes.lib.schema_validator.validation_exception import ValidationException
 from utentes.lib.schema_validator.validator import Validator
@@ -20,12 +21,6 @@ from utentes.models.licencia import Licencia
 from utentes.models.licencia_schema import LICENCIA_SCHEMA
 from utentes.models.utente import Utente
 from utentes.models.utente_schema import UTENTE_SCHEMA
-from utentes.user_utils import (
-    PERM_ADMIN,
-    PERM_CREATE_EXPLORACAO,
-    PERM_GET,
-    PERM_UPDATE_EXPLORACAO,
-)
 
 
 log = logging.getLogger(__name__)
@@ -33,13 +28,13 @@ log = logging.getLogger(__name__)
 
 @view_config(
     route_name="api_exploracaos",
-    permission=PERM_GET,
+    permission=perm.PERM_GET,
     request_method="GET",
     renderer="json",
 )
 @view_config(
     route_name="api_exploracaos_id",
-    permission=PERM_GET,
+    permission=perm.PERM_GET,
     request_method="GET",
     renderer="json",
 )
@@ -71,7 +66,7 @@ def exploracaos_get(request):
 
 @view_config(
     route_name="api_exploracaos_id",
-    permission=PERM_ADMIN,
+    permission=perm.PERM_ADMIN,
     request_method="DELETE",
     renderer="json",
 )
@@ -106,7 +101,7 @@ def upsert_utente(request, body):
 
 @view_config(
     route_name="api_exploracaos_id",
-    permission=PERM_UPDATE_EXPLORACAO,
+    permission=perm.PERM_UPDATE_EXPLORACAO,
     request_method="PUT",
     renderer="json",
 )
@@ -164,7 +159,7 @@ def _tipo_actividade_changes(e, json):
 
 @view_config(
     route_name="api_exploracaos",
-    permission=PERM_CREATE_EXPLORACAO,
+    permission=perm.PERM_CREATE_EXPLORACAO,
     request_method="POST",
     renderer="json",
 )

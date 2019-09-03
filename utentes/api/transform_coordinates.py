@@ -1,18 +1,14 @@
 # -*- coding: utf-8 -*-
 
-import json
-
 from pyramid.view import view_config
 
-from utentes.api.error_msgs import error_msgs
-from utentes.models.base import badrequest_exception
-from utentes.user_utils import PERM_GET
+import utentes.constants.perms as perm
 
 
 @view_config(
     route_name="api_transform_coordinates",
     request_method="GET",
-    permission=PERM_GET,
+    permission=perm.PERM_GET,
     renderer="json",
 )
 def transform(request):

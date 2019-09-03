@@ -2,12 +2,15 @@
 
 from pyramid.view import view_config
 
+import utentes.constants.perms as perm
 from utentes.models.domain import Domain
-from utentes.user_utils import PERM_GET
 
 
 @view_config(
-    route_name="api_domains", permission=PERM_GET, request_method="GET", renderer="json"
+    route_name="api_domains",
+    permission=perm.PERM_GET,
+    request_method="GET",
+    renderer="json",
 )
 def domains_get(request):
     domains = (

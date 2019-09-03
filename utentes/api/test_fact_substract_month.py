@@ -1,18 +1,10 @@
 # -*- coding: utf-8 -*-
 
-import datetime
 import logging
 
 from pyramid.view import view_config
 
-from utentes.models.exploracao import Exploracao
-from utentes.models.facturacao import Facturacao
-from utentes.models.facturacao_fact_estado import (
-    PENDING_CONSUMPTION,
-    PENDING_INVOICE,
-    FacturacaoFactEstado,
-)
-from utentes.user_utils import PERM_NEW_INVOICE_CYCLE
+import utentes.constants.perms as perm
 
 
 log = logging.getLogger(__name__)
@@ -30,7 +22,7 @@ def nuevo_ciclo_facturacion(request):
     request_token = request.GET.get("token_new_fact_cycle")
     settings_token = request.registry.settings["token_new_fact_cycle"]
     authorized_by_token = request_token == settings_token
-    authorized_by_perm = request.has_permission(PERM_NEW_INVOICE_CYCLE)
+    authorized_by_perm = request.has_permission(perm.PERM_NEW_INVOICE_CYCLE)
     authorized = authorized_by_token or authorized_by_perm
 
     if not authorized:

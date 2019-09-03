@@ -5,6 +5,7 @@ import logging
 from pyramid.view import view_config
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
+import utentes.constants.perms as perm
 from error_msgs import error_msgs
 from utentes.lib.schema_validator.validator import Validator
 from utentes.models.actividade import Actividade
@@ -12,7 +13,6 @@ from utentes.models.actividades_schema import ActividadeSchema
 from utentes.models.base import badrequest_exception
 from utentes.models.cultivo import ActividadesCultivos
 from utentes.models.exploracao import Exploracao
-from utentes.user_utils import PERM_GET, PERM_UPDATE_CULTIVO_TANQUE
 
 
 log = logging.getLogger(__name__)
@@ -20,13 +20,13 @@ log = logging.getLogger(__name__)
 
 @view_config(
     route_name="api_cultivos",
-    permission=PERM_GET,
+    permission=perm.PERM_GET,
     request_method="GET",
     renderer="json",
 )
 @view_config(
     route_name="api_cultivos_id",
-    permission=PERM_GET,
+    permission=perm.PERM_GET,
     request_method="GET",
     renderer="json",
 )
@@ -53,7 +53,7 @@ def cultivos_get(request):
 
 @view_config(
     route_name="api_cultivos_id",
-    permission=PERM_UPDATE_CULTIVO_TANQUE,
+    permission=perm.PERM_UPDATE_CULTIVO_TANQUE,
     request_method="PUT",
     renderer="json",
 )

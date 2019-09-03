@@ -6,9 +6,9 @@ from pyramid.view import view_config
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
 import error_msgs
+import utentes.constants.perms as perm
 from utentes.models.base import badrequest_exception
 from utentes.models.setting import Setting
-from utentes.user_utils import PERM_ADMIN, PERM_GET
 
 
 logger = logging.getLogger(__name__)
@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 @view_config(
     route_name="api_settings",
-    permission=PERM_GET,
+    permission=perm.PERM_GET,
     request_method="GET",
     renderer="json",
 )
@@ -26,22 +26,22 @@ def settings_get(request):
 
 @view_config(
     route_name="api_settings_property",
-    permission=PERM_ADMIN,
+    permission=perm.PERM_ADMIN,
     request_method="PUT",
     renderer="json",
 )
 def settings_update(request):
-    property = request.matchdict["property"]
-    if not property:
+    prop = request.matchdict["property"]
+    if not prop:
         raise badrequest_exception({"error": error_msgs["gid_obligatory"]})
 
     try:
-        setting = request.db.query(Setting).filter(Setting.property == property).one()
-        setting.update_from_json(request.json_body, property)
+        setting = request.db.query(Setting).filter(Setting.property == prop).one()
+        setting.update_from_json(request.json_body, prop)
         request.db.add(setting)
         request.db.commit()
     except (MultipleResultsFound, NoResultFound):
-        raise badrequest_exception({"error": error_msgs["no_gid"], "gid": property})
+        raise badrequest_exception({"error": error_msgs["no_gid"], "gid": prop})
     except ValueError as ve:
         logger.exception(ve)
         raise badrequest_exception({"error": error_msgs["body_not_valid"]})

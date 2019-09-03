@@ -2,9 +2,9 @@ import logging
 
 from pyramid.view import view_config
 
+import utentes.constants.perms as perm
 from utentes.models.exploracao import Exploracao
 from utentes.services.id_service import calculate_new_exp_id
-from utentes.user_utils import PERM_GET
 
 
 log = logging.getLogger(__name__)
@@ -12,7 +12,7 @@ log = logging.getLogger(__name__)
 
 @view_config(
     route_name="api_expedientes",
-    permission=PERM_GET,
+    permission=perm.PERM_GET,
     request_method="GET",
     renderer="json",
 )

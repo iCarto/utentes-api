@@ -3,17 +3,17 @@
 import datetime
 import logging
 
+from dateutil.relativedelta import relativedelta
 from pyramid.view import view_config
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
+import utentes.constants.perms as perm
 import utentes.models.constants as c
-from dateutil.relativedelta import relativedelta
 from utentes.api.error_msgs import error_msgs
 from utentes.models.base import badrequest_exception
 from utentes.models.estado_renovacao import LICENSED, NOT_VALID, PENDING_RENOV_LICENSE
 from utentes.models.exploracao_con_renovacao import ExpConRenovacao
 from utentes.models.renovacao import Renovacao
-from utentes.user_utils import PERM_GET, PERM_UPDATE_RENOVACAO
 
 
 log = logging.getLogger(__name__)
@@ -21,13 +21,13 @@ log = logging.getLogger(__name__)
 
 @view_config(
     route_name="api_renovacao",
-    permission=PERM_GET,
+    permission=perm.PERM_GET,
     request_method="GET",
     renderer="json",
 )
 @view_config(
     route_name="api_renovacao_id",
-    permission=PERM_GET,
+    permission=perm.PERM_GET,
     request_method="GET",
     renderer="json",
 )
@@ -117,13 +117,13 @@ def fill_renovacao_from_exploracao(exp):
 
 @view_config(
     route_name="api_renovacao_id",
-    permission=PERM_UPDATE_RENOVACAO,
+    permission=perm.PERM_UPDATE_RENOVACAO,
     request_method="PATCH",
     renderer="json",
 )
 @view_config(
     route_name="api_renovacao_id",
-    permission=PERM_UPDATE_RENOVACAO,
+    permission=perm.PERM_UPDATE_RENOVACAO,
     request_method="PUT",
     renderer="json",
 )
@@ -163,7 +163,7 @@ def renovacao_update(request):
 
 @view_config(
     route_name="api_renovacao_historico_id",
-    permission=PERM_GET,
+    permission=perm.PERM_GET,
     request_method="GET",
     renderer="json",
 )
