@@ -46,7 +46,7 @@ var EXPLORACAO_SCHEMA = [
     },
 ];
 
-EXPLORACAO_SCHEMA_CON_FICHA = [
+var EXPLORACAO_SCHEMA_CON_FICHA = [
     {
         fieldname: "loc_provin",
         message: "A provincia da exploracão não pode estar vazio",

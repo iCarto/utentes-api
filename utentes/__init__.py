@@ -13,8 +13,10 @@ from pyramid.renderers import JSON
 from pyramid.request import Request
 from sqlalchemy import engine_from_config
 from sqlalchemy.orm import sessionmaker
+from webassets.filter import register_filter
 
 from utentes.dbutils.scripts.utils import home_directory
+from utentes.lib import webassets_filters
 
 from .user_utils import get_user_from_request, get_user_role, is_single_user_mode
 
@@ -80,6 +82,7 @@ def main(global_config, **settings):
 
     config.add_jinja2_renderer(".html")
 
+    register_filter(webassets_filters.StrictMode)
     config.add_jinja2_extension("webassets.ext.jinja2.AssetsExtension")
     assets_env = config.get_webassets_env()
     jinja2_env = config.get_jinja2_environment()

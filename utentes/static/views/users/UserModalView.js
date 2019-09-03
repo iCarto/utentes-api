@@ -21,7 +21,7 @@ Backbone.SIXHIARA.UserModalView = Backbone.UILib.ModalView.extend({
 
                 new Backbone.UILib.PasswordView({
                     el: document.getElementById("password-view"),
-                    model: this.model,
+                    model: self.model,
                     required: !self.options.editing,
                 }).render();
 

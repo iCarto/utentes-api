@@ -114,7 +114,7 @@ output="dist/exploracao-search.css", filters="cssrewrite,cssutils" %}
     "MyWorkflow.js",
     "exploracao-search.js",
 
-    output="dist/exploracao-search.js", filters="rjsmin" %}
+    output="dist/exploracao-search.js", filters="strict_mode, rjsmin" %}
         <script src="{{ ASSET_URL }}"></script>
     {% endassets %}
 

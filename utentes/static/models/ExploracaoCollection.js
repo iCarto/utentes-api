@@ -5,7 +5,7 @@ Backbone.SIXHIARA.ExploracaoCollection = Backbone.GeoJson.FeatureCollection.exte
     comparator: "exp_id",
 
     filterBy: function(where) {
-        a = this.filter(function(element) {
+        var a = this.filter(function(element) {
             return element.contains(where);
         });
         return new Backbone.SIXHIARA.ExploracaoCollection(a);
