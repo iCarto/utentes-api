@@ -1,6 +1,9 @@
-SIRHA.Services = SIRHA.Services || {};
-
 SIRHA.Services.IdService = {
+    getNewExpIdFromApi: function getNewExpIdFromApi(state) {
+        var jqxhr = $.getJSON(Backbone.SIXHIARA.Config.apiNewExpId, {state: state});
+        return jqxhr;
+    },
+
     getExpIdRegExp: function getExpIdRegExp() {
         var ara = window.SIRHA.getARA();
         return new RegExp("^\\d{3}/" + ara + "/\\d{4}$");

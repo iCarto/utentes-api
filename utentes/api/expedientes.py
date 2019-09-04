@@ -11,18 +11,24 @@ log = logging.getLogger(__name__)
 
 
 @view_config(
+    route_name="api_new_exp_id",
+    permission=perm.PERM_GET,
+    request_method="GET",
+    renderer="json",
+)
+def api_new_exp_id(request):
+    state = request.GET.get("state")
+    new_exp_id = calculate_new_exp_id(request, state)
+    return {"exp_id": new_exp_id}
+
+
+@view_config(
     route_name="api_expedientes",
     permission=perm.PERM_GET,
     request_method="GET",
     renderer="json",
 )
-def exploracaos_get_exp_id(request):
-    new_exp_id = calculate_new_exp_id(request)
-    result = request.db.query(Exploracao.exp_id, Exploracao.exp_name).all()
-    expedientes = {"new_exp_id": new_exp_id, "list": []}
-    for r in result:
-        expediente = {}
-        expediente["exp_id"] = r[0]
-        expediente["exp_name"] = r[1]
-        expedientes["list"].append(expediente)
-    return expedientes
+def api_expedientes(request):
+    result = request.db.query(Exploracao.exp_id, Exploracao.exp_name)
+    exps = [{"exp_id": r[0], "exp_name": r[1]} for r in result]
+    return {"list": exps}

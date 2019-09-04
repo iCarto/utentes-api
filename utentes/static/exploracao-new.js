@@ -9,9 +9,10 @@ var exploracao = new Backbone.SIXHIARA.Exploracao();
 var domains = new Backbone.UILib.DomainCollection();
 var expedientes = new Backbone.SIXHIARA.Expediente();
 var utentes = new Backbone.SIXHIARA.UtenteCollection();
+var newExpId;
 
 var fetchPromises = function fetchPromises(id) {
-    var jqxhr = _.invoke([domains, utentes], "fetch", {parse: true});
+    var jqxhr = _.invoke([domains, utentes, expedientes], "fetch", {parse: true});
 
     if (isNaN(id)) {
         var mock = {
@@ -28,10 +29,12 @@ var fetchPromises = function fetchPromises(id) {
 
     // "utenet de usos comuns" o "utente de facto"
     var backendNextState = document.getElementById("next_state").value;
-    if (backendNextState) {
-        var params = {state: backendNextState};
-    }
-    jqxhr.push(expedientes.fetch({data: params}));
+    newExpIdDeferred = SIRHA.Services.IdService.getNewExpIdFromApi(
+        backendNextState
+    ).then(function(v) {
+        newExpId = v.exp_id;
+    });
+    jqxhr.push(newExpIdDeferred);
 
     return _.invoke(jqxhr, "promise");
 };
@@ -48,7 +51,6 @@ var configureBasedOnId = function configureBasedOnId(id) {
             silent: true,
         });
     } else {
-        var newExpId = expedientes.get("new_exp_id");
         exploracao.set("exp_id", newExpId, {silent: true});
         document.getElementById("exp_id").placeholder = newExpId;
 

@@ -204,6 +204,7 @@ def add_routes_api(config):
 
     config.add_route("nuevo_ciclo_facturacion", "/api/nuevo_ciclo_facturacion")
 
+    config.add_route("api_new_exp_id", "/api/new_exp_id")
     config.add_route("api_expedientes", "/api/expedientes")
 
     config.add_route("api_users", "/api/users")
