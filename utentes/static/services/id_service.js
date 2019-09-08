@@ -6,7 +6,7 @@ SIRHA.Services.IdService = {
 
     getExpIdRegExp: function getExpIdRegExp() {
         var ara = window.SIRHA.getARA();
-        return new RegExp("^\\d{3}/" + ara + "/\\d{4}$");
+        return new RegExp("^\\d{3}/" + ara + "/\\d{4}/(UF|SL|CL)$");
     },
 
     setExpIdPatternOnWidget: function setExpIdPatternOnWidget(selector) {
@@ -35,8 +35,8 @@ SIRHA.Services.IdService = {
     },
 
     isNotValidLicNro: function isNotValidLicNro(licNro) {
-        var expId = licNro.substring(0, 13);
-        var tipoAgua = licNro.substring(13);
+        var expId = licNro.substring(0, 16);
+        var tipoAgua = licNro.substring(16);
 
         // Si el exp_id no es válido, lic_nro no es válido
         if (SIRHA.Services.IdService.isNotValidExpId(expId)) {

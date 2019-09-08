@@ -15,26 +15,27 @@ from utentes.tests.api import DBIntegrationTest
 
 class ExploracaoCreateTests(DBIntegrationTest):
     def build_json(self):
-        expected_json = {}
-        expected_json["exp_id"] = calculate_new_exp_id(self.request)
-        expected_json["exp_name"] = "new name"
-        expected_json["d_soli"] = "2001-01-01"
-        expected_json["observacio"] = "new observ"
-        expected_json["loc_provin"] = "Niassa"
-        expected_json["loc_distri"] = "Lago"
-        expected_json["loc_posto"] = "Cobue"
-        expected_json["loc_nucleo"] = "new loc_nucleo"
-        expected_json["loc_endere"] = "new enderezo"
-        expected_json["loc_unidad"] = "UGBC"
-        expected_json["loc_bacia"] = "Megaruma"
-        expected_json["loc_subaci"] = "Megaruma"
-        expected_json["loc_rio"] = "Megaruma"
-        expected_json["c_soli"] = 19.02
-        expected_json["c_licencia"] = 29
-        expected_json["c_real"] = 92
-        expected_json["c_estimado"] = 42.23
-        expected_json["estado_lic"] = u"Licenciada"
-        expected_json["utente"] = {
+        estado_lic = c.K_LICENSED
+        expected = {}
+        expected["exp_id"] = calculate_new_exp_id(self.request, estado_lic)
+        expected["exp_name"] = "new name"
+        expected["d_soli"] = "2001-01-01"
+        expected["observacio"] = "new observ"
+        expected["loc_provin"] = "Niassa"
+        expected["loc_distri"] = "Lago"
+        expected["loc_posto"] = "Cobue"
+        expected["loc_nucleo"] = "new loc_nucleo"
+        expected["loc_endere"] = "new enderezo"
+        expected["loc_unidad"] = "UGBC"
+        expected["loc_bacia"] = "Megaruma"
+        expected["loc_subaci"] = "Megaruma"
+        expected["loc_rio"] = "Megaruma"
+        expected["c_soli"] = 19.02
+        expected["c_licencia"] = 29
+        expected["c_real"] = 92
+        expected["c_estimado"] = 42.23
+        expected["estado_lic"] = estado_lic
+        expected["utente"] = {
             "nome": "nome",
             "nuit": "nuit",
             "uten_tipo": u"Sociedade",
@@ -45,12 +46,12 @@ class ExploracaoCreateTests(DBIntegrationTest):
             "loc_posto": "Cobue",
             "loc_nucleo": "loc_nucleo",
         }
-        expected_json["actividade"] = {
+        expected["actividade"] = {
             "tipo": c.K_SANEAMENTO,
             "c_estimado": 3,
             "habitantes": 120000,
         }
-        expected_json["licencias"] = [
+        expected["licencias"] = [
             {
                 "lic_nro": None,
                 "tipo_agua": c.K_SUBTERRANEA,
@@ -68,7 +69,7 @@ class ExploracaoCreateTests(DBIntegrationTest):
                 "consumo_tipo": u"Fixo",
             }
         ]
-        expected_json["fontes"] = [
+        expected["fontes"] = [
             {
                 "tipo_agua": c.K_SUBTERRANEA,
                 "tipo_fonte": "Outros",
@@ -82,7 +83,7 @@ class ExploracaoCreateTests(DBIntegrationTest):
                 "observacio": "observacio",
             }
         ]
-        return expected_json
+        return expected
 
     def test_create_exploracao(self):
         self.request.json_body = self.build_json()

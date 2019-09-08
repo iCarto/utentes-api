@@ -5,25 +5,33 @@ import utentes.models.constants as c
 
 
 def code_for_state(state, separator="/"):
-    code = {c.K_UTENTE_FACTO: "UF", c.K_SEM_LICENCIA: "SL"}.get(state, "CL")
+    code = {c.K_DE_FACTO: "UF", c.K_USOS_COMUNS: "SL"}.get(state, "CL")
     return separator + code
 
 
-def calculate_new_exp_id(request):
+def calculate_new_exp_id(request, state=c.K_LICENSED):
+    if not state:
+        state = c.K_LICENSED
+    code = code_for_state(state)
+
     ara = request.registry.settings.get("ara")
     year = datetime.date.today().year
     sql = """
     SELECT substring(exp_id, 1, 3)
     FROM utentes.exploracaos
-    WHERE upper(ara) = '{}' AND substring(exp_id, 10, 14) = '{}'
-    ORDER BY 1 DESC LIMIT 1;
+    WHERE
+        upper(ara) = '{}'
+        AND substring(exp_id, 10, 4) = '{}'
+        AND substring(exp_id, 14, 3) = '{}'
+    ORDER BY 1 DESC
+    LIMIT 1;
     """.format(
-        ara, year
+        ara, year, code
     )
     next_number = request.db.execute(sql).first() or [0]
     next_id = "%0*d" % (3, int(next_number[0]) + 1)
 
-    return "{}/{}/{}".format(next_id, ara, year)
+    return "{}/{}/{}{}".format(next_id, ara, year, code)
 
 
 def is_valid_exp_id(exp_id):
@@ -31,7 +39,7 @@ def is_valid_exp_id(exp_id):
     from pyramid.threadlocal import get_current_registry
 
     settings = get_current_registry().settings
-    regexpExpIdFormat = "^\d{3}\/" + settings.get("ara") + "\/\d{4}$"
+    regexpExpIdFormat = "^\d{3}\/" + settings.get("ara") + "\/\d{4}/(UF|SL|CL)$"
 
     return exp_id and re.match(regexpExpIdFormat, exp_id)
 
@@ -45,7 +53,7 @@ def calculate_new_lic_nro(exp_id, tipo_agua):
 
 
 def is_valid_lic_nro(lic_nro):
-    return is_valid_exp_id(lic_nro) and lic_nro[-4:] in ["/Sub", "/Sup"]
+    return is_valid_exp_id(lic_nro[0:-4]) and lic_nro[-4:] in ["/Sub", "/Sup"]
 
 
 def is_not_valid_lic_nro(lic_nro):
@@ -54,7 +62,7 @@ def is_not_valid_lic_nro(lic_nro):
 
 def next_child_seq(childs, id_name):
     id_sequence = [
-        int(getattr(seq, id_name).split("/")[3])
+        int(getattr(seq, id_name).split("/")[4])
         for seq in childs
         if getattr(seq, id_name)
     ]
