@@ -1,3 +1,22 @@
+numeral.register("locale", "pt-mz", {
+    delimiters: {
+        thousands: " ",
+        decimal: ",",
+    },
+    abbreviations: {
+        thousand: "k",
+        million: "m",
+        billion: "b",
+        trillion: "t",
+    },
+    ordinal: function(number) {
+        return number === 1 ? "er" : "ème";
+    },
+    currency: {
+        symbol: "MT",
+    },
+});
+
 function formatter() {
     // TODO: make formats configurable
 
@@ -10,26 +29,7 @@ function formatter() {
         if (!isNumber(value)) return null;
 
         var NUMBER_FORMAT = number_format || "0[,]000[.]00";
-        // load a language
-        numeral.language("pt-mz", {
-            delimiters: {
-                thousands: " ",
-                decimal: ",",
-            },
-            abbreviations: {
-                thousand: "k",
-                million: "m",
-                billion: "b",
-                trillion: "t",
-            },
-            ordinal: function(number) {
-                return number === 1 ? "er" : "ème";
-            },
-            currency: {
-                symbol: "MT",
-            },
-        });
-        numeral.language("pt-mz");
+        numeral.locale("pt-mz");
         return numeral(value).format(NUMBER_FORMAT);
     }
 
@@ -37,26 +37,7 @@ function formatter() {
         if (!isNumber(value)) return null;
 
         var NUMBER_FORMAT = number_format || "0[,]000[.]00";
-        // load a language
-        numeral.language("pt-mz", {
-            delimiters: {
-                thousands: "",
-                decimal: ",",
-            },
-            abbreviations: {
-                thousand: "k",
-                million: "m",
-                billion: "b",
-                trillion: "t",
-            },
-            ordinal: function(number) {
-                return number === 1 ? "er" : "ème";
-            },
-            currency: {
-                symbol: "MT",
-            },
-        });
-        numeral.language("pt-mz");
+        numeral.locale("pt-mz");
         return numeral(value).format(NUMBER_FORMAT);
     }
 

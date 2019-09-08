@@ -121,6 +121,14 @@ output="dist/commoncode.js", filters="rjsmin" %}
     <script src="{{ ASSET_URL }}"></script>
 {% endassets %}
 
+{% assets
+"vendor/Numeral-js-2.0.6/numeral.js",
+"vendor/Numeral-js-2.0.6/locales.js",
+output="dist/commonlibs.js", filters="strict_mode, rjsmin" %}
+    <script src="{{ ASSET_URL }}"></script>
+{% endassets %}
+
+
 <script>
     {# Highlight selected menu item #}
     var activeMenuEl = document.querySelector("a[href='{{request.url}}']")
