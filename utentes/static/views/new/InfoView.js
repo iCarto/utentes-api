@@ -9,7 +9,7 @@ Backbone.SIXHIARA.InfoView = Backbone.View.extend({
         exp_id.addEventListener("input", function() {
             $("#form-exp_id-warning-message").hide();
             var expList = self.options.expedientes.get("list");
-            for (exp in expList) {
+            for (var exp in expList) {
                 if (expList[exp]["exp_id"] === exp_id.value) {
                     $("#form-exp_id-warning-message").show();
                     return;
@@ -22,7 +22,7 @@ Backbone.SIXHIARA.InfoView = Backbone.View.extend({
             $("#form-exp_name-warning-message").hide();
             var expList = self.options.expedientes.get("list");
             var newName = accentNeutralise(exp_name.value);
-            for (exp in expList) {
+            for (var exp in expList) {
                 var existentName = accentNeutralise(expList[exp]["exp_name"]);
                 if (existentName === newName) {
                     $("#form-exp_name-warning-message").show();

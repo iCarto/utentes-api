@@ -35,7 +35,7 @@ function validateName(name) {
     $("#form-exp_name-warning-message").hide();
     var expList = expedientes.get("list");
     var newName = accentNeutralise(name);
-    for (exp in expList) {
+    for (var exp in expList) {
         var existentName = accentNeutralise(expList[exp]["exp_name"]);
         if (existentName === newName) {
             $("form-exp_name-warning-message").show();

@@ -10,7 +10,7 @@ Backbone.SIXHIARA.FacturaStatsCollection = Backbone.Collection.extend({
         var url = "/api/facturacao/stats";
         if (this.options.filter) {
             url += "?";
-            for (filterField in this.options.filter.attributes) {
+            for (var filterField in this.options.filter.attributes) {
                 if (this.options.filter.attributes[filterField]) {
                     if (filterField == "utente") {
                         this.options.filter.attributes[filterField].forEach(function(

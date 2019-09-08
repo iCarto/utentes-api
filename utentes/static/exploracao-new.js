@@ -29,7 +29,7 @@ var fetchPromises = function fetchPromises(id) {
 
     // "utenet de usos comuns" o "utente de facto"
     var backendNextState = document.getElementById("next_state").value;
-    newExpIdDeferred = SIRHA.Services.IdService.getNewExpIdFromApi(
+    var newExpIdDeferred = SIRHA.Services.IdService.getNewExpIdFromApi(
         backendNextState
     ).then(function(v) {
         newExpId = v.exp_id;
@@ -186,7 +186,7 @@ function fillComponentsWithDomains() {
     }).render();
 
     var selectUtenteTipo = new Backbone.UILib.SelectView({
-        el: this.$("#uten_tipo"),
+        el: $("#uten_tipo"),
         collection: domains.byCategory("utentes_uten_tipo"),
     }).render();
 }
