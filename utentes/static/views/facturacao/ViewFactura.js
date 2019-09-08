@@ -496,23 +496,28 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
     },
 
     printFactura: function() {
+        if (!this.options.exploracao.get("loc_unidad")) {
+            bootbox.alert("A exploração tem que ter uma Unidade de Gestão.");
+            return;
+        }
         var data = this.getDataForFactura();
         data.urlTemplate = Backbone.SIXHIARA.tipoTemplates["Factura"];
         this.printFacturaDocument(data, window.SIRHA.ESTADO_FACT.PENDING_PAY);
     },
 
     printRecibo: function() {
+        if (!this.options.exploracao.get("loc_unidad")) {
+            bootbox.alert("A exploração tem que ter uma Unidade de Gestão.");
+            return;
+        }
         var data = this.getDataForRecibo();
         data.urlTemplate = Backbone.SIXHIARA.tipoTemplates["Recibo"];
         this.printReciboDocument(data, window.SIRHA.ESTADO_FACT.PAID);
     },
 
     getDataForFactura: function() {
-        var factura = this.model.toJSON();
+        var factura = this._removeNull(this.model.toJSON());
         var data = this.getData(factura);
-        if (!data) {
-            return;
-        }
 
         factura.licencias = {};
         data.licencias.forEach(function(licencia) {
@@ -538,22 +543,22 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
         return data;
     },
 
-    getData: function(factura) {
-        let f = formatter();
-        var json = this.options.exploracao.toJSON();
-        if (!json.loc_unidad) {
-            bootbox.alert("A exploração tem que ter uma Unidade de Gestão.");
-            return;
-        }
-        // Create a copy of the model and remove nulls
-        var data = JSON.parse(
-            JSON.stringify(json, function(key, value) {
+    _removeNull: function(data) {
+        return JSON.parse(
+            JSON.stringify(data, function(key, value) {
                 if (value === null) {
                     return "";
                 }
                 return value;
             })
         );
+    },
+
+    getData: function(factura) {
+        let f = formatter();
+        var json = this.options.exploracao.toJSON();
+
+        var data = this._removeNull(json);
 
         var dateFactura = factura.fact_date ? new Date(factura.fact_date) : new Date();
         data.dateFactura = f.formatDate(dateFactura);
@@ -583,11 +588,8 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
     },
 
     getDataForRecibo: function() {
-        var factura = this.model.toJSON();
+        var factura = this._removeNull(this.model.toJSON());
         var data = this.getData(factura);
-        if (!data) {
-            return;
-        }
 
         data.numFactura = factura.fact_id;
         var dateRecibo = factura.recibo_date
@@ -629,7 +631,6 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
                     success: function(model, resp, options) {
                         data.numFactura = resp;
                         var docxGenerator = new Backbone.SIXHIARA.DocxGeneratorView({
-                            model: self.model,
                             data: data,
                         });
                         self.updateFacturaData(data.numFactura, data.factDate);
