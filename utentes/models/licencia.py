@@ -113,7 +113,7 @@ class Licencia(Base):
             c.K_PENDING_TECH_DECISION,
             c.K_PENDING_EMIT_LICENSE,
             c.K_PENDING_DIR_SIGN,
-            c.K_UTENTE_FACTO,
+            c.K_DE_FACTO,
             None,
         ]
 
@@ -126,6 +126,6 @@ class Licencia(Base):
             c.K_PENDING_TECH_DECISION,
             c.K_PENDING_EMIT_LICENSE,
             c.K_PENDING_DIR_SIGN,
-            c.K_UTENTE_FACTO,
+            c.K_DE_FACTO,
             None,
         ]

@@ -80,9 +80,9 @@ def utentes_update(request):
         raise badrequest_exception({"error": msgs})
 
     try:
-        e = request.db.query(Utente).filter(Utente.gid == gid).one()
-        e.update_from_json(request.json_body)
-        request.db.add(e)
+        u = request.db.query(Utente).filter(Utente.gid == gid).one()
+        u.update_from_json(request.json_body)
+        request.db.add(u)
         request.db.commit()
     except (MultipleResultsFound, NoResultFound):
         raise badrequest_exception({"error": error_msgs["no_gid"], "gid": gid})
@@ -90,7 +90,7 @@ def utentes_update(request):
         log.error(ve)
         raise badrequest_exception({"error": error_msgs["body_not_valid"]})
 
-    return e
+    return u
 
 
 @view_config(

@@ -124,13 +124,7 @@ def exploracaos_update(request):
             request.db.delete(e.actividade)
             del e.actividade
 
-        e.update_from_json(request.json_body)
-
-        state_to_set_after_validation = body.get("state_to_set_after_validation")
-        if state_to_set_after_validation:
-            e.estado_lic = state_to_set_after_validation
-            for lic in e.licencias:
-                lic.estado = state_to_set_after_validation
+        e.update_from_json(request, request.json_body)
 
         request.db.add(e)
         request.db.commit()
@@ -193,7 +187,7 @@ def exploracaos_create(request):
         u = Utente.create_from_json(body["utente"])
         request.db.add(u)
     try:
-        e = Exploracao.create_from_json(body)
+        e = Exploracao.create_from_json(request, body)
     except ValidationException as val_exp:
         if u:
             request.db.refresh(u)
@@ -201,12 +195,7 @@ def exploracaos_create(request):
             request.db.refresh(e)
         raise badrequest_exception(val_exp.msgs)
     e.utente_rel = u
-    e.ara = request.registry.settings.get("ara")
-    state_to_set_after_validation = body.get("state_to_set_after_validation")
-    if state_to_set_after_validation:
-        e.estado_lic = state_to_set_after_validation
-        for lic in e.licencias:
-            lic.estado = state_to_set_after_validation
+
     request.db.add(e)
     request.db.commit()
     return e

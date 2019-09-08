@@ -69,7 +69,7 @@ def requerimento_update(request):
     gid = request.matchdict["id"]
     body = request.json_body
     e = request.db.query(Exploracao).filter(Exploracao.gid == gid).one()
-    e.update_from_json_requerimento(body)
+    e.update_from_json_requerimento(request, body)
     request.db.add(e)
     request.db.commit()
     return e
@@ -90,10 +90,7 @@ def requerimento_create(request):
         raise badrequest_exception({"error": error_msgs["body_not_valid"]})
 
     e = Exploracao()
-    e.update_from_json_requerimento(body)
-    e.exp_id = calculate_new_exp_id(request)
-    e.ara = request.registry.settings.get("ara")
-
+    e.update_from_json_requerimento(request, body)
     request.db.add(e)
     request.db.commit()
     return e

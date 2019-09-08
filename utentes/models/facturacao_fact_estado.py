@@ -19,7 +19,7 @@ class FacturacaoFactEstado(DeclarativeBase):
     __table_args__ = {"schema": PGSQL_SCHEMA_DOMAINS}
     __mapper_args__ = {"order_by": ["category", "ordering", "key"]}
 
-    ESTADOS_FACTURABLES = [c.K_LICENSED, c.K_UTENTE_FACTO]
+    ESTADOS_FACTURABLES = [c.K_LICENSED, c.K_DE_FACTO]
 
     category = Column(Text, nullable=False, primary_key=True)
     key = Column(Text, nullable=False, primary_key=True)

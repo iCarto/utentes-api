@@ -14,11 +14,12 @@ from sqlalchemy import (
     func,
     text,
 )
+from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy.dialects.postgresql.json import JSONB
 from sqlalchemy.orm import column_property, relationship
 
 import utentes.models.constants as c
-from utentes.lib.formatter.formatter import to_date, to_decimal
+from utentes.lib.formatter.formatter import to_decimal
 from utentes.lib.schema_validator.validation_exception import ValidationException
 from utentes.models.actividade import Actividade
 from utentes.models.base import (
@@ -30,7 +31,6 @@ from utentes.models.base import (
 )
 from utentes.models.facturacao import Facturacao
 from utentes.models.facturacao_fact_estado import (
-    NOT_INVOIZABLE,
     PAID,
     PENDING_CONSUMPTION,
     PENDING_INVOICE,
@@ -61,6 +61,7 @@ class ExploracaoBase(Base):
         nullable=False,
     )
     exp_id = Column(Text, nullable=False, unique=True, doc="Número da exploração")
+    exp_id_historic = Column(ARRAY(Text), doc="Histórico de Número da exploração")
     exp_name = Column(Text, nullable=False, doc="Nome da exploração")
     estado_lic = Column(Text, nullable=False, doc="Estado")
 
@@ -114,7 +115,6 @@ class Exploracao(ExploracaoBase):
         "p_juri",
         "p_rel",
         "req_obs",
-        "estado_lic",
         "created_at",
         "exp_name",
         "lic_imp",
@@ -135,11 +135,9 @@ class Exploracao(ExploracaoBase):
         doc="Data de entrega da última documentação",
     )
     observacio = Column(Text, doc="Observações")
-    loc_provin = Column(Text, doc="Província")  # NOT NULL after some estado_lic
-    loc_distri = Column(Text, doc="Distrito")  # NOT NULL after some estado_lic
-    loc_posto = Column(
-        Text, doc="Posto administrativo"
-    )  # NOT NULL after some estado_lic
+    loc_provin = Column(Text, doc="Província")
+    loc_distri = Column(Text, doc="Distrito")
+    loc_posto = Column(Text, doc="Posto administrativo")
     loc_nucleo = Column(Text, doc="Bairro")
     loc_endere = Column(Text, doc="Endereço")
     loc_unidad = Column(Text, doc="Unidade")
@@ -360,14 +358,55 @@ class Exploracao(ExploracaoBase):
             return lic[0]
         return Licencia()
 
-    def update_from_json_requerimento(self, json):
-        for column in set(self.REQUERIMENTO_FIELDS) - set(self.READ_ONLY):
-            setattr(self, column, json.get(column))
-        for lic in self.licencias:
-            lic.estado = json.get("estado_lic")
+    def _which_exp_id_should_be_used(self, request, body):
+        new_state = body.get("state_to_set_after_validation") or body.get("estado_lic")
+        if not self.exp_id and not body.get("exp_id"):
+            return id_service.calculate_new_exp_id(request, new_state)
+
+        if new_state in [c.K_DE_FACTO, c.K_USOS_COMUNS]:
+            if not self.estado_lic or self.estado_lic not in [
+                c.K_DE_FACTO,
+                c.K_USOS_COMUNS,
+                c.K_UNKNOWN,
+            ]:
+                return id_service.calculate_new_exp_id(request, new_state)
+
+        return body.get("exp_id")
+
+    def setLicStateAndExpId(self, request, body):
+        self.ara = request.registry.settings.get("ara")
+
+        exp_id_to_use = self._which_exp_id_should_be_used(request, body)
+
+        if self.exp_id and exp_id_to_use != self.exp_id:
+            # por como funciona sqlalchemy si hacemos el append directamente
+            # en el campo no se entera de que ha cambiado (es el mismo obj)
+            # tenemos que asignarle otro objeto
+            exp_id_historic = self.exp_id_historic[:] if self.exp_id_historic else []
+            exp_id_historic.append(self.exp_id)
+            self.exp_id_historic = exp_id_historic
+
+        self.exp_id = exp_id_to_use
+
+        if body.get("state_to_set_after_validation"):
+            new_state = body.get("state_to_set_after_validation")
+            self.estado_lic = new_state
+            for lic in self.licencias:
+                lic.estado = new_state
+        else:
+            new_state = body.get("estado_lic")
+            self.estado_lic = new_state
+
+    def update_from_json_requerimento(self, request, json):
+        self._update_requerimento_fields(json)
+        self.setLicStateAndExpId(request, json)
         self.fact_estado = "Não facturable"
         self.fact_tipo = "Mensal"
         self.pago_lic = False
+
+    def _update_requerimento_fields(self, json):
+        for column in set(self.REQUERIMENTO_FIELDS) - set(self.READ_ONLY):
+            setattr(self, column, json.get(column))
 
     def update_from_json_facturacao(self, json):
         self.fact_estado = self.get_lower_state(json["facturacao"])
@@ -433,10 +472,8 @@ class Exploracao(ExploracaoBase):
                 lower_state = factura["fact_estado"]
         return lower_state
 
-    def update_from_json(self, json):
+    def update_from_json(self, request, json):
         self.gid = json.get("id")
-        self.exp_id = json.get("exp_id")
-        # self.exp_name = json.get('exp_name')
         self.observacio = json.get("observacio")
         self.loc_provin = json.get("loc_provin")
         self.loc_distri = json.get("loc_distri")
@@ -457,7 +494,7 @@ class Exploracao(ExploracaoBase):
         self.fact_tipo = json.get("fact_tipo") or "Mensal"
         self.pago_lic = json.get("pago_lic") or False
 
-        self.update_from_json_requerimento(json)
+        self._update_requerimento_fields(json)
         update_area(self, json)
 
         self.update_and_validate_activity(json)
@@ -466,6 +503,8 @@ class Exploracao(ExploracaoBase):
         update_array(self.fontes, json.get("fontes"), Fonte.create_from_json)
 
         update_array(self.licencias, json.get("licencias"), Licencia.create_from_json)
+
+        self.setLicStateAndExpId(request, json)
         for lic in self.licencias:
             lic.lic_nro = id_service.calculate_new_lic_nro(self.exp_id, lic.tipo_agua)
 
@@ -501,9 +540,9 @@ class Exploracao(ExploracaoBase):
         return msgs
 
     @staticmethod
-    def create_from_json(body):
+    def create_from_json(request, body):
         e = Exploracao()
-        e.update_from_json(body)
+        e.update_from_json(request, body)
         return e
 
     def __json__(self, request):
@@ -517,7 +556,7 @@ class Exploracao(ExploracaoBase):
             "properties": {
                 "id": self.gid,
                 "exp_id": self.exp_id,
-                # 'exp_name': self.exp_name,
+                "estado_lic": self.estado_lic,
                 "observacio": self.observacio,
                 "loc_provin": self.loc_provin,
                 "loc_distri": self.loc_distri,

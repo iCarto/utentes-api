@@ -52,4 +52,4 @@ def adicionar_usos_comuns(request):
     renderer="utentes:templates/exploracao-new.jinja2",
 )
 def adicionar_utente_facto(request):
-    return {"next_state": c.K_UTENTE_FACTO}
+    return {"next_state": c.K_DE_FACTO}

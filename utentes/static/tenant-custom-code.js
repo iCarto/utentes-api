@@ -25,6 +25,10 @@ window.SIXHIARA.ESTADOS_PENDENTES = [
         roles: [],
     },
     {
+        key: SIRHA.ESTADO.USOS_COMUNS,
+        roles: [],
+    },
+    {
         key: SIRHA.ESTADO.NOT_APPROVED,
         roles: [],
     },
