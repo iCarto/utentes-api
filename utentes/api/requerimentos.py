@@ -69,6 +69,12 @@ def requerimento_update(request):
     gid = request.matchdict["id"]
     body = request.json_body
     e = request.db.query(Exploracao).filter(Exploracao.gid == gid).one()
+    if not body.get("state_to_set_after_validation"):
+        # workaround. En novas licencias sólo se trabaja con la explotación,
+        # pero a partir de cierto punto también licencia.estado y por tanto
+        # hay que forzar que se actulice el estado de las licencias.
+        body["state_to_set_after_validation"] = body["estado_lic"]
+
     e.update_from_json_requerimento(request, body)
     request.db.add(e)
     request.db.commit()

@@ -48,6 +48,12 @@ def is_not_valid_exp_id(exp_id):
     return not is_valid_exp_id(exp_id)
 
 
+def replace_exp_id_in_code(code, new_exp_id):
+    i = 16
+    new_exp_id = new_exp_id[:i]
+    return new_exp_id + code[i:]
+
+
 def calculate_new_lic_nro(exp_id, tipo_agua):
     return "{}/{}".format(exp_id, tipo_agua[0:3])
 

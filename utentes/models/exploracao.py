@@ -363,13 +363,17 @@ class Exploracao(ExploracaoBase):
         if not self.exp_id and not body.get("exp_id"):
             return id_service.calculate_new_exp_id(request, new_state)
 
-        if new_state in [c.K_DE_FACTO, c.K_USOS_COMUNS]:
-            if not self.estado_lic or self.estado_lic not in [
-                c.K_DE_FACTO,
-                c.K_USOS_COMUNS,
-                c.K_UNKNOWN,
-            ]:
-                return id_service.calculate_new_exp_id(request, new_state)
+        if new_state == self.estado_lic:
+            return body.get("exp_id")
+
+        if not self.estado_lic:
+            return id_service.calculate_new_exp_id(request, new_state)
+
+        if new_state == c.K_DE_FACTO or self.estado_lic == c.K_DE_FACTO:
+            return id_service.calculate_new_exp_id(request, new_state)
+
+        if new_state == c.K_USOS_COMUNS or self.estado_lic == c.K_USOS_COMUNS:
+            return id_service.calculate_new_exp_id(request, new_state)
 
         return body.get("exp_id")
 
@@ -387,6 +391,18 @@ class Exploracao(ExploracaoBase):
             self.exp_id_historic = exp_id_historic
 
         self.exp_id = exp_id_to_use
+        for lic in self.licencias:
+            lic.lic_nro = id_service.replace_exp_id_in_code(lic.lic_nro, self.exp_id)
+        if self.actividade and getattr(self.actividade, "cultivos", None):
+            for cult in self.actividade.cultivos:
+                cult.cult_id = id_service.replace_exp_id_in_code(
+                    cult.cult_id, self.exp_id
+                )
+        if self.actividade and getattr(self.actividade, "tanques_piscicolas", None):
+            for tanque in self.actividade.tanques_piscicolas:
+                tanque.tanque_id = id_service.replace_exp_id_in_code(
+                    tanque.tanque_id, self.exp_id
+                )
 
         if body.get("state_to_set_after_validation"):
             new_state = body.get("state_to_set_after_validation")
@@ -505,8 +521,6 @@ class Exploracao(ExploracaoBase):
         update_array(self.licencias, json.get("licencias"), Licencia.create_from_json)
 
         self.setLicStateAndExpId(request, json)
-        for lic in self.licencias:
-            lic.lic_nro = id_service.calculate_new_lic_nro(self.exp_id, lic.tipo_agua)
 
     def update_and_validate_activity(self, json):
         actividade_json = json.get("actividade")
