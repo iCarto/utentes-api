@@ -1,30 +1,8 @@
 # -*- coding: utf-8 -*-
-
-from geoalchemy2 import Geometry
-from geoalchemy2.functions import GenericFunction
-from sqlalchemy import (
-    Boolean,
-    Column,
-    Date,
-    DateTime,
-    ForeignKey,
-    Integer,
-    Numeric,
-    Text,
-    text,
-)
+from sqlalchemy import Boolean, Column, Date, ForeignKey, Integer, Numeric, Text, text
 from sqlalchemy.dialects.postgresql.json import JSONB
-from sqlalchemy.orm import relationship
 
-from utentes.lib.formatter.formatter import to_date, to_decimal
-from utentes.lib.schema_validator.validation_exception import ValidationException
-from utentes.models.base import (
-    PGSQL_SCHEMA_UTENTES,
-    Base,
-    update_area,
-    update_array,
-    update_geom,
-)
+from utentes.models.base import PGSQL_SCHEMA_UTENTES, Base
 
 
 class RenovacaoBase(Base):

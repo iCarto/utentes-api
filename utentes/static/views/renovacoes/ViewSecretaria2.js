@@ -105,6 +105,7 @@ Backbone.SIXHIARA.ViewSecretaria2 = Backbone.SIXHIARA.View1.extend({
             lic.set("c_licencia", renovacao.get("c_licencia_" + tipo));
             lic.set("estado", renovacao.get("estado"));
         });
+        this.model.set("estado_lic", renovacao.get("estado"));
         this.model.set("d_soli", renovacao.get("d_soli"));
         this.model.set("d_ultima_entrega_doc", renovacao.get("d_ultima_entrega_doc"));
     },

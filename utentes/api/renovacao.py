@@ -11,7 +11,13 @@ import utentes.constants.perms as perm
 import utentes.models.constants as c
 from utentes.api.error_msgs import error_msgs
 from utentes.models.base import badrequest_exception
-from utentes.models.estado_renovacao import LICENSED, NOT_VALID, PENDING_RENOV_LICENSE
+from utentes.models.estado_renovacao import (
+    DE_FACTO,
+    LICENSED,
+    NOT_VALID,
+    PENDING_RENOV_LICENSE,
+)
+from utentes.models.exploracao import Exploracao
 from utentes.models.exploracao_con_renovacao import ExpConRenovacao
 from utentes.models.renovacao import Renovacao
 
@@ -139,26 +145,31 @@ def renovacao_update(request):
 
     valid = [r for r in renovacoes if r.estado not in NOT_VALID]
 
-    if not valid:
-        r = Renovacao()
-        r.update_from_json_renovacao(body)
-        request.db.add(r)
-        request.db.commit()
-        return r
-
-    elif len(valid) == 1:
-        r = valid[0]
-        r.update_from_json(body)
-        request.db.add(r)
-        request.db.commit()
-        return r
-
-    else:
+    if len(valid) > 1:
         raise badrequest_exception(
             {
                 "error": "Há mais de uma renovação em progresso para a exploração selecionada"
             }
         )
+
+    if len(valid) == 0:
+        r = Renovacao()
+        r.update_from_json_renovacao(body)
+    elif len(valid) == 1:
+        r = valid[0]
+        r.update_from_json(body)
+
+    if r.estado == DE_FACTO:
+        exp = (
+            request.db.query(Exploracao).filter(Exploracao.gid == r.exploracao).all()[0]
+        )
+        exp.setLicStateAndExpId(
+            request, {"exp_id": exp.exp_id, "state_to_set_after_validation": r.estado}
+        )
+
+    request.db.add(r)
+    request.db.commit()
+    return r
 
 
 @view_config(
