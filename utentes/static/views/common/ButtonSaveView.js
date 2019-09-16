@@ -17,10 +17,18 @@ Backbone.SIXHIARA.ButtonSaveView = Backbone.View.extend({
     },
 
     save: function() {
+        var self = this;
         if (this.model.isValid()) {
             this.model.save(null, {
                 wait: true,
                 success: function(model, resp, options) {
+                    var old_exp_id = self.model.previousAttributes().exp_id;
+                    var new_exp_id = model.get("exp_id");
+                    if (old_exp_id !== new_exp_id) {
+                        bootbox.alert(
+                            `A exploração alterou seu Nro de exploração de&nbsp;<strong>${old_exp_id}</strong>&nbsp;a&nbsp;<strong>${new_exp_id}</strong>.`
+                        );
+                    }
                     window.location = model.urlShow();
                 },
                 error: function(xhr, textStatus, errorThrown) {

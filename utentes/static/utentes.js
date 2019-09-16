@@ -11,7 +11,7 @@ var formatValue = function(k, v, rowData) {
     } else if (k === "nuit") {
         v = null;
     } else if (k === "exploracaos") {
-        v = v
+        var lis = v
             .map(function(e) {
                 var url = urlShow + e.gid;
                 var icon;
@@ -37,17 +37,21 @@ var formatValue = function(k, v, rowData) {
                     color = "#d9534f";
                 }
                 if (e.estado_lic === SIRHA.ESTADO.DE_FACTO) {
-                    icon = "fa-tint";
-                    color = "#d9984f";
+                    icon = "fa-tint-slash";
+                    color = "#1f78b4";
                 }
 
                 return `
+                <li><span class="fa-li">
                 <i class="fas ${icon} fa-fw" style="color: ${color}; margin-right:10px;"></i>
+                </span>
                 <a href="${url}">${e.exp_id}&nbsp;${e.exp_name}</a>:&nbsp;
                 <small style="color: grey; font-size: 75%">(${e.actividade.tipo})</small>
+                </li>
                 `;
             })
-            .join("<br>");
+            .join("");
+        v = '<ul class="fa-ul">' + lis + "</ul>";
     } else if (k === "edit") {
         v =
             '<i class="edit fas fa-edit uilib-enability uilib-show-role-administrador uilib-show-role-tecnico uilib-show-role-juridico"></i>';

@@ -51,6 +51,17 @@ menu .dropdown-menu strong {
     font-size: 75%;
 }
 
+.menu-group {
+    /* border-left: 1px solid #ccc; */
+    height: 50px;
+    margin: 0;
+
+    /* margin-left: 14px; */
+
+    /* width: 16px;  */
+    width: 30px;
+}
+
 thead th {
     text-align: center;
 }

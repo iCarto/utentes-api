@@ -26,13 +26,16 @@
 
                 <ul class="nav navbar-nav">
                     <li><a href="{{request.route_url('exploracao-search')}}">
-                        <strong>LICENÇAS</strong>
+                        <strong>LICENÇAS E UF</strong>
                     </a></li>
                     {% if request.has_permission(perm.PERM_FACTURACAO) %}
                     <li><a href="{{request.route_url('facturacao')}}">
                         <strong>FACTURAÇÃO</strong>
                     </a></li>
                     {% endif %}
+
+                  <li class="menu-group">&nbsp;</li>
+
                     {% if not is_single_user_mode() and request.has_permission(perm.PERM_CREATE_REQUERIMENTO) %}
                     <li><a href="{{request.route_url('requerimento-new')}}">
                         <strong>CRIAR</strong>
@@ -53,6 +56,7 @@
                         <strong>RENOVAÇÕES</strong>
                     </a></li>
                     {% endif %}
+                      <li class="menu-group"><a>&nbsp;</a></li>
                     {% if not is_single_user_mode() and request.has_permission(perm.PERM_GET_USAGE_COMMON) %}
                     <li><a href="{{request.route_url('exploracao-search')}}?ambos_usos">
                         <strong>EXPLORAÇÕES</strong>
@@ -61,6 +65,8 @@
                     <li><a href="{{request.route_url('utentes')}}">
                         <strong>UTENTES</strong>
                     </a></li>
+
+                    <li class="menu-group">&nbsp;</li>
 
                     {% if request.has_permission(perm.PERM_PAGE_ADICIONAR_USOS_COMUNS)
                           or request.has_permission(perm.PERM_PAGE_ADICIONAR_UTENTE_FACTO)
@@ -87,6 +93,7 @@
                     </li>
                     {% endif %}
 
+                    <li class="menu-group">&nbsp;</li>
 
                     {% if not is_single_user_mode() %}
                     <li><a href="{{request.route_url('facturacao-stats')}}">

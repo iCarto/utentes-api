@@ -138,8 +138,8 @@
       <section id="block-consumos" class="row volume-summary text-center">
         {% if next_state != 'Utente de usos comuns' %}
         <div class="col-xs-3">
-          <div class="" style="display: inline-block; padding-right: 5px;">
-            <h3>
+          <div class="" style="display: inline-block; font-weight: bolder; padding-right: 5px;">
+            <h3 style="font-weight: bolder;">
               <span class="widget-number" id="c_licencia">-</span>
             </h3>
             <span>LICENCIADOS</span>
@@ -162,12 +162,16 @@
         </div>
         {% if next_state != 'Utente de usos comuns' %}
         <div class="col-xs-3">
-        {% else %}
-        <div class="col-xs-4">
-        {% endif %}
           <h3><span class="widget-number" id="c_real">-</span> </h3>
           <span>REAIS</span>
         </div>
+        {% else %}
+        <div class="col-xs-4" style="font-weight: bolder;">
+          <h3 style="font-weight: bolder;"><span class="widget-number" id="c_real">-</span> </h3>
+          <span>REAIS</span>
+        </div>
+        {% endif %}
+
         {% if next_state != 'Utente de usos comuns' %}
         <div class="col-xs-3">
         {% else %}
@@ -1389,9 +1393,9 @@
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Pechar"><span aria-hidden="true">&times;</span></button>
               {% if request.registry.settings['ara'] != 'DPMAIP' and next_state != 'Utente de usos comuns' %}
-              <h4 class="modal-title" id="licenciaModalLabel">Licencia <span id="tipo_agua" class="widget"></span></h4>
+              <h4 class="modal-title" id="licenciaModalLabel">Licencia <%- tipo_agua %></span></h4>
               {% else %}
-              <h4 class="modal-title" id="licenciaModalLabel">Consumo <span id="tipo_agua" class="widget"></span></h4>
+              <h4 class="modal-title" id="licenciaModalLabel">Consumo <%- tipo_agua === 'Subterrânea' ? 'Subterrâneo' : tipo_agua %></span></h4>
               {% endif %}
             </div>
             <div class="modal-body">
@@ -1518,7 +1522,7 @@
           {% if request.registry.settings['ara'] != 'DPMAIP' and next_state != 'Utente de usos comuns' %}
           <h4 class="col-xs-offset-1 col-xs-11">Licença <%- tipo_agua + ': ' %><span class="lic_nro"><%-(lic_nro || '-')%></span>
           {% else %}
-          <h4 class="col-xs-offset-1 col-xs-11">Consumo <%- tipo_agua %>
+          <h4 class="col-xs-offset-1 col-xs-11">Consumo <%- tipo_agua === 'Subterrânea' ? 'Subterrâneo' : tipo_agua %>
           {% endif %}
             <button type="button" class="btn btn-default btn-xs hidden uilib-enability uilib-show-role-administrador uilib-show-role-tecnico uilib-show-role-juridico" id="addLicense">Adicionar</button>
             <button type="button" class="btn btn-default btn-xs uilib-enability uilib-show-role-administrador uilib-show-role-tecnico uilib-show-role-juridico" id="editLicense">Editar</button>
