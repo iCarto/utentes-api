@@ -121,6 +121,7 @@ Backbone.SIXHIARA.View1 = Backbone.View.extend({
     },
 
     doFillExploracao: function(e, autosave) {
+        var self = this;
         var exploracao = this.model;
 
         var nextState = wf.whichNextState(exploracao.get("estado_lic"), e);
@@ -155,19 +156,8 @@ Backbone.SIXHIARA.View1 = Backbone.View.extend({
             patch: true,
             validate: false,
             wait: true,
-            success: function(model) {
-                var exp_id = model.get("exp_id");
-                var exp_name = model.get("exp_name");
-                if (autosave) {
-                    // console.log('autosaving');
-                } else {
-                    bootbox.alert(
-                        `A exploração&nbsp;<strong>${exp_id} - ${exp_name}</strong>&nbsp;tem sido gravada correctamente.`,
-                        function() {
-                            exploracao.trigger("show-next-exp", exploracao);
-                        }
-                    );
-                }
+            success: function(model, response, options) {
+                self.onSuccessfulSave(model, response, options, autosave);
             },
             error: function() {
                 bootbox.alert(
@@ -180,5 +170,22 @@ Backbone.SIXHIARA.View1 = Backbone.View.extend({
     remove: function() {
         this.tabBarTitle.remove();
         Backbone.View.prototype.remove.call(this);
+    },
+
+    onSuccessfulSave: function(model, response, options, autosave) {
+        if (autosave) {
+            console.log("autosaving");
+            return;
+        }
+        var old_exp_id = model.previousAttributes().exp_id;
+        var new_exp_id = model.get("exp_id");
+        var exp_name = model.get("exp_name");
+        var msg = `A exploração&nbsp;<strong>${new_exp_id} - ${exp_name}</strong>&nbsp;tem sido gravada correctamente.`;
+        if (old_exp_id !== new_exp_id) {
+            msg = `A exploração alterou seu Nro de exploração de&nbsp;<strong>${old_exp_id}</strong>&nbsp;a&nbsp;<strong>${new_exp_id}</strong> e tem sido gravada correctamente.`;
+        }
+        bootbox.alert(msg, function() {
+            model.trigger("show-next-exp", model);
+        });
     },
 });

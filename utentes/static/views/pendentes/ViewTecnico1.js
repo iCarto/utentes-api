@@ -255,19 +255,8 @@ print('O ' + formatter().formatDate(req_obs[i]['create_at']) + ', ' + req_obs[i]
             patch: true,
             validate: false,
             wait: true,
-            success: function(model) {
-                var exp_id = model.get("exp_id");
-                var exp_name = model.get("exp_name");
-                if (autosave) {
-                    console.log("autosaving");
-                } else {
-                    bootbox.alert(
-                        `A exploração&nbsp;<strong>${exp_id} - ${exp_name}</strong>&nbsp;tem sido gravada correctamente.`,
-                        function() {
-                            exploracao.trigger("show-next-exp", exploracao);
-                        }
-                    );
-                }
+            success: function(model, response, options) {
+                self.onSuccessfulSave(model, response, options, autosave);
             },
             error: function() {
                 bootbox.alert(
