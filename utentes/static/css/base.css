@@ -322,3 +322,7 @@ with or whithout another 'observacio-anteriores' textarea
     display: none;
     margin-top: 5px;
 }
+
+.redcolor {
+    color: #d9534f;
+}

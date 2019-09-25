@@ -157,7 +157,33 @@ Backbone.SIXHIARA.ExploracaoShowView = Backbone.View.extend({
             blockConsumosView.render
         );
         blockConsumosView.listenTo(exploracao, "change", blockConsumosView.render);
+        var changeColor = function changeColor() {
+            let licenciaWidget = document.getElementById("c_licencia");
+            let licenciaValue = exploracao.get("c_licencia");
+            let realWidget = document.getElementById("c_real");
+            let realValue = exploracao.get("c_real");
+            if (licenciaWidget) {
+                let widget = licenciaWidget.parentElement.parentElement;
+                widget.classList.remove("redcolor");
+                if (!licenciaValue) {
+                    widget.classList.add("redcolor");
+                }
+            } else {
+                let widget = realWidget.parentElement.parentElement;
+                widget.classList.remove("redcolor");
+                if (!realValue) {
+                    widget.classList.add("redcolor");
+                }
+            }
+        };
+
+        blockConsumosView.listenTo(
+            exploracao,
+            "change:c_licencia change:c_real",
+            changeColor
+        );
         this.subViews.push(blockConsumosView);
+        changeColor();
 
         var blockSuperficialView = new Backbone.SIXHIARA.BlockLicenseView({
             el: $("#block-superficial"),
