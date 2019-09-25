@@ -12,8 +12,12 @@
   <div class="row">
     <div class="col-xs-offset-2 col-xs-8">
       <div class="row text-center">
-        <h1 class="col-xs-12">Adicionar {{ next_state }}
-          <button id="save-button" type="button" class="btn btn-primary pull-right">Adicionar {{ next_state }}</button>
+        {% if next_state %}
+        <h1 class="col-xs-12">Adicionar Exploração ({{ next_state }})
+        {% else %}
+        <h1 class="col-xs-12">Adicionar Exploração
+        {% endif %}
+          <button id="save-button" type="button" class="btn btn-primary pull-right">Adicionar</button>
         </h1>
       </div>
       <div class="row">

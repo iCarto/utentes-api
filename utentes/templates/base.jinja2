@@ -78,10 +78,10 @@
                           aria-expanded="false"><strong>ADICIONAR <span class="caret"></span></strong></a>
                         <ul class="dropdown-menu">
                           {% if request.has_permission(perm.PERM_PAGE_ADICIONAR_USOS_COMUNS) %}
-                          <li><a href="{{request.route_url('adicionar_usos_comuns')}}"><strong>UTENTE DE USOS COMUNS</strong></a></li>
+                          <li><a href="{{request.route_url('adicionar_usos_comuns')}}"><strong>Exploração (Utente de usos comuns)</strong></a></li>
                           {% endif %}
                           {% if request.has_permission(perm.PERM_PAGE_ADICIONAR_UTENTE_FACTO) %}
-                          <li><a href="{{request.route_url('adicionar_utente_facto')}}"><strong>UTENTE DE FACTO</strong></a></li>
+                          <li><a href="{{request.route_url('adicionar_utente_facto')}}"><strong>Exploração (Utente de facto)</strong></a></li>
                           {% endif %}
                           {% if request.has_permission(perm.PERM_PAGE_ADICIONAR_EXPLORACAO) %}
                           <li><a href="{{request.route_url('adicionar_exploracao')}}"><strong>EXPLORAÇAO</strong></a></li>
