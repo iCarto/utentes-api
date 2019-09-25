@@ -179,21 +179,19 @@ def renovacao_update(request):
     renderer="json",
 )
 def renovacao_get_historical(request):
+    exp_gid = request.matchdict.get("id")
+    if not exp_gid:
+        raise badrequest_exception({"error": error_msgs["no_gid"], "gid": exp_gid})
 
-    gid = None
-    if request.matchdict:
-        gid = request.matchdict["id"] or None
-    if gid:
-        try:
-            return (
-                request.db.query(Renovacao)
-                .filter(Renovacao.exploracao == gid, Renovacao.estado == LICENSED)
-                .order_by(
-                    Renovacao.d_validade_sub_old.desc(),
-                    Renovacao.d_validade_sup_old.desc(),
-                )
-                .all()
+    try:
+        return (
+            request.db.query(Renovacao)
+            .filter(Renovacao.exploracao == exp_gid, Renovacao.estado.in_(NOT_VALID))
+            .order_by(
+                Renovacao.d_validade_sub_old.desc(), Renovacao.d_validade_sup_old.desc()
             )
+            .all()
+        )
 
-        except (MultipleResultsFound, NoResultFound):
-            raise badrequest_exception({"error": error_msgs["no_gid"], "gid": gid})
+    except (MultipleResultsFound, NoResultFound):
+        raise badrequest_exception({"error": error_msgs["no_gid"], "gid": exp_gid})
