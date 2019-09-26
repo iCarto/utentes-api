@@ -110,7 +110,7 @@ Backbone.SIXHIARA.View1 = Backbone.View.extend({
             this.doFillExploracao(e, autosave);
         } else {
             bootbox.confirm(
-                `A exploração vai mudar o seu a: <br> <strong>${nextState}</strong>`,
+                `A exploração vai mudar o seu estado a: <br> <strong>${nextState}</strong>`,
                 function(result) {
                     if (result) {
                         self.doFillExploracao(e, autosave);

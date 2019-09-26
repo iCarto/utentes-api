@@ -23,6 +23,9 @@
             <button id="file-modal" type="button" class="btn btn-default btn-sm">Documentaçao</button>
             <button id="refresh-button" type="button" class="btn btn-default btn-sm uilib-enability uilib-hide-role-observador">Refrescar</button>
             <button id="save-button" type="button" class="btn btn-primary btn-sm uilib-enability uilib-show-role-administrador uilib-show-role-tecnico uilib-show-role-juridico">Gravar</button>
+            {% if next_state == 'Utente de usos comuns' %}
+            <button id="licenciar-button" type="button" class="btn btn-primary btn-sm uilib-enability uilib-show-role-administrador uilib-show-role-juridico" style="float: right;">Licenciar</button>
+            {% endif %}
           </h3>
         </section>
       </section>
@@ -1716,6 +1719,8 @@
         "views/common/BlockInfoLicenseView.js",
         "views/show/ButtonDeleteView.js",
         "views/show/ButtonRefreshView.js",
+        "views/common/UltimaEntregaDocModalView.js",
+        "views/show/ButtonLicenciarView.js",
         "views/show/SummaryConsumoView.js",
         "views/show/SummaryLicenseView.js",
         "views/show/CEstimadoComputedView.js",

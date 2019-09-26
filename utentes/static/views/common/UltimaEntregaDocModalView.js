@@ -10,7 +10,7 @@ Backbone.SIXHIARA.UltimaEntregaDocModalView = Backbone.View.extend({
         <div class="modal-content">
             <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Pechar"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="modalViewLabel">Requerimento Pendente</h4>
+            <h4 class="modal-title" id="modalViewLabel"><%- windowTitle %></h4>
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -48,23 +48,31 @@ Backbone.SIXHIARA.UltimaEntregaDocModalView = Backbone.View.extend({
     `,
 
     initialize: function(options) {
-        this.options = options || {};
+        var defaultOptions = {
+            windowTitle: "Requerimento Pendente",
+        };
+        this.options = Object.assign({}, defaultOptions, options);
         this.template = _.template(this.html);
     },
 
     render: function() {
-        this.$el.html(this.template());
+        this.$el.html(this.template(this.options));
         return this;
     },
 
     isBeforeSolicitacao: function(value) {
-        return formatter().isFirstDateBeforeSecondDate(value, this.model.get("d_soli"));
+        var d_soli = this.model.get("d_soli");
+        if (!d_soli) {
+            return false;
+        }
+        return formatter().isFirstDateBeforeSecondDate(value, d_soli);
     },
 
     show: function() {
         var self = this;
         $(document.body).append(this.render().el);
-        document.getElementById("d_ultima_entrega_doc").addEventListener(
+        var dateWidget = document.getElementById("d_ultima_entrega_doc");
+        dateWidget.addEventListener(
             "input",
             function(e) {
                 var dateWidget = e.target;
@@ -101,6 +109,9 @@ Backbone.SIXHIARA.UltimaEntregaDocModalView = Backbone.View.extend({
 
         this.$(".modal").on("hidden.bs.modal", function() {
             self._close();
+        });
+        this.$(".modal").on("shown.bs.modal", function() {
+            dateWidget.focus();
         });
 
         this.$(".modal").modal("show");

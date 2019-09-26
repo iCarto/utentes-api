@@ -102,6 +102,12 @@ Backbone.SIXHIARA.ExploracaoShowView = Backbone.View.extend({
                 });
                 self.subViews.push(buttonRefreshView);
 
+                var buttonLicenciarView = new Backbone.SIXHIARA.ButtonLicenciarView({
+                    el: document.getElementById("licenciar-button"),
+                    model: exploracao,
+                });
+                self.subViews.push(buttonLicenciarView);
+
                 var blockInfoLicenseView = new Backbone.SIXHIARA.BlockInfoLicenseView({
                     el: $("#license-info"),
                     model: exploracao,
