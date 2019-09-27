@@ -111,14 +111,7 @@ function fillExploracao(e, autosave) {
     var exploracao = new Backbone.SIXHIARA.Exploracao({
         estado_lic: SIRHA.ESTADO.NOT_EXISTS,
     });
-    exploracao.set("req_obs", [
-        {
-            create_at: null,
-            author: null,
-            text: null,
-            state: null,
-        },
-    ]);
+
     exploracao.set("exp_name", document.getElementById("exp_name").value);
 
     var nextState = wf.whichNextState(exploracao.get("estado_lic"), e);
