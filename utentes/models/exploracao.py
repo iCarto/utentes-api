@@ -378,8 +378,6 @@ class Exploracao(ExploracaoBase):
         return body.get("exp_id")
 
     def setLicStateAndExpId(self, request, body):
-        self.ara = request.registry.settings.get("ara")
-
         exp_id_to_use = self._which_exp_id_should_be_used(request, body)
 
         if self.exp_id and exp_id_to_use != self.exp_id:
