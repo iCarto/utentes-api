@@ -84,8 +84,11 @@ def nuevo_ciclo_facturacion(request):
         f.c_licencia_sub = lic_sub.c_licencia
         f.consumo_tipo_sup = lic_sup.consumo_tipo
         f.consumo_tipo_sub = lic_sub.consumo_tipo
+        # fact_tipo no se cambia para la factura en curso desde la interfaz
+        # si no para la explotación para tenerlo en cuenta para las siguientes
+        # facturas y no para la actual
+        f.fact_tipo = e.fact_tipo or "Mensal"
         if len(e.facturacao) > 0:
-            f.fact_tipo = e.facturacao[-1].fact_tipo
             f.pago_lic = e.facturacao[-1].pago_lic
             f.consumo_fact_sup = e.facturacao[-1].consumo_fact_sup
             f.consumo_fact_sub = e.facturacao[-1].consumo_fact_sub
@@ -103,7 +106,6 @@ def nuevo_ciclo_facturacion(request):
             f.pago_mes = e.facturacao[-1].pago_mes
             f.pago_iva = e.facturacao[-1].pago_iva
         else:
-            f.fact_tipo = "Mensal"
             f.pago_lic = False
             f.consumo_fact_sup = lic_sup.c_licencia
             f.consumo_fact_sub = lic_sub.c_licencia
@@ -126,7 +128,6 @@ def nuevo_ciclo_facturacion(request):
             {"created_at": None, "autor": None, "text": None, "state": None}
         ]
         e.fact_estado = f.fact_estado
-        e.fact_tipo = f.fact_tipo
         e.pago_lic = f.pago_lic
         e.facturacao.append(f)
         request.db.add(e)

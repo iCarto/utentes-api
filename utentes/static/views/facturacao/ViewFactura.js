@@ -629,7 +629,7 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
                 data.periodoFactura = "04/" + factura.ano + " - 06/" + factura.ano;
             }
             if (factura.mes == 10) {
-                data.periodoFactura = "07/" + factura.ano + " - 08/" + factura.ano;
+                data.periodoFactura = "07/" + factura.ano + " - 09/" + factura.ano;
             }
             if (factura.mes == 1) {
                 data.periodoFactura =
