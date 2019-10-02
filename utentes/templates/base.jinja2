@@ -56,7 +56,11 @@
                         <strong>RENOVAÇÕES</strong>
                     </a></li>
                     {% endif %}
-                      <li class="menu-group">&nbsp;</li>
+
+                    {% if not is_single_user_mode() %}
+                    <li class="menu-group">&nbsp;</li>
+                    {% endif %}
+
                     {% if not is_single_user_mode() and request.has_permission(perm.PERM_GET_USAGE_COMMON) %}
                     <li><a href="{{request.route_url('exploracao-search')}}?ambos_usos">
                         <strong>EXPLORAÇÕES</strong>
@@ -93,7 +97,9 @@
                     </li>
                     {% endif %}
 
+                    {% if not is_single_user_mode() %}
                     <li class="menu-group">&nbsp;</li>
+                    {% endif %}
 
                     {% if not is_single_user_mode() %}
                     <li><a href="{{request.route_url('facturacao-stats')}}">
