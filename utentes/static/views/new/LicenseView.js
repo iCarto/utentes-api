@@ -10,19 +10,7 @@ Backbone.SIXHIARA.LicenseView = Backbone.UILib.BaseView.extend({
         this.options = options || {};
         this.tipo_agua = this.options.tipo_agua;
 
-        this.license = new Backbone.SIXHIARA.Licencia({
-            tipo_agua: this.tipo_agua,
-            estado: this.model.get("estado_lic"),
-            lic_nro: this.model.get("exp_id")
-                ? SIRHA.Services.IdService.calculateNewLicNro(
-                      this.model.get("exp_id"),
-                      this.tipo_agua
-                  )
-                : null,
-            taxa_fixa: null,
-            taxa_uso: this.tipo_agua === "Subterrânea" ? 0.6 : null,
-            iva: window.SIXHIARA.IVA,
-        });
+        this.license = this.createLicense();
 
         this.updateModelView = new Backbone.UILib.WidgetsView({
             el: this.el,
@@ -35,8 +23,7 @@ Backbone.SIXHIARA.LicenseView = Backbone.UILib.BaseView.extend({
             self.renderModal(e);
         });
 
-        this.isDisabled = true;
-        this.estadosLicencia = this.options.domains // NO NO NO
+        this.estadosLicencia = this.options.domains
             .byCategory("licencia_estado")
             .byParent("precampo");
         var estadosView = new Backbone.UILib.SelectView({
@@ -44,13 +31,31 @@ Backbone.SIXHIARA.LicenseView = Backbone.UILib.BaseView.extend({
             collection: this.estadosLicencia,
         });
         this.addView(estadosView);
-        this.render();
-        estadosView.$el.prop("disabled", this.isDisabled);
+    },
+
+    createLicense: function() {
+        return new Backbone.SIXHIARA.Licencia({
+            tipo_agua: this.tipo_agua,
+            estado: this.model.get("estado_lic"),
+            lic_nro: this.model.get("exp_id")
+                ? SIRHA.Services.IdService.calculateNewLicNro(
+                      this.model.get("exp_id"),
+                      this.tipo_agua
+                  )
+                : null,
+            taxa_fixa: null,
+            taxa_uso: this.tipo_agua === "Subterrânea" ? 0.6 : null,
+            iva: window.SIXHIARA.IVA,
+        });
+    },
+
+    render: function() {
+        Backbone.SIXHIARA.LicenseView.__super__.render.call(this);
+        this.disableWidgets();
     },
 
     clickActive: function(e) {
         var self = this;
-        this.$el.toggleClass("panel-disabled");
         if (e.target.checked) {
             this.model.get("licencias").add(this.license);
             this.enableWidgets();
@@ -85,16 +90,16 @@ Backbone.SIXHIARA.LicenseView = Backbone.UILib.BaseView.extend({
                     {silent: true}
                 );
             }
-            this.license = new Backbone.SIXHIARA.Licencia({tipo_agua: this.tipo_agua});
+            this.license = this.createLicense();
             this.updateModelView.model = this.license;
             this.updateModelView.render();
-
             this.disableWidgets();
         }
     },
 
     disableWidgets: function() {
         this.isDisabled = true;
+        this.el.classList.add("panel-disabled");
         this.$("label.set-enability").addClass("text-muted");
         this.$(".widget").prop("disabled", this.isDisabled);
         this.$(".widget-number").prop("disabled", this.isDisabled);
@@ -103,6 +108,7 @@ Backbone.SIXHIARA.LicenseView = Backbone.UILib.BaseView.extend({
 
     enableWidgets: function() {
         this.isDisabled = false;
+        this.el.classList.remove("panel-disabled");
         this.$("label.set-enability").removeClass("text-muted");
         this.$(".widget").prop("disabled", this.isDisabled);
         this.$(".widget-number").prop("disabled", this.isDisabled);
