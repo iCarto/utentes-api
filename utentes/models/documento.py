@@ -72,18 +72,20 @@ class Documento(Base):
 
     def get_file_path_upload(self):
         # by default: packagedir/utentes/static/files/uploads/{id}/{name}
-        return os.path.join(self.defaults["path_root"], "uploads", self.name).encode(
-            sys.getfilesystemencoding()
+        path = os.path.join(self.defaults["path_root"], "uploads", self.name)
+        return path.encode(sys.getfilesystemencoding())
+
+    def get_documento_entity_folder(self):
+        # by default: packagedir/utentes/static/files/attachments/{exploracao_id}
+        path = os.path.join(
+            self.defaults["path_root"], "documentos", str(self.exploracao)
         )
+        return path.encode(sys.getfilesystemencoding())
 
     def get_file_path_save(self):
         # by default: packagedir/utentes/static/files/attachments/{exploracao_id}/{departamento}/{name}
-        path = os.path.join(
-            self.defaults["path_root"],
-            "documentos",
-            str(self.exploracao),
-            self.departamento,
-        )
+        entity_folder = self.get_documento_entity_folder()
+        path = os.path.join(entity_folder, self.departamento)
         if self.unidade is not None:
             path = os.path.join(path, self.unidade)
         path = os.path.join(path, self.name)
@@ -102,7 +104,7 @@ class Documento(Base):
             filehandler = FileHandler()
             filehandler.save(filename, content)
             self.save_file()
-        except:
+        except Exception:
             logging.exception("Error saving file in uploads folder: " + self.name)
             raise
 
@@ -120,6 +122,6 @@ class Documento(Base):
                 filehandler = FileHandler()
                 filehandler.rename(src, dst)
                 self.saved = True
-            except:
+            except Exception:
                 logging.exception("Error renaming file from " + src + " to " + dst)
                 raise
