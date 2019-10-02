@@ -14,6 +14,7 @@ from utentes.models.base import badrequest_exception
 from utentes.models.estado_renovacao import (
     DE_FACTO,
     LICENSED,
+    NOT_APPROVED,
     NOT_VALID,
     PENDING_RENOV_LICENSE,
 )
@@ -159,7 +160,7 @@ def renovacao_update(request):
         r = valid[0]
         r.update_from_json(body)
 
-    if r.estado == DE_FACTO:
+    if r.estado in (DE_FACTO, NOT_APPROVED):
         exp = (
             request.db.query(Exploracao).filter(Exploracao.gid == r.exploracao).all()[0]
         )

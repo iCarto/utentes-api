@@ -15,7 +15,6 @@ PENDING_TECH_DECISION = u"Pendente Parecer Técnico Renovação (DT)"
 PENDING_EMIT_LICENSE = u"Pendente Emisão Renovação Licença (DJ)"
 PENDING_DADOS_LICENSE = u"Pendente Dados Renovação Licença (DJ)"
 PENDING_DIR_SIGN = u"Pendente Firma Renovação Licença (Direcção)"
-
 NOT_APPROVED = u"Não aprovada"
 
 
