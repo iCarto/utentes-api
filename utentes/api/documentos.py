@@ -17,6 +17,7 @@ from utentes.user_utils import (
     ROL_ADMINISTRATIVO,
     ROL_FINANCIERO,
     ROL_JURIDICO,
+    ROL_SINGLE,
     ROL_TECNICO,
     ROL_UNIDAD_DELEGACION,
 )
@@ -318,7 +319,7 @@ def documento_file_upload(request, path_info):
     documento.set_path_root(request.registry.settings["media_root"])
     documento.upload_file(input_file.file)
 
-    if request.user.usergroup != ROL_ADMIN:
+    if request.user.usergroup not in [ROL_ADMIN, ROL_SINGLE]:
         if request.user.usergroup != path_info["departamento"] or (
             path_info["unidade"] is not None
             and request.user.unidade != path_info["unidade"]
@@ -528,7 +529,7 @@ def get_folder_permissions(request, departamento, unidade):
         departamento == ROL_UNIDAD_DELEGACION and unidade is None
     ):
         return ["perm_download"]
-    if request.user.usergroup == ROL_ADMIN:
+    if request.user.usergroup in [ROL_ADMIN, ROL_SINGLE]:
         return ["perm_upload", "perm_download", "perm_delete"]
     if departamento == ROL_UNIDAD_DELEGACION:
         if request.user.unidade == unidade:
