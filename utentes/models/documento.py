@@ -21,7 +21,9 @@ def delete_exploracao_documentos(request, exploracao_gid):
         exploracao_folder = documento.get_documento_entity_folder()
         documento.delete_file()
         request.db.delete(documento)
-    exploracao_folder and shutil.rmtree(exploracao_folder)
+    exploracao_folder and shutil.rmtree(
+        exploracao_folder.encode(sys.getfilesystemencoding())
+    )
 
 
 class Documento(Base):
@@ -80,7 +82,7 @@ class Documento(Base):
         path = os.path.join(
             self.defaults["path_root"], "documentos", str(self.exploracao)
         )
-        return path.encode(sys.getfilesystemencoding())
+        return path
 
     def get_file_path_save(self):
         # by default: packagedir/utentes/static/files/attachments/{exploracao_id}/{departamento}/{name}
