@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
 
+import errno
+import logging
 import os
+
+
+log = logging.getLogger(__name__)
 
 
 class FileHandler:
@@ -24,8 +29,13 @@ class FileHandler:
     def delete(self, filename):
         if filename is None:
             raise Exception("No filename was provided in delete method")
-
-        os.remove(filename)
+        try:
+            os.remove(filename)
+        except OSError as e:
+            log.error("El fichero no existe:" + filename)
+            if e.errno != errno.ENOENT:
+                raise
+            return False
         return True
 
     def rename(self, src, dst):
