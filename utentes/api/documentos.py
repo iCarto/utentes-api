@@ -379,7 +379,7 @@ def documento_file_delete(request):
     file_name = subpath[-1]
     path_info = parse_subpath(subpath[:-1])
 
-    if request.user.usergroup != ROL_ADMIN:
+    if request.user.usergroup not in [ROL_ADMIN, ROL_SINGLE]:
         if request.user.usergroup != path_info["departamento"] or (
             path_info["unidade"] is not None
             and request.user.unidade != path_info["unidade"]
@@ -540,7 +540,7 @@ def get_folder_permissions(request, departamento, unidade):
 
 
 def get_file_permissions(request, departamento, unidade):
-    if request.user.usergroup == ROL_ADMIN:
+    if request.user.usergroup in [ROL_ADMIN, ROL_SINGLE]:
         return ["perm_download", "perm_delete"]
     if departamento == ROL_UNIDAD_DELEGACION:
         if request.user.unidade == unidade:
