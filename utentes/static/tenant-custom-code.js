@@ -422,11 +422,12 @@ if (window.SIRHA.getARA() === "DPMAIP") {
                 return SIRHA.Services.IdService.extractYearFromExpId(exp);
             },
         },
-        {header: "Província", value: "utente.loc_provin"},
-        {header: "Distrito", value: "utente.loc_distri"},
-        {header: "Posto administrativo", value: "utente.loc_posto"},
+        {header: "Província Exploração", value: "loc_provin"},
+        {header: "Distrito Exploração", value: "loc_distri"},
+        {header: "Posto Exploração", value: "loc_posto"},
         {header: "Unidade", value: "loc_unidad"},
         {header: "Bacia", value: "loc_bacia"},
+        {header: "Actividade", value: "actividade.tipo"},
         {
             header: "Tipo de água",
             value: function(exp) {
@@ -469,6 +470,27 @@ if (window.SIRHA.getARA() === "DPMAIP") {
             },
         },
         {
+            header: "Data Emissão Sub.",
+            value: function(exp) {
+                var lic = exp.licencias.filter(lic => lic.tipo_agua == "Subterrânea");
+                return (lic[0] && formatter().formatDate(lic[0].d_emissao)) || null;
+            },
+        },
+        {
+            header: "Data Validade Sub.",
+            value: function(exp) {
+                var lic = exp.licencias.filter(lic => lic.tipo_agua == "Subterrânea");
+                return (lic[0] && formatter().formatDate(lic[0].d_validade)) || null;
+            },
+        },
+        {
+            header: "Tipo de consumo Sub.",
+            value: function(exp) {
+                var lic = exp.licencias.filter(lic => lic.tipo_agua == "Subterrânea");
+                return (lic[0] && lic[0].consumo_tipo) || null;
+            },
+        },
+        {
             header: "Nro Licença Sup.",
             value: function(exp) {
                 var lic = exp.licencias.filter(lic => lic.tipo_agua == "Superficial");
@@ -489,6 +511,29 @@ if (window.SIRHA.getARA() === "DPMAIP") {
                 return (lic[0] && lic[0].tipo_lic) || null;
             },
         },
+        {
+            header: "Data Emissão Sup.",
+            value: function(exp) {
+                var lic = exp.licencias.filter(lic => lic.tipo_agua == "Superficial");
+                return (lic[0] && formatter().formatDate(lic[0].d_emissao)) || null;
+            },
+        },
+        {
+            header: "Data Validade Sup.",
+            value: function(exp) {
+                var lic = exp.licencias.filter(lic => lic.tipo_agua == "Superficial");
+                return (lic[0] && formatter().formatDate(lic[0].d_validade)) || null;
+            },
+        },
+        {
+            header: "Tipo de consumo Sup.",
+            value: function(exp) {
+                var lic = exp.licencias.filter(lic => lic.tipo_agua == "Superficial");
+                return (lic[0] && lic[0].consumo_tipo) || null;
+            },
+        },
+        {header: "Tipo de facturação", value: "fact_tipo"},
+        {header: "Consumo real (m3/mês)", value: "c_real"},
         {header: "Consumo licenciado (m3/mês)", value: "c_licencia"},
         {
             header: "Consumo facturado (m3/mês)",
@@ -511,120 +556,56 @@ if (window.SIRHA.getARA() === "DPMAIP") {
     ];
 
     window.SIXHIARA.shpFieldsToExport = [
-        {header: "exp_id", value: "exp_id"},
-        {header: "exp_name", value: "exp_name"},
-        {header: "d_soli", value: "d_soli"},
-        {header: "loc_provin", value: "loc_provin"},
-        {header: "loc_distri", value: "loc_distri"},
-        {header: "loc_posto", value: "loc_posto"},
-        {header: "loc_nucleo", value: "loc_nucleo"},
-        {header: "loc_endere", value: "loc_endere"},
-        {header: "loc_bacia", value: "loc_bacia"},
-        {header: "loc_subaci", value: "loc_subaci"},
-        {header: "loc_rio", value: "loc_rio"},
-        {header: "utente", value: "utente.nome"},
-        {header: "uten_nuit", value: "utente.nuit"},
+        {header: "nr_exp", value: "exp_id"},
+        {header: "nome_exp", value: "exp_name"},
+        {header: "provincia", value: "loc_provin"},
+        {header: "distrito", value: "loc_distri"},
+        {header: "posto", value: "loc_posto"},
+        {header: "nucleo", value: "loc_nucleo"},
+        {header: "endereco", value: "loc_endere"},
+        {header: "unidade", value: "loc_unidad"},
+        {header: "bacia", value: "loc_bacia"},
+        {header: "actividade", value: "actividade.tipo"},
         {
-            header: "abastecem",
+            header: "tipo_agua",
             value: function(exp) {
-                return exp.actividade ? exp.actividade.tipo === "Abastecimento" : false;
-            },
-        },
-        {
-            header: "saneament",
-            value: function(exp) {
-                return exp.actividade ? exp.actividade.tipo === "Saneamento" : false;
-            },
-        },
-        {
-            header: "agricultu",
-            value: function(exp) {
-                return exp.actividade
-                    ? exp.actividade.tipo === "Agricultura de Regadio"
-                    : false;
-            },
-        },
-        {
-            header: "pecuaria",
-            value: function(exp) {
-                return exp.actividade ? exp.actividade.tipo === "Pecuária" : false;
-            },
-        },
-        {
-            header: "piscicult",
-            value: function(exp) {
-                return exp.actividade ? exp.actividade.tipo === "Piscicultura" : false;
-            },
-        },
-        {
-            header: "industria",
-            value: function(exp) {
-                return exp.actividade ? exp.actividade.tipo === "Indústria" : false;
-            },
-        },
-        {
-            header: "pro_energ",
-            value: function(exp) {
-                return exp.actividade
-                    ? exp.actividade.tipo === "Producção de energia"
-                    : false;
-            },
-        },
-        {header: "con_l_to", value: "c_licencia"},
-        {
-            header: "tipo_subt",
-            value: function(exp) {
-                var lic = exp.licencias.filter(lic => lic.tipo_agua == "Subterrânea");
-                return lic.length > 0;
-            },
-        },
-        {
-            header: "con_l_sb",
-            value: function(exp) {
-                var lic = exp.licencias.filter(lic => lic.tipo_agua == "Subterrânea");
-                return (lic[0] && lic[0].c_licencia) || null;
-            },
-        },
-        {
-            header: "est_l_sb",
-            value: function(exp) {
-                var lic = exp.licencias.filter(lic => lic.tipo_agua == "Subterrânea");
-                return (lic[0] && lic[0].estado) || null;
-            },
-        },
-        {
-            header: "tipo_supe",
-            value: function(exp) {
-                var lic = exp.licencias.filter(lic => lic.tipo_agua == "Superficial");
-                return lic.length > 0;
-            },
-        },
-        {
-            header: "con_l_su",
-            value: function(exp) {
-                var lic = exp.licencias.filter(lic => lic.tipo_agua == "Superficial");
-                return (lic[0] && lic[0].c_licencia) || null;
-            },
-        },
-        {
-            header: "est_l_su",
-            value: function(exp) {
-                var lic = exp.licencias.filter(lic => lic.tipo_agua == "Superficial");
-                return (lic[0] && lic[0].estado) || null;
-            },
-        },
-        {
-            header: "pagamento",
-            value: function(exp) {
-                var pagamento = "No";
-                if (_.isNull(exp.fact_estado)) {
-                    pagamento = null;
-                } else if (exp.fact_estado === window.SIRHA.ESTADO_FACT.PAID) {
-                    pagamento = "Si";
+                var licSubterranea = exp.licencias.filter(
+                    lic => lic.tipo_agua == "Subterrânea"
+                ).length;
+                var licSuperficial = exp.licencias.filter(
+                    lic => lic.tipo_agua == "Superficial"
+                ).length;
+                if (licSubterranea && licSuperficial) {
+                    return "Ambas";
+                } else if (licSubterranea) {
+                    return "Subterrânea";
+                } else if (licSuperficial) {
+                    return "Superficial";
+                } else {
+                    return "";
                 }
-                return pagamento;
             },
         },
-        {header: "observacio", value: "observacio"},
+        {header: "tipo_fact", value: "fact_tipo"},
+        {header: "c_real", value: "c_real"},
+        {header: "c_licenc", value: "c_licencia"},
+        {
+            header: "c_factura",
+            value: function(exp) {
+                return exp.licencias.reduce(
+                    (accumulator, lic) => accumulator + lic.consumo_fact,
+                    0
+                );
+            },
+        },
+        {
+            header: "valor_iva",
+            value: function(exp) {
+                return exp.licencias.reduce(
+                    (accumulator, lic) => accumulator + lic.pago_iva,
+                    0
+                );
+            },
+        },
     ];
 }
