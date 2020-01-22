@@ -56,10 +56,10 @@ def nuevo_ciclo_facturacion(request):
                 or (e.fact_tipo == "Anual" and d_months < 12)
             ):
                 continue
-            if e.fact_tipo == "Trimestral" and today.month not in [4, 7, 10, 1]:
-                continue
-            if e.fact_tipo == "Anual" and today.month != 1:
-                continue
+        if e.fact_tipo == "Trimestral" and today.month not in [4, 7, 10, 1]:
+            continue
+        if e.fact_tipo == "Anual" and today.month != 1:
+            continue
 
         n_exps_invoizables_this_month += 1
         lic_sup = e.get_licencia("sup")
