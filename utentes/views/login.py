@@ -22,10 +22,10 @@ def login(request):
         response.set_cookie("utentes_stub_user", value=user.username)
         import urllib.request, urllib.parse, urllib.error
 
-        usergroup = urllib.parse.quote(user.usergroup.encode("utf-8"))
+        usergroup = urllib.parse.quote(user.usergroup)
         response.set_cookie("utentes_stub_role", value=usergroup)
         if user.unidade is not None:
-            unidade = urllib.parse.quote(user.unidade.encode("utf-8"))
+            unidade = urllib.parse.quote(user.unidade)
             response.set_cookie("utentes_stub_unidade", value=unidade)
         return response
 
@@ -64,10 +64,12 @@ def login(request):
             response.set_cookie("utentes_stub_user", value=user.username)
             import urllib.request, urllib.parse, urllib.error
 
-            usergroup = urllib.parse.quote(user.usergroup.encode("utf-8"))
+            usergroup = urllib.parse.quote(user.usergroup)
+            print (user.usergroup)
+            print (usergroup)
             response.set_cookie("utentes_stub_role", value=usergroup)
             if user.unidade is not None:
-                unidade = urllib.parse.quote(user.unidade.encode("utf-8"))
+                unidade = urllib.parse.quote(user.unidade)
                 response.set_cookie("utentes_stub_unidade", value=unidade)
             return response
 
