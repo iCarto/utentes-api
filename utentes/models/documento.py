@@ -74,8 +74,7 @@ class Documento(Base):
 
     def get_file_path_upload(self):
         # by default: packagedir/utentes/static/files/uploads/{id}/{name}
-        path = os.path.join(self.defaults["path_root"], "uploads", self.name)
-        return path.encode(sys.getfilesystemencoding())
+        return os.path.join(self.defaults["path_root"], "uploads", self.name)
 
     def get_documento_entity_folder(self):
         # by default: packagedir/utentes/static/files/attachments/{exploracao_id}
@@ -90,9 +89,7 @@ class Documento(Base):
         path = os.path.join(entity_folder, self.departamento)
         if self.unidade is not None:
             path = os.path.join(path, self.unidade)
-        path = os.path.join(path, self.name)
-
-        return path.encode(sys.getfilesystemencoding())
+        return os.path.join(path, self.name)
 
     def get_file_path(self):
         if self.saved:
