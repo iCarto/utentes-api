@@ -13,7 +13,7 @@ class CultivosGET_IntegrationTests(DBIntegrationTest):
 
         actual = cultivos_get(self.request)
         count = self.request.db.query(ActividadesCultivos).count()
-        self.assertEquals(len(actual["features"]), count)
+        self.assertEqual(len(actual["features"]), count)
 
     def test_cultivo_get_returns_a_geojson_collection(self):
         from utentes.api.cultivos import cultivos_get
@@ -21,7 +21,7 @@ class CultivosGET_IntegrationTests(DBIntegrationTest):
         actual = cultivos_get(self.request)
         self.assertTrue("features" in actual)
         self.assertTrue("type" in actual)
-        self.assertEquals("FeatureCollection", actual["type"])
+        self.assertEqual("FeatureCollection", actual["type"])
 
     def test_cultivo_get_id_returns_a_geojson(self):
         from utentes.api.cultivos import cultivos_get

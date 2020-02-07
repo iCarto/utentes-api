@@ -38,7 +38,7 @@ class ExploracaoCreateTests(DBIntegrationTest):
         expected["utente"] = {
             "nome": "nome",
             "nuit": "nuit",
-            "uten_tipo": u"Sociedade",
+            "uten_tipo": "Sociedade",
             "reg_comerc": "reg_comerc",
             "reg_zona": "reg_zona",
             "loc_provin": "Niassa",
@@ -55,7 +55,7 @@ class ExploracaoCreateTests(DBIntegrationTest):
             {
                 "lic_nro": None,
                 "tipo_agua": c.K_SUBTERRANEA,
-                "estado": u"Licenciada",
+                "estado": "Licenciada",
                 "d_emissao": "2020-2-2",
                 "d_validade": "2010-10-10",
                 "c_soli_tot": 4.3,
@@ -66,7 +66,7 @@ class ExploracaoCreateTests(DBIntegrationTest):
                 "c_real_int": 2.3,
                 "c_real_fon": 2,
                 "iva": 12.75,
-                "consumo_tipo": u"Fixo",
+                "consumo_tipo": "Fixo",
             }
         ]
         expected["fontes"] = [
@@ -97,57 +97,57 @@ class ExploracaoCreateTests(DBIntegrationTest):
         utente = self.request.db.query(Utente).filter(Utente.nome == "nome").all()[0]
         licencia = actual.licencias[0]
         fonte = actual.fontes[0]
-        self.assertEquals("new name", actual.exp_name)
-        self.assertEquals("2001-01-01", actual.d_soli.isoformat())
-        self.assertEquals("new observ", actual.observacio)
-        self.assertEquals("Niassa", actual.loc_provin)
-        self.assertEquals("Lago", actual.loc_distri)
-        self.assertEquals("Cobue", actual.loc_posto)
-        self.assertEquals("new loc_nucleo", actual.loc_nucleo)
-        self.assertEquals("new enderezo", actual.loc_endere)
-        self.assertEquals("UGBC", actual.loc_unidad)
-        self.assertEquals("Megaruma", actual.loc_bacia)
-        self.assertEquals("Megaruma", actual.loc_subaci)
-        self.assertEquals("Megaruma", actual.loc_rio)
-        self.assertEquals(19.02, float(actual.c_soli))
-        self.assertEquals(29, float(actual.c_licencia))
-        self.assertEquals(92, float(actual.c_real))
-        self.assertEquals(42.23, float(actual.c_estimado))
-        self.assertEquals(utente, actual.utente_rel)
-        self.assertEquals("nome", utente.nome)
-        self.assertEquals("nuit", utente.nuit)
-        self.assertEquals(u"Sociedade", utente.uten_tipo)
-        self.assertEquals("reg_comerc", utente.reg_comerc)
-        self.assertEquals("reg_zona", utente.reg_zona)
-        self.assertEquals("Niassa", utente.loc_provin)
-        self.assertEquals("Lago", utente.loc_distri)
-        self.assertEquals("Cobue", utente.loc_posto)
-        self.assertEquals("loc_nucleo", utente.loc_nucleo)
-        self.assertEquals(c.K_SANEAMENTO, actual.actividade.tipo)
-        self.assertEquals(3, actual.actividade.c_estimado)
-        self.assertEquals(120000, actual.actividade.habitantes)
-        self.assertEquals(actual.exp_id + "/Sub", licencia.lic_nro)
-        self.assertEquals(c.K_SUBTERRANEA, licencia.tipo_agua)
-        self.assertEquals(u"Licenciada", licencia.estado)
-        self.assertEquals("2020-02-02", licencia.d_emissao.isoformat())
-        self.assertEquals("2010-10-10", licencia.d_validade.isoformat())
-        self.assertEquals(4.3, float(licencia.c_soli_tot))
-        self.assertEquals(2.3, float(licencia.c_soli_int))
-        self.assertEquals(2, float(licencia.c_soli_fon))
-        self.assertEquals(10, float(licencia.c_licencia))
-        self.assertEquals(4.3, float(licencia.c_real_tot))
-        self.assertEquals(2.3, float(licencia.c_real_int))
-        self.assertEquals(2, float(licencia.c_real_fon))
-        self.assertEquals(c.K_SUBTERRANEA, fonte.tipo_agua)
-        self.assertEquals("Outros", fonte.tipo_fonte)
-        self.assertEquals("23,23 42,21", fonte.lat_lon)
-        self.assertEquals("2001-01-01", fonte.d_dado.isoformat())
-        self.assertEquals(23.42, float(fonte.c_soli))
-        self.assertEquals(42.23, float(fonte.c_max))
-        self.assertEquals(4.3, float(fonte.c_real))
-        self.assertEquals("Contador", fonte.sist_med)
-        self.assertEquals("manual", fonte.metodo_est)
-        self.assertEquals("observacio", fonte.observacio)
+        self.assertEqual("new name", actual.exp_name)
+        self.assertEqual("2001-01-01", actual.d_soli.isoformat())
+        self.assertEqual("new observ", actual.observacio)
+        self.assertEqual("Niassa", actual.loc_provin)
+        self.assertEqual("Lago", actual.loc_distri)
+        self.assertEqual("Cobue", actual.loc_posto)
+        self.assertEqual("new loc_nucleo", actual.loc_nucleo)
+        self.assertEqual("new enderezo", actual.loc_endere)
+        self.assertEqual("UGBC", actual.loc_unidad)
+        self.assertEqual("Megaruma", actual.loc_bacia)
+        self.assertEqual("Megaruma", actual.loc_subaci)
+        self.assertEqual("Megaruma", actual.loc_rio)
+        self.assertEqual(19.02, float(actual.c_soli))
+        self.assertEqual(29, float(actual.c_licencia))
+        self.assertEqual(92, float(actual.c_real))
+        self.assertEqual(42.23, float(actual.c_estimado))
+        self.assertEqual(utente, actual.utente_rel)
+        self.assertEqual("nome", utente.nome)
+        self.assertEqual("nuit", utente.nuit)
+        self.assertEqual("Sociedade", utente.uten_tipo)
+        self.assertEqual("reg_comerc", utente.reg_comerc)
+        self.assertEqual("reg_zona", utente.reg_zona)
+        self.assertEqual("Niassa", utente.loc_provin)
+        self.assertEqual("Lago", utente.loc_distri)
+        self.assertEqual("Cobue", utente.loc_posto)
+        self.assertEqual("loc_nucleo", utente.loc_nucleo)
+        self.assertEqual(c.K_SANEAMENTO, actual.actividade.tipo)
+        self.assertEqual(3, actual.actividade.c_estimado)
+        self.assertEqual(120000, actual.actividade.habitantes)
+        self.assertEqual(actual.exp_id + "/Sub", licencia.lic_nro)
+        self.assertEqual(c.K_SUBTERRANEA, licencia.tipo_agua)
+        self.assertEqual("Licenciada", licencia.estado)
+        self.assertEqual("2020-02-02", licencia.d_emissao.isoformat())
+        self.assertEqual("2010-10-10", licencia.d_validade.isoformat())
+        self.assertEqual(4.3, float(licencia.c_soli_tot))
+        self.assertEqual(2.3, float(licencia.c_soli_int))
+        self.assertEqual(2, float(licencia.c_soli_fon))
+        self.assertEqual(10, float(licencia.c_licencia))
+        self.assertEqual(4.3, float(licencia.c_real_tot))
+        self.assertEqual(2.3, float(licencia.c_real_int))
+        self.assertEqual(2, float(licencia.c_real_fon))
+        self.assertEqual(c.K_SUBTERRANEA, fonte.tipo_agua)
+        self.assertEqual("Outros", fonte.tipo_fonte)
+        self.assertEqual("23,23 42,21", fonte.lat_lon)
+        self.assertEqual("2001-01-01", fonte.d_dado.isoformat())
+        self.assertEqual(23.42, float(fonte.c_soli))
+        self.assertEqual(42.23, float(fonte.c_max))
+        self.assertEqual(4.3, float(fonte.c_real))
+        self.assertEqual("Contador", fonte.sist_med)
+        self.assertEqual("manual", fonte.metodo_est)
+        self.assertEqual("observacio", fonte.observacio)
 
     def test_create_exploracao_validation_fails(self):
         expected_json = self.build_json()
@@ -176,8 +176,8 @@ class ExploracaoCreateTests(DBIntegrationTest):
             .filter(Exploracao.exp_id == actual_exp_id)
             .all()[0]
         )
-        self.assertEquals(c.K_AGRICULTURA, actual.actividade.tipo)
-        self.assertEquals(0, len(actual.actividade.cultivos))
+        self.assertEqual(c.K_AGRICULTURA, actual.actividade.tipo)
+        self.assertEqual(0, len(actual.actividade.cultivos))
 
     def test_all_activities_can_be_created_without_validations_fails(self):
         expected_json = self.build_json()
@@ -195,8 +195,8 @@ class ExploracaoCreateTests(DBIntegrationTest):
             .filter(Exploracao.exp_id == expected_exp_id)
             .all()[0]
         )
-        self.assertEquals(expected_exp_id, actual.exp_id)
-        self.assertEquals(c.K_ABASTECIMENTO, actual.actividade.tipo)
+        self.assertEqual(expected_exp_id, actual.exp_id)
+        self.assertEqual(c.K_ABASTECIMENTO, actual.actividade.tipo)
 
         expected_json = self.build_json()
         expected_exp_id = expected_json["exp_id"]
@@ -212,8 +212,8 @@ class ExploracaoCreateTests(DBIntegrationTest):
             .filter(Exploracao.exp_id == expected_exp_id)
             .all()[0]
         )
-        self.assertEquals(expected_exp_id, actual.exp_id)
-        self.assertEquals(c.K_AGRICULTURA, actual.actividade.tipo)
+        self.assertEqual(expected_exp_id, actual.exp_id)
+        self.assertEqual(c.K_AGRICULTURA, actual.actividade.tipo)
 
         expected_json = self.build_json()
         expected_exp_id = expected_json["exp_id"]
@@ -225,8 +225,8 @@ class ExploracaoCreateTests(DBIntegrationTest):
             .filter(Exploracao.exp_id == expected_exp_id)
             .all()[0]
         )
-        self.assertEquals(expected_exp_id, actual.exp_id)
-        self.assertEquals(c.K_INDUSTRIA, actual.actividade.tipo)
+        self.assertEqual(expected_exp_id, actual.exp_id)
+        self.assertEqual(c.K_INDUSTRIA, actual.actividade.tipo)
 
         expected_json = self.build_json()
         expected_exp_id = expected_json["exp_id"]
@@ -242,8 +242,8 @@ class ExploracaoCreateTests(DBIntegrationTest):
             .filter(Exploracao.exp_id == expected_exp_id)
             .all()[0]
         )
-        self.assertEquals(expected_exp_id, actual.exp_id)
-        self.assertEquals(c.K_PECUARIA, actual.actividade.tipo)
+        self.assertEqual(expected_exp_id, actual.exp_id)
+        self.assertEqual(c.K_PECUARIA, actual.actividade.tipo)
 
         expected_json = self.build_json()
         expected_exp_id = expected_json["exp_id"]
@@ -255,8 +255,8 @@ class ExploracaoCreateTests(DBIntegrationTest):
             .filter(Exploracao.exp_id == expected_exp_id)
             .all()[0]
         )
-        self.assertEquals(expected_exp_id, actual.exp_id)
-        self.assertEquals(c.K_PISCICULTURA, actual.actividade.tipo)
+        self.assertEqual(expected_exp_id, actual.exp_id)
+        self.assertEqual(c.K_PISCICULTURA, actual.actividade.tipo)
 
         expected_json = self.build_json()
         expected_exp_id = expected_json["exp_id"]
@@ -268,8 +268,8 @@ class ExploracaoCreateTests(DBIntegrationTest):
             .filter(Exploracao.exp_id == expected_exp_id)
             .all()[0]
         )
-        self.assertEquals(expected_exp_id, actual.exp_id)
-        self.assertEquals(c.K_ENERGIA, actual.actividade.tipo)
+        self.assertEqual(expected_exp_id, actual.exp_id)
+        self.assertEqual(c.K_ENERGIA, actual.actividade.tipo)
 
         expected_json = self.build_json()
         expected_exp_id = expected_json["exp_id"]
@@ -281,8 +281,8 @@ class ExploracaoCreateTests(DBIntegrationTest):
             .filter(Exploracao.exp_id == expected_exp_id)
             .all()[0]
         )
-        self.assertEquals(expected_exp_id, actual.exp_id)
-        self.assertEquals(c.K_SANEAMENTO, actual.actividade.tipo)
+        self.assertEqual(expected_exp_id, actual.exp_id)
+        self.assertEqual(c.K_SANEAMENTO, actual.actividade.tipo)
 
 
 if __name__ == "__main__":

@@ -29,17 +29,17 @@ class TanquesPiscicolasUpdateTests(TanquesPiscicolasTests):
         expected_json["cumprimen"] = 3
         expected_json[
             "observacio"
-        ] = u"Un texto largo con ñ y palabras con tilde como camión"
+        ] = "Un texto largo con ñ y palabras con tilde como camión"
         expected_json["venda"] = 33
         self.request.json_body = expected_json
         tanques_piscicolas_update(self.request)
         actual = self.request.db.query(Entity).filter(Entity.gid == gid).first()
-        self.assertEquals("Tanque", actual.tipo)
-        self.assertEquals(3, actual.cumprimen)
-        self.assertEquals(
-            u"Un texto largo con ñ y palabras con tilde como camión", actual.observacio
+        self.assertEqual("Tanque", actual.tipo)
+        self.assertEqual(3, actual.cumprimen)
+        self.assertEqual(
+            "Un texto largo con ñ y palabras con tilde como camión", actual.observacio
         )
-        self.assertEquals(33, actual.venda)
+        self.assertEqual(33, actual.venda)
         self.assertIsNone(actual.the_geom)
 
     def test_update_tanque_the_geom(self):

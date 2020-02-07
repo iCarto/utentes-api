@@ -458,7 +458,7 @@ class Exploracao(ExploracaoBase):
                 ),
                 None,
             )
-            for c in json_fact.keys():
+            for c in list(json_fact.keys()):
                 setattr(fact, c, json_fact.get(c))
             fact.pago_mes = (
                 (fact.pago_mes_sup or 0) + (fact.pago_mes_sub or 0)

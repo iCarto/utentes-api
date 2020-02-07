@@ -3,8 +3,8 @@
 import datetime
 import os
 
-from find_pg_executable import find_pg_dump_path
-from utils import (
+from .find_pg_executable import find_pg_dump_path
+from .utils import (
     DBUtilsException,
     connection_parameters,
     ensure_connection_is_available,
@@ -58,7 +58,7 @@ def dump(session):
 
 
 if __name__ == "__main__":
-    from utils import _get_session
+    from .utils import _get_session
 
     _session = _get_session("arasul")
     dump(_session)

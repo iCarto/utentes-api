@@ -33,11 +33,11 @@ class ExploracaosDeleteTests(DBIntegrationTest):
         nro_utentes = (
             self.request.db.query(Utente).filter(Utente.gid == gid_utente).count()
         )
-        self.assertEquals(0, nro_exps)
-        self.assertEquals(0, nro_lics)
-        self.assertEquals(0, nro_fons)
-        self.assertEquals(0, nro_acts)
-        self.assertEquals(1, nro_utentes)
+        self.assertEqual(0, nro_exps)
+        self.assertEqual(0, nro_lics)
+        self.assertEqual(0, nro_fons)
+        self.assertEqual(0, nro_acts)
+        self.assertEqual(1, nro_utentes)
 
 
 if __name__ == "__main__":

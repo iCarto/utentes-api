@@ -71,7 +71,7 @@ def which(program, case_sensitive=_IS_CASE_SENSITIVE_FILESYSTEM):
     paths = [path.strip('"') for path in os.environ.get("PATH", "").split(os.pathsep)]
     exe_exts = [ext for ext in os.environ.get("PATHEXT", "").split(os.pathsep)]
     if not case_sensitive:
-        exe_exts = map(str.lower, exe_exts)
+        exe_exts = list(map(str.lower, exe_exts))
 
     # try append program path per directory
     for path in paths:
@@ -101,4 +101,4 @@ def which(program, case_sensitive=_IS_CASE_SENSITIVE_FILESYSTEM):
 
 
 if __name__ == "__main__":
-    print(which(sys.argv[1]))
+    print((which(sys.argv[1])))

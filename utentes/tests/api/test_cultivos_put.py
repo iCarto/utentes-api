@@ -36,11 +36,11 @@ class CultivosUpdateTests(DBIntegrationTest):
             .filter(ActividadesCultivos.gid == gid)
             .first()
         )
-        self.assertEquals("Verduras", actual.cultivo)
-        self.assertEquals(3, actual.c_estimado)
-        self.assertEquals("Gravidade", actual.rega)
-        self.assertEquals(33, actual.eficiencia)
-        self.assertEquals("uma observacio", actual.observacio)
+        self.assertEqual("Verduras", actual.cultivo)
+        self.assertEqual(3, actual.c_estimado)
+        self.assertEqual("Gravidade", actual.rega)
+        self.assertEqual(33, actual.eficiencia)
+        self.assertEqual("uma observacio", actual.observacio)
         self.assertIsNone(actual.the_geom)
 
     def test_update_cultivo_the_geom(self):
@@ -70,7 +70,7 @@ class CultivosUpdateTests(DBIntegrationTest):
             .filter(ActividadesCultivos.gid == gid)
             .first()
         )
-        self.assertAlmostEquals(367.77, float(actual.area), 2)
+        self.assertAlmostEqual(367.77, float(actual.area), 2)
 
     def test_not_update_cultivo_the_geom(self):
         expected = self.request.db.query(ActividadesCultivos).first()
@@ -135,7 +135,7 @@ class CultivosUpdateTests(DBIntegrationTest):
         actual = (
             s.query(ActividadesCultivos).filter(ActividadesCultivos.gid == gid).first()
         )
-        self.assertEquals(rega, actual.rega)
+        self.assertEqual(rega, actual.rega)
 
 
 if __name__ == "__main__":

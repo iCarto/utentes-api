@@ -11,4 +11,4 @@ import utentes.constants.perms as perm
     renderer="utentes:templates/users.jinja2",
 )
 def users_admin(request):
-    return {"title": u"Administração de utilizadores"}
+    return {"title": "Administração de utilizadores"}

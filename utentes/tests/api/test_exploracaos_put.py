@@ -81,21 +81,21 @@ class ExploracaoUpdateTests(DBIntegrationTest):
         actual = (
             self.request.db.query(Exploracao).filter(Exploracao.gid == gid).all()[0]
         )
-        self.assertEquals("new name", actual.exp_name)
-        self.assertEquals("2001-01-01", actual.d_soli.isoformat())
-        self.assertEquals("new observ", actual.observacio)
-        self.assertEquals("Niassa", actual.loc_provin)
-        self.assertEquals("Lago", actual.loc_distri)
-        self.assertEquals("Cobue", actual.loc_posto)
-        self.assertEquals("new loc_nucleo", actual.loc_nucleo)
-        self.assertEquals("new enderezo", actual.loc_endere)
-        self.assertEquals("UGBC", actual.loc_unidad)
-        self.assertEquals("Ridi", actual.loc_bacia)
-        self.assertEquals("Ridi", actual.loc_subaci)
-        self.assertEquals(19.02, float(actual.c_soli))
-        self.assertEquals(29, float(actual.c_licencia))
-        self.assertEquals(92, float(actual.c_real))
-        self.assertEquals(42.23, float(actual.c_estimado))
+        self.assertEqual("new name", actual.exp_name)
+        self.assertEqual("2001-01-01", actual.d_soli.isoformat())
+        self.assertEqual("new observ", actual.observacio)
+        self.assertEqual("Niassa", actual.loc_provin)
+        self.assertEqual("Lago", actual.loc_distri)
+        self.assertEqual("Cobue", actual.loc_posto)
+        self.assertEqual("new loc_nucleo", actual.loc_nucleo)
+        self.assertEqual("new enderezo", actual.loc_endere)
+        self.assertEqual("UGBC", actual.loc_unidad)
+        self.assertEqual("Ridi", actual.loc_bacia)
+        self.assertEqual("Ridi", actual.loc_subaci)
+        self.assertEqual(19.02, float(actual.c_soli))
+        self.assertEqual(29, float(actual.c_licencia))
+        self.assertEqual(92, float(actual.c_real))
+        self.assertEqual(42.23, float(actual.c_estimado))
 
     def test_update_exploracao_the_geom(self):
         expected = self.request.db.query(Exploracao).all()[0]
@@ -127,7 +127,7 @@ class ExploracaoUpdateTests(DBIntegrationTest):
         # -12.8576290475983, 40.3774400124151 -12.8723906015176, 40.3566872025163
         # -12.8724988506617, 40.3566078671374 -12.8577371684984)))', 4326 ),
         # 32737));
-        self.assertAlmostEquals(367.77, float(actual.area), 2)
+        self.assertAlmostEqual(367.77, float(actual.area), 2)
 
     def test_update_exploracao_delete_the_geom(self):
         expected = (
@@ -159,7 +159,7 @@ class ExploracaoUpdateTests(DBIntegrationTest):
         self.assertRaises(HTTPBadRequest, exploracaos_update, self.request)
         s = self.create_new_session()
         actual = s.query(Exploracao).filter(Exploracao.gid == gid).all()[0]
-        self.assertEquals(exp_name, actual.exp_name)
+        self.assertEqual(exp_name, actual.exp_name)
 
 
 class ExploracaoUpdateFonteTests(DBIntegrationTest):
@@ -188,7 +188,7 @@ class ExploracaoUpdateFonteTests(DBIntegrationTest):
         actual = (
             self.request.db.query(Exploracao).filter(Exploracao.gid == gid).all()[0]
         )
-        self.assertEquals(count + 1, len(actual.fontes))
+        self.assertEqual(count + 1, len(actual.fontes))
 
     def test_update_exploracao_create_fonte_validation_fails(self):
         expected = self.get_test_exploracao()
@@ -201,7 +201,7 @@ class ExploracaoUpdateFonteTests(DBIntegrationTest):
         self.assertRaises(HTTPBadRequest, exploracaos_update, self.request)
         s = self.create_new_session()
         actual = s.query(Exploracao).filter(Exploracao.gid == gid).all()[0]
-        self.assertEquals(expected_count, len(actual.fontes))
+        self.assertEqual(expected_count, len(actual.fontes))
 
     def test_update_exploracao_update_fonte_values(self):
         expected = self.get_test_exploracao()
@@ -220,15 +220,15 @@ class ExploracaoUpdateFonteTests(DBIntegrationTest):
         self.request.json_body = expected_json
         exploracaos_update(self.request)
         actual = self.request.db.query(Fonte).filter(Fonte.gid == gid_fonte).all()[0]
-        self.assertEquals("23,23 42,21", actual.lat_lon)
-        self.assertEquals("2001-01-01", actual.d_dado.isoformat())
-        self.assertEquals(23.42, float(actual.c_soli))
-        self.assertEquals(42.23, float(actual.c_max))
-        self.assertEquals(4.3, float(actual.c_real))
-        self.assertEquals("Contador", actual.sist_med)
-        self.assertEquals("manual", actual.metodo_est)
-        self.assertEquals("nao", actual.observacio)
-        self.assertEquals(gid, actual.exploracao)
+        self.assertEqual("23,23 42,21", actual.lat_lon)
+        self.assertEqual("2001-01-01", actual.d_dado.isoformat())
+        self.assertEqual(23.42, float(actual.c_soli))
+        self.assertEqual(42.23, float(actual.c_max))
+        self.assertEqual(4.3, float(actual.c_real))
+        self.assertEqual("Contador", actual.sist_med)
+        self.assertEqual("manual", actual.metodo_est)
+        self.assertEqual("nao", actual.observacio)
+        self.assertEqual(gid, actual.exploracao)
 
     def test_update_exploracao_update_fonte_validation_fails(self):
         expected = self.request.db.query(Exploracao).all()[0]
@@ -241,7 +241,7 @@ class ExploracaoUpdateFonteTests(DBIntegrationTest):
         self.assertRaises(HTTPBadRequest, exploracaos_update, self.request)
         s = self.create_new_session()
         actual = s.query(Exploracao).filter(Exploracao.gid == gid).all()[0]
-        self.assertEquals(tipo_agua, actual.fontes[0].tipo_agua)
+        self.assertEqual(tipo_agua, actual.fontes[0].tipo_agua)
 
     def test_update_exploracao_delete_fonte(self):
         expected = self.request.db.query(Exploracao).all()[0]
@@ -254,7 +254,7 @@ class ExploracaoUpdateFonteTests(DBIntegrationTest):
         actual = (
             self.request.db.query(Exploracao).filter(Exploracao.gid == gid).all()[0]
         )
-        self.assertEquals(0, len(actual.fontes))
+        self.assertEqual(0, len(actual.fontes))
 
 
 class ExploracaoUpdateLicenciaTests(DBIntegrationTest):
@@ -286,7 +286,7 @@ class ExploracaoUpdateLicenciaTests(DBIntegrationTest):
         actual = (
             self.request.db.query(Exploracao).filter(Exploracao.gid == gid).all()[0]
         )
-        self.assertEquals(2, len(actual.licencias))
+        self.assertEqual(2, len(actual.licencias))
 
     def test_update_exploracao_create_licencia_validation_fails(self):
         expected = self.get_test_exploracao()
@@ -298,7 +298,7 @@ class ExploracaoUpdateLicenciaTests(DBIntegrationTest):
         self.assertRaises(HTTPBadRequest, exploracaos_update, self.request)
         s = create_new_session()
         actual = s.query(Exploracao).filter(Exploracao.gid == gid).all()[0]
-        self.assertEquals(1, len(actual.licencias))
+        self.assertEqual(1, len(actual.licencias))
 
     def test_update_exploracao_update_licencia(self):
         expected = self.get_test_exploracao()
@@ -307,7 +307,7 @@ class ExploracaoUpdateLicenciaTests(DBIntegrationTest):
         lic_nro = expected.licencias[0].lic_nro
         self.request.matchdict.update(dict(id=gid))
         expected_json = build_json(self.request, expected)
-        expected_json["licencias"][0]["estado"] = u"Não aprovada"
+        expected_json["licencias"][0]["estado"] = "Não aprovada"
         expected_json["licencias"][0]["d_emissao"] = "1999-9-9"
         expected_json["licencias"][0]["d_validade"] = "1999-8-7"
         expected_json["licencias"][0]["c_soli_tot"] = 23.45
@@ -325,19 +325,19 @@ class ExploracaoUpdateLicenciaTests(DBIntegrationTest):
         actual = (
             self.request.db.query(Exploracao).filter(Exploracao.gid == gid).all()[0]
         )
-        self.assertEquals(1, len(actual.licencias))
-        self.assertEquals(lic_gid, actual.licencias[0].gid)
-        self.assertEquals(lic_nro, actual.licencias[0].lic_nro)
-        self.assertEquals(u"Não aprovada", actual.licencias[0].estado)
-        self.assertEquals("1999-09-09", actual.licencias[0].d_emissao.isoformat())
-        self.assertEquals("1999-08-07", actual.licencias[0].d_validade.isoformat())
-        self.assertEquals(23.45, float(actual.licencias[0].c_soli_tot))
-        self.assertEquals(0.45, float(actual.licencias[0].c_soli_int))
-        self.assertEquals(23, float(actual.licencias[0].c_soli_fon))
-        self.assertEquals(999, float(actual.licencias[0].c_licencia))
-        self.assertEquals(23.45, float(actual.licencias[0].c_real_tot))
-        self.assertEquals(0.45, float(actual.licencias[0].c_real_int))
-        self.assertEquals(23, float(actual.licencias[0].c_real_fon))
+        self.assertEqual(1, len(actual.licencias))
+        self.assertEqual(lic_gid, actual.licencias[0].gid)
+        self.assertEqual(lic_nro, actual.licencias[0].lic_nro)
+        self.assertEqual("Não aprovada", actual.licencias[0].estado)
+        self.assertEqual("1999-09-09", actual.licencias[0].d_emissao.isoformat())
+        self.assertEqual("1999-08-07", actual.licencias[0].d_validade.isoformat())
+        self.assertEqual(23.45, float(actual.licencias[0].c_soli_tot))
+        self.assertEqual(0.45, float(actual.licencias[0].c_soli_int))
+        self.assertEqual(23, float(actual.licencias[0].c_soli_fon))
+        self.assertEqual(999, float(actual.licencias[0].c_licencia))
+        self.assertEqual(23.45, float(actual.licencias[0].c_real_tot))
+        self.assertEqual(0.45, float(actual.licencias[0].c_real_int))
+        self.assertEqual(23, float(actual.licencias[0].c_real_fon))
 
     def test_update_exploracao_update_licencia_validation_fails(self):
         expected = self.get_test_exploracao()
@@ -352,9 +352,9 @@ class ExploracaoUpdateLicenciaTests(DBIntegrationTest):
         self.assertRaises(HTTPBadRequest, exploracaos_update, self.request)
         s = self.create_new_session()
         actual = s.query(Exploracao).filter(Exploracao.gid == gid).all()[0]
-        self.assertEquals(1, len(actual.licencias))
-        self.assertEquals(lic_gid, actual.licencias[0].gid)
-        self.assertEquals(tipo_agua, actual.licencias[0].tipo_agua)
+        self.assertEqual(1, len(actual.licencias))
+        self.assertEqual(lic_gid, actual.licencias[0].gid)
+        self.assertEqual(tipo_agua, actual.licencias[0].tipo_agua)
 
     def test_update_exploracao_delete_licencia(self):
         expected = self.get_test_exploracao()
@@ -371,8 +371,8 @@ class ExploracaoUpdateLicenciaTests(DBIntegrationTest):
         lic_count = (
             self.request.db.query(Licencia).filter(Licencia.gid == lic_gid).count()
         )
-        self.assertEquals(1, len(actual.licencias))
-        self.assertEquals(1, lic_count)
+        self.assertEqual(1, len(actual.licencias))
+        self.assertEqual(1, lic_count)
 
 
 class ExploracaoUpdateUtenteTests(DBIntegrationTest):
@@ -400,21 +400,21 @@ class ExploracaoUpdateUtenteTests(DBIntegrationTest):
         expected_json["utente"]["loc_nucleo"] = "new loc_nucleo"
         expected_json["utente"]["observacio"] = "new observacio"
         self.request.json_body = expected_json
-        print (expected_json["utente"])
+        print((expected_json["utente"]))
         exploracaos_update(self.request)
         actual = (
             self.request.db.query(Exploracao).filter(Exploracao.gid == gid).all()[0]
         )
-        print (actual.utente_rel.__json__(self.request))
-        self.assertEquals("new nuit", actual.utente_rel.nuit)
-        self.assertEquals("Outro", actual.utente_rel.uten_tipo)
-        self.assertEquals("new reg_comerc", actual.utente_rel.reg_comerc)
-        self.assertEquals("new reg_zona", actual.utente_rel.reg_zona)
-        self.assertEquals("Niassa", actual.utente_rel.loc_provin)
-        self.assertEquals("Lago", actual.utente_rel.loc_distri)
-        self.assertEquals("Cobue", actual.utente_rel.loc_posto)
-        self.assertEquals("new loc_nucleo", actual.utente_rel.loc_nucleo)
-        self.assertEquals("new observacio", actual.utente_rel.observacio)
+        print((actual.utente_rel.__json__(self.request)))
+        self.assertEqual("new nuit", actual.utente_rel.nuit)
+        self.assertEqual("Outro", actual.utente_rel.uten_tipo)
+        self.assertEqual("new reg_comerc", actual.utente_rel.reg_comerc)
+        self.assertEqual("new reg_zona", actual.utente_rel.reg_zona)
+        self.assertEqual("Niassa", actual.utente_rel.loc_provin)
+        self.assertEqual("Lago", actual.utente_rel.loc_distri)
+        self.assertEqual("Cobue", actual.utente_rel.loc_posto)
+        self.assertEqual("new loc_nucleo", actual.utente_rel.loc_nucleo)
+        self.assertEqual("new observacio", actual.utente_rel.observacio)
 
     def test_update_exploracao_update_utente_validation_fails(self):
         exp = self.get_test_exploracao()
@@ -429,7 +429,7 @@ class ExploracaoUpdateUtenteTests(DBIntegrationTest):
         self.assertRaises(HTTPBadRequest, exploracaos_update, self.request)
         s = self.create_new_session()
         actual = s.query(Exploracao).filter(Exploracao.gid == gid).all()[0]
-        self.assertEquals(expected.utente_rel.nome, actual.utente_rel.nome)
+        self.assertEqual(expected.utente_rel.nome, actual.utente_rel.nome)
 
     @unittest.skip("""Probablemente relacionado con upsert_utente""")
     def test_update_exploracao_rename_utente(self):
@@ -451,14 +451,14 @@ class ExploracaoUpdateUtenteTests(DBIntegrationTest):
         actual = (
             self.request.db.query(Exploracao).filter(Exploracao.gid == gid).all()[0]
         )
-        self.assertEquals(expected_utente_gid, actual.utente)
-        self.assertEquals("foo - bar", actual.utente_rel.nome)
+        self.assertEqual(expected_utente_gid, actual.utente)
+        self.assertEqual("foo - bar", actual.utente_rel.nome)
         u = (
             self.request.db.query(Utente)
             .filter(Utente.gid == expected_utente_gid)
             .all()[0]
         )
-        self.assertEquals("foo - bar", u.nome)
+        self.assertEqual("foo - bar", u.nome)
 
     def test_update_exploracao_rename_utente_validation_fails(self):
         exp = self.get_test_exploracao()
@@ -499,7 +499,7 @@ class ExploracaoUpdateUtenteTests(DBIntegrationTest):
         actual = (
             self.request.db.query(Exploracao).filter(Exploracao.gid == gid).all()[0]
         )
-        self.assertEquals(utente.nome, actual.utente_rel.nome)
+        self.assertEqual(utente.nome, actual.utente_rel.nome)
 
     def test_update_exploracao_new_utente(self):
         exp = self.get_test_exploracao()
@@ -517,7 +517,7 @@ class ExploracaoUpdateUtenteTests(DBIntegrationTest):
         actual = (
             self.request.db.query(Exploracao).filter(Exploracao.gid == gid).all()[0]
         )
-        self.assertEquals("test nome", actual.utente_rel.nome)
+        self.assertEqual("test nome", actual.utente_rel.nome)
 
 
 class ExploracaoUpdateActividadeTests(DBIntegrationTest):
@@ -532,7 +532,7 @@ class ExploracaoUpdateActividadeTests(DBIntegrationTest):
         actual = (
             self.request.db.query(Exploracao).filter(Exploracao.gid == gid).all()[0]
         )
-        self.assertEquals(101.11, float(actual.actividade.c_estimado))
+        self.assertEqual(101.11, float(actual.actividade.c_estimado))
 
     def test_update_exploracao_update_actividade_validation_fails(self):
         expected = expected = self.get_test_exploracao()
@@ -549,10 +549,10 @@ class ExploracaoUpdateActividadeTests(DBIntegrationTest):
         self.assertRaises(HTTPBadRequest, exploracaos_update, self.request)
         s = self.create_new_session()
         actual = s.query(Exploracao).filter(Exploracao.gid == gid).all()[0]
-        self.assertEquals(expected.utente_rel.observacio, actual.utente_rel.observacio)
-        self.assertNotEquals(" foo - bar ", actual.utente_rel.observacio)
-        self.assertEquals(expected.observacio, actual.observacio)
-        self.assertNotEquals(" foo - bar ", actual.observacio)
+        self.assertEqual(expected.utente_rel.observacio, actual.utente_rel.observacio)
+        self.assertNotEqual(" foo - bar ", actual.utente_rel.observacio)
+        self.assertEqual(expected.observacio, actual.observacio)
+        self.assertNotEqual(" foo - bar ", actual.observacio)
 
     def test_update_exploracao_update_actividade_not_run_activity_validations(self):
         expected = expected = self.get_test_exploracao()
@@ -560,16 +560,16 @@ class ExploracaoUpdateActividadeTests(DBIntegrationTest):
         self.request.matchdict.update(dict(id=gid))
         expected_json = build_json(self.request, expected)
         expected_json["observacio"] = " foo - bar "
-        expected_json["licencias"][0]["estado"] = u"Não aprovada"
+        expected_json["licencias"][0]["estado"] = "Não aprovada"
         expected_json["actividade"]["c_estimado"] = None
         self.request.json_body = expected_json
         exploracaos_update(self.request)
         actual = (
             self.request.db.query(Exploracao).filter(Exploracao.gid == gid).all()[0]
         )
-        self.assertEquals(u"Não aprovada", actual.licencias[0].estado)
+        self.assertEqual("Não aprovada", actual.licencias[0].estado)
         self.assertIsNone(actual.actividade.c_estimado)
-        self.assertEquals(" foo - bar ", actual.observacio)
+        self.assertEqual(" foo - bar ", actual.observacio)
 
     def test_update_exploracao_change_actividade(self):
         expected = expected = self.get_test_exploracao()
@@ -594,10 +594,10 @@ class ExploracaoUpdateActividadeTests(DBIntegrationTest):
             .filter(Actividade.gid == gid_actividade)
             .count()
         )
-        self.assertEquals(0, count_actividade)  # was deleted
-        self.assertEquals(c.K_SANEAMENTO, actual.actividade.tipo)
-        self.assertEquals(23, actual.actividade.c_estimado)
-        self.assertEquals(42, actual.actividade.habitantes)
+        self.assertEqual(0, count_actividade)  # was deleted
+        self.assertEqual(c.K_SANEAMENTO, actual.actividade.tipo)
+        self.assertEqual(23, actual.actividade.c_estimado)
+        self.assertEqual(42, actual.actividade.habitantes)
 
     @unittest.skip("fix me")
     def test_update_exploracao_update_actividade_pecuaria_delete_res(self):
@@ -619,7 +619,7 @@ class ExploracaoUpdateActividadeTests(DBIntegrationTest):
             .all()[0]
         )
         reses = actual.actividade.reses
-        self.assertEquals(2, len(reses))
+        self.assertEqual(2, len(reses))
 
     @unittest.skip("fix me")
     def test_update_exploracao_update_actividade_pecuaria_update_res(self):
@@ -639,8 +639,8 @@ class ExploracaoUpdateActividadeTests(DBIntegrationTest):
             .all()[0]
         )
         reses = actual.actividade.reses
-        self.assertEquals(3, len(reses))
-        self.assertEquals(float(reses[0].c_estimado), 9999.88)
+        self.assertEqual(3, len(reses))
+        self.assertEqual(float(reses[0].c_estimado), 9999.88)
 
     @unittest.skip("fix me")
     def test_update_exploracao_update_actividade_pecuaria_create_res(self):
@@ -669,9 +669,9 @@ class ExploracaoUpdateActividadeTests(DBIntegrationTest):
             .all()[0]
         )
         reses = actual.actividade.reses
-        self.assertEquals(old_len + 1, len(reses))
-        self.assertEquals(reses[3].c_estimado, 40)
-        self.assertEquals(reses[3].c_res, 4000)
+        self.assertEqual(old_len + 1, len(reses))
+        self.assertEqual(reses[3].c_estimado, 40)
+        self.assertEqual(reses[3].c_res, 4000)
 
     @unittest.skip("fix me")
     def test_update_exploracao_update_actividade_pecuaria_create_res_with_same_res_tipo(
@@ -703,7 +703,7 @@ class ExploracaoUpdateActividadeTests(DBIntegrationTest):
             .all()[0]
         )
         reses = actual.actividade.reses
-        self.assertEquals(old_len + 1, len(reses))
+        self.assertEqual(old_len + 1, len(reses))
         # self.assertEquals(reses[3].c_estimado, 40)
         # self.assertEquals(reses[3].c_res, 4000)
         # self.assertEquals(reses[0].gid, 1)
@@ -741,10 +741,10 @@ class ExploracaoUpdateActividadeTests(DBIntegrationTest):
             .all()[0]
         )
         reses = actual.actividade.reses
-        self.assertEquals(3, len(reses))
-        self.assertEquals(float(reses[1].c_estimado), 9999.77)
-        self.assertEquals(reses[2].c_estimado, 50)
-        self.assertEquals(reses[2].c_res, 5000)
+        self.assertEqual(3, len(reses))
+        self.assertEqual(float(reses[1].c_estimado), 9999.77)
+        self.assertEqual(reses[2].c_estimado, 50)
+        self.assertEqual(reses[2].c_res, 5000)
 
     def test_update_exploracao_update_actividade_regadia_create_cultivo(self):
         from utentes.models.actividade import ActividadesAgriculturaRega
@@ -776,9 +776,9 @@ class ExploracaoUpdateActividadeTests(DBIntegrationTest):
             .all()[0]
         )
         cultivos = actual.actividade.cultivos
-        self.assertEquals(old_len + 1, len(cultivos))
-        self.assertEquals(cultivos[old_len].c_estimado, 5)
-        self.assertEquals(cultivos[old_len].eficiencia, 55)
+        self.assertEqual(old_len + 1, len(cultivos))
+        self.assertEqual(cultivos[old_len].c_estimado, 5)
+        self.assertEqual(cultivos[old_len].eficiencia, 55)
 
 
 if __name__ == "__main__":

@@ -91,7 +91,7 @@ _WKB = {"2D": WKB_2D, "Z": WKB_Z, "M": WKB_M, "ZM": WKB_ZM}
 #: geometry type.
 #: NOTE: Byte ordering is big endian.
 _BINARY_TO_GEOM_TYPE = dict(
-    chain(*((reversed(x) for x in wkb_map.items()) for wkb_map in _WKB.values()))
+    chain(*((reversed(x) for x in list(wkb_map.items())) for wkb_map in list(_WKB.values())))
 )
 
 _INT_TO_DIM_LABEL = {2: "2D", 3: "Z", 4: "ZM"}
@@ -443,11 +443,11 @@ def _dump_geometrycollection(obj, big_endian):
     if not big_endian:
         first_type = first_type[::-1]
 
-    if first_type in WKB_2D.values():
+    if first_type in list(WKB_2D.values()):
         num_dims = 2
-    elif first_type in WKB_Z.values():
+    elif first_type in list(WKB_Z.values()):
         num_dims = 3
-    elif first_type in WKB_ZM.values():
+    elif first_type in list(WKB_ZM.values()):
         num_dims = 4
 
     wkb_string, byte_fmt, byte_order = _header_bytefmt_byteorder(
@@ -509,14 +509,14 @@ def _load_linestring(big_endian, type_bytes, data_bytes):
 
     is_m = False
 
-    if type_bytes in WKB_2D.values():
+    if type_bytes in list(WKB_2D.values()):
         num_dims = 2
-    elif type_bytes in WKB_Z.values():
+    elif type_bytes in list(WKB_Z.values()):
         num_dims = 3
-    elif type_bytes in WKB_M.values():
+    elif type_bytes in list(WKB_M.values()):
         num_dims = 3
         is_m = True
-    elif type_bytes in WKB_ZM.values():
+    elif type_bytes in list(WKB_ZM.values()):
         num_dims = 4
 
     coords = []
@@ -543,14 +543,14 @@ def _load_polygon(big_endian, type_bytes, data_bytes):
 
     is_m = False
 
-    if type_bytes in WKB_2D.values():
+    if type_bytes in list(WKB_2D.values()):
         num_dims = 2
-    elif type_bytes in WKB_Z.values():
+    elif type_bytes in list(WKB_Z.values()):
         num_dims = 3
-    elif type_bytes in WKB_M.values():
+    elif type_bytes in list(WKB_M.values()):
         num_dims = 3
         is_m = True
-    elif type_bytes in WKB_ZM.values():
+    elif type_bytes in list(WKB_ZM.values()):
         num_dims = 4
 
     coords = []
@@ -586,14 +586,14 @@ def _load_multipoint(big_endian, type_bytes, data_bytes):
 
     is_m = False
 
-    if type_bytes in WKB_2D.values():
+    if type_bytes in list(WKB_2D.values()):
         num_dims = 2
-    elif type_bytes in WKB_Z.values():
+    elif type_bytes in list(WKB_Z.values()):
         num_dims = 3
-    elif type_bytes in WKB_M.values():
+    elif type_bytes in list(WKB_M.values()):
         num_dims = 3
         is_m = True
-    elif type_bytes in WKB_ZM.values():
+    elif type_bytes in list(WKB_ZM.values()):
         num_dims = 4
 
     if is_m:
@@ -635,14 +635,14 @@ def _load_multilinestring(big_endian, type_bytes, data_bytes):
 
     is_m = False
 
-    if type_bytes in WKB_2D.values():
+    if type_bytes in list(WKB_2D.values()):
         num_dims = 2
-    elif type_bytes in WKB_Z.values():
+    elif type_bytes in list(WKB_Z.values()):
         num_dims = 3
-    elif type_bytes in WKB_M.values():
+    elif type_bytes in list(WKB_M.values()):
         num_dims = 3
         is_m = True
-    elif type_bytes in WKB_ZM.values():
+    elif type_bytes in list(WKB_ZM.values()):
         num_dims = 4
 
     if is_m:
@@ -688,14 +688,14 @@ def _load_multipolygon(big_endian, type_bytes, data_bytes):
 
     is_m = False
 
-    if type_bytes in WKB_2D.values():
+    if type_bytes in list(WKB_2D.values()):
         num_dims = 2
-    elif type_bytes in WKB_Z.values():
+    elif type_bytes in list(WKB_Z.values()):
         num_dims = 3
-    elif type_bytes in WKB_M.values():
+    elif type_bytes in list(WKB_M.values()):
         num_dims = 3
         is_m = True
-    elif type_bytes in WKB_ZM.values():
+    elif type_bytes in list(WKB_ZM.values()):
         num_dims = 4
 
     if is_m:
@@ -766,14 +766,14 @@ def _load_geometrycollection(big_endian, type_bytes, data_bytes):
 
     is_m = False
 
-    if type_bytes in WKB_2D.values():
+    if type_bytes in list(WKB_2D.values()):
         num_dims = 2
-    elif type_bytes in WKB_Z.values():
+    elif type_bytes in list(WKB_Z.values()):
         num_dims = 3
-    elif type_bytes in WKB_M.values():
+    elif type_bytes in list(WKB_M.values()):
         num_dims = 3
         is_m = True
-    elif type_bytes in WKB_ZM.values():
+    elif type_bytes in list(WKB_ZM.values()):
         num_dims = 4
 
     geometries = []

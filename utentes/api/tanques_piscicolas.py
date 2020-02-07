@@ -6,7 +6,7 @@ from pyramid.view import view_config
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
 import utentes.constants.perms as perm
-from error_msgs import error_msgs
+from .error_msgs import error_msgs
 from utentes.lib.schema_validator.validator import Validator
 from utentes.models.actividades_schema import ActividadeSchema
 from utentes.models.base import badrequest_exception

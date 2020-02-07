@@ -85,7 +85,7 @@ def round_geom(geom, precision=None):
             yp = [round(v, precision) for v in yp]
         new_coords = tuple(zip(xp, yp))[0]
     if geom["type"] in ["LineString", "MultiPoint"]:
-        xp, yp = zip(*geom["coordinates"])
+        xp, yp = list(zip(*geom["coordinates"]))
         if precision is not None:
             xp = [round(v, precision) for v in xp]
             yp = [round(v, precision) for v in yp]
@@ -93,7 +93,7 @@ def round_geom(geom, precision=None):
     elif geom["type"] in ["Polygon", "MultiLineString"]:
         new_coords = []
         for piece in geom["coordinates"]:
-            xp, yp = zip(*piece)
+            xp, yp = list(zip(*piece))
             if precision is not None:
                 xp = [round(v, precision) for v in xp]
                 yp = [round(v, precision) for v in yp]
@@ -104,7 +104,7 @@ def round_geom(geom, precision=None):
         for part in parts:
             inner_coords = []
             for ring in part:
-                xp, yp = zip(*ring)
+                xp, yp = list(zip(*ring))
                 if precision is not None:
                     xp = [round(v, precision) for v in xp]
                     yp = [round(v, precision) for v in yp]

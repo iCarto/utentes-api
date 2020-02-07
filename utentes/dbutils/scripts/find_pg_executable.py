@@ -22,7 +22,7 @@ def find_pg_executable_path_by_settings(name):
 
 
 def find_pg_executable_path_by_env_var(name):
-    from which import which
+    from .which import which
 
     return which(name)
 

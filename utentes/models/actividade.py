@@ -6,7 +6,7 @@ from sqlalchemy import Boolean, Column, ForeignKey, Integer, Numeric, Text, text
 from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy.orm import relationship
 
-import actividades_schema
+from . import actividades_schema
 import utentes.models.constants as c
 from utentes.lib.schema_validator.validator import Validator
 from utentes.models.base import PGSQL_SCHEMA_UTENTES, Base, update_array
@@ -62,7 +62,7 @@ class Actividade(Base):
         return a
 
     def __json__(self, request):
-        json = {c: getattr(self, c) for c in self.__mapper__.columns.keys()}
+        json = {c: getattr(self, c) for c in list(self.__mapper__.columns.keys())}
         del json["gid"]
         json["id"] = self.gid
         return json
@@ -121,7 +121,7 @@ class ActividadesAgriculturaRega(Actividade):
     )
 
     def __json__(self, request):
-        json = {c: getattr(self, c) for c in self.__mapper__.columns.keys()}
+        json = {c: getattr(self, c) for c in list(self.__mapper__.columns.keys())}
         del json["gid"]
         json["id"] = self.gid
         json["cultivos"] = {"type": "FeatureCollection", "features": self.cultivos}
@@ -206,7 +206,7 @@ class ActividadesPecuaria(Actividade):
     )
 
     def __json__(self, request):
-        json = {c: getattr(self, c) for c in self.__mapper__.columns.keys()}
+        json = {c: getattr(self, c) for c in list(self.__mapper__.columns.keys())}
         del json["gid"]
         json["id"] = self.gid
         json["reses"] = self.reses
@@ -264,7 +264,7 @@ class ActividadesPiscicultura(Actividade):
     )
 
     def __json__(self, request):
-        json = {c: getattr(self, c) for c in self.__mapper__.columns.keys()}
+        json = {c: getattr(self, c) for c in list(self.__mapper__.columns.keys())}
         del json["gid"]
         json["id"] = self.gid
         json["tanques_piscicolas"] = {
@@ -288,7 +288,7 @@ class ActividadesPiscicultura(Actividade):
                     self.tanques_piscicolas, "tanque_id", json.get("exp_id")
                 )
 
-        for column in self.__mapper__.columns.keys():
+        for column in list(self.__mapper__.columns.keys()):
             if column in SPECIAL_CASES:
                 continue
             setattr(self, column, json.get(column))

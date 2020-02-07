@@ -5,17 +5,17 @@ from sqlalchemy import Column, Integer, Text
 from .base import PGSQL_SCHEMA_DOMAINS, DeclarativeBase
 
 
-LICENSED = u"Licenciada"
-DE_FACTO = u"Utente de facto"
-IRREGULAR = u"Irregular"
-PENDING_RENOV_LICENSE = u"Pendente Renovação da licença (DA)"
-PENDING_REVIEW_DIR = u"Pendente Revisão Renovação (Direcção)"
-PENDING_REVIEW_DJ = u"Pendente Análise Renovação Licença (DJ)"
-PENDING_TECH_DECISION = u"Pendente Parecer Técnico Renovação (DT)"
-PENDING_EMIT_LICENSE = u"Pendente Emisão Renovação Licença (DJ)"
-PENDING_DADOS_LICENSE = u"Pendente Dados Renovação Licença (DJ)"
-PENDING_DIR_SIGN = u"Pendente Firma Renovação Licença (Direcção)"
-NOT_APPROVED = u"Não aprovada"
+LICENSED = "Licenciada"
+DE_FACTO = "Utente de facto"
+IRREGULAR = "Irregular"
+PENDING_RENOV_LICENSE = "Pendente Renovação da licença (DA)"
+PENDING_REVIEW_DIR = "Pendente Revisão Renovação (Direcção)"
+PENDING_REVIEW_DJ = "Pendente Análise Renovação Licença (DJ)"
+PENDING_TECH_DECISION = "Pendente Parecer Técnico Renovação (DT)"
+PENDING_EMIT_LICENSE = "Pendente Emisão Renovação Licença (DJ)"
+PENDING_DADOS_LICENSE = "Pendente Dados Renovação Licença (DJ)"
+PENDING_DIR_SIGN = "Pendente Firma Renovação Licença (Direcção)"
+NOT_APPROVED = "Não aprovada"
 
 
 NOT_VALID = [LICENSED, DE_FACTO, NOT_APPROVED]
