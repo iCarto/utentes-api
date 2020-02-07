@@ -5,7 +5,7 @@ import logging
 from pyramid.view import view_config
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
-import error_msgs
+from . import error_msgs
 import utentes.constants.perms as perm
 from utentes.models.base import badrequest_exception
 from utentes.models.setting import Setting

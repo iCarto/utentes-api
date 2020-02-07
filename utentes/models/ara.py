@@ -22,6 +22,6 @@ class Ara(Base):
     unidades = Column(JSONB, doc="Unidades del Ara")
 
     def __json__(self, request):
-        json = {c: getattr(self, c) for c in self.__mapper__.columns.keys()}
+        json = {c: getattr(self, c) for c in list(self.__mapper__.columns.keys())}
         json["id"] = self.id
         return json

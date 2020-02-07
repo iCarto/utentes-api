@@ -13,7 +13,7 @@ class ExploracaosGET_IntegrationTests(DBIntegrationTest):
 
         actual = exploracaos_get(self.request)
         exp_count = self.request.db.query(Exploracao).count()
-        self.assertEquals(len(actual["features"]), exp_count)
+        self.assertEqual(len(actual["features"]), exp_count)
 
     def test_exploracao_get_returns_a_geojson(self):
         from utentes.api.exploracaos import exploracaos_get

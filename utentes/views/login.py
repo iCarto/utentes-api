@@ -20,12 +20,12 @@ def login(request):
         headers = remember(request, user.username)
         response = HTTPFound(location="/exploracao-search.html", headers=headers)
         response.set_cookie("utentes_stub_user", value=user.username)
-        import urllib
+        import urllib.request, urllib.parse, urllib.error
 
-        usergroup = urllib.quote(user.usergroup.encode("utf-8"))
+        usergroup = urllib.parse.quote(user.usergroup.encode("utf-8"))
         response.set_cookie("utentes_stub_role", value=usergroup)
         if user.unidade is not None:
-            unidade = urllib.quote(user.unidade.encode("utf-8"))
+            unidade = urllib.parse.quote(user.unidade.encode("utf-8"))
             response.set_cookie("utentes_stub_unidade", value=unidade)
         return response
 
@@ -62,12 +62,12 @@ def login(request):
                 next = request.route_url("facturacao")
             response = HTTPFound(location=next, headers=headers)
             response.set_cookie("utentes_stub_user", value=user.username)
-            import urllib
+            import urllib.request, urllib.parse, urllib.error
 
-            usergroup = urllib.quote(user.usergroup.encode("utf-8"))
+            usergroup = urllib.parse.quote(user.usergroup.encode("utf-8"))
             response.set_cookie("utentes_stub_role", value=usergroup)
             if user.unidade is not None:
-                unidade = urllib.quote(user.unidade.encode("utf-8"))
+                unidade = urllib.parse.quote(user.unidade.encode("utf-8"))
                 response.set_cookie("utentes_stub_unidade", value=unidade)
             return response
 

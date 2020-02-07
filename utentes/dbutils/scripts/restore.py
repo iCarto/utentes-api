@@ -3,8 +3,8 @@
 import datetime
 import os
 
-from find_pg_executable import find_pg_restore_path
-from utils import (
+from .find_pg_executable import find_pg_restore_path
+from .utils import (
     DBUtilsException,
     clone_database,
     connection_parameters,
@@ -138,7 +138,7 @@ def get_all_versions_from_dump(dumpfile):
 
 
 if __name__ == "__main__":
-    from utils import _get_session
+    from .utils import _get_session
 
     _session = _get_session("arasul")
     dumpfile = "/tmp/m.backup"

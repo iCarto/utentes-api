@@ -55,7 +55,7 @@ class ExpConRenovacao(Exploracao):
         renovacao = self.renovacao or {}
         properties = {}
 
-        properties = {c: getattr(self, c) for c in self.__mapper__.columns.keys()}
+        properties = {c: getattr(self, c) for c in list(self.__mapper__.columns.keys())}
         del properties["the_geom"]
         del properties["gid"]
         properties["id"] = self.gid

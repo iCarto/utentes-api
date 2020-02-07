@@ -104,7 +104,7 @@ class Facturacao(Base):
         )
 
     def __json__(self, request):
-        json = {c: getattr(self, c) for c in self.__mapper__.columns.keys()}
+        json = {c: getattr(self, c) for c in list(self.__mapper__.columns.keys())}
         del json["gid"]
         json["id"] = self.gid
         return json

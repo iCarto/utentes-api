@@ -6,7 +6,7 @@ import logging
 from pyramid.view import view_config
 
 import utentes.constants.perms as perm
-from error_msgs import error_msgs
+from .error_msgs import error_msgs
 from utentes.models.base import badrequest_exception
 from utentes.models.inventario_fonte import InventarioFonte
 

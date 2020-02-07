@@ -14,18 +14,18 @@ class TanquesPiscicolasGET_IntegrationTests(TanquesPiscicolasTests):
     def test_tanque_get_length(self):
         actual = tanques_piscicolas_get(self.request)
         previous_count = self.request.db.query(ActividadesTanquesPiscicolas).count()
-        self.assertEquals(len(actual["features"]), previous_count)
+        self.assertEqual(len(actual["features"]), previous_count)
         self.create_tanque_test()
         actual = tanques_piscicolas_get(self.request)
         count = self.request.db.query(ActividadesTanquesPiscicolas).count()
-        self.assertEquals(len(actual["features"]), count)
-        self.assertEquals(previous_count + 1, count)
+        self.assertEqual(len(actual["features"]), count)
+        self.assertEqual(previous_count + 1, count)
 
     def test_tanque_get_returns_a_geojson_collection(self):
         actual = tanques_piscicolas_get(self.request)
         self.assertTrue("features" in actual)
         self.assertTrue("type" in actual)
-        self.assertEquals("FeatureCollection", actual["type"])
+        self.assertEqual("FeatureCollection", actual["type"])
 
     def test_tanque_get_id_returns_a_geojson(self):
         expected = self.create_tanque_test(commit=True)

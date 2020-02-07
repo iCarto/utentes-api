@@ -3,17 +3,17 @@
 UTENTE_SCHEMA = [
     {
         "fieldname": "nome",
-        "message": u'"Nome de utente" não pode estar vazio',
+        "message": '"Nome de utente" não pode estar vazio',
         "rules": ["NOT_NULL"],
     },
     {
         "fieldname": "uten_memb",
-        "message": u'"Nro membros" não tem o formato correto',
+        "message": '"Nro membros" não tem o formato correto',
         "rules": ["IS_NUMERIC", "INT_LESS_THAN_8"],
     },
     {
         "fieldname": "uten_mulh",
-        "message": u'"Nro mulheres" não tem o formato correto',
+        "message": '"Nro mulheres" não tem o formato correto',
         "rules": ["IS_NUMERIC", "INT_LESS_THAN_8"],
     },
 ]

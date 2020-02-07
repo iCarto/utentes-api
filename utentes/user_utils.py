@@ -199,7 +199,7 @@ def get_unique_user():
 
 def get_user_from_db_stub(request):
     username = request.POST.get("user", "")
-    if username in VALID_LOGINS.keys():
+    if username in list(VALID_LOGINS.keys()):
         user = request.db.query(User).filter(User.username == username).first()
         if not user:
             user = User()

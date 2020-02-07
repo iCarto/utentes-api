@@ -16,11 +16,11 @@ import tokenize
 
 import six
 
-import util
+from . import util
 
 
 try:
-    import StringIO
+    import io
 except ImportError:
     import io
 
@@ -86,7 +86,7 @@ def loads(string):
     """
     Construct a GeoJSON `dict` from WKT (`string`).
     """
-    sio = StringIO.StringIO(string)
+    sio = io.StringIO(string)
     # NOTE: This is not the intended purpose of `tokenize`, but it works.
     tokens = (x[1] for x in tokenize.generate_tokens(sio.readline))
     tokens = _tokenize_wkt(tokens)

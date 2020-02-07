@@ -301,4 +301,4 @@ def usos_privativos(
     ]
 
     for result in query.all():
-        json_data.append(dict(zip(row_headers, result)))
+        json_data.append(dict(list(zip(row_headers, result))))

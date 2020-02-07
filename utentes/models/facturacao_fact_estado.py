@@ -7,11 +7,11 @@ import utentes.models.constants as c
 from .base import PGSQL_SCHEMA_DOMAINS, DeclarativeBase
 
 
-PENDING_CONSUMPTION = u"Pendente Acrescentar Consumo (DT)"
-PENDING_INVOICE = u"Pendente Emisão Factura (DF)"
-PENDING_PAYMENT = u"Pendente Pagamento (DF)"
-PAID = u"Pagada"
-NOT_INVOIZABLE = u"Não facturable"
+PENDING_CONSUMPTION = "Pendente Acrescentar Consumo (DT)"
+PENDING_INVOICE = "Pendente Emisão Factura (DF)"
+PENDING_PAYMENT = "Pendente Pagamento (DF)"
+PAID = "Pagada"
+NOT_INVOIZABLE = "Não facturable"
 
 
 class FacturacaoFactEstado(DeclarativeBase):

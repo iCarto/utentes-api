@@ -2,7 +2,7 @@
 
 from sqlalchemy import Column, ForeignKey, Integer, Numeric, Text, text
 
-import actividades_schema
+from . import actividades_schema
 from utentes.lib.schema_validator.validator import Validator
 
 from .base import PGSQL_SCHEMA_UTENTES, Base
@@ -45,7 +45,7 @@ class ActividadesReses(Base):
         self.observacio = json.get("observacio")
 
     def __json__(self, request):
-        json = {c: getattr(self, c) for c in self.__mapper__.columns.keys()}
+        json = {c: getattr(self, c) for c in list(self.__mapper__.columns.keys())}
         del json["gid"]
         json["id"] = self.gid
         return json

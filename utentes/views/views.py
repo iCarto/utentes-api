@@ -35,9 +35,9 @@ def exploracao_show(request):
     estado_lic = get_license_state(request, gid)
     return {
         "next_state": estado_lic,
-        "d_soli_label": u"Data de cadastramento"
+        "d_soli_label": "Data de cadastramento"
         if estado_lic == c.K_USOS_COMUNS
-        else u"Data de solicitação",
+        else "Data de solicitação",
     }
 
 

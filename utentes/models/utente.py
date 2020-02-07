@@ -50,7 +50,7 @@ class Utente(Base):
     def update_from_json(self, json):
         SPECIAL_CASES = ["gid"]
         self.gid = json.get("id")
-        for column in self.__mapper__.columns.keys():
+        for column in list(self.__mapper__.columns.keys()):
             if column in SPECIAL_CASES:
                 continue
             setattr(self, column, json.get(column))
@@ -58,7 +58,7 @@ class Utente(Base):
     def __json__(self, request):
         SPECIAL_CASES = ["gid"]
         payload = {"id": self.gid, "exploracaos": self.exploracaos}
-        for column in self.__mapper__.columns.keys():
+        for column in list(self.__mapper__.columns.keys()):
             if column in SPECIAL_CASES:
                 continue
             payload[column] = getattr(self, column)

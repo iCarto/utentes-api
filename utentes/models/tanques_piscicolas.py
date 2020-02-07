@@ -5,7 +5,7 @@ from sqlalchemy import Column, ForeignKey, Integer, Numeric, Text, func, text
 from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy.orm import column_property
 
-from actividades_schema import ActividadeSchema
+from .actividades_schema import ActividadeSchema
 from utentes.lib.schema_validator.validator import Validator
 from utentes.models.base import PGSQL_SCHEMA_UTENTES, Base, update_area, update_geom
 
@@ -71,7 +71,7 @@ class ActividadesTanquesPiscicolas(Base):
         SPECIAL_CASES = ["gid", "the_geom"]
         self.gid = json.get("id")
         self.the_geom = update_geom(self.the_geom, json)
-        for column in self.__mapper__.columns.keys():
+        for column in list(self.__mapper__.columns.keys()):
             if column in SPECIAL_CASES:
                 continue
             setattr(self, column, json.get(column))
@@ -90,7 +90,7 @@ class ActividadesTanquesPiscicolas(Base):
             "properties": {"id": self.gid},
             "geometry": the_geom,
         }
-        for column in self.__mapper__.columns.keys():
+        for column in list(self.__mapper__.columns.keys()):
             if column in SPECIAL_CASES:
                 continue
             payload["properties"][column] = getattr(self, column)
