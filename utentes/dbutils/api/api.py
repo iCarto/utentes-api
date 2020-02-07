@@ -27,9 +27,7 @@ def api_db_dump(request):
         filepath = dump(session)
     except DBUtilsException as e:
         logger.error(e, exc_info=True)
-        raise badrequest_exception(
-            {"error": json.dumps(e.args).decode("utf-8").encode("utf-8")}
-        )
+        raise badrequest_exception({"error": e.args})
 
     return {"dump": "ok", "file": filepath}
 
@@ -47,7 +45,7 @@ def api_db_restore(request):
         restore(session, filepath)
     except DBUtilsException as e:
         logger.error(e, exc_info=True)
-        raise badrequest_exception({"error": json.dumps(e.args)})
+        raise badrequest_exception({"error": e.args})
     finally:
         # Avoid commit/rollkback after disconnect
         session.invalidate()

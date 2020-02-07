@@ -117,11 +117,16 @@ def execute_quitely(args, env=None):
     except ImportError:
         import os
 
-        DEVNULL = open(os.devnull, "r+b")
+        DEVNULL = open(os.devnull, "r")
 
     p = Popen(args, env=env, stdin=DEVNULL, stdout=DEVNULL, stderr=PIPE)
     err = p.communicate()
-    return p.returncode, err
+    # communicate() returns a tuple (stdout, stderr) that are bytes, so we need to convert this bytes literals
+    # to str to avoid errors with json.dumps
+    return (
+        p.returncode,
+        list(map(lambda st: st.decode("utf-8") if st is not None else None, err)),
+    )
 
 
 def _get_session(dbname="arasul"):
