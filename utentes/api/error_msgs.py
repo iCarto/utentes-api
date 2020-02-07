@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 # TODO translate
 error_msgs = {
     "no_gid": "Não existe exploracao co gid indicado",

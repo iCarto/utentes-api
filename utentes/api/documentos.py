@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 
 from pyramid.response import FileResponse
 from pyramid.view import view_config

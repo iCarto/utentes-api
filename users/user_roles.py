@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 ROL_ADMIN = "Administrador"
 ROL_ADMINISTRATIVO = "Departamento Administrativo"  # DA
 ROL_FINANCIERO = "Departamento Financeiro"  # DF

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from sqlalchemy import Boolean, Column, Date, ForeignKey, Integer, Numeric, Text, text
 from sqlalchemy.dialects.postgresql.json import JSONB
 

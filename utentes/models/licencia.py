@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from sqlalchemy import Column, Date, ForeignKey, Integer, Numeric, Text, text
 
 import utentes.models.constants as c

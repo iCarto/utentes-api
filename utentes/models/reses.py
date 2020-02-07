@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from sqlalchemy import Column, ForeignKey, Integer, Numeric, Text, text
 
 from . import actividades_schema

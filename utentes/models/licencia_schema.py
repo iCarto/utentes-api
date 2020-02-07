@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 LICENCIA_SCHEMA = [
     {
         "fieldname": "tipo_agua",

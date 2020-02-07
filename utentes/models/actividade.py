@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from functools import reduce
 
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, Numeric, Text, text

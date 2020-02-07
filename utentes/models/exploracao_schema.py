@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 EXPLORACAO_SCHEMA = [
     {
         "fieldname": "exp_id",

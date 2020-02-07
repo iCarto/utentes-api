@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 K_ABASTECIMENTO = "Abastecimento"
 K_AGRICULTURA = "Agricultura de Regadio"
 K_INDUSTRIA = "Indústria"

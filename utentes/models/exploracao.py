@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from geoalchemy2 import Geometry
 from geoalchemy2.functions import GenericFunction
 from sqlalchemy import (

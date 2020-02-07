@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 
 def get_license_state(request, gid):
     from utentes.models.exploracao import ExploracaoBase

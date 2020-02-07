@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from sqlalchemy import Column, Date, ForeignKey, Integer, Numeric, Text, text
 
 from utentes.lib.formatter.formatter import to_date, to_decimal
