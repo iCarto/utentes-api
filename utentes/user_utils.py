@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 
 from pyramid.security import Allow, Authenticated, Deny, authenticated_userid
 from pyramid.threadlocal import get_current_registry

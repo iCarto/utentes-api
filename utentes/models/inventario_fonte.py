@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from geoalchemy2 import Geometry
 from geoalchemy2.elements import WKTElement
 from sqlalchemy import Boolean, Column, Date, Integer, Numeric, Text, text

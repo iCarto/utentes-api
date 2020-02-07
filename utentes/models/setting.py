@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from sqlalchemy import Column, Text
 
 from .base import PGSQL_SCHEMA_UTENTES, DeclarativeBase

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 
 import bcrypt
 from sqlalchemy import TIMESTAMP, Column, DateTime, Integer, Text, func, text

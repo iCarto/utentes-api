@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 FONTE_SCHEMA = [
     {
         "fieldname": "tipo_agua",

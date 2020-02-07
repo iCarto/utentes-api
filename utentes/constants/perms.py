@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 PERM_ADMIN = "admin"
 PERM_UTENTES = "create_update_utente"
 PERM_UPDATE_CULTIVO_TANQUE = "update_cultivo_tanque"

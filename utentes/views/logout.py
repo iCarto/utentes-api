@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 
 from pyramid.httpexceptions import HTTPFound
 from pyramid.security import forget

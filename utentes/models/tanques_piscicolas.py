@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from geoalchemy2 import Geometry
 from sqlalchemy import Column, ForeignKey, Integer, Numeric, Text, func, text
 from sqlalchemy.dialects.postgresql import ARRAY

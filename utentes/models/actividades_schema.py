@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import utentes.models.constants as c
 
 
