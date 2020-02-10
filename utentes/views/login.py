@@ -64,8 +64,6 @@ def login(request):
             import urllib.request, urllib.parse, urllib.error
 
             usergroup = urllib.parse.quote(user.usergroup)
-            print (user.usergroup)
-            print (usergroup)
             response.set_cookie("utentes_stub_role", value=usergroup)
             if user.unidade is not None:
                 unidade = urllib.parse.quote(user.unidade)
