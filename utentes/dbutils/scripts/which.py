@@ -99,4 +99,4 @@ def which(program, case_sensitive=_IS_CASE_SENSITIVE_FILESYSTEM):
 
 
 if __name__ == "__main__":
-    print((which(sys.argv[1])))
+    print (which(sys.argv[1]))

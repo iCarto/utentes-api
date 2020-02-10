@@ -398,12 +398,12 @@ class ExploracaoUpdateUtenteTests(DBIntegrationTest):
         expected_json["utente"]["loc_nucleo"] = "new loc_nucleo"
         expected_json["utente"]["observacio"] = "new observacio"
         self.request.json_body = expected_json
-        print((expected_json["utente"]))
+        print (expected_json["utente"])
         exploracaos_update(self.request)
         actual = (
             self.request.db.query(Exploracao).filter(Exploracao.gid == gid).all()[0]
         )
-        print((actual.utente_rel.__json__(self.request)))
+        print (actual.utente_rel.__json__(self.request))
         self.assertEqual("new nuit", actual.utente_rel.nuit)
         self.assertEqual("Outro", actual.utente_rel.uten_tipo)
         self.assertEqual("new reg_comerc", actual.utente_rel.reg_comerc)
