@@ -1,4 +1,3 @@
-
 import unittest
 
 from pyramid.httpexceptions import HTTPBadRequest
@@ -51,7 +50,7 @@ class ExploracaoCreateTests(DBIntegrationTest):
         }
         expected["licencias"] = [
             {
-                "lic_nro": None,
+                "lic_nro": expected["exp_id"] + "/" + c.K_SUBTERRANEA[:3],
                 "tipo_agua": c.K_SUBTERRANEA,
                 "estado": "Licenciada",
                 "d_emissao": "2020-2-2",

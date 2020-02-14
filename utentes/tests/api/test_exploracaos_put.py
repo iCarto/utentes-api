@@ -270,7 +270,7 @@ class ExploracaoUpdateLicenciaTests(DBIntegrationTest):
         expected_json["licencias"].append(
             {
                 # lic_nro is built from client side, so shouldn't be null
-                "lic_nro": expected_json["exp_id"] + "/" + c.K_SUPERFICIAL,
+                "lic_nro": expected_json["exp_id"] + "/" + new_tipo_agua[:3],
                 "tipo_agua": new_tipo_agua,
                 "estado": "Irregular",
                 "d_emissao": "2020-2-2",
