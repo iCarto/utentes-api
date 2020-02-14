@@ -47,7 +47,7 @@ def decimal_adapter(obj, request):
 def main(global_config, **settings):
     if is_single_user_mode(settings):
         media_root = os.path.join(home_directory(), settings.get("ara"), "media")
-        media_root = media_root.decode(sys.getfilesystemencoding())
+        # media_root = media_root.decode(sys.getfilesystemencoding())
         settings["media_root"] = media_root
 
     engine = engine_from_config(settings, "sqlalchemy.")
