@@ -60,7 +60,9 @@ class DBIntegrationTest(unittest.TestCase):
         )
         exp = (
             self.request.db.query(Exploracao)
-            .filter(Exploracao.estado_lic == "Licenciada")
+            .filter(
+                Exploracao.estado_lic == "Licenciada", Exploracao.c_estimado != None
+            )
             .filter(at_lest_one_source > 0)
             .filter(only_one_license == 1)
             .all()[0]

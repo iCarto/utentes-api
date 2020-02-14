@@ -1,4 +1,3 @@
-
 import unittest
 
 from pyramid.httpexceptions import HTTPBadRequest
@@ -55,7 +54,8 @@ def create_new_session():
 
 class ExploracaoUpdateTests(DBIntegrationTest):
     def test_update_exploracao(self):
-        expected = self.request.db.query(Exploracao).all()[0]
+        # Filter to use a Exploracao in a final state
+        expected = self.get_test_exploracao()
         gid = expected.gid
         self.request.matchdict.update(dict(id=gid))
         expected_json = build_json(self.request, expected)
@@ -96,7 +96,7 @@ class ExploracaoUpdateTests(DBIntegrationTest):
         self.assertEqual(42.23, float(actual.c_estimado))
 
     def test_update_exploracao_the_geom(self):
-        expected = self.request.db.query(Exploracao).all()[0]
+        expected = self.get_test_exploracao()
         gid = expected.gid
         self.request.matchdict.update(dict(id=gid))
         expected_json = build_json(self.request, expected)
@@ -242,7 +242,7 @@ class ExploracaoUpdateFonteTests(DBIntegrationTest):
         self.assertEqual(tipo_agua, actual.fontes[0].tipo_agua)
 
     def test_update_exploracao_delete_fonte(self):
-        expected = self.request.db.query(Exploracao).all()[0]
+        expected = self.get_test_exploracao()
         gid = expected.gid
         self.request.matchdict.update(dict(id=gid))
         expected_json = build_json(self.request, expected)
@@ -269,7 +269,8 @@ class ExploracaoUpdateLicenciaTests(DBIntegrationTest):
         )
         expected_json["licencias"].append(
             {
-                "lic_nro": None,
+                # lic_nro is built from client side, so shouldn't be null
+                "lic_nro": expected_json["exp_id"] + "/" + c.K_SUPERFICIAL,
                 "tipo_agua": new_tipo_agua,
                 "estado": "Irregular",
                 "d_emissao": "2020-2-2",
