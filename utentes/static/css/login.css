@@ -1,11 +1,18 @@
 body {
-    background-color: #f5f5f5;
+    background-color: #656f83;
+    height: 100vh;
     padding-bottom: 40px;
     padding-top: 40px;
 }
 
-.form-signin {
-    background-color: #fff;
+.login {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+}
+
+.login_row {
     border: 1px solid #e5e5e5;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
@@ -13,20 +20,39 @@ body {
     -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
     -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-    margin: 0 auto 20px;
-    max-width: 300px;
-    padding: 19px 29px 29px;
 }
 
-.form-signin .form-signin-heading,
 .form-signin {
-    margin-bottom: 10px;
+    background-color: #fff;
+    max-width: 472px;
+    padding: 20px 100px 20px;
+}
+
+.ara-logo,
+.icarto-logo {
+    align-items: center;
+    display: flex;
+    height: 150px;
+}
+
+.form-signin-info {
+    margin-bottom: 20px;
 }
 
 .form-signin input[type="text"],
 .form-signin input[type="password"] {
     font-size: 16px;
     height: auto;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     padding: 7px 9px;
+}
+
+.no-gutter {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.no-gutter > [class*="col-"] {
+    padding-left: 0;
+    padding-right: 0;
 }

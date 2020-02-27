@@ -15,23 +15,33 @@
 
   <body>
 
-    <div class="container">
+    <div class="container login">
+      <div class="row login_row no-gutter">
 
-      <form class="form-signin" method="post" action="{{request.route_url('login')}}">
-        <img src="/static/img/{{request.registry.settings['ara']}}_login.png" style="width: 100%;" alt="logo ara">
-        <h2 class="form-signin-heading">{{title}}</h2>
-
-        <input name="user" type="text" class="form-control" placeholder="Utilizador">
-        <input name="passwd" type="password" class="form-control" placeholder="Senha">
-        <input type="hidden" name="next" value="{{next}}">
-        <input type="submit" name="submit" value="Entrar" class="btn btn-large btn-primary text-center">
-
-        <div style="margin: 0 auto; margin-top: 20px; text-align: center; width: 100%;">
-            <img src="/static/img/{{request.registry.settings['ara']}}_footer.png" style="width: 100%;" alt="logos">
+        <div class="col-md-6">
+          <img src="/static/img/login_side_image.png" class="rounded" alt="Responsive image" style="height: 577px;">
         </div>
 
-      </form>
+        <div class="col-md-6">
+          <form class="form-signin" method="post" action="{{request.route_url('login')}}">
+            <div class="ara-logo">
+              <img src="/static/img/{{request.registry.settings['ara']}}_login.png" style="width: 100%;" alt="logo ara">
+            </div>
+            <div class="form-signin-info">
+              <h2 class="form-signin-heading" align="center">{{title}}</h2>
+              <input name="user" type="text" class="form-control" placeholder="Utilizador">
+              <input name="passwd" type="password" class="form-control" placeholder="Senha">
+              <input type="hidden" name="next" value="{{next}}">
+              <input type="submit" name="submit" value="Entrar" class="btn btn-primary text-center" style="height: 38px; width: 100%;">
+              <!-- height: 38px, para igualar el ancho a los campos user y password -->
+            </div>
+            <div class="icarto-logo">
+              <img src="/static/img/{{request.registry.settings['ara']}}_footer.png" style="width: 100%;" alt="logos">
+            </div>
+          </form>
+        </div>
 
+      </div>
 
     </div>
 
