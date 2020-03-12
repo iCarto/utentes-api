@@ -35,8 +35,9 @@ SIRHA.Services.IdService = {
     },
 
     isNotValidLicNro: function isNotValidLicNro(licNro) {
-        var expId = licNro.substring(0, 16);
-        var tipoAgua = licNro.substring(16);
+        var expId_aux= licNro.split("/",4);
+        var expId = expId_aux[0]+"/"+expId_aux[1]+"/"+expId_aux[2]+"/"+expId_aux[3];
+        var tipoAgua = "/"+licNro.split("/")[4];
 
         // Si el exp_id no es válido, lic_nro no es válido
         if (SIRHA.Services.IdService.isNotValidExpId(expId)) {

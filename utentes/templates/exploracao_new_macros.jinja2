@@ -3,7 +3,7 @@
 <div class="col-xs-offset-1 col-xs-5">
   <div class="panel panel-info panel-disabled" id="licencia-{{type}}">
     <div class="panel-heading">
-      {% if request.registry.settings['ara'] != 'DPMAIP' and next_state != 'Utente de usos comuns' %}
+      {% if request.registry.settings.get("ara") != 'DPMAIP' and next_state != 'Utente de usos comuns' %}
       <h3 class="panel-title"><strong>{{name.capitalize()}}</strong></h3>
       {% else %}
       <h3 class="panel-title"><strong><input type="checkbox"/> Fontes água {{name}}</strong></h3>
@@ -14,7 +14,7 @@
         <input type="hidden" class="widget" id="tipo_agua">
         <input type="hidden" class="widget" id="lic_nro">
         <input type="hidden" id="next_state" value="{{next_state}}">
-        {% if request.registry.settings['ara'] != 'DPMAIP' and next_state != 'Utente de usos comuns' %}
+        {% if request.registry.settings.get("ara") != 'DPMAIP' and next_state != 'Utente de usos comuns' %}
         <div class="form-group">
           <label><input type="checkbox"/> Licença activa?</label>
         </div>

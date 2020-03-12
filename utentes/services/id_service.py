@@ -16,23 +16,24 @@ def calculate_new_exp_id(request, state=c.K_LICENSED):
 
     ara = request.registry.settings.get("ara")
     year = datetime.date.today().year
+    aux1 = 6 + len(ara)
+    aux2 = 10 + len(ara)
     sql = """
     SELECT substring(exp_id, 1, 3)
     FROM utentes.exploracaos
     WHERE
         upper(ara) = '{}'
-        AND substring(exp_id, 10, 4) = '{}'
-        AND substring(exp_id, 14, 3) = '{}'
+        AND substring(exp_id, '{}', 4) = '{}'
+        AND substring(exp_id, '{}', 3) = '{}'
     ORDER BY 1 DESC
     LIMIT 1;
     """.format(
-        ara, year, code
+        ara, aux1, year, aux2, code
     )
     next_number = request.db.execute(sql).first() or [0]
     next_id = "%0*d" % (3, int(next_number[0]) + 1)
 
     return "{}/{}/{}{}".format(next_id, ara, year, code)
-
 
 def is_valid_exp_id(exp_id):
     import re
@@ -43,24 +44,24 @@ def is_valid_exp_id(exp_id):
 
     return exp_id and re.match(regexpExpIdFormat, exp_id)
 
-
 def is_not_valid_exp_id(exp_id):
     return not is_valid_exp_id(exp_id)
 
 
 def replace_exp_id_in_code(code, new_exp_id):
-    i = 16
+    from pyramid.threadlocal import get_current_registry
+
+    settings = get_current_registry().settings
+    ara = settings.get("ara")
+    i = 12 + len(ara)
     new_exp_id = new_exp_id[:i]
     return new_exp_id + code[i:]
-
 
 def calculate_new_lic_nro(exp_id, tipo_agua):
     return "{}/{}".format(exp_id, tipo_agua[0:3])
 
-
 def is_valid_lic_nro(lic_nro):
     return is_valid_exp_id(lic_nro[0:-4]) and lic_nro[-4:] in ["/Sub", "/Sup"]
-
 
 def is_not_valid_lic_nro(lic_nro):
     return not is_valid_lic_nro

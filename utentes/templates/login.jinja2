@@ -25,7 +25,7 @@
         <div class="col-md-6">
           <form class="form-signin" method="post" action="{{request.route_url('login')}}">
             <div class="ara-logo">
-              <img src="/static/img/{{request.registry.settings['ara']}}_login.png" style="width: 100%;" alt="logo ara">
+              <img src="/static/img/{{request.registry.settings.get("ara")}}_login.png" style="width: 100%;" alt="logo ara">
             </div>
             <div class="form-signin-info">
               <h2 class="form-signin-heading" align="center">{{title}}</h2>
@@ -36,7 +36,7 @@
               <!-- height: 38px, para igualar el ancho a los campos user y password -->
             </div>
             <div class="icarto-logo">
-              <img src="/static/img/{{request.registry.settings['ara']}}_footer.png" style="width: 100%;" alt="logos">
+              <img src="/static/img/{{request.registry.settings.get("ara")}}_footer.png" style="width: 100%;" alt="logos">
             </div>
           </form>
         </div>

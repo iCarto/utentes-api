@@ -28,7 +28,7 @@
         </div>
       </div>
 
-      {% if request.registry.settings['ara'] != 'DPMAIP' %}
+      {% if request.registry.settings.get("ara") != 'DPMAIP' %}
       <div class="row">
         <div class="col-xs-12">
           <div class="row">
@@ -53,7 +53,7 @@
       </div>
       {% endif %}
 
-      {% if request.registry.settings['ara'] != 'DPMAIP' %}
+      {% if request.registry.settings.get("ara") != 'DPMAIP' %}
       <div class="row">
         <div class="col-xs-12">
           <div class="row">
@@ -91,7 +91,7 @@
         </div>
       </div>
 
-      {% if request.registry.settings['ara'] != 'DPMAIP' %}
+      {% if request.registry.settings.get("ara") != 'DPMAIP' %}
       <div class="row">
         <div class="col-xs-12">
           <div class="row">

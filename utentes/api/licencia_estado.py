@@ -13,7 +13,7 @@ from utentes.models.estado import Estado
     renderer="json",
 )
 def domains_licencia_estado_get(request):
-    ara = {"ARAN": "Norte", "ARAS": "Sul", "ARAZ": "Zambeze", "DPMAIP": "DPMAIP"}[
+    ara = {"ARAN": "Norte", "ARAS": "Sul", "ARAZ": "Zambeze", "ARAC": "Centro", "ARACN": "Centro-Norte", "DPMAIP": "DPMAIP"}[
         request.registry.settings.get("ara")
     ]
     domains = (

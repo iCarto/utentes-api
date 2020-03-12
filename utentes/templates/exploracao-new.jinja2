@@ -222,7 +222,7 @@
                               <input type="text" class="form-control widget" id="exp_name" required>
                             </div>
                           </div>
-                          {% if request.registry.settings['ara'] != 'DPMAIP' %}
+                          {% if request.registry.settings.get("ara") != 'DPMAIP' %}
                           <div class="row">
                             <div id="actividade-select" class="form-group">
                               <label for="actividade">Tipo de actividade</label>
@@ -232,7 +232,7 @@
                           {% endif %}
                         </div>
                         <div class="col-xs-offset-1 col-xs-6">
-                          {% if request.registry.settings['ara'] != 'DPMAIP' %}
+                          {% if request.registry.settings.get("ara") != 'DPMAIP' %}
                           <div class="row">
                             <div class="form-group">
                               {% if next_state == 'Utente de usos comuns' %}
@@ -305,7 +305,7 @@
                   <div class="col-xs-6">
                     <div class="panel panel-default">
                       <div class="panel-body" id="panel-body-loc-hidro">
-                        {% if request.registry.settings['ara'] != 'DPMAIP' %}
+                        {% if request.registry.settings.get("ara") != 'DPMAIP' %}
                         <div class="row">
                           <div class="col-xs-12">
                             <div class="form-group col-xs-12">
@@ -346,7 +346,7 @@
               </div>
               <div class="tab-pane" id="licencia">
                 <div class="row">
-                  {% if request.registry.settings['ara'] != 'DPMAIP' and next_state != 'Utente de usos comuns' %}
+                  {% if request.registry.settings.get("ara") != 'DPMAIP' and next_state != 'Utente de usos comuns' %}
                   <h3 class="col-xs-1"><i class="fas fa-tint"></i></h3>
                   <h3 class="col-xs-11">Licenças e fontes</h3>
                   {% else %}

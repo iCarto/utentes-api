@@ -115,11 +115,11 @@ Backbone.SIXHIARA.duracionLicencias = {
 };
 
 Backbone.SIXHIARA.tipoTemplates = {
-    Licença: "static/print-templates/Modelo_Licenca_Autorizacion_SIRHA.docx",
-    Autorização: "static/print-templates/Modelo_Licenca_Autorizacion_SIRHA.docx",
-    Concessão: "static/print-templates/Modelo_Concesao_SIRHA.docx",
-    Factura: "static/print-templates/Modelo_Factura_SIRHAS_desarrollo.docx",
-    Recibo: "static/print-templates/Modelo_Recibo_SIRHAZ.docx",
+    Licença: "static/print-templates/Modelo_Licenca_Autorizacion_SIRH.docx",
+    Autorização: "static/print-templates/Modelo_Licenca_Autorizacion_SIRH.docx",
+    Concessão: "static/print-templates/Modelo_Concesao_SIRH.docx",
+    Factura: "static/print-templates/Modelo_Factura_SIRH.docx",
+    Recibo: "static/print-templates/Modelo_Recibo_SIRH.docx",
 };
 
 window.bootbox &&

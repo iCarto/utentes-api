@@ -100,19 +100,7 @@ def num_factura_get(request):
         **params
     )
 
-    # TODO. Para 2018. Debemos dejar reservados números de facturas
-    # Estos defaults serán eliminados a futuro
-    FACTURAS_DEFAULT_VALUES = {
-        "UGBI/2018": [2500],
-        "UGBL/2018": [1800],
-        "UGBU/2018": [9000],
-        "UGBS/2018": [1500],
-    }
-
-    params["next_serial"] = (
-        request.db.execute(sql).first()
-        or [FACTURAS_DEFAULT_VALUES.get("{unidad}/{ano}".format(**params), 1)]
-    )[0]
+    params["next_serial"] = (request.db.execute(sql).first() or [1])[0]
 
     num_factura = "{next_serial:04d}-{unidad}/{ano}".format(**params)
 

@@ -43,7 +43,7 @@
                 <button type="button" class="btn btn-default btn-xs pull-right uilib-enability uilib-show-role-administrador uilib-show-role-tecnico" id="editBlockInfo">Editar</button>
               </h3>
             </div>
-            {% if request.registry.settings['ara'] != 'DPMAIP' and next_state != 'Utente de usos comuns' %}
+            {% if request.registry.settings.get("ara") != 'DPMAIP' and next_state != 'Utente de usos comuns' %}
             <div class="row">
               <span class="col-xs-offset-1 col-xs-11">
               <span class="label widget" id="summary_licencia_msg"></span>
@@ -52,7 +52,7 @@
             </div>
             <br>
             {% endif %}
-            {% if request.registry.settings['ara'] != 'DPMAIP' %}
+            {% if request.registry.settings.get("ara") != 'DPMAIP' %}
             <div class="row">
               <span class="col-xs-offset-1 col-xs-11">
               <span class="title">{{ d_soli_label }}:</span> <span class="widget-date" id="d_soli">-</span>
@@ -81,7 +81,7 @@
             </div>
             <div class="row">
               <span class="col-xs-offset-1 col-xs-11">
-              {% if request.registry.settings['ara'] != 'DPMAIP' %}
+              {% if request.registry.settings.get("ara") != 'DPMAIP' %}
               <span class="title">Unidade:</span> <span class="widget" id="loc_unidad">-</span>
               {% endif %}
               <span class="title">Bacia:</span> <span class="widget" id="loc_bacia">-</span>
@@ -137,7 +137,7 @@
           </section>
         </section>
       </section>
-      {% if request.registry.settings['ara'] != 'DPMAIP' %}
+      {% if request.registry.settings.get("ara") != 'DPMAIP' %}
       <section id="block-consumos" class="row volume-summary text-center">
         {% if next_state != 'Utente de usos comuns' %}
         <div class="col-xs-3">
@@ -204,7 +204,7 @@
       <section class="row">
         <div class="col-xs-6">
           <div class="row">
-            {% if request.registry.settings['ara'] != 'DPMAIP' and next_state != 'Utente de usos comuns' %}
+            {% if request.registry.settings.get("ara") != 'DPMAIP' and next_state != 'Utente de usos comuns' %}
             <h3 class="col-xs-1"><i class="fas fa-tint"></i></h3>
             <h3 class="col-xs-11">Licenças e fontes</h3>
             {% else %}
@@ -214,7 +214,7 @@
           </div>
         </div>
       </section>
-      {% if request.registry.settings['ara'] != 'DPMAIP' %}
+      {% if request.registry.settings.get("ara") != 'DPMAIP' %}
       <section class="row">
         <div class="col-xs-6" id="block-subterranea">-</div>
         <div class="col-xs-6" id="block-superficial">-</div>
@@ -245,7 +245,7 @@
                 <th style="width: 7%;">Tipo de água</th>
                 <th style="width: 7%;">Tipo de fonte</th>
                 <th style="width: 12%;">Consumo solicitado <i class="units">(m<sup>3</sup>/mês)</i></th>
-                {% if request.registry.settings['ara'] != 'DPMAIP' %}
+                {% if request.registry.settings.get("ara") != 'DPMAIP' %}
                 <th style="width: 10%;">Consumo real <i class="units">(m<sup>3</sup>/mês)</i></th>
                 {% endif %}
                 <th style="width: 8%;">Toma de dados</th>
@@ -299,7 +299,7 @@
                             <input type="text" class="form-control widget" id="exp_name" required>
                           </div>
                         </div>
-                        {% if request.registry.settings['ara'] != 'DPMAIP' %}
+                        {% if request.registry.settings.get("ara") != 'DPMAIP' %}
                         <div class="row">
                           <div class="form-group">
                             <label for="d_soli">{{ d_soli_label }}</label>
@@ -312,7 +312,7 @@
                         <div class="row">
                           <div class="form-group">
                             <label for="observacio">Observaçoes sobre linha de água e localizaçao</label>
-                            {% if request.registry.settings['ara'] != 'DPMAIP' %}
+                            {% if request.registry.settings.get("ara") != 'DPMAIP' %}
                             <textarea class="form-control widget" id="observacio" rows="12"></textarea>
                             {% else %}
                             <textarea class="form-control widget" id="observacio" rows="5"></textarea>
@@ -397,7 +397,7 @@
                       <h3 class="panel-title"><strong>Localização hidrologica</strong></h3>
                     </div>
                     <div class="panel-body">
-                      {% if request.registry.settings['ara'] != 'DPMAIP' %}
+                      {% if request.registry.settings.get("ara") != 'DPMAIP' %}
                       <div class="row">
                         <div class="col-xs-12">
                           <div class="form-group">
@@ -453,7 +453,7 @@
               <h4 class="modal-title" id="editActividadeModalLabel">Actividade</h4>
             </div>
             <div class="modal-body">
-              {% if request.registry.settings['ara'] != 'DPMAIP' %}
+              {% if request.registry.settings.get("ara") != 'DPMAIP' %}
               <div id="actividade-explotacion" class="row">
                 <div class="form-group col-xs-offset-1 col-xs-10">
                   <label for="actividade">Tipo de actividade</label>
@@ -938,7 +938,7 @@
           <div class="row">
             <span class="col-xs-offset-1 col-xs-11">
               <div class="col-xs-3">
-                {% if request.registry.settings['ara'] != 'DPMAIP' %}
+                {% if request.registry.settings.get("ara") != 'DPMAIP' %}
                 <div class="row">
                   <span class="title">Consumo estimado <i class="units">(m<sup>3</sup>/mês)</i>:</span> <span><%- formatter().formatNumber(c_estimado) || '-' %></span>
                 </div>
@@ -1119,7 +1119,7 @@
             </div>
           </div>
         </div>
-        {% if request.registry.settings['ara'] != 'DPMAIP' %}
+        {% if request.registry.settings.get("ara") != 'DPMAIP' %}
         <div class="col-xs-offset-1 col-xs-10">
           <div class="panel panel-info">
             <div class="panel-heading">
@@ -1387,7 +1387,7 @@
     <!-- block license modal tmpl -->
     <script type="text/template" id="block-license-modal-tmpl">
       <div class="modal fade" id="licenciaModal" tabindex="-1" role="dialog" aria-labelledby="licenciaModalLabel">
-        {% if request.registry.settings['ara'] != 'DPMAIP' and next_state != 'Utente de usos comuns' %}
+        {% if request.registry.settings.get("ara") != 'DPMAIP' and next_state != 'Utente de usos comuns' %}
         <div class="modal-dialog" role="document">
         {% else %}
         <div class="modal-dialog" role="document" style="width:600px!important; margin:30px auto!important">
@@ -1395,7 +1395,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Pechar"><span aria-hidden="true">&times;</span></button>
-              {% if request.registry.settings['ara'] != 'DPMAIP' and next_state != 'Utente de usos comuns' %}
+              {% if request.registry.settings.get("ara") != 'DPMAIP' and next_state != 'Utente de usos comuns' %}
               <h4 class="modal-title" id="licenciaModalLabel">Licencia <%- tipo_agua %></span></h4>
               {% else %}
               <h4 class="modal-title" id="licenciaModalLabel">Consumo <%- tipo_agua === 'Subterrânea' ? 'Subterrâneo' : tipo_agua %></span></h4>
@@ -1404,7 +1404,7 @@
             <div class="modal-body">
                 <input type="hidden" id="tipo_agua">
                 <input type="hidden" class="form-control widget" id="lic_nro">
-              {% if request.registry.settings['ara'] == 'DPMAIP' %}
+              {% if request.registry.settings.get("ara") == 'DPMAIP' %}
               {{exploracao_show_macros.modal_licencia_dpmaip()}}
               {% elif next_state == 'Utente de usos comuns' %}
               {{exploracao_show_macros.modal_licencia_usos_comuns()}}
@@ -1495,7 +1495,7 @@
                           <label for="c_soli">Consumo solicitado <i class="units">(m<sup>3</sup>/mês)</i></label>
                           <input type="text" class="form-control widget-number" id="c_soli" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
                         </div>
-                        {% if request.registry.settings['ara'] != 'DPMAIP' %}
+                        {% if request.registry.settings.get("ara") != 'DPMAIP' %}
                         <div class="form-group col-xs-6">
                           <label for="c_real">Consumo real <i class="units">(m<sup>3</sup>/mês)</i></label>
                           <input type="text" class="form-control widget-number" id="c_real" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
@@ -1522,7 +1522,7 @@
     <script type="text/template" id="licencia-tmpl">
       <div class="panel">
         <div class="row">
-          {% if request.registry.settings['ara'] != 'DPMAIP' and next_state != 'Utente de usos comuns' %}
+          {% if request.registry.settings.get("ara") != 'DPMAIP' and next_state != 'Utente de usos comuns' %}
           <h4 class="col-xs-offset-1 col-xs-11">Licença <%- tipo_agua + ': ' %><span class="lic_nro"><%-(lic_nro || '-')%></span>
           {% else %}
           <h4 class="col-xs-offset-1 col-xs-11">Consumo <%- tipo_agua === 'Subterrânea' ? 'Subterrâneo' : tipo_agua %>
@@ -1530,7 +1530,7 @@
             <button type="button" class="btn btn-default btn-xs hidden uilib-enability uilib-show-role-administrador uilib-show-role-tecnico uilib-show-role-juridico" id="addLicense">Adicionar</button>
             <button type="button" class="btn btn-default btn-xs uilib-enability uilib-show-role-administrador uilib-show-role-tecnico uilib-show-role-juridico" id="editLicense">Editar</button>
             <button type="button" class="btn btn-default btn-xs uilib-enability uilib-show-role-administrador uilib-show-role-tecnico" id="addFonte">Nova fonte</button>
-            {% if request.registry.settings['ara'] != 'DPMAIP' and next_state != 'Utente de usos comuns' %}
+            {% if request.registry.settings.get("ara") != 'DPMAIP' and next_state != 'Utente de usos comuns' %}
             <button type="button" class="btn btn-default btn-xs" id="showHistoric">Historico</button>
             <button type="button" class="btn btn-default btn-xs hidden uilib-enability uilib-show-role-administrador uilib-show-role-juridico" id="printLicense">Imprimir licença</button>
             {% endif %}
@@ -1538,7 +1538,7 @@
           </h4>
         </div>
 
-        {% if request.registry.settings['ara'] != 'DPMAIP' %}
+        {% if request.registry.settings.get("ara") != 'DPMAIP' %}
         <div class="row">
           <span class="col-xs-offset-1 col-xs-11">
             <span class="title">Estado:</span> <%- estado || '-' %> <i id="info-estado-licencia" class="fa fa-question-circle" style="cursor:pointer"></i>

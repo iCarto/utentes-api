@@ -129,7 +129,7 @@ def get_user_role(username, request):
     ara = request.registry.settings.get("ara")
     if ara == "ARAS":
         GROUPS_TO_ROLES[ROL_JURIDICO] = [ROL_JURIDICO, ROL_DIRECCION]
-    if ara == "ARAZ":
+    if ara in ["ARAZ", "ARAC", "ARACN"]:
         GROUPS_TO_ROLES[ROL_JURIDICO] = [
             ROL_JURIDICO,
             ROL_DIRECCION,
