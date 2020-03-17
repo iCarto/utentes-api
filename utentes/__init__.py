@@ -18,6 +18,7 @@ from webassets.filter import register_filter
 import utentes.constants.perms as perm
 from utentes.dbutils.scripts.utils import home_directory
 from utentes.lib import webassets_filters
+from utentes.tenant_custom_code import adjust_settings
 
 from .user_utils import get_user_from_request, get_user_role, is_single_user_mode
 
@@ -54,6 +55,8 @@ def main(global_config, **settings):
     engine = engine_from_config(settings, "sqlalchemy.")
     session_factory = sessionmaker(bind=engine)
     settings["db.session_factory"] = session_factory
+
+    adjust_settings(settings)
 
     config = Configurator(
         settings=settings,
