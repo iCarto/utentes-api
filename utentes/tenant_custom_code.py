@@ -1,5 +1,5 @@
 # This must be improved
-# https://stackoverflow.com/questions/29587224 # seguramente el más útil
+# https://stackoverflow.com/questions/29587224 read this
 # https://stackoverflow.com/questions/30784341
 # https://stackoverflow.com/questions/29258175
 # https://stackoverflow.com/questions/27492574
