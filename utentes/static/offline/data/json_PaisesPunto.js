@@ -1,1 +1,0 @@
-{"type":"FeatureCollection","crs":{"type":"name","properties":{"name":"urn:ogc:def:crs:OGC:1.3:CRS84"}},"features":[{"type":"Feature","properties":{"Nome":"TANZANIA"},"geometry":{"type":"Point","coordinates":[37.0,-11.0]}},{"type":"Feature","properties":{"Nome":"MALAWI"},"geometry":{"type":"Point","coordinates":[33.5,-13.0]}}]}
