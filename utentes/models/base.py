@@ -18,6 +18,9 @@ from utentes.lib.schema_validator.validation_exception import ValidationExceptio
 PGSQL_SCHEMA_UTENTES = "utentes"
 PGSQL_SCHEMA_DOMAINS = "domains"
 PGSQL_SCHEMA_USERS = "utentes"
+PGSQL_SCHEMA_CBASE = "cbase"
+PGSQL_SCHEMA_CBASE_ARA = "cbase_ara"
+PGSQL_SCHEMA_INVENTARIO = "inventario"
 
 
 class BaseClass(object):

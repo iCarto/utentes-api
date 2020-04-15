@@ -184,10 +184,9 @@ def add_routes_api(config):
         "/api/domains/licencia_estado_renovacao",
     )
 
-    # GET /api/base/fountains = Return a GeoJSON
-    # POST /api/base/fountains = DELETE the table and insert the features in the zip
-    config.add_route("api_base_fountains", "/api/base/fountains")
+    add_routes_api_cartography(config)
 
+    # Other views
     config.add_route("api_requerimento", "/api/requerimento")
     config.add_route("api_requerimento_id", "/api/requerimento/{id}")
     config.add_route("api_requerimento_get_datos_ara", "/api/get_datos_ara")
@@ -217,3 +216,7 @@ def add_routes_api(config):
 
     # utilities for manual testing
     config.add_route("api_test_fact_substract_month", "/api/test/fact_substract_month")
+
+
+def add_routes_api_cartography(config):
+    config.add_route("api_cartography", "/api/cartography/{layer}")
