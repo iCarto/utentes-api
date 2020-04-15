@@ -20,24 +20,13 @@ Backbone.SIXHIARA.ConfigModalView = Backbone.View.extend({
                 </div>
                 </div>
             </div>
+
+            <div class="row">
+                <hr>
+            </div>
             -->
 
-            <div class="row">
-                <hr>
-            </div>
 
-            <div class="row">
-                <div class="form-group">
-                <div class="input-group col-xs-offset-1 col-xs-10">
-                    <input style="display:none" id="import-fountains" type="file" accept=".zip, application/zip, application/x-zip, application/x-zip-compressed"></input>
-                    <button id="import-fountains-bt" class="btn btn-primary">Carregar fontes</button>
-                </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <hr>
-            </div>
 
             <div class="row">
             <div class="col-xs-offset-1 col-xs-10" style="padding-right: 0px; padding-left: 0px;">
@@ -87,8 +76,6 @@ Backbone.SIXHIARA.ConfigModalView = Backbone.View.extend({
 
     events: {
         // 'click #openFile': 'openFile',
-        "change #import-fountains": "importFountains",
-        "click #import-fountains-bt": "importFountainsBt",
         "click #restore": "restore",
         "click #dump": "dump",
     },
@@ -144,55 +131,6 @@ Backbone.SIXHIARA.ConfigModalView = Backbone.View.extend({
     setValue: function() {
         // var docPath = this.s.get('docPath');
         // this.$('#docPath').val(docPath);
-    },
-
-    importFountainsBt: function() {
-        document.getElementById("import-fountains").click();
-    },
-
-    importFountains: function(e) {
-        var file = e.currentTarget.files[0];
-        this.$(".modal").modal("hide");
-        this.handleFile(file);
-    },
-
-    handleFile: function(file) {
-        if (file.name.slice(-3) !== "zip") {
-            this.$(".modal").modal("hide");
-            bootbox.alert("O arquivo deve ter uma extensão .zip");
-            return;
-        }
-        var self = this;
-        $.getScript("/static/lib/shp.js", function() {
-            var reader = new FileReader();
-            reader.onload = self.readerLoad;
-            reader.readAsArrayBuffer(file);
-        });
-    },
-
-    readerLoad: function() {
-        if (this.readyState !== 2 || this.error) {
-            bootbox.alert("Error carregando ficheiro");
-            return;
-        } else {
-            shp(this.result).then(function(geojson) {
-                $.ajax({
-                    url: "/api/base/fountains",
-                    type: "POST",
-                    data: JSON.stringify(geojson),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function(data) {
-                        alert(data["msg"]);
-                        window.location.reload(true);
-                    },
-                    error: function(err) {
-                        var msg = JSON.parse(err.responseText)["error"];
-                        alert("Error: " + msg);
-                    },
-                });
-            });
-        }
     },
 
     restore: function() {
