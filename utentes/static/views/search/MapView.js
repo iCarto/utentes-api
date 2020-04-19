@@ -4,7 +4,7 @@ Backbone.SIXHIARA.MapView = Backbone.View.extend({
         var options = options || {};
         var self = this;
 
-        options.mapOptions = options.mapOptions || {zoom: SIXHIARA.search.zoom};
+        options.mapOptions = options.mapOptions || {};
         options.offline = {layers: allLayers};
         this.map = Backbone.SIXHIARA.mapConfig(this.el.id, options);
 
@@ -82,12 +82,11 @@ Backbone.SIXHIARA.MapView = Backbone.View.extend({
                 this.map,
                 0.04,
                 16,
-                SIXHIARA.search.zoom,
-                false,
+                this.map.getMinZoom(),
                 this.geoJSONLayer
             );
         } else {
-            this.map.setView(SIXHIARA.center, SIXHIARA.search.zoom);
+            this.map.resetView();
         }
     },
 

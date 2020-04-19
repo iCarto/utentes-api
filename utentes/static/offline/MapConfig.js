@@ -2,11 +2,11 @@ Backbone.SIXHIARA.mapConfig = function(mapId, initOptions) {
     var options = initOptions || {};
 
     var defaultMapOptions = {
-        zoom: 7,
-        center: SIXHIARA.center,
+        // zoom: 7,
+        // center: SIXHIARA.center,
         maxBounds: [SIXHIARA.southWest, SIXHIARA.northEast],
-        minZoom: 7,
-        maxZoom: 19,
+        minZoom: 6, // Permite ver todo Mozambique
+        maxZoom: 19, // Depende de las tiles que se usen en realidad.
         trackResize: false,
     };
 
@@ -20,6 +20,7 @@ Backbone.SIXHIARA.mapConfig = function(mapId, initOptions) {
     }
 
     var map = L.map(mapId, mapOptions);
+    map.fitBounds(mapOptions.maxBounds);
 
     if (options.offline && options.offline.layers) {
         var offBaseLayer = Backbone.SIXHIARA.offline(map, options.offline.layers);
@@ -57,5 +58,10 @@ Backbone.SIXHIARA.mapConfig = function(mapId, initOptions) {
         window.localStorage.setItem("baseMap", e.name);
     });
 
+    L.Map.include({
+        resetView: function resetView() {
+            this.fitBounds(mapOptions.maxBounds);
+        },
+    });
     return map;
 };

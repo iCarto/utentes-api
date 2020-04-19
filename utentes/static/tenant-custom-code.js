@@ -228,34 +228,25 @@ window.SIXHIARA.IVA = 17;
 
 if (window.SIRHA.getARA() === "DPMAIP") {
     Object.assign(SIXHIARA, {
-        center: [-12.5, 39.0],
-        southWest: [-23, 31],
-        northEast: [-9, 48],
-        search: {
-            zoom: 8,
-        },
+        center: [-15.25, 39.0],
+        southWest: [-15.01, 34.89],
+        northEast: [-10.47, 40.64],
     });
 }
 
 if (window.SIRHA.getARA() === "ARAN") {
     Object.assign(SIXHIARA, {
         center: [-13, 38.505],
-        southWest: [-23, 31],
-        northEast: [-9, 43],
-        search: {
-            zoom: 8,
-        },
+        southWest: [-15.25, 34.89],
+        northEast: [-10.47, 40.64],
     });
 }
 
 if (window.SIRHA.getARA() === "ARAS") {
     Object.assign(SIXHIARA, {
         center: [-22.6, 33.8],
-        southWest: [-29, 22],
-        northEast: [-8, 48],
-        search: {
-            zoom: 7,
-        },
+        southWest: [-26.86, 31.3],
+        northEast: [-21, 35],
     });
     window.SIXHIARA.IVA = 12.75;
     window.SIXHIARA.GROUPS_TO_ROLES[SIRHA.ROLE.JURIDICO] = [
@@ -267,11 +258,8 @@ if (window.SIRHA.getARA() === "ARAS") {
 if (window.SIRHA.getARA() === "ARAZ") {
     Object.assign(SIXHIARA, {
         center: [-16, 34.63],
-        southWest: [-28.3, -6.76],
-        northEast: [3, 77],
-        search: {
-            zoom: 7,
-        },
+        southWest: [-18.98, 30.21],
+        northEast: [-11.56, 37.19],
     });
 
     window.SIXHIARA.GROUPS_TO_ROLES[SIRHA.ROLE.JURIDICO] = [
@@ -284,11 +272,8 @@ if (window.SIRHA.getARA() === "ARAZ") {
 if (window.SIRHA.getARA() === "ARAC") {
     Object.assign(SIXHIARA, {
         center: [-19.78, 34.01],
-        southWest: [-21.97, 32.03],
-        northEast: [17.58, 35.93],
-        search: {
-            zoom: 8,
-        },
+        southWest: [-22.5, 32.04],
+        northEast: [-17.52, 35.9],
     });
 
     window.SIXHIARA.GROUPS_TO_ROLES[SIRHA.ROLE.JURIDICO] = [
@@ -301,11 +286,8 @@ if (window.SIRHA.getARA() === "ARAC") {
 if (window.SIRHA.getARA() === "ARACN") {
     Object.assign(SIXHIARA, {
         center: [-15.34, 38.3],
-        southWest: [-17.75, 35.75],
-        northEast: [-13.30, 40.82],
-        search: {
-            zoom: 8,
-        },
+        southWest: [-17.96, 35.78],
+        northEast: [-13.29, 40.83],
     });
 
     window.SIXHIARA.GROUPS_TO_ROLES[SIRHA.ROLE.JURIDICO] = [
@@ -314,7 +296,6 @@ if (window.SIRHA.getARA() === "ARACN") {
         SIRHA.ROLE.DIRECCION,
     ];
 }
-
 
 window.SIXHIARA.xlsFieldsToExport = {};
 if (window.SIRHA.getARA() === "DPMAIP") {

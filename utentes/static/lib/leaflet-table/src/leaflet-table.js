@@ -30,6 +30,10 @@ L.Control.Table = L.Control.extend({
         L.Util.setOptions(this, options);
 
         var unselect = this.options.unselectedFeature;
+    },
+
+    onAdd: function(map) {
+        this._map = map;
         this.polygonLayer = L.geoJson([], {
             pointToLayer: function(feature, latlng) {
                 return L.circleMarker(latlng, unselect);
@@ -37,12 +41,9 @@ L.Control.Table = L.Control.extend({
             onEachFeature: function(feature, layer) {
                 // on adding each feat
             },
-        }).addTo(map);
+        }).addTo(this._map);
 
-        map.on("moveend", this.saveMapView, this);
-    },
-
-    onAdd: function(map) {
+        this._map.on("moveend", this.saveMapView, this);
         if (window.localStorage.getItem("gpxData")) {
             var points = this.getDataFromLocalStorage();
             var myGeoJSON = this.layerFromPoints(points);
@@ -397,10 +398,6 @@ L.Control.Table = L.Control.extend({
         };
     },
 
-    resetView: function() {
-        map.setView(SIXHIARA.center, SIXHIARA.search.zoom);
-    },
-
     saveToLocalStorage: function() {
         var myarray = [];
         this.geoJsonLayer.eachLayer(function(layer) {
@@ -416,15 +413,15 @@ L.Control.Table = L.Control.extend({
             this.saveMapView();
             this.enableSessionButton();
         } else {
-            this.resetView();
+            this._map.resetView();
             this.disableSessionButton();
         }
     },
 
     saveMapView: function() {
         var position = {
-            zoom: map.getZoom(),
-            center: map.getCenter(),
+            zoom: this._map.getZoom(),
+            center: this._map.getCenter(),
         };
 
         window.localStorage.removeItem("mapView");
@@ -435,14 +432,14 @@ L.Control.Table = L.Control.extend({
         if (window.localStorage.getItem("mapView")) {
             var mapViewRaw = window.localStorage.getItem("mapView");
             var mapView = JSON.parse(mapViewRaw);
-            map.setView(mapView.center, mapView.zoom);
+            this._map.setView(mapView.center, mapView.zoom);
         }
     },
 
     endSession: function() {
         this.geoJsonLayer.clearLayers();
         this.disableSessionButton();
-        this.resetView();
+        this._map.resetView();
         window.localStorage.removeItem("gpxData");
         window.localStorage.removeItem("mapView");
     },

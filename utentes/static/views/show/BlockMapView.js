@@ -48,8 +48,14 @@ Backbone.SIXHIARA.BlockMapView = Backbone.View.extend({
                 },
             });
 
-            FitToBounds.fit(this.map, 0.1, 16, null, true, this.geoJSONLayer);
-        }
+                FitToBounds.fitAndSetMaxBounds(
+                    this.map,
+                    0.1,
+                    16,
+                    null,
+                    this.geoJSONLayer
+                );
+            }
 
         if (iAuth.canDraw()) {
             if (L && L.drawLocal) L.drawLocal = Backbone.SIXHIARA.LeafletDrawLocalesPT;
@@ -105,7 +111,7 @@ Backbone.SIXHIARA.BlockMapView = Backbone.View.extend({
         }
 
         this.actividadeLayer.addTo(this.map);
-        FitToBounds.fit(this.map, 0.1, 16, null, true, [
+        FitToBounds.fitAndSetMaxBounds(this.map, 0.1, 16, null, [
             this.geoJSONLayer,
             this.actividadeLayer,
         ]);

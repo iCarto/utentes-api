@@ -4,13 +4,15 @@ Backbone.SIXHIARA.LayerStyle = {
         return L.marker(
             latlng,
             Backbone.SIXHIARA.LayerStyle.doStyleEstacoes(feature)
-        ).bindLabel(feature.properties.cod_estac, {
-            noHide: true,
+        ).bindTooltip(feature.properties.cod_estac, {
+            permanent: true,
             offset: [2, -26],
             className: "sixhiara-leaflet-label-estacoes",
             opacity: 1,
             zoomAnimation: true,
-            // direction: 'auto',
+            interactive: false,
+            direction: "auto",
+            sticky: false,
         });
     },
     doStyleEstacoes: function(feature) {
@@ -118,14 +120,16 @@ Backbone.SIXHIARA.LayerStyle = {
     doPointToLayerEntidadespopulacao: function(feature, latlng) {
         return L.marker(latlng, {
             icon: Backbone.SIXHIARA.LayerStyle.marker_EntidadesPopulacao,
-            clickable: false,
-        }).bindLabel(feature.properties.nome, {
-            noHide: true,
+            interactive: false,
+        }).bindTooltip(feature.properties.nome, {
+            permanent: true,
             offset: [-0, -16],
             className: "sixhiara-leaflet-label-entidadespopulacao",
             opacity: 1,
             zoomAnimation: true,
-            // direction: 'auto',
+            interactive: false,
+            direction: "auto",
+            sticky: false,
         });
     },
 

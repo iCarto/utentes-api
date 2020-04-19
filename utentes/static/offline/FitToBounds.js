@@ -15,24 +15,21 @@ var FitToBounds = {
         return map.getBounds();
     },
 
-    setThisAsMaxBounds: function(map) {
-        // el padding es para asegurarse de que entra
-        // si no intenta hacer un _panInsideMaxBounds y puede
-        // entrar en un bucle infinito
-        var bounds = map.getBounds().pad(0.15);
-        map.setMaxBounds(bounds);
-    },
-
-    fit: function(map, boundsPadding, maxZoom, minZoom, maxBounds, layers) {
+    fit: function(map, boundsPadding, maxZoom, minZoom, layers) {
         var layers = Array.isArray(layers) ? layers : [layers];
         var bounds = layers.reduce(function(totalBounds, layer) {
             var layerBounds = layer && layer.getBounds();
             return totalBounds.extend(layerBounds);
         }, new L.LatLngBounds());
 
-        FitToBounds.fitToBounds(map, bounds, boundsPadding, maxZoom, minZoom);
-        if (maxBounds) {
-            FitToBounds.setThisAsMaxBounds(map);
-        }
+        return FitToBounds.fitToBounds(map, bounds, boundsPadding, maxZoom, minZoom);
+    },
+
+    fitAndSetMaxBounds: function(map, boundsPadding, maxZoom, minZoom, layers) {
+        let mapBounds = FitToBounds.fit(map, boundsPadding, maxZoom, minZoom, layers);
+        // el padding es para asegurarse de que entra
+        // si no intenta hacer un _panInsideMaxBounds y puede
+        // entrar en un bucle infinito
+        map.setMaxBounds(mapBounds.pad(0.15));
     },
 };
