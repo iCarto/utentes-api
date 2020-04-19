@@ -18,35 +18,41 @@ Backbone.SIXHIARA.BlockMapView = Backbone.View.extend({
             self.map.scrollWheelZoom.disable();
         });
 
-        var drawnItems = new L.FeatureGroup();
+        // if (iAuth.canDraw()) {
+        if (false) {
+            /*
+            Leaflet.draw no funciona con Leaflet 1.6.0, uso esto como
+            un feature flag hasta que sea arreglado
+            */
+            var drawnItems = new L.FeatureGroup();
 
-        var geom = this.model.get("geometry").toJSON();
-        if (_.has(geom, "coordinates") && _.has(geom, "type")) {
-            var exploracaoGeoJSON = {
-                type: "Feature",
-                properties: {},
-                geometry: geom,
-            };
+            var geom = this.model.get("geometry").toJSON();
+            if (_.has(geom, "coordinates") && _.has(geom, "type")) {
+                var exploracaoGeoJSON = {
+                    type: "Feature",
+                    properties: {},
+                    geometry: geom,
+                };
 
-            this.geoJSONLayer = L.geoJson(exploracaoGeoJSON, {
-                onEachFeature: function(feature, layer) {
-                    if (feature.geometry.type == "MultiPolygon") {
-                        layer.eachLayer(function(child_layer) {
-                            drawnItems.addLayer(child_layer);
-                        });
-                    } else {
-                        drawnItems.addLayer(layer);
-                    }
-                },
-                style: {
-                    stroke: true,
-                    color: "#00b300",
-                    weight: 4,
-                    opacity: 0.5,
-                    fillColor: "#00b300",
-                    fillOpacity: 0.2,
-                },
-            });
+                this.geoJSONLayer = L.geoJson(exploracaoGeoJSON, {
+                    onEachFeature: function(feature, layer) {
+                        if (feature.geometry.type == "MultiPolygon") {
+                            layer.eachLayer(function(child_layer) {
+                                drawnItems.addLayer(child_layer);
+                            });
+                        } else {
+                            drawnItems.addLayer(layer);
+                        }
+                    },
+                    style: {
+                        stroke: true,
+                        color: "#00b300",
+                        weight: 4,
+                        opacity: 0.5,
+                        fillColor: "#00b300",
+                        fillOpacity: 0.2,
+                    },
+                });
 
                 FitToBounds.fitAndSetMaxBounds(
                     this.map,
@@ -57,7 +63,6 @@ Backbone.SIXHIARA.BlockMapView = Backbone.View.extend({
                 );
             }
 
-        if (iAuth.canDraw()) {
             if (L && L.drawLocal) L.drawLocal = Backbone.SIXHIARA.LeafletDrawLocalesPT;
             var drawControl = new L.Control.Draw({
                 draw: {
@@ -87,8 +92,31 @@ Backbone.SIXHIARA.BlockMapView = Backbone.View.extend({
                     self.model.set("geometry", null);
                 }
             });
+            drawnItems.addTo(this.map);
+        } else {
+            let data = this.model.toGeoJSON();
+            if (data.geometry.coordinates) {
+                this.geoJSONLayer = L.geoJson(data, {
+                    style: {
+                        stroke: true,
+                        color: "#00b300",
+                        weight: 4,
+                        opacity: 0.5,
+                        fillColor: "#00b300",
+                        fillOpacity: 0.2,
+                    },
+                }).addTo(this.map);
+
+                FitToBounds.fitAndSetMaxBounds(
+                    this.map,
+                    0.1,
+                    16,
+                    null,
+                    this.geoJSONLayer
+                );
+            }
         }
-        drawnItems.addTo(this.map);
+
         this.renderActividade();
 
         this.listenTo(this.model, "change:actividade", this.renderCultivos);
