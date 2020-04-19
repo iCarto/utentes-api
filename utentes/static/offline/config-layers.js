@@ -43,7 +43,7 @@ var allLayers = [
     },
     {
         id: "aras",
-        //onEachFeature: Backbone.SIXHIARA.LayerStyle.onEachFeaturearas,
+        onEachFeature: Backbone.SIXHIARA.LayerStyle.onEachFeaturearas,
         initialOrder: 8,
         closeZoom: 11,
     },

@@ -198,15 +198,45 @@ Backbone.SIXHIARA.LayerStyle = {
             color: "#05328c",
             opacity: 1.0,
             fillOpacity: 0,
+            interactive: false,
         };
     },
     onEachFeaturearas: function(feature, layer) {
-        return L.marker(layer.getBounds().getCenter(), {
-            icon: L.divIcon({
-                className: "sixhiara-leaflet-label-aras",
-                html: feature.properties.nome,
-            }),
-        }).addTo(map);
+        let options = {
+            permanent: false,
+            offset: [0, 0],
+            className: "sixhiara-leaflet-label sixhiara-leaflet-label-aras",
+            opacity: 1,
+            zoomAnimation: true,
+            interactive: false,
+            direction: "center", // auto, rigth, left, center, bottom. top, middle
+            sticky: false,
+        };
+        /*
+        ARAS es multipolígono. bindTooltip ubica el anchor en un punto interior
+        del primer polígono, que no es adecuado en este caso. Tooltip.setLatLong
+        {Layer/Tooltip}.openTooltip y Tooltip.addTo son algo incosistentes y
+        varían dependiendo de permanent, de si la capa ya ha sido agregada, ...
+        Esta forma de hacerlo permite ubicar el punto a mano, sólo es necesario
+        escuchar un único evento y funciona bien con capas que se añaden u quitan
+        en función del zoom. En versiones posteriores a 1.6 este comportamiento
+        parece mejorar.
+
+        Aún así hay que tener en cuenta que se está usando un punto fijo, y
+        habria que calcularlo dinámicamente para la porción del multipolígono
+        que se esté viendo en el mapa.
+
+        https://github.com/Leaflet/Leaflet/issues/4827
+        https://stackoverflow.com/questions/42364619/
+        https://github.com/Leaflet/Leaflet/issues/5216
+        https://github.com/Leaflet/Leaflet/issues/5758
+        https://github.com/Leaflet/Leaflet/issues/6779
+        */
+        layer.on("add", function() {
+            let t = layer.bindTooltip(feature.properties.nome, options).getTooltip();
+            layer.openTooltip(layer.getBounds().getCenter());
+            layer.off("add", this);
+        });
     },
 
     doStylebacias: function(feature) {
