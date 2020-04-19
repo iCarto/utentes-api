@@ -5,7 +5,6 @@ Backbone.SIXHIARA.Config = {
     urlShow: "/exploracao-show.html?id=",
     urlUtentes: "/utentes.html",
     urlPendentes: "/requerimento-pendente.html",
-    urlOfflineDataLeged: "/static/offline/legend/Cidadesevilas.png",
     urlOfflineData: "/api/cartography/",
     apiDomains: "/api/domains",
     apiExploracaos: "/api/exploracaos",

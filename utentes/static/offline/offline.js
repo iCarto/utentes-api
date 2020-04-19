@@ -30,7 +30,6 @@ Backbone.SIXHIARA.offline = function(map, layersConfig) {
     var collection = new Backbone.SIXHIARA.LayerConfigCollection();
 
     for (var i = layersConfig.length - 1; i >= 0; i--) {
-        layersConfig[i].initialOrder = 11 - layersConfig[i].initialOrder;
         if (!layersConfig[i].style && !layersConfig[i].pointToLayer) {
             layersConfig[i].style =
                 Backbone.SIXHIARA.LayerStyle["doStyle" + layersConfig[i].id];
@@ -40,38 +39,67 @@ Backbone.SIXHIARA.offline = function(map, layersConfig) {
 
     collection.on("initiallayersloaded", function() {
         self.initiallayersloaded = true;
-        self.fontes = collection.get("Fontes");
+        self.aras = collection.get("aras");
+        self.fontes = collection.get("fontes");
+        self.estacoes = collection.get("estacoes");
+        self.barragens = collection.get("barragens");
         if (self.addToMap) {
             feature_group.addTo(map);
             restackLayers();
         } else {
-            restackFontes();
+            restackInventario();
         }
     });
 
-    function restackFontes() {
+    function restackInventario() {
+        var arasLayer = self.aras.get("layer");
         var fontesLayer = self.fontes.get("layer");
-        feature_group.removeLayer(fontesLayer);
+        var estacoesLayer = self.estacoes.get("layer");
+        var barragensLayer = self.barragens.get("layer");
+        feature_group.removeLayer(
+            fontesLayer,
+            arasLayer,
+            estacoesLayer,
+            barragensLayer
+        );
         if (self.fontes.isVisible(map.getZoom())) {
             map.addLayer(fontesLayer);
             fontesLayer.bringToFront();
         } else {
             map.removeLayer(fontesLayer);
         }
+        if (self.aras.isVisible(map.getZoom())) {
+            map.addLayer(arasLayer);
+            arasLayer.bringToFront();
+        } else {
+            map.removeLayer(arasLayer);
+        }
+        if (self.estacoes.isVisible(map.getZoom())) {
+            map.addLayer(estacoesLayer);
+            estacoesLayer.bringToFront();
+        } else {
+            map.removeLayer(estacoesLayer);
+        }
+        if (self.barragens.isVisible(map.getZoom())) {
+            map.addLayer(barragensLayer);
+            barragensLayer.bringToFront();
+        } else {
+            map.removeLayer(barragensLayer);
+        }
     }
 
     map.on("zoomend", function(e) {
         restackLayers();
         if (!map.hasLayer(feature_group) && self.initiallayersloaded) {
-            restackFontes();
+            restackInventario();
         }
     });
 
     map.on("baselayerchange", function(e) {
-        if (e.name === "Sem rede") {
+        if (e.name === "Hidrológico") {
             restackLayers();
         } else {
-            restackFontes();
+            restackInventario();
         }
     });
 

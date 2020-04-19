@@ -32,42 +32,26 @@ Backbone.SIXHIARA.mapConfig = function(mapId, initOptions) {
         /* workaround end */
     }
 
-    if (options.online || true) {
-        var mapBoxApi = window.localStorage.getItem("mapBoxApi");
-
-        var hotLayer = L.tileLayer(
-            "http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png",
-            {
-                attribution:
-                    '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-            }
-        );
-
-        var iCartoLayer = L.tileLayer(
-            "https://api.mapbox.com/styles/v1/fpuga/ciyeq8j4m00362slesun9tw70/tiles/256/{z}/{x}/{y}?access_token=" +
-                mapBoxApi,
-            {
-                attribution:
-                    '© <a href= "http://icarto.es">iCarto</a>, © <a href= "https://www.mapbox.com/map-feedback/">Mapbox</a>, © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-            }
-        );
-    }
+    var osmhotLayer = L.tileLayer(
+        "http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png",
+        {
+            attribution:
+                '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        }
+    );
 
     var baseMap = window.localStorage.getItem("baseMap") || "OSM-HOT";
-    if (baseMap === "Sem rede") {
+
+    if (baseMap === "Hidrológico") {
         offBaseLayer.loadOffline(true);
     } else if (baseMap === "OSM-HOT") {
-        hotLayer.addTo(map);
-        offBaseLayer.loadOffline(false);
-    } else if (baseMap === "OSM-Mapbox") {
-        iCartoLayer.addTo(map);
+        osmhotLayer.addTo(map);
         offBaseLayer.loadOffline(false);
     }
 
     var control = L.control.layers({}, {}, {position: "topleft"}).addTo(map);
-    control.addBaseLayer(offBaseLayer, "Sem rede");
-    control.addBaseLayer(hotLayer, "OSM-HOT");
-    control.addBaseLayer(iCartoLayer, "OSM-Mapbox");
+    control.addBaseLayer(offBaseLayer, "Hidrológico");
+    control.addBaseLayer(osmhotLayer, "OSM-HOT");
 
     map.on("baselayerchange", function(e) {
         window.localStorage.setItem("baseMap", e.name);

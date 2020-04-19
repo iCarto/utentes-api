@@ -109,8 +109,7 @@ Backbone.SIXHIARA.LayerConfig = Backbone.Model.extend({
     },
 
     loadWithAjax: function() {
-        var url =
-            Backbone.SIXHIARA.Config.urlOfflineData + "json_" + this.get("id") + ".js";
+        var url = Backbone.SIXHIARA.Config.urlOfflineData + this.get("id");
         var self = this;
         $.getJSON(url, function(data) {
             self.get("layer").clearLayers();

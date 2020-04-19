@@ -1,28 +1,20 @@
-.sixhiara-leaflet-label-paises {
+.sixhiara-leaflet-label-entidadespopulacao {
     color: #000;
-    font: 13px/26px "Calibri", "Helvetica Neue", "Arial", "Helvetica", sans-serif;
-    font-style: normal;
+    font: 9px "Calibri", "Helvetica Neue", "Arial", "Helvetica", sans-serif;
+    font-style: oblique;
     font-weight: bold;
 }
 
-.sixhiara-leaflet-label-postos {
-    color: #7d7d7d;
-    font: 9px/18px "Calibri", "Helvetica Neue", "Arial", "Helvetica", sans-serif;
+.sixhiara-leaflet-label-estacoes {
+    color: #000;
+    font: 11px "Calibri", "Helvetica Neue", "Arial", "Helvetica", sans-serif;
     font-style: italic;
-    font-weight: bold;
+    font-weight: normal;
 }
 
-.sixhiara-leaflet-label-provincias {
+.sixhiara-leaflet-label-aras {
     color: #000;
-    font: 13px/26px "Calibri", "Helvetica Neue", "Arial", "Helvetica", sans-serif;
-    font-style: normal;
-    font-weight: bold;
-    text-shadow: 0 0 4px #fff, 0 0 4px #fff, 0 0 4px #fff, 0 0 4px #fff;
-}
-
-.sixhiara-leaflet-label-cidades {
-    color: #000;
-    font: 9px/18px "Calibri", "Helvetica Neue", "Arial", "Helvetica", sans-serif;
+    font: 20px "Calibri", "Helvetica Neue", "Arial", "Helvetica", sans-serif;
     font-style: italic;
     font-weight: normal;
 }

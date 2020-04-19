@@ -1,211 +1,135 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.LayerStyle = {
-    doStyleOceano: function(feature) {
-        return {
-            weight: 0.26,
-            color: "#1f78b4",
-            fillColor: "#1f78b4",
-            dashArray: null,
-            lineCap: null,
-            lineJoin: null,
-            opacity: 1.0,
-            fillOpacity: 1.0,
-            clickable: false,
-        };
-    },
-
-    doStylePais: function(feature) {
-        return {
-            weight: 0.52,
-            color: "#000000",
-            fillColor: "#787878",
-            opacity: 1.0,
-            fillOpacity: 1.0,
-            clickable: false,
-        };
-    },
-
-    doStylePostos: function(feature) {
-        return {
-            weight: 0.52,
-            color: "#6c6c6c",
-            fillColor: "#f1f4c7",
-            dashArray: "5, 5, 1, 5",
-            fillOpacity: 1.0,
-            clickable: false,
-        };
-    },
-
-    onEachFeaturePostos: function(feature, layer) {
-        layer.bindLabel(feature.properties["Nome"], {
+    doPointToLayerEstacoes: function(feature, latlng) {
+        return L.marker(
+            latlng,
+            Backbone.SIXHIARA.LayerStyle.doStyleEstacoes(feature)
+        ).bindLabel(feature.properties.cod_estac, {
             noHide: true,
-            // offset: [-0, -16],
-            className: "sixhiara-leaflet-label-postos",
+            offset: [2, -26],
+            className: "sixhiara-leaflet-label-estacoes",
             opacity: 1,
             zoomAnimation: true,
             // direction: 'auto',
         });
     },
-
-    doStyleProvincias: function(feature) {
-        return {
-            weight: 1.2,
-            color: "#000000",
-            fillColor: "#33a02c",
-            dashArray: "5, 5, 1, 5",
-            opacity: 0.4,
-            fillOpacity: 0.3,
-            clickable: false,
-        };
-    },
-
-    onEachFeatureProvincias: function(feature, layer) {
-        layer.bindLabel(feature.properties["Nome"], {
-            noHide: true,
-            // offset: [-0, -16],
-            className: "sixhiara-leaflet-label-provincias",
-            opacity: 1,
-            zoomAnimation: true,
-            direction: "auto",
-        });
-        // layer.showLabel();
-    },
-
-    doStyleLagos: function(feature) {
-        return {
-            weight: 0.52,
-            color: "#00537d",
-            fillColor: "#00537d",
-            opacity: 1.0,
-            fillOpacity: 1.0,
-            clickable: false,
-        };
-    },
-
-    doStyleEstradas: function(feature) {
-        switch (feature.properties.TIPO) {
-            case "Other":
+    doStyleEstacoes: function(feature) {
+        var tip_estac = feature.properties.tip_estac;
+        switch (tip_estac) {
+            case "Hidrométrica":
                 return {
-                    color: "#7d7d7d",
-                    weight: 0.2,
-                    opacity: "1.0",
+                    icon: Backbone.SIXHIARA.LayerStyle.hidroIcon,
                     clickable: false,
                 };
                 break;
-
-            case "Primary":
+            case "Pluviométrica":
                 return {
-                    color: "#770514",
-                    weight: 1.6,
-                    opacity: "1.0",
-                    clickable: false,
-                    fillColor: "#fff",
-                };
-                break;
-
-            case "Secondary":
-                return {
-                    color: "#940518",
-                    weight: 0.6,
-                    opacity: "1.0",
-                    clickable: false,
-                };
-                break;
-
-            case "Tertiary":
-                return {
-                    color: "#11370f",
-                    weight: 0.52,
-                    opacity: "1.0",
-                    clickable: false,
-                };
-                break;
-
-            case "Vicinal":
-                return {
-                    color: "#5f4b0f",
-                    weight: 0.3,
-                    opacity: "1.0",
+                    icon: Backbone.SIXHIARA.LayerStyle.pluvioIcon,
                     clickable: false,
                 };
                 break;
         }
     },
+    hidroIcon: L.icon({
+        iconUrl: "/static/offline/legend/Hidrometrica.png",
+        iconSize: [20.0, 20.0],
+    }),
+    pluvioIcon: L.icon({
+        iconUrl: "/static/offline/legend/Pluviometrica.png",
+        iconSize: [20.0, 20.0],
+    }),
 
-    marker_Cidadesevilas: new L.icon({
-        iconUrl: Backbone.SIXHIARA.Config.urlOfflineDataLeged,
+    doPointToLayerBarragens: function(feature, latlng) {
+        return L.marker(latlng, Backbone.SIXHIARA.LayerStyle.doStyleBarragens(feature));
+    },
+    doStyleBarragens: function(feature) {
+        var tip_barra = feature.properties.tip_barra;
+        switch (tip_barra) {
+            case "Barragem":
+                return {
+                    icon: Backbone.SIXHIARA.LayerStyle.barragemIcon,
+                    clickable: false,
+                };
+                break;
+            case "Represa":
+                return {
+                    icon: Backbone.SIXHIARA.LayerStyle.represaIcon,
+                    clickable: false,
+                };
+                break;
+        }
+    },
+    barragemIcon: L.icon({
+        iconUrl: "/static/offline/legend/Barragem.png",
+        iconSize: [20.0, 20.0],
+    }),
+    represaIcon: L.icon({
+        iconUrl: "/static/offline/legend/Represa.png",
+        iconSize: [20.0, 20.0],
+    }),
+
+    doPointToLayerFontes: function(feature, latlng) {
+        let commonStyle = {
+            weight: 0,
+            opacity: 0,
+            fillOpacity: 1.0,
+            clickable: false,
+        };
+        let customStyle = Backbone.SIXHIARA.LayerStyle.doStyleFontesCustom(feature);
+
+        return L.circleMarker(latlng, Object.assign({}, customStyle, commonStyle));
+    },
+
+    doStyleFontesCustom: function doStyleFontesCustom(feature) {
+        switch (feature.properties.red_monit) {
+            case "Velho-Sustituído":
+                return {
+                    radius: 3,
+                    fillColor: "#1f78b4",
+                    color: "#1f78b4",
+                };
+            case "Base e qualidade":
+                return {
+                    radius: 6,
+                    fillColor: "#a51215",
+                    color: "#a51215",
+                };
+            case "Base":
+                return {
+                    radius: 6,
+                    fillColor: "#4c9322",
+                    color: "#4c9322",
+                };
+            case "NO":
+            default:
+                return {
+                    radius: 3,
+                    fillColor: "#1f78b4",
+                    color: "#1f78b4",
+                };
+        }
+    },
+
+    marker_EntidadesPopulacao: new L.icon({
+        iconUrl: "/static/offline/legend/EntidadesPopulacao.png",
         iconSize: [16, 16],
         iconAnchor: [8, 8],
     }),
-
-    doPointToLayerCidadesVilas: function(feature, latlng) {
+    doPointToLayerEntidadespopulacao: function(feature, latlng) {
         return L.marker(latlng, {
-            icon: Backbone.SIXHIARA.LayerStyle.marker_Cidadesevilas,
+            icon: Backbone.SIXHIARA.LayerStyle.marker_EntidadesPopulacao,
             clickable: false,
-        }).bindLabel(feature.properties.NOME, {
+        }).bindLabel(feature.properties.nome, {
             noHide: true,
             offset: [-0, -16],
-            className: "sixhiara-leaflet-label-cidades",
+            className: "sixhiara-leaflet-label-entidadespopulacao",
             opacity: 1,
             zoomAnimation: true,
             // direction: 'auto',
         });
     },
 
-    doStyleInvisibleMarker: function() {
-        return {
-            radius: 2.0,
-            fillColor: "#000000",
-            color: "#000000",
-            weight: 2.0,
-            opacity: 0,
-            fillOpacity: 0,
-        };
-    },
-
-    doPointToLayerPaisesPunto: function(feature, latlng) {
-        return L.circleMarker(
-            latlng,
-            Backbone.SIXHIARA.LayerStyle.doStyleInvisibleMarker()
-        ).bindLabel(feature.properties.Nome, {
-            noHide: true,
-            offset: [-20, -15],
-            className: "sixhiara-leaflet-label-paises",
-            opacity: 1,
-            zoomAnimation: true,
-            // direction: 'auto',
-        });
-    },
-
-    doPointToLayerPostosPunto: function(feature, latlng) {
-        return L.circleMarker(
-            latlng,
-            Backbone.SIXHIARA.LayerStyle.doStyleInvisibleMarker()
-        ).bindLabel(feature.properties.Nome, {
-            noHide: true,
-            offset: [-25, -10],
-            className: "sixhiara-leaflet-label-postos",
-            opacity: 1,
-            zoomAnimation: true,
-            // direction: 'auto',
-        });
-    },
-
-    doPointToLayerProvinciasPunto: function(feature, latlng) {
-        return L.circleMarker(
-            latlng,
-            Backbone.SIXHIARA.LayerStyle.doStyleInvisibleMarker()
-        ).bindLabel(feature.properties.Nome, {
-            noHide: true,
-            offset: [-20, -15],
-            className: "sixhiara-leaflet-label-provincias",
-            opacity: 1,
-            zoomAnimation: true,
-            // direction: 'auto',
-        });
-    },
-
-    doStyleAlbufeiras: function(feature) {
+    doStylealbufeiras: function(feature) {
         return {
             weight: 0.52,
             color: "#304b8a",
@@ -216,70 +140,164 @@ Backbone.SIXHIARA.LayerStyle = {
         };
     },
 
-    doStyleRios: function(feature) {
+    doStylelagos: function(feature) {
+        return {
+            weight: 0.52,
+            color: "#00537d",
+            fillColor: "#00537d",
+            opacity: 1.0,
+            fillOpacity: 1.0,
+            clickable: false,
+        };
+    },
+
+    doStyleestradas: function(feature) {
+        switch (feature.properties.tipo) {
+            case "Primária":
+                return {
+                    color: "#770514",
+                    weight: 1.6,
+                    opacity: "1.0",
+                    clickable: false,
+                    fillColor: "#fff",
+                };
+            case "Secundária":
+                return {
+                    color: "#11370f",
+                    weight: 1,
+                    opacity: "0.8",
+                    clickable: false,
+                };
+            case "Vicinhal":
+                return {
+                    color: "#5f4b0f",
+                    weight: 0.5,
+                    opacity: "1.0",
+                    clickable: false,
+                };
+        }
+    },
+
+    doStylerios: function(feature) {
         return {
             weight: 0.6,
-            color: "#304b8a",
+            color: "#6598da",
             opacity: 1.0,
             clickable: false,
         };
     },
 
-    doPointToLayerFontes: function(feature, latlng) {
-        return L.circleMarker(
-            latlng,
-            Backbone.SIXHIARA.LayerStyle.doStyleFontes(feature)
-        );
+    doStylearas: function(feature) {
+        return {
+            weight: 1,
+            color: "#05328c",
+            opacity: 1.0,
+            fillOpacity: 0,
+        };
+    },
+    onEachFeaturearas: function(feature, layer) {
+        return L.marker(layer.getBounds().getCenter(), {
+            icon: L.divIcon({
+                className: "sixhiara-leaflet-label-aras",
+                html: feature.properties.nome,
+            }),
+        }).addTo(map);
     },
 
-    doStyleFontes: function doStyleFontes(feature) {
-        var red_monit = feature.properties.red_monit || feature.properties.RED_MONIT;
-        switch (red_monit) {
-            case "Velho-Sustituído":
-                return {
-                    radius: 3,
-                    fillColor: "#1f78b4",
-                    color: "#1f78b4",
-                    weight: 0,
-                    opacity: 0,
-                    fillOpacity: 1.0,
-                    clickable: false,
-                };
+    doStylebacias: function(feature) {
+        return {
+            weight: 0.6,
+            fillColor: "#ffffff",
+            dashArray: "5, 5, 1, 5",
+            color: "#05328c",
+            opacity: 1,
+            fillOpacity: 1,
+        };
+    },
+
+    doStylebaciasrepresentacion: function(feature) {
+        var ret = {
+            weight: 0.52,
+            fillColor: "#000000",
+            color: "#FFFFFF",
+            opacity: 1,
+            fillOpacity: 0.2,
+            clickable: false,
+        };
+        switch (feature.properties.nome) {
+            case "Zambeze":
+            case "Montepuez":
+            case "Monapo":
+            case "Melela":
+            case "Govuro":
+                ret.fillColor = "#1e3ca0";
                 break;
-            case "Base e qualidade":
-                return {
-                    radius: 6,
-                    fillColor: "#a51215",
-                    color: "#a51215",
-                    weight: 0,
-                    opacity: 0,
-                    fillOpacity: 1.0,
-                    clickable: false,
-                };
+            case "Save":
+            case "Pungue":
+            case "Messalo":
+            case "Mecuburi":
+            case "Ligonha":
+            case "Licungo":
+            case "Incomati":
+                ret.fillColor = "#0a46aa";
                 break;
-            case "Base":
-                return {
-                    radius: 6,
-                    fillColor: "#4c9322",
-                    color: "#4c9322",
-                    weight: 0,
-                    opacity: 0,
-                    fillOpacity: 1.0,
-                    clickable: false,
-                };
+            case "Resto de bacias":
+                ret.fillColor = "#0044CE";
                 break;
-            case "NO":
-            default:
-                return {
-                    radius: 3,
-                    fillColor: "#1f78b4",
-                    color: "#1f78b4",
-                    weight: 0,
-                    opacity: 0,
-                    fillOpacity: 1.0,
-                    clickable: false,
-                };
+            case "Raraga":
+            case "Raraga":
+            case "Meluli":
+            case "Megaruma":
+            case "Inharrime":
+                ret.fillColor = "#7d7d7d";
                 break;
+            case "Lurio":
+            case "Rovuma":
+            case "Lualua":
+            case "Limpopo":
+            case "Buzi":
+                ret.fillColor = "#1e78b4";
+                break;
+            case "Gorongozi":
+                ret.fillColor = "#05328c";
         }
+        return ret;
+    },
+
+    doStyleprovincias: function(feature) {
+        return {
+            weight: 1.2,
+            color: "#000000",
+            fillColor: "#F6F6F6",
+            dashArray: "5, 5, 1, 5",
+            opacity: 0.4,
+            fillOpacity: 1,
+            clickable: false,
+        };
+    },
+
+    doStylepaises: function(feature) {
+        return {
+            weight: 0.52,
+            color: "#000000",
+            fillColor: "#D8D8D8",
+            opacity: 1.0,
+            fillOpacity: 1,
+            clickable: false,
+        };
+    },
+
+    doStyleoceanos: function(feature) {
+        return {
+            weight: 0.26,
+            color: "#BEE8FF",
+            fillColor: "#BEE8FF",
+            dashArray: null,
+            lineCap: null,
+            lineJoin: null,
+            opacity: 1.0,
+            fillOpacity: 1.0,
+            clickable: false,
+        };
     },
 };
