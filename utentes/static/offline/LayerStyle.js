@@ -19,13 +19,13 @@ Backbone.SIXHIARA.LayerStyle = {
             case "Hidrométrica":
                 return {
                     icon: Backbone.SIXHIARA.LayerStyle.hidroIcon,
-                    clickable: false,
+                    interactive: false,
                 };
                 break;
             case "Pluviométrica":
                 return {
                     icon: Backbone.SIXHIARA.LayerStyle.pluvioIcon,
-                    clickable: false,
+                    interactive: false,
                 };
                 break;
         }
@@ -48,13 +48,13 @@ Backbone.SIXHIARA.LayerStyle = {
             case "Barragem":
                 return {
                     icon: Backbone.SIXHIARA.LayerStyle.barragemIcon,
-                    clickable: false,
+                    interactive: false,
                 };
                 break;
             case "Represa":
                 return {
                     icon: Backbone.SIXHIARA.LayerStyle.represaIcon,
-                    clickable: false,
+                    interactive: false,
                 };
                 break;
         }
@@ -73,7 +73,7 @@ Backbone.SIXHIARA.LayerStyle = {
             weight: 0,
             opacity: 0,
             fillOpacity: 1.0,
-            clickable: false,
+            interactive: false,
         };
         let customStyle = Backbone.SIXHIARA.LayerStyle.doStyleFontesCustom(feature);
 
@@ -136,7 +136,7 @@ Backbone.SIXHIARA.LayerStyle = {
             fillColor: "#304b8a",
             opacity: 1.0,
             fillOpacity: 1.0,
-            clickable: false,
+            interactive: false,
         };
     },
 
@@ -147,7 +147,7 @@ Backbone.SIXHIARA.LayerStyle = {
             fillColor: "#00537d",
             opacity: 1.0,
             fillOpacity: 1.0,
-            clickable: false,
+            interactive: false,
         };
     },
 
@@ -158,22 +158,23 @@ Backbone.SIXHIARA.LayerStyle = {
                     color: "#770514",
                     weight: 1.6,
                     opacity: "1.0",
-                    clickable: false,
+                    interactive: false,
                     fillColor: "#fff",
+                    interactive: false,
                 };
             case "Secundária":
                 return {
                     color: "#11370f",
                     weight: 1,
                     opacity: "0.8",
-                    clickable: false,
+                    interactive: false,
                 };
             case "Vicinhal":
                 return {
                     color: "#5f4b0f",
                     weight: 0.5,
                     opacity: "1.0",
-                    clickable: false,
+                    interactive: false,
                 };
         }
     },
@@ -183,7 +184,7 @@ Backbone.SIXHIARA.LayerStyle = {
             weight: 0.6,
             color: "#6598da",
             opacity: 1.0,
-            clickable: false,
+            interactive: false,
         };
     },
 
@@ -212,6 +213,7 @@ Backbone.SIXHIARA.LayerStyle = {
             color: "#05328c",
             opacity: 1,
             fillOpacity: 1,
+            interactive: false,
         };
     },
 
@@ -222,7 +224,7 @@ Backbone.SIXHIARA.LayerStyle = {
             color: "#FFFFFF",
             opacity: 1,
             fillOpacity: 0.2,
-            clickable: false,
+            interactive: false,
         };
         switch (feature.properties.nome) {
             case "Zambeze":
@@ -272,7 +274,7 @@ Backbone.SIXHIARA.LayerStyle = {
             dashArray: "5, 5, 1, 5",
             opacity: 0.4,
             fillOpacity: 1,
-            clickable: false,
+            interactive: false,
         };
     },
 
@@ -283,7 +285,7 @@ Backbone.SIXHIARA.LayerStyle = {
             fillColor: "#D8D8D8",
             opacity: 1.0,
             fillOpacity: 1,
-            clickable: false,
+            interactive: false,
         };
     },
 
@@ -297,7 +299,7 @@ Backbone.SIXHIARA.LayerStyle = {
             lineJoin: null,
             opacity: 1.0,
             fillOpacity: 1.0,
-            clickable: false,
+            interactive: false,
         };
     },
 };

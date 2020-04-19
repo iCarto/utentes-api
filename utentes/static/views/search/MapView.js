@@ -35,7 +35,7 @@ Backbone.SIXHIARA.MapView = Backbone.View.extend({
                         layer.bringToFront();
                     },
                     mouseout: function(e) {
-                        self.geoJSONLayer.resetStyle(self.geoJSONLayer);
+                        self.geoJSONLayer.resetStyle(e.target);
                         self.collection.trigger("leaflet", {
                             type: "mouseout",
                             exp_id: exp_id,

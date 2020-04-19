@@ -29,10 +29,6 @@ var geoJsonLayer = L.geoJson([], {
 }).addTo(map);
 
 var MySaveToAPI = SaveToAPI.extend({
-    initialize: function() {
-        this.options.toolbarIcon.tooltip = "Gravar";
-    },
-
     addHooks: function() {
         var polygonLayer = table.polygonLayer.toGeoJSON();
         // TODO. Probably save button should be desactivated if the validations
@@ -78,28 +74,7 @@ var MyImportGPX = ImportGPX.extend({
     },
 });
 
-var MyMakePolygon = MakePolygon.extend({
-    initialize: function() {
-        this.options.toolbarIcon.tooltip = "Críar polígono";
-    },
-});
-
-var MyClear = Clear.extend({
-    initialize: function() {
-        this.options.toolbarIcon.tooltip = "Eliminar polígono";
-    },
-});
-
-var MyMoveToTop = MoveToTop.extend({
-    initialize: function() {
-        this.options.toolbarIcon.tooltip = "Mover acima";
-    },
-});
-
 var MyAddCoordinates = AddCoordinates.extend({
-    initialize: function() {
-        this.options.toolbarIcon.tooltip = "Adicionar coordenadas";
-    },
     addHooks: function() {
         var domains = new Backbone.UILib.DomainCollection([
             {category: "crs", text: "WGS84", alias: "4326"},
@@ -117,17 +92,7 @@ var MyAddCoordinates = AddCoordinates.extend({
     },
 });
 
-var MyDeleteSelected = DeleteSelected.extend({
-    initialize: function() {
-        this.options.toolbarIcon.tooltip = "Eliminar selecionados";
-    },
-});
-
 var MyDeleteSession = EndSession.extend({
-    initialize: function() {
-        this.options.toolbarIcon.tooltip = "Fechar Sessão";
-    },
-
     addHooks: function() {
         bootbox.confirm(
             "Tem certeza de que deseja apagar todos os pontos carregados?",
@@ -141,14 +106,14 @@ var MyDeleteSession = EndSession.extend({
     },
 });
 
-var actionsToolbar = new L.Toolbar.Control({
+var actionsToolbar = new L.Toolbar2.Control({
     position: "topright",
     actions: [
         MyImportGPX,
-        MyMakePolygon,
-        MyClear,
-        MyMoveToTop,
-        MyDeleteSelected,
+        MakePolygon,
+        Clear,
+        MoveToTop,
+        DeleteSelected,
         MySaveToAPI,
         MyAddCoordinates,
         MyDeleteSession,

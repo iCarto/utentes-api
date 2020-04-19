@@ -1,8 +1,8 @@
-var Clear = L.ToolbarAction.extend({
+var Clear = L.Toolbar2.Action.extend({
     options: {
         toolbarIcon: {
             html: '<i class="fas fa-sync"></i>',
-            tooltip: "Borrar selección",
+            tooltip: "Eliminar polígono",
         },
     },
 

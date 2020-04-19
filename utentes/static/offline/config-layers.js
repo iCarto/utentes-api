@@ -3,21 +3,19 @@ var allLayers = [
         id: "estacoes",
         pointToLayer: Backbone.SIXHIARA.LayerStyle.doPointToLayerEstacoes,
         initialOrder: 0,
-        farZoom: 12, // 500.000
+        farZoom: 12,
     },
     {
         id: "barragens",
         pointToLayer: Backbone.SIXHIARA.LayerStyle.doPointToLayerBarragens,
         initialOrder: 1,
-        farZoom: 12, // 500.000
+        farZoom: 12,
     },
     {
         id: "fontes",
         initialOrder: 2,
-        farZoom: 13, // 150.000
-        // onEachFeature: pop_Fontes4,
+        farZoom: 13,
         pointToLayer: Backbone.SIXHIARA.LayerStyle.doPointToLayerFontes,
-        almostOver: true,
     },
     {
         id: "entidadespopulacao",
@@ -36,12 +34,12 @@ var allLayers = [
     {
         id: "estradas",
         initialOrder: 6,
-        farZoom: 12, // 500.000
+        farZoom: 12,
     },
     {
         id: "rios",
         initialOrder: 7,
-        farZoom: 9, // 500.000
+        farZoom: 9,
     },
     {
         id: "aras",

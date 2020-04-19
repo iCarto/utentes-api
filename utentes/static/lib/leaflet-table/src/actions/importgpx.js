@@ -1,4 +1,4 @@
-var ImportGPX = L.ToolbarAction.extend({
+var ImportGPX = L.Toolbar2.Action.extend({
     options: {
         toolbarIcon: {
             html: '<i class="fas fa-folder-open"></i>',

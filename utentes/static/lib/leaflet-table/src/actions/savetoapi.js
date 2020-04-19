@@ -1,8 +1,8 @@
-var SaveToAPI = L.ToolbarAction.extend({
+var SaveToAPI = L.Toolbar2.Action.extend({
     options: {
         toolbarIcon: {
             html: '<i class="fas fa-save"></i>',
-            tooltip: "Guardar",
+            tooltip: "Gravar",
         },
     },
 });
