@@ -1,10 +1,10 @@
 Backbone.SIXHIARA.mapConfig = function(mapId, initOptions) {
     var options = initOptions || {};
 
+    // let maxBoundsTodoMZQ = [[-29, 30], [-10, 40.64]];
+    let maxBounds = L.latLngBounds(SIXHIARA.southWest, SIXHIARA.northEast).pad(0.25);
     var defaultMapOptions = {
-        // zoom: 7,
-        // center: SIXHIARA.center,
-        maxBounds: [SIXHIARA.southWest, SIXHIARA.northEast],
+        maxBounds: maxBounds,
         minZoom: 6, // Permite ver todo Mozambique
         maxZoom: 19, // Depende de las tiles que se usen en realidad.
         trackResize: false,
@@ -20,7 +20,7 @@ Backbone.SIXHIARA.mapConfig = function(mapId, initOptions) {
     }
 
     var map = L.map(mapId, mapOptions);
-    map.fitBounds(mapOptions.maxBounds);
+    map.fitBounds([SIXHIARA.southWest, SIXHIARA.northEast]);
 
     if (options.offline && options.offline.layers) {
         var offBaseLayer = Backbone.SIXHIARA.offline(map, options.offline.layers);
