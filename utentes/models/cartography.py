@@ -141,6 +141,7 @@ class Bacias(CartographyBase):
     __tablename__ = "bacias"
     __table_args__ = {"schema": PGSQL_SCHEMA_CBASE_ARA}
 
+    nome = Column(Text)
     geom = Column(Geometry("MULTIPOLYGON", "32737"), index=True)
     geom_as_geojson = column_property(
         func.coalesce(
@@ -181,6 +182,7 @@ class Paises(CartographyBase):
     __tablename__ = "paises_limitrofes"
     __table_args__ = {"schema": PGSQL_SCHEMA_CBASE_ARA}
 
+    nome = Column(Text)
     geom = Column(Geometry("MULTIPOLYGON", "32737"), index=True)
     geom_as_geojson = column_property(
         func.coalesce(

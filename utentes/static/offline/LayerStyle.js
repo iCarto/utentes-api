@@ -6,8 +6,8 @@ Backbone.SIXHIARA.LayerStyle = {
             Backbone.SIXHIARA.LayerStyle.doStyleEstacoes(feature)
         ).bindTooltip(feature.properties.cod_estac, {
             permanent: true,
-            offset: [2, -26],
-            className: "sixhiara-leaflet-label-estacoes",
+            offset: [0, -15],
+            className: "sixhiara-leaflet-label-points sixhiara-leaflet-label-estacoes",
             opacity: 1,
             zoomAnimation: true,
             interactive: false,
@@ -123,8 +123,9 @@ Backbone.SIXHIARA.LayerStyle = {
             interactive: false,
         }).bindTooltip(feature.properties.nome, {
             permanent: true,
-            offset: [-0, -16],
-            className: "sixhiara-leaflet-label-entidadespopulacao",
+            offset: [0, -7],
+            className:
+                "sixhiara-leaflet-label-points sixhiara-leaflet-label-entidadespopulacao",
             opacity: 1,
             zoomAnimation: true,
             interactive: false,
@@ -205,7 +206,7 @@ Backbone.SIXHIARA.LayerStyle = {
         let options = {
             permanent: false,
             offset: [0, 0],
-            className: "sixhiara-leaflet-label sixhiara-leaflet-label-aras",
+            className: "sixhiara-leaflet-label-poligons sixhiara-leaflet-label-aras",
             opacity: 1,
             zoomAnimation: true,
             interactive: false,
@@ -249,6 +250,23 @@ Backbone.SIXHIARA.LayerStyle = {
             fillOpacity: 1,
             interactive: false,
         };
+    },
+    onEachFeaturebacias: function(feature, layer) {
+        let options = {
+            permanent: false,
+            offset: [0, 0],
+            className: "sixhiara-leaflet-label-poligons sixhiara-leaflet-label-bacias",
+            opacity: 1,
+            zoomAnimation: true,
+            interactive: false,
+            direction: "center", // auto, rigth, left, center, bottom. top, middle
+            sticky: false,
+        };
+        layer.on("add", function() {
+            let t = layer.bindTooltip(feature.properties.nome, options).getTooltip();
+            layer.openTooltip(layer.getBounds().getCenter());
+            layer.off("add", this);
+        });
     },
 
     doStylebaciasrepresentacion: function(feature) {
@@ -321,6 +339,23 @@ Backbone.SIXHIARA.LayerStyle = {
             fillOpacity: 1,
             interactive: false,
         };
+    },
+    onEachFeaturepaises: function(feature, layer) {
+        let options = {
+            permanent: false,
+            offset: [0, 0],
+            className: "sixhiara-leaflet-label-poligons sixhiara-leaflet-label-paises",
+            opacity: 1,
+            zoomAnimation: true,
+            interactive: false,
+            direction: "center", // auto, rigth, left, center, bottom. top, middle
+            sticky: false,
+        };
+        layer.on("add", function() {
+            let t = layer.bindTooltip(feature.properties.nome, options).getTooltip();
+            layer.openTooltip(layer.getBounds().getCenter());
+            layer.off("add", this);
+        });
     },
 
     doStyleoceanos: function(feature) {

@@ -49,6 +49,7 @@ var allLayers = [
     },
     {
         id: "bacias",
+        onEachFeature: Backbone.SIXHIARA.LayerStyle.onEachFeaturebacias,
         initialOrder: 9,
         farZoom: 10,
         closeZoom: 11,
@@ -64,6 +65,7 @@ var allLayers = [
     },
     {
         id: "paises",
+        onEachFeature: Backbone.SIXHIARA.LayerStyle.onEachFeaturepaises,
         initialOrder: 12,
     },
     {
