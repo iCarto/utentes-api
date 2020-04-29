@@ -27,7 +27,7 @@ Backbone.SIXHIARA.ViewSecretaria0 = Backbone.SIXHIARA.View1.extend({
                     <div class="col-xs-12">
                        <div class="form-group">
                           <label for="d_soli">Data de solicitação</label>
-                          <input type="text" class="form-control widget widget-date uilib-enability uilib-disable-role-observador" id="d_soli" placeholder="dd/mm/yyyy" pattern="^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\\d\\d$" value="<%- formatter().formatDate(renovacao.d_soli) %>" required>
+                          <input type="text" class="form-control widget widget-date uilib-enability uilib-disable-role-observador uilib-disable-role-juridico" id="d_soli" placeholder="dd/mm/yyyy" pattern="^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\\d\\d$" value="<%- formatter().formatDate(renovacao.d_soli) %>" required>
                           <span id="helpBlock_d_soli" class="help-block" style="padding-top: 2px; display: none;">&nbsp;</span>
                        </div>
                        <table class="table table-bordered table-checks">
@@ -40,19 +40,19 @@ Backbone.SIXHIARA.ViewSecretaria0 = Backbone.SIXHIARA.View1.extend({
                           <tbody>
                              <tr>
                                 <td>Carta de requerimento de renovação</td>
-                                <td><input id="carta_ren" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- renovacao.carta_ren ? 'checked=""' : '' %> required></td>
+                                <td><input id="carta_ren" class="uilib-enability uilib-disable-role-observador uilib-disable-role-juridico" type="checkbox" <%- renovacao.carta_ren ? 'checked=""' : '' %> required></td>
                              </tr>
                              <tr>
                                 <td>Identificação do proprietário</td>
-                                <td><input id="ident_pro" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- renovacao.ident_pro ? 'checked=""' : '' %>></td>
+                                <td><input id="ident_pro" class="uilib-enability uilib-disable-role-observador uilib-disable-role-juridico" type="checkbox" <%- renovacao.ident_pro ? 'checked=""' : '' %>></td>
                              </tr>
                              <tr>
                                 <td>Certificado de registo comercial</td>
-                                <td><input id="certi_reg" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- renovacao.certi_reg ? 'checked=""' : '' %>></td>
+                                <td><input id="certi_reg" class="uilib-enability uilib-disable-role-observador uilib-disable-role-juridico" type="checkbox" <%- renovacao.certi_reg ? 'checked=""' : '' %>></td>
                              </tr>
                              <tr>
                                 <td>DUAT ou declaração das estructuras locais&nbsp;(bairro)</td>
-                                <td><input id="duat" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- renovacao.duat ? 'checked=""' : '' %>></td>
+                                <td><input id="duat" class="uilib-enability uilib-disable-role-observador uilib-disable-role-juridico" type="checkbox" <%- renovacao.duat ? 'checked=""' : '' %>></td>
                              </tr>
                           </tbody>
                        </table>
@@ -72,11 +72,11 @@ Backbone.SIXHIARA.ViewSecretaria0 = Backbone.SIXHIARA.View1.extend({
                              o bien, todos los botones deberían ser generados en otra parte, o de los dominios se deberían decidir que botones
                              se pueden usar en el modo combo o algo así
                              -->
-                          <button id="bt-ok" type="button" class="btn btn-default uilib-enability uilib-hide-role-observador">Completa</button>
-                          <button id="bt-no" type="button" class="btn btn-primary uilib-enability uilib-hide-role-observador">Incompleta</button>
+                          <button id="bt-ok" type="button" class="btn btn-default uilib-enability uilib-hide-role-observador uilib-disable-role-juridico">Completa</button>
+                          <button id="bt-no" type="button" class="btn btn-primary uilib-enability uilib-hide-role-observador uilib-disable-role-juridico">Incompleta</button>
                        </div>
                     </label>
-                    <textarea id="observacio" class="form-control widget uilib-enability uilib-disable-role-observador"></textarea>
+                    <textarea id="observacio" class="form-control widget uilib-enability uilib-disable-role-observador uilib-disable-role-juridico"></textarea>
                  </div>
               </div>
            </div>
