@@ -32,11 +32,8 @@ utentes/media
 # Formatter & Linters
 utentes/static/vendor
 utentes/static/lib/DataTables/
-utentes/static/lib/leaflet-draw/
 utentes/static/lib/bootstrap/
-utentes/static/lib/leaflet/
 utentes/static/lib/moment-2.11.2/
-utentes/static/offline/data/
 utentes/static/lib/backbone/backbone.js
 utentes/static/lib/bootbox.min.js
 utentes/static/lib/chart/chart.js
