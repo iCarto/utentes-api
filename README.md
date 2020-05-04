@@ -26,7 +26,7 @@ vagrant up
 
     $ cd ~/development/sixhiara
     $ git clone git@gitlab.com:icarto/utentes-api.git
-    $ mkvirtualenv -a utentes-api utentes
+    $ mkvirtualenv -p /usr/bin/python3.6 -a utentes-api utentes
 
     $ python setup.py develop
 
