@@ -20,6 +20,10 @@ node_modules/
 .vscode
 .vagrant
 *~
+ubuntu-*-cloudimg-console.log
+
+# Scripts
+.ipynb_checkpoints
 
 
 # Project

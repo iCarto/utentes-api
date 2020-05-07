@@ -20,26 +20,44 @@ Se puede configurar un entorno similar al de producción mediante Vagrant. En la
 
 ```bash
 vagrant up
+vagrant halt
+vagrant up
+```
+
+## Para probar la aplicación en modo producción:
+
+```bash
+vagrant ssh
+workon utentes
+git status # Cuidado, este es el directorio compartido del host
+emacs -nw production.ini # ajustar bd, media_root y ara
+python setup.py install
+sudo systemctl restart apache2
 ```
 
 # Configuración inicial
 
-    $ cd ~/development/sixhiara
-    $ git clone git@gitlab.com:icarto/utentes-api.git
-    $ mkvirtualenv -p /usr/bin/python3.6 -a utentes-api utentes
+```bash
+cd ~/development/sixhiara
+git clone git@gitlab.com:icarto/utentes-api.git
+mkvirtualenv -p /usr/bin/python3.6 -a utentes-api utentes
 
-    $ python setup.py develop
+python setup.py develop
 
-    $ psql -h localhost -U postgres -c "CREATE ROLE utentes LOGIN PASSWORD 'XXXX'"
-    $ echo "" >> ~/.pgpass
-    $ echo "*:*:*:utentes:XXXX" >> ~/.pgpass
-    $ echo "localhost:*:*:postgres:postgres" >> ~/.pgpass # por comodidad si no se ha hecho previamente
-    $ createdb -h localhost -p 9001 -U postgres -T template0 --owner utentes aranorte
-    $ createdb -h localhost -p 9001 -U postgres -T template0 --owner utentes arasul
-    $ createdb -h localhost -p 9001 -U postgres -T template0 --owner utentes arazambeze
-    $ sqitch deploy # o restaurar desde un dump
+echo "" >> ~/.pgpass
+echo "localhost:*:*:postgres:postgres" >> ~/.pgpass # por comodidad si no se ha hecho previamente
+createdb -h localhost -p 9001 -U postgres BD_NAME
+pg_restore -h localhost -p 9001 -U postgres -d BD_NAME --disable-triggers BD_NAME.dump
+createdb -h localhost -p 9001 -U postgres -T BD_NAME test_BD_NAME
+sqitch deploy
+```
 
-# Launch server
+# Ramas
+
+-   La rama `master` se usa como producción
+-   Los desarrollos y pull request deben realizarse sobre la rama `development`
+
+# Launch development server
 
     $ workon utentes
     $ pserve development.ini --reload
