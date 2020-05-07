@@ -472,7 +472,7 @@ Backbone.SIXHIARA.AddCoordinatesModalView = Backbone.UILib.ModalView.extend({
 
         var tolerance = this.is_from_Geog() ? 0.000005 : 5;
         if (!this.wgs84_stored.equals(this.wgs84_zoomed, tolerance)) {
-            var notZoomed = "Debe hacer zoom al punto antes de poder crearlo";
+            var notZoomed = "Deve fazer zoom o ponto antes de o poder criar";
             this.display_error(notZoomed, "#8a6d3b");
             return false;
         }
