@@ -7,7 +7,8 @@ from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 import utentes.constants.perms as perm
 from utentes.api.error_msgs import error_msgs
 from utentes.models.base import badrequest_exception
-from utentes.models.exploracao import Exploracao
+from utentes.models.exploracao import FF as Exploracao
+# from utentes.models.exploracao import Exploracao
 from utentes.models.facturacao import Facturacao
 
 
@@ -49,6 +50,9 @@ def facturacao_get(request):
             query = query.filter(Exploracao.fact_estado.in_(fact_estado))
 
         features = query.all()
+        # import ipdb
+
+        # ipdb.set_trace()
         return {"type": "FeatureCollection", "features": features}
 
 

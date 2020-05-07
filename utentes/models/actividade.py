@@ -4,7 +4,6 @@ from sqlalchemy import Boolean, Column, ForeignKey, Integer, Numeric, Text, text
 from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy.orm import relationship
 
-from . import actividades_schema
 import utentes.models.constants as c
 from utentes.lib.schema_validator.validator import Validator
 from utentes.models.base import PGSQL_SCHEMA_UTENTES, Base, update_array
@@ -13,8 +12,10 @@ from utentes.models.reses import ActividadesReses
 from utentes.models.tanques_piscicolas import ActividadesTanquesPiscicolas
 from utentes.services import id_service
 
+from . import actividades_schema
 
-class Actividade(Base):
+
+class ActividadeBase(Base):
     __tablename__ = "actividades"
     __table_args__ = {"schema": PGSQL_SCHEMA_UTENTES}
 
@@ -31,12 +32,6 @@ class Actividade(Base):
     # an exception is raised. Probably removing onupdate will work
     # tipo = Column(ForeignKey(u'domains.actividade.key', onupdate=u'CASCADE'), nullable=False)
     tipo = Column(Text, nullable=False, doc="Tipo de actividade")
-
-    __mapper_args__ = {
-        "polymorphic_identity": "actividades",
-        "polymorphic_on": tipo,
-        "with_polymorphic": "*",
-    }
 
     # def validate(self, json):
     #     validator_name = self.__class__.__name__ + '_SCHEMA'
@@ -64,6 +59,14 @@ class Actividade(Base):
         del json["gid"]
         json["id"] = self.gid
         return json
+
+
+class Actividade(ActividadeBase):
+    __mapper_args__ = {
+        "polymorphic_identity": "actividades",
+        "polymorphic_on": ActividadeBase.tipo,
+        "with_polymorphic": "*",
+    }
 
 
 class ActividadesAbastecemento(Actividade):
