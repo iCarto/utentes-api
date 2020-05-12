@@ -54,7 +54,7 @@ Backbone.SIXHIARA.Licencia = Backbone.Model.extend({
         }
 
         if (this.get("iva") === null) {
-            this.set("iva", 12.75);
+            this.set("iva", window.SIXHIARA.IVA);
         }
 
         this.on(
