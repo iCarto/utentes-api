@@ -120,7 +120,12 @@ window.SIXHIARA.ESTADOS_RENOVACAO = [
     },
     {
         key: SIRHA.ESTADO_RENOVACAO.INCOMPLETE_DA,
-        roles: [SIRHA.ROLE.ADMIN, SIRHA.ROLE.OBSERVADOR, SIRHA.ROLE.ADMINISTRATIVO, SIRHA.ROLE.JURIDICO],
+        roles: [
+            SIRHA.ROLE.ADMIN,
+            SIRHA.ROLE.OBSERVADOR,
+            SIRHA.ROLE.ADMINISTRATIVO,
+            SIRHA.ROLE.JURIDICO,
+        ],
     },
     {
         key: SIRHA.ESTADO_RENOVACAO.INCOMPLETE_DIR,
@@ -147,7 +152,12 @@ window.SIXHIARA.ESTADOS_RENOVACAO = [
     },
     {
         key: SIRHA.ESTADO_RENOVACAO.PENDING_RENOV_LICENSE,
-        roles: [SIRHA.ROLE.ADMIN, SIRHA.ROLE.OBSERVADOR, SIRHA.ROLE.ADMINISTRATIVO, SIRHA.ROLE.JURIDICO],
+        roles: [
+            SIRHA.ROLE.ADMIN,
+            SIRHA.ROLE.OBSERVADOR,
+            SIRHA.ROLE.ADMINISTRATIVO,
+            SIRHA.ROLE.JURIDICO,
+        ],
     },
     {
         key: SIRHA.ESTADO_RENOVACAO.PENDING_REVIEW_DIR,
@@ -289,7 +299,7 @@ if (window.SIRHA.getARA() === "ARACN") {
         southWest: [-17.96, 35.78],
         northEast: [-13.29, 40.83],
     });
-
+    window.SIXHIARA.IVA = 0;
     window.SIXHIARA.GROUPS_TO_ROLES[SIRHA.ROLE.JURIDICO] = [
         SIRHA.ROLE.JURIDICO,
         SIRHA.ROLE.ADMINISTRATIVO,

@@ -19,7 +19,7 @@ Backbone.SIXHIARA.ModalHistoricoLicencias = Backbone.View.extend({
                     <th>Data emissão</th>
                     <th>Data validade</th>
                     <th>Caudal licenciado</th>
-                    <th>Último caudad facturado</th>
+                    <th>Último caudal facturado</th>
                 </tr>
             </thead>
 
