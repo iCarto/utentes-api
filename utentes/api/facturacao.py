@@ -7,7 +7,7 @@ from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 import utentes.constants.perms as perm
 from utentes.api.error_msgs import error_msgs
 from utentes.models.base import badrequest_exception
-from utentes.models.exploracao import Exploracao
+from utentes.models.exploracao import ExploracaoConFacturacao
 from utentes.models.facturacao import Facturacao
 
 
@@ -33,20 +33,20 @@ def facturacao_get(request):
 
     if gid:  # return individual explotacao
         try:
-            return request.db.query(Exploracao).filter(Exploracao.gid == gid).one()
+            return request.db.query(ExploracaoConFacturacao).filter(ExploracaoConFacturacao.gid == gid).one()
         except (MultipleResultsFound, NoResultFound):
             raise badrequest_exception({"error": error_msgs["no_gid"], "gid": gid})
 
     else:  # return collection
-        query = request.db.query(Exploracao)
+        query = request.db.query(ExploracaoConFacturacao)
         states = request.GET.getall("states[]")
 
         if states:
-            query = query.filter(Exploracao.estado_lic.in_(states))
+            query = query.filter(ExploracaoConFacturacao.estado_lic.in_(states))
 
         fact_estado = request.GET.getall("fact_estado[]")
         if fact_estado:
-            query = query.filter(Exploracao.fact_estado.in_(fact_estado))
+            query = query.filter(ExploracaoConFacturacao.fact_estado.in_(fact_estado))
 
         features = query.all()
         return {"type": "FeatureCollection", "features": features}
@@ -77,7 +77,7 @@ def num_factura_get(request):
         return facturacao.fact_id
 
     try:
-        exploracao = request.db.query(Exploracao).filter(Exploracao.gid == exp_id).one()
+        exploracao = request.db.query(ExploracaoConFacturacao).filter(ExploracaoConFacturacao.gid == exp_id).one()
     except (MultipleResultsFound, NoResultFound):
         raise badrequest_exception({"error": error_msgs["no_gid"], "gid": gid})
 
@@ -136,7 +136,7 @@ def num_recibo_get(request):
         return facturacao.recibo_id
 
     try:
-        exploracao = request.db.query(Exploracao).filter(Exploracao.gid == exp_id).one()
+        exploracao = request.db.query(ExploracaoConFacturacao).filter(ExploracaoConFacturacao.gid == exp_id).one()
     except (MultipleResultsFound, NoResultFound):
         raise badrequest_exception({"error": error_msgs["no_gid"], "gid": gid})
 
@@ -185,7 +185,7 @@ def num_recibo_get(request):
 def facturacao_exploracao_update(request):
     gid = request.matchdict["id"]
     body = request.json_body
-    e = request.db.query(Exploracao).filter(Exploracao.gid == gid).one()
+    e = request.db.query(ExploracaoConFacturacao).filter(ExploracaoConFacturacao.gid == gid).one()
     e.update_from_json_facturacao(body)
     request.db.add(e)
     request.db.commit()

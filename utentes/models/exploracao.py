@@ -340,14 +340,6 @@ class Exploracao(ExploracaoBase):
         "Fonte", cascade="all, delete-orphan", lazy="joined", passive_deletes=True
     )
 
-    facturacao = relationship(
-        "Facturacao",
-        cascade="all, delete-orphan",
-        lazy="joined",
-        passive_deletes=True,
-        order_by="Facturacao.created_at",
-    )
-
     def get_licencia(self, tipo):
         lic = [
             l for l in self.licencias if l.tipo_agua.upper().startswith(tipo.upper())
@@ -592,9 +584,7 @@ class Exploracao(ExploracaoBase):
         }
         for column in self.REQUERIMENTO_FIELDS:
             payload["properties"][column] = getattr(self, column)
-        for column in self.FACTURACAO_FIELDS:
-            payload["properties"][column] = getattr(self, column)
-        payload["properties"]["facturacao"] = self.facturacao
+
         if self.utente_rel:
             payload["properties"]["utente"] = {
                 "id": self.utente_rel.gid,
@@ -616,4 +606,21 @@ class Exploracao(ExploracaoBase):
                 "reg_zona": self.utente_rel.reg_zona,
                 "observacio": self.utente_rel.observacio,
             }
+        return payload
+
+class ExploracaoConFacturacao(Exploracao):
+    facturacao = relationship(
+        "Facturacao",
+        cascade="all, delete-orphan",
+        lazy="joined",
+        passive_deletes=True,
+        order_by="Facturacao.created_at",
+    )
+
+    def __json__(self, request):
+        payload = super().__json__(request)
+        for column in self.FACTURACAO_FIELDS:
+            payload["properties"][column] = getattr(self, column)
+        payload["properties"]["facturacao"] = self.facturacao
+
         return payload
