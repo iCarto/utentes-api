@@ -23,11 +23,11 @@ from utentes.models.base import (
     update_array,
     update_geom,
 )
-from utentes.models.exploracao import Exploracao
+from utentes.models.exploracao import ExploracaoConFacturacao
 from utentes.models.renovacao import Renovacao
 
 
-class ExpConRenovacao(Exploracao):
+class ExpConRenovacao(ExploracaoConFacturacao):
 
     renovacao = relationship(
         "Renovacao",
