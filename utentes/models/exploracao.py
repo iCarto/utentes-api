@@ -19,7 +19,7 @@ from sqlalchemy.orm import column_property, relationship
 import utentes.models.constants as c
 from utentes.lib.formatter.formatter import to_decimal
 from utentes.lib.schema_validator.validation_exception import ValidationException
-from utentes.models.actividade import Actividade
+from utentes.models.actividade import Actividade, ActividadeBase
 from utentes.models.base import (
     PGSQL_SCHEMA_UTENTES,
     Base,
@@ -576,7 +576,7 @@ class Exploracao(ExploracaoBase):
                 "c_estimado": self.c_estimado,
                 "actividade": self.actividade,
                 "area": self.area,
-                "fontes": self.fontes,
+                "fontes": self.fontes or [],
                 "licencias": self.licencias,
                 "utente": {},
             },
@@ -609,6 +609,15 @@ class Exploracao(ExploracaoBase):
         return payload
 
 class ExploracaoConFacturacao(Exploracao):
+    fontes = None
+    actividade = relationship(
+        "ActividadeBase",
+        cascade="all, delete-orphan",
+        lazy="joined",
+        # backref='exploracao_rel',
+        uselist=False,
+    )
+
     facturacao = relationship(
         "Facturacao",
         cascade="all, delete-orphan",
@@ -616,6 +625,10 @@ class ExploracaoConFacturacao(Exploracao):
         passive_deletes=True,
         order_by="Facturacao.created_at",
     )
+
+    __mapper_args__ = {
+        "exclude_properties": ["fontes"],
+    }
 
     def __json__(self, request):
         payload = super().__json__(request)
