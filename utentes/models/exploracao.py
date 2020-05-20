@@ -448,8 +448,8 @@ class Exploracao(ExploracaoBase):
                 ),
                 None,
             )
-            for c in list(json_fact.keys()):
-                setattr(fact, c, json_fact.get(c))
+            for column in list(json_fact.keys()):
+                setattr(fact, column, json_fact.get(column))
             fact.pago_mes = (
                 (fact.pago_mes_sup or 0) + (fact.pago_mes_sub or 0)
             ) or None
@@ -585,6 +585,9 @@ class Exploracao(ExploracaoBase):
         for column in self.REQUERIMENTO_FIELDS:
             payload["properties"][column] = getattr(self, column)
 
+        for column in self.FACTURACAO_FIELDS:
+            payload["properties"][column] = getattr(self, column)
+
         if self.utente_rel:
             payload["properties"]["utente"] = {
                 "id": self.utente_rel.gid,
@@ -608,6 +611,7 @@ class Exploracao(ExploracaoBase):
             }
         return payload
 
+
 class ExploracaoConFacturacao(Exploracao):
     fontes = None
     actividade = relationship(
@@ -626,14 +630,9 @@ class ExploracaoConFacturacao(Exploracao):
         order_by="Facturacao.created_at",
     )
 
-    __mapper_args__ = {
-        "exclude_properties": ["fontes"],
-    }
+    __mapper_args__ = {"exclude_properties": ["fontes"]}
 
     def __json__(self, request):
         payload = super().__json__(request)
-        for column in self.FACTURACAO_FIELDS:
-            payload["properties"][column] = getattr(self, column)
         payload["properties"]["facturacao"] = self.facturacao
-
         return payload
