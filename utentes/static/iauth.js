@@ -109,6 +109,12 @@ var IAuth = {
         }
     },
 
+    asSafeRoles: function(roles) {
+        roles = roles || [];
+        roles = _.isArray(roles) ? roles : [roles];
+        return roles.map(r => this.getMainRoleSafe(r));
+    },
+
     isAdmin: function(role) {
         if (!role) {
             role = iAuth.getMainRole();
@@ -144,7 +150,9 @@ var IAuth = {
         return roles.includes(SIRHA.ROLE.TECNICO);
     },
 
-    disabledWidgets: function(selector) {
+    disabledWidgets: function(selector, roles_only_read) {
+        roles_only_read = roles_only_read || [];
+
         var baseElement = document;
         if (selector) {
             baseElement = document.querySelectorAll(selector)[0];
@@ -153,7 +161,7 @@ var IAuth = {
         var elements = baseElement.getElementsByClassName("uilib-enability");
         Array.prototype.forEach.call(elements, function(w) {
             var rolesEnabled = [];
-            var rolesDisabled = [];
+            var rolesDisabled = roles_only_read;
             var rolesShowed = [];
             var rolesHide = [];
             w.classList.forEach(function(c) {
@@ -192,7 +200,7 @@ var IAuth = {
            safeRoleFormat defines if the `roles` array contains the roles in
            'safe' format mode or in 'not-safe' mode
         */
-
+        roles = roles || [];
         var userRoles = this.getRoles(safeRoleFormat);
         // return _.intersection(userRoles, roles).length > 0;
         var intersection = [userRoles, roles].reduce((a, c) =>

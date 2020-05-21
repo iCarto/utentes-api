@@ -13,7 +13,10 @@ Backbone.SIXHIARA.EstadoRenovacaoCollection = Backbone.UILib.DomainCollection.ex
 
     availableRenovacaoStates: function() {
         var states = window.SIXHIARA.ESTADOS_RENOVACAO.filter(function(s) {
-            return iAuth.user_roles_in(s.roles, "not-safe");
+            return (
+                iAuth.user_roles_in(s.roles, "not-safe") ||
+                iAuth.user_roles_in(s.roles_only_read, "not-safe")
+            );
         });
         states = states.map(function(s) {
             return s.key;

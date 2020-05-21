@@ -23,7 +23,14 @@ var MyWorkflowRenovacao = {
                 exp_id: exp.get("exp_id"),
                 notscroll: true,
             });
-        iAuth.disabledWidgets("#insert-data");
+
+        var expState = this.getCurrentState(exp);
+        var roles_only_read = window.SIXHIARA.ESTADOS_RENOVACAO.filter(function(s) {
+            return s.key === expState;
+        })[0];
+        roles_only_read = roles_only_read && roles_only_read.roles_only_read;
+        roles_only_read = iAuth.asSafeRoles(roles_only_read);
+        iAuth.disabledWidgets("#insert-data", roles_only_read);
     },
 
     whichView: function(exp, next) {
@@ -96,6 +103,9 @@ var MyWorkflowRenovacao = {
     },
 
     getCurrentState: function(exp) {
+        if (!exp) {
+            return SIRHA.ESTADO_RENOVACAO.NOT_EXISTS;
+        }
         return exp.get("renovacao").get("estado") || SIRHA.ESTADO_RENOVACAO.NOT_EXISTS;
     },
 
