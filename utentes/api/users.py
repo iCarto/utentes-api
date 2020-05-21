@@ -15,7 +15,7 @@ log = logging.getLogger(__name__)
 
 @view_config(route_name="api_users", permission=perm.PERM_ADMIN, renderer="json")
 def users_read(request):
-    return request.db.query(User).all()
+    return request.db.query(User).order_by(User.username).all()
 
 
 @view_config(

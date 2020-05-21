@@ -15,7 +15,6 @@ NOT_INVOIZABLE = "Não facturable"
 class FacturacaoFactEstado(DeclarativeBase):
     __tablename__ = "facturacao_fact_estado"
     __table_args__ = {"schema": PGSQL_SCHEMA_DOMAINS}
-    __mapper_args__ = {"order_by": ["category", "ordering", "key"]}
 
     ESTADOS_FACTURABLES = [c.K_LICENSED, c.K_DE_FACTO]
 

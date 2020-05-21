@@ -4,11 +4,12 @@ from pyramid.view import view_config
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
 import utentes.constants.perms as perm
-from .error_msgs import error_msgs
 from utentes.lib.schema_validator.validator import Validator
 from utentes.models.actividades_schema import ActividadeSchema
 from utentes.models.base import badrequest_exception
 from utentes.models.tanques_piscicolas import ActividadesTanquesPiscicolas as UsedModel
+
+from .error_msgs import error_msgs
 
 
 log = logging.getLogger(__name__)
@@ -39,7 +40,7 @@ def tanques_piscicolas_get(request):
     else:  # return collection
         return {
             "type": "FeatureCollection",
-            "features": request.db.query(UsedModel).all(),
+            "features": request.db.query(UsedModel).order_by(UsedModel.tanque_id).all(),
         }
 
 

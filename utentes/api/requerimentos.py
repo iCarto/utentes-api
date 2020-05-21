@@ -40,15 +40,16 @@ def requerimento_get(request):
     else:  # return collection
         states = request.GET.getall("states[]")
         if states:
-            features = (
-                request.db.query(Exploracao)
-                .filter(Exploracao.estado_lic.in_(states))
-                .all()
+            features = request.db.query(Exploracao).filter(
+                Exploracao.estado_lic.in_(states)
             )
         else:
-            features = request.db.query(Exploracao).all()
+            features = request.db.query(Exploracao)
 
-        return {"type": "FeatureCollection", "features": features}
+        return {
+            "type": "FeatureCollection",
+            "features": features.order_by(Exploracao.exp_id).all(),
+        }
 
 
 @view_config(

@@ -2,15 +2,15 @@ from geoalchemy2 import Geometry
 from sqlalchemy import Column, ForeignKey, Integer, Numeric, Text, func, text
 from sqlalchemy.orm import column_property
 
-from .actividades_schema import ActividadeSchema
 from utentes.lib.schema_validator.validator import Validator
 from utentes.models.base import PGSQL_SCHEMA_UTENTES, Base, update_area, update_geom
+
+from .actividades_schema import ActividadeSchema
 
 
 class ActividadesCultivos(Base):
     __tablename__ = "actividades_cultivos"
     __table_args__ = {"schema": PGSQL_SCHEMA_UTENTES}
-    __mapper_args__ = {"order_by": "cult_id"}
 
     gid = Column(
         Integer,

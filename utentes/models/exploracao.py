@@ -47,7 +47,6 @@ class ST_Multi(GenericFunction):
 class ExploracaoBase(Base):
     __tablename__ = "exploracaos"
     __table_args__ = {"schema": PGSQL_SCHEMA_UTENTES}
-    __mapper_args__ = {"order_by": "exp_id"}
 
     gid = Column(
         Integer,
@@ -627,7 +626,7 @@ class ExploracaoConFacturacao(Exploracao):
         cascade="all, delete-orphan",
         lazy="joined",
         passive_deletes=True,
-        order_by="Facturacao.created_at",
+        order_by="Facturacao.exploracao, Facturacao.ano, Facturacao.mes",
     )
 
     __mapper_args__ = {"exclude_properties": ["fontes"]}

@@ -25,7 +25,6 @@ class Facturacao(Base):
         UniqueConstraint("exploracao", "ano", "mes"),
         {"schema": PGSQL_SCHEMA_UTENTES},
     )
-    __mapper_args__ = {"order_by": ["exploracao", "ano", "mes"]}
 
     gid = Column(
         Integer,

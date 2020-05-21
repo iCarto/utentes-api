@@ -4,12 +4,13 @@ from pyramid.view import view_config
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
 import utentes.constants.perms as perm
-from .error_msgs import error_msgs
 from utentes.lib.schema_validator.validator import Validator
 from utentes.models.base import badrequest_exception
 from utentes.models.documento import delete_exploracao_documentos
 from utentes.models.utente import Utente
 from utentes.models.utente_schema import UTENTE_SCHEMA
+
+from .error_msgs import error_msgs
 
 
 log = logging.getLogger(__name__)
@@ -38,7 +39,7 @@ def utentes_get(request):
         except (MultipleResultsFound, NoResultFound):
             raise badrequest_exception({"error": error_msgs["no_gid"], "gid": gid})
     else:
-        return request.db.query(Utente).all()
+        return request.db.query(Utente).order_by(Utente.nome).all()
 
 
 @view_config(

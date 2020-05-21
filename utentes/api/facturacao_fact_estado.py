@@ -11,5 +11,13 @@ from utentes.models.facturacao_fact_estado import FacturacaoFactEstado
     renderer="json",
 )
 def domains_facturacao_fact_estado(request):
-    domains = request.db.query(FacturacaoFactEstado).all()
+    domains = (
+        request.db.query(FacturacaoFactEstado)
+        .order_by(
+            FacturacaoFactEstado.category,
+            FacturacaoFactEstado.ordering,
+            FacturacaoFactEstado.key,
+        )
+        .all()
+    )
     return domains

@@ -3,15 +3,15 @@ from sqlalchemy import Column, ForeignKey, Integer, Numeric, Text, func, text
 from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy.orm import column_property
 
-from .actividades_schema import ActividadeSchema
 from utentes.lib.schema_validator.validator import Validator
 from utentes.models.base import PGSQL_SCHEMA_UTENTES, Base, update_area, update_geom
+
+from .actividades_schema import ActividadeSchema
 
 
 class ActividadesTanquesPiscicolas(Base):
     __tablename__ = "actividades_tanques_piscicolas"
     __table_args__ = {"schema": PGSQL_SCHEMA_UTENTES}
-    __mapper_args__ = {"order_by": "tanque_id"}
 
     gid = Column(
         Integer,

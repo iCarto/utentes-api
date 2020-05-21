@@ -7,7 +7,6 @@ from utentes.models.base import PGSQL_SCHEMA_UTENTES, Base
 class Utente(Base):
     __tablename__ = "utentes"
     __table_args__ = {"schema": PGSQL_SCHEMA_UTENTES}
-    __mapper_args__ = {"order_by": "nome"}
 
     gid = Column(
         Integer,

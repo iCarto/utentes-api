@@ -1,5 +1,4 @@
-
-from pyramid.security import Allow, Authenticated, Deny, authenticated_userid
+from pyramid.security import Allow, Authenticated, Deny
 from pyramid.threadlocal import get_current_registry
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
@@ -148,7 +147,7 @@ def get_user_from_request(request):
     if is_single_user_mode():
         return get_unique_user()
 
-    username = authenticated_userid(request)
+    username = request.authenticated_userid
     if username is not None:
         try:
             return request.db.query(User).filter(User.username == username).one()

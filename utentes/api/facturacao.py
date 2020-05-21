@@ -33,7 +33,11 @@ def facturacao_get(request):
 
     if gid:  # return individual explotacao
         try:
-            return request.db.query(ExploracaoConFacturacao).filter(ExploracaoConFacturacao.gid == gid).one()
+            return (
+                request.db.query(ExploracaoConFacturacao)
+                .filter(ExploracaoConFacturacao.gid == gid)
+                .one()
+            )
         except (MultipleResultsFound, NoResultFound):
             raise badrequest_exception({"error": error_msgs["no_gid"], "gid": gid})
 
@@ -48,7 +52,7 @@ def facturacao_get(request):
         if fact_estado:
             query = query.filter(ExploracaoConFacturacao.fact_estado.in_(fact_estado))
 
-        features = query.all()
+        features = query.order_by(ExploracaoConFacturacao.exp_id).all()
         return {"type": "FeatureCollection", "features": features}
 
 
@@ -77,7 +81,11 @@ def num_factura_get(request):
         return facturacao.fact_id
 
     try:
-        exploracao = request.db.query(ExploracaoConFacturacao).filter(ExploracaoConFacturacao.gid == exp_id).one()
+        exploracao = (
+            request.db.query(ExploracaoConFacturacao)
+            .filter(ExploracaoConFacturacao.gid == exp_id)
+            .one()
+        )
     except (MultipleResultsFound, NoResultFound):
         raise badrequest_exception({"error": error_msgs["no_gid"], "gid": gid})
 
@@ -136,7 +144,11 @@ def num_recibo_get(request):
         return facturacao.recibo_id
 
     try:
-        exploracao = request.db.query(ExploracaoConFacturacao).filter(ExploracaoConFacturacao.gid == exp_id).one()
+        exploracao = (
+            request.db.query(ExploracaoConFacturacao)
+            .filter(ExploracaoConFacturacao.gid == exp_id)
+            .one()
+        )
     except (MultipleResultsFound, NoResultFound):
         raise badrequest_exception({"error": error_msgs["no_gid"], "gid": gid})
 
@@ -185,7 +197,11 @@ def num_recibo_get(request):
 def facturacao_exploracao_update(request):
     gid = request.matchdict["id"]
     body = request.json_body
-    e = request.db.query(ExploracaoConFacturacao).filter(ExploracaoConFacturacao.gid == gid).one()
+    e = (
+        request.db.query(ExploracaoConFacturacao)
+        .filter(ExploracaoConFacturacao.gid == gid)
+        .one()
+    )
     e.update_from_json_facturacao(body)
     request.db.add(e)
     request.db.commit()

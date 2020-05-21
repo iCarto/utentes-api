@@ -6,21 +6,21 @@ from setuptools import find_packages, setup
 here = os.path.abspath(os.path.dirname(__file__))
 
 requires = [
-    "pyramid==1.6.1",
-    "pyramid_debugtoolbar",
-    "psycopg2==2.7.4",
-    "SQLAlchemy==1.0.11",
+    "pyramid==1.10.4",
+    "psycopg2==2.8.5",  # Cambiar a psycopg2-binary en dev en caso de problemas
+    "SQLAlchemy==1.3.17",
     "geoalchemy2==0.2.6",
     # 'shapely==1.5.13',
-    "python-dateutil==2.8.0",
-    "transaction",
-    "zope.sqlalchemy",
-    "waitress",
-    "six",
+    "python-dateutil==2.8.1",
+    "transaction==3.0.0",
+    "zope.sqlalchemy==1.3",
+    "waitress==1.4.3",  # Esto sólo debería hacer falta en desarrollo.
     "bcrypt==3.1.7",
+    "Jinja2==2.11.2",
+    "pyramid-jinja2==2.8",
     "cssutils==1.0.2",
-    "pyramid-jinja2==2.7",
-    "pyramid-webassets==0.9",
+    "webassets==2.0",
+    "pyramid-webassets==0.10",
 ]
 
 excludes = ["utentes.tests"]

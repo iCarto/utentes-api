@@ -65,6 +65,7 @@ class DBIntegrationTest(unittest.TestCase):
             )
             .filter(at_lest_one_source > 0)
             .filter(only_one_license == 1)
+            .order_by(Exploracao.exp_id)
             .all()[0]
         )
 

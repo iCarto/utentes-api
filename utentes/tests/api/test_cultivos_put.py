@@ -1,4 +1,3 @@
-
 import unittest
 
 from pyramid.httpexceptions import HTTPBadRequest
@@ -16,7 +15,11 @@ def build_json(request, cultivo):
 
 class CultivosUpdateTests(DBIntegrationTest):
     def test_update_cultivo(self):
-        expected = self.request.db.query(ActividadesCultivos).first()
+        expected = (
+            self.request.db.query(ActividadesCultivos)
+            .order_by(ActividadesCultivos.cult_id)
+            .first()
+        )
         gid = expected.gid
         self.request.matchdict.update(dict(id=gid))
         expected_json = build_json(self.request, expected)
@@ -71,7 +74,11 @@ class CultivosUpdateTests(DBIntegrationTest):
         self.assertAlmostEqual(367.77, float(actual.area), 2)
 
     def test_not_update_cultivo_the_geom(self):
-        expected = self.request.db.query(ActividadesCultivos).first()
+        expected = (
+            self.request.db.query(ActividadesCultivos)
+            .order_by(ActividadesCultivos.cult_id)
+            .first()
+        )
         gid = expected.gid
         self.request.matchdict.update(dict(id=gid))
         expected_json = build_json(self.request, expected)

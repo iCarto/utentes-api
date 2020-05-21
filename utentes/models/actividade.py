@@ -4,7 +4,6 @@ from sqlalchemy import Boolean, Column, ForeignKey, Integer, Numeric, Text, text
 from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy.orm import relationship
 
-from . import actividades_schema
 import utentes.models.constants as c
 from utentes.lib.schema_validator.validator import Validator
 from utentes.models.base import PGSQL_SCHEMA_UTENTES, Base, update_array
@@ -12,6 +11,8 @@ from utentes.models.cultivo import ActividadesCultivos
 from utentes.models.reses import ActividadesReses
 from utentes.models.tanques_piscicolas import ActividadesTanquesPiscicolas
 from utentes.services import id_service
+
+from . import actividades_schema
 
 
 class ActividadeBase(Base):
@@ -59,8 +60,9 @@ class ActividadeBase(Base):
         json["id"] = self.gid
         return json
 
+
 class Actividade(ActividadeBase):
-     __mapper_args__ = {
+    __mapper_args__ = {
         "polymorphic_identity": "actividades",
         "polymorphic_on": ActividadeBase.tipo,
         "with_polymorphic": "*",
@@ -114,7 +116,7 @@ class ActividadesAgriculturaRega(Actividade):
     cultivos = relationship(
         "ActividadesCultivos",
         cascade="all, delete-orphan",
-        order_by="ActividadesCultivos.gid",
+        order_by="ActividadesCultivos.cult_id",
         lazy="joined",
         passive_deletes=True,
     )
@@ -257,7 +259,7 @@ class ActividadesPiscicultura(Actividade):
     tanques_piscicolas = relationship(
         "ActividadesTanquesPiscicolas",
         cascade="all, delete-orphan",
-        order_by="ActividadesTanquesPiscicolas.gid",
+        order_by="ActividadesTanquesPiscicolas.tanque_id",
         lazy="joined",
         passive_deletes=True,
     )

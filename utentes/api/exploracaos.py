@@ -58,7 +58,7 @@ def exploracaos_get(request):
         if fact_estado:
             query = query.filter(Exploracao.fact_estado.in_(fact_estado))
 
-        features = query.all()
+        features = query.order_by(Exploracao.exp_id).all()
         return {"type": "FeatureCollection", "features": features}
 
 
