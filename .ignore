@@ -31,11 +31,8 @@ utentes/media
 
 # Formatter & Linters
 utentes/static/vendor
-utentes/static/lib/DataTables/
 utentes/static/lib/bootstrap/
 utentes/static/lib/moment-2.11.2/
-utentes/static/lib/backbone/backbone.js
-utentes/static/lib/bootbox.min.js
 utentes/static/lib/chart/chart.js
 utentes/static/lib/docx-templates/docx-templates.js
 utentes/static/lib/excel-libs/
@@ -45,4 +42,3 @@ utentes/static/lib/jquery/
 utentes/static/lib/jszip-utils/
 utentes/static/lib/shpwrite.js
 utentes/static/lib/twitter-bootstrap-wizard/
-utentes/static/lib/underscore/

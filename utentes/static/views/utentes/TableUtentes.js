@@ -79,7 +79,7 @@ Backbone.SIXHIARA.TableUtentes = Backbone.View.extend({
     createDataTable: function() {
         var self = this;
         var dataTableOptions = {
-            dom: 'R<"#table-toolbar"l<"pull-left"i>>rtp',
+            dom: '<"#table-toolbar"l<"pull-left"i>>rtp',
             language: self.language,
             scrollx: false,
         };
