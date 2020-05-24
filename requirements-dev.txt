@@ -25,3 +25,4 @@ isort[pyproject]==0.10.0
 # https://docs.pylonsproject.org/projects/pyramid/en/1.8-branch/whatsnew-1.8.html
 watchdog==0.10.2
 pyramid-debugtoolbar==4.6.1
+selenium
