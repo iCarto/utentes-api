@@ -4,7 +4,7 @@ from sqlalchemy.dialects.postgresql.json import JSONB
 from utentes.models.base import PGSQL_SCHEMA_UTENTES, Base
 
 
-class RenovacaoBase(Base):
+class Renovacao(Base):
     __tablename__ = "renovacoes"
     __table_args__ = {"schema": PGSQL_SCHEMA_UTENTES}
 
@@ -13,12 +13,6 @@ class RenovacaoBase(Base):
         primary_key=True,
         server_default=text("nextval('utentes.renovacoes_gid_seq'::regclass)"),
     )
-
-    def __json__(self, request):
-        return {"gid": self.gid}
-
-
-class Renovacao(RenovacaoBase):
 
     exp_id = Column(Text, nullable=False, unique=True, doc="Número da exploração")
 

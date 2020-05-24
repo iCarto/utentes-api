@@ -153,14 +153,30 @@ print('O ' + formatter().formatDate(req_obs[i]['create_at']) + ', ' + req_obs[i]
     },
 
     printLicense: function() {
-        // It has to print one document for each kind of tipo licencia (Subterránea / Superficial)
-        // We iterate through licenses:
-        this.model.get("licencias").forEach(function(licencia, index) {
-            this.newPrinter(index);
-        }, this);
+        // fontes puede no estar en el modelo por no enviar la representació
+        // completa
+        var self = this;
+        $.getJSON(`/api/fontes/${self.model.get("id")}`, function(fontes) {
+            // It has to print one document for each kind of tipo licencia (Subterránea / Superficial)
+            // We iterate through licenses:
+
+            // Changes null by ""
+            var fontes = JSON.parse(
+                JSON.stringify(fontes, function(key, value) {
+                    if (value === null) {
+                        return "";
+                    }
+                    return value;
+                })
+            );
+
+            self.model.get("licencias").forEach(function(licencia, index) {
+                self.newPrinter(index, fontes);
+            });
+        });
     },
 
-    newPrinter: function(i) {
+    newPrinter: function(i, fontes) {
         var json = this.model.toJSON();
 
         if (!json.licencias[i].tipo_lic) {
@@ -180,7 +196,7 @@ print('O ' + formatter().formatDate(req_obs[i]['create_at']) + ', ' + req_obs[i]
         data.licencia = data.licencias[i];
 
         // We filter fontes by tipo_agua (Subterrânea / Superficial)
-        data.fontes = data.fontes.filter(function(fonte) {
+        data.fontes = fontes.filter(function(fonte) {
             return fonte.tipo_agua == data.licencia.tipo_agua;
         });
 

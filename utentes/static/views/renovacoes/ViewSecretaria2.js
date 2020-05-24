@@ -76,20 +76,14 @@ Backbone.SIXHIARA.ViewSecretaria2 = Backbone.SIXHIARA.View1.extend({
 
     updateRenovacaoConsumoFact: function(model) {
         var renovacao = this.model.get("renovacao");
-        var facturacao = this.model.get("facturacao");
-
-        if (facturacao.length) {
-            // Use data from facturacao instead of Renovacao in order to be the most updated data available
-            model.get("licencias").forEach(function(lic) {
-                var tipo = lic
-                    .get("tipo_agua")
-                    .substring(0, 3)
-                    .toLowerCase();
-                var last_invoice = facturacao.last();
-                var last_consumo = last_invoice.get("consumo_fact_" + tipo);
-                renovacao.set("consumo_fact_" + tipo + "_old", last_consumo);
-            });
-        }
+        model.get("licencias").forEach(function(lic) {
+            var tipo = lic
+                .get("tipo_agua")
+                .substring(0, 3)
+                .toLowerCase();
+            var last_consumo = lic.get("consumo_fact");
+            renovacao.set("consumo_fact_" + tipo + "_old", last_consumo);
+        });
     },
 
     fillExploracaoFromRenovacao: function() {
@@ -175,9 +169,6 @@ Backbone.SIXHIARA.ViewSecretaria2 = Backbone.SIXHIARA.View1.extend({
                         `A exploração&nbsp;<strong>${exp_id} - ${exp_name}</strong>&nbsp;tem sido gravada correctamente.`,
                         function() {
                             exploracao.trigger("show-next-exp", exploracao);
-                            exploracao.urlRoot =
-                                Backbone.SIXHIARA.Config.apiExploracaos;
-                            exploracao.save({wait: true});
                         }
                     );
                 }

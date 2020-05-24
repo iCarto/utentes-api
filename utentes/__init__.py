@@ -132,6 +132,9 @@ def add_routes_api(config):
     config.add_route("api_exploracaos", "/api/exploracaos")
     config.add_route("api_exploracaos_id", "/api/exploracaos/{id}")
 
+    # GET /api/fontes/{exploracao}
+    config.add_route("api_fontes_exploracao", "/api/fontes/{exploracao}")
+
     # exploracao_id*/departamento?/unidade? conforms the subpath part of the url
     # GET    /api/documentos/exploracao_id*/departamento?/unidade? = Return all info and routes to files and path for an exploracao, departamento or unidade
     # POST   /api/documentos/exploracao_id*/departamento?/unidade? = Creates a new documento

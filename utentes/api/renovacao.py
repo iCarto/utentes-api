@@ -158,13 +158,12 @@ def renovacao_update(request):
         r = valid[0]
         r.update_from_json(body)
 
-    if r.estado in (DE_FACTO, NOT_APPROVED):
+    if r.estado in (LICENSED, DE_FACTO, NOT_APPROVED):
         exp = (
             request.db.query(Exploracao).filter(Exploracao.gid == r.exploracao).all()[0]
         )
-        exp.setLicStateAndExpId(
-            request, {"exp_id": exp.exp_id, "state_to_set_after_validation": r.estado}
-        )
+        exp.update_from_json_renovacao(request, body)
+        request.db.add(exp)
 
     request.db.add(r)
     request.db.commit()

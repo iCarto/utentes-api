@@ -411,6 +411,23 @@ class Exploracao(ExploracaoBase):
         for column in set(self.REQUERIMENTO_FIELDS) - set(self.READ_ONLY):
             setattr(self, column, json.get(column))
 
+    def update_from_json_renovacao(self, request, json):
+        self.setLicStateAndExpId(request, json)
+
+        # Si no son nulos habré pasado por JuridicoDatos/Pendente Datos Renovacao
+        # y al llegar a uno de estos estados debo actualizar datos en la exp.
+        # Para no llamar directamente a api/exploracaos (puedo no tener todos los
+        # campo de la exp) lo hago aqui.
+        self.d_soli = json.get("d_soli")
+        self.d_ultima_entrega_doc = json.get("d_ultima_entrega_doc")
+        self.c_licencia = json.get("c_licencia")
+        for json_lic in json.get("licencias"):
+            lic = self.get_licencia(json_lic["tipo_agua"])
+            lic.tipo_lic = json_lic.get("tipo_lic")
+            lic.d_emissao = json_lic.get("d_emissao")
+            lic.d_validade = json_lic.get("d_validade")
+            lic.c_licencia = to_decimal(json_lic.get("c_licencia"))
+
     def update_from_json_facturacao(self, json):
         self.fact_estado = self.get_lower_state(json["facturacao"])
         self.fact_tipo = json["fact_tipo"]
@@ -499,7 +516,6 @@ class Exploracao(ExploracaoBase):
 
         self._update_requerimento_fields(json)
         update_area(self, json)
-
         self.update_and_validate_activity(json)
 
         # update relationships

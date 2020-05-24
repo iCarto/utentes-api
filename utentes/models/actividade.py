@@ -32,6 +32,7 @@ class ActividadeBase(Base):
     # an exception is raised. Probably removing onupdate will work
     # tipo = Column(ForeignKey(u'domains.actividade.key', onupdate=u'CASCADE'), nullable=False)
     tipo = Column(Text, nullable=False, doc="Tipo de actividade")
+    c_estimado = Column(Numeric(10, 2), doc="Consumo mensal estimado")
 
     # def validate(self, json):
     #     validator_name = self.__class__.__name__ + '_SCHEMA'
@@ -77,7 +78,6 @@ class ActividadesAbastecemento(Actividade):
         ForeignKey("utentes.actividades.gid", ondelete="CASCADE", onupdate="CASCADE"),
         primary_key=True,
     )
-    c_estimado = Column(Numeric(10, 2), doc="Consumo mensal estimado")
     habitantes = Column(
         Integer, doc="Número de habitantes (Utilizadores)"
     )  # , server_default=text("20"))
@@ -105,7 +105,6 @@ class ActividadesAgriculturaRega(Actividade):
         ForeignKey("utentes.actividades.gid", ondelete="CASCADE", onupdate="CASCADE"),
         primary_key=True,
     )
-    c_estimado = Column(Numeric(10, 2), doc="Consumo mensal estimado")
     n_cul_tot = Column(Integer, doc="Número de culturas")
     area_pot = Column(Numeric(10, 4), doc="Área potencial")
     area_irri = Column(Numeric(10, 4), doc="Área Irrigada")
@@ -160,7 +159,6 @@ class ActividadesIndustria(Actividade):
         ForeignKey("utentes.actividades.gid", ondelete="CASCADE", onupdate="CASCADE"),
         primary_key=True,
     )
-    c_estimado = Column(Numeric(10, 2), doc="Consumo mensal estimado")
     # tipo_indus = Column(ForeignKey(u'domains.industria_tipo.key', onupdate=u'CASCADE'))
     tipo_indus = Column(Text, doc="Tipo de indústria")
     instalacio = Column(Text, doc="Instalações")
@@ -193,7 +191,6 @@ class ActividadesPecuaria(Actividade):
         ForeignKey("utentes.actividades.gid", ondelete="CASCADE", onupdate="CASCADE"),
         primary_key=True,
     )
-    c_estimado = Column(Numeric(10, 2), doc="Consumo mensal estimado")
     n_res_tot = Column(Integer, doc="Nro de reses total")
 
     __mapper_args__ = {"polymorphic_identity": c.K_PECUARIA}
@@ -233,7 +230,6 @@ class ActividadesPiscicultura(Actividade):
         ForeignKey("utentes.actividades.gid", ondelete="CASCADE", onupdate="CASCADE"),
         primary_key=True,
     )
-    c_estimado = Column(Numeric(10, 2), doc="Consumo mensal estimado")
     area = Column(Numeric(10, 4), doc="Área de exploração (ha)")
     ano_i_ati = Column(Integer, doc="Ano inicio da atividade")
     tipo_aqua = Column(Text, doc="Tipo de aquacultura")
@@ -309,7 +305,6 @@ class ActividadesProduccaoEnergia(Actividade):
         ForeignKey("utentes.actividades.gid", ondelete="CASCADE", onupdate="CASCADE"),
         primary_key=True,
     )
-    c_estimado = Column(Numeric(10, 2), doc="Consumo mensal estimado")
     # energia_tipo = Column(ForeignKey(u'domains.energia_tipo.key', onupdate=u'CASCADE'))
     energia_tipo = Column(Text, doc="Tipo de produção")
     alt_agua = Column(Numeric(10, 2), doc="Altura de água")
@@ -342,7 +337,6 @@ class ActividadesSaneamento(Actividade):
         ForeignKey("utentes.actividades.gid", ondelete="CASCADE", onupdate="CASCADE"),
         primary_key=True,
     )
-    c_estimado = Column(Numeric(10, 2), doc="Consumo mensal estimado")
     habitantes = Column(Integer, doc="Nro de habitantes (Utilizadores)")
 
     __mapper_args__ = {"polymorphic_identity": c.K_SANEAMENTO}
