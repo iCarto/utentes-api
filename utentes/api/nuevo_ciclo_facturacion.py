@@ -5,7 +5,7 @@ from pyramid.view import view_config
 
 import utentes.constants.perms as perm
 import utentes.models.constants as c
-from utentes.models.exploracao import Exploracao
+from utentes.models.exploracao import ExploracaoConFacturacao
 from utentes.models.facturacao import Facturacao
 from utentes.models.facturacao_fact_estado import (
     PENDING_CONSUMPTION,
@@ -38,7 +38,11 @@ def nuevo_ciclo_facturacion(request):
         raise unauthorized_exception()
 
     states = FacturacaoFactEstado.ESTADOS_FACTURABLES
-    exps = request.db.query(Exploracao).filter(Exploracao.estado_lic.in_(states)).all()
+    exps = (
+        request.db.query(ExploracaoConFacturacao)
+        .filter(ExploracaoConFacturacao.estado_lic.in_(states))
+        .all()
+    )
     today = datetime.datetime.now()
     n_exps_invoizables_total = 0
     n_exps_invoizables_this_month = 0
