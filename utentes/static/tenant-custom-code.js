@@ -301,40 +301,6 @@ if (window.SIRHA.getARA() === "ARACN") {
     ];
 }
 
-if (window.SIRHA.getARA() === "ARAC") {
-    Object.assign(SIXHIARA, {
-        center: [-19.78, 34.01],
-        southWest: [-21.97, 32.03],
-        northEast: [17.58, 35.93],
-        search: {
-            zoom: 8,
-        },
-    });
-
-    window.SIXHIARA.GROUPS_TO_ROLES[SIRHA.ROLE.JURIDICO] = [
-        SIRHA.ROLE.JURIDICO,
-        SIRHA.ROLE.ADMINISTRATIVO,
-        SIRHA.ROLE.DIRECCION,
-    ];
-}
-
-if (window.SIRHA.getARA() === "ARACN") {
-    Object.assign(SIXHIARA, {
-        center: [-15.34, 38.3],
-        southWest: [-17.75, 35.75],
-        northEast: [-13.3, 40.82],
-        search: {
-            zoom: 8,
-        },
-    });
-
-    window.SIXHIARA.GROUPS_TO_ROLES[SIRHA.ROLE.JURIDICO] = [
-        SIRHA.ROLE.JURIDICO,
-        SIRHA.ROLE.ADMINISTRATIVO,
-        SIRHA.ROLE.DIRECCION,
-    ];
-}
-
 window.SIXHIARA.xlsFieldsToExport = {};
 if (window.SIRHA.getARA() === "DPMAIP") {
     window.SIXHIARA.xlsFieldsToExport.exploracaos = [
