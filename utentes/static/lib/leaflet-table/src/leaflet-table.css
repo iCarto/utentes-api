@@ -1,3 +1,13 @@
+/* make actions more visually strong */
+.gps-toolbar ul {
+    font-size: 1.3em;
+}
+
+/* show actions in a horizontal way */
+.gps-toolbar li {
+    display: inline-block;
+}
+
 .selected {
     background-color: rgba(255, 0, 0, 0.7);
 }
