@@ -27,13 +27,6 @@ section.row {
     display: inline-block;
 }
 
-/* do not show button to import GPX action */
-input[type="file"],
-input[type="button"] {
-    position: fixed;
-    top: -1000px;
-}
-
 .remove-field {
     cursor: pointer;
 }
