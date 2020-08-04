@@ -31,6 +31,7 @@ utentes/media
 
 # Formatter & Linters
 utentes/static/vendor
+utentes/static/lib/leaflet-table/vendor
 utentes/static/lib/bootstrap/
 utentes/static/lib/moment-2.11.2/
 utentes/static/lib/chart/chart.js
