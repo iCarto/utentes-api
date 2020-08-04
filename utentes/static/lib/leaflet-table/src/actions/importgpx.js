@@ -8,9 +8,24 @@ var ImportGPX = L.Toolbar2.Action.extend({
 
     initialize: function(map, geoJsonLayer, table, options) {
         this.options.toolbarIcon.tooltip = "Carregar";
-        var action = this;
+        this.map = map;
+        this.geoJsonLayer = geoJsonLayer;
+        this.table = table;
+        this._options = options;
+        var self = this;
+        $("body").append(
+            '<input id="input-importgpx" type="file" accept=".gpx,.zip,application/zip,application/x-zip,application/x-zip-compressed" style="display: none;">'
+        );
         $("#input-importgpx").on("change", function(e) {
-            action.convertToGeoJSON(e.target.files, geoJsonLayer, map, table);
+            var files = e.currentTarget.files;
+            if (files === 0) return;
+
+            if (files[0].name.toLowerCase().slice(-3) === "gpx") {
+                self.gpxToGeoJSON(files, self.geoJsonLayer, self.map, self.table);
+            } else {
+                self.shpToGeoJSON(files, self.geoJsonLayer, self.map, self.table);
+            }
+
             // reset value of input.file element for the change event
             // to be triggered if the user loads again the same file
             $("#input-importgpx").val("");
@@ -22,13 +37,17 @@ var ImportGPX = L.Toolbar2.Action.extend({
         $("#input-importgpx").trigger("click");
     },
 
-    convertToGeoJSON: function(files, geoLayer, map) {
-        if (files.length === 0) return;
+    gpxToGeoJSON: function(files, geoLayer, map) {
         var reader = new FileReader();
-
+        var file = files[0];
         // set up what happens on finish reading
         reader.onloadend = function(e) {
-            var gpx = new DOMParser().parseFromString(e.target.result, "text/xml");
+            if (this.readyState !== 2 || this.error) {
+                bootbox.alert("Error carregando ficheiro");
+                return;
+            }
+
+            var gpx = new DOMParser().parseFromString(this.result, "text/xml");
             var myGeoJSON = toGeoJSON.gpx(gpx);
 
             // TODO: toGeoJSON doesn't import all properties from GPX
@@ -39,14 +58,35 @@ var ImportGPX = L.Toolbar2.Action.extend({
 
             // would populate data and idx
             geoLayer.addData(myGeoJSON);
-
-            // TODO how a toolbar action may have access to the map?
-            map.fitBounds(geoLayer.getBounds()).setMaxBounds(
-                geoLayer.getBounds().pad(0.5)
-            );
         };
 
         // we only allow for reading 1 file
-        reader.readAsText(files[0]);
+        reader.readAsText(file);
+    },
+
+    shpToGeoJSON: function(files, geoLayer, map) {
+        var reader = new FileReader();
+        var file = files[0];
+        // set up what happens on finish reading
+        reader.onloadend = function(e) {
+            if (this.readyState !== 2 || this.error) {
+                bootbox.alert("Error carregando ficheiro");
+                return;
+            }
+
+            shp(this.result)
+                .then(function(myGeoJSON) {
+                    geoLayer.clearLayers();
+
+                    // would populate data and idx
+                    geoLayer.addData(myGeoJSON);
+                })
+                .catch(function(e) {
+                    bootbox.alert("Error carregando ficheiro");
+                });
+        };
+
+        // we only allow for reading 1 file
+        reader.readAsArrayBuffer(file);
     },
 });
