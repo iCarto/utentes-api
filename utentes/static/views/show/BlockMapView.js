@@ -16,6 +16,15 @@ Backbone.SIXHIARA.BlockMapView = Backbone.View.extend({
         this.map = Backbone.SIXHIARA.mapConfig("map", options);
         this.map.pm.setLang("pt_br");
 
+        this.map.addControl(
+            new L.Control.Fullscreen({
+                title: {
+                    false: "Pantalla Completa - Corregir",
+                    true: "Salir de Pantalla Completa - Corregir",
+                },
+            })
+        );
+
         self.map.scrollWheelZoom.disable();
         self.map.on("focus", function() {
             self.map.scrollWheelZoom.enable();
