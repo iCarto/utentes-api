@@ -29,10 +29,14 @@ var ImportGPX = L.Toolbar2.Action.extend({
             // reset value of input.file element for the change event
             // to be triggered if the user loads again the same file
             $("#input-importgpx").val("");
+            if (self.previousFullscreen) {
+                map.toggleFullscreen();
+            }
         });
     },
 
     addHooks: function() {
+        this.previousFullscreen = this.map.isFullscreen();
         // make hidden input.file to open
         $("#input-importgpx").trigger("click");
     },

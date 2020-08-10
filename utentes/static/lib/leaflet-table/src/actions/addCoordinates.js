@@ -25,6 +25,8 @@ var AddCoordinates = L.Toolbar2.Action.extend({
             domains: domains,
             geoJsonLayer: this.geoJsonLayer,
             modalSelectorTpl: "#modal-gps-add-coordinates-tmpl",
+            // https://github.com/Leaflet/Leaflet.fullscreen/issues/54
+            appendToSelector: "#map",
         }).render();
     },
 });
