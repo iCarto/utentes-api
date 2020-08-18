@@ -74,6 +74,7 @@ Backbone.SIXHIARA.RowView = Backbone.View.extend({
 
     events: {
         "click .edit": "modelEdit",
+        "click .draw": "modelDraw",
     },
 
     initialize: function(options) {
@@ -92,7 +93,9 @@ Backbone.SIXHIARA.RowView = Backbone.View.extend({
         return this;
     },
 
-    modelEdit: function() {
+    modelEdit: function(e) {
+        e.preventDefault();
+        e.stopPropagation();
         var MyModalView = Backbone.SIXHIARA.CultivoResModalView;
         if (this.options.modalSelectorTpl === "#tanqueModalTpl") {
             MyModalView = Backbone.SIXHIARA.TanquePiscicolaModalView;
@@ -109,5 +112,11 @@ Backbone.SIXHIARA.RowView = Backbone.View.extend({
             editing: true,
             deleteFromServer: self.options.deleteFromServer,
         }).render();
+    },
+
+    modelDraw: function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        window.vent.trigger("sirha:editionmap:beginedition", e, this.model);
     },
 });

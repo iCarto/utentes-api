@@ -70,14 +70,17 @@ thead th {
 }
 
 td.edit,
-td.delete {
+td.delete,
+td.draw {
     text-align: center;
 }
 
 i.edit,
 i.delete,
+i.draw,
 td.edit,
-td.delete {
+td.delete,
+td.draw {
     color: #000;
     filter: alpha(opacity=20);
 
@@ -92,17 +95,28 @@ td.delete {
 
 i.edit:hover,
 i.delete:hover,
+i.draw:hover,
 i.edit:focus,
 i.delete:focus,
+i.draw:focus,
 td.edit:hover,
 td.delete:hover,
+td.draw:hover,
 td.edit:focus,
-td.delete:focus {
+td.delete:focus,
+td.draw:focus {
     color: #000;
     cursor: pointer;
     filter: alpha(opacity=50);
     opacity: 0.5;
     text-decoration: none;
+}
+
+td.draw.disabled {
+    box-shadow: none;
+    cursor: not-allowed;
+    opacity: 0.1;
+    pointer-events: none;
 }
 
 .units {
