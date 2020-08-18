@@ -2,6 +2,7 @@ Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.BlockInfoView = Backbone.View.extend({
     events: {
         "click #editBlockInfo": "renderModal",
+        "click .draw": "modelDraw",
     },
 
     initialize: function(options) {
@@ -61,6 +62,12 @@ Backbone.SIXHIARA.BlockInfoView = Backbone.View.extend({
         iAuth.disabledWidgets();
 
         SIRHA.Services.IdService.setExpIdPatternOnWidget();
+    },
+
+    modelDraw: function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        window.vent.trigger("sirha:editionmap:beginedition", e, this.model);
     },
 
     remove: function() {
