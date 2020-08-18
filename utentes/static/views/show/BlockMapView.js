@@ -12,6 +12,7 @@ Backbone.SIXHIARA.BlockMapView = Backbone.View.extend({
         // Cuidado con tocar el orden de las siguientes cuatro líneas
         // y los parámetros optIn para PM.initialize, y pmIgnore para L.map()
         L.PM.initialize({optIn: true});
+        // snapIgnore está por este bug: https://github.com/geoman-io/leaflet-geoman/issues/661
         options["mapOptions"] = {pmIgnore: false};
         this.map = Backbone.SIXHIARA.mapConfig("map", options);
         this.map.pm.setLang("pt_br");
@@ -23,7 +24,25 @@ Backbone.SIXHIARA.BlockMapView = Backbone.View.extend({
         self.map.on("blur", function() {
             self.map.scrollWheelZoom.disable();
         });
-        Backbone.SIXHIARA.EditionMap(this.map);
+
+        if (window.iAuth.isAdmin() || window.iAuth.hasRoleTecnico()) {
+            var beginEditionToolbar = new L.Toolbar2.Control({
+                position: "topleft",
+                actions: [window.BeginEdition],
+                className: "begin-edition-toolbar",
+            });
+            beginEditionToolbar.addTo(self.map, self.model);
+            window.vent.on("sirha:editionmap:editionbegined", function() {
+                beginEditionToolbar.remove();
+            });
+            window.vent.on(
+                "sirha:editionmap:stopedition sirha:editionmap:canceledition",
+                function() {
+                    beginEditionToolbar.addTo(self.map, self.model);
+                }
+            );
+            Backbone.SIXHIARA.EditionMap(this.map);
+        }
 
         this.renderData();
 

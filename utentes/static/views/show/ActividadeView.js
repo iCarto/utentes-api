@@ -28,8 +28,11 @@ Backbone.SIXHIARA.ActividadeView = Backbone.View.extend({
                 modalSelectorTpl: "#resModalTpl",
                 tableSelector: "table#reses",
                 collection: this.model.get("actividade").get("reses"),
-                rowTemplate:
-                    '<td><% print(formatter().formatNumber(c_estimado)) %></td><td><%- reses_tipo %></td><td><% print(formatter().formatNumber(reses_nro)) %></td><td><%- observacio %></td><td class="edit uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"><i class="fas fa-edit"></i></td><td class="delete uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"><i class="fas fa-trash-alt"></i></td>',
+                rowTemplate: `<td><% print(formatter().formatNumber(c_estimado)) %></td>
+                    <td><%- reses_tipo %></td><td><% print(formatter().formatNumber(reses_nro)) %></td>
+                    <td><%- observacio %></td>
+                    <td class="edit uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"><i class="fas fa-edit"></i></td>
+                    <td class="delete uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"><i class="fas fa-trash-alt"></i></td>`,
                 collectionModel: Backbone.SIXHIARA.ActividadeRes,
                 domains: this.options.domains,
             });
@@ -41,8 +44,15 @@ Backbone.SIXHIARA.ActividadeView = Backbone.View.extend({
                 modalSelectorTpl: "#cultivoModalTpl",
                 tableSelector: "table#cultivos",
                 collection: this.model.get("actividade").get("cultivos"),
-                rowTemplate:
-                    '<td><%- cult_id %></td><td><% print(formatter().formatNumber(c_estimado)) %></td><td><%- cultivo %> / <%- rega %> </td><td> <% print(formatter().formatNumber(eficiencia)) %> </td><td><% print(formatter().formatNumber(area, "0[,]000[.]0000")) %></td><td><%- observacio %></td><td class="edit uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"><i class="fas fa-edit"></i></td><td class="delete uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"><i class="fas fa-trash-alt"></i></td>',
+                rowTemplate: `<td><%- cult_id %></td>
+                    <td><% print(formatter().formatNumber(c_estimado)) %></td>
+                    <td><%- cultivo %> / <%- rega %> </td>
+                    <td> <% print(formatter().formatNumber(eficiencia)) %> </td>
+                    <td><% print(formatter().formatNumber(area, "0[,]000[.]0000")) %></td>
+                    <td><%- observacio %></td>
+                    <td class="draw uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"><i class="fas fa-draw-polygon"></i></td>
+                    <td class="edit uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"><i class="fas fa-edit"></i></td>
+                    <td class="delete uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"><i class="fas fa-trash-alt"></i></td>`,
                 collectionModel: Backbone.SIXHIARA.ActividadeCultivo,
                 domains: this.options.domains,
             });
@@ -54,8 +64,15 @@ Backbone.SIXHIARA.ActividadeView = Backbone.View.extend({
                 modalSelectorTpl: "#tanqueModalTpl",
                 tableSelector: "table#tanques",
                 collection: this.model.get("actividade").get("tanques_piscicolas"),
-                rowTemplate:
-                    '<td><%- tanque_id %></td><td><%- tipo %></td><td><%- formatter().formatNumber(volume) %></td><td><%- estado %></td><td><%- esp_culti %></td><td><%- tipo_alim %></td><td><%- n_ale_pov %></td><td><%- formatter().formatNumber(pro_anual) %></td><td class="edit uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"><i class="fas fa-edit"></i></td><td class="delete uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"><i class="fas fa-trash-alt"></i></td>',
+                rowTemplate: `<td><%- tanque_id %></td>
+                <td><%- tipo %></td>
+                <td><%- formatter().formatNumber(volume) %></td>
+                <td><%- estado %></td><td><%- esp_culti %></td>
+                <td><%- tipo_alim %></td><td><%- n_ale_pov %></td>
+                <td><%- formatter().formatNumber(pro_anual) %></td>
+                <td class="draw uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"><i class="fas fa-draw-polygon"></i></td>
+                <td class="edit uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"><i class="fas fa-edit"></i></td>
+                <td class="delete uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"><i class="fas fa-trash-alt"></i></td>`,
                 collectionModel: Backbone.SIXHIARA.TanquePiscicola,
                 domains: this.options.domains,
             });
