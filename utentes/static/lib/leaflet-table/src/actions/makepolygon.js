@@ -6,11 +6,11 @@ var MakePolygon = L.Toolbar2.Action.extend({
         },
     },
 
+    initialize: function(map, geoJsonLayer, table, options) {
+        this.table = table;
+    },
+
     addHooks: function() {
-        var polygon = table.makePolygon();
-        // TODO how a toolbar action may have access to the map?
-        // if(polygon.getBounds().isValid()){
-        //   map.fitBounds(polygon.getBounds()).setMaxBounds(geoJsonLayer.getBounds().pad(0.5));
-        // }
+        var polygon = this.table.makePolygon();
     },
 });

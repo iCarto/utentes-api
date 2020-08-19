@@ -6,7 +6,11 @@ var MoveToTop = L.Toolbar2.Action.extend({
         },
     },
 
+    initialize: function(map, geoJsonLayer, table, options) {
+        this.table = table;
+    },
+
     addHooks: function() {
-        table.moveToTop();
+        this.table.moveToTop();
     },
 });
