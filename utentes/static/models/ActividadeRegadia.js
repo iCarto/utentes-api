@@ -70,6 +70,11 @@ Backbone.SIXHIARA.ActividadeRegadia = Backbone.SIXHIARA.ActividadeNull.extend({
                         ),
                     }),
                 }).addTo(map);
+                let cultivo_model = cultivos.filter(
+                    t => t.get("cult_id") === feature.properties.cult_id
+                )[0];
+                cultivo_model.leafletLayer = layer;
+                cultivo_model.leafletLayerLabel = label;
             },
             style: {
                 stroke: true,
