@@ -146,16 +146,21 @@
 "iauth.js",
 "tenant-custom-code.js",
 "services/id_service.js",
+
+"vendor/Numeral-js-2.0.6/numeral.js",
+"vendor/Numeral-js-2.0.6/locales.js",
+
+"lib/jquery/jquery-1.12.0.min.js",
+"lib/bootstrap/js/bootstrap.min.js",
+"vendor/bootbox-5.4.0/bootbox.js",
+"vendor/underscore-1.10.2/underscore.js",
+"vendor/backbone-1.4.0/backbone.js",
+
+"vent.js",
 output="dist/commoncode.js", filters="strict_mode, rjsmin" %}
     <script src="{{ ASSET_URL }}"></script>
 {% endassets %}
 
-{% assets
-"vendor/Numeral-js-2.0.6/numeral.js",
-"vendor/Numeral-js-2.0.6/locales.js",
-output="dist/commonlibs.js", filters="strict_mode, rjsmin" %}
-    <script src="{{ ASSET_URL }}"></script>
-{% endassets %}
 
 
 <script>
