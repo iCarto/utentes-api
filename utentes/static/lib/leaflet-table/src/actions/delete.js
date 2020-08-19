@@ -6,7 +6,11 @@ var DeleteSelected = L.Toolbar2.Action.extend({
         },
     },
 
+    initialize: function(map, geoJsonLayer, table, options) {
+        this.table = table;
+    },
+
     addHooks: function() {
-        table.deleteSelected();
+        this.table.deleteSelected();
     },
 });

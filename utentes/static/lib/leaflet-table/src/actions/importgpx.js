@@ -6,6 +6,22 @@ var ImportGPX = L.Toolbar2.Action.extend({
         },
     },
 
+    initialize: function(map, geoJsonLayer, table, options) {
+        this.options.toolbarIcon.tooltip = "Carregar";
+        var action = this;
+        $("#input-importgpx").on("change", function(e) {
+            action.convertToGeoJSON(e.target.files, geoJsonLayer, map, table);
+            // reset value of input.file element for the change event
+            // to be triggered if the user loads again the same file
+            $("#input-importgpx").val("");
+        });
+    },
+
+    addHooks: function() {
+        // make hidden input.file to open
+        $("#input-importgpx").trigger("click");
+    },
+
     convertToGeoJSON: function(files, geoLayer, map) {
         if (files.length === 0) return;
         var reader = new FileReader();

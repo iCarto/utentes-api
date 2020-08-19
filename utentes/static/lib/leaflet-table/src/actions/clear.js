@@ -6,7 +6,14 @@ var Clear = L.Toolbar2.Action.extend({
         },
     },
 
+    initialize: function(map, geoJsonLayer, table, options) {
+        this.map = map;
+        this.geoJsonLayer = geoJsonLayer;
+        this.table = table;
+        this._options = options;
+    },
+
     addHooks: function() {
-        table.clear();
+        this.table.clear();
     },
 });

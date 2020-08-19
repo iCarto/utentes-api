@@ -9,7 +9,7 @@ Backbone.SIXHIARA.AddCoordinatesModalView = Backbone.UILib.ModalView.extend({
         this.dest_srs_widget = document.getElementById("dest_srs");
         this.coord_label_widget = document.getElementById("coord_label");
 
-        var center = map.getCenter();
+        var center = this.options.map.getCenter();
         this._set_values(
             {dest_x: center.lng, dest_y: center.lat},
             "org",
@@ -79,7 +79,11 @@ Backbone.SIXHIARA.AddCoordinatesModalView = Backbone.UILib.ModalView.extend({
                 popup._contentNode.innerText = text_label;
             } else {
                 self.marker.unbindPopup();
-                self.marker.bindPopup(text_label).openPopup();
+                self.marker
+                    .bindPopup(text_label, {
+                        className: "addcoordinates-popup",
+                    })
+                    .openPopup();
             }
         });
 
