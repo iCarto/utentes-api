@@ -78,13 +78,7 @@ Backbone.SIXHIARA.MapView = Backbone.View.extend({
 
     updateMapView: function() {
         if (this.geoJSONLayer.getLayers().length > 0) {
-            FitToBounds.fit(
-                this.map,
-                0.04,
-                16,
-                this.map.getMinZoom(),
-                this.geoJSONLayer
-            );
+            FitToBounds.fitToLayers(this.map, this.geoJSONLayer, 0.04, 16);
         } else {
             this.map.resetView();
         }
