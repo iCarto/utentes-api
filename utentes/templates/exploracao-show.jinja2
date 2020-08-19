@@ -2,6 +2,7 @@
 {% block css_assets %}
     {% assets
     "vendor/leaflet-1.6.0/leaflet.css",
+    "vendor/leaflet-geoman-2.6.0/leaflet-geoman.css",
     "lib/backbone-dms/css/backbone-dms.css",
     "offline/sixhiara-labels.css",
     "css/exploracao-show.css",
@@ -10,6 +11,14 @@
     output="dist/exploracao-show.css", filters="cssrewrite,cssutils" %}
         <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}">
     {% endassets %}
+
+    {% assets
+    "lib/leaflet-table/src/leaflet-table.css",
+    "lib/leaflet-table/vendor-hacked/leaflet-toolbar-0.4.0-alpha.2/leaflet.toolbar-src.css",
+    output="dist/myleaflettable.css", filters="cssrewrite,cssutils" %}
+          <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}">
+    {% endassets %}
+
 {% endblock css_assets %}
 {% block main_block %}
     <main>
@@ -1473,17 +1482,24 @@
       {% endif %}
       </div>
     </script>
+
+    {% include 'addcoordinatesmodalview_include.jinja2' %}
     <main>
 {% endblock main_block %}
+
 
 
 {% block js_assets %}
 <script src="/static/lib/docx-templates/docx-templates.js"></script>
 <script src="/static/lib/jszip-utils/jszip-utils.js"></script>
     <!-- javascript -->
+
+
+
     {% assets
         "lib/moment-2.11.2/moment-with-locales.js",
         "vendor/leaflet-1.6.0/leaflet-src.js",
+        "vendor/leaflet-geoman-2.6.0/leaflet-geoman.min.js",
         "lib/jquery-ui/jquery-ui.min.js",
         "lib/jquery-fileupload/jquery.iframe-transport.js",
         "lib/jquery-fileupload/jquery.fileupload.js",
@@ -1610,4 +1626,23 @@
         <script src="{{ ASSET_URL }}"></script>
     {% endassets %}
 
+    {% assets
+    "lib/leaflet-table/vendor/shapefile-js-3.5.0/dist/shp.js",
+    "lib/leaflet-table/vendor/tmcw-togeojson-4.1.0/togeojson.umd.js",
+    "lib/leaflet-table/vendor-hacked/leaflet-toolbar-0.4.0-alpha.2/leaflet.toolbar-src.js",
+    "lib/leaflet-table/src/leaflet-table.js",
+    "lib/leaflet-table/src/actions/addCoordinates.js",
+    "lib/leaflet-table/src/actions/AddCoordinatesModalView.js",
+    "lib/leaflet-table/src/actions/delete.js",
+    "lib/leaflet-table/src/actions/endSession.js",
+    "lib/leaflet-table/src/actions/importgpx.js",
+    "lib/leaflet-table/src/actions/zoomSelected.js",
+    "lib/leaflet-table/src/actions/beginEdition.js",
+    "lib/leaflet-table/src/actions/endEdition.js",
+    "lib/leaflet-table/src/actions/cancelEdition.js",
+    "lib/leaflet-table/src/actions/GPSModalView.js",
+    "lib/leaflet-table/src/editionmap.js",
+    output="dist/myleaflettable.js", filters="strict_mode, rjsmin" %}
+    <script src="{{ ASSET_URL }}"></script>
+    {% endassets %}
 {% endblock js_assets %}

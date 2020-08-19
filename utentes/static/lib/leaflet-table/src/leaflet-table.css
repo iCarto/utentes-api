@@ -1,18 +1,32 @@
-/* make actions more visually strong */
-.gps-toolbar ul {
-    font-size: 1.3em;
-}
-
 /* show actions in a horizontal way */
-.gps-toolbar li {
+.support-layer-toolbar li {
     display: inline-block;
 }
 
-.selected {
+.support-layer-toolbar > li > .leaflet-toolbar-icon {
+    border-bottom: none !important;
+    border-left: 1px solid #ccc;
+}
+
+.leaflet-toolbar-0 > li > .leaflet-toolbar-icon {
+    color: black !important;
+    height: 26px !important;
+    line-height: 26px !important;
+    opacity: 0.9;
+    width: 26px !important;
+}
+
+.leaflet-control-toolbar {
+    border: none !important;
+    border-radius: 4px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
+}
+
+.sirha-leaflet-table-container .selected {
     background-color: rgba(255, 0, 0, 0.7);
 }
 
-.edit_text_dialog {
+.sirha-leaflet-table-container .edit_text_dialog {
     background: transparent linear-gradient(#fefefe, #f4f4f4) repeat scroll 0% 0%;
     border: 1px solid #b7b7b7;
     border-radius: 4px;
@@ -26,56 +40,56 @@
     z-index: 0 !important;
 }
 
-.edit_text_dialog textarea {
+.sirha-leaflet-table-container .edit_text_dialog textarea {
     max-width: 100px;
     min-width: 50px;
 }
 
-.left {
+.sirha-leaflet-table-container .left {
     float: left;
 }
 
 /* TABLE */
 
-table {
+.sirha-leaflet-table-container table {
     background: #fff;
     border: solid 1px #ddd;
     margin-bottom: 1.25rem;
     table-layout: auto;
 }
 
-table thead {
+.sirha-leaflet-table-container table thead {
     background: #f5f5f5;
 }
 
-table thead tr th,
-table tfoot tr th,
-table tfoot tr td,
-table tbody tr th,
-table tbody tr td,
-table tr td {
+.sirha-leaflet-table-container table thead tr th,
+.sirha-leaflet-table-container table tfoot tr th,
+.sirha-leaflet-table-container table tfoot tr td,
+.sirha-leaflet-table-container table tbody tr th,
+.sirha-leaflet-table-container table tbody tr td,
+.sirha-leaflet-table-container table tr td {
     display: table-cell;
     line-height: 1.125rem;
 }
 
-table thead tr th,
-table thead tr td {
+.sirha-leaflet-table-container table thead tr th,
+.sirha-leaflet-table-container table thead tr td {
     color: #222;
     font-size: 1.5em;
     font-weight: bold;
     padding: 0.5rem 0.625rem 0.625rem;
 }
 
-thead tr {
+.sirha-leaflet-table-container thead tr {
     cursor: default !important;
 }
 
-tbody tr {
+.sirha-leaflet-table-container tbody tr {
     cursor: pointer !important;
 }
 
-table tr th,
-table tr td {
+.sirha-leaflet-table-container table tr th,
+.sirha-leaflet-table-container table tr td {
     color: #222;
     font-size: 1.3rem;
     padding: 0.5625rem 0.625rem;
@@ -84,7 +98,7 @@ table tr td {
 }
 
 /* scrollable table */
-.scrollable tbody {
+.sirha-leaflet-table-container .scrollable tbody {
     display: block;
     max-height: 800px;
     overflow-y: auto;
@@ -93,12 +107,12 @@ table tr td {
 }
 
 /* make the rows 100% in width */
-.scrollable tr {
+.sirha-leaflet-table-container .scrollable tr {
     display: flex;
 }
 
-.scrollable td,
-.scroll th {
+.sirha-leaflet-table-container .scrollable td,
+.sirha-leaflet-table-container .scroll th {
     display: block;
     flex: 1 auto;
 }
@@ -107,12 +121,12 @@ table tr td {
     margin-top: 20px;
 }
 
-.leaflet-popup-content-wrapper {
+.addcoordinates-popup .leaflet-popup-content-wrapper {
     border-radius: 1px;
     max-width: 200px;
 }
 
-.leaflet-popup-content-wrapper div {
+.addcoordinates-popup .leaflet-popup-content-wrapper div {
     text-align: center;
 }
 

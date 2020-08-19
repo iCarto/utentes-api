@@ -16,6 +16,7 @@ Backbone.SIXHIARA.BlockMapView = Backbone.View.extend({
         options["mapOptions"] = {pmIgnore: false};
         this.map = Backbone.SIXHIARA.mapConfig("map", options);
         this.map.pm.setLang("pt_br");
+        this.map.pm.setGlobalOptions({snappable: false, finishOn: "dblclick"});
 
         self.map.scrollWheelZoom.disable();
         self.map.on("focus", function() {

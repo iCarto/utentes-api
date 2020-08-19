@@ -1,3 +1,4 @@
+/* eslint backbone/model-defaults: "off" */
 Backbone.GeoJson = Backbone.GeoJson || {};
 Backbone.GeoJson.Feature = Backbone.Model.extend({
     parse: function(response, options) {
@@ -20,5 +21,14 @@ Backbone.GeoJson.Feature = Backbone.Model.extend({
             geometry: this.get("geometry").toJSON(),
             properties: _.omit(this.toJSON(), "geometry"),
         };
+    },
+
+    hasGeometry: function() {
+        let geojson = this.toGeoJSON();
+        return (
+            geojson.geometry &&
+            geojson.geometry.coordinates &&
+            geojson.geometry.coordinates.length
+        );
     },
 });
