@@ -7,6 +7,8 @@ here = os.path.abspath(os.path.dirname(__file__))
 
 requires = [
     "pyramid==1.10.4",
+    "webassets==2.0",
+    "pyramid-webassets==0.10",
     "psycopg2==2.8.5",  # Cambiar a psycopg2-binary en dev en caso de problemas
     "SQLAlchemy==1.3.17",
     "geoalchemy2==0.2.6",
@@ -19,8 +21,7 @@ requires = [
     "Jinja2==2.11.2",
     "pyramid-jinja2==2.8",
     "cssutils==1.0.2",
-    "webassets==2.0",
-    "pyramid-webassets==0.10",
+    "rjsmin==1.1.0",  # la versión incluída en webassets está desactualizada
 ]
 
 excludes = ["utentes.tests"]
