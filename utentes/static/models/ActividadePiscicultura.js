@@ -81,6 +81,11 @@ Backbone.SIXHIARA.ActividadePiscicultura = Backbone.SIXHIARA.ActividadeNull.exte
                         ),
                     }),
                 }).addTo(map);
+                let tanque_model = tanques_piscicolas.filter(
+                    t => t.get("tanque_id") === feature.properties.tanque_id
+                )[0];
+                tanque_model.leafletLayer = layer;
+                tanque_model.leafletLayerLabel = label;
             },
             style: this.setStyleFeature,
         });

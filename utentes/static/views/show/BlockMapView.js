@@ -8,7 +8,13 @@ Backbone.SIXHIARA.BlockMapView = Backbone.View.extend({
             return !["baciasrepresentacion", "bacias"].includes(l.id);
         });
         options.offline = {layers: baseOfflineLayers};
+
+        // Cuidado con tocar el orden de las siguientes cuatro líneas
+        // y los parámetros optIn para PM.initialize, y pmIgnore para L.map()
+        L.PM.initialize({optIn: true});
+        options["mapOptions"] = {pmIgnore: false};
         this.map = Backbone.SIXHIARA.mapConfig("map", options);
+        this.map.pm.setLang("pt_br");
 
         self.map.scrollWheelZoom.disable();
         self.map.on("focus", function() {
@@ -17,109 +23,36 @@ Backbone.SIXHIARA.BlockMapView = Backbone.View.extend({
         self.map.on("blur", function() {
             self.map.scrollWheelZoom.disable();
         });
+        Backbone.SIXHIARA.EditionMap(this.map);
 
-        // if (iAuth.canDraw()) {
-        if (false) {
-            /*
-            Leaflet.draw no funciona con Leaflet 1.6.0, uso esto como
-            un feature flag hasta que sea arreglado
-            */
-            var drawnItems = new L.FeatureGroup();
+        this.renderData();
 
-            var geom = this.model.get("geometry").toJSON();
-            if (_.has(geom, "coordinates") && _.has(geom, "type")) {
-                var exploracaoGeoJSON = {
-                    type: "Feature",
-                    properties: {},
-                    geometry: geom,
-                };
+        this.listenTo(this.model, "change:actividade", this.renderActividade);
+        this.listenTo(this.model, "change:geometry_edited", this.renderData);
+        // this.listenTo(this.model, "renderActividade", this.renderActividade);
+    },
 
-                this.geoJSONLayer = L.geoJson(exploracaoGeoJSON, {
-                    onEachFeature: function(feature, layer) {
-                        if (feature.geometry.type == "MultiPolygon") {
-                            layer.eachLayer(function(child_layer) {
-                                drawnItems.addLayer(child_layer);
-                            });
-                        } else {
-                            drawnItems.addLayer(layer);
-                        }
-                    },
-                    style: {
-                        stroke: true,
-                        color: "#00b300",
-                        weight: 4,
-                        opacity: 0.5,
-                        fillColor: "#00b300",
-                        fillOpacity: 0.2,
-                    },
-                });
-
-                FitToBounds.fitAndSetMaxBounds(
-                    this.map,
-                    0.1,
-                    16,
-                    null,
-                    this.geoJSONLayer
-                );
-            }
-
-            if (L && L.drawLocal) L.drawLocal = Backbone.SIXHIARA.LeafletDrawLocalesPT;
-            var drawControl = new L.Control.Draw({
-                draw: {
-                    circle: false,
-                    rectangle: false,
-                    marker: false,
-                    polyline: false,
+    renderData: function() {
+        var data = this.model.toGeoJSON();
+        if (data.geometry.coordinates) {
+            this.geoJSONLayer = L.geoJson(data, {
+                style: {
+                    stroke: true,
+                    color: "#00b300",
+                    weight: 4,
+                    opacity: 0.5,
+                    fillColor: "#00b300",
+                    fillOpacity: 0.2,
                 },
-                edit: {
-                    featureGroup: drawnItems,
-                },
-            });
-            this.map.addControl(drawControl);
+                pmIgnore: true,
+            }).addTo(this.map);
+            this.model.leafletLayer && this.model.leafletLayer.remove();
+            this.model.leafletLayer = this.geoJSONLayer;
 
-            var self = this;
-            this.map.on("draw:created draw:edited draw:deleted", function(e) {
-                if (e.layerType) drawnItems.addLayer(e.layer);
-                self.model.set("geometry_edited", true);
-                var multipolygon = drawnItems.getLayers().map(function(l) {
-                    return l.getLatLngs();
-                });
-                var geojson = L.multiPolygon(multipolygon).toGeoJSON().geometry;
-                if (geojson.coordinates.length) {
-                    self.model.get("geometry").set("type", geojson.type);
-                    self.model.get("geometry").set("coordinates", geojson.coordinates);
-                } else {
-                    self.model.set("geometry", null);
-                }
-            });
-            drawnItems.addTo(this.map);
-        } else {
-            let data = this.model.toGeoJSON();
-            if (data.geometry.coordinates) {
-                this.geoJSONLayer = L.geoJson(data, {
-                    style: {
-                        stroke: true,
-                        color: "#00b300",
-                        weight: 4,
-                        opacity: 0.5,
-                        fillColor: "#00b300",
-                        fillOpacity: 0.2,
-                    },
-                }).addTo(this.map);
-
-                FitToBounds.fitAndSetMaxBounds(
-                    this.map,
-                    0.1,
-                    16,
-                    null,
-                    this.geoJSONLayer
-                );
-            }
+            FitToBounds.fitToLayers(this.map, this.geoJSONLayer, 0.1, 16);
         }
 
         this.renderActividade();
-
-        this.listenTo(this.model, "change:actividade", this.renderCultivos);
     },
 
     /*
@@ -139,9 +72,11 @@ Backbone.SIXHIARA.BlockMapView = Backbone.View.extend({
         }
 
         this.actividadeLayer.addTo(this.map);
-        FitToBounds.fitAndSetMaxBounds(this.map, 0.1, 16, null, [
-            this.geoJSONLayer,
-            this.actividadeLayer,
-        ]);
+        FitToBounds.fitToLayers(
+            this.map,
+            [this.geoJSONLayer, this.actividadeLayer],
+            0.1,
+            16
+        );
     },
 });
