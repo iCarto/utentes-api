@@ -6,15 +6,6 @@ from utentes.services.exp_service import get_license_state
 
 
 @view_config(
-    route_name="exploracao-gps",
-    permission=perm.PERM_UPDATE_CULTIVO_TANQUE,
-    renderer="utentes:templates/exploracao-gps.jinja2",
-)
-def exploracao_gps(request):
-    return {}
-
-
-@view_config(
     route_name="exploracao-search",
     permission=perm.PERM_GET,
     renderer="utentes:templates/exploracao-search.jinja2",

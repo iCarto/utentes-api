@@ -112,7 +112,6 @@ def add_routes_views(config):
     config.add_route("adicionar_ficha", "/adicionar_ficha")
     config.add_route("adicionar_usos_comuns", "/adicionar_utente_usos_comuns")
     config.add_route("adicionar_utente_facto", "/adicionar_utente_facto")
-    config.add_route("exploracao-gps", "exploracao-gps.html")
     config.add_route("exploracao-search", "exploracao-search.html")
     config.add_route("exploracao-show", "exploracao-show.html")
     config.add_route("facturacao", "facturacao.html")
