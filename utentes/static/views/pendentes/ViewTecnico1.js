@@ -10,9 +10,6 @@ Backbone.SIXHIARA.ViewTecnico1 = Backbone.SIXHIARA.View1.extend({
         <div class="btn-group uilib-enability uilib-hide-role-observador" role="group">
             <a id="bt-adicionar" class="btn btn-default" role="button" href="/adicionar_ficha?id=<%- id %>">Adicionar</a>
         </div>
-        <div class="btn-group uilib-enability uilib-hide-role-observador" role="group">
-            <a id="bt-geometria" class="btn btn-default" role="button" href="/exploracao-gps.html">Geometria</a>
-        </div>
         <div class="btn-group" role="group">
             <a id="bt-ficha" class="btn btn-default" role="button" href="/exploracao-show.html?id=<%- id %>">Ficha</a>
         </div>
@@ -153,10 +150,6 @@ print('O ' + formatter().formatDate(req_obs[i]['create_at']) + ', ' + req_obs[i]
             document.getElementById("bt-adicionar").removeAttribute("aria-disabled");
             document.getElementById("bt-ficha").classList.add("disabled");
             document.getElementById("bt-ficha").setAttribute("aria-disabled", "true");
-            document.getElementById("bt-geometria").classList.add("disabled");
-            document
-                .getElementById("bt-geometria")
-                .setAttribute("aria-disabled", "true");
             document.getElementById("bt-defacto").classList.add("disabled");
             document.getElementById("bt-defacto").setAttribute("aria-disabled", "true");
             document.getElementById("p_unid").disabled = true;
@@ -184,8 +177,6 @@ print('O ' + formatter().formatDate(req_obs[i]['create_at']) + ', ' + req_obs[i]
                 .setAttribute("aria-disabled", "true");
             document.getElementById("bt-ficha").classList.remove("disabled");
             document.getElementById("bt-ficha").removeAttribute("aria-disabled");
-            document.getElementById("bt-geometria").classList.remove("disabled");
-            document.getElementById("bt-geometria").removeAttribute("aria-disabled");
             document.getElementById("bt-defacto").classList.remove("disabled");
             document.getElementById("bt-defacto").removeAttribute("aria-disabled");
             document.getElementById("p_unid").disabled = false;

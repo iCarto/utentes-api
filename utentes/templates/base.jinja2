@@ -91,9 +91,6 @@
                           {% if request.has_permission(perm.PERM_PAGE_ADICIONAR_EXPLORACAO) %}
                           <li><a href="{{request.route_url('adicionar_exploracao')}}"><strong>EXPLORAÇAO</strong></a></li>
                           {% endif %}
-                          {% if request.has_permission(perm.PERM_UPDATE_CULTIVO_TANQUE) %}
-                          <li><a href="{{request.route_url('exploracao-gps')}}"><strong>GEOMETRIA</strong></a></li>
-                          {% endif %}
                         </ul>
                     </li>
                     {% endif %}

@@ -7,9 +7,6 @@ Backbone.SIXHIARA.ViewTecnico = Backbone.SIXHIARA.View1.extend({
                  <div class="btn-group" role="group">
                     <button id="file-modal" class="btn btn-default" role="button">Documentaçao</button>
                  </div>
-                 <div class="btn-group uilib-enability uilib-hide-role-observador" role="group">
-                    <a id="bt-geometria" class="btn btn-default" role="button" href="/exploracao-gps.html">Geometria</a>
-                 </div>
                  <div class="btn-group" role="group">
                     <a id="bt-ficha" class="btn btn-default" role="button" href="/exploracao-show.html?id=<%- id %>">Ficha</a>
                  </div>
@@ -161,8 +158,6 @@ Backbone.SIXHIARA.ViewTecnico = Backbone.SIXHIARA.View1.extend({
             }
             document.getElementById("bt-ficha").classList.remove("disabled");
             document.getElementById("bt-ficha").removeAttribute("aria-disabled");
-            document.getElementById("bt-geometria").classList.remove("disabled");
-            document.getElementById("bt-geometria").removeAttribute("aria-disabled");
             document.getElementById("bt-defacto").classList.remove("disabled");
             document.getElementById("bt-defacto").removeAttribute("aria-disabled");
             document.getElementById("p_unid").disabled = false;
