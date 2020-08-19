@@ -1,8 +1,13 @@
 {% extends "base.jinja2" %}
 {% block css_assets %}
 <link rel="stylesheet" type="text/css" href="/static/vendor/leaflet-1.6.0/leaflet.css">
-<link rel="stylesheet" type="text/css" href="/static/lib/leaflet-table/src/leaflet-table.css">
-<link rel="stylesheet" type="text/css" href="/static/vendor/leaflet-toolbar-0.4.0-alpha.2/leaflet.toolbar-src.css">
+{% assets
+"lib/leaflet-table/src/leaflet-table.css",
+"lib/leaflet-table/vendor/leaflet-toolbar-0.4.0-alpha.2/leaflet.toolbar-src.css",
+output="dist/myleaflettable.css", filters="cssrewrite,cssutils" %}
+      <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}">
+{% endassets %}
+
 <link rel="stylesheet" type="text/css" href="/static/offline/sixhiara-labels.css" />
 <link rel="stylesheet" type="text/css" href="/static/css/exploracao-gps.css">
 <link rel="stylesheet" type="text/css" href="/static/css/base.css">
@@ -145,36 +150,18 @@
 {% block js_assets %}
     <!-- javascript -->
 
+
     {% assets
 
-    "lib/jquery/jquery-1.12.0.min.js",
-    "lib/bootstrap/js/bootstrap.min.js",
-    "vendor/bootbox-5.4.0/bootbox.js",
-    "vendor/underscore-1.10.2/underscore.js",
-    "vendor/backbone-1.4.0/backbone.js",
     "lib/moment-2.11.2/moment-with-locales.js",
     "vendor/leaflet-1.6.0/leaflet-src.js",
+    "monkey-patching/index.js",
+    "lib/schema-validator/validator.js",
+    "lib/formatter/formatter.js",
     output="dist/exploracao-gps.js", filters="strict_mode, rjsmin" %}
     <script src="{{ ASSET_URL }}"></script>
     {% endassets %}
 
-    <script src="/static/monkey-patching/index.js"></script>
-
-    <script src="/static/lib/leaflet-table/lib/togeojson/togeojson.js"></script>
-    <script src="/static/vendor/leaflet-toolbar-0.4.0-alpha.2/leaflet.toolbar-src.js"></script>
-    <script src='/static/lib/leaflet-table/src/leaflet-table.js'></script>
-    <script src='/static/lib/leaflet-table/src/actions/importgpx.js'></script>
-    <script src='/static/lib/leaflet-table/src/actions/clear.js'></script>
-    <script src='/static/lib/leaflet-table/src/actions/delete.js'></script>
-    <script src='/static/lib/leaflet-table/src/actions/makepolygon.js'></script>
-    <script src='/static/lib/leaflet-table/src/actions/endSession.js'></script>
-    <script src='/static/lib/leaflet-table/src/actions/movetotop.js'></script>
-    <script src='/static/lib/leaflet-table/src/actions/savetoapi.js'></script>
-    <script src='/static/lib/leaflet-table/src/actions/addCoordinates.js'></script>
-
-    <script src="/static/lib/schema-validator/validator.js"></script>
-
-    <script src="/static/lib/formatter/formatter.js"></script>
 
     <script src="/static/lib/backbone-geojson/Feature.js"></script>
     <script src="/static/lib/backbone-geojson/FeatureCollection.js"></script>
@@ -184,6 +171,29 @@
     <script src="/static/lib/backbone-uilib/views/OptionView.js"></script>
     <script src="/static/lib/backbone-uilib/views/SelectView.js"></script>
     <script src="/static/lib/backbone-uilib/views/WidgetsView.js"></script>
+    <script src="/static/lib/backbone-uilib/views/ModalView.js"></script>
+
+    {% assets
+    "lib/leaflet-table/vendor/shapefile-js-3.5.0/dist/shp.js",
+    "lib/leaflet-table/vendor/tmcw-togeojson-4.1.0/togeojson.umd.js",
+    "lib/leaflet-table/vendor/leaflet-toolbar-0.4.0-alpha.2/leaflet.toolbar-src.js",
+    "lib/leaflet-table/src/leaflet-table.js",
+    "lib/leaflet-table/src/actions/addCoordinates.js",
+    "lib/leaflet-table/src/actions/AddCoordinatesModalView.js",
+    "lib/leaflet-table/src/actions/clear.js",
+    "lib/leaflet-table/src/actions/delete.js",
+    "lib/leaflet-table/src/actions/endSession.js",
+    "lib/leaflet-table/src/actions/importgpx.js",
+    "lib/leaflet-table/src/actions/makepolygon.js",
+    "lib/leaflet-table/src/actions/movetotop.js",
+    "lib/leaflet-table/src/actions/savetoapi.js",
+    "lib/leaflet-table/src/actions/GPSModalView.js",
+    "lib/leaflet-table/src/editionmap.js",
+    output="dist/myleaflettable.js", filters="strict_mode, rjsmin" %}
+    <script src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+
+
 
     <script src="/static/Config.js"></script>
     <script src="/static/views/common/ConfigModalView.js"></script>
@@ -191,7 +201,6 @@
     <script src="/static/models/Estado.js"></script>
     <script src="/static/models/EstadoCollection.js"></script>
 
-    <script src="/static/lib/backbone-uilib/views/ModalView.js"></script>
 
     <script src="/static/models/TanquePiscicola.js"></script>
     <script src="/static/models/TanquePiscicolaCollection.js"></script>
@@ -226,8 +235,7 @@
     <script src="/static/models/CultivoCollection.js"></script>
 
     <script src="/static/models/Setting.js"></script>
-    <script src="/static/views/gps/GPSModalView.js"></script>
-    <script src="/static/views/gps/AddCoordinatesModalView.js"></script>
+
 
     <script src="/static/offline/MapConfig.js"></script>
     <script src="/static/offline/LayerStyle.js"></script>
