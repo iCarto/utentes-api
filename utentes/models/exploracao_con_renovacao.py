@@ -29,6 +29,14 @@ from utentes.models.renovacao import Renovacao
 
 class ExpConRenovacao(ExploracaoConFacturacao):
 
+    actividade = relationship(
+        "Actividade",
+        cascade="all, delete-orphan",
+        lazy="joined",
+        # backref='exploracao_rel',
+        uselist=False,
+    )
+
     renovacao = relationship(
         "Renovacao",
         cascade="all, delete-orphan",
