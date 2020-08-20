@@ -92,18 +92,20 @@ def nuevo_ciclo_facturacion(request):
         f.fact_tipo = e.fact_tipo or "Mensal"
         if len(e.facturacao) > 0:
             f.pago_lic = e.facturacao[-1].pago_lic
-            f.consumo_fact_sup = e.facturacao[-1].consumo_fact_sup
-            f.consumo_fact_sub = e.facturacao[-1].consumo_fact_sub
-            f.taxa_fixa_sup = e.facturacao[-1].taxa_fixa_sup
-            f.taxa_fixa_sub = e.facturacao[-1].taxa_fixa_sub
-            f.taxa_uso_sup = e.facturacao[-1].taxa_uso_sup
-            f.taxa_uso_sub = e.facturacao[-1].taxa_uso_sub
-            f.pago_mes_sub = e.facturacao[-1].pago_mes_sup
-            f.pago_mes_sub = e.facturacao[-1].pago_mes_sub
-            f.pago_iva_sub = e.facturacao[-1].pago_iva_sup
-            f.pago_iva_sub = e.facturacao[-1].pago_iva_sub
-            f.iva_sub = e.facturacao[-1].iva_sup
-            f.iva_sub = e.facturacao[-1].iva_sub
+            if lic_sup.estado:
+                f.consumo_fact_sup = e.facturacao[-1].consumo_fact_sup
+                f.taxa_fixa_sup = e.facturacao[-1].taxa_fixa_sup
+                f.taxa_uso_sup = e.facturacao[-1].taxa_uso_sup
+                f.pago_mes_sup = e.facturacao[-1].pago_mes_sup
+                f.pago_iva_sup = e.facturacao[-1].pago_iva_sup
+                f.iva_sup = e.facturacao[-1].iva_sup
+            if lic_sub.estado:
+                f.consumo_fact_sub = e.facturacao[-1].consumo_fact_sub
+                f.taxa_fixa_sub = e.facturacao[-1].taxa_fixa_sub
+                f.taxa_uso_sub = e.facturacao[-1].taxa_uso_sub
+                f.pago_mes_sub = e.facturacao[-1].pago_mes_sub
+                f.pago_iva_sub = e.facturacao[-1].pago_iva_sub
+                f.iva_sub = e.facturacao[-1].iva_sub
             f.iva = e.facturacao[-1].iva
             f.pago_mes = e.facturacao[-1].pago_mes
             f.pago_iva = e.facturacao[-1].pago_iva

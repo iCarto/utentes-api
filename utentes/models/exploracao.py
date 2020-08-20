@@ -446,6 +446,8 @@ class Exploracao(ExploracaoBase):
         lic_sup.taxa_uso = json_fact["taxa_uso_sup"]
         lic_sup.consumo_fact = json_fact["consumo_fact_sup"]
         lic_sup.iva = json_fact["iva"]
+        lic_sup.pago_mes = json_fact["pago_mes_sup"]
+        lic_sup.pago_iva = json_fact["pago_iva_sup"]
 
         lic_sub = self.get_licencia("sub")
         lic_sub.consumo_tipo = json_fact["consumo_tipo_sub"]
@@ -453,6 +455,8 @@ class Exploracao(ExploracaoBase):
         lic_sub.taxa_uso = json_fact["taxa_uso_sub"]
         lic_sub.consumo_fact = json_fact["consumo_fact_sub"]
         lic_sub.iva = json_fact["iva"]
+        lic_sub.pago_mes = json_fact["pago_mes_sub"]
+        lic_sub.pago_iva = json_fact["pago_iva_sub"]
 
         # update all facturacao elements
         for index, json_fact in enumerate(json["facturacao"]):
