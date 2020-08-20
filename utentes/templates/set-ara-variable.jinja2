@@ -2,6 +2,7 @@
     SIRHA = {
         Utils: {},
         Services: {},
+        Error: {},
         _ARA: '{{ request.registry.settings.get("ara") }}',
         getARA: function() { return this._ARA; },
         is_single_user_mode: function() { return ['ARAN', 'DPMAIP'].includes(this._ARA); },

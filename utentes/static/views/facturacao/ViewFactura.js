@@ -618,26 +618,12 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
         data.dateFactura = f.formatDate(dateFactura);
         var dateVencimento = moment(dateFactura).add(1, "M");
         data.vencimento = f.formatDate(dateVencimento);
+        data.periodoFactura = SIRHA.Services.InvoiceService.billingPeriod(
+            factura.fact_tipo,
+            factura.mes,
+            factura.ano
+        );
 
-        if (json.fact_tipo == "Mensal") {
-            data.periodoFactura = factura.mes + "/" + factura.ano;
-        } else if (json.fact_tipo == "Trimestral") {
-            if (factura.mes == 4) {
-                data.periodoFactura = "01/" + factura.ano + " - 03/" + factura.ano;
-            }
-            if (factura.mes == 7) {
-                data.periodoFactura = "04/" + factura.ano + " - 06/" + factura.ano;
-            }
-            if (factura.mes == 10) {
-                data.periodoFactura = "07/" + factura.ano + " - 09/" + factura.ano;
-            }
-            if (factura.mes == 1) {
-                data.periodoFactura =
-                    "10/" + (factura.ano - 1) + " - 12/" + (factura.ano - 1);
-            }
-        } else if (json.fact_tipo == "Anual") {
-            data.periodoFactura = factura.ano - 1;
-        }
         return data;
     },
 
