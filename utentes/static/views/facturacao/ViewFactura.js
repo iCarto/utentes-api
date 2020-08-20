@@ -618,27 +618,40 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
         data.dateFactura = f.formatDate(dateFactura);
         var dateVencimento = moment(dateFactura).add(1, "M");
         data.vencimento = f.formatDate(dateVencimento);
+        data.periodoFactura = this.calculatePeriodoFactura(
+            json.fact_tipo,
+            factura.mes,
+            factura.ano
+        );
 
-        if (json.fact_tipo == "Mensal") {
-            data.periodoFactura = factura.mes + "/" + factura.ano;
-        } else if (json.fact_tipo == "Trimestral") {
-            if (factura.mes == 4) {
-                data.periodoFactura = "01/" + factura.ano + " - 03/" + factura.ano;
-            }
-            if (factura.mes == 7) {
-                data.periodoFactura = "04/" + factura.ano + " - 06/" + factura.ano;
-            }
-            if (factura.mes == 10) {
-                data.periodoFactura = "07/" + factura.ano + " - 09/" + factura.ano;
-            }
-            if (factura.mes == 1) {
-                data.periodoFactura =
-                    "10/" + (factura.ano - 1) + " - 12/" + (factura.ano - 1);
-            }
-        } else if (json.fact_tipo == "Anual") {
-            data.periodoFactura = factura.ano - 1;
-        }
         return data;
+    },
+
+    calculatePeriodoFactura: function(fact_tipo, month, year) {
+        if (fact_tipo == "Mensal") {
+            if (month == 1) {
+                return `12/${year - 1}`;
+            }
+            return `${month - 1}/${year}`;
+        }
+
+        if (fact_tipo == "Trimestral") {
+            if (month == 4) {
+                return `01/${year} - 03/${year}`;
+            }
+            if (month == 7) {
+                return `04/${year} - 06/${year}`;
+            }
+            if (month == 10) {
+                return `07/${year} - 09/${year}`;
+            }
+            if (month == 1) {
+                return `10/${year - 1} - 12/${year - 1}`;
+            }
+        }
+        if (fact_tipo == "Anual") {
+            return year - 1;
+        }
     },
 
     getDataForRecibo: function() {
