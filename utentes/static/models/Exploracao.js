@@ -436,7 +436,7 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
                 // para poder seguir trabajando con ella en la vista
                 var oldCollection = this.get("facturacao");
                 var updatedFacturaArray = response.facturacao.map(
-                    factura => new Backbone.SIXHIARA.Factura(factura)
+                    factura => new Backbone.SIXHIARA.Factura(factura, {parse: true})
                 );
                 oldCollection.set(updatedFacturaArray, {silent: true});
                 response.facturacao = oldCollection;
@@ -472,6 +472,9 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
             attrs.actividade = null;
         } else {
             attrs.actividade = this.get("actividade").toJSON();
+        }
+        if (this.get("facturacao")) {
+            attrs.facturacao = this.get("facturacao").toJSON();
         }
         attrs.urlShow = this.urlShow();
         return attrs;

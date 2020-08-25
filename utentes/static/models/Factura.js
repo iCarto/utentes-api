@@ -1,5 +1,6 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.Factura = Backbone.Model.extend({
+    dateFields: ["fact_date", "recibo_date"],
     defaults: {
         id: null,
         ano: null,
