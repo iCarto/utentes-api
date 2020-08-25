@@ -268,15 +268,12 @@ Backbone.SIXHIARA.ViewFacturacao = Backbone.View.extend({
     },
 
     saveExploracao: function(autosave) {
-        var self = this;
-
         this.model.urlRoot = Backbone.SIXHIARA.Config.apiFacturacaoExploracao;
         this.model.save(null, {
             validate: false,
             wait: true,
-            success: function(model) {
-                var exp_id = model.get("exp_id");
-                var exp_name = model.get("exp_name");
+            parse: true,
+            success: function() {
                 if (autosave) {
                     console.log("autosaving");
                 }

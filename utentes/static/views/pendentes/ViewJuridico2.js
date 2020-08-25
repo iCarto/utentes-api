@@ -152,91 +152,21 @@ print('O ' + formatter().formatDate(req_obs[i]['create_at']) + ', ' + req_obs[i]
         document.getElementById("bt-ok").disabled = !enable;
     },
 
-    printLicense: function() {
-        // fontes puede no estar en el modelo por no enviar la representació
-        // completa
-        var self = this;
-        $.getJSON(`/api/fontes/${self.model.get("id")}`, function(fontes) {
-            // It has to print one document for each kind of tipo licencia (Subterránea / Superficial)
-            // We iterate through licenses:
+    printLicense: function(e) {
+        e.preventDefault();
+        e.stopPropagation();
 
-            // Changes null by ""
-            var fontes = JSON.parse(
-                JSON.stringify(fontes, function(key, value) {
-                    if (value === null) {
-                        return "";
-                    }
-                    return value;
-                })
-            );
-
-            self.model.get("licencias").forEach(function(licencia, index) {
-                self.newPrinter(index, fontes);
-            });
-        });
-    },
-
-    newPrinter: function(i, fontes) {
-        var json = this.model.toJSON();
-
-        if (!json.licencias[i].tipo_lic) {
-            bootbox.alert("A exploração tem que ter uma tipo de licença.");
-            return;
-        }
-        // Create a copy of the main object since both types of licenses share fields
-        var data = JSON.parse(
-            JSON.stringify(json, function(key, value) {
-                if (value === null) {
-                    return "";
-                }
-                return value;
-            })
-        );
-
-        data.licencia = data.licencias[i];
-
-        // We filter fontes by tipo_agua (Subterrânea / Superficial)
-        data.fontes = fontes.filter(function(fonte) {
-            return fonte.tipo_agua == data.licencia.tipo_agua;
-        });
-
-        data.licencia.d_emissao = formatter().formatDate(data.licencia.d_emissao) || "";
-        data.licencia.d_validade =
-            formatter().formatDate(data.licencia.d_validade) || "";
-        data.urlTemplate = Backbone.SIXHIARA.tipoTemplates[data.licencia.tipo_lic];
-        data.licencia.duration =
-            Backbone.SIXHIARA.duracionLicencias[data.licencia.tipo_lic];
-        data.nameFile = data.licencia.tipo_lic
-            .concat("_")
-            .concat(data.licencia.lic_nro)
-            .concat("_")
-            .concat(data.exp_name)
-            .concat(".docx");
-        var self = this;
-
-        var datosAra = new Backbone.SIXHIARA.AraGetData();
-        datosAra.fetch({
-            success: function(model, resp, options) {
-                data.ara = resp;
-                data.ara.logoUrl =
-                    "static/print-templates/images/" +
-                    window.SIRHA.getARA() +
-                    "_cabecera.png";
-                data.ara.portadaUrl =
-                    "static/print-templates/images/" +
-                    window.SIRHA.getARA() +
-                    "_portada.png";
-                var docxGenerator = new Backbone.SIXHIARA.DocxGeneratorView({
-                    model: self.model,
-                    data: data,
-                });
+        SIRHA.Services.PrintService.licenses(this.model)
+            .then(function() {
                 var lic_imp = document.getElementById("lic_imp");
                 lic_imp.checked = true;
                 lic_imp.dispatchEvent(new Event("change"));
-            },
-            error: function() {
-                bootbox.alert(`Erro ao imprimir licença`);
-            },
-        });
+            })
+            .catch(function(error) {
+                bootbox.alert({
+                    title: "Erro ao imprimir licença",
+                    message: error,
+                });
+            });
     },
 });

@@ -527,16 +527,6 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
         this.$("#observacio").val("");
     },
 
-    updateFacturaData: function(factId, factDate) {
-        this.model.set("fact_id", factId);
-        this.model.set("fact_date", factDate);
-    },
-
-    updateReciboData: function(reciboId, reciboDate) {
-        this.model.set("recibo_id", reciboId);
-        this.model.set("recibo_date", reciboDate);
-    },
-
     changeStateToPdteFactura: function() {
         var self = this;
         bootbox.confirm(
@@ -549,182 +539,51 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
         );
     },
 
-    printFactura: function() {
-        if (!this.options.exploracao.get("loc_unidad")) {
-            bootbox.alert("A exploração tem que ter uma Unidade de Gestão.");
-            return;
-        }
-        var data = this.getDataForFactura();
-        data.urlTemplate = Backbone.SIXHIARA.tipoTemplates["Factura"];
-        this.printFacturaDocument(data, window.SIRHA.ESTADO_FACT.PENDING_PAY);
-    },
-
-    printRecibo: function() {
-        if (!this.options.exploracao.get("loc_unidad")) {
-            bootbox.alert("A exploração tem que ter uma Unidade de Gestão.");
-            return;
-        }
-        var data = this.getDataForRecibo();
-        data.urlTemplate = Backbone.SIXHIARA.tipoTemplates["Recibo"];
-        this.printReciboDocument(data, window.SIRHA.ESTADO_FACT.PAID);
-    },
-
-    getDataForFactura: function() {
-        var factura = this._removeNull(this.model.toJSON());
-        var data = this.getData(factura);
-
-        factura.licencias = {};
-        data.licencias.forEach(function(licencia) {
-            var tipo = licencia.tipo_agua.substring(0, 3).toLowerCase();
-            factura.licencias[tipo] = {};
-            factura.licencias[tipo].tipo = tipo;
-            factura.licencias[tipo].consumo_fact = factura["consumo_fact_" + tipo];
-            factura.licencias[tipo].taxa_fixa = factura["taxa_fixa_" + tipo];
-            factura.licencias[tipo].taxa_uso = factura["taxa_uso_" + tipo];
-            factura.licencias[tipo].pago_mes = factura["pago_mes_" + tipo];
-            factura.licencias[tipo].iva = factura["iva_" + tipo];
-            factura.licencias[tipo].pago_iva = factura["pago_iva_" + tipo];
-        });
-        data.factura = factura;
-
-        data.nameFile = data.exp_id
-            .concat("_")
-            .concat(factura.mes)
-            .concat("_")
-            .concat(factura.ano)
-            .concat(".docx");
-
-        return data;
-    },
-
-    _removeNull: function(data) {
-        return JSON.parse(
-            JSON.stringify(data, function(key, value) {
-                if (value === null) {
-                    return "";
+    printFactura: function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var self = this;
+        const invoiceData = this.options.exploracao.toJSON();
+        invoiceData.factura = this.model.toJSON();
+        SIRHA.Services.PrintService.factura(invoiceData)
+            .then(function(data) {
+                self.model.set("fact_id", data.numFactura);
+                self.model.set("fact_date", data.dateFactura_);
+                var nextState = window.SIRHA.ESTADO_FACT.PENDING_PAY;
+                if (nextState !== self.model.get("fact_estado")) {
+                    self.updateToState(nextState);
                 }
-                return value;
             })
-        );
-    },
-
-    getData: function(factura) {
-        let f = formatter();
-        var json = this.options.exploracao.toJSON();
-
-        var data = this._removeNull(json);
-
-        var dateFactura = factura.fact_date ? new Date(factura.fact_date) : new Date();
-        data.dateFactura = f.formatDate(dateFactura);
-        var dateVencimento = moment(dateFactura).add(1, "M");
-        data.vencimento = f.formatDate(dateVencimento);
-        data.periodoFactura = SIRHA.Services.InvoiceService.billingPeriod(
-            factura.fact_tipo,
-            factura.mes,
-            factura.ano
-        );
-
-        return data;
-    },
-
-    getDataForRecibo: function() {
-        var factura = this._removeNull(this.model.toJSON());
-        var data = this.getData(factura);
-
-        data.numFactura = factura.fact_id;
-        var dateRecibo = factura.recibo_date
-            ? new Date(factura.recibo_date)
-            : new Date();
-        data.dateRecibo = formatter().formatDate(dateRecibo);
-        data.tipoFacturacao = factura.fact_tipo;
-        data.valorPorRegularizar = factura.pago_iva;
-        data.valorRegularizado = factura.pago_iva;
-        data.valorAberto = 0;
-
-        data.nameFile =
-            "Recibo_" +
-            data.exp_id
-                .concat("_")
-                .concat(factura.mes)
-                .concat("_")
-                .concat(factura.ano)
-                .concat(".docx");
-
-        return data;
-    },
-
-    printFacturaDocument: function(data, nextState) {
-        if (nextState == this.model.get("fact_estado")) {
-            nextState = null;
-        }
-        var self = this;
-        var factura = new Backbone.SIXHIARA.NewFactura({id: this.model.id});
-        var datosAra = new Backbone.SIXHIARA.AraGetData();
-        datosAra.fetch({
-            success: function(model, resp, options) {
-                data.ara = resp;
-                data.ara.logoUrl =
-                    "static/print-templates/images/" +
-                    window.SIRHA.getARA() +
-                    "_factura.png";
-                factura.fetch({
-                    success: function(model, resp, options) {
-                        data.numFactura = resp;
-                        var docxGenerator = new Backbone.SIXHIARA.DocxGeneratorView({
-                            data: data,
-                        });
-                        self.updateFacturaData(data.numFactura, data.factDate);
-                        if (nextState) {
-                            self.updateToState(nextState);
-                        }
-                    },
-                    error: function() {
-                        bootbox.alert("Erro ao gerar a factura.");
-                        return;
-                    },
+            .catch(function(error) {
+                console.log(error);
+                bootbox.alert({
+                    title: "Erro ao imprimir factura",
+                    message: error,
                 });
-            },
-            error: function() {
-                bootbox.alert(`Erro ao imprimir factura`);
-            },
-        });
+            });
     },
 
-    printReciboDocument: function(data, nextState) {
-        if (nextState == this.model.get("fact_estado")) {
-            nextState = null;
-        }
+    printRecibo: function(e) {
+        e.preventDefault();
+        e.stopPropagation();
         var self = this;
-        var factura = new Backbone.SIXHIARA.NewRecibo({id: this.model.id});
-        var datosAra = new Backbone.SIXHIARA.AraGetData();
-        datosAra.fetch({
-            success: function(model, resp, options) {
-                data.ara = resp;
-                data.ara.logoUrl =
-                    "static/print-templates/images/" +
-                    window.SIRHA.getARA() +
-                    "_factura.png";
-                factura.fetch({
-                    success: function(model, resp, options) {
-                        data.numRecibo = resp;
-                        var docxGenerator = new Backbone.SIXHIARA.DocxGeneratorView({
-                            model: self.model,
-                            data: data,
-                        });
-                        self.updateReciboData(data.numRecibo, data.reciboDate);
-                        if (nextState) {
-                            self.updateToState(nextState);
-                        }
-                    },
-                    error: function() {
-                        bootbox.alert("Erro ao gerar a factura.");
-                        return;
-                    },
+        const invoiceData = this.options.exploracao.toJSON();
+        invoiceData.factura = this.model.toJSON();
+        SIRHA.Services.PrintService.recibo(invoiceData)
+            .then(function(data) {
+                self.model.set("recibo_id", data.numRecibo);
+                self.model.set("recibo_date", data.dateRecibo_);
+                var nextState = window.SIRHA.ESTADO_FACT.PAID;
+                if (nextState !== self.model.get("fact_estado")) {
+                    self.updateToState(nextState);
+                }
+            })
+            .catch(function(error) {
+                console.log(error);
+                bootbox.alert({
+                    title: "Erro ao imprimir recibo",
+                    message: error,
                 });
-            },
-            error: function() {
-                bootbox.alert(`Erro ao imprimir factura`);
-            },
-        });
+            });
     },
 });

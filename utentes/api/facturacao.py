@@ -108,15 +108,12 @@ def num_factura_get(request):
 
     params["next_serial"] = (request.db.execute(sql).first() or [1])[0]
 
-    num_factura = "{next_serial:04d}-{unidad}/{ano}".format(**params)
-
-    facturacao.fact_id = num_factura
-    facturacao.fact_date = datetime.datetime.now()
+    facturacao.fact_id = "{next_serial:04d}-{unidad}/{ano}".format(**params)
 
     request.db.add(facturacao)
     request.db.commit()
 
-    return num_factura
+    return facturacao.fact_id
 
 
 @view_config(
@@ -171,15 +168,12 @@ def num_recibo_get(request):
 
     params["next_serial"] = (request.db.execute(sql).first() or [1])[0]
 
-    num_recibo = "{next_serial:04d}-{unidad}/{ano}".format(**params)
-
-    facturacao.recibo_id = num_recibo
-    facturacao.recibo_date = datetime.datetime.now()
+    facturacao.recibo_id = "{next_serial:04d}-{unidad}/{ano}".format(**params)
 
     request.db.add(facturacao)
     request.db.commit()
 
-    return num_recibo
+    return facturacao.recibo_id
 
 
 @view_config(

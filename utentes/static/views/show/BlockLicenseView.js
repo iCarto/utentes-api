@@ -216,64 +216,16 @@ Backbone.SIXHIARA.BlockLicenseView = Backbone.View.extend({
         });
     },
 
-    printLicense: function(i) {
-        var json = this.model.toJSON();
-
-        if (!this.license.get("tipo_lic")) {
-            bootbox.alert("A exploração tem que ter uma tipo de licença.");
-            return;
-        }
-        json.licencia = this.license.toJSON();
-        // Create a copy of the main object since both types of licenses share fields
-        // In adition, remove its nulls to avoid problems during the template generation
-        var data = JSON.parse(
-            JSON.stringify(json, function(key, value) {
-                if (value === null) {
-                    return "";
-                }
-                return value;
-            })
-        );
-
-        // We filter fontes by tipo_agua (Subterrânea / Superficial)
-        data.fontes = data.fontes.filter(function(fonte) {
-            return fonte.tipo_agua == data.licencia.tipo_agua;
-        });
-
-        data.licencia.d_emissao = formatter().formatDate(data.licencia.d_emissao) || "";
-        data.licencia.d_validade =
-            formatter().formatDate(data.licencia.d_validade) || "";
-        data.urlTemplate = Backbone.SIXHIARA.tipoTemplates[data.licencia.tipo_lic];
-        data.licencia.duration =
-            Backbone.SIXHIARA.duracionLicencias[data.licencia.tipo_lic];
-        data.nameFile = data.licencia.tipo_lic
-            .concat("_")
-            .concat(data.licencia.lic_nro)
-            .concat("_")
-            .concat(data.exp_name)
-            .concat(".docx");
-        var self = this;
-
-        var datosAra = new Backbone.SIXHIARA.AraGetData();
-        datosAra.fetch({
-            success: function(model, resp, options) {
-                data.ara = resp;
-                data.ara.logoUrl =
-                    "static/print-templates/images/" +
-                    window.SIRHA.getARA() +
-                    "_cabecera.png";
-                data.ara.portadaUrl =
-                    "static/print-templates/images/" +
-                    window.SIRHA.getARA() +
-                    "_portada.png";
-                var docxGenerator = new Backbone.SIXHIARA.DocxGeneratorView({
-                    model: self.model,
-                    data: data,
+    printLicense: function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        SIRHA.Services.PrintService.license(this.model, this.options.tipo_agua).catch(
+            function(error) {
+                bootbox.alert({
+                    title: "Erro ao imprimir licença",
+                    message: error,
                 });
-            },
-            error: function() {
-                bootbox.alert("Erro ao imprimir licença");
-            },
-        });
+            }
+        );
     },
 });
