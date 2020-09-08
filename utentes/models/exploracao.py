@@ -379,7 +379,7 @@ class Exploracao(ExploracaoBase):
 
         self.exp_id = exp_id_to_use
         for lic in self.licencias:
-            lic.lic_nro = id_service.replace_exp_id_in_code(lic.lic_nro, self.exp_id)
+            lic.lic_nro = id_service.calculate_lic_nro(self.exp_id, lic.tipo_agua)
         if self.actividade and getattr(self.actividade, "cultivos", None):
             for cult in self.actividade.cultivos:
                 cult.cult_id = id_service.replace_exp_id_in_code(

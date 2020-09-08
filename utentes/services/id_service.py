@@ -34,6 +34,7 @@ def calculate_new_exp_id(request, state=c.K_LICENSED):
 
     return "{}/{}/{}{}".format(next_id, ara, year, code)
 
+
 def is_valid_exp_id(exp_id):
     import re
     from pyramid.threadlocal import get_current_registry
@@ -42,6 +43,7 @@ def is_valid_exp_id(exp_id):
     regexpExpIdFormat = "^\d{3}\/" + settings.get("ara") + "\/\d{4}/(UF|SL|CL)$"
 
     return exp_id and re.match(regexpExpIdFormat, exp_id)
+
 
 def is_not_valid_exp_id(exp_id):
     return not is_valid_exp_id(exp_id)
@@ -56,11 +58,22 @@ def replace_exp_id_in_code(code, new_exp_id):
     new_exp_id = new_exp_id[:i]
     return new_exp_id + code[i:]
 
-def calculate_new_lic_nro(exp_id, tipo_agua):
-    return "{}/{}".format(exp_id, tipo_agua[0:3])
+
+def calculate_lic_nro(exp_id: str, tipo_agua: str) -> str:
+    """
+    Return the correct license number.
+
+    Given a valid `exp_id, ` and `tipo_agua` in any acceptable form like
+    'Superficial', 'SUP', 'suP', ... returns the correct license number.
+
+    It is safe to call it even to replace the already valid `lic_nro`.
+    """
+    return f"{exp_id}/{tipo_agua[0:3].capitalize()}"
+
 
 def is_valid_lic_nro(lic_nro):
     return is_valid_exp_id(lic_nro[0:-4]) and lic_nro[-4:] in ["/Sub", "/Sup"]
+
 
 def is_not_valid_lic_nro(lic_nro):
     return not is_valid_lic_nro
