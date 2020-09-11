@@ -31,7 +31,7 @@ class ActividadesCultivos(Base):
     c_estimado = Column(Numeric(10, 2), nullable=False, doc="Consumo mensal estimado")
     cultivo = Column(Text, nullable=False, doc="Tipo de cultura")
     rega = Column(Text, nullable=False, doc="Tipo de rega")
-    eficiencia = Column(Numeric(10, 2), doc="Eficiencia del riego")
+    eficiencia = Column(Numeric(10, 2), doc="Eficiência da rega")
     area = Column(Numeric(10, 4), nullable=False, doc="Área (ha)")
     observacio = Column(Text, doc="Observações")
     the_geom = Column(Geometry("MULTIPOLYGON", "32737"), index=True)

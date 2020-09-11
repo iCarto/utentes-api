@@ -36,11 +36,6 @@ fieldset span {
     padding-left: 3%;
 }
 
-#panel-body-outros,
-#panel-body-outros-localizacao {
-    min-height: 330px;
-}
-
 #panel-body-loc-admin,
 #panel-body-loc-hidro {
     min-height: 320px;

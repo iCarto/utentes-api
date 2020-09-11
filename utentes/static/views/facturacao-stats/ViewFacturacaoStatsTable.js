@@ -22,7 +22,11 @@ Backbone.SIXHIARA.ViewFacturacaoStatsTable = Backbone.View.extend({
         var columns = [
             {data: "gid", title: "ID", visible: false},
             {data: "utente", title: "Utente"},
-            {data: "exp_id", title: "Exploraçao", className: "dt-center dt-value"},
+            {
+                data: "exp_id",
+                title: "Número da exploração",
+                className: "dt-center dt-value",
+            },
             {
                 data: "numero_facturas_esperadas",
                 title: "Nº Facturas Esperadas",

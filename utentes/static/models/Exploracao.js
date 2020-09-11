@@ -1,6 +1,6 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
-    dateFields: ["d_soli", "d_ultima_entrega_doc"],
+    dateFields: ["d_soli", "d_ultima_entrega_doc", "d_d_emis"],
 
     urlRoot: Backbone.SIXHIARA.Config.apiExploracaos,
 
@@ -11,6 +11,13 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
         d_soli: null,
         d_ultima_entrega_doc: null,
         observacio: null,
+        d_titulo: null,
+        d_proceso: null,
+        d_folha: null,
+        d_parcela: null,
+        d_area: null,
+        d_d_emis: null,
+        d_l_emis: null,
         loc_provin: null,
         loc_distri: null,
         loc_posto: null,

@@ -30,16 +30,14 @@
       </section>
       <section id="intro-section" class="row">
         <section id="map-section" class="col-xs-6">
-          <div class="row">
             <div id="map" class="col-xs-12"></div>
-          </div>
         </section>
         <section id="info-section" class="col-xs-6">
           <section id="block-info">
             <div class="row">
               <h3 class="col-xs-1"><i class="fas fa-info"></i></h3>
               <h3 class="col-xs-11 exploracao_info"> <span class="widget" id="exp_id"></span> <span class="widget" id="exp_name"></span>
-                <button type="button" class="btn btn-default btn-xs pull-right uilib-enability uilib-show-role-administrador uilib-show-role-tecnico" id="editBlockInfo">Editar</button>
+                <button type="button" class="btn btn-default btn-xs pull-right uilib-enability uilib-show-role-administrador uilib-show-role-tecnico uilib-show-role-juridico" id="editBlockInfo">Editar</button>
               </h3>
             </div>
             {% if request.registry.settings.get("ara") != 'DPMAIP' and next_state != 'Utente de usos comuns' %}
@@ -54,14 +52,30 @@
             {% if request.registry.settings.get("ara") != 'DPMAIP' %}
             <div class="row">
               <span class="col-xs-offset-1 col-xs-11">
-              <span class="title">{{ d_soli_label }}:</span> <span class="widget-date" id="d_soli">-</span>
-              <span class="title">Nº de cadastro Unificado:</span> <span class="widget" id="cadastro_uni">-</span>
+                  <span class="title">{{ d_soli_label }}:</span> <span class="widget-date" id="d_soli">-</span>
+                  <span class="title">Número do cadastro unificado:</span> <span class="widget" id="cadastro_uni">-</span>
               </span>
             </div>
+            <div class="row">
+              <span class="col-xs-offset-1 col-xs-11">
+                  <span class="title">Número do título:</span> <span class="widget" id="d_titulo">-</span>
+                  <span class="title">Número do processo:</span> <span class="widget" id="d_proceso">-</span>
+                  <span class="title">Número de folha:</span> <span class="widget" id="d_folha">-</span>
+              </span>
+            </div>
+            <div class="row">
+                <span class="col-xs-offset-1 col-xs-11">
+                    <span class="title">Número de parcela:</span> <span class="widget" id="d_parcela">-</span>
+                    <span class="title">Área (ha):</span> <span class="widget-number" id="d_area">-</span>
+                    <span class="title">Data de emissão :</span> <span class="widget-date" id="d_d_emis">-</span>
+                    <span class="title">Local de emissão:</span> <span class="widget" id="d_l_emis">-</span>
+                </span>
+            </div>
+
             {% endif %}
             <div class="row">
               <span class="col-xs-offset-1 col-xs-11">
-              <span class="title">Observações:</span> <span class="widget" id="observacio">-</span>
+                  <span class="title">Observações:</span> <span class="widget" id="observacio">-</span>
               </span>
             </div>
             <br>
@@ -112,14 +126,12 @@
             </div>
             <div class="row">
               <span class="col-xs-offset-1 col-xs-11">
-              <span class="title"> Pessoa de Contacto:</span> <span class="widget" id="contacto">-</span>
+                  <span class="title"> Pessoa de Contacto:</span> <span class="widget" id="contacto">-</span>
+                  <span class="title">Email:</span> <span class="widget" id="email">-</span>
+                  <span class="title"> Telefone:</span> <span class="widget" id="telefone">-</span>
               </span>
             </div>
-            <div class="row">
-              <span class="col-xs-offset-1 col-xs-11">
-              <span class="title">Email:</span> <span class="widget" id="email">-</span><span class="title"> Telefone:</span> <span class="widget" id="telefone">-</span>
-              </span>
-            </div>
+
             <div class="row">
               <span class="col-xs-offset-1 col-xs-11">
                   <span class="title">BI / Dire / Passaporte:</span> <span class="widget" id="bi_di_pas">-</span>
@@ -147,7 +159,7 @@
         </section>
       </section>
       {% if request.registry.settings.get("ara") != 'DPMAIP' %}
-      <section id="block-consumos" class="row volume-summary text-center">
+      <section id="block-consumos" class="row text-center">
         {% if next_state != 'Utente de usos comuns' %}
         <div class="col-xs-3">
           <div class="" style="display: inline-block; font-weight: bolder; padding-right: 5px;">
@@ -229,7 +241,7 @@
         <div class="col-xs-6" id="block-superficial">-</div>
       </section>
       {% else %}
-      <section id="block-consumos" class="row volume-summary">
+      <section id="block-consumos" class="row">
         <div class="col-xs-offset-1 col-xs-1">
           <div class="row">
             <h4>Licenciados</h4>
@@ -272,73 +284,7 @@
     </main>
     <!-- TEMPLATES -->
     {% import 'exploracao_show_macros.jinja2' as exploracao_show_macros with context%}
-    <!-- tmpl block info modal -->
-    <script type="text/template" id="block-info-modal-tmpl">
-      <div class="modal fade" id="editInfoModal" tabindex="-1" role="dialog" aria-labelledby="editInfoModalLabel">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Pechar"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="editInfoModalLabel">Exploração</h4>
-            </div>
-            <div class="modal-body">
-              <div class="row">
-                <div class="col-xs-offset-1 col-xs-10">
-                  <div class="panel panel-info">
-                    <div class="panel-heading">
-                      <h3 class="panel-title"><strong>Informação</strong></h3>
-                    </div>
-                    <div class="panel-body">
-                      <div class="col-xs-5">
-                        <div class="row">
-                          <div class="form-group">
-                            <label for="exp_id">Nro de exploração</label>
-                            <input type="text" class="form-control widget" id="exp_id" required>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="form-group">
-                            <label for="cadastro_uni">Nº de cadastro Unificado</label>
-                            <input type="text" class="form-control widget uilib-enability uilib-enable-role-administrador uilib-enable-role-tecnico" id="cadastro_uni">
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="form-group">
-                            <label for="exp_name">Nome da exploração</label>
-                            <input type="text" class="form-control widget" id="exp_name" required>
-                          </div>
-                        </div>
-                        {% if request.registry.settings.get("ara") != 'DPMAIP' %}
-                        <div class="row">
-                          <div class="form-group">
-                            <label for="d_soli">{{ d_soli_label }}</label>
-                            <input type="text" class="form-control widget-date" id="d_soli" placeholder="dd/mm/yyyy">
-                          </div>
-                        </div>
-                        {% endif %}
-                      </div>
-                      <div class="col-xs-offset-1 col-xs-6">
-                        <div class="row">
-                          <div class="form-group">
-                            <label for="observacio">Observaçoes sobre linha de água e localizaçao</label>
-                            {% if request.registry.settings.get("ara") != 'DPMAIP' %}
-                            <textarea class="form-control widget" id="observacio" rows="12"></textarea>
-                            {% else %}
-                            <textarea class="form-control widget" id="observacio" rows="5"></textarea>
-                            {% endif %}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {{exploracao_show_macros.modal_footer()}}
-          </div>
-        </div>
-      </div>
-    </script>
+    {% include 'exploracao-show-modal-info-block.jinja2' %}
     <!-- tmpl block location modal -->
     <script type="text/template" id="block-location-modal-tmpl">
       <div class="modal fade" id="editLocModal" tabindex="-1" role="dialog" aria-labelledby="editLocModalLabel">
@@ -572,7 +518,7 @@
                   <th style="width:14%">Id</th>
                   <th style="width:14%">Consumo Estimado <i class="units">(m<sup>3</sup>/mês)</i></th>
                   <th style="width:14%">Tipo de cultura / rega</th>
-                  <th style="width:14%">Eficiencia del riego</th>
+                  <th style="width:14%">Eficiência da rega</th>
                   <th style="width:14%">Área <i class="units">(ha)</i></th>
                   <th>Observações</th>
                   <th style="width:2%" class="uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"></th>
@@ -667,7 +613,7 @@
                       </div>
                       <div class="row">
                         <div class="form-group col-xs-6">
-                          <label for="eficiencia">Eficiencia da rega</label>
+                          <label for="eficiencia">Eficiência da rega</label>
                           <input type="text" class="form-control widget-number" id="eficiencia" pattern="[0-9]{1,8}([,][0-9]{1,2})?" />
                         </div>
                         <div class="form-group col-xs-6">

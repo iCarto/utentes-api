@@ -20,6 +20,16 @@ var EXPLORACAO_SCHEMA = [
         rules: ["IS_DATE"],
     },
     {
+        fieldname: "d_d_emis",
+        message: "Data de emissão do DUAT não tem o formato correto",
+        rules: ["IS_DATE"],
+    },
+    {
+        fieldname: "d_area",
+        message: "Área (ha) do DUAT não tem o formato correto",
+        rules: ["IS_NUMERIC", "INT_LESS_THAN_8"],
+    },
+    {
         fieldname: "c_soli",
         message: "Consumo solicitado não tem o formato correto",
         rules: ["IS_NUMERIC", "INT_LESS_THAN_8"],

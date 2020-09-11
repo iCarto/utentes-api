@@ -19,7 +19,7 @@ from sqlalchemy.orm import column_property, relationship
 import utentes.models.constants as c
 from utentes.lib.formatter.formatter import to_decimal
 from utentes.lib.schema_validator.validation_exception import ValidationException
-from utentes.models.actividade import Actividade, ActividadeBase
+from utentes.models.actividade import Actividade
 from utentes.models.base import (
     PGSQL_SCHEMA_UTENTES,
     Base,
@@ -121,6 +121,31 @@ class Exploracao(ExploracaoBase):
 
     FACTURACAO_FIELDS = ["fact_estado", "fact_tipo", "pago_lic"]
 
+    NORMAL_FIELDS = [
+        "observacio",
+        "loc_provin",
+        "loc_distri",
+        "loc_posto",
+        "loc_nucleo",
+        "loc_endere",
+        "loc_unidad",
+        "loc_bacia",
+        "loc_subaci",
+        "loc_rio",
+        "cadastro_uni",
+        "d_titulo",
+        "d_proceso",
+        "d_folha",
+        "d_parcela",
+        "d_area",
+        "d_d_emis",
+        "d_l_emis",
+        "c_soli",
+        "c_licencia",
+        "c_real",
+        "c_estimado",
+    ]
+
     READ_ONLY = ["created_at"]
     d_soli = Column(
         Date, nullable=False, server_default=text("now()"), doc="Data da solicitação"
@@ -132,6 +157,13 @@ class Exploracao(ExploracaoBase):
         doc="Data de entrega da última documentação",
     )
     observacio = Column(Text, doc="Observações")
+    d_titulo = Column(Text, doc="Número do título")
+    d_proceso = Column(Text, doc="Número do processo")
+    d_folha = Column(Text, doc="Número de folha")
+    d_parcela = Column(Text, doc="Número de parcela")
+    d_area = Column(Numeric(10, 4), doc="Área (ha)")
+    d_d_emis = Column(Date, doc="Data de emissão")
+    d_l_emis = Column(Text, doc="Local de emissão")
     loc_provin = Column(Text, doc="Província")
     loc_distri = Column(Text, doc="Distrito")
     loc_posto = Column(Text, doc="Posto administrativo")
@@ -141,7 +173,7 @@ class Exploracao(ExploracaoBase):
     loc_bacia = Column(Text, doc="Bacia")
     loc_subaci = Column(Text, doc="Sub-bacia")
     loc_rio = Column(Text, doc="Rio")
-    cadastro_uni = Column(Text, doc="Nº de cadastro Unificado")
+    cadastro_uni = Column(Text, doc="Número do cadastro unificado")
     c_soli = Column(Numeric(10, 2), doc="Consumo mensal solicitado ")
     c_licencia = Column(Numeric(10, 2), doc="Consumo mensal licenciado")
     c_real = Column(Numeric(10, 2), doc="Consumo mensal real")
@@ -498,21 +530,7 @@ class Exploracao(ExploracaoBase):
 
     def update_from_json(self, request, json):
         self.gid = json.get("id")
-        self.observacio = json.get("observacio")
-        self.loc_provin = json.get("loc_provin")
-        self.loc_distri = json.get("loc_distri")
-        self.loc_posto = json.get("loc_posto")
-        self.loc_nucleo = json.get("loc_nucleo")
-        self.loc_endere = json.get("loc_endere")
-        self.loc_unidad = json.get("loc_unidad")
-        self.loc_bacia = json.get("loc_bacia")
-        self.loc_subaci = json.get("loc_subaci")
-        self.loc_rio = json.get("loc_rio")
-        self.cadastro_uni = json.get("cadastro_uni")
-        self.c_soli = to_decimal(json.get("c_soli"))
-        self.c_licencia = to_decimal(json.get("c_licencia"))
-        self.c_real = to_decimal(json.get("c_real"))
-        self.c_estimado = to_decimal(json.get("c_estimado"))
+        self.update_some_fields(request, json)
         self.the_geom = update_geom(self.the_geom, json)
         self.fact_estado = json.get("fact_estado") or "Não facturable"
         self.fact_tipo = json.get("fact_tipo") or "Mensal"
@@ -528,6 +546,20 @@ class Exploracao(ExploracaoBase):
         update_array(self.licencias, json.get("licencias"), Licencia.create_from_json)
 
         self.setLicStateAndExpId(request, json)
+
+    def update_some_fields(self, request, json):
+        # Probablmente se podrían gestionar aquí sin problemas otras columnas
+        # como c_soli que hace el to_decimal, pero no se ha probado. Queda para
+        # futuros refactorings
+        SPECIAL_CASES = ["gid"]
+
+        self.gid = json.get("id")
+        for column in list(self.__mapper__.columns.keys()):
+            if column in SPECIAL_CASES:
+                continue
+            if column not in self.NORMAL_FIELDS:
+                continue
+            setattr(self, column, json.get(column))
 
     def update_and_validate_activity(self, json):
         actividade_json = json.get("actividade")
@@ -578,21 +610,6 @@ class Exploracao(ExploracaoBase):
                 "id": self.gid,
                 "exp_id": self.exp_id,
                 "estado_lic": self.estado_lic,
-                "observacio": self.observacio,
-                "loc_provin": self.loc_provin,
-                "loc_distri": self.loc_distri,
-                "loc_posto": self.loc_posto,
-                "loc_nucleo": self.loc_nucleo,
-                "loc_endere": self.loc_endere,
-                "loc_unidad": self.loc_unidad,
-                "loc_bacia": self.loc_bacia,
-                "loc_subaci": self.loc_subaci,
-                "loc_rio": self.loc_rio,
-                "cadastro_uni": self.cadastro_uni,
-                "c_soli": self.c_soli,
-                "c_licencia": self.c_licencia,
-                "c_real": self.c_real,
-                "c_estimado": self.c_estimado,
                 "actividade": self.actividade,
                 "area": self.area,
                 "fontes": self.fontes or [],
@@ -601,10 +618,14 @@ class Exploracao(ExploracaoBase):
             },
             "geometry": the_geom,
         }
+
         for column in self.REQUERIMENTO_FIELDS:
             payload["properties"][column] = getattr(self, column)
 
         for column in self.FACTURACAO_FIELDS:
+            payload["properties"][column] = getattr(self, column)
+
+        for column in self.NORMAL_FIELDS:
             payload["properties"][column] = getattr(self, column)
 
         if self.utente_rel:

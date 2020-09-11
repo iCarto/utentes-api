@@ -317,7 +317,7 @@ if (window.SIRHA.getARA() === "DPMAIP") {
         {header: "Bairro", value: "utente.loc_nucleo"},
         {header: "Endereço", value: "utente.loc_endere"},
         {header: "Observações", value: "utente.observacio"},
-        {header: "Nro da exploração", value: "exp_id"},
+        {header: "Número da exploração", value: "exp_id"},
         {header: "Nome da exploração", value: "exp_name"},
         {header: "Consumo mensal licença Total", value: "c_licencia"},
         {header: "Consumo mensal solicitado Total", value: "c_soli"},
@@ -346,7 +346,7 @@ if (window.SIRHA.getARA() === "DPMAIP") {
 
     window.SIXHIARA.xlsFieldsToExport.tanques = [
         {header: "Nome utente", value: "utente"},
-        {header: "Nro da exploração", value: "exp_id"},
+        {header: "Número da exploração", value: "exp_id"},
         {header: "Id Tanque", value: "tanque_id"},
         {header: "Tipo ", value: "tipo"},
         {header: "Comprimento (m)", value: "cumprimen"},
@@ -434,7 +434,7 @@ if (window.SIRHA.getARA() === "DPMAIP") {
         {header: "Tipo Utente", value: "utente.uten_tipo"},
         {header: "Email Utente", value: "utente.email"},
         {header: "Telefone Utente", value: "utente.telefone"},
-        {header: "Nro Exploração", value: "exp_id"},
+        {header: "Número da exploração", value: "exp_id"},
         {header: "Nome Exploração", value: "exp_name"},
         {
             header: "Ano",

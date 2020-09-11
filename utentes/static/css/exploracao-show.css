@@ -7,10 +7,8 @@
 #map {
     background-color: #eee;
     font-size: 14px;
-    height: 36em;
-    margin-bottom: 0.9em;
-    margin-left: 1em;
-    width: 95%;
+    height: 37em;
+    width: 98%;
 }
 
 label {
@@ -37,14 +35,14 @@ label {
 
 /* blocks: colors, margins, paddings */
 
-.volume-summary {
+#block-consumos {
     background-color: #d9edf7;
     border: 1px solid #bce8f1;
-    margin: 0;
+    margin: 20px 0 0 0;
     padding: 1em 0;
 }
 
-.volume-summary h3 {
+#block-consumos h3 {
     margin: 0;
 }
 

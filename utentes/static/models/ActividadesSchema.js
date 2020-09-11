@@ -77,7 +77,7 @@ ActividadeSchema["Cultivos"] = [
     },
     {
         fieldname: "eficiencia",
-        message: "Eficiencia não tem o formato correto",
+        message: "Eficiência não tem o formato correto",
         rules: ["IS_NUMERIC", "INT_LESS_THAN_8"],
     },
     {
