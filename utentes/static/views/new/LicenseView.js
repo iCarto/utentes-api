@@ -125,6 +125,11 @@ Backbone.SIXHIARA.LicenseView = Backbone.UILib.BaseView.extend({
     renderModal: function(e) {
         e.preventDefault();
 
+        let domains = this.options.domains.reject(
+            e =>
+                e.get("category") === "fonte_tipo" && e.get("parent") !== this.tipo_agua
+        );
+        domains = new Backbone.UILib.DomainCollection(domains);
         var modalView = new Backbone.UILib.ModalView({
             modalSelectorTpl: this.options.selectorModalFonte,
             collection: this.model.get("fontes"),
@@ -132,13 +137,11 @@ Backbone.SIXHIARA.LicenseView = Backbone.UILib.BaseView.extend({
             model: new Backbone.SIXHIARA.Fonte({
                 tipo_agua: this.tipo_agua,
             }),
-            domains: this.options.domains
-                .byCategory("fonte_tipo")
-                .byParent(this.tipo_agua),
+            domains: domains,
             creating: true,
             editing: false,
             selectViewWrapper: true,
-            domainMap: {tipo_fonte: "fonte_tipo"},
+            domainMap: {tipo_fonte: "fonte_tipo", red_monit: "red_monit"},
         });
         modalView.render();
     },

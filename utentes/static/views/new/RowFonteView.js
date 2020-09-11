@@ -49,18 +49,22 @@ Backbone.SIXHIARA.RowFonteView = Backbone.View.extend({
         } else {
             modaltpl = "subterranea";
         }
+        let domains = this.options.domains.reject(
+            e =>
+                e.get("category") === "fonte_tipo" &&
+                e.get("parent") !== this.model.get("tipo_agua")
+        );
+        domains = new Backbone.UILib.DomainCollection(domains);
         var modalView = new Backbone.UILib.ModalView({
             modalSelectorTpl: "#fonte-" + modaltpl + "-modal",
             collection: this.model.get("fontes"),
             collectionModel: Backbone.SIXHIARA.Fonte,
             model: this.model,
-            domains: this.options.domains
-                .byCategory("fonte_tipo")
-                .byParent(this.model.get("tipo_agua")),
+            domains: domains,
             creating: false,
             editing: true,
             selectViewWrapper: true,
-            domainMap: {tipo_fonte: "fonte_tipo"},
+            domainMap: {tipo_fonte: "fonte_tipo", red_monit: "red_monit"},
         });
         modalView.render();
     },

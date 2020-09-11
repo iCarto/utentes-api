@@ -1,6 +1,5 @@
-from sqlalchemy import Column, Date, ForeignKey, Integer, Numeric, Text, text
+from sqlalchemy import Boolean, Column, Date, ForeignKey, Integer, Numeric, Text, text
 
-from utentes.lib.formatter.formatter import to_date, to_decimal
 from utentes.models.base import PGSQL_SCHEMA_UTENTES, Base
 
 
@@ -15,12 +14,16 @@ class Fonte(Base):
     )
     tipo_agua = Column(Text, nullable=False, doc="Tipo de água")
     tipo_fonte = Column(Text, doc="Tipo de Fonte")
-    cadastro = Column(Text, doc="Nº de Cadastro")
+    cadastro = Column(Text, doc="Código Fonte/Cadastro")
+    red_monit = Column(Text, nullable=False, doc="Red de monitoreo")
     disp_a = Column(Text, doc="Disponibilidade de agua")
     lat_lon = Column(Text, doc="Latitude / Longitud")
     d_dado = Column(Date, doc="Data toma de dados")
+    bombeo = Column(Boolean, doc="Bombagem")
     c_soli = Column(Numeric(10, 2), doc="Consumo solicitado")
     c_max = Column(Numeric(10, 2), doc="Máximo caudal extraíble")
+    prof_pozo = Column(Numeric(10, 2), doc="Profundidade (m)")
+    diametro = Column(Numeric(10, 2), doc="Diâmetro interior (m)")
     c_real = Column(Numeric(10, 2), doc="Consumo real")
     sist_med = Column(Text, doc="Sistema de medição")
     metodo_est = Column(Text, doc="Método estimação volume")
@@ -37,38 +40,22 @@ class Fonte(Base):
         return f
 
     def update_from_json(self, json):
+        SPECIAL_CASES = ["gid", "exploracao"]
         self.gid = json.get("id")
-        self.tipo_agua = json.get("tipo_agua")
-        self.tipo_fonte = json.get("tipo_fonte")
-        self.cadastro = json.get("cadastro")
-        self.disp_a = json.get("disp_a")
-        self.lat_lon = json.get("lat_lon")
-        self.d_dado = to_date(json.get("d_dado"))
-        self.c_soli = to_decimal(json.get("c_soli"))
-        self.c_max = to_decimal(json.get("c_max"))
-        self.c_real = to_decimal(json.get("c_real"))
-        self.sist_med = json.get("sist_med")
-        self.metodo_est = json.get("metodo_est")
-        self.observacio = json.get("observacio")
-        # self.exploracao = json.get('exploracao')
+        for column in list(self.__mapper__.columns.keys()):
+            if column in SPECIAL_CASES:
+                continue
+            setattr(self, column, json.get(column))
 
     def __json__(self, request):
-        return {
-            "id": self.gid,
-            "tipo_agua": self.tipo_agua,
-            "tipo_fonte": self.tipo_fonte,
-            "cadastro": self.cadastro,
-            "disp_a": self.disp_a,
-            "lat_lon": self.lat_lon,
-            "d_dado": self.d_dado,
-            "c_soli": self.c_soli,
-            "c_max": self.c_max,
-            "c_real": self.c_real,
-            "sist_med": self.sist_med,
-            "metodo_est": self.metodo_est,
-            "observacio": self.observacio,
-            "exploracao": self.exploracao,
-        }
+        SPECIAL_CASES = ["gid"]
+        payload = {"id": self.gid}
+        for column in list(self.__mapper__.columns.keys()):
+            if column in SPECIAL_CASES:
+                continue
+            payload[column] = getattr(self, column)
+
+        return payload
 
     def validate(self, json):
         return []

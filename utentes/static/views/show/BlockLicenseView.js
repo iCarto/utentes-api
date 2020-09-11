@@ -122,6 +122,7 @@ Backbone.SIXHIARA.BlockLicenseView = Backbone.View.extend({
                 tipo_fonte: this.options.domains
                     .byCategory("fonte_tipo")
                     .byParent(tipoAgua),
+                red_monit: "red_monit",
             },
             textConfirmBt: "Adicionar",
         });

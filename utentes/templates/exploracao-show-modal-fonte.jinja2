@@ -1,0 +1,132 @@
+<!-- block fonte modal template -->
+<script type="text/template" id="block-fonte-modal-tmpl">
+  <div class="modal fade" id="editFonteModal" tabindex="-1" role="dialog" aria-labelledby="fonteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Pechar" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="fonteModalLabel">Fonte</h4>
+        </div>
+        <div class="modal-body">
+
+          <div class="row">
+            <div class="col-xs-offset-1 col-xs-10">
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  <h3 class="panel-title"><strong>Dados gerais</strong></h3>
+                </div>
+                <div class="panel-body">
+                  <div class="row">
+                    <div class="form-group col-xs-6">
+                      <label for="tipo_agua">Tipo de água</label>
+                      <input type="text" class="form-control widget disabled" id="tipo_agua" required disabled>
+                    </div>
+                    <div class="form-group col-xs-6">
+                      <label for="tipo_fonte">Tipo de fonte</label>
+                      <select class="form-control widget" id="tipo_fonte"></select>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group col-xs-6">
+                      <label for="cadastro">Código Fonte/Cadastro</label>
+                      <input type="text" class="form-control widget" id="cadastro">
+                    </div>
+                    <div class="form-group col-xs-6">
+                      <label for="red_monit">Red de monitoreo</label>
+                      <select class="form-control widget" id="red_monit"></select>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group col-xs-6">
+                      <label for="d_dado">Data toma de dados</label>
+                      <input type="text" class="form-control widget-date" id="d_dado" placeholder="dd/mm/yyyy">
+                    </div>
+                    <div class="form-group col-xs-6">
+                      <label for="lat_lon">Lat / Lon</label>
+                      <input type="text" class="form-control widget" id="lat_lon">
+                    </div>
+
+                  </div>
+                  <div class="row">
+                    <div class="form-group col-xs-6">
+                      <label for="sist_med">Sistema de medição</label>
+                      <select class="form-control widget" id="sist_med"></select>
+                    </div>
+                    <div class="form-group col-xs-6">
+                      <label for="metodo_est">Método estimação volume</label>
+                      <input type="text" class="form-control widget" id="metodo_est">
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group col-xs-6">
+                      <label for="c_max">Máximo caudal extraíble <i class="units">(m<sup>3</sup>/mês)</i></label>
+                      <input type="text" class="form-control widget-number" id="c_max" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
+                    </div>
+                    <div class="form-group col-xs-6">
+                      <label for="disp_a">Disponibilidade de agua</label>
+                      <select class="form-control widget" id="disp_a"></select>
+                    </div>
+                  </div>
+                  <div class="row">
+                      <div class="checkbox col-xs-6">
+                        <label><input type="checkbox" id="bombeo" class="widget">Bombagem</label>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xs-offset-1 col-xs-10">
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  <h3 class="panel-title"><strong>Poços e furos</strong></h3>
+                </div>
+                <div class="panel-body">
+                <div class="row">
+                  <div class="form-group col-xs-6">
+                    <label for="prof_pozo">Profundidade <i class="units">(m)</i></label>
+                    <input type="text" class="form-control widget-number" id="prof_pozo" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
+                  </div>
+                  <div class="form-group col-xs-6">
+                    <label for="diametro">Diâmetro interior <i class="units">(m)</i></label>
+                    <input type="text" class="form-control widget-number" id="diametro" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
+                  </div>
+                </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xs-offset-1 col-xs-10">
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  <h3 class="panel-title"><strong>Consumos</strong></h3>
+                </div>
+                <div class="panel-body">
+                  <div class="row">
+                    <div class="form-group col-xs-6">
+                      <label for="c_soli">Consumo solicitado <i class="units">(m<sup>3</sup>/mês)</i></label>
+                      <input type="text" class="form-control widget-number" id="c_soli" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
+                    </div>
+                    {% if request.registry.settings.get("ara") != 'DPMAIP' %}
+                    <div class="form-group col-xs-6">
+                      <label for="c_real">Consumo real <i class="units">(m<sup>3</sup>/mês)</i></label>
+                      <input type="text" class="form-control widget-number" id="c_real" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
+                    </div>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-xs-offset-1 col-xs-10">
+              <label for="observacio">Observaçôes</label>
+              <textarea class="form-control widget" id="observacio" rows="3"></textarea>
+            </div>
+          </div>
+        </div>
+        {{exploracao_show_macros.modal_footer()}}
+      </div>
+    </div>
+  </div>
+</script>
