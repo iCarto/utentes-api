@@ -405,7 +405,9 @@ Backbone.SIXHIARA.Exploracao = Backbone.GeoJson.Feature.extend({
         response = Backbone.SIXHIARA.Exploracao.__super__.parse.apply(this, arguments);
 
         if (_.has(response, "utente")) {
-            response.utente = new Backbone.SIXHIARA.Utente(response.utente);
+            response.utente = new Backbone.SIXHIARA.Utente(response.utente, {
+                parse: true,
+            });
         }
 
         if (_.has(response, "licencias")) {

@@ -1,5 +1,7 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
 Backbone.SIXHIARA.Utente = Backbone.Model.extend({
+    dateFields: ["bi_d_emis"],
+
     defaults: {
         id: null,
         nome: null,
@@ -11,6 +13,9 @@ Backbone.SIXHIARA.Utente = Backbone.Model.extend({
         contacto: null,
         email: null,
         telefone: null,
+        bi_di_pas: null,
+        bi_d_emis: null,
+        bi_l_emis: null,
         loc_provin: null,
         loc_distri: null,
         loc_posto: null,

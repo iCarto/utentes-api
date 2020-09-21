@@ -1,0 +1,258 @@
+{% macro utente_form(size) -%}
+<div class="row">
+    <div class="col-xs-offset-1 {{size}}">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title"><strong>Dados gerais</strong></h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="form-group col-xs-6">
+                        <label for="nome">Nome do utente</label>
+                        <input
+                            type="text"
+                            id="nome"
+                            class="form-control widget widget-utente uilib-enability uilib-enable-role-administrador uilib-enable-role-tecnico uilib-enable-role-juridico"
+                            required
+                        >
+                    </div>
+                    <div class="form-group col-xs-6">
+                        <label for="uten_tipo">Tipo de utente</label>
+                        <select
+                            id="uten_tipo"
+                            class="form-control widget widget-utente uilib-enability uilib-enable-role-administrador uilib-enable-role-tecnico uilib-enable-role-juridico"
+                        ></select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-xs-6">
+                        <label for="nuit">NUIT</label>
+                        <input
+                            type="text"
+                            id="nuit"
+                            class="form-control widget widget-utente uilib-enability uilib-enable-role-administrador uilib-enable-role-tecnico uilib-enable-role-juridico"
+                        >
+                    </div>
+                    <div class="form-group col-xs-6">
+                        <label for="uten_tipo">Nome do Gerente/Presidente</label>
+                        <input
+                            type="text"
+                            id="uten_gere"
+                            class="form-control widget widget-utente uilib-enability uilib-enable-role-administrador uilib-enable-role-tecnico uilib-enable-role-juridico"
+                        >
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-xs-6">
+                        <label for="uten_tipo">Nro Membros</label>
+                        <input
+                            type="text"
+                            id="uten_memb"
+                            class="form-control widget widget-number widget-utente uilib-enability uilib-enable-role-administrador uilib-enable-role-tecnico uilib-enable-role-juridico"
+                            pattern="[0-9]{1,8}"
+                        >
+                    </div>
+                    <div class="form-group col-xs-6">
+                        <label for="uten_tipo">Nro Mulheres</label>
+                        <input
+                            type="text"
+                            id="uten_mulh"
+                            class="form-control widget widget-number widget-utente uilib-enability uilib-enable-role-administrador uilib-enable-role-tecnico uilib-enable-role-juridico"
+                            pattern="[0-9]{1,8}"
+                        >
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-5">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title"><strong>Dados de contacto e documentação pessoal</strong></h3>
+            </div>
+            <div class="panel-body">
+                  <div class="row">
+                    <div class="form-group col-xs-6">
+                        <label for="uten_tipo">Pessoa de contacto</label>
+                        <input
+                            type="text"
+                            id="contacto"
+                            class="form-control widget widget-utente uilib-enability uilib-enable-role-administrador uilib-enable-role-tecnico uilib-enable-role-juridico"
+                        >
+                    </div>
+
+                    <div class="form-group col-xs-6">
+                        <label for="uten_tipo">Telefone</label>
+                        <input
+                            type="text"
+                            id="telefone"
+                            class="form-control widget widget-utente uilib-enability uilib-enable-role-administrador uilib-enable-role-tecnico uilib-enable-role-juridico"
+                        >
+                    </div>
+
+                  </div>
+                  <div class="row">
+
+                    <div class="form-group col-xs-6">
+                      <label for="uten_tipo">Email</label>
+                      <input
+                          type="text"
+                          id="email"
+                          class="form-control widget widget-utente uilib-enability uilib-enable-role-administrador uilib-enable-role-tecnico uilib-enable-role-juridico"
+                      >
+                    </div>
+
+                    <div class="form-group col-xs-6">
+                        <label for="bi_di_pas">BI / Dire / Passaporte</label>
+                        <input
+                            type="text"
+                            id="bi_di_pas"
+                            class="form-control widget widget-utente uilib-enability uilib-enable-role-administrador uilib-enable-role-tecnico uilib-enable-role-juridico"
+                        >
+                    </div>
+
+                  </div>
+                  <div class="row">
+
+                    <div class="form-group col-xs-6">
+                        <label for="bi_d_emis">Data de emissão</label>
+                        <input
+                            type="text"
+                            id="bi_d_emis"
+                            class="form-control widget-date widget-utente uilib-enability uilib-enable-role-administrador uilib-enable-role-tecnico uilib-enable-role-juridico"
+                            placeholder="dd/mm/yyyy"
+                        >
+                    </div>
+
+                    <div class="form-group col-xs-6">
+                        <label for="bi_l_emis">Local de emissão</label>
+                        <input
+                            type="text"
+                            id="bi_l_emis"
+                            class="form-control widget widget-utente uilib-enability uilib-enable-role-administrador uilib-enable-role-tecnico uilib-enable-role-juridico"
+                        >
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+
+
+<div class="row">
+    <div class="col-xs-offset-1 {{size}}">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title"><strong>Localização</strong></h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label for="loc_provin">Província</label>
+                            <select
+                                id="loc_provin"
+                                class="form-control widget widget-utente uilib-enability uilib-enable-role-administrador uilib-enable-role-tecnico uilib-enable-role-juridico"
+                            ></select>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label for="loc_distri">Distrito</label>
+                            <select
+                                id="loc_distri"
+                                class="form-control widget widget-utente uilib-enability uilib-enable-role-administrador uilib-enable-role-tecnico uilib-enable-role-juridico"
+                            ></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label for="loc_posto">Posto administrativo</label>
+                            <select
+                                id="loc_posto"
+                                class="form-control widget widget-utente uilib-enability uilib-enable-role-administrador uilib-enable-role-tecnico uilib-enable-role-juridico"
+                            ></select>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label for="loc_nucleo">Bairro</label>
+                            <input
+                                type="text"
+                                id="loc_nucleo"
+                                class="form-control widget widget-utente uilib-enability uilib-enable-role-administrador uilib-enable-role-tecnico uilib-enable-role-juridico"
+                            >
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="form-group">
+                            <label for="loc_endere">Endereço</label>
+                            <textarea
+                                id="loc_endere"
+                                class="form-control widget widget-utente uilib-enability uilib-enable-role-administrador uilib-enable-role-tecnico uilib-enable-role-juridico"
+                                rows="4"
+                            ></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-5">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title"><strong>Outros</strong></h3>
+            </div>
+            <div id="panel-body-outros" class="panel-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="form-group">
+                            <label for="reg_comerc">Número de Registo Comercial</label>
+                            <input
+                                type="text"
+                                id="reg_comerc"
+                                class="form-control widget widget-utente uilib-enability uilib-enable-role-administrador uilib-enable-role-tecnico uilib-enable-role-juridico"
+                            >
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="form-group">
+                            <label for="reg_zona">Local do registro</label>
+                            <input
+                                type="text"
+                                id="reg_zona"
+                                class="form-control widget widget-utente uilib-enability uilib-enable-role-administrador uilib-enable-role-tecnico uilib-enable-role-juridico"
+                            >
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="form-group">
+                            <label for="observacio">Observaçôes</label>
+                            <textarea
+                                id="observacio"
+                                class="form-control widget widget-utente uilib-enability uilib-enable-role-administrador uilib-enable-role-tecnico uilib-enable-role-juridico"
+                                rows="4"
+                            ></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{%- endmacro %}

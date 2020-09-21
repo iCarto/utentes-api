@@ -1,4 +1,4 @@
-var UTENTE_SCHEMA = [
+window.UTENTE_SCHEMA = [
     {
         fieldname: "nome",
         message: '"Nome de utente" não pode estar vazio',
@@ -13,5 +13,10 @@ var UTENTE_SCHEMA = [
         fieldname: "uten_mulh",
         message: '"Nro mulheres" não tem o formato correto',
         rules: ["IS_NUMERIC", "INT_LESS_THAN_8"],
+    },
+    {
+        fieldname: "bi_d_emis",
+        message: "Data de emissão não tem o formato correto",
+        rules: ["IS_DATE"],
     },
 ];

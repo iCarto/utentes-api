@@ -8,6 +8,9 @@
   {% endassets %}
 {% endblock css_assets %}
 {% block main_block %}
+
+{% import 'utente-form.jinja2' as utente_form with context%}
+
 <main>
   <div class="row">
     <div class="col-xs-offset-2 col-xs-8">
@@ -41,158 +44,7 @@
                     </select>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col-xs-offset-1 col-xs-6">
-                    <div class="panel panel-info">
-                      <div class="panel-heading">
-                        <h3 class="panel-title"><strong>Dados gerais</strong></h3>
-                      </div>
-                      <div class="panel-body">
-                        <div class="row">
-                          <div class="form-group col-xs-6">
-                            <label for="nome">Nome do utente</label>
-                            <input type="text" class="form-control widget widget-utente" id="nome" required>
-                          </div>
-                          <div class="form-group col-xs-6">
-                            <label for="uten_tipo">Tipo de utente</label>
-                            <select class="form-control widget widget-utente" id="uten_tipo"></select>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="form-group col-xs-6">
-                            <label for="nuit">NUIT</label>
-                            <input type="text" class="form-control widget widget-utente" id="nuit">
-                          </div>
-                          <div class="form-group col-xs-6">
-                            <label for="uten_tipo">Nome do Gerente/Presidente</label>
-                            <input type="text" class="form-control widget widget-utente" id="uten_gere">
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="form-group col-xs-6">
-                            <label for="uten_tipo">Nro Membros</label>
-                            <input type="text" class="form-control widget widget-number widget-utente" id="uten_memb" pattern="[0-9]{1,8}">
-                          </div>
-                          <div class="form-group col-xs-6">
-                            <label for="uten_tipo">Nro Mulheres</label>
-                            <input type="text" class="form-control widget widget-number widget-utente" id="uten_mulh" pattern="[0-9]{1,8}">
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-xs-5">
-                    <div class="panel panel-info">
-                      <div class="panel-heading">
-                        <h3 class="panel-title"><strong>Dados de contacto</strong></h3>
-                      </div>
-                      <div class="panel-body">
-                        <div class="row">
-                          <div class="form-group col-xs-12">
-                            <label for="uten_tipo">Pessoa de contacto</label>
-                            <input type="text" class="form-control widget widget-utente" id="contacto">
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="form-group col-xs-12">
-                            <label for="uten_tipo">Email</label>
-                            <input type="text" class="form-control widget widget-utente" id="email">
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="form-group col-xs-12">
-                            <label for="uten_tipo">Telefone</label>
-                            <input type="text" class="form-control widget widget-utente" id="telefone">
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-xs-offset-1 col-xs-6">
-                    <div class="panel panel-info">
-                      <div class="panel-heading">
-                        <h3 class="panel-title"><strong>Localização</strong></h3>
-                      </div>
-                      <div class="panel-body" id="panel-body-outros-localizacao">
-                        <div class="row">
-                          <div class="col-xs-6">
-                            <div class="form-group">
-                              <label for="loc_provin">Província</label>
-                              <select class="form-control widget widget-utente" id="loc_provin"></select>
-                            </div>
-                          </div>
-                          <div class="col-xs-6">
-                            <div class="form-group">
-                              <label for="loc_distri">Distrito</label>
-                              <select class="form-control widget widget-utente" id="loc_distri"></select>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                        </div>
-                        <div class="row">
-                          <div class="col-xs-6">
-                            <div class="form-group">
-                              <label for="loc_posto">Posto administrativo</label>
-                              <select class="form-control widget widget-utente" id="loc_posto"></select>
-                            </div>
-                          </div>
-                          <div class="col-xs-6">
-                            <div class="form-group">
-                              <label for="loc_nucleo">Bairro</label>
-                              <input type="text" class="form-control widget widget-utente" id="loc_nucleo">
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                        </div>
-                        <div class="row">
-                          <div class="col-xs-12">
-                            <div class="form-group">
-                              <label for="loc_endere">Endereço</label>
-                              <textarea class="form-control widget widget-utente" id="loc_endere" rows="4"></textarea>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-xs-5">
-                    <div class="panel panel-info">
-                      <div class="panel-heading">
-                        <h3 class="panel-title"><strong>Outros</strong></h3>
-                      </div>
-                      <div class="panel-body" id="panel-body-outros">
-                        <div class="row">
-                          <div class="col-xs-6">
-                            <div class="form-group">
-                              <label for="reg_comerc">Nro registo comercial</label>
-                              <input type="text" class="form-control widget widget-utente" id="reg_comerc">
-                            </div>
-                          </div>
-                          <div class="col-xs-6">
-                            <div class="form-group">
-                              <label for="reg_zona">Registado em</label>
-                              <input type="text" class="form-control widget widget-utente" id="reg_zona">
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                        </div>
-                        <div class="row">
-                          <div class="col-xs-12">
-                            <div class="form-group">
-                              <label for="observacio">Observaçôes</label>
-                              <textarea class="form-control widget widget-utente" id="observacio" rows="8"></textarea>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                {{utente_form.utente_form("col-xs-6")}}
               </div>
               <div class="tab-pane" id="info">
                 <div class="row">

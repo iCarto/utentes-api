@@ -608,26 +608,8 @@ class Exploracao(ExploracaoBase):
             payload["properties"][column] = getattr(self, column)
 
         if self.utente_rel:
-            payload["properties"]["utente"] = {
-                "id": self.utente_rel.gid,
-                "nome": self.utente_rel.nome,
-                "uten_tipo": self.utente_rel.uten_tipo,
-                "nuit": self.utente_rel.nuit,
-                "uten_gere": self.utente_rel.uten_gere,
-                "uten_memb": self.utente_rel.uten_memb,
-                "uten_mulh": self.utente_rel.uten_mulh,
-                "contacto": self.utente_rel.contacto,
-                "email": self.utente_rel.email,
-                "telefone": self.utente_rel.telefone,
-                "loc_provin": self.utente_rel.loc_provin,
-                "loc_distri": self.utente_rel.loc_distri,
-                "loc_posto": self.utente_rel.loc_posto,
-                "loc_nucleo": self.utente_rel.loc_nucleo,
-                "loc_endere": self.utente_rel.loc_endere,
-                "reg_comerc": self.utente_rel.reg_comerc,
-                "reg_zona": self.utente_rel.reg_zona,
-                "observacio": self.utente_rel.observacio,
-            }
+            payload["properties"]["utente"] = self.utente_rel.own_columns_as_dict()
+
         return payload
 
 
