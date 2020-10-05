@@ -9,7 +9,7 @@ Backbone.SIXHIARA.MapView = Backbone.View.extend({
         this.map = Backbone.SIXHIARA.mapConfig(this.el.id, options);
 
         this.geoJSONLayer = L.geoJson(this.collection.toGeoJSON(), {
-            style: this.leafletStyle,
+            style: this.map.SIRHASExploracaoStyle,
             onEachFeature: function(feature, layer) {
                 if (feature.properties) {
                     var exp_id = feature.properties.exp_id;
@@ -47,19 +47,6 @@ Backbone.SIXHIARA.MapView = Backbone.View.extend({
 
         this.mapEvents();
         this.geoJSONLayer.addTo(this.map);
-    },
-
-    leafletStyle: function style(feature) {
-        /* Even if the default style is used, to get resetStyle working is needed
-        to pass a function to L.geojson */
-        return {
-            stroke: true,
-            color: "#00b300",
-            weight: 4,
-            opacity: 0.5,
-            fillColor: "#00b300",
-            fillOpacity: 0.2,
-        };
     },
 
     update: function(newCollection) {

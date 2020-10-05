@@ -40,6 +40,13 @@ Backbone.SIXHIARA.mapConfig = function(mapId, initOptions) {
                 '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         }
     );
+    var esriWorldImagery = L.tileLayer(
+        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        {
+            attribution:
+                "Tiles &copy; Esri &mdash; Source: Esri, Maxar, Earthstar Geographics, CNES/Airbus DS, USDA FSA, USGS, Aerogrid, IGN, IGP, and the GIS User Community",
+        }
+    );
 
     var baseMap = window.localStorage.getItem("baseMap") || "OSM-HOT";
 
@@ -48,11 +55,15 @@ Backbone.SIXHIARA.mapConfig = function(mapId, initOptions) {
     } else if (baseMap === "OSM-HOT") {
         osmhotLayer.addTo(map);
         offBaseLayer.loadOffline(false);
+    } else if (baseMap === "Satelite") {
+        esriWorldImagery.addTo(map);
+        offBaseLayer.loadOffline(false);
     }
 
     var control = L.control.layers({}, {}, {position: "topleft"}).addTo(map);
     control.addBaseLayer(offBaseLayer, "Hidrológico");
     control.addBaseLayer(osmhotLayer, "OSM-HOT");
+    control.addBaseLayer(esriWorldImagery, "Satelite");
 
     map.on("baselayerchange", function(e) {
         window.localStorage.setItem("baseMap", e.name);
@@ -61,6 +72,46 @@ Backbone.SIXHIARA.mapConfig = function(mapId, initOptions) {
     L.Map.include({
         resetView: function resetView() {
             this.fitBounds(mapOptions.maxBounds);
+        },
+        SIRHASExploracaoStyle: {
+            stroke: true,
+            color: "#00b300",
+            weight: 2,
+            opacity: 0.5,
+            fillColor: "#00b300",
+            fillOpacity: 0.2,
+        },
+        SIRHASCultivosStyle: {
+            stroke: true,
+            color: "#aa6e00",
+            weight: 2,
+            opacity: 1,
+            fill: false,
+            // fillColor: "#aa6e00",
+            // fillOpacity: 0.5,
+        },
+        SIRHASTanquesStyle: function(feature) {
+            if (feature.properties.tipo === "Tanque") {
+                return {
+                    stroke: true,
+                    color: "#436eee",
+                    weight: 4,
+                    opacity: 1,
+                    fill: false,
+                    fillColor: "#436eee",
+                    fillOpacity: 0.5,
+                };
+            } else if (feature.properties.tipo === "Gaiola") {
+                return {
+                    stroke: true,
+                    color: "#1a2c5f",
+                    weight: 4,
+                    opacity: 1,
+                    fill: false,
+                    // fillColor: "#1a2c5f",
+                    // fillOpacity: 0.5,
+                };
+            }
         },
     });
     return map;

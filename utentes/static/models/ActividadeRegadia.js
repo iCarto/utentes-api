@@ -57,9 +57,9 @@ Backbone.SIXHIARA.ActividadeRegadia = Backbone.SIXHIARA.ActividadeNull.extend({
 
     getActividadeLayer: function(map) {
         var cultivos = this.get("cultivos");
-        if (!cultivos) return null;
+        if (!cultivos) return undefined;
         var geojson = cultivos.toGeoJSON();
-        if (geojson.features.length == 0) return null;
+        if (geojson.features.length == 0) return undefined;
         return L.geoJson(geojson, {
             onEachFeature: function(feature, layer) {
                 var label = L.marker(layer.getBounds().getCenter(), {
@@ -76,14 +76,7 @@ Backbone.SIXHIARA.ActividadeRegadia = Backbone.SIXHIARA.ActividadeNull.extend({
                 cultivo_model.leafletLayer = layer;
                 cultivo_model.leafletLayerLabel = label;
             },
-            style: {
-                stroke: true,
-                color: "#aa6e00",
-                weight: 1,
-                opacity: 1,
-                fillColor: "#aa6e00",
-                fillOpacity: 0.5,
-            },
+            style: map.SIRHASCultivosStyle,
         });
     },
 });

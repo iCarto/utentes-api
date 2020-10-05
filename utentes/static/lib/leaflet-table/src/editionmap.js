@@ -44,14 +44,6 @@ Backbone.SIXHIARA.EditionMap = function(map) {
     var geometryEdited = false;
     // var editionLayer = new L.FeatureGroup();
     var editionLayer = L.geoJson(undefined, {
-        style: {
-            stroke: true,
-            color: "#ff0000",
-            weight: 4,
-            opacity: 0.5,
-            fillColor: "#ff0000",
-            fillOpacity: 0.2,
-        },
         pmIgnore: false,
     });
 

@@ -68,9 +68,9 @@ Backbone.SIXHIARA.ActividadePiscicultura = Backbone.SIXHIARA.ActividadeNull.exte
 
     getActividadeLayer: function(map) {
         var tanques_piscicolas = this.get("tanques_piscicolas");
-        if (!tanques_piscicolas) return null;
+        if (!tanques_piscicolas) return undefined;
         var geojson = tanques_piscicolas.toGeoJSON();
-        if (geojson.features.length == 0) return null;
+        if (geojson.features.length == 0) return undefined;
         return L.geoJson(geojson, {
             onEachFeature: function(feature, layer) {
                 var label = L.marker(layer.getBounds().getCenter(), {
@@ -87,30 +87,8 @@ Backbone.SIXHIARA.ActividadePiscicultura = Backbone.SIXHIARA.ActividadeNull.exte
                 tanque_model.leafletLayer = layer;
                 tanque_model.leafletLayerLabel = label;
             },
-            style: this.setStyleFeature,
+            style: map.SIRHASTanquesStyle,
         });
-    },
-
-    setStyleFeature: function(feature) {
-        if (feature.properties.tipo === "Tanque") {
-            return {
-                stroke: true,
-                color: "#436eee",
-                weight: 1,
-                opacity: 1,
-                fillColor: "#436eee",
-                fillOpacity: 0.5,
-            };
-        } else if (feature.properties.tipo === "Gaiola") {
-            return {
-                stroke: true,
-                color: "#1a2c5f",
-                weight: 1,
-                opacity: 1,
-                fillColor: "#1a2c5f",
-                fillOpacity: 0.5,
-            };
-        }
     },
 
     validateSubActivity: function() {
