@@ -1,19 +1,32 @@
-var ImportGPX = L.Toolbar2.Action.extend({
+/* global shp, toGeoJSON */
+
+window.ImportGPX = L.Toolbar2.Action.extend({
     options: {
         toolbarIcon: {
             html: '<i class="fas fa-folder-open"></i>',
-            tooltip: "Importar GPX",
+            tooltip: "Carregar dados",
         },
     },
 
     initialize: function(map, geoJsonLayer, table, options) {
-        this.options.toolbarIcon.tooltip = "Carregar";
-        var action = this;
+        this.map = map;
+        this.geoJsonLayer = geoJsonLayer;
+        this.table = table;
+        this._options = options;
+        var self = this;
+        $("body").append(
+            '<input id="input-importgpx" type="file" accept=".gpx,.zip,application/zip,application/x-zip,application/x-zip-compressed" style="display: none;">'
+        );
+
         $("#input-importgpx").on("change", function(e) {
-            action.convertToGeoJSON(e.target.files, geoJsonLayer, map, table);
-            // reset value of input.file element for the change event
-            // to be triggered if the user loads again the same file
-            $("#input-importgpx").val("");
+            var files = e.currentTarget.files;
+            if (files === 0) {
+                return;
+            }
+
+            self.fileToGeoJSON(files, self.geoJsonLayer).then(function() {
+                $("#input-importgpx").val("");
+            });
         });
     },
 
@@ -22,31 +35,60 @@ var ImportGPX = L.Toolbar2.Action.extend({
         $("#input-importgpx").trigger("click");
     },
 
-    convertToGeoJSON: function(files, geoLayer, map) {
-        if (files.length === 0) return;
-        var reader = new FileReader();
+    fileToGeoJSON: function(files, geoLayer) {
+        var file = files[0];
+        var isGPX = file.name.toLowerCase().slice(-3) === "gpx";
 
-        // set up what happens on finish reading
-        reader.onloadend = function(e) {
-            var gpx = new DOMParser().parseFromString(e.target.result, "text/xml");
-            var myGeoJSON = toGeoJSON.gpx(gpx);
+        // https://gist.github.com/richardneililagan/e70b90545919f65e93f9
+        // https://stackoverflow.com/questions/50279432
+        // https://stackoverflow.com/questions/34495796/
+        // https://thecompetentdev.com/weeklyjstips/tips/65_promisify_filereader/
+        // https://simon-schraeder.de/posts/filereader-async/
+        function readFile(file, as) {
+            /*
+            as = "readAsText", "readAsArrayBuffer", ...
+            */
+            return new Promise((resolve, reject) => {
+                var reader = new FileReader();
+                reader.onload = event => {
+                    // let result = event.target.result;
+                    let result = reader.result;
+                    resolve(result);
+                };
+                reader.onerror = reject;
+                reader.onabort = reject;
 
-            // TODO: toGeoJSON doesn't import all properties from GPX
-            // (ie: it does not import "ele" or "cmt")
-            // research or just use those that imports : name, time, desc
+                if (as) {
+                    reader[as](file);
+                } else if (/^image/.test(file.type)) {
+                    reader.readAsDataURL(file);
+                } else if (isGPX) {
+                    reader.readAsText(file);
+                } else {
+                    reader.readAsArrayBuffer(file);
+                }
+            });
+        }
 
-            geoLayer.clearLayers();
-
-            // would populate data and idx
-            geoLayer.addData(myGeoJSON);
-
-            // TODO how a toolbar action may have access to the map?
-            map.fitBounds(geoLayer.getBounds()).setMaxBounds(
-                geoLayer.getBounds().pad(0.5)
-            );
-        };
-
-        // we only allow for reading 1 file
-        reader.readAsText(files[0]);
+        return readFile(file)
+            .then(function(data) {
+                if (isGPX) {
+                    var gpx = new DOMParser().parseFromString(data, "text/xml");
+                    return Promise.resolve(toGeoJSON.gpx(gpx));
+                } else {
+                    return shp(data);
+                }
+            })
+            .then(function(myGeoJSON) {
+                geoLayer.clearLayers();
+                geoLayer.addData(myGeoJSON);
+            })
+            .catch(function() {
+                // console.log(err);
+                bootbox.alert({
+                    message: "Error carregando ficheiro",
+                    container: document.getElementById("map"),
+                });
+            });
     },
 });
