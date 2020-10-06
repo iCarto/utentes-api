@@ -85,10 +85,7 @@ window.ImportGPX = L.Toolbar2.Action.extend({
             })
             .catch(function() {
                 // console.log(err);
-                bootbox.alert({
-                    message: "Error carregando ficheiro",
-                    container: document.getElementById("map"),
-                });
+                bootbox.alert("Error carregando ficheiro");
             });
     },
 });

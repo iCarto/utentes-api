@@ -153,7 +153,7 @@ Backbone.SIXHIARA.EditionMap = function(map) {
             geometryEdited = true;
         });
 
-        map.isFullscreen() || map.toggleFullscreen();
+        map.isFullscreen() || map.toggleFullscreen({pseudoFullscreen: true});
         window.vent.trigger("sirha:editionmap:editionbegined");
     }
 
@@ -223,7 +223,7 @@ Backbone.SIXHIARA.EditionMap = function(map) {
         supportLayerToolbar.remove();
         table.remove();
         map.pm.removeControls();
-        map.isFullscreen() && map.toggleFullscreen();
+        map.isFullscreen() && map.toggleFullscreen({pseudoFullscreen: true});
 
         var drawNodes = document.querySelectorAll("td.draw");
         drawNodes.forEach(a => a.classList.remove("disabled"));
@@ -240,11 +240,28 @@ Backbone.SIXHIARA.EditionMap = function(map) {
     window.vent.on("sirha:editionmap:stopedition", stopEdition);
     window.vent.on("sirha:editionmap:canceledition", cancelEdition);
 
-
-
     var stopEditionToolbar = new L.Toolbar2.Control({
         position: "topleft",
         actions: [window.CancelEdition, window.EndEdition],
         className: "stop-edition-toolbar",
+    });
+
+    map.on("fullscreenchange", function() {
+        let main = document.getElementsByTagName("main")[0];
+        let menu = document.getElementsByTagName("menu")[0];
+        let mapNode = document.getElementById("map");
+        let mapSection = document.getElementById("map-section");
+        if (map.isFullscreen()) {
+            main.style.display = "none";
+            menu.style.display = "none";
+            mapNode.remove();
+            document.body.prepend(mapNode);
+        } else {
+            main.style.display = "block";
+            menu.style.display = "block";
+            mapNode.remove();
+            mapSection.prepend(mapNode);
+            map.invalidateSize();
+        }
     });
 };

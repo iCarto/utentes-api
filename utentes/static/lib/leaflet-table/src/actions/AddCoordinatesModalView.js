@@ -45,7 +45,7 @@ Backbone.SIXHIARA.AddCoordinatesModalView = Backbone.UILib.ModalView.extend({
             self._close();
         });
 
-        this.$(".modal").modal("show");
+        this.$(".modal").modal({show: true, backdrop: false});
     },
 
     set_listeners: function() {

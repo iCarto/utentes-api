@@ -23,7 +23,11 @@ Backbone.UILib.ModalView = Backbone.View.extend({
         if (this.options.textConfirmBt) {
             this.$("#okButton").text(this.options.textConfirmBt);
         }
-        $(document.body).append(this.el);
+        if (this.options.appendToSelector) {
+            $(this.options.appendToSelector).append(this.el);
+        } else {
+            $(document.body).append(this.el);
+        }
     },
 
     _cloneModelIfNeeded: function() {

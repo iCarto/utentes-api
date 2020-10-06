@@ -22,6 +22,14 @@
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
 }
 
+.leaflet-pseudo-fullscreen {
+    /*
+    Para que el mapa no captura la teclas pulsadas en las ventanas modales
+    tiene que tener un z-index menor
+    */
+    z-index: 1001;
+}
+
 .sirha-leaflet-table-container .selected {
     background-color: rgba(255, 0, 0, 0.7);
 }

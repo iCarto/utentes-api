@@ -12,14 +12,14 @@ var EndSession = L.Toolbar2.Action.extend({
 
     addHooks: function() {
         var table = this.table;
-        bootbox.confirm(
-            "Tem certeza de que deseja apagar todos os pontos carregados?",
-            function(result) {
+        bootbox.confirm({
+            message: "Tem certeza de que deseja apagar todos os pontos carregados?",
+            callback: function(result) {
                 if (result) {
                     table.endSession();
                 }
                 return;
-            }
-        );
+            },
+        });
     },
 });
