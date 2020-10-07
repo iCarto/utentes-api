@@ -18,13 +18,7 @@ Backbone.SIXHIARA.BlockMapView = Backbone.View.extend({
         this.map.pm.setLang("pt_br");
         this.map.pm.setGlobalOptions({snappable: false, finishOn: "dblclick"});
 
-        self.map.scrollWheelZoom.disable();
-        self.map.on("focus", function() {
-            self.map.scrollWheelZoom.enable();
-        });
-        self.map.on("blur", function() {
-            self.map.scrollWheelZoom.disable();
-        });
+        self.map.SIRHASScrollWheelZoomOnlyOnFocus(true);
 
         this.geoJSONLayer = L.geoJson([], {
             style: this.map.SIRHASExploracaoStyle,

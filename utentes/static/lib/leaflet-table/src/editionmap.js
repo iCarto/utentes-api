@@ -248,12 +248,14 @@ Backbone.SIXHIARA.EditionMap = function(map) {
             menu.style.display = "none";
             mapNode.remove();
             document.body.prepend(mapNode);
+            map.SIRHASScrollWheelZoomOnlyOnFocus(false);
         } else {
             main.style.display = "block";
             menu.style.display = "block";
             mapNode.remove();
             mapSection.prepend(mapNode);
             map.invalidateSize();
+            map.SIRHASScrollWheelZoomOnlyOnFocus(true);
         }
     });
 };

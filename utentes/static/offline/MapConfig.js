@@ -73,6 +73,29 @@ Backbone.SIXHIARA.mapConfig = function(mapId, initOptions) {
         resetView: function resetView() {
             this.fitBounds(mapOptions.maxBounds);
         },
+        SIRHASScrollWheelZoomOnlyOnFocus: function(flag) {
+            /*
+            Cuando el mapa es parte de una página puede interesar que la rueda
+            del ratón sólo haga zoom cuando el mapa tenga el foco activamente.
+            Si no podría capturar el usar la rueda para desplazarse en la página
+            */
+            const disableScrollWheelZoom = function(e) {
+                e.target.scrollWheelZoom.enable();
+            };
+            const enableScrollWheelZoom = function(e) {
+                e.target.scrollWheelZoom.enable();
+            };
+
+            if (flag) {
+                this.scrollWheelZoom.disable();
+                this.on("focus", enableScrollWheelZoom);
+                this.on("blur", disableScrollWheelZoom);
+            } else {
+                this.scrollWheelZoom.enable();
+                this.off("focus", enableScrollWheelZoom);
+                this.off("blur", disableScrollWheelZoom);
+            }
+        },
         SIRHASExploracaoStyle: {
             stroke: true,
             color: "#00b300",
