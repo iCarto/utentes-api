@@ -56,7 +56,7 @@ class ExpConRenovacao(ExploracaoConFacturacao):
         if self.the_geom is not None:
             import json
 
-            the_geom = json.loads(self.the_geom_as_geojson)
+            the_geom = json.loads(self.geom_as_geojson)
 
         renovacao = self.renovacao or {}
         properties = {}

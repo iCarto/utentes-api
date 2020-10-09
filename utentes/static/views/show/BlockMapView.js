@@ -20,7 +20,7 @@ Backbone.SIXHIARA.BlockMapView = Backbone.View.extend({
 
         self.map.SIRHASScrollWheelZoomOnlyOnFocus(true);
 
-        this.geoJSONLayer = L.geoJson([], {
+        this.geoJSONLayer = L.geoJson(undefined, {
             style: this.map.SIRHASExploracaoStyle,
             pmIgnore: true,
         }).addTo(this.map);
@@ -42,7 +42,7 @@ Backbone.SIXHIARA.BlockMapView = Backbone.View.extend({
                 beginEditionToolbar.addTo(self.map, self.model);
                 self.renderData();
             });
-            Backbone.SIXHIARA.EditionMap(this.map);
+            Backbone.SIXHIARA.EditionMap(this.map, this.model.get("id"));
         }
 
         this.renderData();

@@ -54,7 +54,7 @@ class ActividadesTanquesPiscicolas(Base):
     fert_a_o = Column(Text, doc="Fertilização da água (outros)")
     observacio = Column(Text, doc="Observações")
     the_geom = Column(Geometry("MULTIPOLYGON", "32737"), index=True)
-    the_geom_as_geojson = column_property(
+    geom_as_geojson = column_property(
         func.coalesce(func.ST_AsGeoJSON(func.ST_Transform(the_geom, 4326)), None)
     )
 
@@ -81,7 +81,7 @@ class ActividadesTanquesPiscicolas(Base):
         if self.the_geom is not None:
             import json
 
-            the_geom = json.loads(self.the_geom_as_geojson)
+            the_geom = json.loads(self.geom_as_geojson)
 
         payload = {
             "type": "Feature",

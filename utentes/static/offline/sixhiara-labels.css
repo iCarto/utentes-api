@@ -5,6 +5,13 @@
     border: none !important;
 }
 
+.leaflet-div-icon-actividade-label {
+    color: #fff;
+    font-size: 10px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
 .sixhiara-leaflet-label-poligons {
     background: none;
     border: none;
@@ -62,5 +69,13 @@
     font: 12px "Calibri", "Helvetica Neue", "Arial", "Helvetica", sans-serif;
     font-style: italic;
     font-weight: bold;
+    text-shadow: 0 0 4px #fff, 0 0 4px #fff, 0 0 4px #fff, 0 0 4px #fff;
+}
+
+.sixhiara-leaflet-label-exploracaos {
+    color: #444;
+    font: 10px "Calibri", "Helvetica Neue", "Arial", "Helvetica", sans-serif;
+    font-style: normal;
+    font-weight: normal;
     text-shadow: 0 0 4px #fff, 0 0 4px #fff, 0 0 4px #fff, 0 0 4px #fff;
 }

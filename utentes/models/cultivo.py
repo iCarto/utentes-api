@@ -35,7 +35,7 @@ class ActividadesCultivos(Base):
     area = Column(Numeric(10, 4), nullable=False, doc="Área (ha)")
     observacio = Column(Text, doc="Observações")
     the_geom = Column(Geometry("MULTIPOLYGON", "32737"), index=True)
-    the_geom_as_geojson = column_property(
+    geom_as_geojson = column_property(
         func.coalesce(func.ST_AsGeoJSON(func.ST_Transform(the_geom, 4326)), None)
     )
 
@@ -75,7 +75,7 @@ class ActividadesCultivos(Base):
         if self.the_geom is not None:
             import json
 
-            the_geom = json.loads(self.the_geom_as_geojson)
+            the_geom = json.loads(self.geom_as_geojson)
         return {
             "type": "Feature",
             "properties": {

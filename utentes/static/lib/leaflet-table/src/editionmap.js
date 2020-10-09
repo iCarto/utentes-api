@@ -2,7 +2,36 @@ if (Backbone.SIXHIARA.EditionMap) {
     throw new Error("Backbone.SIXHIARA.EditionMap ya está definido");
 }
 
-Backbone.SIXHIARA.EditionMap = function(map) {
+Backbone.SIXHIARA.EditionMap = function(map, expGID) {
+    let otherExploracaoes = L.geoJson(undefined, {
+        style: Object.assign({}, map.SIRHASExploracaoStyle, {
+            opacity: map.SIRHASExploracaoStyle.opacity / 2.0,
+            fillOpacity: map.SIRHASExploracaoStyle.fillOpacity / 2.0,
+            interactive: false,
+        }),
+        pmIgnore: true,
+        onEachFeature: function(feature, layer) {
+            let options = {
+                permanent: true,
+                offset: [0, 0],
+                className:
+                    "sixhiara-leaflet-label-poligons sixhiara-leaflet-label-exploracaos",
+                opacity: 1,
+                zoomAnimation: true,
+                interactive: false,
+                direction: "center", // auto, rigth, left, center, bottom. top, middle
+                sticky: false,
+            };
+            layer.on("add", function() {
+                let t = layer
+                    .bindTooltip(feature.properties.exp_id, options)
+                    .getTooltip();
+                layer.openTooltip(layer.getBounds().getCenter());
+                layer.off("add", this);
+            });
+        },
+    });
+
     // TODO: take it from leaflet-table
     var unselectedFeature = {
         radius: 8,
@@ -32,7 +61,7 @@ Backbone.SIXHIARA.EditionMap = function(map) {
         layer.bindPopup(popupContent, popupoptions);
     }
 
-    var supportLayer = L.geoJson([], {
+    var supportLayer = L.geoJson(undefined, {
         pointToLayer: function(feature, latlng) {
             let layer = L.circleMarker(latlng, unselectedFeature);
             popup(feature, layer);
@@ -83,6 +112,13 @@ Backbone.SIXHIARA.EditionMap = function(map) {
 
     var _model = undefined;
     function beginEdition(e, model) {
+        if (!otherExploracaoes.getLayers().length) {
+            fetch("/api/cartography/exploracaos?" + new URLSearchParams({gid: expGID}))
+                .then(response => response.json())
+                .then(expsJSON => {
+                    otherExploracaoes.addData(expsJSON);
+                });
+        }
         stopEditionToolbar.addTo(map);
         var drawNodes = document.querySelectorAll("td.draw");
         drawNodes.forEach(a => a.classList.add("disabled"));
@@ -94,6 +130,7 @@ Backbone.SIXHIARA.EditionMap = function(map) {
         supportLayer.addTo(map);
         editionLayer.clearLayers();
         editionLayer.addTo(map);
+        otherExploracaoes.addTo(map);
 
         map.pm.addControls({
             position: "topleft",
@@ -212,6 +249,7 @@ Backbone.SIXHIARA.EditionMap = function(map) {
         supportLayer.remove();
         editionLayer.clearLayers();
         editionLayer.remove();
+        otherExploracaoes.remove();
         supportLayerToolbar.remove();
         table.remove();
         map.pm.removeControls();

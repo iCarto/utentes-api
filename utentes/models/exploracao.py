@@ -1,3 +1,5 @@
+import json
+
 from geoalchemy2 import Geometry
 from geoalchemy2.functions import GenericFunction
 from sqlalchemy import (
@@ -82,7 +84,21 @@ class ExploracaoBase(Base):
         }
 
 
-class Exploracao(ExploracaoBase):
+class ExploracaoGeom(ExploracaoBase):
+    the_geom = Column(Geometry("MULTIPOLYGON", "32737"), index=True)
+    geom_as_geojson = column_property(
+        func.coalesce(func.ST_AsGeoJSON(func.ST_Transform(the_geom, 4326)), None)
+    )
+
+    def __json__(self, request):
+        properties = {"exp_id": self.exp_id}
+        the_geom = None
+        if self.the_geom is not None:
+            the_geom = json.loads(self.geom_as_geojson)
+        return {"type": "Feature", "properties": properties, "geometry": the_geom}
+
+
+class Exploracao(ExploracaoGeom):
     REQUERIMENTO_FIELDS = [
         "carta_re",
         "ficha_pe",
@@ -179,10 +195,6 @@ class Exploracao(ExploracaoBase):
     c_real = Column(Numeric(10, 2), doc="Consumo mensal real")
     c_estimado = Column(Numeric(10, 2), doc="Consumo mensal estimado ")
     area = Column(Numeric(10, 4), doc="")
-    the_geom = Column(Geometry("MULTIPOLYGON", "32737"), index=True)
-    the_geom_as_geojson = column_property(
-        func.coalesce(func.ST_AsGeoJSON(func.ST_Transform(the_geom, 4326)), None)
-    )
 
     created_at = Column(
         DateTime,
@@ -372,11 +384,9 @@ class Exploracao(ExploracaoBase):
     )
 
     def get_licencia(self, tipo):
-        lic = [
-            l for l in self.licencias if l.tipo_agua.upper().startswith(tipo.upper())
-        ]
-        if lic:
-            return lic[0]
+        for lic in self.licencias:
+            if lic.tipo_agua.upper().startswith(tipo.upper()):
+                return lic
         return Licencia()
 
     def _which_exp_id_should_be_used(self, request, body):
@@ -601,9 +611,8 @@ class Exploracao(ExploracaoBase):
     def __json__(self, request):
         the_geom = None
         if self.the_geom is not None:
-            import json
 
-            the_geom = json.loads(self.the_geom_as_geojson)
+            the_geom = json.loads(self.geom_as_geojson)
         payload = {
             "type": "Feature",
             "properties": {

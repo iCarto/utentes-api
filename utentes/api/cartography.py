@@ -2,6 +2,7 @@ from pyramid.view import view_config
 
 import utentes.constants.perms as perm
 from utentes.models import cartography
+from utentes.models.exploracao import ExploracaoGeom
 
 
 @view_config(
@@ -27,6 +28,7 @@ def api_cartography(request):
         "provincias": cartography.Provincias,
         "paises": cartography.Paises,
         "oceanos": cartography.Oceanos,
+        "exploracaos": ExploracaoGeom,
     }.get(layer)
     if not model:
         from utentes.models.base import notfound_exception
@@ -34,4 +36,23 @@ def api_cartography(request):
         raise notfound_exception(
             {"error": "El recurso no existe en el servidor", "layer": layer}
         )
-    return {"type": "FeatureCollection", "features": request.db.query(model).all()}
+
+    result = {"type": "FeatureCollection"}
+    if layer == "exploracaos":
+        gid = request.GET.get("gid")
+        base_geom = request.db.query(model).filter(model.gid == gid).one().the_geom
+        if base_geom is None:
+            return []
+
+        result["features"] = (
+            request.db.query(model)
+            .filter(model.the_geom.isnot(None))
+            .filter(model.gid != gid)
+            .filter(model.the_geom.ST_DWithin(base_geom, 20000))
+            .all()
+        )
+    else:
+        result["features"] = (
+            request.db.query(model).filter(model.geom.isnot(None)).all()
+        )
+    return result

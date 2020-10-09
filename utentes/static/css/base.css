@@ -135,13 +135,6 @@ input:invalid {
     width: 26px;
 }
 
-.leaflet-div-icon-actividade-label {
-    color: #fff;
-    font-size: 70%;
-    font-weight: bold;
-    white-space: nowrap;
-}
-
 .modal:not(.bootbox) .modal-dialog,
 .modal:not(.bootbox) .modal-content {
     margin: 0 10% 0 10%;
