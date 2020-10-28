@@ -18,15 +18,15 @@ var formatValue = function(k, v, rowData) {
                 var color;
                 if (e.estado_lic === SIRHA.ESTADO.NOT_APPROVED) {
                     icon = "fa-ban";
-                    color = "#d9534f";
+                    color = "#6c757d";
                 }
                 if (e.estado_lic === SIRHA.ESTADO.USOS_COMUNS) {
                     icon = "fa-water";
-                    color = "#1f78b4";
+                    color = "#ffc107";
                 }
                 if (SIRHA.ESTADO.CATEGORY_IN_PROCESS.includes(e.estado_lic)) {
                     icon = "fa-hourglass-half";
-                    color = "#787878";
+                    color = "#1f78b4";
                 }
                 if (e.estado_lic === SIRHA.ESTADO.LICENSED) {
                     icon = "fa-tint";
@@ -34,11 +34,11 @@ var formatValue = function(k, v, rowData) {
                 }
                 if (e.estado_lic === SIRHA.ESTADO.IRREGULAR) {
                     icon = "fa-tint";
-                    color = "#d9534f";
+                    color = "#6c757d";
                 }
                 if (e.estado_lic === SIRHA.ESTADO.DE_FACTO) {
                     icon = "fa-tint-slash";
-                    color = "#1f78b4";
+                    color = "#dc3545";
                 }
 
                 return `

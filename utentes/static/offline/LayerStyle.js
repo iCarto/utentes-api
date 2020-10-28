@@ -86,26 +86,26 @@ Backbone.SIXHIARA.LayerStyle = {
         switch (feature.properties.red_monit) {
             case "Velho-Sustituído":
                 return {
-                    radius: 3,
-                    fillColor: "#1f78b4",
-                    color: "#1f78b4",
+                    radius: 2.5,
+                    fillColor: "#6c757d",
+                    color: "#6c757d",
                 };
             case "Base e qualidade":
                 return {
-                    radius: 6,
-                    fillColor: "#a51215",
-                    color: "#a51215",
+                    radius: 4,
+                    fillColor: "#0d47a1",
+                    color: "#0d47a1",
                 };
             case "Base":
                 return {
-                    radius: 6,
-                    fillColor: "#4c9322",
-                    color: "#4c9322",
+                    radius: 4,
+                    fillColor: "#33b5e5",
+                    color: "#33b5e5",
                 };
             case "NO":
             default:
                 return {
-                    radius: 3,
+                    radius: 2.5,
                     fillColor: "#1f78b4",
                     color: "#1f78b4",
                 };
