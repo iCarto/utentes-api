@@ -97,36 +97,24 @@ Backbone.SIXHIARA.mapConfig = function(mapId, initOptions) {
             }
         },
         SIRHASExploracaoStyle: function(feature) {
-            if (feature.properties.estado_lic === "Irregular") {
+            if (feature.properties.estado_lic === SIRHA.ESTADO.IRREGULAR || feature.properties.estado_lic === SIRHA.ESTADO.NOT_APPROVED) {
                 return {
-                  troke: true,
                   color: "#6c757d",
                   weight: 3,
                   opacity: 0.5,
                   fillColor: "#6c757d",
                   fillOpacity: 0.2,
                 };
-              } else if (feature.properties.estado_lic === "Não aprovada") {
-                return {
-                  troke: true,
-                  color: "#6c757d",
-                  weight: 3,
-                  opacity: 0.5,
-                  fillColor: "#6c757d",
-                  fillOpacity: 0.2,
-                };
-            } else if (feature.properties.estado_lic === "Utente de facto") {
+            } else if (feature.properties.estado_lic === SIRHA.ESTADO.DE_FACTO) {
               return {
-                troke: true,
                 color: "#dc3545",
                 weight: 3,
                 opacity: 0.5,
                 fillColor: "#dc3545",
                 fillOpacity: 0.2,
               };
-            } else if (feature.properties.estado_lic === "Utente de usos comuns") {
+            } else if (feature.properties.estado_lic === SIRHA.ESTADO.USOS_COMUNS) {
               return {
-                troke: true,
                 color: "#ffc107",
                 weight: 3,
                 opacity: 0.5,
@@ -135,7 +123,6 @@ Backbone.SIXHIARA.mapConfig = function(mapId, initOptions) {
               };
             } else {
               return {
-                troke: true,
                 color: "#28a745",
                 weight: 3,
                 opacity: 0.5,
@@ -145,7 +132,6 @@ Backbone.SIXHIARA.mapConfig = function(mapId, initOptions) {
             }
         },
         SIRHASCultivosStyle: {
-            stroke: true,
             color: "#994c00",
             weight: 1.5,
             opacity: 1,
@@ -156,7 +142,6 @@ Backbone.SIXHIARA.mapConfig = function(mapId, initOptions) {
         SIRHASTanquesStyle: function(feature) {
             if (feature.properties.tipo === "Tanque") {
                 return {
-                    stroke: true,
                     color: "#436eee",
                     weight: 1.5,
                     opacity: 1,
@@ -166,7 +151,6 @@ Backbone.SIXHIARA.mapConfig = function(mapId, initOptions) {
                 };
             } else if (feature.properties.tipo === "Gaiola") {
                 return {
-                    stroke: true,
                     color: "#1a2c5f",
                     weight: 1.5,
                     opacity: 1,
