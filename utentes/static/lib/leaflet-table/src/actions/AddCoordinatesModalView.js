@@ -270,7 +270,7 @@ Backbone.SIXHIARA.AddCoordinatesModalView = Backbone.UILib.ModalView.extend({
     },
 
     well_formatted_utm_coordinate: function(c) {
-        var reg = /^-?\d{6,7}([,]\d\d*)?$/g;
+        var reg = /^-?\d{5,7}([,]\d\d*)?$/g;
         return reg.test(c);
     },
 
@@ -293,16 +293,17 @@ Backbone.SIXHIARA.AddCoordinatesModalView = Backbone.UILib.ModalView.extend({
     },
 
     are_valid_utm_coordinates: function(point) {
-        var nortEast, southWest;
+        // See #2438 about why we are not using srs extent
+        var northEast, southWest;
         if (this.get_org_srs() == "32737") {
             // http://spatialreference.org/ref/epsg/wgs-84-utm-zone-37s/
-            var northEast = [166021.4431, 1116915.044];
-            var southWest = [833978.5569, 10000000.0];
+            northEast = [-500000.0, 1116915.044];
+            southWest = [850000.0, 10000000.0];
         }
         if (this.get_org_srs() == "32736") {
             // https://epsg.io/32736
-            var northEast = [441867.78, 1116915.04];
-            var southWest = [833978.56, 10000000.0];
+            northEast = [150000.0, 1116915.044];
+            southWest = [1400000.0, 10000000.0];
         }
         if (!formatter().inRange(point[0], northEast[0], southWest[0])) {
             // x_range
@@ -454,7 +455,7 @@ Backbone.SIXHIARA.AddCoordinatesModalView = Backbone.UILib.ModalView.extend({
         this.coord_label_widget.setCustomValidity("");
         if (!this.inside_working_area(this.wgs84_stored)) {
             var outOfBBox =
-                "O ponto que você acrescentou está situado fora do ámbito de actuación.";
+                "O ponto que você acrescentou está situado fora do âmbito de actuação.";
             this.display_error(outOfBBox, "#8a6d3b");
             return false;
         }

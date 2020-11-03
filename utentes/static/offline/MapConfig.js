@@ -2,7 +2,7 @@ Backbone.SIXHIARA.mapConfig = function(mapId, initOptions) {
     var options = initOptions || {};
 
     // let maxBoundsTodoMZQ = [[-29, 30], [-10, 40.64]];
-    let maxBounds = L.latLngBounds(SIXHIARA.southWest, SIXHIARA.northEast).pad(0.25);
+    let maxBounds = L.latLngBounds(SIXHIARA.southWest, SIXHIARA.northEast).pad(0.15);
     var defaultMapOptions = {
         maxBounds: maxBounds,
         minZoom: 6, // Permite ver todo Mozambique
@@ -97,38 +97,41 @@ Backbone.SIXHIARA.mapConfig = function(mapId, initOptions) {
             }
         },
         SIRHASExploracaoStyle: function(feature) {
-            if (feature.properties.estado_lic === SIRHA.ESTADO.IRREGULAR || feature.properties.estado_lic === SIRHA.ESTADO.NOT_APPROVED) {
+            if (
+                feature.properties.estado_lic === SIRHA.ESTADO.IRREGULAR ||
+                feature.properties.estado_lic === SIRHA.ESTADO.NOT_APPROVED
+            ) {
                 return {
-                  color: "#6c757d",
-                  weight: 3,
-                  opacity: 0.5,
-                  fillColor: "#6c757d",
-                  fillOpacity: 0.2,
+                    color: "#6c757d",
+                    weight: 3,
+                    opacity: 0.5,
+                    fillColor: "#6c757d",
+                    fillOpacity: 0.2,
                 };
             } else if (feature.properties.estado_lic === SIRHA.ESTADO.DE_FACTO) {
-              return {
-                color: "#dc3545",
-                weight: 3,
-                opacity: 0.5,
-                fillColor: "#dc3545",
-                fillOpacity: 0.2,
-              };
+                return {
+                    color: "#dc3545",
+                    weight: 3,
+                    opacity: 0.5,
+                    fillColor: "#dc3545",
+                    fillOpacity: 0.2,
+                };
             } else if (feature.properties.estado_lic === SIRHA.ESTADO.USOS_COMUNS) {
-              return {
-                color: "#ffc107",
-                weight: 3,
-                opacity: 0.5,
-                fillColor: "#ffc107",
-                fillOpacity: 0.2,
-              };
+                return {
+                    color: "#ffc107",
+                    weight: 3,
+                    opacity: 0.5,
+                    fillColor: "#ffc107",
+                    fillOpacity: 0.2,
+                };
             } else {
-              return {
-                color: "#28a745",
-                weight: 3,
-                opacity: 0.5,
-                fillColor: "#28a745",
-                fillOpacity: 0.2,
-              };
+                return {
+                    color: "#28a745",
+                    weight: 3,
+                    opacity: 0.5,
+                    fillColor: "#28a745",
+                    fillOpacity: 0.2,
+                };
             }
         },
         SIRHASCultivosStyle: {
