@@ -304,49 +304,49 @@ if (window.SIRHA.getARA() === "ARACN") {
 window.SIXHIARA.xlsFieldsToExport = {};
 if (window.SIRHA.getARA() === "DPMAIP") {
     window.SIXHIARA.xlsFieldsToExport.exploracaos = [
-        {header: "Nome utente", value: "utente.nome"},
+        {header: "Nome Utente", value: "utente.nome"},
         {header: "Nuit", value: "utente.nuit"},
-        {header: "Tipo de utente", value: "utente.uten_tipo"},
-        {header: "Nro de membros", value: "utente.uten_memb"},
-        {header: "Nro de mulheres", value: "utente.uten_mulh"},
-        {header: "Número de Registo Comercial", value: "utente.reg_comerc"},
-        {header: "Local do registro", value: "utente.reg_zona"},
+        {header: "Tipo Utente", value: "utente.uten_tipo"},
+        {header: "Número Membros", value: "utente.uten_memb"},
+        {header: "Número Mulheres", value: "utente.uten_mulh"},
+        {header: "Número Registo Comercial", value: "utente.reg_comerc"},
+        {header: "Local do registo", value: "utente.reg_zona"},
         {header: "Provincia", value: "utente.loc_provin"},
         {header: "Distrito", value: "utente.loc_distri"},
-        {header: "Posto administrativo", value: "utente.loc_posto"},
+        {header: "Posto", value: "utente.loc_posto"},
         {header: "Bairro", value: "utente.loc_nucleo"},
         {header: "Endereço", value: "utente.loc_endere"},
         {header: "Observações", value: "utente.observacio"},
-        {header: "Número da exploração", value: "exp_id"},
-        {header: "Nome da exploração", value: "exp_name"},
-        {header: "Consumo mensal licença Total", value: "c_licencia"},
-        {header: "Consumo mensal solicitado Total", value: "c_soli"},
-        {header: "Área de exploração (ha)", value: "actividade.area_pisc"},
-        {header: "Ano inicio da atividade", value: "actividade.ano_i_ati"},
-        {header: "Nro de tanques/gaiolas", value: "actividade.n_tanques"},
+        {header: "Número Exploração", value: "exp_id"},
+        {header: "Nome Exploração", value: "exp_name"},
+        {header: "Consumo Licença", value: "c_licencia"},
+        {header: "Consumo Solicitado", value: "c_soli"},
+        {header: "Área Exploração (ha)", value: "actividade.area_pisc"},
+        {header: "Ano inicio Actividade", value: "actividade.ano_i_ati"},
+        {header: "Número Tanques/Gaiolas", value: "actividade.n_tanques"},
         {
-            header: "Volume total tanques/gaiolas (reservas)",
+            header: "Volume Tanques/Gaiolas (reservas)",
             value: "actividade.vol_tot_t",
         },
-        {header: "Nro de alevinos povoados", value: "actividade.n_ale_pov"},
-        {header: "Produção Anual (kg)", value: "actividade.produc_pi"},
-        {header: "Processamento do peixe", value: "actividade.tipo_proc"},
+        {header: "Número Alevinos povoados", value: "actividade.n_ale_pov"},
+        {header: "Producção Anual (Kg)", value: "actividade.produc_pi"},
+        {header: "Processamento Peixe", value: "actividade.tipo_proc"},
         {
-            header: "Tratamento da água que entra nos tanques",
+            header: "Tratamento Água entra Tanques",
             value: "actividade.trat_t_en",
         },
         {
-            header: "Tratamento da água que sai dos tanques",
+            header: "Tratamento Água sai Tanques",
             value: "actividade.trat_a_sa",
         },
-        {header: "As gaiolas estão submersas em", value: "actividade.gaio_subm"},
-        {header: "A exploraçaõ tem problemas", value: "actividade.problemas"},
-        {header: "Principais problemas", value: "actividade.prob_prin"},
+        {header: "Gaiolas Submersas em", value: "actividade.gaio_subm"},
+        {header: "Problemas Exploraçaõ", value: "actividade.problemas"},
+        {header: "Principais Problemas", value: "actividade.prob_prin"},
     ];
 
     window.SIXHIARA.xlsFieldsToExport.tanques = [
-        {header: "Nome utente", value: "utente"},
-        {header: "Número da exploração", value: "exp_id"},
+        {header: "Nome Utente", value: "utente"},
+        {header: "Número Exploração", value: "exp_id"},
         {header: "Id Tanque", value: "tanque_id"},
         {header: "Tipo ", value: "tipo"},
         {header: "Comprimento (m)", value: "cumprimen"},
@@ -356,18 +356,18 @@ if (window.SIRHA.getARA() === "DPMAIP") {
         {header: "Área GPS (m2)", value: "area_gps"},
         {header: "Volume (m3)", value: "volume"},
         {header: "Estado", value: "estado"},
-        {header: "Espécie cultivada", value: "esp_culti"},
-        {header: "Espécie cultivada (outros)", value: "esp_cul_o"},
-        {header: "Tipo de alimentação", value: "tipo_alim"},
-        {header: "Tipo de alimenção (outros)", value: "tipo_al_o"},
-        {header: "Nro de alevinos povoados", value: "n_ale_pov"},
-        {header: "Proveniência dos alevinos", value: "prov_alev"},
-        {header: "Proveniência dos alevinos (outros)", value: "prov_al_o"},
+        {header: "Espécie Cultivada", value: "esp_culti"},
+        {header: "Espécie Cultivada (outros)", value: "esp_cul_o"},
+        {header: "Tipo Alimentação", value: "tipo_alim"},
+        {header: "Tipo Alimenção (outros)", value: "tipo_al_o"},
+        {header: "Número Alevinos povoados", value: "n_ale_pov"},
+        {header: "Proveniência Alevinos", value: "prov_alev"},
+        {header: "Proveniência Alevinos (outros)", value: "prov_al_o"},
         {header: "Venda (Kg)", value: "venda"},
         {header: "Consumo", value: "consumo"},
-        {header: "Produção anual (Kg)", value: "pro_anual"},
-        {header: "Peso médio final dos peixes (g)", value: "peso_med"},
-        {header: "Fertilização da água", value: "fert_agua"},
+        {header: "Producção Anual (Kg)", value: "pro_anual"},
+        {header: "Peso médio Peixes (g)", value: "peso_med"},
+        {header: "Fertilização Água", value: "fert_agua"},
     ];
 
     window.SIXHIARA.shpFieldsToExport = [
@@ -428,14 +428,16 @@ if (window.SIRHA.getARA() === "DPMAIP") {
         {header: "problemas", value: "actividade.problemas"},
         {header: "prob_prin", value: "actividade.prob_prin"},
     ];
+    // Botched job warning: The spaces (blank) in some header fields of this part of the code are use to adjust the width of the columns in xlsx export.
+    // The default setting is made in "setColumnsWidthFromHeaderRow" function on ButtonExportXLSView.js
 } else {
     window.SIXHIARA.xlsFieldsToExport.exploracaos = [
-        {header: "Nome Utente", value: "utente.nome"},
-        {header: "Tipo Utente", value: "utente.uten_tipo"},
-        {header: "Email Utente", value: "utente.email"},
-        {header: "Telefone Utente", value: "utente.telefone"},
-        {header: "Número da exploração", value: "exp_id"},
-        {header: "Nome Exploração", value: "exp_name"},
+        {header: "       Nome Utente       ", value: "utente.nome"},
+        {header: "   Tipo Utente   ", value: "utente.uten_tipo"},
+        {header: "     Email Utente     ", value: "utente.email"},
+        {header: "   Telefone Utente   ", value: "utente.telefone"},
+        {header: "Número Exploração", value: "exp_id"},
+        {header: "       Nome Exploração       ", value: "exp_name"},
         {
             header: "Ano",
             value: function(exp) {
@@ -446,12 +448,12 @@ if (window.SIRHA.getARA() === "DPMAIP") {
         {header: "Distrito Exploração", value: "loc_distri"},
         {header: "Posto Exploração", value: "loc_posto"},
         {header: "Bairro Exploração", value: "loc_nucleo"},
-        {header: "Endereco Exploração", value: "loc_endere"},
+        {header: "       Endereço Exploração       ", value: "loc_endere"},
         {header: "Unidade", value: "loc_unidad"},
         {header: "Bacia", value: "loc_bacia"},
-        {header: "Actividade", value: "actividade.tipo"},
+        {header: "   Actividade   ", value: "actividade.tipo"},
         {
-            header: "Tipo de água",
+            header: "   Tipo Água   ",
             value: function(exp) {
                 var licSubterranea = exp.licencias.filter(
                     lic => lic.tipo_agua == "Subterrânea"
@@ -471,14 +473,14 @@ if (window.SIRHA.getARA() === "DPMAIP") {
             },
         },
         {
-            header: "Nro Licença Sub.",
+            header: "Número Licença Sub.",
             value: function(exp) {
                 var lic = exp.licencias.filter(lic => lic.tipo_agua == "Subterrânea");
                 return (lic[0] && lic[0].lic_nro) || null;
             },
         },
         {
-            header: "Estado Licencia Sub.",
+            header: "Estado Licença Sub.",
             value: function(exp) {
                 var lic = exp.licencias.filter(lic => lic.tipo_agua == "Subterrânea");
                 return (lic[0] && lic[0].estado) || null;
@@ -506,14 +508,14 @@ if (window.SIRHA.getARA() === "DPMAIP") {
             },
         },
         {
-            header: "Tipo de consumo Sub.",
+            header: "Tipo Consumo Sub.",
             value: function(exp) {
                 var lic = exp.licencias.filter(lic => lic.tipo_agua == "Subterrânea");
                 return (lic[0] && lic[0].consumo_tipo) || null;
             },
         },
         {
-            header: "Nro Licença Sup.",
+            header: "Número Licença Sup.",
             value: function(exp) {
                 var lic = exp.licencias.filter(lic => lic.tipo_agua == "Superficial");
                 return (lic[0] && lic[0].lic_nro) || null;
@@ -548,17 +550,17 @@ if (window.SIRHA.getARA() === "DPMAIP") {
             },
         },
         {
-            header: "Tipo de consumo Sup.",
+            header: "Tipo Consumo Sup.",
             value: function(exp) {
                 var lic = exp.licencias.filter(lic => lic.tipo_agua == "Superficial");
                 return (lic[0] && lic[0].consumo_tipo) || null;
             },
         },
-        {header: "Tipo de facturação", value: "fact_tipo"},
-        {header: "Consumo real (m3/mês)", value: "c_real"},
-        {header: "Consumo licenciado (m3/mês)", value: "c_licencia"},
+        {header: "Facturação", value: "fact_tipo"},
+        {header: "Consumo Real", value: "c_real"},
+        {header: "Consumo Licencia", value: "c_licencia"},
         {
-            header: "Consumo facturado (m3/mês)",
+            header: "Consumo Factura",
             value: function(exp) {
                 return exp.licencias.reduce(
                     (accumulator, lic) => accumulator + lic.consumo_fact,
@@ -567,7 +569,7 @@ if (window.SIRHA.getARA() === "DPMAIP") {
             },
         },
         {
-            header: "Valor com IVA (MT/mês)",
+            header: "Valor com IVA",
             value: function(exp) {
                 return exp.licencias.reduce(
                     (accumulator, lic) => accumulator + lic.pago_iva,
