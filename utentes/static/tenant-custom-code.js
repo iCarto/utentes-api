@@ -322,14 +322,14 @@ if (window.SIRHA.getARA() === "DPMAIP") {
         {header: "Consumo Licença", value: "c_licencia"},
         {header: "Consumo Solicitado", value: "c_soli"},
         {header: "Área Exploração (ha)", value: "actividade.area_pisc"},
-        {header: "Ano inicio Atividade", value: "actividade.ano_i_ati"},
+        {header: "Ano inicio Actividade", value: "actividade.ano_i_ati"},
         {header: "Número Tanques/Gaiolas", value: "actividade.n_tanques"},
         {
             header: "Volume Tanques/Gaiolas (reservas)",
             value: "actividade.vol_tot_t",
         },
         {header: "Número Alevinos povoados", value: "actividade.n_ale_pov"},
-        {header: "Produção Anual (kg)", value: "actividade.produc_pi"},
+        {header: "Producção Anual (Kg)", value: "actividade.produc_pi"},
         {header: "Processamento Peixe", value: "actividade.tipo_proc"},
         {
             header: "Tratamento Água entra Tanques",
@@ -365,7 +365,7 @@ if (window.SIRHA.getARA() === "DPMAIP") {
         {header: "Proveniência Alevinos (outros)", value: "prov_al_o"},
         {header: "Venda (Kg)", value: "venda"},
         {header: "Consumo", value: "consumo"},
-        {header: "Produção Anual (Kg)", value: "pro_anual"},
+        {header: "Producção Anual (Kg)", value: "pro_anual"},
         {header: "Peso médio Peixes (g)", value: "peso_med"},
         {header: "Fertilização Água", value: "fert_agua"},
     ];
@@ -428,6 +428,8 @@ if (window.SIRHA.getARA() === "DPMAIP") {
         {header: "problemas", value: "actividade.problemas"},
         {header: "prob_prin", value: "actividade.prob_prin"},
     ];
+// Botched job warning: The spaces (blank) in some header fields of this part of the code are use to adjust the width of the columns in xlsx export.
+// The default setting is made in "setColumnsWidthFromHeaderRow" function on ButtonExportXLSView.js
 } else {
     window.SIXHIARA.xlsFieldsToExport.exploracaos = [
         {header: "       Nome Utente       ", value: "utente.nome"},

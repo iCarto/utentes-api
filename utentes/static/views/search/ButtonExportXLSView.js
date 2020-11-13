@@ -124,6 +124,7 @@ Backbone.SIXHIARA.ButtonExportXLSView = Backbone.View.extend({
                     cell.z = XLSX.SSF._table[14];
                     cell.v = this.datenum(cell.v);
                 } else cell.t = "s";
+                // this piece of code is used to format exported Excel on xlsx-style fork library. In case we would return to xlsx(sheet.js) library in the future this code won't work
                 if(R == 0){
 				            cell.s={ font:{ bold:true, color:{ rgb:"FFFFFF" }, sz:"11" },
                              fill:{ fgColor:{ rgb:"337AB7" } },
@@ -147,7 +148,7 @@ Backbone.SIXHIARA.ButtonExportXLSView = Backbone.View.extend({
                              border: { right:{ style:"thin" } }
                            }
                           }
-
+              // End of xlsx-style library code. Remove or cancel in case we return to xlsx(sheetjs) library
                 ws[cell_ref] = cell;
             }
         }
