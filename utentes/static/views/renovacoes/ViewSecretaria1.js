@@ -5,7 +5,7 @@ Backbone.SIXHIARA.ViewSecretaria1 = Backbone.SIXHIARA.View1.extend({
            <div class="col-xs-12">
               <div class="btn-group btn-group-justified" role="group">
                  <div class="btn-group" role="group">
-                    <button id="file-modal" class="btn btn-default" role="button">Documentaçao</button>
+                    <button id="file-modal" class="btn btn-default" role="button">Documentação</button>
                  </div>
                  <div class="btn-group" role="group">
                     <a id="bt-ficha" class="btn btn-default" role="button" href="/exploracao-show.html?id=<%- id %>">Ficha</a>
@@ -28,7 +28,7 @@ Backbone.SIXHIARA.ViewSecretaria1 = Backbone.SIXHIARA.View1.extend({
                        <table class="table table-bordered table-checks">
                           <thead>
                              <tr>
-                                <th>Tipo de Documento</th>
+                                <th>Tipo de documento</th>
                                 <th>Entrega</th>
                              </tr>
                           </thead>

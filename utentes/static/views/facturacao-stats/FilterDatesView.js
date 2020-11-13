@@ -88,12 +88,12 @@ Backbone.SIXHIARA.FilterDatesView = Backbone.View.extend({
     initialize: function(options) {
         this.selectMonthInit = new Backbone.SIXHIARA.FilterMonthYearView({
             filter_field: "inicio",
-            title: "Mes Inicio",
+            title: "Mês e ano inicial",
             model: this.model,
         });
         this.selectMonthEnd = new Backbone.SIXHIARA.FilterMonthYearView({
             filter_field: "fim",
-            title: "Mes Fim",
+            title: "Mês e ano final",
             model: this.model,
         });
     },

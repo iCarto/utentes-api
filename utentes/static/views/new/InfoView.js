@@ -39,7 +39,7 @@ Backbone.SIXHIARA.InfoView = Backbone.View.extend({
             if (validDate) {
                 dateWidget.setCustomValidity("");
             } else {
-                dateWidget.setCustomValidity("A data deve ter o formato correto");
+                dateWidget.setCustomValidity("A data deve ter o formato correcto");
             }
         });
     },

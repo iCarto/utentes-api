@@ -19,14 +19,14 @@ Backbone.SIXHIARA.ViewFacturacaoStatsFilter = Backbone.View.extend({
             </div>
             <div class="col-xs-12">
                 <div>
-                    <label for="tipo_agua">Tipo de Água</label>
+                    <label for="tipo_agua">Tipo de água</label>
                     <select class="form-control widget" id="tipo_agua">
                     </select>
                 </div>
             </div>
             <div class="col-xs-12">
                 <div>
-                    <label for="uso_explotación">Uso</label>
+                    <label for="uso_explotación">Tipo de utentes (uso da água)</label>
                     <select class="form-control widget" id="uso_explotacion">
                     </select>
                 </div>

@@ -6,7 +6,7 @@
       {% if request.registry.settings.get("ara") != 'DPMAIP' and next_state != 'Utente de usos comuns' %}
       <h3 class="panel-title"><strong>{{name.capitalize()}}</strong></h3>
       {% else %}
-      <h3 class="panel-title"><strong><input type="checkbox"/> Fontes água {{name}}</strong></h3>
+      <h3 class="panel-title"><strong><input type="checkbox"/> Fontes de água {{name}}</strong></h3>
       {% endif %}
     </div>
     <div class="panel-body">
@@ -71,11 +71,11 @@
 
             <div class="row">
               <div class="form-group col-xs-offset-1 col-xs-5">
-                  <label for="cadastro">Código Fonte/Cadastro</label>
+                  <label for="cadastro">Número de Fonte/Cadastro</label>
                   <input type="text" class="form-control widget" id="cadastro">
               </div>
               <div class="form-group col-xs-5">
-                  <label for="red_monit">Red de monitoreo</label>
+                  <label for="red_monit">Rede de monitoramento</label>
                   <select class="form-control widget" id="red_monit"></select>
               </div>
             </div>

@@ -85,7 +85,7 @@ Backbone.UILib.ModalView = Backbone.View.extend({
                         dateWidget.setCustomValidity("");
                     } else {
                         dateWidget.setCustomValidity(
-                            "A data deve ter o formato correto"
+                            "A data deve ter o formato correcto"
                         );
                     }
                 });

@@ -5,7 +5,7 @@ Backbone.SIXHIARA.ViewSecretaria0 = Backbone.SIXHIARA.View1.extend({
            <div class="col-xs-12">
               <div class="btn-group btn-group-justified" role="group">
                  <div class="btn-group" role="group">
-                    <button id="file-modal" class="btn btn-default" role="button">Documentaçao</button>
+                    <button id="file-modal" class="btn btn-default" role="button">Documentação</button>
                  </div>
                  <div class="btn-group" role="group">
                     <a id="bt-ficha" class="btn btn-default" role="button" href="/exploracao-show.html?id=<%- id %>">Ficha</a>
@@ -33,7 +33,7 @@ Backbone.SIXHIARA.ViewSecretaria0 = Backbone.SIXHIARA.View1.extend({
                        <table class="table table-bordered table-checks">
                           <thead>
                              <tr>
-                                <th>Tipo de Documento</th>
+                                <th>Tipo de documento</th>
                                 <th>Entrega</th>
                              </tr>
                           </thead>
@@ -155,7 +155,7 @@ Backbone.SIXHIARA.ViewSecretaria0 = Backbone.SIXHIARA.View1.extend({
             dateWidget.setCustomValidity("");
         } else {
             dateWidget.setCustomValidity(
-                "A data deve ter o formato correto, ser posterior à data da solicitação e não ser posterior a hoje."
+                "A data deve ter o formato correcto, ser posterior à data da solicitação e não ser posterior a hoje."
             );
         }
 
@@ -167,7 +167,7 @@ Backbone.SIXHIARA.ViewSecretaria0 = Backbone.SIXHIARA.View1.extend({
             return true;
         } else {
             helpBlock.innerText =
-                "A data deve ter o formato correto, ser posterior à data da solicitação e não ser posterior a hoje.";
+                "A data deve ter o formato correcto, ser posterior à data da solicitação e não ser posterior a hoje.";
             helpBlock.style.color = "red";
             helpBlock.style.display = "block";
             return false;

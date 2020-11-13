@@ -57,7 +57,7 @@ function enableBts() {
         dateWidget.setCustomValidity("");
     } else {
         dateWidget.setCustomValidity(
-            "A data não tem o formato correto ou não tem um valor válido"
+            "A data não tem o formato correcto ou não tem um valor válido"
         );
     }
 

@@ -182,7 +182,7 @@ Backbone.SIXHIARA.View1 = Backbone.View.extend({
         var exp_name = model.get("exp_name");
         var msg = `A exploração&nbsp;<strong>${new_exp_id} - ${exp_name}</strong>&nbsp;tem sido gravada correctamente.`;
         if (old_exp_id !== new_exp_id) {
-            msg = `A exploração alterou seu Nro de exploração de&nbsp;<strong>${old_exp_id}</strong>&nbsp;a&nbsp;<strong>${new_exp_id}</strong> e tem sido gravada correctamente.`;
+            msg = `A exploração alterou seu "número de exploração" a de&nbsp;<strong>${old_exp_id}</strong>&nbsp;a&nbsp;<strong>${new_exp_id}</strong> e tem sido gravada correctamente.`;
         }
         bootbox.alert(msg, function() {
             model.trigger("show-next-exp", model);

@@ -14,13 +14,13 @@ class Licencia(Base):
         primary_key=True,
         server_default=text("nextval('utentes.licencias_gid_seq'::regclass)"),
     )
-    lic_nro = Column(Text, nullable=False, unique=True, doc="Nro de Licença")
+    lic_nro = Column(Text, nullable=False, unique=True, doc="Número de Licença")
     tipo_agua = Column(Text, nullable=False, doc="Tipo de água")
     tipo_lic = Column(Text, nullable=False, doc="Tipo de Licença")
-    n_licen_a = Column(Text, doc="Nro de licença histórico")
+    n_licen_a = Column(Text, doc="Número de licença histórico")
     estado = Column(Text, nullable=False, doc="Estado")
-    d_emissao = Column(Date, doc="Data emissão")
-    d_validade = Column(Date, doc="Data validade")
+    d_emissao = Column(Date, doc="Data de emissão")
+    d_validade = Column(Date, doc="Data de validade")
     c_soli_tot = Column(Numeric(10, 2), doc="Consumo solicitado total")
     c_soli_int = Column(Numeric(10, 2), doc="Consumo solicitado intermédio")
     c_soli_fon = Column(Numeric(10, 2), doc="Consumo solicitado fontes")
