@@ -252,7 +252,7 @@ class Exploracao(ExploracaoGeom):
         Boolean,
         nullable=False,
         server_default=text("false"),
-        doc="Relatório técnico de perforação (Se é preciso)",
+        doc="Relatório técnico de perforação (se é preciso)",
     )
     b_a_agua = Column(
         Boolean,
@@ -295,7 +295,7 @@ class Exploracao(ExploracaoGeom):
         Boolean,
         nullable=False,
         server_default=text("false"),
-        doc="Relatório técnico de perforação (Se é preciso) (validada)",
+        doc="Relatório técnico de perforação (se é preciso) (validada)",
     )
     mapa_v = Column(
         Boolean,
@@ -335,16 +335,16 @@ class Exploracao(ExploracaoGeom):
         doc="Solicitação da vistoria",
     )
     p_unid = Column(
-        Boolean, nullable=False, server_default=text("false"), doc="Parecer da Unidade"
+        Boolean, nullable=False, server_default=text("false"), doc="Parecer da unidade"
     )
     p_tec = Column(
-        Boolean, nullable=False, server_default=text("false"), doc="Parecer Técnico"
+        Boolean, nullable=False, server_default=text("false"), doc="Parecer técnico"
     )
     doc_legal = Column(
         Boolean, nullable=False, server_default=text("false"), doc="Documentação legal"
     )
     p_juri = Column(
-        Boolean, nullable=False, server_default=text("false"), doc="Parecer Técnico"
+        Boolean, nullable=False, server_default=text("false"), doc="Parecer técnico"
     )
     p_rel = Column(
         Boolean,

@@ -28,7 +28,7 @@
         <section id="block-title" class="col-xs-12">
           <h3>
             <button id="delete-button" type="button" class="btn btn-default btn-sm uilib-enability uilib-show-role-administrador">Eliminar</button>
-            <button id="file-modal" type="button" class="btn btn-default btn-sm">Documentaçao</button>
+            <button id="file-modal" type="button" class="btn btn-default btn-sm">Documentação</button>
             <button id="refresh-button" type="button" class="btn btn-default btn-sm uilib-enability uilib-hide-role-observador">Refrescar</button>
             <button id="save-button" type="button" class="btn btn-primary btn-sm uilib-enability uilib-show-role-administrador uilib-show-role-tecnico uilib-show-role-juridico">Gravar</button>
             {% if next_state == 'Utente de usos comuns' %}
@@ -131,8 +131,8 @@
             <div class="row">
               <span class="col-xs-offset-1 col-xs-11">
                   <span class="title">Nome do gerente/presidente:</span> <span class="widget" id="uten_gere">-</span>
-                  <span class="title">Nro membros:</span> <span class="widget" id="uten_memb">-</span>
-                  <span class="title">Nro mulheres:</span> <span class="widget" id="uten_mulh">-</span>
+                  <span class="title">Número de membros:</span> <span class="widget" id="uten_memb">-</span>
+                  <span class="title">Número de mulheres:</span> <span class="widget" id="uten_mulh">-</span>
               </span>
             </div>
             <div class="row">
@@ -153,7 +153,7 @@
             <div class="row">
               <span class="col-xs-offset-1 col-xs-11">
               <span class="title">Número de Registo Comercial:</span> <span class="widget" id="reg_comerc">-</span>
-              <span class="title">Local do registro:</span> <span class="widget" id="reg_zona">-</span>
+              <span class="title">Local do registo:</span> <span class="widget" id="reg_zona">-</span>
               </span>
             </div>
             <div class="row">
@@ -281,7 +281,7 @@
                 <th style="width: 10%;">Consumo real <i class="units">(m<sup>3</sup>/mês)</i></th>
                 {% endif %}
                 <th style="width: 8%;">Toma de dados</th>
-                <th style="width: 12%;">Nº de catastro</th>
+                <th style="width: 12%;">Número de catastro</th>
                 <th style="width: 12%;">Lat / Lon</th>
                 <th style="width: 25%;" class="observacio">Observações</th>
                 <th style="width: 2%;" class="uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"></th>
@@ -469,7 +469,7 @@
             <div class="panel-body">
               <div class="row">
                 <div class="form-group col-xs-6">
-                  <label for="habitantes">Nro de habitantes (Utilizadores)</label>
+                  <label for="habitantes">Número de habitantes (Utilizadores)</label>
                   <input type="text" class="form-control widget-number" id="habitantes" pattern="[0-9]{1,8}([,][0-9]{1,2})?" required>
                 </div>
                 <div class="form-group col-xs-6">
@@ -498,7 +498,7 @@
             </div>
             <div class="col-xs-3">
               <div class="row">
-                <span class="title">Área Irrigada:</span> <span><%- formatter().formatNumber(area_irri) || '-' %></span>
+                <span class="title">Área irrigada:</span> <span><%- formatter().formatNumber(area_irri) || '-' %></span>
               </div>
               <div class="row">
                 <span class="title">Número de culturas:</span> <span><%- formatter().formatNumber(n_cul_tot) || '-' %></span>
@@ -552,7 +552,7 @@
         <div class="col-xs-offset-1 col-xs-8">
           <div class="panel panel-info">
             <div class="panel-heading">
-              <h3 class="panel-title"><strong>Datos gerais</strong></h3>
+              <h3 class="panel-title"><strong>Dados gerais</strong></h3>
             </div>
             <div class="panel-body">
               <div class="row">
@@ -561,7 +561,7 @@
                   <input type="text" class="form-control widget-number" id="area_pot">
                 </div>
                 <div class="form-group col-xs-4">
-                  <label for="area_irri">Área Irrigada</label>
+                  <label for="area_irri">Área irrigada</label>
                   <input type="text" class="form-control widget-number" id="area_irri">
                 </div>
                 <div class="form-group col-xs-4">
@@ -668,7 +668,7 @@
           </div>
           <div class="row">
             <span class="col-xs-offset-1 col-xs-11">
-              <span class="title">Evaluação Impacto:</span> <span><%- eval_impac === true ? 'Sim' : ( eval_impac === false ? 'Não' : '-') %></span>
+              <span class="title">Evaluação de Impacto Ambiental:</span> <span><%- eval_impac === true ? 'Sim' : ( eval_impac === false ? 'Não' : '-') %></span>
             </span>
           </div>
           <div class="row">
@@ -685,7 +685,7 @@
           </div>
           <div class="row">
             <span class="col-xs-offset-1 col-xs-11">
-              <span class="title">Medios tratamento água:</span> <span><%- tratamento || '-' %></span>
+              <span class="title">Méios de tratamento da água:</span> <span><%- tratamento || '-' %></span>
             </span>
           </div>
         </div>
@@ -697,7 +697,7 @@
         <div class="col-xs-offset-1 col-xs-10">
           <div class="panel panel-info">
             <div class="panel-heading">
-              <h3 class="panel-title"><strong>Dados Gerais</strong></h3>
+              <h3 class="panel-title"><strong>Dados gerais</strong></h3>
             </div>
             <div class="panel-body">
               <input type="hidden" id="id">
@@ -710,7 +710,7 @@
                 </div>
                 <div class="row">
                   <div class="form-group">
-                    <label for="tratamento">Medios tratamento água</label>
+                    <label for="tratamento">Méios de tratamento da água</label>
                     <textarea class="form-control widget" id="tratamento" rows="4"></textarea>
                   </div>
                 </div>
@@ -724,13 +724,13 @@
               <div class="col-xs-offset-1 col-xs-6">
                 <div class="row">
                   <div class="form-group">
-                    <label for="eval_impac">Evaluação Impacto</label>
+                    <label for="eval_impac">Evaluação de Impacto Ambiental</label>
                     <select class="form-control widget-boolean" id="eval_impac"></select>
                   </div>
                 </div>
                 <div class="row">
                   <div class="form-group">
-                    <label for="efluente">Efluente producido</label>
+                    <label for="efluente">Efluente produzido</label>
                     <textarea class="form-control widget" id="efluente" rows="4"></textarea>
                   </div>
                 </div>
@@ -753,7 +753,7 @@
                   <input type="text" class="form-control widget-number" id="c_estimado" pattern="[0-9]{1,8}([,][0-9]{1,2})?" required>
                 </div>
                 <div class="form-group col-xs-6">
-                  <label for="c_estimado_computed">Consumo autocalculado</label>
+                  <label for="c_estimado_computed">Consumo autocalculado <i class="units">(m<sup>3</sup>/mês)</i></label>
                   <input type="text" class="form-control" id="c_estimado_computed" disabled>
                 </div>
               </div>
@@ -773,7 +773,7 @@
                   <span class="title">Consumo estimado <i class="units">(m<sup>3</sup>/mês)</i>:</span> <span><%- formatter().formatNumber(c_estimado) || '-' %></span>
                 </div>
                 <div class="row">
-                  <span class="title">Nro de reses total:</span> <span><%- formatter().formatNumber(n_res_tot) || '-' %></span>
+                  <span class="title">Número de reses total:</span> <span><%- formatter().formatNumber(n_res_tot) || '-' %></span>
                 </div>
               </div>
               <div class="col-xs-3">
@@ -799,7 +799,7 @@
                 <tr>
                   <th style="width:20%">Consumo Estimado <i class="units">(m<sup>3</sup>/mês)</i></th>
                   <th style="width:20%">Tipo de reses</th>
-                  <th style="width:20%">Nro de reses</th>
+                  <th style="width:20%">Número de reses</th>
                   <th>Observações</th>
                   <th style="width:2%" class="uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"></th>
                   <th style="width:2%" class="uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"></th>
@@ -819,12 +819,12 @@
         <div class="col-xs-offset-1 col-xs-8">
           <div class="panel panel-info">
             <div class="panel-heading">
-              <h3 class="panel-title"><strong>Datos gerais</strong></h3>
+              <h3 class="panel-title"><strong>Dados gerais</strong></h3>
             </div>
             <div class="panel-body">
               <div class="row">
                 <div class="form-group col-xs-4">
-                  <label for="n_res_tot">Nro de reses total</label>
+                  <label for="n_res_tot">Número de reses total</label>
                   <input type="text" class="form-control widget-number" id="n_res_tot" disabled>
                 </div>
               </div>
@@ -871,7 +871,7 @@
                           <select class="form-control widget" id="reses_tipo"></select>
                         </div>
                         <div class="form-group col-xs-6">
-                          <label for="reses_nro">Nro de reses</label>
+                          <label for="reses_nro">Número de reses</label>
                           <input type="text" class="form-control widget-number" id="reses_nro" pattern="[0-9]{1,8}([,][0-9]{1,2})?" required />
                         </div>
                       </div>
@@ -914,7 +914,7 @@
                   <span class="title">Área de exploraçaõ <i class="units">(ha)</i>:</span> <span><%- formatter().formatNumber(area) || '-' %></span>
                 </div>
                 <div class="row">
-                  <span class="title">Ano inicio da atividade:</span> <span><%- ano_i_ati || '-' %></span>
+                  <span class="title">Ano de inicio da actividade:</span> <span><%- ano_i_ati || '-' %></span>
                 </div>
                 <div class="row">
                   <span class="title">Tipo de aquacultura:</span> <span><%- tipo_aqua || '-' %></span>
@@ -923,10 +923,10 @@
                   <span class="title">Espécies cultivadas:</span> <span><%- esp_culti || '-' %></span>
                 </div>
                 <div class="row">
-                  <span class="title">Nro de tanques/gaiolas:</span> <span><%- n_tanques || '-' %></span>
+                  <span class="title">Número de tanques/gaiolas:</span> <span><%- n_tanques || '-' %></span>
                 </div>
                 <div class="row">
-                  <span class="title">Volume total tanques/gaiolas (Reservas) <i class="units">(m<sup>3</sup>)</i>:</span> <span><%- formatter().formatNumber(v_reservas) || '-' %></span>
+                  <span class="title">Volume total dos tanques/gaiolas (Reservas) <i class="units">(m<sup>3</sup>)</i>:</span> <span><%- formatter().formatNumber(v_reservas) || '-' %></span>
                 </div>
               </div>
               <div class="col-xs-3">
@@ -934,10 +934,10 @@
                   <span class="title">Proveniência dos alevinos:</span> <span><%- prov_alev || '-' %></span>
                 </div>
                 <div class="row">
-                  <span class="title">Nro de alevines povoados:</span> <span><%- n_ale_pov || '-' %></span>
+                  <span class="title">Número de alevines povoados:</span> <span><%- n_ale_pov || '-' %></span>
                 </div>
                 <div class="row">
-                  <span class="title">Produção anual <i class="units">(kg)</i>:</span> <span><%- produc_pi || '-' %></span>
+                  <span class="title">Producção anual <i class="units">(kg)</i>:</span> <span><%- produc_pi || '-' %></span>
                 </div>
                 <div class="row">
                   <span class="title">Processamento do peixe:</span> <span><%- tipo_proc || '-' %></span>
@@ -994,8 +994,8 @@
                       <th>Estado</th>
                       <th>Espécie cultivada</th>
                       <th>Tipo de alimentação</th>
-                      <th>Nro de alevinos povoados</th>
-                      <th>Produção anual <i class="units">(Kg)</i></th>
+                      <th>Número de alevinos povoados</th>
+                      <th>Producção anual <i class="units">(Kg)</i></th>
                       <th style="width:2%" class="uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"></th>
                       <th style="width:2%" class="uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"></th>
                       <th style="width:2%" class="uilib-enability uilib-show-role-administrador uilib-show-role-tecnico"></th>
@@ -1021,7 +1021,7 @@
             <div class="panel-body">
               <div class="row">
                 <div class="form-group col-xs-4">
-                  <label for="ano_i_ati">Ano inicio atividade</label>
+                  <label for="ano_i_ati">Ano de inicio da actividade</label>
                   <input type="text" class="form-control widget-number" id="ano_i_ati" pattern="[0-9]{4}">
                 </div>
                 <div class="form-group col-xs-4">
@@ -1034,19 +1034,19 @@
                 </div>
 
                 <div class="form-group col-xs-4">
-                    <label for="n_tanques">Nro tanques/gaiolas</label>
+                    <label for="n_tanques">Número de tanques/gaiolas</label>
                     <input type="text" class="form-control widget-number" id="n_tanques" pattern="[0-9]*">
                 </div>
                 <div class="form-group col-xs-4">
-                  <label for="v_reservas">Volume total tanques/gaiolas <i class="units">(m<sup>3</sup>)</i></label>
+                  <label for="v_reservas">Volume total dos tanques/gaiolas <i class="units">(m<sup>3</sup>)</i></label>
                   <input type="text" class="form-control widget-number" id="v_reservas" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
                 </div>
                 <div class="form-group col-xs-4">
-                  <label for="n_ale_pov">Nro alevinos povoados</label>
+                  <label for="n_ale_pov">Número de alevinos povoados</label>
                   <input type="text" class="form-control widget-number" id="n_ale_pov" pattern="[0-9]*">
                 </div>
                 <div class="form-group col-xs-4">
-                  <label for="produc_pi">Produção Anual <i class="units">(Kg)</i></label>
+                  <label for="produc_pi">Producção Anual <i class="units">(Kg)</i></label>
                   <input type="text" class="form-control widget-number" id="produc_pi" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
                 </div>
                 <div class="form-group col-xs-4">
@@ -1059,7 +1059,7 @@
               </div>
               <div class="row">
                   <div id="esp_culti" class="widget-external col-xs-12">
-                      <label for="esp_culti">Espécies Cultivadas</label>
+                      <label for="esp_culti">Espécies cultivadas</label>
                       <div class="row">
                           <div><label class="checkbox col-xs-1"><input type="checkbox" name="esp_culti" value="Carpa">Carpa</label></div>
                           <div><label class="checkbox col-xs-2"><input type="checkbox" name="esp_culti" value="Tainha">Tainha</label></div>
@@ -1078,7 +1078,7 @@
                       <label for="prov_alev">Proveniência dos alevines</label>
                       <div class="row">
                           <div><label class="checkbox col-xs-3"><input type="checkbox" name="prov_alev" value="Melhorados">Melhorados</label></div>
-                          <div><label class="checkbox col-xs-3"><input type="checkbox" name="prov_alev" value="Reprodução nos tanques">Reprodução nos tanques</label></div>
+                          <div><label class="checkbox col-xs-3"><input type="checkbox" name="prov_alev" value="Reproducção nos tanques">Reproducção nos tanques</label></div>
                           <div><label class="checkbox col-xs-3"><input type="checkbox" name="prov_alev" value="Selvagens">Selvagens</label></div>
                           <div><label class="checkbox col-xs-3"><input type="checkbox" name="prov_alev" value="Outros">Outros</label></div>
                       </div>
@@ -1095,7 +1095,7 @@
             </div>
             <div class="panel-body">
               <div class="form-group">
-                <label for="c_estimado">C. estimado <i class="units">(m<sup>3</sup>/mês)</i></label>
+                <label for="c_estimado">Consumo estimado <i class="units">(m<sup>3</sup>/mês)</i></label>
                 <input type="text" class="form-control widget-number" id="c_estimado" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
               </div>
             </div>
@@ -1108,7 +1108,7 @@
         <div class="col-xs-offset-1 col-xs-10">
           <div class="panel panel-info">
             <div class="panel-heading">
-              <h3 class="panel-title"><strong>Assistência Técnica</strong></h3>
+              <h3 class="panel-title"><strong>Assistência técnica</strong></h3>
             </div>
             <div class="panel-body">
               <div class="col-xs-4">
@@ -1151,7 +1151,7 @@
         <div class="col-xs-offset-1 col-xs-10">
           <div class="panel panel-info">
             <div class="panel-heading">
-              <h3 class="panel-title"><strong>Aspectos Ambientais</strong></h3>
+              <h3 class="panel-title"><strong>Aspectos ambientais</strong></h3>
             </div>
             <div class="panel-body">
               <div class="row">
@@ -1209,7 +1209,7 @@
           <div class="row">
             <span class="col-xs-offset-1 col-xs-11">
               <span class="title">Consumo estimado <i class="units">(m<sup>3</sup>/mês)</i>:</span> <span><%- formatter().formatNumber(c_estimado) || '-' %></span>
-              <span class="title">Tipo de produção:</span> <span><%- energia_tipo || '-' %></span>
+              <span class="title">Tipo de producção:</span> <span><%- energia_tipo || '-' %></span>
             </span>
           </div>
           <div class="row">
@@ -1220,7 +1220,7 @@
           </div>
           <div class="row">
             <span class="col-xs-offset-1 col-xs-11">
-              <span class="title">Evaluação Impacto:</span> <span><%- eval_impac === true ? 'Sim' : (eval_impac === false ? 'Não' : '-') %></span>
+              <span class="title">Evaluação de Impacto Ambiental:</span> <span><%- eval_impac === true ? 'Sim' : (eval_impac === false ? 'Não' : '-') %></span>
             </span>
           </div>
         </div>
@@ -1246,7 +1246,7 @@
               <div class="col-xs-4">
                 <div class="row">
                   <div class="form-group ">
-                    <label for="energia_tipo">Tipo de produção</label>
+                    <label for="energia_tipo">Tipo de producção</label>
                     <select class="form-control widget" id="energia_tipo"></select>
                   </div>
                 </div>
@@ -1267,7 +1267,7 @@
               <div class="col-xs-offset-1 col-xs-7">
                 <div class="row">
                   <div class="form-group">
-                    <label for="eval_impac">Evaluação Impacto</label>
+                    <label for="eval_impac">Evaluação de Impacto Ambiental</label>
                     <select class="form-control widget-boolean" id="eval_impac"></select>
                   </div>
                 </div>
@@ -1310,7 +1310,7 @@
           <div class="row">
             <span class="col-xs-offset-1 col-xs-11">
               <span class="title">Consumo estimado <i class="units">(m<sup>3</sup>/mês)</i>:</span> <span><%- formatter().formatNumber(c_estimado) || '-' %></span>
-              <span class="title">Nro de habitantes (Utilizadores):</span> <span><%- formatter().formatNumber(habitantes) || '-' %></span>
+              <span class="title">Número de habitantes (Utilizadores):</span> <span><%- formatter().formatNumber(habitantes) || '-' %></span>
             </span>
           </div>
         </div>
@@ -1328,7 +1328,7 @@
               <div class="panel-body">
                 <div class="row">
                   <div class="form-group col-xs-12">
-                    <label for="habitantes">Nro de habitantes (Utilizadores)</label>
+                    <label for="habitantes">Número de habitantes (Utilizadores)</label>
                     <input type="text" class="form-control widget-number" id="habitantes" pattern="[0-9]{1,8}([,][0-9]{1,2})?">
                   </div>
                 </div>
@@ -1416,20 +1416,20 @@
         {% if next_state != 'Utente de usos comuns' %}
         <div class="row">
           <span class="col-xs-offset-1 col-xs-11">
-            <span class="title">Nro de licença histórico:</span> <%- n_licen_a || '-' %>
+            <span class="title">Número de licença histórico:</span> <%- n_licen_a || '-' %>
             <span class="title">Tipo de Licença:</span> <%- tipo_lic || '-' %>
           </span>
         </div>
         <div class="row">
           <span class="col-xs-offset-1 col-xs-11">
-            <span class="title">Data emissão:</span> <%- formatter().formatDate(d_emissao) || '-' %>
-            <span class="title">Data validade:</span> <%- formatter().formatDate(d_validade) || '-' %>
+            <span class="title">Data de emissão:</span> <%- formatter().formatDate(d_emissao) || '-' %>
+            <span class="title">Data de validade:</span> <%- formatter().formatDate(d_validade) || '-' %>
             <small id="info-license-block" class="info-pill <%- lic_time_over ? 'label-danger' : (lic_time_warning ? 'label-warning' : lic_time_enough ? 'label-success' : 'hidden') %>"> <%- lic_time_info!== null ? lic_time_info : 'Sem informação' %></small>
           </span>
         </div>
         <div class="row">
           <span class="col-xs-offset-1 col-xs-11">
-            <span class="title">Valor pago mês <i class="units">(MT/mês)</i></span> <%- formatter().formatNumber(pago_mes) || '-' %>
+            <span class="title">Valor de pago mensal <i class="units">(MT/mês)</i></span> <%- formatter().formatNumber(pago_mes) || '-' %>
             <span class="title">IVA <i class="units">(%)</i></span> <%- formatter().formatNumber(iva) || '-' %>
             <span class="title">Valor com IVA <i class="units">(MT/mês)</i></span> <%- formatter().formatNumber(pago_iva) || '-' %>
           </span>
@@ -1437,7 +1437,7 @@
         <div class="row">
           <span class="col-xs-offset-1 col-xs-11">
             <span class="title">Taxa fixa <i class="units">(MT/mês)</i></span> <%- formatter().formatNumber(taxa_fixa) || '-' %>
-            <span class="title">Taxa uso <i class="units">(MT/m<sup>3</sup>)</i></span> <%- formatter().formatNumber(taxa_uso) || '-' %>
+            <span class="title">Taxa de uso <i class="units">(MT/m<sup>3</sup>)</i></span> <%- formatter().formatNumber(taxa_uso) || '-' %>
           </span>
         </div>
 

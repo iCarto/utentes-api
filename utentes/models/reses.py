@@ -1,8 +1,8 @@
 from sqlalchemy import Column, ForeignKey, Integer, Numeric, Text, text
 
-from . import actividades_schema
 from utentes.lib.schema_validator.validator import Validator
 
+from . import actividades_schema
 from .base import PGSQL_SCHEMA_UTENTES, Base
 
 
@@ -23,7 +23,7 @@ class ActividadesReses(Base):
     )
     c_estimado = Column(Numeric(10, 2), nullable=False, doc="Consumo mensal estimado")
     reses_tipo = Column(Text, nullable=False, doc="Tipo de reses")
-    reses_nro = Column(Integer, nullable=False, doc="Nro de reses")
+    reses_nro = Column(Integer, nullable=False, doc="Número de reses")
     c_res = Column(Numeric(10, 2), nullable=False, doc="Consumo res")
     observacio = Column(Text, doc="Observações")
 

@@ -5,7 +5,7 @@ Backbone.SIXHIARA.ViewSecretaria1 = Backbone.SIXHIARA.View1.extend({
   <div class="col-xs-12">
     <div class="btn-group btn-group-justified" role="group">
         <div class="btn-group" role="group">
-            <button id="file-modal" class="btn btn-default" role="button">Documentaçao</button>
+            <button id="file-modal" class="btn btn-default" role="button">Documentação</button>
         </div>
     </div>
   </div>
@@ -22,7 +22,7 @@ Backbone.SIXHIARA.ViewSecretaria1 = Backbone.SIXHIARA.View1.extend({
       <div class="col-xs-12">
         <table class="table table-bordered table-checks">
           <thead>
-            <tr><th>Tipo de Documento</th><th>Entrega</th></tr>
+            <tr><th>Tipo de documento</th><th>Entrega</th></tr>
           </thead>
           <tbody>
             <tr>
@@ -54,15 +54,15 @@ Backbone.SIXHIARA.ViewSecretaria1 = Backbone.SIXHIARA.View1.extend({
               <td><input id="b_a_agua" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- b_a_agua ? 'checked=""' : '' %>></td>
             </tr>
             <tr>
-              <td>Licença Ambiental&nbsp;(Se é preciso)</td>
+              <td>Licença Ambiental&nbsp;(se é preciso)</td>
               <td><input id="licen_am" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- licen_am ? 'checked=""' : '' %>></td>
             </tr>
             <tr>
-              <td>Autorização de apertura de poço/furo&nbsp;(Se é preciso)</td>
+              <td>Autorização de apertura de poço/furo&nbsp;(se é preciso)</td>
               <td><input id="licen_fu" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- licen_fu ? 'checked=""' : '' %>></td>
             </tr>
             <tr>
-              <td>Relatório técnico de perforação&nbsp;(Se é preciso)</td>
+              <td>Relatório técnico de perforação&nbsp;(se é preciso)</td>
               <td><input id="r_perf" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- r_perf ? 'checked=""' : '' %>></td>
             </tr>
           </tbody>

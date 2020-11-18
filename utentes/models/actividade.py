@@ -107,7 +107,7 @@ class ActividadesAgriculturaRega(Actividade):
     )
     n_cul_tot = Column(Integer, doc="Número de culturas")
     area_pot = Column(Numeric(10, 4), doc="Área potencial")
-    area_irri = Column(Numeric(10, 4), doc="Área Irrigada")
+    area_irri = Column(Numeric(10, 4), doc="Área irrigada")
     area_medi = Column(Numeric(10, 4), doc="Área medida")
 
     __mapper_args__ = {"polymorphic_identity": c.K_AGRICULTURA}
@@ -162,9 +162,9 @@ class ActividadesIndustria(Actividade):
     # tipo_indus = Column(ForeignKey(u'domains.industria_tipo.key', onupdate=u'CASCADE'))
     tipo_indus = Column(Text, doc="Tipo de indústria")
     instalacio = Column(Text, doc="Instalações")
-    efluente = Column(Text, doc="Efluente producido")
-    tratamento = Column(Text, doc="Medios tratamento água")
-    eval_impac = Column(Boolean, doc="Evaluação Impacto Ambiental")
+    efluente = Column(Text, doc="Efluente produzido")
+    tratamento = Column(Text, doc="Méios de tratamento da água")
+    eval_impac = Column(Boolean, doc="Evaluação de Impacto Ambiental")
 
     __mapper_args__ = {"polymorphic_identity": c.K_INDUSTRIA}
 
@@ -191,7 +191,7 @@ class ActividadesPecuaria(Actividade):
         ForeignKey("utentes.actividades.gid", ondelete="CASCADE", onupdate="CASCADE"),
         primary_key=True,
     )
-    n_res_tot = Column(Integer, doc="Nro de reses total")
+    n_res_tot = Column(Integer, doc="Número de reses total")
 
     __mapper_args__ = {"polymorphic_identity": c.K_PECUARIA}
 
@@ -231,14 +231,16 @@ class ActividadesPiscicultura(Actividade):
         primary_key=True,
     )
     area = Column(Numeric(10, 4), doc="Área de exploração (ha)")
-    ano_i_ati = Column(Integer, doc="Ano inicio da atividade")
+    ano_i_ati = Column(Integer, doc="Ano de inicio da actividade")
     tipo_aqua = Column(Text, doc="Tipo de aquacultura")
     esp_culti = Column(ARRAY(Text), nullable=False, doc="Espécies cultivadas")
-    n_tanques = Column(Integer, doc="Nro de tanques")
-    v_reservas = Column(Numeric(10, 2), doc="Volume total tanques/gaiolas (reservas)")
+    n_tanques = Column(Integer, doc="Número de tanques")
+    v_reservas = Column(
+        Numeric(10, 2), doc="Volume total dos tanques/gaiolas (reservas)"
+    )
     prov_alev = Column(ARRAY(Text), nullable=False, doc="Proveniência dos alevinos")
-    n_ale_pov = Column(Integer, doc="Nro de alevins por povoar")
-    produc_pi = Column(Numeric(10, 2), doc="Produção Anual (kg)")
+    n_ale_pov = Column(Integer, doc="Número de alevins por povoar")
+    produc_pi = Column(Numeric(10, 2), doc="Producção anual (Kg)")
     tipo_proc = Column(Text, doc="Processamento do peixe")
     asis_aber = Column(Text, doc="Durante a abertura dos tanques/gaiolas")
     asis_moni = Column(Text, doc="Na monitoria dos tanques/gaiolas")
@@ -306,11 +308,11 @@ class ActividadesProduccaoEnergia(Actividade):
         primary_key=True,
     )
     # energia_tipo = Column(ForeignKey(u'domains.energia_tipo.key', onupdate=u'CASCADE'))
-    energia_tipo = Column(Text, doc="Tipo de produção")
+    energia_tipo = Column(Text, doc="Tipo de producção")
     alt_agua = Column(Numeric(10, 2), doc="Altura de água")
     potencia = Column(Numeric(10, 2), doc="Potência a instalar")
     equipo = Column(Text, doc="Tipo de equipamento")
-    eval_impac = Column(Boolean, doc="Evaluação Impacto Ambiental")
+    eval_impac = Column(Boolean, doc="Evaluação de Impacto Ambiental")
 
     __mapper_args__ = {"polymorphic_identity": c.K_ENERGIA}
 
@@ -337,7 +339,7 @@ class ActividadesSaneamento(Actividade):
         ForeignKey("utentes.actividades.gid", ondelete="CASCADE", onupdate="CASCADE"),
         primary_key=True,
     )
-    habitantes = Column(Integer, doc="Nro de habitantes (Utilizadores)")
+    habitantes = Column(Integer, doc="Número de habitantes (Utilizadores)")
 
     __mapper_args__ = {"polymorphic_identity": c.K_SANEAMENTO}
 

@@ -12,7 +12,7 @@ Backbone.SIXHIARA.ViewNoData = Backbone.View.extend({
     id: "myid", // optional
 
     template: _.template(`
-        <h2>Non hai datos que mostrar<h2>
+        <h2>Não há dados que mostrar<h2>
     `),
 
     initialize: function(options) {

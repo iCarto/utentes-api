@@ -1,22 +1,22 @@
 UTENTE_SCHEMA = [
     {
         "fieldname": "nome",
-        "message": '"Nome de utente" não pode estar vazio',
+        "message": 'O "nome do utente" não pode estar vazio',
         "rules": ["NOT_NULL"],
     },
     {
         "fieldname": "uten_memb",
-        "message": '"Nro membros" não tem o formato correto',
+        "message": 'O "número de membros" não tem o formato correcto',
         "rules": ["IS_NUMERIC", "INT_LESS_THAN_8"],
     },
     {
         "fieldname": "uten_mulh",
-        "message": '"Nro mulheres" não tem o formato correto',
+        "message": 'O "Número de mulheres" não tem o formato correcto',
         "rules": ["IS_NUMERIC", "INT_LESS_THAN_8"],
     },
     {
         "fieldname": "bi_d_emis",
-        "message": "Data de emissão não tem o formato correto",
+        "message": 'A "data de emissão" não tem o formato correcto',
         "rules": ["IS_DATE"],
     },
 ]

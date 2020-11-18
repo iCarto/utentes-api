@@ -36,15 +36,15 @@ Backbone.SIXHIARA.TemplateEditTanque = Backbone.View.extend({
                 <div class="panel-body">
                     <div class="row">
                     <div class="form-group col-xs-4">
-                        <label for="cumprimen">Comprimento<i class="units">(m)</i></label>
+                        <label for="cumprimen">Comprimento <i class="units">(m)</i></label>
                         <input type="text" class="form-control widget-number" id="cumprimen" pattern="[0-9]{1,8}([,][0-9]{1,2})?" />
                     </div>
                     <div class="form-group col-xs-4">
-                        <label for="largura">Largura<i class="units">(m)</i></label>
+                        <label for="largura">Largura <i class="units">(m)</i></label>
                         <input type="text" class="form-control widget-number" id="largura" pattern="[0-9]{1,8}([,][0-9]{1,2})?" />
                     </div>
                     <div class="form-group col-xs-4">
-                        <label for="profundid">Profundidade<i class="units">(m)</i></label>
+                        <label for="profundid">Profundidade <i class="units">(m)</i></label>
                         <input type="text" class="form-control widget-number" id="profundid" pattern="[0-9]{1,8}([,][0-9]{1,2})?" />
                     </div>
                     </div>
@@ -124,7 +124,7 @@ Backbone.SIXHIARA.TemplateEditTanque = Backbone.View.extend({
                     </div>
                     <div class="row">
                     <div class="form-group col-xs-3">
-                        <label for="n_ale_pov">Nro Alevines</label>
+                        <label for="n_ale_pov">Número Alevines</label>
                         <input type="text" class="form-control widget-number" id="n_ale_pov" pattern="[0-9]{1,8}" />
                     </div>
                     <div class="form-group col-xs-3">
@@ -149,7 +149,7 @@ Backbone.SIXHIARA.TemplateEditTanque = Backbone.View.extend({
                         <input type="text" class="form-control widget-number" id="consumo" pattern="[0-9]{1,8}([,][0-9]{1,2})?" />
                     </div>
                     <div class="form-group col-xs-3">
-                        <label for="pro_anual">Produção anual <i class="units">(kg)</i></label>
+                        <label for="pro_anual">Producção anual <i class="units">(kg)</i></label>
                         <input type="text" class="form-control widget-number" id="pro_anual" pattern="[0-9]{1,8}([,][0-9]{1,2})?" />
                     </div>
                     <div class="form-group col-xs-3">
@@ -166,7 +166,7 @@ Backbone.SIXHIARA.TemplateEditTanque = Backbone.View.extend({
                         <select class="form-control widget" id="fert_agua"></select>
                     </div>
                     <div class="form-group col-xs-9">
-                        <label for="fert_a_o">Fertilização(outros)</label>
+                        <label for="fert_a_o">Fertilização (outros)</label>
                         <input type="text" class="form-control widget" id="fert_a_o" disabled/>
                     </div>
                     </div>

@@ -86,7 +86,7 @@ Backbone.SIXHIARA.UltimaEntregaDocModalView = Backbone.View.extend({
                     dateWidget.setCustomValidity("");
                 } else {
                     dateWidget.setCustomValidity(
-                        "A data deve ter o formato correto, ser posterior à data da solicitação e não ser posterior a hoje."
+                        "A data deve ter o formato correcto, ser posterior à data da solicitação e não ser posterior a hoje"
                     );
                 }
 
@@ -98,7 +98,7 @@ Backbone.SIXHIARA.UltimaEntregaDocModalView = Backbone.View.extend({
                     helpBlock.style.color = null;
                 } else {
                     helpBlock.innerText =
-                        "A data deve ter o formato correto, ser posterior à data da solicitação e não ser posterior a hoje.";
+                        "A data deve ter o formato correcto, ser posterior à data da solicitação e não ser posterior a hoje";
                     helpBlock.style.color = "red";
                 }
 

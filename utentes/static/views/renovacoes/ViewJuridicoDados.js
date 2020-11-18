@@ -7,7 +7,7 @@ Backbone.SIXHIARA.ViewJuridicoDados = Backbone.SIXHIARA.View1.extend({
     templateHistorico: _.template(`
         <% for (var i=0; i < renovacao.length ; i+=1) {
             print('<li><strong>' + renovacao[i].tipo_agua + '</strong>. </li>')
-            print('<ul><li>Data validade: ' + formatter().formatDate(renovacao[i].d_validade) + '</li><li>Data emissão: ' + formatter().formatDate(renovacao[i].d_emissao) + '</li><li>Consumo facturado: ' + renovacao[i].c_licencia + '</li><li>Tipo de Licença: ' + renovacao[i].tipo_lic + '</li></ul>')
+            print('<ul><li>Data de validade: ' + formatter().formatDate(renovacao[i].d_validade) + '</li><li>Data de emissão: ' + formatter().formatDate(renovacao[i].d_emissao) + '</li><li>Consumo facturado: ' + renovacao[i].c_licencia + '</li><li>Tipo de Licença: ' + renovacao[i].tipo_lic + '</li></ul>')
         }
         %>
     `),
@@ -17,7 +17,7 @@ Backbone.SIXHIARA.ViewJuridicoDados = Backbone.SIXHIARA.View1.extend({
            <div class="col-xs-12">
               <div class="btn-group btn-group-justified" role="group">
                  <div class="btn-group" role="group">
-                    <button id="file-modal" class="btn btn-default" role="button">Documentaçao</button>
+                    <button id="file-modal" class="btn btn-default" role="button">Documentação</button>
                  </div>
                  <div class="btn-group" role="group">
                     <a id="bt-ficha" class="btn btn-default" role="button" href="/exploracao-show.html?id=<%- id %>">Ficha</a>
@@ -41,7 +41,7 @@ Backbone.SIXHIARA.ViewJuridicoDados = Backbone.SIXHIARA.View1.extend({
                  <div class="col-xs-6">
                     <div id="lic-sub-old" class="panel panel-info panel-disabled">
                        <div class="panel-heading">
-                          <h3 class="panel-title"><strong>Licença Subterrânea</strong></h3>
+                          <h3 class="panel-title"><strong>Licença subterrânea</strong></h3>
                        </div>
                        <div class="panel-body">
                           <div class="form-group">
@@ -54,11 +54,11 @@ Backbone.SIXHIARA.ViewJuridicoDados = Backbone.SIXHIARA.View1.extend({
                              </select>
                           </div>
                           <div class="form-group">
-                             <label for="d_emissao_sub_old">Data de Emissão</label>
+                             <label for="d_emissao_sub_old">Data de emissão</label>
                              <input type="text" class="form-control widget-date" id="d_emissao_sub_old" pattern="^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\\d\\d$" value="<%- formatter().formatDate(renovacao.d_emissao_sub_old) %>" disabled>
                           </div>
                           <div class="form-group">
-                             <label for="d_validade_sub_old">Data de Validade</label>
+                             <label for="d_validade_sub_old">Data de validade</label>
                              <input type="text" class="form-control widget-date" id="d_validade_sub_old" pattern="^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\\d\\d$" value="<%- formatter().formatDate(renovacao.d_validade_sub_old) %>" disabled>
                           </div>
                           <div class="form-group">
@@ -71,7 +71,7 @@ Backbone.SIXHIARA.ViewJuridicoDados = Backbone.SIXHIARA.View1.extend({
                  <div class="col-xs-6">
                     <div id="lic-sup-old" class="panel panel-info panel-disabled">
                        <div class="panel-heading">
-                          <h3 class="panel-title"><strong>Licença Superficial</strong></h3>
+                          <h3 class="panel-title"><strong>Licença superficial</strong></h3>
                        </div>
                        <div class="panel-body">
                           <div class="form-group">
@@ -84,11 +84,11 @@ Backbone.SIXHIARA.ViewJuridicoDados = Backbone.SIXHIARA.View1.extend({
                              </select>
                           </div>
                           <div class="form-group">
-                             <label for="d_emissao_sup_old">Data de Emissão</label>
+                             <label for="d_emissao_sup_old">Data de emissão</label>
                              <input type="text" class="form-control widget-date" id="d_emissao_sup_old" pattern="^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\\d\\d$" value="<%- formatter().formatDate(renovacao.d_emissao_sup_old) %>" disabled="">
                           </div>
                           <div class="form-group">
-                             <label for="d_validade_sup_old">Data de Validade</label>
+                             <label for="d_validade_sup_old">Data de validade</label>
                              <input type="text" class="form-control widget-date" id="d_validade_sup_old" pattern="^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\\d\\d$" value="<%- formatter().formatDate(renovacao.d_validade_sup_old) %>" disabled="">
                           </div>
                           <div class="form-group">
@@ -116,11 +116,11 @@ Backbone.SIXHIARA.ViewJuridicoDados = Backbone.SIXHIARA.View1.extend({
                              </select>
                           </div>
                           <div class="form-group">
-                             <label for="d_emissao_sub">Data de Emissão</label>
+                             <label for="d_emissao_sub">Data de emissão</label>
                              <input type="text" class="form-control widget-date" id="d_emissao_sub" pattern="^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\\d\\d$" value="<%- formatter().formatDate(renovacao.d_emissao_sub) %>" disabled="">
                           </div>
                           <div class="form-group">
-                             <label for="d_validade_sub">Data de Validade</label>
+                             <label for="d_validade_sub">Data de validade</label>
                              <input type="text" class="form-control widget-date" id="d_validade_sub" pattern="^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\\d\\d$" value="<%- formatter().formatDate(renovacao.d_validade_sub) %>" disabled="">
                           </div>
                           <div class="form-group">
@@ -146,11 +146,11 @@ Backbone.SIXHIARA.ViewJuridicoDados = Backbone.SIXHIARA.View1.extend({
                              </select>
                           </div>
                           <div class="form-group">
-                             <label for="d_emissao_sup">Data de Emissão</label>
+                             <label for="d_emissao_sup">Data de emissão</label>
                              <input type="text" class="form-control widget-date" id="d_emissao_sup" pattern="^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\\d\\d$" value="<%- formatter().formatDate(renovacao.d_emissao_sup) %>" disabled="">
                           </div>
                           <div class="form-group">
-                             <label for="d_validade_sup">Data de Validade</label>
+                             <label for="d_validade_sup">Data de validade</label>
                              <input type="text" class="form-control widget-date" id="d_validade_sup" pattern="^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\\d\\d$" value="<%- formatter().formatDate(renovacao.d_validade_sup) %>" disabled="">
                           </div>
                           <div class="form-group">

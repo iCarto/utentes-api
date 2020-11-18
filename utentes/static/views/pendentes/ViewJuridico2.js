@@ -9,7 +9,7 @@ Backbone.SIXHIARA.ViewJuridico2 = Backbone.SIXHIARA.View1.extend({
   <div class="col-xs-12">
     <div class="btn-group btn-group-justified" role="group">
         <div class="btn-group" role="group">
-            <button id="file-modal" class="btn btn-default" role="button">Documentaçao</button>
+            <button id="file-modal" class="btn btn-default" role="button">Documentação</button>
         </div>
         <div class="btn-group" role="group">
             <a id="bt-ficha" class="btn btn-default" role="button" href="/exploracao-show.html?id=<%- id %>">Ficha</a>
@@ -36,7 +36,7 @@ Backbone.SIXHIARA.ViewJuridico2 = Backbone.SIXHIARA.View1.extend({
       <div class="col-xs-12">
         <table class="table table-bordered table-checks">
           <thead>
-            <tr><th>Tipo de Documento</th><th>Pronto</th></tr>
+            <tr><th>Tipo de documento</th><th>Pronto</th></tr>
           </thead>
           <tbody>
             <tr>
@@ -44,7 +44,7 @@ Backbone.SIXHIARA.ViewJuridico2 = Backbone.SIXHIARA.View1.extend({
               <td><input id="doc_legal" class="uilib-enability uilib-disable-role-observador" type="checkbox" checked required disabled></td>
             </tr>
             <tr>
-              <td>Parecer Técnico</td>
+              <td>Parecer técnico</td>
               <td><input id="p_juri" class="uilib-enability uilib-disable-role-observador" type="checkbox" <%- p_juri ? 'checked=""' : '' %> required></td>
             </tr>
             <tr>

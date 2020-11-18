@@ -94,13 +94,13 @@ class Renovacao(Base):
         Boolean, nullable=False, server_default=text("false"), doc="Parecer da unidade"
     )
     p_tec = Column(
-        Boolean, nullable=False, server_default=text("false"), doc="Parecer Técnico"
+        Boolean, nullable=False, server_default=text("false"), doc="Parecer técnico"
     )
     doc_legal = Column(
         Boolean, nullable=False, server_default=text("false"), doc="Documentação legal"
     )
     p_juri = Column(
-        Boolean, nullable=False, server_default=text("false"), doc="Parecer Técnico"
+        Boolean, nullable=False, server_default=text("false"), doc="Parecer técnico"
     )
     p_rel = Column(
         Boolean,
@@ -117,8 +117,8 @@ class Renovacao(Base):
     tipo_lic_sup_old = Column(
         Text, nullable=False, doc="Tipo de Licença superficial previa"
     )
-    d_emissao_sup_old = Column(Date, doc="Data emissão superficial previa")
-    d_validade_sup_old = Column(Date, doc="Data validade superficial previa")
+    d_emissao_sup_old = Column(Date, doc="Data de emissão superficial previa")
+    d_validade_sup_old = Column(Date, doc="Data de validade superficial previa")
     c_licencia_sup_old = Column(
         Numeric(10, 2), doc="Consumo licenciado superficial previo"
     )
@@ -127,15 +127,15 @@ class Renovacao(Base):
     )
 
     tipo_lic_sup = Column(Text, nullable=False, doc="Tipo de Licença superficial")
-    d_emissao_sup = Column(Date, doc="Data emissão superficial")
-    d_validade_sup = Column(Date, doc="Data validade superficial")
+    d_emissao_sup = Column(Date, doc="Data de emissão superficial")
+    d_validade_sup = Column(Date, doc="Data de validade superficial")
     c_licencia_sup = Column(Numeric(10, 2), doc="Consumo licenciado superficial")
 
     tipo_lic_sub_old = Column(
         Text, nullable=False, doc="Tipo de Licença subterrânea previa"
     )
-    d_emissao_sub_old = Column(Date, doc="Data emissão subterrânea previo")
-    d_validade_sub_old = Column(Date, doc="Data validade subterrânea previo")
+    d_emissao_sub_old = Column(Date, doc="Data de emissão subterrânea previa")
+    d_validade_sub_old = Column(Date, doc="Data de validade subterrânea previa")
     c_licencia_sub_old = Column(
         Numeric(10, 2), doc="Consumo licenciado subterrânea previo"
     )
@@ -144,8 +144,8 @@ class Renovacao(Base):
     )
 
     tipo_lic_sub = Column(Text, nullable=False, doc="Tipo de Licença subterrânea")
-    d_emissao_sub = Column(Date, doc="Data emissão subterrânea")
-    d_validade_sub = Column(Date, doc="Data validade subterrânea")
+    d_emissao_sub = Column(Date, doc="Data de emissão subterrânea")
+    d_validade_sub = Column(Date, doc="Data de validade subterrânea")
     c_licencia_sub = Column(Numeric(10, 2), doc="Consumo licenciado subterrânea")
 
     exploracao = Column(

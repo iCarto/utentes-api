@@ -17,8 +17,8 @@ class Utente(Base):
     uten_tipo = Column(Text, doc="Tipo de utente")
     nuit = Column(Text, unique=True, doc="Nuit")
     uten_gere = Column(Text, doc="Nome do Gerente/Presidente")
-    uten_memb = Column(Integer, doc="Nro de membros")
-    uten_mulh = Column(Integer, doc="Nro de mulheres")
+    uten_memb = Column(Integer, doc="Número de membros")
+    uten_mulh = Column(Integer, doc="Número de mulheres")
     contacto = Column(Text, doc="Pessoa de contacto")
     email = Column(Text, doc="Email")
     telefone = Column(Text, doc="Telefone")
@@ -31,7 +31,7 @@ class Utente(Base):
     loc_nucleo = Column(Text, doc="Bairro")
     loc_endere = Column(Text, doc="Endereço")
     reg_comerc = Column(Text, doc="Número de Registo Comercial")
-    reg_zona = Column(Text, doc="Local do registro")
+    reg_zona = Column(Text, doc="Local do registo")
     observacio = Column(Text, doc="Observações da actividade")
 
     exploracaos = relationship(

@@ -8,7 +8,7 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
         <div class="col-xs-6">
             <div id="lic-sub" class="panel panel-info panel-disabled">
                 <div class="panel-heading">
-                    <h3 class="panel-title"><strong>Licença Subterrânea</strong></h3>
+                    <h3 class="panel-title"><strong>Licença subterrânea</strong></h3>
                 </div>
                 <div class="panel-body row">
                     <div class="form-group col-xs-12">
@@ -50,7 +50,7 @@ Backbone.SIXHIARA.ViewFactura = Backbone.View.extend({
         <div class="col-xs-6">
             <div id="lic-sup" class="panel panel-info panel-disabled">
                 <div class="panel-heading">
-                    <h3 class="panel-title"><strong>Licença Superficial</strong></h3>
+                    <h3 class="panel-title"><strong>Licença superficial</strong></h3>
                 </div>
                 <div class="panel-body row">
                     <div class="form-group col-xs-12">
