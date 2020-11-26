@@ -14,7 +14,7 @@ class ExploracaosDeleteTests(DBIntegrationTest):
         exp = self.get_test_exploracao()
         gid = exp.gid
         gid_utente = exp.utente_rel.gid
-        self.request.matchdict.update(dict(id=gid))
+        self.request.matchdict.update({"id": gid})
         exploracaos_delete(self.request)
         nro_exps = (
             self.request.db.query(Exploracao).filter(Exploracao.gid == gid).count()

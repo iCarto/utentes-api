@@ -34,6 +34,11 @@ def build_json(request, exploracao):
         expected_json["actividade"]["reses"] = [
             f.__json__(request) for f in expected_json["actividade"]["reses"]
         ]
+    if expected_json["actividade"].get("tanques_piscicolas"):
+        expected_json["actividade"]["tanques_piscicolas"] = [
+            f.__json__(request)
+            for f in expected_json["actividade"]["tanques_piscicolas"]
+        ]
     return expected_json
 
 
@@ -45,7 +50,6 @@ def create_new_session():
     from sqlalchemy.orm import sessionmaker
 
     settings = get_appsettings("development.ini", "main")
-    settings["sqlalchemy.url"] = "postgresql://postgres@localhost:9001/test_aranorte"
     engine = engine_from_config(settings, "sqlalchemy.")
     session = sessionmaker()
     session.configure(bind=engine)
@@ -57,7 +61,7 @@ class ExploracaoUpdateTests(DBIntegrationTest):
         # Filter to use a Exploracao in a final state
         expected = self.get_test_exploracao()
         gid = expected.gid
-        self.request.matchdict.update(dict(id=gid))
+        self.request.matchdict.update({"id": gid})
         expected_json = build_json(self.request, expected)
         expected_json["exp_name"] = "new name"
         expected_json["d_soli"] = "2001-01-01"
@@ -98,7 +102,7 @@ class ExploracaoUpdateTests(DBIntegrationTest):
     def test_update_exploracao_the_geom(self):
         expected = self.get_test_exploracao()
         gid = expected.gid
-        self.request.matchdict.update(dict(id=gid))
+        self.request.matchdict.update({"id": gid})
         expected_json = build_json(self.request, expected)
         expected_json["geometry_edited"] = True
         expected_json["geometry"] = {
@@ -134,7 +138,7 @@ class ExploracaoUpdateTests(DBIntegrationTest):
             .all()[0]
         )
         gid = expected.gid
-        self.request.matchdict.update(dict(id=gid))
+        self.request.matchdict.update({"id": gid})
         expected_json = build_json(self.request, expected)
         expected_json["geometry_edited"] = True
         expected_json["geometry"] = None
@@ -149,7 +153,7 @@ class ExploracaoUpdateTests(DBIntegrationTest):
     def test_update_exploracao_validation_fails(self):
         expected = self.request.db.query(Exploracao).all()[0]
         gid = expected.gid
-        self.request.matchdict.update(dict(id=gid))
+        self.request.matchdict.update({"id": gid})
         expected_json = build_json(self.request, expected)
         exp_name = expected_json["exp_name"]
         expected_json["exp_name"] = None
@@ -164,12 +168,13 @@ class ExploracaoUpdateFonteTests(DBIntegrationTest):
     def test_update_exploracao_create_fonte(self):
         expected = self.get_test_exploracao()
         gid = expected.gid
-        self.request.matchdict.update(dict(id=gid))
+        self.request.matchdict.update({"id": gid})
         expected_json = build_json(self.request, expected)
         count = len(expected_json["fontes"])
         expected_json["fontes"].append(
             {
                 "tipo_agua": c.K_SUBTERRANEA,
+                "red_monit": "NO",
                 "tipo_fonte": "Furo",
                 "lat_lon": "23,23 42,21",
                 "d_dado": "2001-01-01",
@@ -192,9 +197,9 @@ class ExploracaoUpdateFonteTests(DBIntegrationTest):
         expected = self.get_test_exploracao()
         expected_count = len(expected.fontes)
         gid = expected.gid
-        self.request.matchdict.update(dict(id=gid))
+        self.request.matchdict.update({"id": gid})
         expected_json = build_json(self.request, expected)
-        expected_json["fontes"].append({"tipo_fonte": "Outros"})
+        expected_json["fontes"].append({"tipo_fonte": "Furo"})
         self.request.json_body = expected_json
         self.assertRaises(HTTPBadRequest, exploracaos_update, self.request)
         s = self.create_new_session()
@@ -205,7 +210,7 @@ class ExploracaoUpdateFonteTests(DBIntegrationTest):
         expected = self.get_test_exploracao()
         gid = expected.gid
         gid_fonte = expected.fontes[0].gid
-        self.request.matchdict.update(dict(id=gid))
+        self.request.matchdict.update({"id": gid})
         expected_json = build_json(self.request, expected)
         expected_json["fontes"][0]["lat_lon"] = "23,23 42,21"
         expected_json["fontes"][0]["d_dado"] = "2001-01-01"
@@ -231,7 +236,7 @@ class ExploracaoUpdateFonteTests(DBIntegrationTest):
     def test_update_exploracao_update_fonte_validation_fails(self):
         expected = self.request.db.query(Exploracao).all()[0]
         gid = expected.gid
-        self.request.matchdict.update(dict(id=gid))
+        self.request.matchdict.update({"id": gid})
         expected_json = build_json(self.request, expected)
         tipo_agua = expected_json["fontes"][0]["tipo_agua"]
         expected_json["fontes"][0]["tipo_agua"] = None
@@ -244,7 +249,7 @@ class ExploracaoUpdateFonteTests(DBIntegrationTest):
     def test_update_exploracao_delete_fonte(self):
         expected = self.get_test_exploracao()
         gid = expected.gid
-        self.request.matchdict.update(dict(id=gid))
+        self.request.matchdict.update({"id": gid})
         expected_json = build_json(self.request, expected)
         expected_json["fontes"] = []
         self.request.json_body = expected_json
@@ -259,7 +264,7 @@ class ExploracaoUpdateLicenciaTests(DBIntegrationTest):
     def test_update_exploracao_create_licencia(self):
         expected = self.get_test_exploracao()
         gid = expected.gid
-        self.request.matchdict.update(dict(id=gid))
+        self.request.matchdict.update({"id": gid})
         expected_json = build_json(self.request, expected)
         existent_tipo_agua = expected.licencias[0].tipo_agua
         new_tipo_agua = (
@@ -290,7 +295,7 @@ class ExploracaoUpdateLicenciaTests(DBIntegrationTest):
     def test_update_exploracao_create_licencia_validation_fails(self):
         expected = self.get_test_exploracao()
         gid = expected.gid
-        self.request.matchdict.update(dict(id=gid))
+        self.request.matchdict.update({"id": gid})
         expected_json = build_json(self.request, expected)
         expected_json["licencias"].append({"tipo_agua": "Superficial", "estado": None})
         self.request.json_body = expected_json
@@ -304,7 +309,7 @@ class ExploracaoUpdateLicenciaTests(DBIntegrationTest):
         gid = expected.gid
         lic_gid = expected.licencias[0].gid
         lic_nro = expected.licencias[0].lic_nro
-        self.request.matchdict.update(dict(id=gid))
+        self.request.matchdict.update({"id": gid})
         expected_json = build_json(self.request, expected)
         expected_json["licencias"][0]["estado"] = "Não aprovada"
         expected_json["licencias"][0]["d_emissao"] = "1999-9-9"
@@ -343,7 +348,7 @@ class ExploracaoUpdateLicenciaTests(DBIntegrationTest):
         gid = expected.gid
         lic_gid = expected.licencias[0].gid
         tipo_agua = expected.licencias[0].tipo_agua
-        self.request.matchdict.update(dict(id=gid))
+        self.request.matchdict.update({"id": gid})
         expected_json = build_json(self.request, expected)
         expected_json["licencias"][0]["tipo_agua"] = None
         expected_json["licencias"][0]["estado"] = "Licenciada"
@@ -359,7 +364,7 @@ class ExploracaoUpdateLicenciaTests(DBIntegrationTest):
         expected = self.get_test_exploracao()
         gid = expected.gid
         lic_gid = expected.licencias[0].gid
-        self.request.matchdict.update(dict(id=gid))
+        self.request.matchdict.update({"id": gid})
         expected_json = build_json(self.request, expected)
         expected_json["licencias"] = [expected_json["licencias"][0]]
         self.request.json_body = expected_json
@@ -387,7 +392,7 @@ class ExploracaoUpdateUtenteTests(DBIntegrationTest):
     def test_update_exploracao_update_utente_values(self):
         expected = self.get_test_exploracao()
         gid = expected.gid
-        self.request.matchdict.update(dict(id=gid))
+        self.request.matchdict.update({"id": gid})
         expected_json = build_json(self.request, expected)
         expected_json["utente"]["nuit"] = "new nuit"
         expected_json["utente"]["uten_tipo"] = "Outro"
@@ -399,12 +404,12 @@ class ExploracaoUpdateUtenteTests(DBIntegrationTest):
         expected_json["utente"]["loc_nucleo"] = "new loc_nucleo"
         expected_json["utente"]["observacio"] = "new observacio"
         self.request.json_body = expected_json
-        print (expected_json["utente"])
+        print(expected_json["utente"])
         exploracaos_update(self.request)
         actual = (
             self.request.db.query(Exploracao).filter(Exploracao.gid == gid).all()[0]
         )
-        print (actual.utente_rel.__json__(self.request))
+        print(actual.utente_rel.__json__(self.request))
         self.assertEqual("new nuit", actual.utente_rel.nuit)
         self.assertEqual("Outro", actual.utente_rel.uten_tipo)
         self.assertEqual("new reg_comerc", actual.utente_rel.reg_comerc)
@@ -418,7 +423,7 @@ class ExploracaoUpdateUtenteTests(DBIntegrationTest):
     def test_update_exploracao_update_utente_validation_fails(self):
         exp = self.get_test_exploracao()
         gid = exp.gid
-        self.request.matchdict.update(dict(id=gid))
+        self.request.matchdict.update({"id": gid})
         expected = (
             self.request.db.query(Exploracao).filter(Exploracao.gid == gid).all()[0]
         )
@@ -438,7 +443,7 @@ class ExploracaoUpdateUtenteTests(DBIntegrationTest):
         """
         exp = self.get_test_exploracao()
         gid = exp.gid
-        self.request.matchdict.update(dict(id=gid))
+        self.request.matchdict.update({"id": gid})
         expected = (
             self.request.db.query(Exploracao).filter(Exploracao.gid == gid).all()[0]
         )
@@ -462,7 +467,7 @@ class ExploracaoUpdateUtenteTests(DBIntegrationTest):
     def test_update_exploracao_rename_utente_validation_fails(self):
         exp = self.get_test_exploracao()
         gid = exp.gid
-        self.request.matchdict.update(dict(id=gid))
+        self.request.matchdict.update({"id": gid})
         expected = (
             self.request.db.query(Exploracao).filter(Exploracao.gid == gid).all()[0]
         )
@@ -477,7 +482,7 @@ class ExploracaoUpdateUtenteTests(DBIntegrationTest):
         gid = exp.gid
         utente = self.get_test_utente()
 
-        self.request.matchdict.update(dict(id=gid))
+        self.request.matchdict.update({"id": gid})
         expected = (
             self.request.db.query(Exploracao).filter(Exploracao.gid == gid).all()[0]
         )
@@ -504,14 +509,11 @@ class ExploracaoUpdateUtenteTests(DBIntegrationTest):
         exp = self.get_test_exploracao()
         gid = exp.gid
 
-        self.request.matchdict.update(dict(id=gid))
-        expected = (
-            self.request.db.query(Exploracao).filter(Exploracao.gid == gid).all()[0]
-        )
-        expected_json = build_json(self.request, expected)
-        expected_json["utente"]["id"] = None
-        expected_json["utente"]["nome"] = "test nome"
-        self.request.json_body = expected_json
+        self.request.matchdict.update({"id": gid})
+        exp_json = build_json(self.request, exp)
+        exp_json["utente"]["id"] = None
+        exp_json["utente"]["nome"] = "test nome"
+        self.request.json_body = exp_json
         exploracaos_update(self.request)
         actual = (
             self.request.db.query(Exploracao).filter(Exploracao.gid == gid).all()[0]
@@ -523,7 +525,7 @@ class ExploracaoUpdateActividadeTests(DBIntegrationTest):
     def test_update_exploracao_update_actividade_values(self):
         expected = self.get_test_exploracao()
         gid = expected.gid
-        self.request.matchdict.update(dict(id=gid))
+        self.request.matchdict.update({"id": gid})
         expected_json = build_json(self.request, expected)
         expected_json["actividade"]["c_estimado"] = 101.11
         self.request.json_body = expected_json
@@ -536,7 +538,7 @@ class ExploracaoUpdateActividadeTests(DBIntegrationTest):
     def test_update_exploracao_update_actividade_validation_fails(self):
         expected = expected = self.get_test_exploracao()
         gid = expected.gid
-        self.request.matchdict.update(dict(id=gid))
+        self.request.matchdict.update({"id": gid})
         expected_json = build_json(self.request, expected)
         expected_json["utente"]["observacio"] = " foo - bar "
         expected_json["observacio"] = " foo - bar "
@@ -556,7 +558,7 @@ class ExploracaoUpdateActividadeTests(DBIntegrationTest):
     def test_update_exploracao_update_actividade_not_run_activity_validations(self):
         expected = expected = self.get_test_exploracao()
         gid = expected.gid
-        self.request.matchdict.update(dict(id=gid))
+        self.request.matchdict.update({"id": gid})
         expected_json = build_json(self.request, expected)
         expected_json["observacio"] = " foo - bar "
         expected_json["licencias"][0]["estado"] = "Não aprovada"
@@ -574,7 +576,7 @@ class ExploracaoUpdateActividadeTests(DBIntegrationTest):
         expected = expected = self.get_test_exploracao()
         gid = expected.gid
         gid_actividade = expected.actividade.gid
-        self.request.matchdict.update(dict(id=gid))
+        self.request.matchdict.update({"id": gid})
         expected_json = build_json(self.request, expected)
         # change from industria to saneamento
         expected_json["actividade"] = {

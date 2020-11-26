@@ -1,9 +1,6 @@
-
 import unittest
 
-import utentes.models.constants as c
 from utentes.api.tanques_piscicolas import tanques_piscicolas_get
-from utentes.models.actividade import ActividadesPiscicultura
 from utentes.models.tanques_piscicolas import ActividadesTanquesPiscicolas
 from utentes.tests.api import TanquesPiscicolasTests
 

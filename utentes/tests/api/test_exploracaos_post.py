@@ -69,7 +69,8 @@ class ExploracaoCreateTests(DBIntegrationTest):
         expected["fontes"] = [
             {
                 "tipo_agua": c.K_SUBTERRANEA,
-                "tipo_fonte": "Outros",
+                "red_monit": "NO",
+                "tipo_fonte": "Furo",
                 "lat_lon": "23,23 42,21",
                 "d_dado": "2001-01-01",
                 "c_soli": 23.42,
@@ -84,11 +85,11 @@ class ExploracaoCreateTests(DBIntegrationTest):
 
     def test_create_exploracao(self):
         self.request.json_body = self.build_json()
-        actual_exp_id = self.request.json_body["exp_id"]
-        exploracaos_create(self.request)
+        self.delete_exp_id(self.request.json_body["exp_id"])
+        e = exploracaos_create(self.request)
         actual = (
             self.request.db.query(Exploracao)
-            .filter(Exploracao.exp_id == actual_exp_id)
+            .filter(Exploracao.exp_id == e.exp_id)
             .all()[0]
         )
         utente = self.request.db.query(Utente).filter(Utente.nome == "nome").all()[0]
@@ -136,7 +137,7 @@ class ExploracaoCreateTests(DBIntegrationTest):
         self.assertEqual(2.3, float(licencia.c_real_int))
         self.assertEqual(2, float(licencia.c_real_fon))
         self.assertEqual(c.K_SUBTERRANEA, fonte.tipo_agua)
-        self.assertEqual("Outros", fonte.tipo_fonte)
+        self.assertEqual("Furo", fonte.tipo_fonte)
         self.assertEqual("23,23 42,21", fonte.lat_lon)
         self.assertEqual("2001-01-01", fonte.d_dado.isoformat())
         self.assertEqual(23.42, float(fonte.c_soli))
@@ -145,6 +146,9 @@ class ExploracaoCreateTests(DBIntegrationTest):
         self.assertEqual("Contador", fonte.sist_med)
         self.assertEqual("manual", fonte.metodo_est)
         self.assertEqual("observacio", fonte.observacio)
+        self.request.db.delete(e)
+        self.request.db.delete(actual)
+        self.request.db.commit()
 
     def test_create_exploracao_validation_fails(self):
         expected_json = self.build_json()
@@ -166,19 +170,22 @@ class ExploracaoCreateTests(DBIntegrationTest):
             "cultivos": [],
         }
         self.request.json_body = expected_json
-        actual_exp_id = self.request.json_body["exp_id"]
-        exploracaos_create(self.request)
+        self.delete_exp_id(self.request.json_body["exp_id"])
+        e = exploracaos_create(self.request)
         actual = (
             self.request.db.query(Exploracao)
-            .filter(Exploracao.exp_id == actual_exp_id)
+            .filter(Exploracao.exp_id == e.exp_id)
             .all()[0]
         )
         self.assertEqual(c.K_AGRICULTURA, actual.actividade.tipo)
         self.assertEqual(0, len(actual.actividade.cultivos))
+        self.request.db.delete(actual)
+        self.request.db.delete(e)
+        self.request.db.commit()
 
     def test_all_activities_can_be_created_without_validations_fails(self):
         expected_json = self.build_json()
-        expected_exp_id = expected_json["exp_id"]
+        self.delete_exp_id(expected_json["exp_id"])
         expected_json["actividade"] = {
             "tipo": c.K_ABASTECIMENTO,
             "c_estimado": 1,
@@ -186,100 +193,108 @@ class ExploracaoCreateTests(DBIntegrationTest):
             "dotacao": 3,
         }
         self.request.json_body = expected_json
-        exploracaos_create(self.request)
+        e = exploracaos_create(self.request)
         actual = (
             self.request.db.query(Exploracao)
-            .filter(Exploracao.exp_id == expected_exp_id)
+            .filter(Exploracao.exp_id == e.exp_id)
             .all()[0]
         )
-        self.assertEqual(expected_exp_id, actual.exp_id)
         self.assertEqual(c.K_ABASTECIMENTO, actual.actividade.tipo)
+        self.request.db.delete(actual)
+        self.request.db.delete(e)
+        self.request.db.commit()
 
         expected_json = self.build_json()
-        expected_exp_id = expected_json["exp_id"]
         expected_json["actividade"] = {
             "tipo": c.K_AGRICULTURA,
             "cultivos": [],
             "c_estimado": 1,
         }
         self.request.json_body = expected_json
-        exploracaos_create(self.request)
+        e = exploracaos_create(self.request)
         actual = (
             self.request.db.query(Exploracao)
-            .filter(Exploracao.exp_id == expected_exp_id)
+            .filter(Exploracao.exp_id == e.exp_id)
             .all()[0]
         )
-        self.assertEqual(expected_exp_id, actual.exp_id)
         self.assertEqual(c.K_AGRICULTURA, actual.actividade.tipo)
+        self.request.db.delete(actual)
+        self.request.db.delete(e)
+        self.request.db.commit()
 
         expected_json = self.build_json()
-        expected_exp_id = expected_json["exp_id"]
         expected_json["actividade"] = {"tipo": c.K_INDUSTRIA, "c_estimado": 1}
         self.request.json_body = expected_json
-        exploracaos_create(self.request)
+        e = exploracaos_create(self.request)
         actual = (
             self.request.db.query(Exploracao)
-            .filter(Exploracao.exp_id == expected_exp_id)
+            .filter(Exploracao.exp_id == e.exp_id)
             .all()[0]
         )
-        self.assertEqual(expected_exp_id, actual.exp_id)
         self.assertEqual(c.K_INDUSTRIA, actual.actividade.tipo)
+        self.request.db.delete(actual)
+        self.request.db.delete(e)
+        self.request.db.commit()
 
         expected_json = self.build_json()
-        expected_exp_id = expected_json["exp_id"]
         expected_json["actividade"] = {
             "tipo": c.K_PECUARIA,
             "reses": [],
             "c_estimado": 1,
         }
         self.request.json_body = expected_json
-        exploracaos_create(self.request)
+        e = exploracaos_create(self.request)
         actual = (
             self.request.db.query(Exploracao)
-            .filter(Exploracao.exp_id == expected_exp_id)
+            .filter(Exploracao.exp_id == e.exp_id)
             .all()[0]
         )
-        self.assertEqual(expected_exp_id, actual.exp_id)
         self.assertEqual(c.K_PECUARIA, actual.actividade.tipo)
+        self.request.db.delete(actual)
+        self.request.db.delete(e)
+        self.request.db.commit()
 
         expected_json = self.build_json()
-        expected_exp_id = expected_json["exp_id"]
         expected_json["actividade"] = {"tipo": c.K_PISCICULTURA, "c_estimado": 1}
         self.request.json_body = expected_json
-        exploracaos_create(self.request)
+        e = exploracaos_create(self.request)
         actual = (
             self.request.db.query(Exploracao)
-            .filter(Exploracao.exp_id == expected_exp_id)
+            .filter(Exploracao.exp_id == e.exp_id)
             .all()[0]
         )
-        self.assertEqual(expected_exp_id, actual.exp_id)
         self.assertEqual(c.K_PISCICULTURA, actual.actividade.tipo)
+        self.request.db.delete(actual)
+        self.request.db.delete(e)
+        self.request.db.commit()
 
         expected_json = self.build_json()
-        expected_exp_id = expected_json["exp_id"]
         expected_json["actividade"] = {"tipo": c.K_ENERGIA, "c_estimado": 1}
         self.request.json_body = expected_json
-        exploracaos_create(self.request)
+        e = exploracaos_create(self.request)
         actual = (
             self.request.db.query(Exploracao)
-            .filter(Exploracao.exp_id == expected_exp_id)
+            .filter(Exploracao.exp_id == e.exp_id)
             .all()[0]
         )
-        self.assertEqual(expected_exp_id, actual.exp_id)
         self.assertEqual(c.K_ENERGIA, actual.actividade.tipo)
+        self.request.db.delete(actual)
+        self.request.db.delete(e)
+        self.request.db.commit()
 
         expected_json = self.build_json()
-        expected_exp_id = expected_json["exp_id"]
         expected_json["actividade"] = {"tipo": c.K_SANEAMENTO, "c_estimado": 1}
         self.request.json_body = expected_json
-        exploracaos_create(self.request)
+        e = exploracaos_create(self.request)
         actual = (
             self.request.db.query(Exploracao)
-            .filter(Exploracao.exp_id == expected_exp_id)
+            .filter(Exploracao.exp_id == e.exp_id)
             .all()[0]
         )
-        self.assertEqual(expected_exp_id, actual.exp_id)
         self.assertEqual(c.K_SANEAMENTO, actual.actividade.tipo)
+        self.request.db.delete(actual)
+        self.request.db.delete(e)
+        self.request.db.commit()
 
 
 if __name__ == "__main__":

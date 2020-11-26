@@ -13,8 +13,6 @@ Se puede seguir el script `utentes-bd/server/bootstrap.sh` para configurar un en
 
 A continuación un resumen del proceso. Se asume que en local ya están instaladas las herramientas básicas, si no fijarse en el script de `bootstrap.sh`.
 
-Para ejecutar los tests e2e debe descargarse [chromedriver](https://sites.google.com/a/chromium.org/chromedriver/downloads) en \$PATH
-
 La mayoría de pasos que aquí se describen, "destruir" el entorno y volver a construirlo se recomienda realizarlo en cada nuevo ciclo de trabajo.
 
 ```bash
@@ -92,13 +90,17 @@ sudo systemctl restart apache2
 
 ```bash
 # Todos los tests
-python setup.py test -q -s utentes.tests
+python -m unittest discover -s utentes.tests
 
 # Sólo los tests de la API
 python setup.py test -q -s utentes.tests.api
 
+
 # Un test concreto
 python setup.py test -q -s utentes.tests.api.test_cultivos_get.CultivosGET_IntegrationTests.test_cultivo_get_length
+
+# Para de ejecutar los tests en el primer fallo
+python -m unittest discover --failfast -s utentes.tests
 ```
 
 ## Tests base de datos (pgTap)

@@ -1,4 +1,3 @@
-
 import unittest
 
 from pyramid.httpexceptions import HTTPBadRequest
@@ -21,7 +20,7 @@ class TanquesPiscicolasUpdateTests(TanquesPiscicolasTests):
     def test_update_tanque(self):
         expected = self.create_tanque_test(commit=True)
         gid = expected.gid
-        self.request.matchdict.update(dict(id=gid))
+        self.request.matchdict.update({"id": gid})
         expected_json = build_json(self.request, expected)
         expected_json["tipo"] = "Tanque"
         expected_json["cumprimen"] = 3
@@ -44,7 +43,7 @@ class TanquesPiscicolasUpdateTests(TanquesPiscicolasTests):
         expected = self.create_tanque_test(commit=True)
         gid = expected.gid
         self.assertIsNone(expected.the_geom)
-        self.request.matchdict.update(dict(id=gid))
+        self.request.matchdict.update({"id": gid})
         expected_json = build_json(self.request, expected)
         expected_json["geometry_edited"] = True
         expected_json["geometry"] = {
@@ -71,7 +70,7 @@ class TanquesPiscicolasUpdateTests(TanquesPiscicolasTests):
         expected = self.create_tanque_test(commit=True)
         gid = expected.gid
         self.assertIsNone(expected.the_geom)
-        self.request.matchdict.update(dict(id=gid))
+        self.request.matchdict.update({"id": gid})
         expected_json = build_json(self.request, expected)
         expected_json["geometry_edited"] = False
         expected_json["geometry"] = {
@@ -96,7 +95,7 @@ class TanquesPiscicolasUpdateTests(TanquesPiscicolasTests):
     def test_update_tanque_validation_fails(self):
         expected = self.create_tanque_test(commit=True)
         gid = expected.gid
-        self.request.matchdict.update(dict(id=gid))
+        self.request.matchdict.update({"id": gid})
         expected_json = build_json(self.request, expected)
         cumprimen = expected_json["cumprimen"]
         expected_json["cumprimen"] = "texto"

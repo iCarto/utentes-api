@@ -21,7 +21,7 @@ class CultivosUpdateTests(DBIntegrationTest):
             .first()
         )
         gid = expected.gid
-        self.request.matchdict.update(dict(id=gid))
+        self.request.matchdict.update({"id": gid})
         expected_json = build_json(self.request, expected)
         # expected_json['gid'] = json.get('id')
         # expected_json['cult_id'] = json.get('cult_id')
@@ -31,6 +31,8 @@ class CultivosUpdateTests(DBIntegrationTest):
         expected_json["eficiencia"] = 33
         expected_json["observacio"] = "uma observacio"
         self.request.json_body = expected_json
+        expected.the_geom = None
+        self.request.db.commit()
         cultivos_update(self.request)
         actual = (
             self.request.db.query(ActividadesCultivos)
@@ -47,7 +49,7 @@ class CultivosUpdateTests(DBIntegrationTest):
     def test_update_cultivo_the_geom(self):
         expected = self.request.db.query(ActividadesCultivos).first()
         gid = expected.gid
-        self.request.matchdict.update(dict(id=gid))
+        self.request.matchdict.update({"id": gid})
         expected_json = build_json(self.request, expected)
         expected_json["geometry_edited"] = True
         expected_json["geometry"] = {
@@ -80,7 +82,7 @@ class CultivosUpdateTests(DBIntegrationTest):
             .first()
         )
         gid = expected.gid
-        self.request.matchdict.update(dict(id=gid))
+        self.request.matchdict.update({"id": gid})
         expected_json = build_json(self.request, expected)
         expected_json["geometry_edited"] = False
         expected_json["geometry"] = {
@@ -98,6 +100,8 @@ class CultivosUpdateTests(DBIntegrationTest):
             ],
         }
         self.request.json_body = expected_json
+        expected.the_geom = None
+        self.request.db.commit()
         cultivos_update(self.request)
         actual = (
             self.request.db.query(ActividadesCultivos)
@@ -113,7 +117,7 @@ class CultivosUpdateTests(DBIntegrationTest):
             .first()
         )
         gid = expected.gid
-        self.request.matchdict.update(dict(id=gid))
+        self.request.matchdict.update({"id": gid})
         expected_json = build_json(self.request, expected)
         expected_json["geometry_edited"] = True
         expected_json["geometry"] = None
@@ -130,7 +134,7 @@ class CultivosUpdateTests(DBIntegrationTest):
     def test_update_cultivo_validation_fails(self):
         expected = self.request.db.query(ActividadesCultivos).first()
         gid = expected.gid
-        self.request.matchdict.update(dict(id=gid))
+        self.request.matchdict.update({"id": gid})
         expected_json = build_json(self.request, expected)
         rega = expected_json["rega"]
         expected_json["rega"] = None

@@ -1,0 +1,102 @@
+{
+    "exp_id": "001/ARAS/2008/CL",
+    "estado_lic": "Licenciada",
+    "observacio": "adf",
+    "loc_provin": "Gaza",
+    "loc_distri": "Guij\u00e1",
+    "loc_posto": "Mubangoene",
+    "loc_nucleo": "Chinhacanine",
+    "loc_endere": "Localiza\u00e7\u00e3o na Albufeira de Macarretane (Jusante) e  na montante da estac\u00e3o E-607",
+    "loc_unidad": "UGBL",
+    "loc_bacia": "Limpopo",
+    "loc_subaci": null,
+    "loc_rio": "Limpopo",
+    "cadastro_uni": "L047",
+    "c_soli": 3456.0,
+    "c_licencia": 5375.0,
+    "c_real": 1791.67,
+    "c_estimado": 1280.75,
+    "actividade": {
+        "tipo": "Agricultura de Regadio",
+        "c_estimado": 1280.75,
+        "n_cul_tot": 1,
+        "area_pot": 3.0,
+        "area_irri": 1.0,
+        "area_medi": 2.0,
+        "cultivos": [
+            {
+                "cult_id": "001/ARAS/2008/CL/001",
+                "c_estimado": 1280.75,
+                "cultivo": "Frut\u00edcola",
+                "rega": "Gota a gota",
+                "eficiencia": 0.85,
+                "area": 2.0,
+                "observacio": null
+            }
+        ]
+    },
+    "area": 0.2522,
+    "fontes": [
+        {
+            "tipo_agua": "Superficial",
+            "tipo_fonte": "Rio",
+            "red_monit": "NO",
+            "cadastro": null,
+            "disp_a": null,
+            "lat_lon": "-24,371944 / 32,864444",
+            "d_dado": "2007-05-09",
+            "c_soli": null,
+            "c_max": null,
+            "c_real": 1791.67,
+            "sist_med": "Volum\u00e9trica",
+            "metodo_est": null,
+            "observacio": null
+        }
+    ],
+    "licencias": [
+        {
+            "lic_nro": "001/ARAS/2008/CL/Sup",
+            "tipo_agua": "Superficial",
+            "tipo_lic": "Licen\u00e7a",
+            "n_licen_a": "001/ARAS/2008",
+            "estado": "Licenciada",
+            "d_emissao": "2008-01-10",
+            "d_validade": "2013-01-10",
+            "c_soli_tot": 3456.0,
+            "c_soli_int": 3456.0,
+            "c_soli_fon": 0.0,
+            "c_licencia": 5375.0,
+            "c_real_tot": 1791.67,
+            "c_real_int": null,
+            "c_real_fon": 1791.67,
+            "taxa_fixa": 0.0,
+            "taxa_uso": 0.0,
+            "pago_mes": 0.0,
+            "iva": 12.75,
+            "pago_iva": 0.0,
+            "consumo_tipo": "Fixo",
+            "consumo_fact": 0.0
+        }
+    ],
+    "exp_name": "Explotación de Prueba",
+    "d_soli": "2018-05-25",
+    "d_ultima_entrega_doc": "2018-05-25",
+    "fact_estado": "Pagada",
+    "fact_tipo": "Mensal",
+    "pago_lic": false,
+    "geometry_edited": true,
+    "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+            [
+                [
+                    [32.8641980350837, -24.3721701497034],
+                    [32.8641980350836, -24.3717187379572],
+                    [32.8646908537666, -24.3717187379575],
+                    [32.8646908537666, -24.3721701497036],
+                    [32.8641980350837, -24.3721701497034]
+                ]
+            ]
+        ]
+    }
+}

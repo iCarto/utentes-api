@@ -14,19 +14,13 @@ from webob.multidict import MultiDict
 
 
 settings = get_appsettings("development.ini", "main")
-settings["sqlalchemy.url"] = "postgresql://postgres@localhost:9001/test_aranorte"
 engine = engine_from_config(settings, "sqlalchemy.")
 session_factory = sessionmaker()
 
 
 class DBIntegrationTest(unittest.TestCase):
     def setUp(self):
-        self.config = testing.setUp()
-
-        from pyramid.threadlocal import get_current_registry
-
-        settings = get_current_registry().settings
-        settings["ara"] = "ARAN"
+        self.config = testing.setUp(settings=settings)
 
         self.connection = engine.connect()
         self.transaction = self.connection.begin()
@@ -42,7 +36,6 @@ class DBIntegrationTest(unittest.TestCase):
         self.connection.close()
 
     def get_test_exploracao(self):
-        from utentes.models.exploracao import Exploracao
         from utentes.models.fonte import Fonte
         from utentes.models.licencia import Licencia
         from sqlalchemy import select, func
@@ -79,31 +72,44 @@ class DBIntegrationTest(unittest.TestCase):
         from sqlalchemy.orm import sessionmaker
 
         settings = get_appsettings("development.ini", "main")
-        settings[
-            "sqlalchemy.url"
-        ] = "postgresql://postgres@localhost:9001/test_aranorte"
         engine = engine_from_config(settings, "sqlalchemy.")
         session = sessionmaker()
         session.configure(bind=engine)
         return session()
 
+    def delete_exp_id(self, exp_id):
+        self.request.db.execute(
+            "DELETE FROM utentes.exploracaos WHERE exp_id = :exp_id", {"exp_id": exp_id}
+        )
+        # Los tests están mal construidos y siempre quedo esto colgando
+        self.request.db.execute(
+            "DELETE FROM utentes.exploracaos WHERE exp_id = :exp_id",
+            {"exp_id": "001/ARAS/2008/CL"},
+        )
+
+        self.request.db.commit()
+
 
 class TanquesPiscicolasTests(DBIntegrationTest):
     def create_tanque_test(self, commit=False):
-        actv = self.request.db.query(ActividadesPiscicultura).all()[0]
-        query = "SELECT exp_id from utentes.exploracaos WHERE gid = " + str(
-            actv.exploracao
-        )
-        exp = list(self.request.db.execute(query))
+        from utentes.tests.e2e.testing_database import create_exp_piscicola
+
+        e_test = create_exp_piscicola(self.request)
+        actv = e_test.actividade
+        # actv = self.request.db.query(ActividadesPiscicultura).all()[0]
+        # query = "SELECT exp_id from utentes.exploracaos WHERE gid = " + str(
+        #     actv.exploracao
+        # )
+        # exp = list(self.request.db.execute(query))
+
         actv_json = actv.__json__(self.request)
-        actv_json["exp_id"] = exp[0][0]
+        actv_json["exp_id"] = e_test.exp_id
         tanques = [
             f.__json__(self.request)["properties"]
-            for f in actv_json["tanques_piscicolas"]["features"]
+            for f in actv_json.get("tanques_piscicolas", {}).get("features", [])
         ]
         tanques.append(
             {
-                # "tanque_id": "2010-001-002",
                 "estado": "Operacional",
                 "esp_culti": "Peixe gato",
                 "tipo": "Gaiola",
