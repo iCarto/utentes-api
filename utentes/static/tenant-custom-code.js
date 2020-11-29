@@ -244,6 +244,12 @@ if (window.SIRHA.getARA() === "ARAN") {
         southWest: [-15.05, 34.89],
         northEast: [-10.47, 40.65],
     });
+
+    window.SIXHIARA.GROUPS_TO_ROLES[SIRHA.ROLE.JURIDICO] = [
+        SIRHA.ROLE.JURIDICO,
+        SIRHA.ROLE.ADMINISTRATIVO,
+        SIRHA.ROLE.DIRECCION,
+    ];
 }
 
 if (window.SIRHA.getARA() === "ARAS") {

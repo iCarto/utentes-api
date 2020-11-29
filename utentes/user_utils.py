@@ -1,4 +1,5 @@
 from pyramid.security import Allow, Authenticated, Deny
+from pyramid.settings import asbool
 from pyramid.threadlocal import get_current_registry
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
@@ -16,6 +17,7 @@ from users.user_roles import (
 )
 from utentes.constants import perms as perm
 from utentes.models.user import User
+from utentes.tenant_custom_code import group_to_roles
 
 
 # GESTIONAR UNIQUE USER
@@ -104,43 +106,25 @@ class RootFactory(object):
     ]
 
     def __init__(self, request):
-        pass
+        pass  # noqa: WPS420
 
 
 def is_single_user_mode(settings=None):
     settings = settings or get_current_registry().settings
-    return settings.get("ara") in ["ARAN", "DPMAIP"]
+    return settings.get("ara") == "DPMAIP"
 
 
 def get_user_role(username, request):
-    GROUPS_TO_ROLES = {
-        ROL_SINGLE: [ROL_SINGLE, ROL_ADMIN],
-        ROL_ADMIN: [ROL_ADMIN],
-        ROL_ADMINISTRATIVO: [ROL_ADMINISTRATIVO],
-        ROL_FINANCIERO: [ROL_FINANCIERO],
-        ROL_DIRECCION: [ROL_DIRECCION],
-        ROL_TECNICO: [ROL_TECNICO],
-        ROL_JURIDICO: [ROL_JURIDICO],
-        ROL_OBSERVADOR: [ROL_OBSERVADOR],
-        ROL_UNIDAD_DELEGACION: [ROL_UNIDAD_DELEGACION],
-    }
     ara = request.registry.settings.get("ara")
-    if ara == "ARAS":
-        GROUPS_TO_ROLES[ROL_JURIDICO] = [ROL_JURIDICO, ROL_DIRECCION]
-    if ara in ["ARAZ", "ARAC", "ARACN"]:
-        GROUPS_TO_ROLES[ROL_JURIDICO] = [
-            ROL_JURIDICO,
-            ROL_DIRECCION,
-            ROL_ADMINISTRATIVO,
-        ]
+    current_group_to_roles = group_to_roles(ara)
 
     if is_single_user_mode():
-        return GROUPS_TO_ROLES[get_unique_user().usergroup]
+        return current_group_to_roles[get_unique_user().usergroup]
     try:
         user = request.db.query(User).filter(User.username == username).one()
-        return GROUPS_TO_ROLES[user.usergroup]
     except (MultipleResultsFound, NoResultFound):
         return []
+    return current_group_to_roles[user.usergroup]
 
 
 def get_user_from_request(request):
@@ -160,7 +144,6 @@ def get_user_from_request(request):
 def get_user_from_db(request):
     if is_single_user_mode():
         return get_unique_user()
-    from pyramid.settings import asbool
 
     if asbool(request.registry.settings.get("users.debug")):
         get_user_from_db_stub(request)
@@ -169,24 +152,10 @@ def get_user_from_db(request):
     login_pass = request.POST.get("passwd", "")
     try:
         user = request.db.query(User).filter(User.username == login_user).one()
-        if user.check_password(login_pass):
-            return user
-        else:
-            return None
     except (MultipleResultsFound, NoResultFound):
         return None
-
-
-VALID_LOGINS = {
-    "admin": ROL_ADMIN,
-    "administrativo": ROL_ADMINISTRATIVO,
-    "financieiro": ROL_FINANCIERO,
-    "secretaria": ROL_DIRECCION,
-    "tecnico": ROL_TECNICO,
-    "juridico": ROL_JURIDICO,
-    "observador": ROL_OBSERVADOR,
-    "unidade": ROL_UNIDAD_DELEGACION,
-}
+    if user.check_password(login_pass):
+        return user
 
 
 def get_unique_user():
@@ -196,13 +165,24 @@ def get_unique_user():
 
 
 def get_user_from_db_stub(request):
+    valid_logins = {
+        "admin": ROL_ADMIN,
+        "administrativo": ROL_ADMINISTRATIVO,
+        "financieiro": ROL_FINANCIERO,
+        "secretaria": ROL_DIRECCION,
+        "tecnico": ROL_TECNICO,
+        "juridico": ROL_JURIDICO,
+        "observador": ROL_OBSERVADOR,
+        "unidade": ROL_UNIDAD_DELEGACION,
+    }
+
     username = request.POST.get("user", "")
-    if username in list(VALID_LOGINS.keys()):
+    if username in list(valid_logins.keys()):
         user = request.db.query(User).filter(User.username == username).first()
         if not user:
             user = User()
             user.username = username
-            user.usergroup = VALID_LOGINS[username]
+            user.usergroup = valid_logins[username]
             user.set_password(username)
             request.db.add(user)
             request.db.commit()

@@ -5,7 +5,7 @@
         Error: {},
         _ARA: '{{ request.registry.settings.get("ara") }}',
         getARA: function() { return this._ARA; },
-        is_single_user_mode: function() { return ['ARAN', 'DPMAIP'].includes(this._ARA); },
+        is_single_user_mode: function() { return ['DPMAIP'].includes(this._ARA); },
         ESTADO: {
             LICENSED: 'Licenciada',
             DE_FACTO: 'Utente de facto',
