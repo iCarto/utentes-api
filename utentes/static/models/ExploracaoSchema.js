@@ -78,6 +78,11 @@ var EXPLORACAO_SCHEMA_CON_FICHA = [
         rules: ["NOT_NULL"],
     },
     {
+        fieldname: "loc_bacia",
+        message: 'A "bacia" da exploracão não pode estar vazia',
+        rules: ["NOT_NULL"],
+    },
+    {
         fieldname: "utente",
         message: "A exploracão deve ter um utente",
         rules: ["NOT_NULL"],
