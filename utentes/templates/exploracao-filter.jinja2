@@ -1,52 +1,52 @@
 
     <section id="filters" class="col-xs-2">
 
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="row">
-            <h4>Ano</h4>
-          </div>
-          <div class="row year-widget">
-            <select class="form-control widget year-select-widget" id="ano_inicio">
+      <div class="col-xs-12">
+        <div class="row">
+          <h4>Ano</h4>
+        </div>
+        <div class="row two-widget-per-row">
+          <div  class="col-xs-6">
+            <select id="ano_inicio" class="form-control widget">
             </select>
-            &#x2192;
-            <select class="form-control widget year-select-widget" id="ano_fim">
+          </div>
+          <span id="year-widget-separator">&#x2192;</span>
+          <div class="col-xs-6">
+            <select id="ano_fim" class="form-control widget">
             </select>
           </div>
         </div>
       </div>
 
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="row">
-            <h4>Utente</h4>
-          </div>
-          <div class="row">
-            <select class="form-control widget" id="utente">
-            </select>
-          </div>
+      <div class="col-xs-12">
+        <div class="row">
+          <h4>Utente</h4>
+        </div>
+        <div class="row">
+          <select id="utente" class="form-control widget">
+          </select>
         </div>
       </div>
 
       {% if request.registry.settings.get("ara") != 'DPMAIP' %}
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="row">
-            <h4>Licença</h4>
-          </div>
-          <div class="row">
-            <label for="estado">Estado</label>
-            <select class="form-control widget" id="estado">
-            </select>
-          </div>
-          <div class="row">
+      <div class="col-xs-12">
+        <div class="row">
+          <h4>Licença</h4>
+        </div>
+        <div class="row">
+          <label for="estado">Estado</label>
+          <select id="estado" class="form-control widget">
+          </select>
+        </div>
+        <div class="row two-widget-per-row">
+          <div class="col-xs-6">
             <label for="tipo_lic">Tipo de licença</label>
-            <select class="form-control widget" id="tipo_lic">
+            <select id="tipo_lic" class="form-control widget">
             </select>
           </div>
-          <div class="row">
+          <div class="col-xs-6">
             <label for="tipo_agua">Tipo de água</label>
-            <select class="form-control widget" id="tipo_agua">
+            <select id="tipo_agua" class="form-control widget">
             </select>
           </div>
         </div>
@@ -54,69 +54,68 @@
       {% endif %}
 
       {% if request.registry.settings.get("ara") != 'DPMAIP' %}
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="row">
-            <h4>Localização hidrológica</h4>
-          </div>
-          <div class="row">
+      <div class="col-xs-12">
+        <div class="row">
+          <h4>Localização hidrológica</h4>
+        </div>
+        <div class="row two-widget-per-row">
+          <div class="col-xs-6">
             <label for="loc_unidad">Unidade</label>
-            <select class="form-control widget" id="loc_unidad">
+            <select id="loc_unidad" class="form-control widget">
+            </select>
+          </div>
+          <div class="col-xs-6">
+            <label for="loc_bacia">Bacia</label>
+            <select id="loc_bacia" class="form-control widget">
             </select>
           </div>
         </div>
       </div>
       {% endif %}
 
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="row">
-            <h4>Localização administrativa</h4>
-          </div>
-          <div class="row">
-            <label for="loc_provin">Província</label>
-            <select class="form-control widget" id="loc_provin">
-            </select>
-          </div>
-          <div class="row">
-            <label for="loc_distri">Distrito</label>
-            <select class="form-control widget" id="loc_distri">
-            </select>
-          </div>
-          <div class="row">
-            <label for="loc_posto">Posto administrativo</label>
-            <select class="form-control widget" id="loc_posto">
-            </select>
-          </div>
+      <div class="col-xs-12">
+        <div class="row">
+          <h4>Localização administrativa</h4>
+        </div>
+        <div class="row">
+          <label for="loc_provin">Província</label>
+          <select id="loc_provin" class="form-control widget">
+          </select>
+        </div>
+        <div class="row">
+          <label for="loc_distri">Distrito</label>
+          <select id="loc_distri" class="form-control widget">
+          </select>
+        </div>
+        <div class="row">
+          <label for="loc_posto">Posto administrativo</label>
+          <select id="loc_posto" class="form-control widget">
+          </select>
         </div>
       </div>
 
       {% if request.registry.settings.get("ara") != 'DPMAIP' %}
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="row">
-            <h4>Actividade</h4>
-          </div>
-          <div class="row">
-            <select class="form-control widget" id="actividade">
-            </select>
-          </div>
+      <div class="col-xs-12">
+        <div class="row">
+          <h4>Actividade</h4>
+        </div>
+        <div class="row">
+          <select id="actividade" class="form-control widget">
+          </select>
         </div>
       </div>
       {% endif %}
 
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="row">
-            <h4>Geometria</h4>
-          </div>
-          <div class="row">
-            <select class="form-control widget" id="geometria">
-                <option value=""></option>
-                <option>Sim</option>
-                <option>Não</option>
-            </select>
-          </div>
+      <div class="col-xs-12">
+        <div class="row">
+          <h4>Geometria</h4>
+        </div>
+        <div class="row">
+          <select id="geometria" class="form-control widget">
+              <option value=""></option>
+              <option>Sim</option>
+              <option>Não</option>
+          </select>
         </div>
       </div>
 

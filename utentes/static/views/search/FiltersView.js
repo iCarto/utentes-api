@@ -4,7 +4,7 @@ Backbone.SIXHIARA.FiltersView = Backbone.UILib.BaseView.extend({
         Backbone.UILib.BaseView.prototype.initialize.call(this);
 
         this.options = options || {};
-        domains = this.options.domains || new Backbone.UILib.DomainCollection();
+        const domains = this.options.domains || new Backbone.UILib.DomainCollection();
 
         // properties
         var utentes = domains.byCategory("utente");
@@ -12,7 +12,6 @@ Backbone.SIXHIARA.FiltersView = Backbone.UILib.BaseView.extend({
         var licenciaTipoAgua = domains.byCategory("licencia_tipo_agua");
         var licenciaEstados =
             this.options.states || domains.byCategory("licencia_estado");
-        var unidades = domains.byCategory("unidade");
         var actividades = domains.byCategory("actividade");
 
         // updates the model
@@ -23,12 +22,19 @@ Backbone.SIXHIARA.FiltersView = Backbone.UILib.BaseView.extend({
             })
         );
 
-        // select views
         this.addView(
             new Backbone.SIXHIARA.SelectLocationView({
                 domains: domains,
                 model: this.model,
                 domainsKeys: ["provincia", "distrito", "posto"],
+                el: this.$el,
+            })
+        );
+
+        this.addView(
+            new Backbone.SIXHIARA.SelectBaciaView({
+                domains: domains,
+                model: this.model,
                 el: this.$el,
             })
         );
@@ -58,13 +64,6 @@ Backbone.SIXHIARA.FiltersView = Backbone.UILib.BaseView.extend({
             new Backbone.UILib.SelectView({
                 el: this.$("#tipo_agua"),
                 collection: licenciaTipoAgua,
-            })
-        );
-
-        this.addView(
-            new Backbone.UILib.SelectView({
-                el: this.$("#loc_unidad"),
-                collection: unidades,
             })
         );
 

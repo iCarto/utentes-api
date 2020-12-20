@@ -18,11 +18,7 @@ Backbone.SIXHIARA.SelectBaciaView = Backbone.UILib.BaseView.extend({
             el: this.$("#loc_bacia"),
             collection: bacias.byParent(this.model.get("loc_unidad")),
         });
-        selectBacias.listenTo(this.model, "change:loc_unidad", function(
-            model,
-            value,
-            options
-        ) {
+        selectBacias.listenTo(this.model, "change:loc_unidad", function(model) {
             this.update(bacias.where({parent: model.get("loc_unidad")}));
         });
         this.addView(selectBacias);
@@ -31,17 +27,9 @@ Backbone.SIXHIARA.SelectBaciaView = Backbone.UILib.BaseView.extend({
             el: this.$("#loc_subaci"),
             collection: subacias.byParent(this.model.get("loc_bacia")),
         });
-        selectSubacias.listenTo(this.model, "change:loc_bacia", function(
-            model,
-            value,
-            options
-        ) {
+        selectSubacias.listenTo(this.model, "change:loc_bacia", function(model) {
             this.update(subacias.where({parent: model.get("loc_bacia")}));
         });
         this.addView(selectSubacias);
     },
-
-    // render - Backbone.UILib.BaseView.prototype.render.call(this);
-
-    // remove - Backbone.UILib.BaseView.prototype.remove.call(this);
 });
