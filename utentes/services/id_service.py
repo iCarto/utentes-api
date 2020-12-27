@@ -2,6 +2,7 @@ import datetime
 import re
 
 import utentes.models.constants as c
+from utentes.services import settings_service
 
 
 def code_for_state(state, separator="/"):
@@ -15,7 +16,7 @@ def calculate_new_exp_id(request, state=c.K_LICENSED):
 
     exp_id_tokens = {
         "seq_id": None,
-        "ara": request.registry.settings.get("ara"),
+        "ara": settings_service.get_ara(request),
         "year": str(datetime.date.today().year),
         "code": code_for_state(state),
     }
@@ -36,11 +37,7 @@ def calculate_new_exp_id(request, state=c.K_LICENSED):
 
 
 def is_valid_exp_id(exp_id):
-    from pyramid.threadlocal import get_current_registry
-
-    settings = get_current_registry().settings
-    ara = settings.get("ara")
-    return _is_valid_exp_id(exp_id, ara)
+    return _is_valid_exp_id(exp_id, settings_service.get_ara())
 
 
 def _is_valid_exp_id(exp_id, ara):
@@ -53,11 +50,7 @@ def is_not_valid_exp_id(exp_id):
 
 
 def replace_exp_id_in_code(code, new_exp_id):
-    from pyramid.threadlocal import get_current_registry
-
-    settings = get_current_registry().settings
-    ara = settings.get("ara")
-    i = 12 + len(ara)
+    i = 12 + len(settings_service.get_ara())
     new_exp_id = new_exp_id[:i]
     return new_exp_id + code[i:]
 
