@@ -21,6 +21,9 @@ from utentes.tenant_custom_code import adjust_settings
 from .user_utils import get_user_from_request, get_user_role, is_single_user_mode
 
 
+ONE_HOUR = 3600  # in seconds
+
+
 class RequestWithDB(Request):
     @reify
     def db(self):
@@ -92,7 +95,7 @@ def main(global_config, **settings):
     jinja2_env.globals["is_single_user_mode"] = is_single_user_mode
     jinja2_env.globals["perm"] = perm
 
-    config.add_static_view("static", "static", cache_max_age=3600)
+    config.add_static_view("static", "static", cache_max_age=ONE_HOUR)
 
     add_routes_views(config)
     add_routes_api(config)
@@ -135,10 +138,14 @@ def add_routes_api(config):
     config.add_route("api_fontes_exploracao", "/api/fontes/{exploracao}")
 
     # exploracao_id*/departamento?/unidade? conforms the subpath part of the url
-    # GET    /api/documentos/exploracao_id*/departamento?/unidade? = Return all info and routes to files and path for an exploracao, departamento or unidade
-    # POST   /api/documentos/exploracao_id*/departamento?/unidade? = Creates a new documento
-    # GET    /api/exploracaos/{id}/documentos/{departamento}/{filename} = Return individual documento
-    # DELETE /api/exploracaos/{id}/documentos/{departamento}/{filename} = Delete documento
+    # GET    /api/documentos/exploracao_id*/departamento?/unidade?
+    #     Return info and routes to files for an exploracao, departamento or unidade
+    # POST   /api/documentos/exploracao_id*/departamento?/unidade?
+    #     Creates a new documento
+    # GET    /api/exploracaos/{id}/documentos/{departamento}/{filename}
+    #     Return individual documento
+    # DELETE /api/exploracaos/{id}/documentos/{departamento}/{filename}
+    #     Delete documento
     config.add_route(
         "api_exploracao_documentacao_files", "/api/documentos/files/*subpath"
     )
@@ -213,6 +220,8 @@ def add_routes_api(config):
     config.add_route("api_users_id", "/api/users/{id}")
 
     config.add_route("api_transform_coordinates", "/api/transform")
+
+    config.add_route("api_weap_demand", "/api/weap/demand")
 
     # utilities for manual testing
     config.add_route("api_test_fact_substract_month", "/api/test/fact_substract_month")

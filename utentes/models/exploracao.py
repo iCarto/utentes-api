@@ -124,6 +124,7 @@ class Exploracao(ExploracaoGeom):
         "soli_visit",
         "p_unid",
         "p_tec",
+        "p_tec_disp_hidrica",
         "doc_legal",
         "p_juri",
         "p_rel",
@@ -339,6 +340,12 @@ class Exploracao(ExploracaoGeom):
     )
     p_tec = Column(
         Boolean, nullable=False, server_default=text("false"), doc="Parecer técnico"
+    )
+    p_tec_disp_hidrica = Column(
+        Boolean,
+        nullable=False,
+        server_default=text("false"),
+        doc="Avaliação disponibilidade hídrica (WEAP WAM-T)",
     )
     doc_legal = Column(
         Boolean, nullable=False, server_default=text("false"), doc="Documentação legal"

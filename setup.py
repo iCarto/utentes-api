@@ -22,6 +22,9 @@ requires = [
     "pyramid-jinja2==2.8",
     "cssutils==1.0.2",
     "rjsmin==1.1.0",  # la versión incluída en webassets está desactualizada
+    "numpy==1.19.5",
+    "openpyxl==3.0.5",
+    "pandas==1.1.5",
 ]
 
 excludes = ["utentes.tests"]
