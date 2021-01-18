@@ -1,23 +1,15 @@
 Backbone.SIXHIARA = Backbone.SIXHIARA || {};
-Backbone.SIXHIARA.View1 = Backbone.View.extend({
+Backbone.SIXHIARA.View1 = Backbone.UILib.BaseView.extend({
     tagName: "div",
 
-    // optional, you can assign multiple classes to
-    // this property like so: 'container homepage'
     className: "myclass",
 
-    // Note: When declaring a View, options, el, tagName, id and className
-    // may be defined as functions, if you want their values to be determined
-    // at runtime.
-    id: "myid", // optional
-
-    initialize: function(options) {
-        this.options = options || {};
-    },
+    id: "myid",
 
     render: function() {
         var json = this.model.toJSON();
         this.$el.html(this.template(json));
+        Backbone.UILib.BaseView.prototype.render.call(this);
         return this;
     },
 
@@ -199,7 +191,7 @@ Backbone.SIXHIARA.View1 = Backbone.View.extend({
 
     remove: function() {
         this.tabBarTitle.remove();
-        Backbone.View.prototype.remove.call(this);
+        Backbone.UILib.BaseView.prototype.remove.call(this);
     },
 
     parseDate: function(dateId) {

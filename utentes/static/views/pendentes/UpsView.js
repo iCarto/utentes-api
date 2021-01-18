@@ -18,7 +18,6 @@ Backbone.SIXHIARA.UpsView = Backbone.View.extend({
         this.options = options || {};
     },
 
-    // Re-render the title of the todo item.
     render: function() {
         this.$el.html(this.template(this.model.attributes));
         return this;

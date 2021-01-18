@@ -116,7 +116,7 @@ print('O ' + formatter().formatDate(req_obs[i]['create_at']) + ', ' + req_obs[i]
         var defaultDataForFileModal = iAuth.getDefaultDataForFileModal(
             this.model.get("id")
         );
-        var fileModalView = new Backbone.DMS.FileModalView({
+        new Backbone.DMS.FileModalView({
             openElementId: "#file-modal",
             title: "Arquivo Electr&oacute;nico",
             urlBase: defaultDataForFileModal.defaultUrlBase,
@@ -125,17 +125,29 @@ print('O ' + formatter().formatDate(req_obs[i]['create_at']) + ', ' + req_obs[i]
     },
 
     enableBts: function() {
-        var enableState = false;
-        var enableChb = Array.from(
-            document.querySelectorAll('table input[type="checkbox"]')
-        ).every(input => {
-            if (input.required) {
-                return input.checked;
-            }
-            return true;
-        });
+        var validState = this.evaluateState();
 
-        var validState = this.model.get("estado_lic");
+        if (validState === SIRHA.ESTADO.PENDING_FIELD_VISIT) {
+            this.enableBts_for_state_pending_field_visit();
+        } else if (validState === SIRHA.ESTADO.PENDING_TECH_DECISION) {
+            document.getElementById("bt-ok").disabled = true;
+            document.getElementById("bt-ok").title =
+                "Deve rechear correctamente a 'Ficha' dantes de completar";
+            this.enableBts_for_state_pending_tech_decision();
+        } else if (validState === "FICHA IS VALID") {
+            var enableChb = SIRHA.Utils.DOM.allRequiredInputAreChecked(
+                'table input[type="checkbox"]'
+            );
+            document.getElementById("bt-ok").disabled = !enableChb;
+            document.getElementById("bt-ok").title = SIRHA.ESTADO.PENDING_EMIT_LICENSE;
+            this.enableBts_for_state_pending_tech_decision();
+        }
+
+        this._subviews.forEach(v => v.enableBts());
+    },
+
+    evaluateState: function() {
+        let validState = this.model.get("estado_lic");
         var expTest = this.model.cloneExploracao();
         if (expTest.get("estado_lic") === SIRHA.ESTADO.INCOMPLETE_DT) {
             expTest.setLicState(SIRHA.ESTADO.PENDING_FIELD_VISIT);
@@ -145,47 +157,34 @@ print('O ' + formatter().formatDate(req_obs[i]['create_at']) + ', ' + req_obs[i]
                 validState = SIRHA.ESTADO.PENDING_FIELD_VISIT;
             }
         }
-        if (validState === SIRHA.ESTADO.PENDING_FIELD_VISIT) {
-            document.getElementById("bt-adicionar").classList.remove("disabled");
-            document.getElementById("bt-adicionar").removeAttribute("aria-disabled");
-            document.getElementById("bt-ficha").classList.add("disabled");
-            document.getElementById("bt-ficha").setAttribute("aria-disabled", "true");
-            document.getElementById("bt-defacto").classList.add("disabled");
-            document.getElementById("bt-defacto").setAttribute("aria-disabled", "true");
-            document.getElementById("p_unid").disabled = true;
-            document.getElementById("p_tec").disabled = true;
-
-            enableState = false;
-            document.getElementById("bt-ok").title =
-                "Deve 'Adicionar' dantes de poder completar";
-            document.getElementById("bt-defacto").title =
-                "Deve 'Adicionar' dantes de poder criar uma 'Utente de facto'";
-        } else if (validState === SIRHA.ESTADO.PENDING_TECH_DECISION) {
+        if (validState === SIRHA.ESTADO.PENDING_TECH_DECISION) {
             expTest.setLicState(SIRHA.ESTADO.PENDING_TECH_DECISION);
             if (expTest.isValid()) {
-                enableState = true;
-                document.getElementById("bt-ok").title =
-                    SIRHA.ESTADO.PENDING_EMIT_LICENSE;
-            } else {
-                enableState = false;
-                document.getElementById("bt-ok").title =
-                    "Deve rechear correctamente a 'Ficha' dantes de completar";
+                validState = "FICHA IS VALID";
             }
-            document.getElementById("bt-adicionar").classList.add("disabled");
-            document
-                .getElementById("bt-adicionar")
-                .setAttribute("aria-disabled", "true");
-            document.getElementById("bt-ficha").classList.remove("disabled");
-            document.getElementById("bt-ficha").removeAttribute("aria-disabled");
-            document.getElementById("bt-defacto").classList.remove("disabled");
-            document.getElementById("bt-defacto").removeAttribute("aria-disabled");
-            document.getElementById("p_unid").disabled = false;
-            document.getElementById("p_tec").disabled = false;
-        } else {
-            throw "Error";
         }
+        return validState;
+    },
 
-        document.getElementById("bt-ok").disabled = !(enableChb && enableState);
+    enableBts_for_state_pending_field_visit: function() {
+        SIRHA.Utils.DOM.enableBt("bt-adicionar");
+        SIRHA.Utils.DOM.disableBt("bt-ficha");
+        SIRHA.Utils.DOM.disableBt("bt-defacto");
+        document.getElementById("p_unid").disabled = true;
+        document.getElementById("p_tec").disabled = true;
+        document.getElementById("bt-ok").disabled = true;
+        document.getElementById("bt-ok").title =
+            "Deve 'Adicionar' dantes de poder completar";
+        document.getElementById("bt-defacto").title =
+            "Deve 'Adicionar' dantes de poder criar uma 'Utente de facto'";
+    },
+
+    enableBts_for_state_pending_tech_decision: function() {
+        SIRHA.Utils.DOM.disableBt("bt-adicionar");
+        SIRHA.Utils.DOM.enableBt("bt-ficha");
+        SIRHA.Utils.DOM.enableBt("bt-defacto");
+        document.getElementById("p_unid").disabled = false;
+        document.getElementById("p_tec").disabled = false;
     },
 
     fillExploracao: function(e, autosave) {

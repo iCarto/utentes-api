@@ -116,7 +116,7 @@ Backbone.SIXHIARA.ViewTecnico = Backbone.SIXHIARA.View1.extend({
         var defaultDataForFileModal = iAuth.getDefaultDataForFileModal(
             this.model.get("id")
         );
-        var fileModalView = new Backbone.DMS.FileModalView({
+        new Backbone.DMS.FileModalView({
             openElementId: "#file-modal",
             title: "Arquivo Electr&oacute;nico",
             urlBase: defaultDataForFileModal.defaultUrlBase,
@@ -125,48 +125,26 @@ Backbone.SIXHIARA.ViewTecnico = Backbone.SIXHIARA.View1.extend({
     },
 
     enableBts: function() {
-        var enableState = false;
-        var enableChb = Array.from(
-            document.querySelectorAll('table input[type="checkbox"]')
-        ).every(input => {
-            if (input.required) {
-                return input.checked;
-            }
-            return true;
-        });
-
-        var validState = this.model.get("renovacao").get("estado");
-        var expTest = this.model.cloneExploracao();
-        if (
-            expTest.get("renovacao").get("estado") ===
-            SIRHA.ESTADO_RENOVACAO.INCOMPLETE_DT
-        ) {
-            if (expTest.isValid()) {
-                validState = SIRHA.ESTADO_RENOVACAO.PENDING_TECH_DECISION;
-            }
-        }
-        if (validState === SIRHA.ESTADO_RENOVACAO.PENDING_TECH_DECISION) {
-            expTest.setLicState(SIRHA.ESTADO_RENOVACAO.PENDING_TECH_DECISION);
-            if (expTest.isValid()) {
-                enableState = true;
-                document.getElementById("bt-ok").title =
-                    SIRHA.ESTADO_RENOVACAO.PENDING_EMIT_LICENSE;
-            } else {
-                enableState = false;
-                document.getElementById("bt-ok").title =
-                    "Deve rechear correctamente a 'Ficha' dantes de completar";
-            }
-            document.getElementById("bt-ficha").classList.remove("disabled");
-            document.getElementById("bt-ficha").removeAttribute("aria-disabled");
-            document.getElementById("bt-defacto").classList.remove("disabled");
-            document.getElementById("bt-defacto").removeAttribute("aria-disabled");
+        if (this.model.isValid()) {
+            SIRHA.Utils.DOM.enableBt("bt-defacto");
             document.getElementById("p_unid").disabled = false;
             document.getElementById("p_tec").disabled = false;
+            var enableChb = SIRHA.Utils.DOM.allRequiredInputAreChecked(
+                'table input[type="checkbox"]'
+            );
+            document.getElementById("bt-ok").disabled = !enableChb;
+            document.getElementById("bt-ok").title =
+                SIRHA.ESTADO_RENOVACAO.PENDING_EMIT_LICENSE;
         } else {
-            throw "Error";
+            SIRHA.Utils.DOM.disableBt("bt-defacto");
+            document.getElementById("p_unid").disabled = true;
+            document.getElementById("p_tec").disabled = true;
+            document.getElementById("bt-ok").disabled = true;
+            document.getElementById("bt-ok").title =
+                "Deve rechear correctamente a 'Ficha' dantes de completar";
         }
 
-        document.getElementById("bt-ok").disabled = !(enableChb && enableState);
+        this._subviews.forEach(v => v.enableBts());
     },
 
     fillRenovacao: function(e, autosave) {

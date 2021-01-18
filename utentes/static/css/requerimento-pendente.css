@@ -18,11 +18,6 @@ body,
     overflow-y: auto;
 }
 
-/* #map {
-    border-top: 2px solid black;
-    height: 34%;
-} */
-
 #projects {
     overflow-y: scroll;
 }
@@ -55,22 +50,6 @@ body,
 body {
     font-family: "Open Sans", sans-serif;
 }
-
-/* ----- COLOR SCHEME -----
-
-As the map is the bigger component within the page, it sets the ambient.
-Based on the sea color (blue http://www.colorhexa.com/d8e1ee) we work a palette
-from there: nav and hero sections are a shade variation of the blue sea.
-
-*/
-
-/* main{
-    background-color: #f3f3f3;
-} */
-
-/* #map-container{
-    background-color: #d8e1ee;
-} */
 
 a {
     color: #00a2da;
