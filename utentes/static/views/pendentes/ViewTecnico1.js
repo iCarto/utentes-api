@@ -97,6 +97,14 @@ print('O ' + formatter().formatDate(req_obs[i]['create_at']) + ', ' + req_obs[i]
 
     init: function() {
         Backbone.SIXHIARA.View1.prototype.init.call(this);
+
+        const currentBasin = this.model.get("loc_bacia");
+        if (SIRHA.FEATURES.BASINS_WITH_WEAP_MODEL.includes(currentBasin)) {
+            this.addView(
+                new Backbone.SIXHIARA.ViewWeapExportButton({model: this.model}).init()
+            );
+        }
+
         var self = this;
 
         document

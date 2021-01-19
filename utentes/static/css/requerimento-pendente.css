@@ -74,3 +74,20 @@ a:hover {
     margin: 0 auto;
     width: 97%;
 }
+
+.tr-parentcheckbox-in-tables > td {
+    /* To be applied to the tr */
+    border-bottom: 0 !important;
+}
+
+.tr-childcheckbox-in-tables > td {
+    /* To be applied to the tr */
+    border-top: 0 !important;
+    font-size: 90%;
+    padding-top: 0 !important;
+}
+
+.tr-childcheckbox-in-tables > td:first-child {
+    /* To be applied to the tr */
+    padding-left: 40px;
+}
