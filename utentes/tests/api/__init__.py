@@ -49,7 +49,7 @@ class DBIntegrationTest(unittest.TestCase):
             .where(Exploracao.gid == Licencia.exploracao)
             .as_scalar()
         )
-        exp = (
+        return (
             self.request.db.query(Exploracao)
             .filter(
                 Exploracao.estado_lic == "Licenciada", Exploracao.c_estimado != None
@@ -59,8 +59,6 @@ class DBIntegrationTest(unittest.TestCase):
             .order_by(Exploracao.exp_id)
             .all()[0]
         )
-
-        return exp
 
     def create_new_session(self):
         # La idea de generar una sesión distinta para este último chequeo

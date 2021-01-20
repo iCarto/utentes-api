@@ -11,11 +11,10 @@ from utentes.models.estado_renovacao import EstadoRenovacao
     renderer="json",
 )
 def domains_licencia_estado_renovacao_get(request):
-    domains = (
+    return (
         request.db.query(EstadoRenovacao)
         .order_by(
             EstadoRenovacao.category, EstadoRenovacao.ordering, EstadoRenovacao.key
         )
         .all()
     )
-    return domains

@@ -130,8 +130,7 @@ def get_all_versions_from_dump(dumpfile):
         if l.startswith("SELECT"):
             continue
         dump_filtered.append(l)
-    all_versions = dump_filtered[1:-1]
-    return all_versions
+    return dump_filtered[1:-1]
 
 
 if __name__ == "__main__":

@@ -108,5 +108,4 @@ def requerimento_create(request):
 )
 def get_datos_ara(request):
     ara = request.registry.settings.get("ara")
-    result = request.db.query(Ara).filter(Ara.id == ara).one()
-    return result
+    return request.db.query(Ara).filter(Ara.id == ara).one()

@@ -77,10 +77,9 @@ class Documento(Base):
 
     def get_documento_entity_folder(self):
         # by default: packagedir/utentes/static/files/attachments/{exploracao_id}
-        path = os.path.join(
+        return os.path.join(
             self.defaults["path_root"], "documentos", str(self.exploracao)
         )
-        return path
 
     def get_file_path_save(self):
         # by default: packagedir/utentes/static/files/attachments/{exploracao_id}/{departamento}/{name}

@@ -11,7 +11,7 @@ from utentes.models.facturacao_fact_estado import FacturacaoFactEstado
     renderer="json",
 )
 def domains_facturacao_fact_estado(request):
-    domains = (
+    return (
         request.db.query(FacturacaoFactEstado)
         .order_by(
             FacturacaoFactEstado.category,
@@ -20,4 +20,3 @@ def domains_facturacao_fact_estado(request):
         )
         .all()
     )
-    return domains

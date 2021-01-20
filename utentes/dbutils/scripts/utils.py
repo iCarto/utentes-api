@@ -4,7 +4,9 @@ from .find_pg_executable import find_createdb_path, find_dropdb_path, find_psql_
 
 
 class DBUtilsException(Exception):
-    pass
+    """
+    Custom exception for dbutils methods
+    """
 
 
 def home_directory(user=""):
@@ -14,7 +16,7 @@ def home_directory(user=""):
     """
     from os.path import expanduser
 
-    return expanduser("~" + user)
+    return expanduser(f"~{user}")
 
 
 def connection_parameters(session):
@@ -52,8 +54,7 @@ def terminate_database_connections(session):
     kill_db_query = f"select pg_terminate_backend(pid) from pg_stat_activity where datname='{db_to_be_killed}'"
     params["database"] = "postgres"
 
-    exitcode, err = execute_query_quitely(kill_db_query, params, env)
-    return exitcode, err
+    return execute_query_quitely(kill_db_query, params, env)
 
 
 def clone_database(session, dbname, drop_if_exists=False):
@@ -68,8 +69,7 @@ def clone_database(session, dbname, drop_if_exists=False):
         dbname=dbname, **params
     )
     args.extend(args_str.split())
-    exitcode, err = execute_quitely(args, env)
-    return exitcode, err
+    return execute_quitely(args, env)
 
 
 def drop_database(session, dbname):
@@ -81,8 +81,7 @@ def drop_database(session, dbname):
         dbname=dbname, **params
     )
     args.extend(args_str.split())
-    exitcode = execute_quitely(args, env)
-    return exitcode
+    return execute_quitely(args, env)
 
 
 def execute_query_quitely(query, params, env=None):
@@ -94,8 +93,7 @@ def execute_query_quitely(query, params, env=None):
     args.extend(args_str.split())
     args.append("-c")
     args.append(query)
-    exitcode, err = execute_quitely(args, env)
-    return exitcode, err
+    return execute_quitely(args, env)
 
 
 def execute_quitely(args, env=None):
@@ -124,5 +122,4 @@ def _get_session(dbname="arasul"):
 
     engine = create_engine(f"postgresql://postgres:postgres@localhost:9001/{dbname}")
     Session = sessionmaker(bind=engine)
-    session = Session()
-    return session
+    return Session()

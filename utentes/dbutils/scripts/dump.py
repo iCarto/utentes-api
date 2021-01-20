@@ -21,8 +21,7 @@ def dump_filename(bdname=""):
     schema_utentes. To make it clear that only that schema is dumped
     """
     today = datetime.date.today().strftime("%y%m%d")
-    filename = f"{today}_BDD_{bdname}_schema_utentes_pro.dump"
-    return filename
+    return f"{today}_BDD_{bdname}_schema_utentes_pro.dump"
 
 
 def dump_filepath(bdname=""):

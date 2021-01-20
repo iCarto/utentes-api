@@ -35,12 +35,11 @@ def which(program, case_sensitive=_IS_CASE_SENSITIVE_FILESYSTEM):
             and not os.path.isdir(fpath)
         ):
             filemode = os.stat(fpath).st_mode
-            ret = bool(
+            return bool(
                 filemode & stat.S_IXUSR
                 or filemode & stat.S_IXGRP
                 or filemode & stat.S_IXOTH
             )
-            return ret
 
     def list_file_exts(directory, search_filename=None, ignore_case=True):
         """ Return list of (filename, extension) tuples which match the search_filename"""

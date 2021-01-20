@@ -1,4 +1,3 @@
-
 import json
 
 from geoalchemy2.elements import WKTElement
@@ -126,8 +125,7 @@ def update_geom(org_geom, json):
     if not g:
         return None
     the_geom = WKTElement(wkt.dumps(g), srid=4326)
-    the_geom = the_geom.ST_Multi().ST_Transform(32737)
-    return the_geom
+    return the_geom.ST_Multi().ST_Transform(32737)
 
 
 def update_area(model, json, divisor=10000, fieldname="area"):
