@@ -1,10 +1,7 @@
 from selenium import webdriver
-
-import config
 from webdriver_manager.chrome import ChromeDriverManager
 
-
-TMP_DIRECTORY = "/tmp"  # noqa
+from utentes.tests.e2e import config
 
 
 def get_browser():
@@ -22,8 +19,9 @@ def get_options():
     # from selenium.webdriver.chrome.options import Options
     # options = Options()
 
-    # instantiate a chrome options object so you can set the size and headless preference
-    # some of these chrome options might be uncessary but I just used a boilerplate
+    # instantiate a chrome options object so you can set the size and headless
+    # preference some of these chrome options might be uncessary but I just used a
+    # boilerplate
     options = webdriver.ChromeOptions()
     if config.HEADLESS:
         options.add_argument("--headless")
@@ -36,7 +34,7 @@ def get_options():
     options.add_experimental_option(
         "prefs",
         {
-            "download.default_directory": TMP_DIRECTORY,
+            "download.default_directory": config.TMP_DIRECTORY,
             "download.prompt_for_download": False,
             "download.directory_upgrade": True,
             "safebrowsing_for_trusted_sources_enabled": False,
@@ -49,7 +47,7 @@ def get_options():
     return options
 
 
-def enable_download_headless(browser, download_path=TMP_DIRECTORY):
+def enable_download_headless(browser, download_path=config.TMP_DIRECTORY):
     """
     Habilita las descargas en Chrome en modo headless.
 
