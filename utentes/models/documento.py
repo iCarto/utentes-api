@@ -93,8 +93,8 @@ class Documento(Base):
     def get_file_path(self):
         if self.saved:
             return self.get_file_path_save()
-        else:
-            return self.get_file_path_upload()
+
+        return self.get_file_path_upload()
 
     def upload_file(self, content):
         try:

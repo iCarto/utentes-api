@@ -5,7 +5,7 @@ def find_pg_executable_path_by_harcoded(name):
     # comillas
     # las / \
     # y como se ejecuta
-    p = "C:\\Program Files\\PostgreSQL\\10\\bin\\{}.exe".format(name)
+    p = f"C:\\Program Files\\PostgreSQL\\10\\bin\\{name}.exe"
     if os.path.exists(p):
         return p
     return None
@@ -42,7 +42,7 @@ def find_pg_executable_path_by_queries(name, session):
     if not is_same_path(data_directory, hba_file_directory):
         return None
 
-    pg_executable = os.path.join(data_directory, "../bin/{}.exe".format(name))
+    pg_executable = os.path.join(data_directory, f"../bin/{name}.exe")
     if os.path.exists(pg_executable):
         return os.path.abspath(pg_executable)
 
@@ -72,7 +72,7 @@ def normalize_path(p):
     Not sure, what is the best cross-platforma approach. So all posible
     os.path functions are used
     """
-    from os.path import normpath, realpath, normcase
+    from os.path import normcase, normpath, realpath
 
     return normcase(normpath(realpath(p)))
 

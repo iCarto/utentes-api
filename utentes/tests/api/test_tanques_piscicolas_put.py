@@ -3,10 +3,7 @@ import unittest
 from pyramid.httpexceptions import HTTPBadRequest
 
 from utentes.api.tanques_piscicolas import tanques_piscicolas_update
-from utentes.models.actividade import ActividadesPiscicultura
-from utentes.models.exploracao import Exploracao, ExploracaoBase
 from utentes.models.tanques_piscicolas import ActividadesTanquesPiscicolas as Entity
-from utentes.models.utente import Utente
 from utentes.tests.api import TanquesPiscicolasTests
 
 

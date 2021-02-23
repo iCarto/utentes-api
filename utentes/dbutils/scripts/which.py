@@ -46,7 +46,7 @@ def which(program, case_sensitive=_IS_CASE_SENSITIVE_FILESYSTEM):
         """ Return list of (filename, extension) tuples which match the search_filename"""
         if ignore_case:
             search_filename = search_filename.lower()
-        for root, dirs, files in os.walk(path):
+        for _root, _dirs, files in os.walk(path):
             for f in files:
                 filename, extension = os.path.splitext(f)
                 if ignore_case:
@@ -99,4 +99,4 @@ def which(program, case_sensitive=_IS_CASE_SENSITIVE_FILESYSTEM):
 
 
 if __name__ == "__main__":
-    print (which(sys.argv[1]))
+    print(which(sys.argv[1]))

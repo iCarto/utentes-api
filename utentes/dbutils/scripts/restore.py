@@ -7,7 +7,6 @@ from .utils import (
     clone_database,
     connection_parameters,
     ensure_connection_is_available,
-    execute_query_quitely,
     execute_quitely,
     get_custom_enviroment_with_password,
     terminate_database_connections,

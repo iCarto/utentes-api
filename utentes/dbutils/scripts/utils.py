@@ -1,4 +1,3 @@
-
 import os
 
 from .find_pg_executable import find_createdb_path, find_dropdb_path, find_psql_path
@@ -49,11 +48,8 @@ def ensure_connection_is_available(params, env):
 def terminate_database_connections(session):
     params = connection_parameters(session)
     env = get_custom_enviroment_with_password(params["password"])
-    kill_db_query = """
-    select pg_terminate_backend(pid) from pg_stat_activity where datname='{}'
-    """.format(
-        params["database"]
-    )
+    db_to_be_killed = params["database"]
+    kill_db_query = f"select pg_terminate_backend(pid) from pg_stat_activity where datname='{db_to_be_killed}'"
     params["database"] = "postgres"
 
     exitcode, err = execute_query_quitely(kill_db_query, params, env)
@@ -109,14 +105,7 @@ def execute_quitely(args, env=None):
     Returns the original exit status of the command used
     """
     # https://stackoverflow.com/questions/11269575/
-    from subprocess import Popen, PIPE, STDOUT
-
-    try:
-        from subprocess import DEVNULL  # py3k
-    except ImportError:
-        import os
-
-        DEVNULL = open(os.devnull, "r")
+    from subprocess import DEVNULL, PIPE, Popen
 
     p = Popen(args, env=env, stdin=DEVNULL, stdout=DEVNULL, stderr=PIPE)
     err = p.communicate()
@@ -133,9 +122,7 @@ def _get_session(dbname="arasul"):
     from sqlalchemy import create_engine
     from sqlalchemy.orm import sessionmaker
 
-    engine = create_engine(
-        "postgresql://postgres:postgres@localhost:9001/{}".format(dbname)
-    )
+    engine = create_engine(f"postgresql://postgres:postgres@localhost:9001/{dbname}")
     Session = sessionmaker(bind=engine)
     session = Session()
     return session

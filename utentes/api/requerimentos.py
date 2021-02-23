@@ -8,7 +8,6 @@ from utentes.api.error_msgs import error_msgs
 from utentes.models.ara import Ara
 from utentes.models.base import badrequest_exception
 from utentes.models.exploracao import Exploracao
-from utentes.services.id_service import calculate_new_exp_id
 
 
 log = logging.getLogger(__name__)

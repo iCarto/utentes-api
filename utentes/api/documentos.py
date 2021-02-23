@@ -1,4 +1,3 @@
-
 from pyramid.response import FileResponse
 from pyramid.view import view_config
 from sqlalchemy import func
@@ -52,10 +51,8 @@ def exploracao_documentacao(request):
                 request, path_info["departamento"], path_info["unidade"]
             ),
         }
-    else:
-        raise badrequest_exception(
-            {"error": error_msgs["no_document"], "name": path_info}
-        )
+
+    raise badrequest_exception({"error": error_msgs["no_document"], "name": path_info})
 
 
 @view_config(
@@ -434,8 +431,7 @@ def exploracao_documentos_zip(request):
 
     tzip = create_zip_file(request, documentos, departamento, unidade)
 
-    from pyramid.response import FileIter
-    from pyramid.response import Response
+    from pyramid.response import FileIter, Response
 
     response = Response()
     response.content_type = "application/zip"
@@ -459,8 +455,8 @@ def create_zip_file(request, documentos, departamento, unidade):
     # https://stackoverflow.com/questions/23212435/
     # https://stackoverflow.com/questions/12881294/
     import os
-    import zipfile
     import tempfile
+    import zipfile
 
     tmp = tempfile.NamedTemporaryFile()
     with zipfile.ZipFile(tmp, "w", compression=zipfile.ZIP_DEFLATED) as zip:

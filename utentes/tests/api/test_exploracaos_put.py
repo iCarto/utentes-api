@@ -1,7 +1,6 @@
 import unittest
 
 from pyramid.httpexceptions import HTTPBadRequest
-from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
 import utentes.models.constants as c
 from utentes.api.exploracaos import exploracaos_update
@@ -676,7 +675,7 @@ class ExploracaoUpdateActividadeTests(DBIntegrationTest):
 
     @unittest.skip("fix me")
     def test_update_exploracao_update_actividade_pecuaria_create_res_with_same_res_tipo(
-        self
+        self,
     ):
         expected = (
             self.request.db.query(Exploracao)
@@ -713,7 +712,7 @@ class ExploracaoUpdateActividadeTests(DBIntegrationTest):
 
     @unittest.skip("fix me")
     def test_update_exploracao_update_actividade_pecuaria_create_update_delete_res(
-        self
+        self,
     ):
         expected = (
             self.request.db.query(Exploracao)

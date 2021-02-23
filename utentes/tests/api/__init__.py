@@ -4,13 +4,10 @@ from pyramid import testing
 from pyramid.paster import get_appsettings
 from sqlalchemy import engine_from_config
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
-
-import utentes.models.constants as c
-from utentes.models.actividade import ActividadesPiscicultura
-from utentes.models.exploracao import Exploracao, ExploracaoBase
-from utentes.models.utente import Utente
 from webob.multidict import MultiDict
+
+from utentes.models.exploracao import Exploracao
+from utentes.models.utente import Utente
 
 
 settings = get_appsettings("development.ini", "main")
@@ -36,9 +33,10 @@ class DBIntegrationTest(unittest.TestCase):
         self.connection.close()
 
     def get_test_exploracao(self):
+        from sqlalchemy import func, select
+
         from utentes.models.fonte import Fonte
         from utentes.models.licencia import Licencia
-        from sqlalchemy import select, func
 
         # Explotación licenciada con al menos una fuente y una sóla licencia
         at_lest_one_source = (

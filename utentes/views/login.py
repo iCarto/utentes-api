@@ -1,3 +1,5 @@
+import urllib
+
 from pyramid.httpexceptions import HTTPFound
 from pyramid.security import remember
 from pyramid.view import view_config
@@ -19,7 +21,6 @@ def login(request):
         headers = remember(request, user.username)
         response = HTTPFound(location="/exploracao-search.html", headers=headers)
         response.set_cookie("utentes_stub_user", value=user.username)
-        import urllib.request, urllib.parse, urllib.error
 
         usergroup = urllib.parse.quote(user.usergroup)
         response.set_cookie("utentes_stub_role", value=usergroup)
@@ -61,7 +62,6 @@ def login(request):
                 next = request.route_url("facturacao")
             response = HTTPFound(location=next, headers=headers)
             response.set_cookie("utentes_stub_user", value=user.username)
-            import urllib.request, urllib.parse, urllib.error
 
             usergroup = urllib.parse.quote(user.usergroup)
             response.set_cookie("utentes_stub_role", value=usergroup)

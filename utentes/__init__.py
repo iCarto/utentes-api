@@ -1,7 +1,6 @@
 import datetime
 import decimal
 import os
-import sys
 
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy

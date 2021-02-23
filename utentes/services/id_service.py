@@ -1,4 +1,5 @@
 import datetime
+import re
 
 import utentes.models.constants as c
 
@@ -11,38 +12,40 @@ def code_for_state(state, separator="/"):
 def calculate_new_exp_id(request, state=c.K_LICENSED):
     if not state:
         state = c.K_LICENSED
-    code = code_for_state(state)
 
-    ara = request.registry.settings.get("ara")
-    year = datetime.date.today().year
-    aux1 = 6 + len(ara)
-    aux2 = 10 + len(ara)
-    sql = """
-    SELECT substring(exp_id, 1, 3)
+    exp_id_tokens = {
+        "seq_id": None,
+        "ara": request.registry.settings.get("ara"),
+        "year": str(datetime.date.today().year),
+        "code": code_for_state(state),
+    }
+
+    sql = r"""
+    SELECT substring(exp_id, 1, 3)::int + 1
     FROM utentes.exploracaos
     WHERE
-        upper(ara) = '{}'
-        AND substring(exp_id, '{}', 4) = '{}'
-        AND substring(exp_id, '{}', 3) = '{}'
+        upper(ara) = :ara
+        AND substring(exp_id from '\d{3}/.*/(\d{4})') = :year
+        AND right(exp_id, 3) = :code
     ORDER BY 1 DESC
     LIMIT 1;
-    """.format(
-        ara, aux1, year, aux2, code
-    )
-    next_number = request.db.execute(sql).first() or [0]
-    next_id = "%0*d" % (3, int(next_number[0]) + 1)
+    """
+    exp_id_tokens["seq_id"] = (request.db.execute(sql, exp_id_tokens).first() or [1])[0]
 
-    return "{}/{}/{}{}".format(next_id, ara, year, code)
+    return "{seq_id:03d}/{ara}/{year}{code}".format(**exp_id_tokens)
 
 
 def is_valid_exp_id(exp_id):
-    import re
     from pyramid.threadlocal import get_current_registry
 
     settings = get_current_registry().settings
-    regexpExpIdFormat = "^\d{3}\/" + settings.get("ara") + "\/\d{4}/(UF|SL|CL)$"
+    ara = settings.get("ara")
+    return _is_valid_exp_id(exp_id, ara)
 
-    return exp_id and re.match(regexpExpIdFormat, exp_id)
+
+def _is_valid_exp_id(exp_id, ara):
+    exp_id_format_regexp = r"^\d{3}/" + ara + r"/\d{4}/(UF|SL|CL)$"
+    return exp_id and re.match(exp_id_format_regexp, exp_id)
 
 
 def is_not_valid_exp_id(exp_id):
@@ -87,10 +90,10 @@ def next_child_seq(childs, id_name):
     ]
     if len(id_sequence) == 0:
         return 1
-    else:
-        return max(id_sequence) + 1
+
+    return max(id_sequence) + 1
 
 
 def calculate_new_child_id(childs, id_name, exp_id):
     next_seq = next_child_seq(childs, id_name)
-    return "{}/{:03d}".format(exp_id, next_seq)
+    return "{0}/{1:03d}".format(exp_id, next_seq)

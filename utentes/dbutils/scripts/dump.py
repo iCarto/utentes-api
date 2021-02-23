@@ -1,4 +1,3 @@
-
 import datetime
 import os
 
@@ -22,7 +21,7 @@ def dump_filename(bdname=""):
     schema_utentes. To make it clear that only that schema is dumped
     """
     today = datetime.date.today().strftime("%y%m%d")
-    filename = "{}_BDD_{}_schema_utentes_pro.dump".format(today, bdname)
+    filename = f"{today}_BDD_{bdname}_schema_utentes_pro.dump"
     return filename
 
 
