@@ -12,15 +12,17 @@
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "pretty:python": "black . && isort -rc .",
+        "pretty:python": "black . && isort .",
         "pretty:css": "npx stylelint --fix --ignore-path .ignore  '**/*.{vue,htm,html,css,sss,less,scss,sass,mak,jinja2}'",
         "pretty:js": "npx prettier --ignore-path '.ignore' --write '**/*.js'",
         "pretty:bash": "shfmt -l -w -i 4 -bn -sr -ci $(shfmt -f . | grep -v node_modules/)",
-        "pretty:others": "npx prettier --ignore-path '.ignore' --write '**/*.{md,yml,yaml,json}'"
+        "pretty:others": "npx prettier --ignore-path '.ignore' --write '**/*.{md,yml,yaml,json}'",
+        "lint:bash": "git ls-files -c -o --exclude-from=.ignore '**.sh' | xargs shellcheck"
     },
     "devDependencies": {
         "eclint": "2.8.1",
         "eslint": "4.18.1",
+        "eslint-plugin-backbone": "2.1.1",
         "htmllint": "0.7.2",
         "js-beautify": "1.10.0",
         "prettier": "1.18.2",

@@ -54,7 +54,7 @@ for dump_file in "${DB_BACKUP_DIR}"/*.dump ; do
 done
 
 workon utentes
-python -Wd setup.py test -q
+make test
 ```
 
 _Nota_: La máquina virtual asume una estructura de directorios similar a la siguiente. Todo debería funcionar igual, pero se puede perder alguna "funcionalidad".
@@ -90,14 +90,14 @@ sudo systemctl restart apache2
 
 ```bash
 # Todos los tests
-python -m unittest discover -s utentes.tests
+# -Wd mostrar los warnings de deprecated
+python -Wd -m unittest discover -s utentes.tests
 
 # Sólo los tests de la API
-python setup.py test -q -s utentes.tests.api
-
+python -m unittest discover -s utentes.tests.api
 
 # Un test concreto
-python setup.py test -q -s utentes.tests.api.test_cultivos_get.CultivosGET_IntegrationTests.test_cultivo_get_length
+python -m unittest utentes.tests.api.test_cultivos_get.CultivosGET_IntegrationTests.test_cultivo_get_length
 
 # Para de ejecutar los tests en el primer fallo
 python -m unittest discover --failfast -s utentes.tests
