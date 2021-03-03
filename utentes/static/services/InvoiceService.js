@@ -1,6 +1,11 @@
 SIRHA.Services.InvoiceService = {
     /*
-     * Calculates the billing period for an invoice
+     * Calculates the string representation of the billing period for an invoice
+
+     Maybe this method should be in the Invoice Model. Check that models/facturacao.py
+     has the same implementation and both should be updated. Maybe it should be defined
+     as an endpoint or property
+
      @param {String} billingCycle - Which is the billing cycle (fact_tipo). 'Mensal', 'Trimestral', 'Anual'
      @param {String} month - The month in number format of this invoice
      @param {String} year - The year in number format of this invoice

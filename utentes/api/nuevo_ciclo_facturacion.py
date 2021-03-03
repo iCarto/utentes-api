@@ -4,14 +4,10 @@ import logging
 from pyramid.view import view_config
 
 import utentes.constants.perms as perm
-import utentes.models.constants as c
+from utentes.models.constants import INVOIZABLE_STATES, K_SUPERFICIAL
 from utentes.models.exploracao import ExploracaoConFacturacao
 from utentes.models.facturacao import Facturacao
-from utentes.models.facturacao_fact_estado import (
-    PENDING_CONSUMPTION,
-    PENDING_INVOICE,
-    FacturacaoFactEstado,
-)
+from utentes.models.facturacao_fact_estado import PENDING_CONSUMPTION, PENDING_INVOICE
 
 
 log = logging.getLogger(__name__)
@@ -37,10 +33,9 @@ def nuevo_ciclo_facturacion(request):
 
         raise unauthorized_exception()
 
-    states = FacturacaoFactEstado.ESTADOS_FACTURABLES
     exps = (
         request.db.query(ExploracaoConFacturacao)
-        .filter(ExploracaoConFacturacao.estado_lic.in_(states))
+        .filter(ExploracaoConFacturacao.estado_lic.in_(INVOIZABLE_STATES))
         .all()
     )
     today = datetime.datetime.now()
@@ -72,8 +67,8 @@ def nuevo_ciclo_facturacion(request):
         if (
             lic_sup.consumo_tipo == "Fixo"
             or lic_sub.consumo_tipo == "Fixo"
-            or lic_sup.tipo_agua == c.K_SUPERFICIAL
-            or lic_sub.tipo_agua == c.K_SUPERFICIAL
+            or lic_sup.tipo_agua == K_SUPERFICIAL
+            or lic_sub.tipo_agua == K_SUPERFICIAL
         ):
             f.fact_estado = PENDING_INVOICE
             n_exps_pending_invoice += 1

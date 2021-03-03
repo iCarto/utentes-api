@@ -222,6 +222,9 @@ def add_routes_api(config):
 
     config.add_route("api_weap_demand", "/api/weap/demand")
 
+    config.add_route("api_erp_clients", "/api/erp/clients")
+    config.add_route("api_erp_invoices", "/api/erp/invoices")
+
     # utilities for manual testing
     config.add_route("api_test_fact_substract_month", "/api/test/fact_substract_month")
 

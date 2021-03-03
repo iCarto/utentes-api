@@ -1,8 +1,6 @@
 from sqlalchemy import Column, Integer, Text
 
-import utentes.models.constants as c
-
-from .base import PGSQL_SCHEMA_DOMAINS, DeclarativeBase
+from utentes.models.base import PGSQL_SCHEMA_DOMAINS, DeclarativeBase
 
 
 PENDING_CONSUMPTION = "Pendente Acrescentar Consumo (DT)"
@@ -15,8 +13,6 @@ NOT_INVOIZABLE = "Não facturable"
 class FacturacaoFactEstado(DeclarativeBase):
     __tablename__ = "facturacao_fact_estado"
     __table_args__ = {"schema": PGSQL_SCHEMA_DOMAINS}
-
-    ESTADOS_FACTURABLES = [c.K_LICENSED, c.K_DE_FACTO]
 
     category = Column(Text, nullable=False, primary_key=True)
     key = Column(Text, nullable=False, primary_key=True)

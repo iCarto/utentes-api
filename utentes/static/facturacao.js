@@ -75,6 +75,16 @@ var exploracaosFetched = function() {
         listView: listView,
     }).render();
 
+    if (SIRHA.FEATURES.ERP_EXPORT) {
+        $("#projects-header .export-buttons").append("<br>");
+        $("#projects-header .export-buttons").append(
+            '<a class="btn btn-default btn-sm" href="/api/erp/clients" role="button">Clientes</a>'
+        );
+        $("#projects-header .export-buttons").append(
+            '<a class="btn btn-default btn-sm" href="/api/erp/invoices" role="button">Facturas</a>'
+        );
+    }
+
     mapView = new Backbone.SIXHIARA.MapView({
         el: $("#map"),
         collection: exploracaosFiltered,
@@ -123,7 +133,7 @@ estados.fetch({
     },
 });
 
-document.getElementById("projects").addEventListener("click", e => {
+document.getElementById("project_list").addEventListener("click", e => {
     if (e.target.tagName.toLowerCase() === "a") {
         var exp_id = e.target.parentNode.parentNode.id.replace("exp_id-", "");
         var exp = exploracaos.findWhere({exp_id: exp_id});

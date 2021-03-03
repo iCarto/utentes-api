@@ -62,7 +62,10 @@
             PENDING_M3: 'Pendente Acrescentar Consumo (DT)',
         },
         FEATURES: {
-            BASINS_WITH_WEAP_MODEL: ['Umbelúzi']
+            BASINS_WITH_WEAP_MODEL: ['Umbelúzi'],
+            {% if request.registry.settings.get("ara") == "ARAS" %}
+            ERP_EXPORT: true
+            {% endif %}
         }
     }
     SIRHA.ESTADO.CATEGORY_POST_LICENSED = [SIRHA.ESTADO.LICENSED, SIRHA.ESTADO.IRREGULAR, SIRHA.ESTADO.DE_FACTO];

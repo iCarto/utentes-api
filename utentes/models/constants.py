@@ -19,3 +19,7 @@ K_PENDING_EMIT_LICENSE = "Pendente Emisão Licença (DJ)"
 K_PENDING_DIR_SIGN = "Pendente Firma Licença (Direcção)"
 K_PENDING_FIELD_VISIT = "Pendente Visita Campo (DT)"
 K_INCOMPLETE_DT = "Documentação incompleta (Pendente utente - DT)"
+
+INVOIZABLE_STATES = (K_LICENSED, K_DE_FACTO)
+
+MONTHTLY = "Mensal"

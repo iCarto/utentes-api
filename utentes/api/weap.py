@@ -1,47 +1,33 @@
 import datetime
-from tempfile import NamedTemporaryFile
 
 import pandas as pd
 from pyramid.request import Request
-from pyramid.response import FileIter
 from pyramid.view import view_config
 from sqlalchemy.engine import Engine
+
+from utentes.services.pyramid_spreadsheet_response import spreadsheet_response
+from utentes.services.spreadsheet_writer import write_tmp_spreadsheet_from_dataframes
 
 
 @view_config(route_name="api_weap_demand")
 def api_weap_demand(request: Request):
     exp_gid = int(request.GET["id"])
-    tmp, filename = build_spreadsheet_file(request.db.bind, exp_gid)
-
-    response = request.response
-    # https://docs.microsoft.com/es-es/archive/blogs/vsofficedeveloper/office-2007-file-format-mime-types-for-http-content-streaming-2
-    response.content_type = (
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-    )
-
-    response.content_disposition = f"attachment; filename={filename}"
-    try:
-        response.app_iter = FileIter(tmp)
-    except Exception:
-        tmp.close()
-        # reraise the original exception
-        raise
 
     # It's granted that response will call close on `tmp` so the file will be deleted
-    return response
+    tmp, filename = build_spreadsheet_file(request.db.bind, exp_gid)
+    return spreadsheet_response(request, tmp, filename)
 
 
 def build_spreadsheet_file(engine: Engine, exp_gid: int):
-    df_basin = get_current_basin_demand(engine)
-    df_exp = get_new_exp_demand(engine, exp_gid)
-    tmp = NamedTemporaryFile(suffix=".xlsx")
-    try:
-        write_file(tmp, df_basin, df_exp)
-    except Exception:
-        tmp.close()
-        # reraise the original exception
-        raise
-    return tmp, build_filename(df_exp["exp_id"][0])
+    sheets = {
+        "Explorações_Agregadas": get_current_basin_demand(engine),
+        "Nova_Licenca": get_new_exp_demand(engine, exp_gid),
+    }
+    exp_id = sheets["Nova_Licenca"]["Número da exploração"][0]
+    spreadsheet_file = write_tmp_spreadsheet_from_dataframes(sheets)
+    spreadsheet_filename = build_filename(exp_id)
+
+    return spreadsheet_file, spreadsheet_filename
 
 
 def get_current_basin_demand(engine: Engine):
@@ -176,7 +162,16 @@ def get_current_basin_demand(engine: Engine):
     ;
     """
 
-    return pd.read_sql_query(query, con=engine)
+    df = pd.read_sql_query(query, con=engine)
+    df.columns = [
+        "Sub-bacia / Unidade WEAP",
+        "Bacia",
+        "Posto Exploração",
+        "Actividade",
+        "Tipo Água",
+        "Consumo m3/mês",
+    ]
+    return df
 
 
 def get_new_exp_demand(engine: Engine, exp_gid: int):
@@ -231,49 +226,25 @@ def get_new_exp_demand(engine: Engine, exp_gid: int):
         WHERE e.gid = %(gid)s;
         """  # noqa: WPS323
 
-    return pd.read_sql_query(query, con=engine, params={"gid": exp_gid})
+    df = pd.read_sql_query(query, con=engine, params={"gid": exp_gid})
+    df.columns = [
+        "Sub-bacia / Unidade WEAP",
+        "Bacia",
+        "Posto Exploração",
+        "Número da exploração",
+        "Nome da exploração",
+        "Actividade",
+        "Licença superficial",
+        "Tipo Água",
+        "Consumo solicitado m3/mês",
+        "Licença subterrânea",
+        "Tipo Água",
+        "Consumo Solicitado m3/mês",
+    ]
+    return df
 
 
 def build_filename(exp_id):
     today = datetime.date.today().strftime("%y%m%d")  # noqa: WPS323
     exp_id_sanitized = exp_id.replace("/", "_")
     return f"{today}_demanda_weap_{exp_id_sanitized}.xlsx"
-
-
-def write_file(tmp, df_basin, df_exp):
-    writer = pd.ExcelWriter(tmp)
-    df_basin.to_excel(
-        writer,
-        sheet_name="Explorações_Agregadas",
-        index=False,
-        header=[
-            "Sub-bacia / Unidade WEAP",
-            "Bacia",
-            "Posto Exploração",
-            "Actividade",
-            "Tipo Água",
-            "Consumo m3/mês",
-        ],
-    )
-    df_exp.to_excel(
-        writer,
-        sheet_name="Nova_Licenca",
-        index=False,
-        header=[
-            "Sub-bacia / Unidade WEAP",
-            "Bacia",
-            "Posto Exploração",
-            "Número da exploração",
-            "Nome da exploração",
-            "Actividade",
-            "Licença superficial",
-            "Tipo Água",
-            "Consumo solicitado m3/mês",
-            "Licença subterrânea",
-            "Tipo Água",
-            "Consumo Solicitado m3/mês",
-        ],
-    )
-    writer.save()
-    tmp.seek(0)
-    return tmp

@@ -63,6 +63,14 @@ def build_exception(httpexc, body):
     return response
 
 
+def badrequest_exception_user(msg):
+    """
+    It's used to raise exception from api or views to redirect the user to a new web
+    page where the `msg` with the problem is shown
+    """
+    return HTTPBadRequest(body=msg)
+
+
 class APIAction(object):
 
     OK = "ok"
