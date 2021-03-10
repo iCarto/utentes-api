@@ -92,7 +92,7 @@ class Facturacao(Base):
         water_type = _water_type[:3].lower()
         template_atts_to_eval = ("c_licencia_", "taxa_fixa_", "taxa_uso_")
         atts_to_eval = [f"{att}{water_type}" for att in template_atts_to_eval]
-        return all(getattr(self, att) is None for att in atts_to_eval)
+        return all(getattr(self, att) is not None for att in atts_to_eval)
 
     def billing_period(self) -> str:
         """

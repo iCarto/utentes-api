@@ -170,8 +170,6 @@
     "views/search/FilterYearsView.js",
     "views/search/FiltersView.js",
     "views/search/NumberOfResultsView.js",
-    "views/search/ButtonExportXLSView.js",
-    "views/search/ButtonExportSHPView.js",
 
     "offline/MapConfig.js",
     "offline/LayerStyle.js",
@@ -197,13 +195,6 @@
         <script src="{{ ASSET_URL }}"></script>
     {% endassets %}
 
-    {% assets
-    "lib/shpwrite.js",
-    "lib/excel-libs/xlsx.core.min.js",
-    "lib/excel-libs/jszip.min.js",
-    "lib/excel-libs/FileSaver.js",
-    output="dist/export.js", filters="rjsmin" %}
-        <script src="{{ ASSET_URL }}"></script>
-    {% endassets %}
+
 
 {% endblock js_assets %}

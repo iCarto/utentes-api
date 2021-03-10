@@ -61,6 +61,7 @@ def create_test_licencia(exp_id, **kwargs):
     licencia = Licencia()
     licencia.gid = gid_generator.next_licencia()
     licencia.tipo_agua = K_SUBTERRANEA
+    licencia.c_licencia = 2
     licencia.estado = K_LICENSED  # Utente de facto UF
     for k, v in kwargs.items():
         setattr(licencia, k, v)
@@ -142,11 +143,11 @@ def create_test_invoice(exp: Exploracao, year, month, **kwargs):
     invoice.iva_sup = exp.get_licencia("sup").c_licencia and 1
     invoice.consumo_tipo_sub = exp.get_licencia("sub").consumo_tipo
     invoice.consumo_fact_sub = exp.get_licencia("sub").c_licencia
-    invoice.taxa_fixa_sub = exp.get_licencia("sub").c_licencia and 1
-    invoice.taxa_uso_sub = exp.get_licencia("sub").c_licencia and 1
-    invoice.pago_mes_sub = exp.get_licencia("sub").c_licencia and 1
-    invoice.pago_iva_sub = exp.get_licencia("sub").c_licencia and 1
-    invoice.iva_sub = exp.get_licencia("sub").c_licencia and 1
+    invoice.taxa_fixa_sub = exp.get_licencia("sub").c_licencia and 2
+    invoice.taxa_uso_sub = exp.get_licencia("sub").c_licencia and 2
+    invoice.pago_mes_sub = exp.get_licencia("sub").c_licencia and 2
+    invoice.pago_iva_sub = exp.get_licencia("sub").c_licencia and 2
+    invoice.iva_sub = exp.get_licencia("sub").c_licencia and 2
     invoice.iva = 12.75
     invoice.juros = 1
     invoice.pago_mes = 1

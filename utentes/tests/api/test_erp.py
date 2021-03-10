@@ -41,6 +41,8 @@ class ERPIntegrationTests(DBIntegrationTest):
         db = self.request.db
         db.query(Exploracao).delete()
         db.query(ExploracaosERP).delete()
+        db.query(FacturacaoERP).delete()
+        db.flush()
         self.not_invoizable_not_exportable = create_test_exploracao(
             estado_lic=K_IRREGULAR
         )
@@ -91,6 +93,11 @@ class ERPIntegrationTests(DBIntegrationTest):
         )
         db.add(self.invoice_for_exp_sub_exists)
 
+        self.not_exportable_invoice_after_manual_sync_for_not_exportable_exp = (
+            create_test_invoice(self.invoizable_not_exportable, 2021, 4)
+        )
+        db.add(self.not_exportable_invoice_after_manual_sync_for_not_exportable_exp)
+
     def test_clients(self):
         from utentes.erp.clients import get_and_update_bd
 
@@ -106,6 +113,10 @@ class ERPIntegrationTests(DBIntegrationTest):
         self.assertEqual("Ambas", exp_sub_sup_new["Tipo_Agua"])
         self.assertEqual("Existente", exp_sub_exists["estado"])
         self.assertEqual("Novo", exp_sub_sup_new["estado"])
+        self.assertEqual(self.exp_sub_exists.exp_name, exp_sub_exists["Nome"])
+        self.assertEqual(
+            self.exp_sub_exists.utente_rel.nome, exp_sub_exists["Nome_Comercial"]
+        )
 
         anulada_by_state_change = get_from_actual(actual, self.anulada_by_state_change)
         self.assertEqual("Anulado", anulada_by_state_change["estado"])
@@ -148,11 +159,20 @@ class ERPIntegrationTests(DBIntegrationTest):
         self.assertIsNone(
             get_from_actual_invoices(actual, self.not_exportable_invoice_for_old_date)
         )
+
+        self.assertIsNone(
+            get_from_actual_invoices(
+                actual,
+                self.not_exportable_invoice_after_manual_sync_for_not_exportable_exp,
+            )
+        )
+
         invoice_for_exp_sub_exists = get_from_actual_invoices(
             actual, self.invoice_for_exp_sub_exists
         )
         self.assertEqual(invoice_for_exp_sub_exists["Estado"], "Novo")
         self.assertEqual(invoice_for_exp_sub_exists["Valor"], 5)
+        self.assertEqual(invoice_for_exp_sub_exists["TaxaFixa_Sub"], 2)
 
     def test_export_invoice_without_export_client(self):
         from pyramid.httpexceptions import HTTPBadRequest

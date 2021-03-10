@@ -42,7 +42,7 @@ def get_db_entities(db: Session) -> List[InvoicesResultSet]:
     For the invoices (Facturacao) return those that are in PENDING_PAYMENT and (are
     modified from the last export, or are not already being exported)
     """
-    not_exported_of_updated_after_export_invoices = or_(
+    not_exported_or_updated_after_export_invoices = or_(
         FacturacaoERP.exported_at.is_(None),
         Facturacao.updated_at > FacturacaoERP.exported_at,
     )
@@ -59,9 +59,10 @@ def get_db_entities(db: Session) -> List[InvoicesResultSet]:
         )
         .outerjoin(FacturacaoERP, FacturacaoERP.facturacao_gid == Facturacao.gid)
         .filter(Facturacao.created_at > MANUAL_SYNC_TIME)
-        .filter(not_exported_of_updated_after_export_invoices)
+        .filter(not_exported_or_updated_after_export_invoices)
         .filter(Facturacao.fact_estado == PENDING_PAYMENT)
     )
+
     return [
         InvoicesResultSet(
             invoice=e.Facturacao,
@@ -70,6 +71,10 @@ def get_db_entities(db: Session) -> List[InvoicesResultSet]:
             invoice_erp=(e.FacturacaoERP or FacturacaoERP()),
         )
         for e in entities
+        # Workaround. Remove early invoices for old Exps that where not matched when
+        # the MANUAL_SYNC was done
+        if (e.ExploracaoBase.created_at > MANUAL_SYNC_TIME)
+        or (e.ExploracaoBase.created_at <= MANUAL_SYNC_TIME and e.ExploracaosERP)
     ]
 
 
@@ -109,14 +114,14 @@ def build_data_to_export(e: InvoicesResultSet) -> Dict:
         "Fact_tipo": invoice.fact_tipo,
         "Periodo_Factura": invoice.billing_period(),
         "Descricao": e.exploracao_base.actividade.tipo,
-        "Superficial": is_sup and K_SUPERFICIAL,
-        "Con_Sup": is_sup and invoice.consumo_fact_sup,
-        "TaxaUso_sup": is_sup and invoice.taxa_uso_sup,
-        "TaxaFixa_Sup": is_sup and invoice.taxa_fixa_sup,
-        "Subterranea": is_sub and K_SUBTERRANEA,
-        "Con_Sub": is_sub and invoice.consumo_fact_sub,
-        "TaxaUso_Sub": is_sub and invoice.taxa_uso_sub,
-        "TaxaFixa_Sub": is_sub and invoice.taxa_fixa_sub,
+        "Superficial": (is_sup and K_SUPERFICIAL) or None,
+        "Con_Sup": (is_sup and invoice.consumo_fact_sup) or None,
+        "TaxaUso_sup": (is_sup and invoice.taxa_uso_sup) or None,
+        "TaxaFixa_Sup": (is_sup and invoice.taxa_fixa_sup) or None,
+        "Subterranea": (is_sub and K_SUBTERRANEA) or None,
+        "Con_Sub": (is_sub and invoice.consumo_fact_sub) or None,
+        "TaxaUso_Sub": (is_sub and invoice.taxa_uso_sub) or None,
+        "TaxaFixa_Sub": (is_sub and invoice.taxa_fixa_sub) or None,
         "Valor": invoice.pago_mes,
         "IVA": invoice.iva,
         "valor_IVA": ((invoice.pago_iva_sub or 0) + (invoice.pago_iva_sup or 0))

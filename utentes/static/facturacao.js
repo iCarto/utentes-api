@@ -65,23 +65,12 @@ var exploracaosFetched = function() {
         totalResults: _.size(exploracaos),
     });
 
-    new Backbone.SIXHIARA.ButtonExportXLSView({
-        el: $("#projects-header .export-buttons"),
-        listView: listView,
-    }).render();
-
-    new Backbone.SIXHIARA.ButtonExportSHPView({
-        el: $("#projects-header .export-buttons"),
-        listView: listView,
-    }).render();
-
     if (SIRHA.FEATURES.ERP_EXPORT) {
-        $("#projects-header .export-buttons").append("<br>");
         $("#projects-header .export-buttons").append(
-            '<a class="btn btn-default btn-sm" href="/api/erp/clients" role="button">Clientes</a>'
+            '<a class="btn btn-default btn-xs" href="/api/erp/clients" role="button">Clientes</a>'
         );
         $("#projects-header .export-buttons").append(
-            '<a class="btn btn-default btn-sm" href="/api/erp/invoices" role="button">Facturas</a>'
+            '<a class="btn btn-default btn-xs" href="/api/erp/invoices" role="button">Facturas</a>'
         );
     }
 

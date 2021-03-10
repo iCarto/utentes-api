@@ -64,6 +64,13 @@ class ExploracaoBase(Base):
     exp_name = Column(Text, nullable=False, doc="Nome da exploração")
     estado_lic = Column(Text, nullable=False, doc="Estado")
 
+    created_at = Column(
+        DateTime,
+        nullable=False,
+        server_default=text("now()"),
+        doc="Data creación requerimento",
+    )
+
     actividade = relationship(
         "Actividade",
         cascade="all, delete-orphan",
@@ -196,13 +203,6 @@ class Exploracao(ExploracaoGeom):
     c_real = Column(Numeric(10, 2), doc="Consumo mensal real")
     c_estimado = Column(Numeric(10, 2), doc="Consumo mensal estimado ")
     area = Column(Numeric(10, 4), doc="")
-
-    created_at = Column(
-        DateTime,
-        nullable=False,
-        server_default=text("now()"),
-        doc="Data creación requerimento",
-    )
 
     carta_re = Column(
         Boolean,

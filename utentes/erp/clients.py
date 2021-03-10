@@ -130,7 +130,7 @@ def build_data_to_export(e: ClientsResultSet):
         "IDuCli": stringify(erp_item.link_id, maxlen=100),
         "estado": stringify(estado, maxlen=20),
         "Nome": stringify(exp.exp_name),
-        "Nome_Comercial": stringify(exp.exp_name),
+        "Nome_Comercial": stringify(exp.utente_rel.nome),
         "Num_Contrib": stringify(
             exp.utente_rel.nuit, exp.utente_rel.bi_di_pas, maxlen=20
         ),
