@@ -12,7 +12,7 @@ from utentes.erp.model import (
     InvoicesResultSet,
 )
 from utentes.models.base import badrequest_exception_user
-from utentes.models.constants import K_SUBTERRANEA, K_SUPERFICIAL
+from utentes.models.constants import K_SUBTERRANEA, K_SUPERFICIAL, INVOIZABLE_STATES
 from utentes.models.exploracao import ExploracaoBase
 from utentes.models.facturacao import Facturacao
 from utentes.models.facturacao_fact_estado import PENDING_PAYMENT
@@ -58,6 +58,7 @@ def get_db_entities(db: Session) -> List[InvoicesResultSet]:
             ExploracaosERP, ExploracaosERP.exploracao_gid == Facturacao.exploracao
         )
         .outerjoin(FacturacaoERP, FacturacaoERP.facturacao_gid == Facturacao.gid)
+        .filter(ExploracaoBase.estado_lic.in_(INVOIZABLE_STATES))  # See: #2008#note-50
         .filter(Facturacao.created_at > MANUAL_SYNC_TIME)
         .filter(not_exported_or_updated_after_export_invoices)
         .filter(Facturacao.fact_estado == PENDING_PAYMENT)
