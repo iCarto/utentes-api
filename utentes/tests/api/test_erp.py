@@ -173,6 +173,9 @@ class ERPIntegrationTests(DBIntegrationTest):
         self.assertEqual(invoice_for_exp_sub_exists["Estado"], "Novo")
         self.assertEqual(invoice_for_exp_sub_exists["Valor"], 5)
         self.assertEqual(invoice_for_exp_sub_exists["TaxaFixa_Sub"], 2)
+        self.assertEqual(invoice_for_exp_sub_exists["Subterranea"], "Subterrânea")
+        self.assertEqual(invoice_for_exp_sub_exists["TaxaFixa_Sup"], 0)
+        self.assertEqual(invoice_for_exp_sub_exists["Superficial"], "Superficial")
 
     def test_export_invoice_without_export_client(self):
         from pyramid.httpexceptions import HTTPBadRequest

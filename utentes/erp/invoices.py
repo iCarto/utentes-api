@@ -1,5 +1,6 @@
 import datetime
 from typing import Dict, List
+from decimal import Decimal
 
 from pyramid.view import view_config
 from sqlalchemy import or_
@@ -18,6 +19,8 @@ from utentes.models.facturacao import Facturacao
 from utentes.models.facturacao_fact_estado import PENDING_PAYMENT
 from utentes.services.pyramid_spreadsheet_response import spreadsheet_response
 from utentes.services.spreadsheet_writer import write_tmp_spreadsheet_from_records
+
+DEFAULT_EMPTY_TIPO_AGUA = Decimal("0.00")
 
 
 @view_config(route_name="api_erp_invoices")
@@ -115,18 +118,21 @@ def build_data_to_export(e: InvoicesResultSet) -> Dict:
         "Fact_tipo": invoice.fact_tipo,
         "Periodo_Factura": invoice.billing_period(),
         "Descricao": e.exploracao_base.actividade.tipo,
-        "Superficial": (is_sup and K_SUPERFICIAL) or None,
-        "Con_Sup": (is_sup and invoice.consumo_fact_sup) or None,
-        "TaxaUso_sup": (is_sup and invoice.taxa_uso_sup) or None,
-        "TaxaFixa_Sup": (is_sup and invoice.taxa_fixa_sup) or None,
-        "Subterranea": (is_sub and K_SUBTERRANEA) or None,
-        "Con_Sub": (is_sub and invoice.consumo_fact_sub) or None,
-        "TaxaUso_Sub": (is_sub and invoice.taxa_uso_sub) or None,
-        "TaxaFixa_Sub": (is_sub and invoice.taxa_fixa_sub) or None,
+        "Superficial": K_SUPERFICIAL,
+        "Con_Sup": (is_sup and invoice.consumo_fact_sup) or DEFAULT_EMPTY_TIPO_AGUA,
+        "TaxaUso_sup": (is_sup and invoice.taxa_uso_sup) or DEFAULT_EMPTY_TIPO_AGUA,
+        "TaxaFixa_Sup": (is_sup and invoice.taxa_fixa_sup) or DEFAULT_EMPTY_TIPO_AGUA,
+        "Subterranea": K_SUBTERRANEA,
+        "Con_Sub": (is_sub and invoice.consumo_fact_sub) or DEFAULT_EMPTY_TIPO_AGUA,
+        "TaxaUso_Sub": (is_sub and invoice.taxa_uso_sub) or DEFAULT_EMPTY_TIPO_AGUA,
+        "TaxaFixa_Sub": (is_sub and invoice.taxa_fixa_sub) or DEFAULT_EMPTY_TIPO_AGUA,
         "Valor": invoice.pago_mes,
         "IVA": invoice.iva,
-        "valor_IVA": ((invoice.pago_iva_sub or 0) + (invoice.pago_iva_sup or 0))
-        or None,
+        "valor_IVA": (
+            (invoice.pago_iva_sub or DEFAULT_EMPTY_TIPO_AGUA)
+            + (invoice.pago_iva_sup or DEFAULT_EMPTY_TIPO_AGUA)
+        )
+        or DEFAULT_EMPTY_TIPO_AGUA,
         "Multa": invoice.juros,
         "Valor final": invoice.pago_iva,
     }
